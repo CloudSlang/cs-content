@@ -117,23 +117,32 @@
 #!    List all service principal names configured for a specific host in the domain: setspn -L <hostname>
 #!
 #! @input host: The hostname or ip address of the remote host.
-#! @input port: Optional - The port to use when connecting to the remote WinRM server.
-#! @input protocol: Optional - The protocol to use when connecting to the remote server.
-#!                  Valid values are 'HTTP' and 'HTTPS'.
-#!                  Default value is 'HTTPS'.
+#! @input port: The port to use when connecting to the remote WinRM server.
+#!              Optional
+#! @input protocol: The protocol to use when connecting to the remote server.
+#!                  Valid: 'http' or 'https'.
+#!                  Default: 'https'
+#!                  Optional
 #! @input username: The username used to connect to the remote machine.
+#!                  Optional
 #! @input password: The password used to connect to the remote machine.
+#!                  Optional
 #! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
 #!                   Default: 'basic'
-#! @input proxy_host: Optional - The proxy server used to access the remote host.
-#! @input proxy_port: Optional - The proxy server port.
-#! @input proxy_username: Optional - The username used when connecting to the proxy.
-#! @input proxy_password: Optional - The password used when connecting to the proxy.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL/TSL.
+#! @input proxy_host: The proxy server used to access the remote host.
+#!                    Optional
+#! @input proxy_port: The proxy server port.
+#!                    Optional
+#! @input proxy_username: The username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: The password used when connecting to the proxy.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL.
 #!                         A certificate is trusted even if no trusted certification authority issued it.
-#!                         Valid values : 'true' and 'false'
-#!                         Default value : 'false'
+#!                         Valid: 'true' or 'false'
+#!                         Default: 'false'
+#!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -149,49 +158,60 @@
 #!                                 "browser_compatible" matches all subdomains, including "a.b.foo.com".
 #!                                 From the security perspective, to provide protection against possible Man-In-The-Middle
 #!                                 attacks, we strongly recommend to use "strict" option.
-#!                                 Valid values are 'strict', 'browser_compatible', 'allow_all'.
-#!                                 Default value is 'strict'.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'.
+#!                                 Default: 'strict'.
+#!                                 Optional
 #! @input kerberos_conf_file: A krb5.conf file with content similar to the one in the examples
 #!                            (where you replace CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN).
 #!                            This configures the Kerberos mechanism required by the Java GSS-API methods.
 #!                            Example: http://web.mit.edu/kerberos/krb5-1.4/krb5-1.4.4/doc/krb5-admin/krb5.conf.html
+#!                            Optional
 #! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples
 #!                                  Example: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/
 #!                                           security/auth/module/Krb5LoginModule.html
 #!                                  Examples: com.sun.security.jgss.initiate {com.sun.security.auth.module.Krb5LoginModule
 #!                                            required principal=Administrator doNotPrompt=true useKeyTab=true
 #!                                            keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";};
+#!                                  Optional
 #! @input kerberos_skip_port_for_lookup: Do not include port in the key distribution center database lookup.
-#!                                       Default value: true
-#!                                       Valid values: true, false
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                       Valid: 'true' or 'false'
+#!                                       Default: 'true'
+#!                                       Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Default value: 'JAVA_HOME/java/lib/security/cacerts'
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input keystore: Optional - the pathname of the Java KeyStore file.
+#!                        Default value: 'changeit'
+#!                        Optional
+#! @input keystore: The pathname of the Java KeyStore file.
 #!                  You only need this if the server requires client authentication.
 #!                  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is 'true'
 #!                  this input is ignored.
-#!                  Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                  Format: Java KeyStore (JKS)
-#! @input keystore_password: Optional - the password associated with the KeyStore file. If trust_all_roots is false and
+#!                  Default value: 'JAVA_HOME/java/lib/security/cacerts'
+#!                  Optional
+#! @input keystore_password: The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
-#!                           Default value: ''
+#!                           Default value: 'changeit'
+#!                           Optional
 #! @input winrm_max_envelop_size: The maximum size of a SOAP packet in bytes for all stream content.
-#!                                 Default value is '153600'.
+#!                                Default: '153600'
+#!                                Optional
 #! @input script: The PowerShell script that will be executed on the remote shell.
 #! @input winrm_locale: The WinRM locale to use.
-#!                     Default value is 'en-US'.
-#! @input operation_timeout: Defines the OperationTimeout value in seconds to indicate that the clients expect a
+#!                      Default: 'en-US'
+#!                      Optional
+#! @input operation_timeout: Defines the operation_timeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
-#!                           Default value is '60'.
+#!                           Default: '60'
 #!
-#! @output return_code: '0' if the script succeeded or '-1' otherwise.
 #! @output return_result: The scripts result.
+#! @output return_code: '0' if the script succeeded or '-1' otherwise.
 #! @output stderr: The standard error output if any error occurred.
 #! @output script_exit_code: The exit code of the script.
 #! @output exception: The return code of the script.
@@ -219,8 +239,8 @@ operation:
          required: false
          sensitive: true
    -  auth_type:
-         required: false
          default: 'basic'
+         required: false
    -  authType:
          default: ${get("auth_type", "")}
          required: false
@@ -252,26 +272,28 @@ operation:
          private: true
          sensitive: true
    -  trust_all_roots:
-         required: false
          default: 'false'
+         required: false
    -  trustAllRoots:
          default: ${get("trust_all_roots", "")}
          required: false
          private: true
    -  x_509_hostname_verifier:
-         required: false
          default: 'strict'
+         required: false
    -  x509HostnameVerifier:
-         default: ${get("x509hostname_verifier", "")}
+         default: ${get("x_509_hostname_verifier", "")}
          required: false
          private: true
    -  trust_keystore:
+         default: ''
          required: false
    -  trustKeystore:
          default: ${get("trust_keystore", "")}
          required: false
          private: true
    -  trust_password:
+         default: 'changeit'
          required: false
          sensitive: true
    -  trustPassword:
@@ -298,6 +320,7 @@ operation:
          required: false
          private: true
    -  keystore:
+         default: ''
          required: false
    -  keystore_password:
          default: 'changeit'
@@ -309,23 +332,23 @@ operation:
          private: true
          sensitive: true
    -  winrm_max_envelop_size:
-         required: false
          default: '153600'
+         required: false
    -  winrmMaxEnvelopSize:
          default: ${get("winrm_max_envelop_size", "")}
          required: false
          private: true
    -  script
    -  winrm_locale:
-         required: false
          default: 'en-US'
+         required: false
    -  winrmLocale:
          default: ${get("winrm_locale", "")}
          required: false
          private: true
    -  operation_timeout:
-         required: false
          default: '60'
+         required: false
    -  operationTimeout:
          default: ${get("operation_timeout", "")}
          required: false
@@ -333,8 +356,8 @@ operation:
 
    java_action:
       gav: 'io.cloudslang.content:cs-powershell:0.0.7'
-      method_name: execute
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
+      method_name: execute
 
    outputs:
    -  return_result: ${ get('returnResult', '') }
