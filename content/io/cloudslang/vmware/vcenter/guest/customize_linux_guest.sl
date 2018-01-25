@@ -23,52 +23,58 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMware host or IP
-#!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
-#!              examples: '443', '80'
-#!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
-#!                  valid: 'http', 'https'
-#!                  default: 'https'
-#! @input username: VMware username to connect with
-#! @input password: password associated with <username> input
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
-#!                        allowed only using a valid vCenter certificate
-#!                        optional
-#!                        default: True
+#! @input host: VMware host or IP.
+#!              Example: 'vc6.subdomain.example.com'
+#! @input port: Port to connect through
+#!              Examples: '443', '80'
+#!              Default: '443'
+#!              Optional
+#! @input protocol: Connection protocol.
+#!                  Valid: 'http', 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input username: VMWare username to connect with.
+#! @input password: password associated with <username> input.
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'False', connection will be
+#!                        allowed only using a valid vCenter certificate.
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input virtual_machine_name: name of linux OS based virtual machine that will be customized
-#! @input computer_name: The network host name of the (Linux) virtual machine
-#! @input domain: Optional - the fully qualified domain name
-#!                default: ''
-#! @input ip_address: Optional - the static ip address. If specified then the <subnet_mask> and <default_gateway>
-#!                    inputs should be specified as well
-#!                    default: ''
-#! @input subnet_mask: Optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
-#!                     <default_gateway> inputs should be specified as well
-#!                     default: ''
-#! @input default_gateway: Optional - the default gateway for network adapter with a static IP address. If specified then the
-#!                         <ip_address> and <subnet_mask> inputs should be specified as well
-#!                         default: ''
-#! @input hw_clock_utc: Optional - specifies whether the hardware clock is in UTC or local time.
-#!                      True when the hardware clock is in UTC
+#!                        Default: 'true'
+#!                        Optional
+#! @input virtual_machine_name: Name of linux OS based virtual machine that will be customized.
+#! @input computer_name: The network host name of the (Linux) virtual machine.
+#! @input domain: The fully qualified domain name.
+#!                Default: ''
+#!                Optional
+#! @input ip_address: The static ip address. If specified then the <subnet_mask> and <default_gateway>
+#!                    inputs should be specified as well.
+#!                    Default: ''
+#!                    Optional
+#! @input subnet_mask: The subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#!                     <default_gateway> inputs should be specified as well.
+#!                     Default: ''
+#!                     Optional
+#! @input default_gateway: The default gateway for network adapter with a static IP address. If specified then the
+#!                         <ip_address> and <subnet_mask> inputs should be specified as well.
+#!                         Default: ''
+#!                         Optional
+#! @input hw_clock_utc: Specifies whether the hardware clock is in UTC or local time.
+#!                      True when the hardware clock is in UTC.
 #!                      default: 'true'
-#! @input time_zone: Optional - the time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
-#!                   valid: 'Europe/Bucharest'
-#!                   default: ''
+#!                      Optional
+#! @input time_zone: The time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
+#!                   Valid: 'Europe/Bucharest'
+#!                   Default: ''
+#!                   Optional
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: virtual machine was successfully cloned
-#! @result FAILURE: An error occurred when trying to clone an existing virtual machine
+#! @result SUCCESS: Virtual machine was successfully cloned.
+#! @result FAILURE: An error occurred when trying to clone an existing virtual machine.
 #!!#
 ########################################################################################################################
 
@@ -95,11 +101,11 @@ operation:
         private: true
     - virtual_machine_name
     - virtualMachineName:
-        default: ${virtual_machine_name}
+        default: ${get("virtual_machine_name", "")}
         private: true
     - computer_name
     - computerName:
-        default: ${computer_name}
+        default: ${get("computer_name", "")}
         private: true
     - domain:
         default: ''
@@ -135,7 +141,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
     class_name: io.cloudslang.content.vmware.actions.guest.CustomizeLinuxGuest
     method_name: customizeLinuxGuest
 
@@ -145,5 +151,5 @@ operation:
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS : ${returnCode == '0'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

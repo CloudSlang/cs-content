@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMware vSphere command to mount tools on a specified virtual machine.
+#! @description: Performs a VMWare vSphere command to mount tools on a specified virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -23,7 +23,7 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMware host or IP
+#! @input host: VMWare host or IP.
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: port to connect through
 #!              optional
@@ -77,12 +77,12 @@ operation:
         private: true
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${get("virtual_machine_name", "")}
         private: true
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
     class_name: io.cloudslang.content.vmware.actions.guest.MountTools
     method_name: mountTools
 
@@ -92,5 +92,5 @@ operation:
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS : ${returnCode == '0'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

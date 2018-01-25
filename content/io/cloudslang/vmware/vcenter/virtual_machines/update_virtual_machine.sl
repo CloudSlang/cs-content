@@ -23,52 +23,52 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMware host or IP
+#! @input host: VMWare host or IP.
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
-#!              examples: '443', '80'
-#!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
-#!                  valid: 'http', 'https'
-#!                  default: 'https'
-#! @input username: VMware username to connect with
-#! @input password: password associated with <username> input
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#! @input port: Port to connect through.
+#!              Examples: '443', '80'
+#!              Default: '443'
+#!              Optional
+#! @input protocol: Connection protocol.
+#!                  Valid: 'http', 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input username: VMwWre username to connect with.
+#! @input password: Password associated with <username> input.
+#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
-#!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input virtual_machine_name: name of virtual machine that will be updated
-#! @input operation: possible operations that can be applied to update a specified attached device ("update" operation
-#!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
-#!                   valid: "add", "remove", "update"
-#! @input device: device on which update operation will be applied
-#!                valid: "cpu", "memory", "disk", "cd", "nic"
+#!                        Default: 'true'
+#!                        Optional
+#! @input virtual_machine_name: Name of virtual machine that will be updated.
+#! @input operation: Possible operations that can be applied to update a specified attached device ("update" operation
+#!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices).
+#!                   Valid: "add", "remove", "update"
+#! @input device: Device on which update operation will be applied.
+#!                Valid: "cpu", "memory", "disk", "cd", "nic"
 #! @input update_value: value applied on the specified device during the virtual machine update
-#!                      optional
-#!                      valid: "high", "low", "normal", numeric value, label of device when removing
-#!                      default: ''
 #!                      This input will be considered only when "update" operation is provided.
-#! @input vm_disk_size: disk capacity (in Mb) attached to the virtual machine that will be created.
-#!                             This input will be considered only when "add" operation and "disk" device are provided.
-#!                             optional
-#!                             default: '1024'
-#! @input vm_disk_mode: property that specifies how the disk will be attached to the virtual machine
-#!                      optional
-#!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
+#!                      Valid: "high", "low", "normal", numeric value, label of device when removing
+#!                      Default: ''
+#!                      Optional
+#! @input vm_disk_size: Disk capacity (in Mb) attached to the virtual machine that will be created.
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
+#!                      Default: '1024'
+#!                      Optional
+#! @input vm_disk_mode: Pproperty that specifies how the disk will be attached to the virtual machine
+#!                      This input will be considered only when "add" operation and "disk" device are provided.
+#!                      Valid: "persistent", "independent_persistent", "independent_nonpersistent"
+#!                      Optional
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: An error occurred when trying to create a new virtual machine
+#! @result SUCCESS: Virtual machine was successfully created.
+#! @result FAILURE: An error occurred when trying to create a new virtual machine.
 #!!#
 ########################################################################################################################
 
@@ -95,7 +95,7 @@ operation:
         private: true
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${get("virtual_machine_name", "")}
         required: false
         private: true
     - operation
@@ -119,7 +119,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
     class_name: io.cloudslang.content.vmware.actions.vm.UpdateVM
     method_name: updateVM
 

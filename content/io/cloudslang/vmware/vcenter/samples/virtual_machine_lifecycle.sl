@@ -24,66 +24,80 @@
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
 #!
-#! @input host: VMware host or IP
+#! @input host: VMWare host or IP.
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: Optional - port to connect through
-#!              examples: '443', '80'
-#!              default: '443'
-#! @input protocol: Optional - connection protocol
-#!                  valid: 'http', 'https'
-#!                  default: 'https'
-#! @input username: VMware username to connect with
-#! @input password: password associated with <username>
-#! @input trust_everyone: Optional - if 'True', will allow connections from any host, if 'False', connection will be
+#! @input port: Port to connect through
+#!              Examples: '443', '80'
+#!              Default: '443'
+#!              Optional
+#! @input protocol: Connection protocol.
+#!                  Valid: 'http', 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input username: VMWare username to connect with.
+#! @input password: Password associated with <username>.
+#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input data_center_name: virtual machine's data center name
-#!                          example: 'DataCenter2'
-#! @input hostname: Optional - name of host where newly created virtual machine will reside
+#!                        Default: 'true'
+#!                        Optional
+#! @input data_center_name: Virtual machine's data center name.
+#!                          Example: 'DataCenter2'
+#! @input hostname: Name of host where newly created virtual machine will reside.
 #!                  example: 'host123.subdomain.example.com'
-#!                  default: ''
-#! @input virtual_machine_name: name of virtual machine that will be created
-#! @input data_store: datastore where disk of the newly created virtual machine will reside
-#!                    example: 'datastore2-vc6-1'
-#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
-#!                     be obtained by running utils/get_os_descriptors operation
-#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
-#! @input folder_name: Optional - name of the folder where the virtual machine will be created.
-#!                     If not provided then the top parent folder will be used
-#!                     default: ''
-#! @input resource_pool: Optional - the resource pool for the cloned virtual machine.
-#!                       If not provided then the parent resource pool will be used
-#!                       default: ''
-#! @input description: Optional - description of virtual machine that will be created
-#!                     default: ''
-#! @input num_cpus: Optional - number that indicates how many processors the newly created virtual machine will have
-#!                  default: '1'
-#! @input vm_disk_size: Optional - disk capacity (in Mb) attached to virtual machine that will be created
-#!                      default: '1024'
-#! @input vm_memory_size: Optional - amount of memory (in Mb) attached to virtual machine that will be created
-#!                        default: '1024'
-#! @input operation: possible operations that can be applied to update a specified attached device ("update" operation
+#! @input virtual_machine_name: Name of virtual machine that will be created.
+#! @input data_store: Datastore where disk of the newly created virtual machine will reside/
+#!                    Example: 'datastore2-vc6-1'
+#! @input guest_os_id: Operating system associated with newly created virtual machine; value for this input can
+#!                     be obtained by running utils/get_os_descriptors operation.
+#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'
+#!                     Default: 'ubuntu64Guest'
+#!                     Optional
+#! @input folder_name: Name of the folder where the virtual machine will be created.
+#!                     If not provided then the top parent folder will be used.
+#!                     Default: ''
+#!                     Optional
+#! @input resource_pool: The resource pool for the cloned virtual machine.
+#!                       If not provided then the parent resource pool will be used.
+#!                       Default: ''
+#!                       Optional
+#! @input description: Description of virtual machine that will be created.
+#!                     Default: ''
+#!                     Optional
+#! @input num_cpus: Number that indicates how many processors the newly created virtual machine will have.
+#!                  Default: '1'
+#!                  Optional
+#! @input vm_disk_size: Disk capacity (in Mb) attached to virtual machine that will be created.
+#!                      Default: '1024'
+#!                      Optional
+#! @input vm_memory_size: Amount of memory (in Mb) attached to virtual machine that will be created
+#!                        Default: '1024'
+#!                        Optional
+#! @input operation: Possible operations that can be applied to update a specified attached device ("update" operation
 #!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
-#!                   valid: "add", "remove", "update"
+#!                   Valid: "add", "remove", "update"
 #! @input device: device on which update operation will be applied
 #!                valid values: "cpu", "memory", "disk", "cd", "nic"
-#! @input update_value: value applied on specified device during virtual machine update
-#!                      valid: "high", "low", "normal", numeric value, label of device when removing
-#! @input vm_disk_mode: Optional - property that specifies how disk will be attached to the virtual machine
+#! @input update_value: value applied on specified device during virtual machine update.
+#!                      Valid: "high", "low", "normal", numeric value, label of device when removing
+#!                      Optional
+#! @input vm_disk_mode: Property that specifies how disk will be attached to the virtual machine
 #!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
-#! @input delimiter: delimiter that will be used in response list
-#!                   default: ','
-#! @input email_host: email host
-#! @input email_port: email port
-#! @input email_username: email username
-#! @input email_password: email password
-#! @input email_sender: email sender
-#! @input email_recipient: email recipient
+#!                      Default: 'persistent'
+#!                      Optional
+#! @input delimiter: Delimiter that will be used in response list.
+#!                   Default: ','
+#!                   Optional
+#! @input email_host: Email host.
+#! @input email_port: Email port.
+#! @input email_username: Email username.
+#! @input email_password: Email password.
+#! @input email_sender: Email sender.
+#! @input email_recipient: Email recipient.
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -168,12 +182,18 @@ flow:
     - vm_memory_size:
         default: '1024'
         required: false
-    - operation: 'add'
-    - device: 'disk'
+    - operation:
+        default: 'add'
+        required: false
+    - device:
+        required: false
+        default: 'disk'
     - update_value:
         default: ''
         required: false
-    - vm_disk_mode: 'persistent'
+    - vm_disk_mode:
+        default: 'persistent'
+        required: false
     - delimiter:
         default: ','
         required: false
@@ -217,7 +237,7 @@ flow:
             - html_email: "false"
             - from: ${ email_sender }
             - to: ${ email_recipient }
-            - subject: "${'Successfully retrieved supported guest OSes list for: [' + host + '] VMware host.'}"
+            - subject: "${'Successfully retrieved supported guest OSes list for: [' + host + '] VMWare host.'}"
             - body: >
                 ${'List of all supported guest OSes:\n\n ' + return_result}
         navigate:
