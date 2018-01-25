@@ -41,7 +41,7 @@ testBasicRunCreateResourceJSONFailure:
     - deployment_parameter_value_list: 'value_1,value_2,value_3'
     - delimiter: ','
   outputs:
-    - return_code: '0'
+    - return_code: '-1'
     - exception: 'Invalid integer.'
   description: Tests that create_resource_json runs with FAILURE when deploy_sequence is not a valid int
   testFlowPath: io.cloudslang.dca.utils.create_resource_json
