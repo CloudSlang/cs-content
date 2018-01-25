@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 
-testBasicRunForDeployTemplate:
+testBasicRunForGetDeployment:
   testSuites: [dca-local]
   inputs:
     - dca_host: <dca_host>
