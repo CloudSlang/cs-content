@@ -24,7 +24,7 @@
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: Port to connect through.
 #!              Examples: '443', '80'
@@ -34,7 +34,7 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMWare username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username>.
 #! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
 #!                        allowed only using a valid vCenter certificate.
@@ -238,7 +238,7 @@ flow:
             - html_email: "false"
             - from: ${ email_sender }
             - to: ${ email_recipient }
-            - subject: "${'Successfully retrieved supported guest OSes list for: [' + host + '] VMWare host.'}"
+            - subject: "${'Successfully retrieved supported guest OSes list for: [' + host + '] VMware host.'}"
             - body: >
                 ${'List of all supported guest OSes:\n\n ' + return_result}
         navigate:
