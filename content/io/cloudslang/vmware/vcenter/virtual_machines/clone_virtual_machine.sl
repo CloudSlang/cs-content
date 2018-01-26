@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command in order to clone an existing virtual machine.
+#! @description: Performs a VMware vSphere command in order to clone an existing virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -33,7 +33,7 @@
 #!                  Optional
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
-#! @input username: VMWare username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
 #! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
@@ -48,21 +48,21 @@
 #!                  Example: 'host123.subdomain.example.com'
 #! @input virtual_machine_name: Name of virtual machine that will be cloned.
 #! @input clone_name: name that Will be assigned to the cloned virtual machine.
-#! @input folder_name: Mame of the folder where the cloned virtual machine will reside.
-#!                     If not provided then the top parent folder will be used
+#! @input folder_name: Name of the folder where the cloned virtual machine will reside.
+#!                     If not provided then the top parent folder will be used.
 #!                     Default: ''
 #!                     Optional
 #! @input clone_host: The host for the cloned virtual machine.
-#!                    If not provided then the same host of the virtual machine that will be cloned will be used
+#!                    If not provided then the same host of the virtual machine that will be cloned will be used.
 #!                    Example: 'host123.subdomain.example.com'
 #!                    Default: ''
 #!                    Optional
 #! @input clone_resource_pool: The resource pool for the cloned virtual machine.
-#!                             If not provided then the parent resource pool will be used
+#!                             If not provided then the parent resource pool will be used.
 #!                             Default: ''
 #!                             Optional
 #! @input clone_data_store: Datastore where disk of newly cloned virtual machine will reside.
-#!                          If not provided then the datastore of the cloned virtual machine will be used
+#!                          If not provided then the datastore of the cloned virtual machine will be used.
 #!                          Example: 'datastore2-vc6-1'
 #!                          Default: ''
 #!                          Optional
@@ -75,7 +75,7 @@
 #! @input num_cpus: Number that indicates how many processors the newly cloned virtual machine will have.
 #!                  Default: '1'
 #!                  Optional
-#! @input cores_per_socket: Number that indicates how many cores per socket the newly cloned virtual machine will have/
+#! @input cores_per_socket: Number that indicates how many cores per socket the newly cloned virtual machine will have.
 #!                          Default: '1'
 #!                          Optional
 #! @input memory: Amount of memory (in Mb) attached to cloned virtual machined.
@@ -122,12 +122,12 @@ operation:
     - hostname
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${get("virtual_machine_name", "")}
         private: true
         required: false
     - clone_name
     - cloneName:
-        default: ${get("clone_name", None)}
+        default: ${get("clone_name", "")}
         private: true
         required: false
     - folder_name:

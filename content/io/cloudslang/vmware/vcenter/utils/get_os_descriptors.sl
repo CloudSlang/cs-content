@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command in order to list all supported guest OSs on a host system.
+#! @description: Performs a VMware vSphere command in order to list all supported guest OSs on a host system.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -31,9 +31,9 @@
 #! @input protocol: Connection protocol.
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
-#! @input username: VMWare username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
-#! @input trust_everyone: If 'true', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
 #!                        allowed only using a valid vCenter certificate.
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
@@ -43,7 +43,7 @@
 #!                        Optional
 #! @input data_center_name: Data center name where host system is.
 #!                          Example: 'DataCenter2'
-#! @input hostname: Mame of target host to be queried to retrieve supported guest OSs.
+#! @input hostname: Name of target host to be queried to retrieve supported guest OSs.
 #!                  Example: 'host123.subdomain.example.com'
 #! @input delimiter: Delimiter that will be used in response list.
 #!                   Default: ','

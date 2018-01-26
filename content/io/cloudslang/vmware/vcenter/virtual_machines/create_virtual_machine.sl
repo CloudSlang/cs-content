@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command in order to create a new virtual machine.
+#! @description: Performs a VMware vSphere command in order to create a new virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -23,7 +23,7 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: Port to connect through.
 #!              Examples: '443', '80'
@@ -33,7 +33,7 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMwWre username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
 #! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
@@ -56,7 +56,7 @@
 #! @input folder_name: Name of the folder where the virtual machine will be created.
 #!                     If not provided then the top parent folder will be used
 #!                     Default: ''
-#! @input resource_pool: Rhe resource pool for the cloned virtual machine.
+#! @input resource_pool: The resource pool for the cloned virtual machine.
 #!                       If not provided then the parent resource pool will be used.
 #!                       Default: ''
 #!                       Optional

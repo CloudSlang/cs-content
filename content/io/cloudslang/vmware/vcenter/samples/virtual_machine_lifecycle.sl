@@ -26,7 +26,7 @@
 #!
 #! @input host: VMWare host or IP.
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: Port to connect through
+#! @input port: Port to connect through.
 #!              Examples: '443', '80'
 #!              Default: '443'
 #!              Optional
@@ -36,8 +36,8 @@
 #!                  Optional
 #! @input username: VMWare username to connect with.
 #! @input password: Password associated with <username>.
-#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
-#!                        allowed only using a valid vCenter certificate
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
+#!                        allowed only using a valid vCenter certificate.
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
@@ -49,7 +49,7 @@
 #! @input hostname: Name of host where newly created virtual machine will reside.
 #!                  example: 'host123.subdomain.example.com'
 #! @input virtual_machine_name: Name of virtual machine that will be created.
-#! @input data_store: Datastore where disk of the newly created virtual machine will reside/
+#! @input data_store: Datastore where disk of the newly created virtual machine will reside.
 #!                    Example: 'datastore2-vc6-1'
 #! @input guest_os_id: Operating system associated with newly created virtual machine; value for this input can
 #!                     be obtained by running utils/get_os_descriptors operation.
@@ -79,14 +79,14 @@
 #! @input operation: Possible operations that can be applied to update a specified attached device ("update" operation
 #!                   is only possible for cpu and memory, "add", "remove" are not allowed for cpu and memory devices)
 #!                   Valid: "add", "remove", "update"
-#! @input device: device on which update operation will be applied
-#!                valid values: "cpu", "memory", "disk", "cd", "nic"
+#! @input device: Device on which update operation will be applied
+#!                Valid values: "cpu", "memory", "disk", "cd", "nic"
 #! @input update_value: value applied on specified device during virtual machine update.
 #!                      Valid: "high", "low", "normal", numeric value, label of device when removing
 #!                      Optional
 #! @input vm_disk_mode: Property that specifies how disk will be attached to the virtual machine
-#!                      valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
+#!                      Valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      Default: 'persistent'
 #!                      Optional
 #! @input delimiter: Delimiter that will be used in response list.
@@ -99,37 +99,37 @@
 #! @input email_sender: Email sender.
 #! @input email_recipient: Email recipient.
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
-#! @output before_update_value: value of specific machine attribute before update
-#! @output after_update_value: value of specific machine attribute after update
+#! @output return_result: Contains the exception in case of failure, success message otherwise.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output before_update_value: Value of specific machine attribute before update.
+#! @output after_update_value: Value of specific machine attribute after update.
 #!
-#! @result SUCCESS: virtual machine was successfully created
-#! @result GET_OS_DESCRIPTORS_FAILURE: There was an error while trying to get OS information
-#! @result SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE: There was an error while sending an email with the OSes list
-#! @result GUEST_OS_ID_NOT_FOUND: There was an error while retrieving the gues OS ID
-#! @result CREATE_VIRTUAL_MACHINE_FAILURE: There was an error while trying to create the virtual machine
-#! @result GET_CREATED_TEXT_OCCURRENCE_FAILURE: There was an error while retrieving the created text occurence
-#! @result LIST_VMS_FAILURE: There was an error while listing the virtual machines
-#! @result VM_NOT_FOUND: There was an error finding a virtual machine
-#! @result GET_CREATED_VM_DETAILS_FAILURE: There was an error while retrieving the
-#! @result SEND_CREATED_VM_MAIL_FAILURE: There was an error while trying to send an email with the VM details
-#! @result GET_VALUE_BEFORE_UPDATE_FAILURE: There was an error while retrieving the value before update
-#! @result UPDATE_VM_FAILURE: There was an error while updating the virtual machine
-#! @result GET_UPDATED_VM_DETAILS_FAILURE: There was an error while retrieving the updated VM details
-#! @result GET_VALUE_AFTER_UPDATE_FAILURE: There was an error while retrieving the value after the update
-#! @result SEND_UPDATED_VM_MAIL_FAILURE: There was an error while sending an email with the updated VM details
-#! @result POWER_ON_VM_FAILURE: There was an error while powering on the virtual machine
-#! @result NOT_POWERED_ON: The virtual machine is not powered on
-#! @result SEND_POWERED_ON_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM power on state
-#! @result POWER_OFF_VM_FAILURE: There was an error while powering off the virtual machine
-#! @result NOT_POWERED_OFF: The virtual machine is not powered off
-#! @result SEND_POWERED_OFF_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM power off state
-#! @result DELETE_VM_FAILURE: There was an error while deleting the virtual machine
-#! @result SECOND_LIST_VMS_FAILURE: There was an error while listing the second virtual machines list
-#! @result NOT_DELETED: virtual machine not deleted
-#! @result SEND_DELETE_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM deleted list
+#! @result SUCCESS: Virtual machine was successfully created.
+#! @result GET_OS_DESCRIPTORS_FAILURE: There was an error while trying to get OS information.
+#! @result SEND_OSES_SUPPORTED_LIST_MAIL_FAILURE: There was an error while sending an email with the OSes list.
+#! @result GUEST_OS_ID_NOT_FOUND: There was an error while retrieving the guest OS ID.
+#! @result CREATE_VIRTUAL_MACHINE_FAILURE: There was an error while trying to create the virtual machine.
+#! @result GET_CREATED_TEXT_OCCURRENCE_FAILURE: There was an error while retrieving the created text occurrence.
+#! @result LIST_VMS_FAILURE: There was an error while listing the virtual machines.
+#! @result VM_NOT_FOUND: There was an error finding a virtual machine.
+#! @result GET_CREATED_VM_DETAILS_FAILURE: There was an error while retrieving the VM details.
+#! @result SEND_CREATED_VM_MAIL_FAILURE: There was an error while trying to send an email with the VM details.
+#! @result GET_VALUE_BEFORE_UPDATE_FAILURE: There was an error while retrieving the value before update.
+#! @result UPDATE_VM_FAILURE: There was an error while updating the virtual machine.
+#! @result GET_UPDATED_VM_DETAILS_FAILURE: There was an error while retrieving the updated VM details.
+#! @result GET_VALUE_AFTER_UPDATE_FAILURE: There was an error while retrieving the value after the update.
+#! @result SEND_UPDATED_VM_MAIL_FAILURE: There was an error while sending an email with the updated VM details.
+#! @result POWER_ON_VM_FAILURE: There was an error while powering on the virtual machine.
+#! @result NOT_POWERED_ON: The virtual machine is not powered on.
+#! @result SEND_POWERED_ON_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM power on state.
+#! @result POWER_OFF_VM_FAILURE: There was an error while powering off the virtual machine.
+#! @result NOT_POWERED_OFF: The virtual machine is not powered off.
+#! @result SEND_POWERED_OFF_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM power off state.
+#! @result DELETE_VM_FAILURE: There was an error while deleting the virtual machine.
+#! @result SECOND_LIST_VMS_FAILURE: There was an error while listing the second virtual machines list.
+#! @result NOT_DELETED: The virtual machine not deleted.
+#! @result SEND_DELETE_VM_MAIL_FAILURE: There was an error while trying to send an email about the VM deleted list.
 #!!#
 ########################################################################################################################
 
@@ -163,7 +163,8 @@ flow:
     - hostname
     - virtual_machine_name
     - data_store
-    - guest_os_id: 'ubuntu64Guest'
+    - guest_os_id:
+        default: 'ubuntu64Guest'
     - folder_name:
         default: ''
         required: false
@@ -221,7 +222,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: supported_oses_list_mail
           - FAILURE: GET_OS_DESCRIPTORS_FAILURE
@@ -277,7 +278,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: get_created_text_occurrence
           - FAILURE: CREATE_VIRTUAL_MACHINE_FAILURE
@@ -305,7 +306,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: get_vm_occurrence
           - FAILURE: LIST_VMS_FAILURE
@@ -335,7 +336,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: create_vm_mail
           - FAILURE: GET_CREATED_VM_DETAILS_FAILURE
@@ -385,7 +386,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: get_updated_vm_details
           - FAILURE: UPDATE_VM_FAILURE
@@ -405,7 +406,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: get_updated_disk_number
           - FAILURE: GET_UPDATED_VM_DETAILS_FAILURE
@@ -453,7 +454,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: is_vm_powered_on
           - FAILURE: POWER_ON_VM_FAILURE
@@ -497,7 +498,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: is_vm_powered_off
           - FAILURE: POWER_OFF_VM_FAILURE
@@ -541,7 +542,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: second_list_all_vms
           - FAILURE: DELETE_VM_FAILURE
@@ -559,7 +560,7 @@ flow:
         publish:
           - return_result
           - return_code
-          - exception : ${exception if exception != None else ''}
+          - exception: ${exception if exception != None else ''}
         navigate:
           - SUCCESS: second_get_vm_occurrence
           - FAILURE: SECOND_LIST_VMS_FAILURE

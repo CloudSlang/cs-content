@@ -33,7 +33,7 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMwWre username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
 #! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
@@ -49,7 +49,7 @@
 #!                   Valid: "add", "remove", "update"
 #! @input device: Device on which update operation will be applied.
 #!                Valid: "cpu", "memory", "disk", "cd", "nic"
-#! @input update_value: value applied on the specified device during the virtual machine update
+#! @input update_value: Value applied on the specified device during the virtual machine update
 #!                      This input will be considered only when "update" operation is provided.
 #!                      Valid: "high", "low", "normal", numeric value, label of device when removing
 #!                      Default: ''
@@ -58,7 +58,7 @@
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
 #!                      Default: '1024'
 #!                      Optional
-#! @input vm_disk_mode: Pproperty that specifies how the disk will be attached to the virtual machine
+#! @input vm_disk_mode: Property that specifies how the disk will be attached to the virtual machine
 #!                      This input will be considered only when "add" operation and "disk" device are provided.
 #!                      Valid: "persistent", "independent_persistent", "independent_nonpersistent"
 #!                      Optional
@@ -129,5 +129,5 @@ operation:
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS : ${returnCode == '0'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

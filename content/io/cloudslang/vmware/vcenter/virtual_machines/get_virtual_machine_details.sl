@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command to get all the details of a specified virtual machine.
+#! @description: Performs a VMware vSphere command to get all the details of a specified virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -35,7 +35,7 @@
 #!                  Optional
 #! @input username: VMwWre username to connect with.
 #! @input password: Password associated with <username> input.
-#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
 #!                        allowed only using a valid vCenter certificate
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
@@ -43,7 +43,7 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #!                        Default: 'true'
 #!                        Optional
-#! @input hostname: Mame of target host specified virtual machine belongs to.
+#! @input hostname: Name of target host specified virtual machine belongs to.
 #!                  Example: 'host123.subdomain.example.com'
 #!                  Default: ''
 #! @input virtual_machine_name: Name of target virtual machine to retrieve details for.
@@ -84,7 +84,7 @@ operation:
     - hostname
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${get("virtual_machine_name", "")}
         private: true
         required: false
     - delimiter:

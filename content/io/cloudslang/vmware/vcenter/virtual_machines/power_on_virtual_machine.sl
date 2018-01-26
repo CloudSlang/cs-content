@@ -23,7 +23,7 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: Port to connect through.
 #!              Examples: '443', '80'
@@ -33,7 +33,7 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMwWre username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
 #! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
@@ -43,7 +43,7 @@
 #!                        to see how to obtain a valid vCenter certificate.
 #!                        Default: 'true'
 #!                        Optional
-#! @input virtual_machine_name: Mame of the virtual machine that will be powered on.
+#! @input virtual_machine_name: Name of the virtual machine that will be powered on.
 #!
 #! @output return_result: Contains the exception in case of failure, success message otherwise.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -92,5 +92,5 @@ operation:
     - return_code: ${returnCode}
 
   results:
-    - SUCCESS : ${returnCode == '0'}
+    - SUCCESS: ${returnCode == '0'}
     - FAILURE

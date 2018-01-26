@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command to mount tools on a specified virtual machine.
+#! @description: Performs a VMware vSphere command to mount tools on a specified virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -23,34 +23,34 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
-#!              examples: '443', '80'
-#!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
-#!                  valid: 'http', 'https'
-#!                  default: 'https'
-#! @input username: VMware username to connect with
-#! @input password: password associated with <username> input
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#! @input port: Port to connect through.
+#!              Examples: '443', '80'
+#!              Default: '443'
+#!              Optional
+#! @input protocol: Connection protocol.
+#!                  Valid: 'http', 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input username: VMware username to connect with.
+#! @input password: Password associated with <username> input.
+#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
-#!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input virtual_machine_name: name of target virtual machine to mount tools for
+#!                        Default: 'true'
+#!                        Optional
+#! @input virtual_machine_name: Name of target virtual machine to mount tools for.
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The Install Tools process on specified virtual machine was successfully started
-#! @result FAILURE: An error occurred when trying to start Install Tools process on specified virtual machine
+#! @result SUCCESS: The Install Tools process on specified virtual machine was successfully started.
+#! @result FAILURE: An error occurred when trying to start Install Tools process on specified virtual machine.
 #!!#
 ########################################################################################################################
 
@@ -78,8 +78,8 @@ operation:
     - virtual_machine_name
     - virtualMachineName:
         default: ${get("virtual_machine_name", "")}
-        private: true
         required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-vmware:0.0.21'

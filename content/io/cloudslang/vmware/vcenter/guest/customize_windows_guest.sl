@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMwWre vSphere command in order to customize an existing Windows OS based virtual machine.
+#! @description: Performs a VMware vSphere command in order to customize an existing Windows OS based virtual machine.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -23,7 +23,7 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              Example: 'vc6.subdomain.example.com'
 #! @input port: port to connect through
 #!              Examples: '443', '80'
@@ -33,7 +33,7 @@
 #!                  Optional
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
-#! @input username: VMWare username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
 #! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
@@ -56,17 +56,17 @@
 #!                     Default: ''
 #!                     Optional
 #! @input domain_username: The domain user account used for authentication if the virtual machine is joining a domain.
-#!                        The user must have the privileges required to add computers to the domain.
-#!                        Default: ''
-#!                        Optional
-#! @input domain_password: Rhe password for the domain user account used for authentication if the virtual machine is
+#!                         The user must have the privileges required to add computers to the domain.
+#!                         Default: ''
+#!                         Optional
+#! @input domain_password: The password for the domain user account used for authentication if the virtual machine is
 #!                         joining a domain.
 #!                         default: ''
-#! @input domain: The fully qualified domain name
+#! @input domain: The fully qualified domain name.
 #!                Default: ''
 #!                Optional
 #! @input workgroup: The workgroup that the virtual machine should join. If this is supplied,
-#!                   then the domain name and authentication fields should not be supplied (mutually exclusive)
+#!                   then the domain name and authentication fields should not be supplied (mutually exclusive).
 #!                   Default: ''
 #!                   Optional
 #! @input license_data_mode: The type of the windows license. 'perServer' indicates that a client access license has been
@@ -74,23 +74,24 @@
 #!                           client access licenses have been purchased for the server, allowing a certain number of concurrent
 #!                           connections to the VirtualCenter server.
 #!                           Valid: '', ''perServer', 'perSeat'
-#!                           Default: ''
+#!                           Default: 'perServer'
 #! @input dns_server: The server IP address to use for DNS lookup in a Windows guest operating system
-#!                    default: ''
+#!                    Default: ''
 #! @input ip_address: Optional - the static ip address. If specified then the <subnet_mask> and <default_gateway> inputs
 #!                    should be specified as well
 #!                    Default: ''
-#! @input subnet_mask: Optional - the subnet mask for the virtual network adapter. If specified then the <ip_address> and
+#! @input subnet_mask: The subnet mask for the virtual network adapter. If specified then the <ip_address> and
 #!                     <default_gateway> inputs should be specified as well
 #!                     Default: ''
+#!                     Optional
 #! @input default_gateway: The default gateway for network adapter with a static IP address. If specified then the
 #!                         <ip_address> and <subnet_mask> inputs should be specified as well
 #!                         Default: ''
 #!                         Optional
-#! @input mac_address: The MAC address for network adapter with a static IP address
+#! @input mac_address: The MAC address for network adapter with a static IP address.
 #!                     Default: ''
 #!                     Optional
-#! @input auto_logon: Specifies whether or not the machine automatically logs on as Administrator
+#! @input auto_logon: Specifies whether or not the machine automatically logs on as Administrator.
 #!                    Valid: '', ''true', 'false'
 #!                    Default: ''
 #!                    Optional
@@ -111,10 +112,10 @@
 #!                          Default: ''
 #!                          Optional
 #! @input auto_users: This key is valid only if license_data_mode input is set 'perServer', otherwise is ignored. The
-#!                   integer value indicates the number of client licenses purchased for the VirtualCenter server being
-#!                   installed
-#!                   Default: ''
-#!                   Optional
+#!                    integer value indicates the number of client licenses purchased for the VirtualCenter server being
+#!                    installed
+#!                    Default: ''
+#!                    Optional
 #! @input time_zone: The time zone for the new virtual machine according with
 #!                   https://technet.microsoft.com/en-us/library/ms145276%28v=sql.90%29.aspx
 #!                   Default: '0'
@@ -162,10 +163,12 @@ operation:
     - computer_name
     - computerName:
         default: ${get("computer_name", "")}
+        required: false
         private: true
     - computer_password
     - computerPassword:
         default: ${get("computer_password", "")}
+        required: false
         private: true
     - owner_name
     - ownerName:
@@ -174,19 +177,20 @@ operation:
     - owner_organization
     - ownerOrganization:
         default: ${get("owner_organization", "")}
+        required: false
         private: true
     - product_key:
         required: false
     - productKey:
         default: ${get("product_key", "")}
-        private: true
         required: false
+        private: true
     - domain_username:
         required: false
     - domainUsername:
         default: ${get("domain_username", "")}
-        private: true
         required: false
+        private: true
     - domain_password:
         required: false
     - domainPassword:
@@ -199,40 +203,42 @@ operation:
     - workgroup:
         default: ''
         required: false
-    - license_data_mode: 'perServer'
+    - license_data_mode:
+        default: 'perServer'
     - licenseDataMode:
         default: ${get("license_data_mode", "")}
+        required: false
         private: true
     - dns_server:
         required: false
     - dnsServer:
         default: ${get("dns_server", "")}
-        private: true
         required: false
+        private: true
     - ip_address:
         required: false
     - ipAddress:
         default: ${get("ip_address", "")}
-        private: true
         required: false
+        private: true
     - subnet_mask:
         required: false
     - subnetMask:
         default: ${get("subnet_mask", "")}
-        private: true
         required: false
+        private: true
     - default_gateway:
         required: false
     - defaultGateway:
         default: ${get("default_gateway", "")}
-        private: true
         required: false
+        private: true
     - mac_address:
         required: false
     - macAddress:
         default: ${get("mac_address", "")}
-        private: true
         required: false
+        private: true
     - auto_logon:
         required: false
     - autoLogon:
@@ -242,9 +248,10 @@ operation:
         required: false
     - deleteAccounts:
         default: ${get("delete_accounts", "")}
-        private: true
         required: false
-    - change_sid: 'true'
+        private: true
+    - change_sid:
+        default: 'true'
     - changeSID:
         default: ${get("change_sid", "")}
         required: false
@@ -258,8 +265,8 @@ operation:
         required: false
     - autoUsers:
         default: ${get("auto_users", "")}
-        private: true
         required: false
+        private: true
     - time_zone:
         required: false
     - timeZone:

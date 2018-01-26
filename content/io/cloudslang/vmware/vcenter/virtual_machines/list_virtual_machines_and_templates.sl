@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs a VMWare vSphere command to retrieve a list with all virtual machines and templates.
+#! @description: Performs a VMware vSphere command to retrieve a list with all virtual machines and templates.
 #!
 #! @prerequisites: vim25.jar
 #!   How to obtain the vim25.jar:
@@ -23,7 +23,7 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMWare host or IP.
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
 #! @input port: Port to connect through.
 #!              Examples: '443', '80'
@@ -33,9 +33,9 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMwWre username to connect with.
+#! @input username: VMware username to connect with.
 #! @input password: Password associated with <username> input.
-#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
 #!                        allowed only using a valid vCenter certificate
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and

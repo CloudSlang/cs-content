@@ -33,9 +33,9 @@
 #!                  Valid: 'http', 'https'
 #!                  Default: 'https'
 #!                  Optional
-#! @input username: VMWare username to connect with.
-#! @input password: password associated with <username> input.
-#! @input trust_everyone: If 'true', will allow connections from any host, if 'False', connection will be
+#! @input username: VMware username to connect with.
+#! @input password: Password associated with <username> input.
+#! @input trust_everyone: If 'true', will allow connections from any host, if 'false', connection will be
 #!                        allowed only using a valid vCenter certificate.
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
@@ -62,7 +62,7 @@
 #!                         Optional
 #! @input hw_clock_utc: Specifies whether the hardware clock is in UTC or local time.
 #!                      True when the hardware clock is in UTC.
-#!                      default: 'true'
+#!                      Default: 'true'
 #!                      Optional
 #! @input time_zone: The time zone for the new virtual machine. The case-sensitive timezone, such as 'Area/Location'
 #!                   Valid: 'Europe/Bucharest'
