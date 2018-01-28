@@ -21,6 +21,7 @@
 #! @input base_resource_uuid_list: The list of base resource UUIDs from uCMDB.
 #! @input base_resource_ci_type_list: The list of uCMDB ciTypes of the base resources.
 #! @input base_resource_type_uuid_list: The list of resource type UUIDs for the base resources.
+#!                                      Optional
 #! @input deployment_parameter_name_list: List of deployment parameter names.
 #!                                        Optional
 #! @input deployment_parameter_value_list: List of deployment parameter values.
@@ -64,7 +65,8 @@ operation:
         default: ${get('base_resource_ci_type_list', '')}
         required: false
         private: true
-    - base_resource_type_uuid_list
+    - base_resource_type_uuid_list:
+        required: false
     - baseResourceTypeUuidList:
         default: ${get('base_resource_type_uuid_list', '')}
         required: false
@@ -86,7 +88,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.0'
+    gav: 'io.cloudslang.content:cs-dca:1.0.1'
     class_name: 'io.cloudslang.content.dca.actions.utils.CreateResourceJSON'
     method_name: 'execute'
   
