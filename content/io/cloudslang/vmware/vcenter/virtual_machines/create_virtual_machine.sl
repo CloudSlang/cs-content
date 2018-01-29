@@ -23,57 +23,62 @@
 #!     3. Locate the vim25.jar in ../VMware-vSphere-SDK-6.0.0-2561048/SDK/vsphere-ws/java/JAXWS/lib.
 #!     4. Copy the vim25.jar into the ClodSlang CLI folder under /cslang/lib.
 #!
-#! @input host: VMware host or IP
+#! @input host: VMware host or IP.
 #!              example: 'vc6.subdomain.example.com'
-#! @input port: port to connect through
-#!              optional
-#!              examples: '443', '80'
-#!              default: '443'
-#! @input protocol: connection protocol
-#!                  optional
-#!                  valid: 'http', 'https'
-#!                  default: 'https'
-#! @input username: VMware username to connect with
-#! @input password: password associated with <username> input
-#! @input trust_everyone: if 'True', will allow connections from any host, if 'False', connection will be
+#! @input port: Port to connect through.
+#!              Examples: '443', '80'
+#!              Default: '443'
+#!              Optional
+#! @input protocol: Connection protocol.
+#!                  Valid: 'http', 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input username: VMware username to connect with.
+#! @input password: Password associated with <username> input.
+#! @input trust_everyone: If 'True', will allow connections from any host, if 'False', connection will be
 #!                        allowed only using a valid vCenter certificate
-#!                        optional
-#!                        default: True
 #!                        Check https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_java_development.4.3.html
 #!                        to see how to import a certificate into Java Keystore and
 #!                        https://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.dsg.doc_50%2Fsdk_sg_server_certificate_Appendix.6.4.html
 #!                        to see how to obtain a valid vCenter certificate.
-#! @input data_center_name: data center name where host system is
-#!                          example: 'DataCenter2'
-#! @input hostname: name of target host to be queried to retrieve supported guest OSes
-#!                  example: 'host123.subdomain.example.com'
-#! @input virtual_machine_name: name of virtual machine that will be created
-#! @input data_store: datastore where disk of newly created virtual machine will reside
-#!                    example: 'datastore2-vc6-1'
-#! @input guest_os_id: operating system associated with newly created virtual machine; value for this input can
+#!                        Default: 'true'
+#!                        Optional
+#! @input data_center_name: Data center name where host system is.
+#!                          Example: 'DataCenter2'
+#! @input hostname: Name of target host to be queried to retrieve supported guest OSes.
+#!                  Example: 'host123.subdomain.example.com'
+#! @input virtual_machine_name: Name of virtual machine that will be created.
+#! @input data_store: Datastore where disk of newly created virtual machine will reside.
+#!                    Example: 'datastore2-vc6-1'
+#! @input guest_os_id: Operating system associated with newly created virtual machine; value for this input can
 #!                     be obtained by running utils/get_os_descriptors operation
-#!                     examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'...
-#! @input folder_name: Optional - name of the folder where the virtual machine will be created.
+#!                     Examples: 'winXPProGuest', 'win95Guest', 'centosGuest', 'fedoraGuest', 'freebsd64Guest'
+#! @input folder_name: Name of the folder where the virtual machine will be created.
 #!                     If not provided then the top parent folder will be used
-#!                     default: ''
-#! @input resource_pool: Optional - the resource pool for the cloned virtual machine.
-#!                       If not provided then the parent resource pool will be used
-#!                       default: ''
-#! @input description: Optional - description of virtual machine that will be created
-#!                     default: ''
-#! @input num_cpus: Optional - number that indicates how many processors the newly created virtual machine will have
-#!                  default: '1'
-#! @input vm_disk_size: Optional - disk capacity (in Mb) attached to virtual machine that will be created
-#!                      default: '1024'
-#! @input vm_memory_size: Optional - amount of memory (in Mb) attached to virtual machine that will be created
-#!                        default: '1024'
+#!                     Default: ''
+#! @input resource_pool: The resource pool for the cloned virtual machine.
+#!                       If not provided then the parent resource pool will be used.
+#!                       Default: ''
+#!                       Optional
+#! @input description: Description of virtual machine that will be created.
+#!                     Default: ''
+#!                     Optional
+#! @input num_cpus: Number that indicates how many processors the newly created virtual machine will have.
+#!                  Default: '1'
+#!                  Optional
+#! @input vm_disk_size: Disk capacity (in Mb) attached to virtual machine that will be created.
+#!                      Default: '1024'
+#!                      Optional
+#! @input vm_memory_size: Amount of memory (in Mb) attached to virtual machine that will be created.
+#!                        Default: '1024'
+#!                        Optional
 #!
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise
-#! @output error_message: error message if there was an error when executing, empty otherwise
+#! @output return_result: Contains the exception in case of failure, success message otherwise.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output error_message: Error message if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: virtual machine was successfully created
-#! @result FAILURE: An error occurred when trying to create a new virtual machine
+#! @result SUCCESS: Virtual machine was successfully created.
+#! @result FAILURE: An error occurred when trying to create a new virtual machine.
 #!!#
 ########################################################################################################################
 
@@ -100,13 +105,13 @@ operation:
         private: true
     - data_center_name
     - dataCenterName:
-        default: ${get("data_center_name", None)}
+        default: ${get("data_center_name", "")}
         private: true
         required: false
     - hostname
     - virtual_machine_name
     - virtualMachineName:
-        default: ${get("virtual_machine_name", None)}
+        default: ${get("virtual_machine_name", "")}
         private: true
         required: false
     - data_store
@@ -149,7 +154,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:score-vmware:0.0.4'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
     class_name: io.cloudslang.content.vmware.actions.vm.CreateVM
     method_name: createVM
 
