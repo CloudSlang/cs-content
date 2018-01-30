@@ -569,3 +569,50 @@ flow:
     - SUCCESS
     - FAILURE
 
+extensions:
+  graph:
+    steps:
+      terminate_instances:
+        x: 507
+        y: 453
+        navigate:
+          6936b8c3-e801-e173-78bf-0e2f2526f613:
+            targetId: f31809d7-ee75-1d88-2683-192373df394e
+            port: SUCCESS
+      parse_ip_address:
+        x: 1086
+        y: 72
+        navigate:
+          87f91533-3d85-7f77-9072-aa980fd4dbf3:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
+      run_instances:
+        x: 36
+        y: 73
+      describe_instances:
+        x: 738
+        y: 73
+      is_instance_name_empty:
+        x: 572
+        y: 53
+      generate_unique_name:
+        x: 353
+        y: 74
+      search_and_replace:
+        x: 912
+        y: 74
+      create_tags:
+        x: 528
+        y: 214
+      check_instance_state:
+        x: 197
+        y: 73
+    results:
+      SUCCESS:
+        576dec96-8f7c-fa7a-5ec4-69f50e183dff:
+          x: 1255
+          y: 79
+      FAILURE:
+        f31809d7-ee75-1d88-2683-192373df394e:
+          x: 805
+          y: 446
