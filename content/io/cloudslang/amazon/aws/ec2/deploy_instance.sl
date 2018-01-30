@@ -256,6 +256,8 @@ imports:
 flow:
   name: deploy_instance
   inputs:
+    - endpoint:
+        default: "https://ec2.amazonaws.com"
     - identity
     - credential:
         sensitive: true
