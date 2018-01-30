@@ -363,7 +363,9 @@ flow:
     - run_instances:
         do:
           instances.run_instances:
-            - endpoint: 'https://ec2.amazonaws.com'
+            - endpoint:
+                default: 'https://ec2.amazonaws.com'
+                required: false
             - identity
             - credential
             - proxy_host
