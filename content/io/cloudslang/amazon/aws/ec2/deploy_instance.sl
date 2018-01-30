@@ -22,7 +22,7 @@
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input endpoint: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
-#!                    Default: 'https://ec2.amazonaws.com'
+#!                  Default: 'https://ec2.amazonaws.com'
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
 #! @input proxy_port: Proxy server port used to access the provider services
