@@ -97,7 +97,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.templates
+namespace: io.cloudslang.microfocus.dca.templates
 
 operation: 
   name: get_deployment

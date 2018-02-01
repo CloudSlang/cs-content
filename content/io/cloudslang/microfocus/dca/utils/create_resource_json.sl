@@ -39,7 +39,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.utils
+namespace: io.cloudslang.microfocus.dca.utils
 
 operation:
   name: create_resource_json

@@ -121,12 +121,12 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca
+namespace: io.cloudslang.microfocus.dca
 
 imports:
-  templates: io.cloudslang.dca.templates
-  utils: io.cloudslang.dca.utils
-  auth: io.cloudslang.dca.authentication
+  templates: io.cloudslang.microfocus.dca.templates
+  utils: io.cloudslang.microfocus.dca.utils
+  auth: io.cloudslang.microfocus.dca.authentication
 
 flow:
   name: deploy_rhel7_template

@@ -106,7 +106,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.authentication
+namespace: io.cloudslang.microfocus.dca.authentication
 
 operation: 
   name: get_authentication_token
