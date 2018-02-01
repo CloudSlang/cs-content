@@ -147,10 +147,12 @@ flow:
             - base_resource_ci_type_list: 'node'
             - base_resource_type_uuid_list: ''
             - delimiter: '|'
-            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'media_source', 'kickstart'])
+            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'media_source', 'kickstart'])}
             - deployment_parameter_value_list: ${delimiter.join([credential_id, media_source, kickstart_file])}
         publish:
           - deployment_resources_json: ${format("[%s]" % return_result)}
+          - exception
+          - return_code
         navigate:
           - SUCCESS: deploy_template
           - FAILURE: FAILURE
@@ -167,6 +169,7 @@ flow:
             - deployment_description
             - deployment_template_id: '4c0214f7-4d10-4d7c-b122-a43cffc3e71c'
             - deployment_resources_json
+            - async: 'false'
             - timeout
             - polling_interval
             - proxy_host
