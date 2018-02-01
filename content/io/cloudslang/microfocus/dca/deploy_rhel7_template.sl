@@ -15,19 +15,19 @@
 
 namespace: io.cloudslang.dca
 
-import:
-    templates: io.cloudslang.dca.templates
-    utils: io.cloudslang.dca.utils
-    auth: io.cloudslang.dca.authentication
+imports:
+  templates: io.cloudslang.dca.templates
+  utils: io.cloudslang.dca.utils
+  auth: io.cloudslang.dca.authentication
 
 flow:
-  name: deploy_rhel_template
+  name: deploy_rhel7_template
   inputs:
     - protocol:
         default: 'https'
         required: false
     - idm_host
-    - idm_port
+    - idm_port:
         default: '5443'
         required: false
     - idm_username
@@ -43,14 +43,14 @@ flow:
     - dca_tenant_name:
         default: 'PROVIDER'
         required: false
-    - base_resource_uuid
-    - credential_id
-    - media_source
-    - kickstart_file
     - deployment_name
     - deployment_description:
         default: ''
         required: false
+    - base_resource_uuid
+    - credential_id
+    - media_source
+    - kickstart_file
     - timeout:
         default: '1200'
         required: false
@@ -136,7 +136,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: create_resource_json
-          - FAILURE
+          - FAILURE: FAILURE
 
     - create_resource_json:
         do:
@@ -146,14 +146,14 @@ flow:
             - base_resource_uuid_list: ${base_resource_uuid}
             - base_resource_ci_type_list: 'node'
             - base_resource_type_uuid_list: ''
-            - deployment_parameter_name_list: 'credentialId|media_source|kickstart'
-            - deployment_parameter_value_list: ${format('%s|%s|%s' % (credential_id, media_source, kickstart_file))}
             - delimiter: '|'
+            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'media_source', 'kickstart'])
+            - deployment_parameter_value_list: ${delimiter.join([credential_id, media_source, kickstart_file])}
         publish:
           - deployment_resources_json: ${format("[%s]" % return_result)}
         navigate:
           - SUCCESS: deploy_template
-          - FAILURE
+          - FAILURE: FAILURE
 
     - deploy_template:
         do:
@@ -192,7 +192,7 @@ flow:
           - status
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE
+          - FAILURE: FAILURE
 
   outputs:
     - return_result: ${get('return_result', '')}
