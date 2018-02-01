@@ -106,7 +106,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.authentication
+namespace: io.cloudslang.microfocus.dca.authentication
 
 operation: 
   name: get_authentication_token
@@ -268,7 +268,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.1'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.0.1'
     class_name: 'io.cloudslang.content.dca.actions.authentication.GetAuthenticationToken'
     method_name: 'execute'
   

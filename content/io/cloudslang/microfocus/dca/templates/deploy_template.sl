@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to get information about a DCA deployment.
+#! @description: This operation can be used to deploy a DCA template.
 #!
 #! @input dca_host: The hostname or IP of the DCA environment.
 #! @input dca_port: The port on which the DCA environment is listening.
@@ -27,7 +27,21 @@
 #! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
 #!                       default lifetime of the authentication token.
 #!                       Optional
-#! @input deployment_uuid: The UUID of the deployment for which the information will be retrieved.
+#! @input deployment_name: The display name of the deployment.
+#! @input deployment_description: A description of the deployment.
+#!                                Optional
+#! @input deployment_template_id: The UUID of the DCA template to deploy.
+#! @input deployment_resources_json: The JSON array with resources resulted from the create_resource_json operation.
+#! @input async: Whether to run the operation is async mode. In async mode, the deployment will be started, and the
+#!               operation will exit. Otherwise the operation will wait for the result of the deployment.
+#!               Default: 'true'
+#!               Optional
+#! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
+#!                 Default: '1200'
+#!                 Optional
+#! @input polling_interval: The interval in seconds at which the deployment will be queried in sync mode.
+#!                          Default: '30'
+#!                          Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -97,10 +111,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.templates
+namespace: io.cloudslang.microfocus.dca.templates
 
 operation: 
-  name: get_deployment
+  name: deploy_template
   
   inputs: 
     - dca_host    
@@ -125,7 +139,7 @@ operation:
         required: false 
         private: true
         sensitive: true
-    - refresh_token:
+    - refresh_token:  
         required: false
         sensitive: true
     - refreshToken: 
@@ -133,9 +147,38 @@ operation:
         required: false 
         private: true
         sensitive: true
-    - deployment_uuid
-    - deploymentUuid:
-        default: ${get('deployment_uuid', '')}  
+    - deployment_name
+    - deploymentName:
+        default: ${get('deployment_name', '')}  
+        required: false 
+        private: true 
+    - deployment_description:  
+        required: false  
+    - deploymentDescription: 
+        default: ${get('deployment_description', '')}  
+        required: false 
+        private: true 
+    - deployment_template_id
+    - deploymentTemplateId:
+        default: ${get('deployment_template_id', '')}  
+        required: false 
+        private: true 
+    - deployment_resources_json
+    - deploymentResourcesJson:
+        default: ${get('deployment_resources_json', '')}  
+        required: false 
+        private: true 
+    - async:
+        default: 'true'
+        required: false  
+    - timeout:
+        default: '1200'
+        required: false  
+    - polling_interval:
+        default: '30'
+        required: false  
+    - pollingInterval: 
+        default: ${get('polling_interval', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -241,8 +284,8 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.1'
-    class_name: 'io.cloudslang.content.dca.actions.templates.GetDeployment'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.0.1'
+    class_name: 'io.cloudslang.content.dca.actions.templates.DeployTemplate'
     method_name: 'execute'
   
   outputs: 

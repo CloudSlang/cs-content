@@ -45,5 +45,5 @@ testBasicRunForDeployTemplate:
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
   description: Tests that deploy_template runs with SUCCESS
-  testFlowPath: io.cloudslang.dca.templates.deploy_template
+  testFlowPath: io.cloudslang.microfocus.dca.templates.deploy_template
   result: SUCCESS
