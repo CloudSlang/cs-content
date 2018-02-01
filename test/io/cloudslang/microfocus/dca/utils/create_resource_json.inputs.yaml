@@ -27,7 +27,7 @@ testBasicRunCreateResourceJSON:
     - return_code: '0'
     - exception: ''
   description: Tests that create_resource_json runs with SUCCESS
-  testFlowPath: io.cloudslang.dca.utils.create_resource_json
+  testFlowPath: io.cloudslang.microfocus.dca.utils.create_resource_json
   result: SUCCESS
 
 testBasicRunCreateResourceJSONFailure:
@@ -44,5 +44,5 @@ testBasicRunCreateResourceJSONFailure:
     - return_code: '-1'
     - exception: 'Invalid integer.'
   description: Tests that create_resource_json runs with FAILURE when deploy_sequence is not a valid int
-  testFlowPath: io.cloudslang.dca.utils.create_resource_json
+  testFlowPath: io.cloudslang.microfocus.dca.utils.create_resource_json
   result: FAILURE

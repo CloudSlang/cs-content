@@ -13,15 +13,18 @@
 #
 ########################################################################################################################
 
-testBasicRunForGetDeployment:
+testBasicRunForGetAuthenticationToken:
   testSuites: [dca-local]
   inputs:
-    - dca_host: <dca_host>
-    - dca_port: <dca_port>
+    - idm_host: <idm_host>
+    - idm_port: <idm_port>
     - protocol: <protocol>
-    - auth_token: <auth_token>
-    - refresh_token: <refresh_token>
-    - deployment_uuid: <deployment_uuid>
+    - idm_username: <idm_username>
+    - idm_password: <idm_password>
+    - dca_username: <dca_username>
+    - dca_password: <dca_password>
+    - dca_tenant_name: <dca_tenant_name>
+    - preemptive_auth: <preemptive_auth>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -38,6 +41,6 @@ testBasicRunForGetDeployment:
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-  description: Tests that deploy_template runs with SUCCESS
-  testFlowPath: io.cloudslang.dca.templates.deploy_template
+  description: Tests that get_authentication_token runs with SUCCESS
+  testFlowPath: io.cloudslang.microfocus.dca.authentication.get_authentication_token
   result: SUCCESS
