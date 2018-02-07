@@ -39,5 +39,5 @@ testBasicRunForGetResource:
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
   description: Tests that get_resource runs with SUCCESS
-  testFlowPath: io.cloudslang.microfocus.dca.templates.get_resource
+  testFlowPath: io.cloudslang.microfocus.dca.resources.get_resource
   result: SUCCESS
