@@ -52,7 +52,7 @@
 #! @result SUCCESS: Operation completed successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.samples.utils
+namespace: io.cloudslang.slack.chat
 
 imports:
   http: io.cloudslang.base.http
