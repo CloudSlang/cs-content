@@ -12,7 +12,7 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_vault:
+test_slack:
   testSuites: [slack-local]
   description: Post message to a channel
   testFlowPath: io.cloudslang.slack.test_slack

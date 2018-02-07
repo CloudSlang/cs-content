@@ -1,6 +1,7 @@
 ########################################################################################################################
 #!!
 #! @description: This method posts a message to a public channel, private channel, or direct message/IM channel.
+#!               More can be found at https://api.slack.com/methods/chat.postMessage.
 #!
 #! @input token: Authentication token bearing required scopes. Can be bot, workspace or user based token.
 #! @input channel: Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
