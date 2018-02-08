@@ -104,7 +104,6 @@ operation:
   inputs:
     - cm_host:
         default: 'dca-credential-manager'
-        required: false
     - cmHost:
         default: ${get('cm_host', '')}
         required: false
