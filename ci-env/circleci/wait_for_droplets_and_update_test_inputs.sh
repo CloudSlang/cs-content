@@ -112,6 +112,7 @@ do
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
     echo "Droplet(${DROPLET_IP}) - TCP socket activated for Docker"
+    echo ${LAST_LINE}
   else
     echo "Problem occurred: Droplet(${DROPLET_IP}) - TCP socket activation for Docker"
     exit 1
