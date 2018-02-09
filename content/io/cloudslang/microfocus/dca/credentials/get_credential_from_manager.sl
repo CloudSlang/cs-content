@@ -235,7 +235,9 @@ operation:
     - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
     - username: ${get('username', '')}
-    - password: ${get('password', '')}
+    - password:
+        value: ${get('password', '')}
+        sensitive: true
 
   results:
     - SUCCESS: ${returnCode=='0'}
