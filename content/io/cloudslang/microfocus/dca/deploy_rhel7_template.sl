@@ -115,6 +115,8 @@
 #! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
 #! @output exception: In case of failure, the error message, otherwise empty.
 #! @output status: The status of the deployment.
+#! @output resource_name: The name of the resource.
+#! @output dns_name: The DNS name of the resource.
 #!
 #! @result SUCCESS: Operation succeeded, returnCode is '0'.
 #! @result FAILURE: Operation failed, returnCode is '-1'.
@@ -127,6 +129,7 @@ imports:
   templates: io.cloudslang.microfocus.dca.templates
   utils: io.cloudslang.microfocus.dca.utils
   auth: io.cloudslang.microfocus.dca.authentication
+  resources: io.cloudslang.microfocus.dca.resources
 
 flow:
   name: deploy_rhel7_template
@@ -302,14 +305,51 @@ flow:
           - exception
           - status
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_resource_dns_name
           - FAILURE: FAILURE
+
+    - get_resource_dns_name:
+            do:
+              resources.get_resource:
+                - dca_host
+                - dca_port
+                - protocol
+                - auth_token
+                - refresh_token
+                - resource_uuid: ${get('base_resource_uuid', '')}
+                - proxy_host
+                - proxy_port
+                - proxy_username
+                - proxy_password
+                - trust_all_roots
+                - x_509_hostname_verifier
+                - trust_keystore
+                - trust_password
+                - keystore
+                - keystore_password
+                - connect_timeout
+                - socket_timeout
+                - use_cookies
+                - keep_alive
+                - connections_max_per_route
+                - connections_max_total
+            publish:
+              - return_result
+              - return_code
+              - exception
+              - resource_name: ${name}
+              - dns_name
+            navigate:
+              - SUCCESS: SUCCESS
+              - FAILURE: FAILURE
 
   outputs:
     - return_result: ${get('return_result', '')}
     - return_code: ${get('return_code', '')}
     - exception: ${get('exception', '')}
     - status: ${get('status', '')}
+    - dns_name: ${get('dns_name', '')}
+    - resource_name: ${get('resource_name', '')}
 
   results:
     - FAILURE
