@@ -1,13 +1,19 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: Executes a '/v1/secret/${secret}' DELETE call against a Vault Server to delete a particular secret.
+#! @description: Executes a '/v1/secret/${secret}' DELETE call against a Vault Server to remove the provided secret.
 #!
 #! @input hostname: Vault's FQDN.
 #! @input port: Vault's Port.
@@ -101,7 +107,7 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_server:
+    - interrogate_vault_server:
         do:
           http.http_client_delete:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"

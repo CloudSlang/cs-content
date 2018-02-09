@@ -111,7 +111,7 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_to_write:
+    - interrogate_vault_to_write:
         do:
           http.http_client_post:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"

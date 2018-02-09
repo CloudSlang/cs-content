@@ -106,7 +106,7 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_server:
+    - interrogate_vault_server:
         do:
           http.http_client_get:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/?list=true'}"
