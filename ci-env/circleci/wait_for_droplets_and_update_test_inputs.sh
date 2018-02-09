@@ -109,6 +109,8 @@ do
   && sudo systemctl start docker \
   && echo -e "\nSUCCESS"' | tail -n 1)
 
+  echo "[DEBUG] LAST_LINE[${LAST_LINE}]"
+
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
     echo "Droplet(${DROPLET_IP}) - TCP socket activated for Docker"
