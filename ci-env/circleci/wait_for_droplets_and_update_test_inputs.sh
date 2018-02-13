@@ -85,7 +85,7 @@ done
 
 # create ssh private key
 SSH_KEY_PATH=droplets_rsa
-echo -e "abc" > ${SSH_KEY_PATH}
+echo -e "${DO_DROPLET_SSH_PRIVATE_KEY}" > ${SSH_KEY_PATH}
 chmod 0600 ${SSH_KEY_PATH}
 
 # enable Docker Remote API on a New Socket - open TCP port
