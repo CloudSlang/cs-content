@@ -130,6 +130,8 @@ imports:
   utils: io.cloudslang.microfocus.dca.utils
   auth: io.cloudslang.microfocus.dca.authentication
   resources: io.cloudslang.microfocus.dca.resources
+  credentials: io.cloudslang.microfocus.dca.credentials
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: deploy_rhel7_template
@@ -317,6 +319,39 @@ flow:
                 - auth_token
                 - refresh_token
                 - resource_uuid: ${get('base_resource_uuid', '')}
+                - proxy_host
+                - proxy_port
+                - proxy_username
+                - proxy_password
+                - trust_all_roots
+                - x_509_hostname_verifier
+                - trust_keystore
+                - trust_password
+                - keystore
+                - keystore_password
+                - connect_timeout
+                - socket_timeout
+                - use_cookies
+                - keep_alive
+                - connections_max_per_route
+                - connections_max_total
+            publish:
+              - return_result
+              - return_code
+              - exception
+              - resource_name: ${name}
+              - dns_name
+            navigate:
+              - SUCCESS: get_user_and_password
+              - FAILURE: FAILURE
+
+    - get_user_and_password:
+            do:
+              credentials.get_credential_from_manager:
+                - cm_host: 'dca-credential-manager'
+                - cm_port: '5333'
+                - protocol: 'http'
+                - credential_uuid: ${get('credential_id', '')}
                 - proxy_host
                 - proxy_port
                 - proxy_username
