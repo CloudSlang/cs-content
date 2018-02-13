@@ -37,9 +37,8 @@
 #! @input deployment_name: The display name of the deployment.
 #! @input deployment_description: A description of the deployment.
 #!                                Optional
-#! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy RHEL Template.
+#! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy Oracle Database Template.
 #! @input credential_id: The UUID of the DCA Credential to assign to the deployment.
-#! @input media_source: Path accessible from the DCA installation to a RHEL 7 installation media.
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
 #!                 Optional
