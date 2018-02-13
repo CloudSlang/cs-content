@@ -38,7 +38,63 @@
 #! @input deployment_description: A description of the deployment.
 #!                                Optional
 #! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy Oracle Database Template.
-#! @input credential_id: The UUID of the DCA Credential to assign to the deployment.
+#! @input oracle_base: The fully-qualified path to the Oracle base directory where the admin directories are located.
+#!                     Default: '/opt/app/oraBase'
+#!                     Example: '/u01/app/oracle/product/12.1.0/dbhome_1'
+#! @input datafile_location: The database file locations.
+#!                           Default: '/opt/app/oracle/oradata'
+#!                           Example: '+ASMDATA'
+#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files, to clean up the installation
+#!                            directory, in the event of workflow failure.
+#!                            Default: 'false'
+#!                            Valid values: 'true', 'false'
+#!                            Optional
+#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files, to clean up the installation
+#!                            directory, in the event of workflow success.
+#!                            Default: 'false'
+#!                            Valid values: 'true', 'false'
+#!                            Optional
+#! @input inventory_files: Comma-separated list of fully-qualified Oracle inventory files. If this parameter is not
+#!                         specified, the workflow looks for the oraInst.loc file in /etc and /var/opt/oracle.
+#!                         Optional
+#! @input oracle_account: Required only if inventory does not exist. The Oracle user that will own the Oracle Home.
+#!                        Default: 'oracle'
+#!                        Optional
+#! @input asm_password: Required when provisioning an Oracle database using ASM storage, representing the password
+#!                      used to manage ASM.
+#!                      Optional
+#! @input cluster_nodes: Required when provisioning a RAC database. Comma-separated list of nodes where this database
+#!                       will run.
+#!                       Optional
+#! @input dbca_password_all: If set, this password will be used in the DBCA response file for the
+#!                           oracle.install.db.config.starterdb.password.ALL setting and the remaining DBCA Password
+#!                           inputs will be ignored.
+#!                           Optional
+#! @input dbca_response_file: Location of a DBCA response file in the software repository to download. If not specified,
+#!                            a default will be used.
+#!                            Optional
+#! @input dbca_template_file: Location of a DBCA template file in the software repository to download. If not specified,
+#!                            a default will be used.
+#!                            Optional
+#! @input local_listener: Set to True to ignore any GRID installation listener and any attempt to create a local
+#!                        listener (in the Verify Listener step). If the environment does not include GRID, then the
+#!                        local listener will be created regardless of this setting.
+#!                        Optional
+#! @input net_ca_response_file: Location of a NetCA response file in the software repository to download. If not
+#!                              specified, a default will be used.
+#!                              Optional
+#! @input policy_managed: Set to true if Database is policy managed and set to false if Database is admin managed.
+#!                        Optional
+#! @input rac_one_node: Set to true to provision an Oracle RAC One Node database.
+#!                      Optional
+#! @input rac_one_node_service_name: The name of the service to connect to the RAC One Node Database.
+#!                                   Optional
+#! @input variables_file: Location of a DBCA variables file in the software repository to download. If not specified,
+#!                        a default will be used.
+#!                        Optional
+#! @input listener_configuration: Colon-separated name and port of the Oracle listener for this database. If left blank,
+#!                                the Oracle default of LISTENER:1521 will be used.
+#!                                Optional
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
 #!                 Optional
