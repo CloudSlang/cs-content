@@ -99,7 +99,7 @@ do
     continue
   fi
 
-  LAST_LINE=$(ssh -vv -i ${SSH_KEY_PATH} \
+  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} \
   -o UserKnownHostsFile=/dev/null \
   -o StrictHostKeyChecking=no \
   core@${DROPLET_IP} \
