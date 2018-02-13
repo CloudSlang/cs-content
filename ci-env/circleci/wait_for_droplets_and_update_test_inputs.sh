@@ -102,7 +102,7 @@ do
   LAST_LINE=$(ssh -vv -i ${SSH_KEY_PATH} \
   -o UserKnownHostsFile=/dev/null \
   -o StrictHostKeyChecking=no \
-  core@${DROPLET_IP} \
+  core:@${DROPLET_IP} \
   'sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
