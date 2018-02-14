@@ -108,7 +108,9 @@ do
   && sudo systemctl stop docker \
   && sudo systemctl start docker-tcp.socket \
   && sudo systemctl start docker \
-  && echo -e "\nSUCCESS"' | tail -n 1)
+  && echo -e "\nSUCCESS"')
+  
+  echo "[DEBUG] LAST_LINE[${LAST_LINE}]"
 
   if [ "${LAST_LINE}" = "SUCCESS" ]
   then
