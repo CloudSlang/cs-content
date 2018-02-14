@@ -198,6 +198,7 @@ imports:
   templates: io.cloudslang.microfocus.dca.templates
   utils: io.cloudslang.microfocus.dca.utils
   auth: io.cloudslang.microfocus.dca.authentication
+  ssh: io.cloudslang.base.ssh
 
 flow:
   name: deploy_oracle_software_template
@@ -348,7 +349,141 @@ flow:
           ssh.ssh_command:
             - host: ${base_resource_dns_name}
             - command: >
-                echo $PATH
+                #!/bin/bash
+
+                #Get arguments
+                for argument in "$@"
+                do
+                	key=$(echo $argument | cut -f1 -d=)
+                	value=$(echo $argument | cut -f2 -d=)
+
+                	case "$key" in
+                		proxy_host) proxy_host=$value ;;
+                		proxy_port) proxy_port=$value ;;
+                		proxy_username) proxy_username=$value ;;
+                		proxy_password) proxy_password=$value ;;
+                		oracle_base) oracle_base=$value ;;
+                		oracle_password) oracle_password=$value ;;
+                		fqdn) fqdn=$value ;;
+                		*)
+                	esac
+                done
+
+                #Add proxies
+                if [[ ! -z "$proxy_host" ]]; then
+                	if [[ ! -z "$proxy_username" ]]; then
+                		echo "export http_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export https_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export HTTP_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export HTTPS_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
+                	else
+                		echo "export http_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export https_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export HTTP_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile
+                		echo "export HTTPS_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile
+                	fi
+                	source ~/.bash_profile
+                fi
+
+                #DCA Prerequisite Script for Oracle Software
+                oracle_base_root=/$(echo "$oracle_base" | cut -d "/" -f2)
+
+                #Create groups and users
+                groupadd -g 501 oinstall
+                groupadd -g 502 dba
+                groupadd -g 503 oper
+                groupadd -g 504 asmadmin
+                groupadd -g 506 asmdba
+                groupadd -g 505 asmoper
+                useradd -u 502 -g oinstall -G dba,asmdba,oper oracle
+                echo $oracle_password | passwd --stdin oracle
+                mkdir -p $oracle_base/product/11.2.0/db_1
+                chown -R oracle:oinstall $oracle_base_root
+                chmod -R 775 $oracle_base_root
+
+                #Install or upgrade RPMs
+                yum -y install compat-libstdc++-33 gcc*
+                yum -y install gcc-c++-4.*
+                yum -y install glibc-devel-2.*
+                yum -y install glibc-headers-2.*
+                yum -y install libaio-devel-0.*
+                yum -y install libgomp-4.*
+                yum -y install libstdc++-devel-4.*
+                yum -y install sysstat* unixODBC-2.*
+                yum -y install unixODBC-devel-2.*
+                yum -y install libXp.so.6 libXtst*
+                yum -y install vim*
+                yum -y install elfutils-libelf-devel*
+                yum -y install glibc*
+                yum -y install make*
+                yum -y install glibc.i686
+
+                #Ensure firewall is off
+                service iptables stop
+                chkconfig iptables off
+                service ip6tables stop
+                chkconfig ip6tables off
+
+                #Disable SELINUX permanently
+                sed -i '/^SELINUX=/c\SELINUX=disabled' /etc/sysconfig/selinux
+
+                #Also disable SELINUX temporarly so no reboot will be needed
+                setenforce 0
+
+                #Add FQDN to hosts
+                public_ip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+                echo "$public_ip minion1.$fqdn minion1" >> /etc/hosts
+
+                #Edit sysctl
+                echo "fs.suid_dumpable = 1" >> /etc/sysctl.conf
+                echo "fs.aio-max-nr = 1048576" >> /etc/sysctl.conf
+                echo "fs.file-max = 6815744" >> /etc/sysctl.conf
+                echo "kernel.shmall = 2097152" >> /etc/sysctl.conf
+                echo "kernel.shmmax = 2070833152" >> /etc/sysctl.conf
+                echo "kernel.shmmni = 4096" >> /etc/sysctl.conf
+                echo "# semaphores: semmsl, semmns, semopm, semmni" >> /etc/sysctl.conf
+                echo "kernel.sem = 250 32000 100 128" >> /etc/sysctl.conf
+                echo "net.ipv4.ip_local_port_range = 9000 65500" >> /etc/sysctl.conf
+                echo "net.core.rmem_default=4194304" >> /etc/sysctl.conf
+                echo "net.core.rmem_max=4194304" >> /etc/sysctl.conf
+                echo "net.core.wmem_default=262144" >> /etc/sysctl.conf
+                echo "net.core.wmem_max=1048586" >> /etc/sysctl.conf
+
+                #Change current kernel parameters
+                /sbin/sysctl -p
+
+                #Edit limits.conf
+                echo "oracle              soft    nproc   2047" >> /etc/security/limits.conf
+                echo "oracle              hard   nproc   16384" >> /etc/security/limits.conf
+                echo "oracle              soft    nofile  1024" >> /etc/security/limits.conf
+                echo "oracle              hard   nofile  65536" >> /etc/security/limits.conf
+                echo "oracle              soft    stack   10240" >> /etc/security/limits.conf
+
+                #Create oracle profile
+                touch ~oracle/.profile
+
+                #Edit oracle profile
+                echo "export TMP=/tmp" >> ~oracle/.profile
+                echo "export TMPDIR=\$TMP" >> ~oracle/.profile
+                echo "export ORACLE_HOSTNAME=$fqdn" >> ~oracle/.profile
+                echo "export ORACLE_BASE=$oracle_base" >> ~oracle/.profile
+                echo "export PATH=$PATH:\$ORACLE_HOME/bin:$PATH" >> ~oracle/.profile
+                echo "export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >> ~oracle/.profile
+                echo "export CLASSPATH=\$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib" >> ~oracle/.profile
+                echo "export TNS_ADMIN=\$ORACLE_HOME/network/admin" >> ~oracle/.profile
+
+                #Edit oracle bash profile
+                echo ". ./.profile" >> ~oracle/.bash_profile
+
+                #Edit /etc/system
+                echo "set max_nprocs = 16384" >> /etc/system
+
+                exit 0
+            - arguments: >
+                ${"proxy_host=" + get('proxy_host', '') + " proxy_port=" + get('proxy_port', '') +
+                " proxy_username=" + get('proxy_username', '') + " proxy_password=" + get('proxy_password', '') +
+                " oracle_base=" + get('oracle_base', '') + " oracle_password=" + get('base_resource_password', '') +
+                " fqdn=" + get('base_resource_dns_name', '')}
             - username: ${base_resource_username}
             - password: ${base_resource_password}
             - known_host_policy: 'add'

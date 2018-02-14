@@ -39,8 +39,7 @@
 #!                                Optional
 #! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy RHEL Template.
 #! @input credential_id: The UUID of the DCA Credential to assign to the deployment.
-#! @input media_source: Path accessible from the DCA installation to a RHEL 7 installation media.
-#! @input kickstart_file: RHEL 7 kickstart file.
+#! @input build_plan_id: The ID of the SA build plan.
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
 #!                 Optional
@@ -135,7 +134,7 @@ imports:
   credentials: io.cloudslang.microfocus.dca.credentials
 
 flow:
-  name: deploy_rhel7_template
+  name: deploy_linux_os_template
   inputs:
     - protocol:
         default: 'https'
@@ -163,8 +162,7 @@ flow:
         required: false
     - base_resource_uuid
     - credential_id
-    - media_source
-    - kickstart_file
+    - build_plan_id
     - timeout:
         default: '1200'
         required: false
@@ -255,14 +253,14 @@ flow:
     - create_resource_json:
         do:
           utils.create_resource_json:
-            - type_uuid: '2461f26d-e1cc-44ed-8443-9d8978ede341'
+            - type_uuid: '8475f05e-624c-42b7-a496-339a292c0c84'
             - deploy_sequence: '1'
             - base_resource_uuid_list: ${base_resource_uuid}
-            - base_resource_ci_type_list: 'node'
+            - base_resource_ci_type_list: 'host_node'
             - base_resource_type_uuid_list: ''
             - delimiter: '|'
-            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'media_source', 'kickstart'])}
-            - deployment_parameter_value_list: ${delimiter.join([credential_id, media_source, kickstart_file])}
+            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'buildPlanId'])}
+            - deployment_parameter_value_list: ${delimiter.join([credential_id, build_plan_id])}
         publish:
           - deployment_resources_json: ${format("[%s]" % return_result)}
           - exception
@@ -281,7 +279,7 @@ flow:
             - refresh_token
             - deployment_name
             - deployment_description
-            - deployment_template_id: '4c0214f7-4d10-4d7c-b122-a43cffc3e71c'
+            - deployment_template_id: '172256fa-b3ay-416o-bt64-91f8226ae4a5'
             - deployment_resources_json
             - async: 'false'
             - timeout
