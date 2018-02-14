@@ -12,6 +12,185 @@
 #   limitations under the License.
 #
 ########################################################################################################################
+#!!
+#! @description: This flow is used to deploy a RHEL 7 Template in Micro Focus DCA.
+#!
+#! @input protocol: The protocol to use when connecting to IdM.
+#!                  Valid: 'http' or 'https'
+#!                  Default: 'https'
+#!                  Optional
+#! @input idm_host: The hostname or IP of the IdM with which to authenticate.
+#! @input idm_port: The port on which IdM is listening on the host.
+#!                  Default: '5443'
+#!                  Optional
+#! @input idm_username: The IdM username to use when authenticating.
+#! @input idm_password: The password of the IdM user.
+#! @input dca_host: The hostname or IP of the DCA environment.
+#! @input dca_port: The port on which the DCA environment is listening.
+#!                  Default: '443'
+#!                  Optional
+#! @input dca_username: The DCA user to authenticate.
+#! @input dca_password: The password of the DCA user.
+#! @input dca_tenant_name: The tenant of the DCA user to authenticate.
+#!                         Default: 'PROVIDER'
+#!                         Optional
+#! @input deployment_name: The display name of the deployment.
+#! @input deployment_description: A description of the deployment.
+#!                                Optional
+#! @input base_resource_uuid: The UUID of the provisioned RHEL 7 resource.
+#! @input base_resource_dns_name: The dns name of the provisioned RHEL 7 resource.
+#! @input base_resource_username: The username of the credential associated with the RHEL 7 resource.
+#! @input base_resource_password: The password associated with the username.
+#! @input oracle_base: The fully-qualified path to the Oracle base directory where the admin directories will be located.
+#!                     Example: '/u01/app/oracle'
+#!                     Optional
+#! @input clean_code_base: ?
+#!                     Optional
+#! @input clean_jre: ?
+#!                   Optional
+#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files—to clean up the installation
+#!                            directory—in the event of workflow failure.
+#!                            Default: 'false'
+#!                            Valid: 'true', 'false'
+#!                            Optional
+#! @input download_location: The directory where input files already exist or to which files will be downloaded from
+#!                           the software repository.
+#!                           Example: '/tmp'
+#!                           Optional
+#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files—to clean up the installation
+#!                            directory—in the event of workflow success.
+#!                            Default: 'false'
+#!                            Valid: 'true', 'false'
+#!                            Optional
+#! @input debug_level: ?
+#!                     Optional
+#! @input extract_location: The directory location where the Oracle database software archives will be extracted.
+#!                          It will be cleaned up at end of workflow execution. If not specified, a default will
+#!                          be created.
+#!                          Default: 'oracle'
+#!                          Example: '/tmp'
+#!                          Optional
+#! @input oracle_account: Required only if inventory does not exist. The Oracle user that will own the Oracle Home.
+#!                        Example: 'Maximum Availability'
+#!                        Optional
+#! @input run_installer_parameters: The parameters to pass to the Oracle runInstaller command.
+#!                                  Default: '-ignoreSysPrereqs'
+#!                                  Example: '-force'
+#!                                  Optional
+#! @input cluster_nodes: Required when provisioning a RAC database. Comma-separated list of nodes to install
+#!                       software on. Leave blank for non-clustered environments.
+#!                       Default: ''
+#!                       Optional
+#! @input dba_group: The DBA group to use for superuser access to the subsequent Oracle Database (typically dba).
+#!                   If not specified, derived from the Oracle OS user.
+#!                   Default: ''
+#!                   Optional
+#! @input enable_dnfs: When set to 'true' then the workflow will enable the Direct NFS option as part of the
+#!                     Software Installation.
+#!                     Optional
+#! @input install_edition: The install edition of the Oracle installation.
+#!                         Valid: 'SE' or 'EE'.
+#!                         Default: 'EE'.
+#!                         Optional
+#! @input install_response: Location of the Oracle Universal Installer (OUI) response file.
+#!                     Optional
+#! @input inventory_files: Comma-separated list of fully-qualified Oracle inventory files. If this parameter is
+#!                         not specified, the workflow looks for the oraInst.loc file in /etc and /var/opt/oracle.
+#!                         Optional
+#! @input network_admin_files: Comma-delimited list of files to be downloaded and placed in the CRS_HOME/network/admin
+#!                             directory after the Oracle Software is installed.
+#!                             Optional
+#! @input operator_group: The operator group to use for operator access to the subsequent Oracle Database
+#!                        (typically oper). If this parameter is not specified, it is derived from the Oracle OS user.
+#!                        Optional
+#! @input oracle_home_name: The Oracle Home name. If not specified, it is randomly generated.
+#!                          Optional
+#! @input rac_one_node_install: Set to true to install Oracle RAC One Node software using the
+#!                              oracle.install.db.isRACOneInstall option.
+#!                              Default: 'false'
+#!                              Valid: 'true', 'false'
+#!                              Optional
+#! @input crs_base: ?
+#!                  Optional
+#! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
+#!                 Default: '1200'
+#!                 Optional
+#! @input polling_interval: The interval in seconds at which the deployment will be queried in sync mode.
+#!                          Default: '30'
+#!                          Optional
+#! @input preemptive_auth: If this field is 'true' authentication info will be sent in the first request. If this is
+#!                         'false' a request with no authentication info will be made and if server responds with 401
+#!                         and a header like WWW-Authenticate: Basic realm="myRealm" only then the authentication info
+#!                         will be sent.
+#!                         Optional
+#! @input proxy_host: The proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: The proxy server port.
+#!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
+#!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
+#!                    'proxy_port' is set to '-1' then port '80' will be used.
+#!                    Default: '8080'
+#!                    Optional
+#! @input proxy_username: The user name used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
+#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
+#!                        Optional
+#! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
+#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                  Optional
+#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
+#!                           empty, keystorePassword default will be supplied.
+#!                           Optional
+#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
+#!                         represents an infinite timeout.
+#!                         Optional
+#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
+#!                        Optional
+#! @input use_cookies: Specifies whether to enable cookie tracking or not. Cookies are stored between consecutive calls
+#!                     in a serializable session object therefore they will be available on a branch level. If you
+#!                     specify a non-boolean value, the default value is used.
+#!                     Optional
+#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
+#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Optional
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Optional
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Optional
+#!
+#! @output return_result: In case of success, a JSON representation of the RHEL deployment, otherwise an error message.
+#! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
+#! @output exception: In case of failure, the error message, otherwise empty.
+#! @output status: The status of the deployment.
+#!
+#! @result SUCCESS: Operation succeeded, returnCode is '0'.
+#! @result FAILURE: Operation failed, returnCode is '-1'.
+#!!#
+########################################################################################################################
 
 namespace: io.cloudslang.dca
 
@@ -91,7 +270,7 @@ flow:
         default: ''
         required: false
     - install_edition:
-        default: ''
+        default: 'EE'
         required: false
     - install_response:
         default: ''

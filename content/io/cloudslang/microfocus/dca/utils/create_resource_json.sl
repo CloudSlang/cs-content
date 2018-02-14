@@ -90,7 +90,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.0'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
     class_name: 'io.cloudslang.content.dca.actions.utils.CreateResourceJSON'
     method_name: 'execute'
   

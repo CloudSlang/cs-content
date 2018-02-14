@@ -254,7 +254,8 @@ operation:
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
+
         required: false  
     - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
@@ -268,7 +269,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.0'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
     class_name: 'io.cloudslang.content.dca.actions.authentication.GetAuthenticationToken'
     method_name: 'execute'
   

@@ -117,9 +117,11 @@
 #! @output status: The status of the deployment.
 #! @output resource_name: The name of the resource.
 #! @output dns_name: The DNS name of the resource.
+#! @output username: The username of the credential associated with the resource.
+#! @output password: The password associated with the username.
 #!
-#! @result SUCCESS: Operation succeeded, returnCode is '0'.
-#! @result FAILURE: Operation failed, returnCode is '-1'.
+#! @result SUCCESS: Flow succeeded, returnCode is '0'.
+#! @result FAILURE: Flow failed, returnCode is '-1'.
 #!!#
 ########################################################################################################################
 
@@ -372,8 +374,8 @@ flow:
               - return_result
               - return_code
               - exception
-              - resource_name: ${name}
-              - dns_name
+              - username
+              - password
             navigate:
               - SUCCESS: SUCCESS
               - FAILURE: FAILURE
@@ -385,6 +387,10 @@ flow:
     - status: ${get('status', '')}
     - dns_name: ${get('dns_name', '')}
     - resource_name: ${get('resource_name', '')}
+    - username: ${get('username', '')}
+    - password:
+        value: ${get('password', '')}
+        sensitive: true
 
   results:
     - FAILURE
