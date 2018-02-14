@@ -99,9 +99,10 @@ do
     continue
   fi
 
-  LAST_LINE=$(ssh -i ${SSH_KEY_PATH} \
+  LAST_LINE=$(ssh -vv -i ${SSH_KEY_PATH} \
   -o UserKnownHostsFile=/dev/null \
   -o StrictHostKeyChecking=no \
+  -o BatchMode=yes \
   core@${DROPLET_IP} \
   'sudo systemctl enable docker-tcp.socket \
   && sudo systemctl stop docker \
