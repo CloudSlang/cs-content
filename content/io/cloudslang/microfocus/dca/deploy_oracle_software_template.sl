@@ -562,7 +562,7 @@ flow:
         publish:
           - exception
           - return_code
-          - osr_json: ${return_result}
+          - deployment_resources_json: ${return_result}
         navigate:
           - SUCCESS: deploy_template
           - FAILURE: FAILURE
