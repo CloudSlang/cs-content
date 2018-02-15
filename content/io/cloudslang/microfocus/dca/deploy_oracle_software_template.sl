@@ -365,9 +365,17 @@ flow:
                 		oracle_base) oracle_base=$value ;;
                 		oracle_password) oracle_password=$value ;;
                 		fqdn) fqdn=$value ;;
+                		subscription_username) subscription_username=$value ;;
+                		subscription_password) subscription_password=$value ;;
                 		*)
                 	esac
                 done
+
+                #Subscribe to RHEL servers
+                subscription-manager register --username=$subscription_username --password=$subscription_password \
+                  --proxy=$proxy_host:$proxy_port --proxyuser=$proxy_username --proxypassword=$proxy_password
+                subscription-manager attach --auto --proxy=$proxy_host:$proxy_port --proxyuser=$proxy_username \
+                  --proxypassword=$proxy_password
 
                 #Add proxies
                 if [[ ! -z "$proxy_host" ]]; then
@@ -384,6 +392,9 @@ flow:
                 	fi
                 	source ~/.bash_profile
                 fi
+
+                # Make sure that repos are available
+                yum -y update
 
                 #DCA Prerequisite Script for Oracle Software
                 oracle_base_root=/$(echo "$oracle_base" | cut -d "/" -f2)
@@ -483,6 +494,8 @@ flow:
                 ${"proxy_host=" + get('proxy_host', '') + " proxy_port=" + get('proxy_port', '') +
                 " proxy_username=" + get('proxy_username', '') + " proxy_password=" + get('proxy_password', '') +
                 " oracle_base=" + get('oracle_base', '') + " oracle_password=" + get('base_resource_password', '') +
+                " subscription_username=" + get('subscription_username', '') +
+                " subscription_password=" + get('subscription_password', '') +
                 " fqdn=" + get('base_resource_dns_name', '')}
             - username: ${base_resource_username}
             - password: ${base_resource_password}
@@ -562,7 +575,7 @@ flow:
         publish:
           - exception
           - return_code
-          - deployment_resources_json: ${return_result}
+          - deployment_resources_json: ${"[" + return_result + "]"}
         navigate:
           - SUCCESS: deploy_template
           - FAILURE: FAILURE
