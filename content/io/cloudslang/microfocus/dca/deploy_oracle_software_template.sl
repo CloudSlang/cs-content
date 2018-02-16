@@ -231,6 +231,12 @@ flow:
     - base_resource_dns_name
     - base_resource_username
     - base_resource_password
+    - subscription_username
+    - subscription_password
+    - base_resource_proxy_host
+    - base_resource_proxy_port
+    - base_resource_proxy_user
+    - base_resource_proxy_pass
     - oracle_base:
         default: '/opt/app/oraBase'
         required: false
@@ -495,10 +501,10 @@ flow:
                 echo "set max_nprocs = 16384" >> /etc/system\n
 
                 exit 0\n""" %
-                (get('proxy_host', ''),
-                get('proxy_port', ''),
-                get('proxy_username', ''),
-                get('proxy_password', ''),
+                (get('base_resource_proxy_host', ''),
+                get('base_resource_proxy_port', ''),
+                get('base_resource_proxy_user', ''),
+                get('base_resource_proxy_pass', ''),
                 get('oracle_base', ''),
                 get('base_resource_password', ''),
                 get('base_resource_dns_name', ''),
@@ -506,13 +512,14 @@ flow:
                 get('subscription_password', '')))}
             - username: ${base_resource_username}
             - password: ${base_resource_password}
-            - known_host_policy: 'add'
-            - close_session: 'true'
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
+            - known_host_policy: 'add'
+            - close_session: 'true'
             - use_shell: 'true'
+            - pty: 'true'
         publish:
             - return_result
             - return_code
