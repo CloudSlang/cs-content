@@ -397,10 +397,10 @@ flow:
     - create_oracle_resource_json:
         do:
           utils.create_resource_json:
-            - type_uuid: '28ee3f10-361e-40fa-a222-d8fc3d59a4da'
-            - deploy_sequence: '2'
+            - type_uuid: '8475f05e-624c-42b7-a496-339a292c0c84'
+            - deploy_sequence: '1'
             - base_resource_uuid_list: ${base_resource_uuid}
-            - base_resource_ci_type_list: 'node'
+            - base_resource_ci_type_list: 'host_node'
             - base_resource_type_uuid_list: ''
             - deployment_parameter_name_list: >
                 ${'|'.join(['oracleBase', 'datafileLocation', 'cleanupOnFailure', 'cleanupOnSuccess',
@@ -424,7 +424,7 @@ flow:
         publish:
           - exception
           - return_code
-          - deployment_resources_json: ${format('[%s, %s]' % (osr_json, return_result))}
+          - deployment_resources_json: ${format('[%s]' % return_result)}
         navigate:
           - SUCCESS: deploy_template
           - FAILURE: FAILURE
