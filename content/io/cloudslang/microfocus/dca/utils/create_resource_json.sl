@@ -89,7 +89,7 @@ operation:
         default: ','
         required: false
     
-  java_action: 
+  java_action:
     gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
     class_name: 'io.cloudslang.content.dca.actions.utils.CreateResourceJSON'
     method_name: 'execute'
