@@ -231,12 +231,18 @@ flow:
     - base_resource_dns_name
     - base_resource_username
     - base_resource_password
-    - subscription_username
-    - subscription_password
-    - base_resource_proxy_host
-    - base_resource_proxy_port
-    - base_resource_proxy_user
-    - base_resource_proxy_pass
+    - subscription_username:
+        required: false
+    - subscription_password:
+        required: false
+    - base_resource_proxy_host:
+        required: false
+    - base_resource_proxy_port:
+        required: false
+    - base_resource_proxy_user:
+        required: false
+    - base_resource_proxy_pass:
+        required: false
     - oracle_base:
         default: '/opt/app/oraBase'
         required: false
@@ -367,31 +373,35 @@ flow:
 
                 #Subscribe to RHEL servers
 
-                subscription-manager register --username=$subscription_username --password=$subscription_password \
-                  --proxy=$proxy_host:$proxy_port --proxyuser=$proxy_username --proxypassword=$proxy_password
-                subscription-manager attach --auto --proxy=$proxy_host:$proxy_port --proxyuser=$proxy_username \
-                  --proxypassword=$proxy_password
+                proxy_host_no_protocol=$(echo $proxy_host | sed 's/https\?:\/\///')\n
+                sed -i "/^proxy_hostname/c\proxy_hostname = $proxy_host_no_protocol" /etc/rhsm/rhsm.conf\n
+                sed -i "/^proxy_port/c\proxy_port = $proxy_port" /etc/rhsm/rhsm.conf\n
+                sed -i "/^proxy_user/c\proxy_user = $proxy_username" /etc/rhsm/rhsm.conf\n
+                sed -i "/^proxy_password/c\proxy_password = $proxy_password" /etc/rhsm/rhsm.conf\n
+
+                subscription_status=$(subscription-manager list | grep Status | awk '{print $2}')
+
+                if [ "$subscription_status" != "Subscribed" ]; then
+                  subscription-manager register --username=$subscription_username --password=$subscription_password;
+                  subscription-manager attach --auto --proxy=$proxy_host:$proxy_port --proxyuser=$proxy_username;
+                fi
 
                 #Add proxies
 
                 if [[ ! -z "$proxy_host" ]]; then
                     if [[ ! -z "$proxy_username" ]]; then
-                        echo "export http_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export https_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export HTTP_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export HTTPS_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile
+                        echo "export http_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export https_proxy=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export HTTP_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export HTTPS_PROXY=$proxy_username:$proxy_password@$proxy_host:$proxy_port" >> ~/.bash_profile;
                     else
-                        echo "export http_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export https_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export HTTP_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile
-                        echo "export HTTPS_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile
+                        echo "export http_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export https_proxy=$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export HTTP_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile;
+                        echo "export HTTPS_PROXY=$proxy_host:$proxy_port" >> ~/.bash_profile;
                     fi
-                    source ~/.bash_profile
+                    source ~/.bash_profile;
                 fi
-
-                # Make sure that repos are available
-
-                yum -y update\n
 
                 #DCA Prerequisite Script for Oracle Software
 
@@ -413,21 +423,7 @@ flow:
 
                 #Install or upgrade RPMs
 
-                yum -y install compat-libstdc++-33 gcc*\n
-                yum -y install gcc-c++-4.*\n
-                yum -y install glibc-devel-2.*\n
-                yum -y install glibc-headers-2.*\n
-                yum -y install libaio-devel-0.*\n
-                yum -y install libgomp-4.*\n
-                yum -y install libstdc++-devel-4.*\n
-                yum -y install sysstat* unixODBC-2.*\n
-                yum -y install unixODBC-devel-2.*\n
-                yum -y install libXp.so.6 libXtst*\n
-                yum -y install vim*\n
-                yum -y install elfutils-libelf-devel*\n
-                yum -y install glibc*\n
-                yum -y install make*\n
-                yum -y install glibc.i686\n
+                yum -y install compat-libstdc++-33 gcc* gcc-c++-4.* glibc-devel-2.* glibc-headers-2.* libaio-devel-0.* libgomp-4.* libstdc++-devel-4.* sysstat* unixODBC-2.* unixODBC-devel-2.* libXp.so.6 libXtst* vim* elfutils-libelf-devel* glibc* make* glibc.i686 \n
 
                 #Ensure firewall is off
 
@@ -451,19 +447,7 @@ flow:
 
                 #Edit sysctl
 
-                echo "fs.suid_dumpable = 1" >> /etc/sysctl.conf\n
-                echo "fs.aio-max-nr = 1048576" >> /etc/sysctl.conf\n
-                echo "fs.file-max = 6815744" >> /etc/sysctl.conf\n
-                echo "kernel.shmall = 2097152" >> /etc/sysctl.conf\n
-                echo "kernel.shmmax = 2070833152" >> /etc/sysctl.conf\n
-                echo "kernel.shmmni = 4096" >> /etc/sysctl.conf\n
-                echo "# semaphores: semmsl, semmns, semopm, semmni" >> /etc/sysctl.conf\n
-                echo "kernel.sem = 250 32000 100 128" >> /etc/sysctl.conf\n
-                echo "net.ipv4.ip_local_port_range = 9000 65500" >> /etc/sysctl.conf\n
-                echo "net.core.rmem_default=4194304" >> /etc/sysctl.conf\n
-                echo "net.core.rmem_max=4194304" >> /etc/sysctl.conf\n
-                echo "net.core.wmem_default=262144" >> /etc/sysctl.conf\n
-                echo "net.core.wmem_max=1048586" >> /etc/sysctl.conf\n
+                printf "fs.suid_dumpable = 1 \nfs.aio-max-nr = 1048576 \nfs.file-max = 6815744 \nkernel.shmall = 2097152 \nkernel.shmmax = 2070833152 \nkernel.shmmni = 4096 \n# semaphores: semmsl, semmns, semopm, semmni \nkernel.sem = 250 32000 100 128 \nnet.ipv4.ip_local_port_range = 9000 65500 \nnet.core.rmem_default=4194304 \nnet.core.rmem_max=4194304 \nnet.core.wmem_default=262144 \nnet.core.wmem_max=1048586" >> /etc/sysctl.conf \n
 
                 #Change current kernel parameters
 
@@ -471,11 +455,7 @@ flow:
 
                 #Edit limits.conf
 
-                echo "oracle              soft    nproc   2047" >> /etc/security/limits.conf\n
-                echo "oracle              hard   nproc   16384" >> /etc/security/limits.conf\n
-                echo "oracle              soft    nofile  1024" >> /etc/security/limits.conf\n
-                echo "oracle              hard   nofile  65536" >> /etc/security/limits.conf\n
-                echo "oracle              soft    stack   10240" >> /etc/security/limits.conf\n
+                printf "oracle              soft    nproc   2047 \noracle              hard   nproc   16384 \noracle              soft    nofile  1024 \noracle              hard   nofile  65536 \noracle              soft    stack   10240" >> /etc/security/limits.conf \n
 
                 #Create oracle profile
 
@@ -483,22 +463,15 @@ flow:
 
                 #Edit oracle profile
 
-                echo "export TMP=/tmp" >> ~oracle/.profile\n
-                echo "export TMPDIR=\$TMP" >> ~oracle/.profile\n
-                echo "export ORACLE_HOSTNAME=$fqdn" >> ~oracle/.profile\n
-                echo "export ORACLE_BASE=$oracle_base" >> ~oracle/.profile\n
-                echo "export PATH=$PATH:\$ORACLE_HOME/bin:$PATH" >> ~oracle/.profile\n
-                echo "export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >> ~oracle/.profile\n
-                echo "export CLASSPATH=\$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib" >> ~oracle/.profile\n
-                echo "export TNS_ADMIN=\$ORACLE_HOME/network/admin" >> ~oracle/.profile\n
+                printf "export TMP=/tmp \nexport TMPDIR=\$TMP \nexport ORACLE_HOSTNAME=$fqdn \nexport ORACLE_BASE=$oracle_base \nexport PATH=$PATH:\$ORACLE_HOME/bin:$PATH \nexport LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib \nexport CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib \nexport TNS_ADMIN=\$ORACLE_HOME/network/admin" >> ~oracle/.profile \n
 
                 #Edit oracle bash profile
 
-                echo ". ./.profile" >> ~oracle/.bash_profile\n
+                printf ". ./.profile" >> ~oracle/.bash_profile\n
 
                 #Edit /etc/system
 
-                echo "set max_nprocs = 16384" >> /etc/system\n
+                printf "set max_nprocs = 16384" >> /etc/system\n
 
                 exit 0\n""" %
                 (get('base_resource_proxy_host', ''),
