@@ -56,9 +56,9 @@
 #! @input oracle_base: The fully-qualified path to the Oracle base directory where the admin directories will be located.
 #!                     Example: '/u01/app/oracle'
 #!                     Optional
-#! @input clean_code_base: ?
+#! @input clean_code_base: Missing information for input.
 #!                     Optional
-#! @input clean_jre: ?
+#! @input clean_jre: Missing information for input.
 #!                   Optional
 #! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files—to clean up the installation
 #!                            directory—in the event of workflow failure.
@@ -74,7 +74,7 @@
 #!                            Default: 'false'
 #!                            Valid: 'true', 'false'
 #!                            Optional
-#! @input debug_level: ?
+#! @input debug_level: Missing information for input.
 #!                     Optional
 #! @input extract_location: The directory location where the Oracle database software archives will be extracted.
 #!                          It will be cleaned up at end of workflow execution. If not specified, a default will
@@ -122,7 +122,7 @@
 #!                              Default: 'false'
 #!                              Valid: 'true', 'false'
 #!                              Optional
-#! @input crs_base: ?
+#! @input crs_base: Missing information for input.
 #!                  Optional
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
@@ -204,7 +204,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca
+namespace: io.cloudslang.microfocus.dca
 
 imports:
   templates: io.cloudslang.microfocus.dca.templates

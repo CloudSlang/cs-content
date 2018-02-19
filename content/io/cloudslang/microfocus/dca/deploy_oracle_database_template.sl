@@ -54,11 +54,23 @@
 #!                            Default: 'false'
 #!                            Valid values: 'true', 'false'
 #!                            Optional
+#! @input debug_level: Missing information for input.
+#!                     Default: '6'
+#!                     Optional
 #! @input inventory_files: Comma-separated list of fully-qualified Oracle inventory files. If this parameter is not
 #!                         specified, the workflow looks for the oraInst.loc file in /etc and /var/opt/oracle.
 #!                         Optional
 #! @input oracle_account: Required only if inventory does not exist. The Oracle user that will own the Oracle Home.
 #!                        Default: 'oracle'
+#!                        Optional
+#! @input clean_code_base: Missing information for input.
+#!                         Default: 'true'
+#!                         Optional
+#! @input clean_jre: Missing information for input.
+#!                   Default: 'true'
+#!                   Optional
+#! @input archive_log_on: Missing information for input.
+#!                        Default: 'false'
 #!                        Optional
 #! @input asm_password: Required when provisioning an Oracle database using ASM storage, representing the password
 #!                      used to manage ASM.
@@ -66,9 +78,17 @@
 #! @input cluster_nodes: Required when provisioning a RAC database. Comma-separated list of nodes where this database
 #!                       will run.
 #!                       Optional
+#! @input dbca_character_set: Missing information for input.
+#!                            Optional
+#! @input dbca_national_character_set: Missing information for input.
+#!                                     Optional
 #! @input dbca_password_all: If set, this password will be used in the DBCA response file for the
 #!                           oracle.install.db.config.starterdb.password.ALL setting and the remaining DBCA Password
 #!                           inputs will be ignored.
+#!                           Optional
+#! @input dbca_password_dbsnmp: Missing information for input.
+#!                              Optional
+#! @input dbca_password_sys: Missing information for input.
 #!                           Optional
 #! @input dbca_response_file: Location of a DBCA response file in the software repository to download. If not specified,
 #!                            a default will be used.
@@ -80,6 +100,12 @@
 #!                        listener (in the Verify Listener step). If the environment does not include GRID, then the
 #!                        local listener will be created regardless of this setting.
 #!                        Optional
+#! @input log_archive_destination: Missing information for input.
+#!                                 Optional
+#! @input log_archive_format: Missing information for input.
+#!                            Optional
+#! @input maximum_dump_file_size: Missing information for input.
+#!                                Optional
 #! @input net_ca_response_file: Location of a NetCA response file in the software repository to download. If not
 #!                              specified, a default will be used.
 #!                              Optional
@@ -89,12 +115,18 @@
 #!                      Optional
 #! @input rac_one_node_service_name: The name of the service to connect to the RAC One Node Database.
 #!                                   Optional
+#! @input redo_log_destination: Missing information for input.
+#!                              Optional
 #! @input variables_file: Location of a DBCA variables file in the software repository to download. If not specified,
 #!                        a default will be used.
 #!                        Optional
 #! @input listener_configuration: Colon-separated name and port of the Oracle listener for this database. If left blank,
 #!                                the Oracle default of LISTENER:1521 will be used.
 #!                                Optional
+#! @input dbca_password_sysman: Missing information for input.
+#!                              Optional
+#! @input dbca_password_system: Missing information for input.
+#!                              Optional
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
 #!                 Optional
@@ -176,7 +208,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca
+namespace: io.cloudslang.microfocus.dca
 
 imports:
   templates: io.cloudslang.microfocus.dca.templates
