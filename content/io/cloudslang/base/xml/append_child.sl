@@ -15,21 +15,23 @@
 #!!
 #! @description: Appends a child to an XML element.
 #!
-#! @input xml_document: XML string or file to append a child in
-#! @input xml_document_source: X<: document type.
-#!                             Default value: 'xmlString'
-#!                             Accepted values: 'xmlString', 'xmlPath'
+#! @input xml_document: XML string or file to append a child in.
+#! @input xml_document_source: XML document type.
+#!                             Valid: 'xmlString', 'xmlPath'
+#!                             Default: 'xmlString'
+#!                             Optional
 #! @input xpath_element_query: XPATH query that results in an element or element list, where child element will be appended.
 #! @input xml_element: Child element to append.
-#! @input secure_processing: Optional - Sets the secure processing feature.
+#! @input secure_processing: Sets the secure processing feature.
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
 #!                           and (false instructs the implementation to process XML in accordance with the XML
 #!                           specifications ignoring security issues such as limits on XML constructs to avoid conditions
 #!                           such as denial of service attacks)
-#!                           Accepted values: 'true' or 'false'
-#!                           Default value: 'true'
+#!                           Accepted: 'true' or 'false'
+#!                           Default: 'true'
+#!                           Optional
 #!
 #! @output result_xml: Given XML with child appended.
 #! @output return_result: Exception in case of failure, success message otherwise.
@@ -75,7 +77,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.AppendChild
     method_name: execute
 

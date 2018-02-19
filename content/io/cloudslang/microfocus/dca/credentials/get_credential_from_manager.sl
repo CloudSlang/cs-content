@@ -15,19 +15,17 @@
 #!!
 #! @description: This operation can be used to get information about a DCA deployment.
 #!
-#! @input dca_host: The hostname or IP of the DCA environment.
-#! @input dca_port: The port on which the DCA environment is listening.
-#!                  Default: '443'
-#!                  Optional
-#! @input protocol: The protocol with which to connect to the DCA environment
+#! @input cm_host: The hostname of the DCA Credential Manager container.
+#!                 Default: 'dca-credential-manager'
+#!                 Optional
+#! @input cm_port: The port of the DCA Credential Manager container.
+#!                 Default: '5333'
+#!                 Optional
+#! @input protocol: The protocol to use (HTTP, HTTPS) to connect to the DCA Credential Manager.
 #!                  Valid: 'http' or 'https'
-#!                  Default: 'https'
+#!                  Default: 'http'
 #!                  Optional
-#! @input auth_token: The authentication token from the Get Authentication Token operation.
-#! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
-#!                       default lifetime of the authentication token.
-#!                       Optional
-#! @input deployment_uuid: The UUID of the deployment for which the information will be retrieved.
+#! @input credential_uuid: The UUID of the credential for which to retrieve the information.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -87,170 +85,160 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: In case of success, a JSON representation of the deployment, otherwise an error message.
+#! @output return_result: In case of success, a JSON representation of the credential data, otherwise an error message.
 #! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
 #! @output exception: In case of failure, the error message, otherwise empty.
-#! @output status: The status of the deployment.
+#! @output username: The username of the credential, empty if not found.
+#! @output password: The password of the credential, empty if not found.
 #!
 #! @result SUCCESS: Operation succeeded, returnCode is '0'.
 #! @result FAILURE: Operation failed, returnCode is '-1'.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.templates
+namespace: io.cloudslang.microfocus.dca.credentials
 
-operation: 
-  name: get_deployment
-  
-  inputs: 
-    - dca_host    
-    - dcaHost: 
-        default: ${get('dca_host', '')}  
-        required: false 
-        private: true 
-    - dca_port:
-        default: '443'
-        required: false  
-    - dcaPort: 
-        default: ${get('dca_port', '')}  
-        required: false 
-        private: true 
-    - protocol:
-        default: 'https'
-        required: false  
-    - auth_token:
-        sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
-        private: true
-        sensitive: true
-    - refresh_token:
+operation:
+  name: get_credential_from_manager
+
+  inputs:
+    - cm_host:
+        default: 'dca-credential-manager'
+    - cmHost:
+        default: ${get('cm_host', '')}
         required: false
-        sensitive: true
-    - refreshToken: 
-        default: ${get('refresh_token', '')}  
-        required: false 
         private: true
-        sensitive: true
-    - deployment_uuid
-    - deploymentUuid:
-        default: ${get('deployment_uuid', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
+    - cm_port:
+        default: '5333'
+        required: false
+    - cmPort:
+        default: ${get('cm_port', '')}
+        required: false
+        private: true
+    - protocol:
+        default: 'http'
+        required: false
+    - credential_uuid
+    - credentialUuid:
+        default: ${get('credential_uuid', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
     - proxy_port:
         default: '8080'
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
     - trust_all_roots:
         default: 'false'
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
         sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
+    - keystorePassword:
+        default: ${get('keystore_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - use_cookies:  
-        required: false  
-    - useCookies: 
-        default: ${get('use_cookies', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.1'
-    class_name: 'io.cloudslang.content.dca.actions.templates.GetDeployment'
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - socket_timeout:
+        required: false
+    - socketTimeout:
+        default: ${get('socket_timeout', '')}
+        required: false
+        private: true
+    - use_cookies:
+        required: false
+    - useCookies:
+        default: ${get('use_cookies', '')}
+        required: false
+        private: true
+    - keep_alive:
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
+    - connections_max_per_route:
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
+    - connections_max_total:
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
+    class_name: 'io.cloudslang.content.dca.actions.credentials.GetCredentialFromManager'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - exception: ${get('exception', '')} 
-    - status: ${get('status', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
+    - username: ${get('username', '')}
+    - password:
+        value: ${get('password', '')}
+        sensitive: true
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

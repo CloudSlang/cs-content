@@ -47,7 +47,7 @@
 #! @input timeout: Time in milliseconds to wait for command to complete.
 #!                 Default: '30000000'
 #! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made.
-#!                         Default value: '10000'
+#!                         Default: '10000'
 #! @input close_session: Optional - if 'false' the SSH session will be cached for future calls of this operation during
 #!                       the life of the flow, if 'true' the SSH session used by this operation will be closed
 #!                       Valid: 'true', 'false'
@@ -145,7 +145,8 @@ operation:
     - pty:
         default: 'false'
         private: true
-    - timeout: '30000000'
+    - timeout:
+        default: '30000000'
     - close_session:
         required: false
     - closeSession:
@@ -194,7 +195,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-ssh:0.0.36'
+    gav: 'io.cloudslang.content:cs-ssh:0.0.37'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
 

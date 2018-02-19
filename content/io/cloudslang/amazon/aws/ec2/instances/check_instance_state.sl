@@ -112,4 +112,3 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-
