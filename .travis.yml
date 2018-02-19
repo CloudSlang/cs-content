@@ -33,7 +33,6 @@ env:
 
 before_install:
   - docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
-  - docker run --privileged -d -p 4444 -p 49153:22 -e PORT=4444 --name docker_host_ssh orius123/dind-ssh
 
 script:
   - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
