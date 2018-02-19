@@ -55,14 +55,14 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.3'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.4'
     class_name: 'io.cloudslang.content.utilities.actions.DefaultIfEmpty'
     method_name: 'execute'
   
   outputs: 
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

@@ -377,19 +377,19 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.3'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.4'
     class_name: 'io.cloudslang.content.utilities.actions.OsDetector'
     method_name: 'execute'
   
   outputs: 
-    - return_result: ${returnResult} 
-    - return_code: ${returnCode} 
-    - os_family: ${ get('osFamily', '') }
-    - os_name: ${ get('osName', '') }
-    - os_architecture: ${ get('osArchitecture', '') }
-    - os_version: ${ get('osVersion', '') }
-    - os_commands: ${ get('osCommands', '') }
-    - exception: ${ get('exception', '') }
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - os_family: ${get('osFamily', '')}
+    - os_name: ${get('osName', '')}
+    - os_architecture: ${get('osArchitecture', '')}
+    - os_version: ${get('osVersion', '')}
+    - os_commands: ${get('osCommands', '')}
+    - exception: ${get('exception', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

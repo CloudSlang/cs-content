@@ -360,11 +360,11 @@ operation:
       method_name: execute
 
    outputs:
-   -  return_result: ${ get('returnResult', '') }
-   -  return_code: ${ get('returnCode', '') }
-   -  script_exit_code: ${ get('scriptExitCode', '') }
-   -  stderr: ${ get('stderr', '') }
-   -  exception: ${ get('exception', '') }
+   -  return_result: ${get('returnResult', '')}
+   -  return_code: ${get('returnCode', '')}
+   -  script_exit_code: ${get('scriptExitCode', '')}
+   -  stderr: ${get('stderr', '')}
+   -  exception: ${get('exception', '')}
 
    results:
    -  SUCCESS: ${returnCode == '0'}
