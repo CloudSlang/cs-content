@@ -35,7 +35,7 @@ before_install:
   - docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
 
 script:
-  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
+#  - chmod +x ci-env/travis/run_containers.sh && ci-env/travis/run_containers.sh
   - docker ps -a
   - docker info
   - docker version
