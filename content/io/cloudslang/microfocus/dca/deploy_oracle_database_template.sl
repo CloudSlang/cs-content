@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow is used to deploy a RHEL 7 Template in Micro Focus DCA.
+#! @description: This flow is used to deploy an Oracle Database Template in Micro Focus DCA.
 #!
 #! @input protocol: The protocol to use when connecting to IdM.
 #!                  Valid: 'http' or 'https'
@@ -37,10 +37,96 @@
 #! @input deployment_name: The display name of the deployment.
 #! @input deployment_description: A description of the deployment.
 #!                                Optional
-#! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy RHEL Template.
-#! @input credential_id: The UUID of the DCA Credential to assign to the deployment.
-#! @input media_source: Path accessible from the DCA installation to a RHEL 7 installation media.
-#! @input kickstart_file: RHEL 7 kickstart file.
+#! @input base_resource_uuid: The UUID of the unmanaged resource on which to deploy Oracle Database Template.
+#! @input oracle_base: The fully-qualified path to the Oracle base directory where the admin directories are located.
+#!                     Default: '/opt/app/oraBase'
+#!                     Example: '/u01/app/oracle/product/12.1.0/dbhome_1'
+#! @input datafile_location: The database file locations.
+#!                           Default: '/opt/app/oracle/oradata'
+#!                           Example: '+ASMDATA'
+#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files, to clean up the installation
+#!                            directory, in the event of workflow failure.
+#!                            Default: 'false'
+#!                            Valid values: 'true', 'false'
+#!                            Optional
+#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files, to clean up the installation
+#!                            directory, in the event of workflow success.
+#!                            Default: 'false'
+#!                            Valid values: 'true', 'false'
+#!                            Optional
+#! @input debug_level: Missing information for input.
+#!                     Default: '6'
+#!                     Optional
+#! @input inventory_files: Comma-separated list of fully-qualified Oracle inventory files. If this parameter is not
+#!                         specified, the workflow looks for the oraInst.loc file in /etc and /var/opt/oracle.
+#!                         Optional
+#! @input oracle_account: Required only if inventory does not exist. The Oracle user that will own the Oracle Home.
+#!                        Default: 'oracle'
+#!                        Optional
+#! @input clean_code_base: Missing information for input.
+#!                         Default: 'true'
+#!                         Optional
+#! @input clean_jre: Missing information for input.
+#!                   Default: 'true'
+#!                   Optional
+#! @input archive_log_on: Missing information for input.
+#!                        Default: 'false'
+#!                        Optional
+#! @input asm_password: Required when provisioning an Oracle database using ASM storage, representing the password
+#!                      used to manage ASM.
+#!                      Optional
+#! @input cluster_nodes: Required when provisioning a RAC database. Comma-separated list of nodes where this database
+#!                       will run.
+#!                       Optional
+#! @input dbca_character_set: Missing information for input.
+#!                            Optional
+#! @input dbca_national_character_set: Missing information for input.
+#!                                     Optional
+#! @input dbca_password_all: If set, this password will be used in the DBCA response file for the
+#!                           oracle.install.db.config.starterdb.password.ALL setting and the remaining DBCA Password
+#!                           inputs will be ignored.
+#!                           Optional
+#! @input dbca_password_dbsnmp: Missing information for input.
+#!                              Optional
+#! @input dbca_password_sys: Missing information for input.
+#!                           Optional
+#! @input dbca_response_file: Location of a DBCA response file in the software repository to download. If not specified,
+#!                            a default will be used.
+#!                            Optional
+#! @input dbca_template_file: Location of a DBCA template file in the software repository to download. If not specified,
+#!                            a default will be used.
+#!                            Optional
+#! @input local_listener: Set to True to ignore any GRID installation listener and any attempt to create a local
+#!                        listener (in the Verify Listener step). If the environment does not include GRID, then the
+#!                        local listener will be created regardless of this setting.
+#!                        Optional
+#! @input log_archive_destination: Missing information for input.
+#!                                 Optional
+#! @input log_archive_format: Missing information for input.
+#!                            Optional
+#! @input maximum_dump_file_size: Missing information for input.
+#!                                Optional
+#! @input net_ca_response_file: Location of a NetCA response file in the software repository to download. If not
+#!                              specified, a default will be used.
+#!                              Optional
+#! @input policy_managed: Set to true if Database is policy managed and set to false if Database is admin managed.
+#!                        Optional
+#! @input rac_one_node: Set to true to provision an Oracle RAC One Node database.
+#!                      Optional
+#! @input rac_one_node_service_name: The name of the service to connect to the RAC One Node Database.
+#!                                   Optional
+#! @input redo_log_destination: Missing information for input.
+#!                              Optional
+#! @input variables_file: Location of a DBCA variables file in the software repository to download. If not specified,
+#!                        a default will be used.
+#!                        Optional
+#! @input listener_configuration: Colon-separated name and port of the Oracle listener for this database. If left blank,
+#!                                the Oracle default of LISTENER:1521 will be used.
+#!                                Optional
+#! @input dbca_password_sysman: Missing information for input.
+#!                              Optional
+#! @input dbca_password_system: Missing information for input.
+#!                              Optional
 #! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
 #!                 Default: '1200'
 #!                 Optional
@@ -111,17 +197,14 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: In case of success, a JSON representation of the RHEL deployment, otherwise an error message.
+#! @output return_result: In case of success, a JSON representation of the Oracle Database deployment,
+#!                        otherwise an error message.
 #! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
 #! @output exception: In case of failure, the error message, otherwise empty.
 #! @output status: The status of the deployment.
-#! @output resource_name: The name of the resource.
-#! @output dns_name: The DNS name of the resource.
-#! @output username: The username of the credential associated with the resource.
-#! @output password: The password associated with the username.
 #!
-#! @result SUCCESS: Flow succeeded, returnCode is '0'.
-#! @result FAILURE: Flow failed, returnCode is '-1'.
+#! @result SUCCESS: Operation succeeded, returnCode is '0'.
+#! @result FAILURE: Operation failed, returnCode is '-1'.
 #!!#
 ########################################################################################################################
 
@@ -131,11 +214,9 @@ imports:
   templates: io.cloudslang.microfocus.dca.templates
   utils: io.cloudslang.microfocus.dca.utils
   auth: io.cloudslang.microfocus.dca.authentication
-  resources: io.cloudslang.microfocus.dca.resources
-  credentials: io.cloudslang.microfocus.dca.credentials
 
 flow:
-  name: deploy_rhel7_template
+  name: deploy_oracle_database_template
   inputs:
     - protocol:
         default: 'https'
@@ -162,11 +243,104 @@ flow:
         default: ''
         required: false
     - base_resource_uuid
-    - credential_id
-    - media_source
-    - kickstart_file
+    - oracle_base:
+        default: '/opt/app/oraBase'
+        required: false
+    - datafile_location:
+        default: '/opt/app/oracle/oradata'
+        required: false
+    - cleanup_on_failure:
+        default: 'false'
+        required: false
+    - cleanup_on_success:
+        default: 'false'
+        required: false
+    - debug_level:
+        default: '6'
+        required: false
+    - inventory_files:
+        default: ''
+        required: false
+    - oracle_account:
+        default: 'oracle'
+        required: false
+    - clean_code_base:
+        default: 'true'
+        required: false
+    - clean_jre:
+        default: 'true'
+        required: false
+    - archive_log_on:
+        default: 'false'
+        required: false
+    - asm_password:
+        default: ''
+        required: false
+    - cluster_nodes:
+        default: ''
+        required: false
+    - dbca_character_set:
+        default: ''
+        required: false
+    - dbca_national_character_set:
+        default: ''
+        required: false
+    - dbca_password_all:
+        default: ''
+        required: false
+    - dbca_password_dbsnmp:
+        default: ''
+        required: false
+    - dbca_password_sys:
+        default: ''
+        required: false
+    - dbca_response_file:
+        default: ''
+        required: false
+    - dbca_template_file:
+        default: ''
+        required: false
+    - local_listener:
+        default: ''
+        required: false
+    - log_archive_destination:
+        default: ''
+        required: false
+    - log_archive_format:
+        default: ''
+        required: false
+    - maximum_dump_file_size:
+        default: ''
+        required: false
+    - net_ca_response_file:
+        default: ''
+        required: false
+    - policy_managed:
+        default: ''
+        required: false
+    - rac_one_node:
+        default: ''
+        required: false
+    - rac_one_node_service_name:
+        default: ''
+        required: false
+    - redo_log_destination:
+        default: ''
+        required: false
+    - variables_file:
+        default: ''
+        required: false
+    - listener_configuration:
+        default: ''
+        required: false
+    - dbca_password_sysman:
+        default: ''
+        required: false
+    - dbca_password_system:
+        default: ''
+        required: false
     - timeout:
-        default: '1200'
+        default: '3000'
         required: false
     - polling_interval:
         default: '30'
@@ -249,24 +423,40 @@ flow:
             - return_code
             - exception
         navigate:
-          - SUCCESS: create_resource_json
+          - SUCCESS: create_oracle_resource_json
           - FAILURE: FAILURE
 
-    - create_resource_json:
+    - create_oracle_resource_json:
         do:
           utils.create_resource_json:
-            - type_uuid: '2461f26d-e1cc-44ed-8443-9d8978ede341'
+            - type_uuid: '8475f05e-624c-42b7-a496-339a292c0c84'
             - deploy_sequence: '1'
             - base_resource_uuid_list: ${base_resource_uuid}
-            - base_resource_ci_type_list: 'node'
+            - base_resource_ci_type_list: 'host_node'
             - base_resource_type_uuid_list: ''
+            - deployment_parameter_name_list: >
+                ${'|'.join(['oracleBase', 'datafileLocation', 'cleanupOnFailure', 'cleanupOnSuccess',
+                'debugLevel', 'inventoryFiles', 'oracleAccount', 'cleanCodeBase', 'cleanJRE', 'archivelogON',
+                'aSMPassword', 'clusterNodes', 'dBCACharacterSet', 'dBCANationalCharacterSet',
+                'dBCAPasswordALL', 'dBCAPasswordDBSNMP', 'dBCAPasswordSYS', 'dBCAResponseFile', 'dBCATemplateFile',
+                'localListener', 'logArchiveDestination', 'logArchiveFormat', 'maximumDumpFileSize',
+                'netCAResponseFile', 'policyManaged', 'rACOneNode', 'rACOneNodeServiceName', 'redoLogDestinations',
+                'variablesFile', 'listenerConfiguration', 'dBCAPasswordSYSMAN', 'dBCAPasswordSYSTEM'])}
+            - deployment_parameter_value_list: >
+                ${'|'.join([oracle_base, datafile_location, cleanup_on_failure, cleanup_on_success,
+                debug_level, inventory_files, oracle_account, clean_code_base,
+                clean_jre, archive_log_on, asm_password, cluster_nodes, dbca_character_set,
+                dbca_national_character_set, dbca_password_all, dbca_password_dbsnmp, dbca_password_sys,
+                dbca_response_file, dbca_template_file, local_listener, log_archive_destination,
+                log_archive_format, maximum_dump_file_size, net_ca_response_file, policy_managed,
+                rac_one_node, rac_one_node_service_name, redo_log_destination, variables_file,
+                listener_configuration, dbca_password_sysman, dbca_password_system])}
             - delimiter: '|'
-            - deployment_parameter_name_list: ${delimiter.join(['credentialId', 'media_source', 'kickstart'])}
-            - deployment_parameter_value_list: ${delimiter.join([credential_id, media_source, kickstart_file])}
+            - osr_json
         publish:
-          - deployment_resources_json: ${format("[%s]" % return_result)}
           - exception
           - return_code
+          - deployment_resources_json: ${format('[%s]' % return_result)}
         navigate:
           - SUCCESS: deploy_template
           - FAILURE: FAILURE
@@ -281,7 +471,7 @@ flow:
             - refresh_token
             - deployment_name
             - deployment_description
-            - deployment_template_id: '4c0214f7-4d10-4d7c-b122-a43cffc3e71c'
+            - deployment_template_id: '46eef60c-748e-4d20-be30-0f02d1d76f53'
             - deployment_resources_json
             - async: 'false'
             - timeout
@@ -308,88 +498,14 @@ flow:
           - exception
           - status
         navigate:
-          - SUCCESS: get_resource_dns_name
+          - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
-    - get_resource_dns_name:
-            do:
-              resources.get_resource:
-                - dca_host
-                - dca_port
-                - protocol
-                - auth_token
-                - refresh_token
-                - resource_uuid: ${get('base_resource_uuid', '')}
-                - proxy_host
-                - proxy_port
-                - proxy_username
-                - proxy_password
-                - trust_all_roots
-                - x_509_hostname_verifier
-                - trust_keystore
-                - trust_password
-                - keystore
-                - keystore_password
-                - connect_timeout
-                - socket_timeout
-                - use_cookies
-                - keep_alive
-                - connections_max_per_route
-                - connections_max_total
-            publish:
-              - return_result
-              - return_code
-              - exception
-              - resource_name: ${name}
-              - dns_name
-            navigate:
-              - SUCCESS: get_user_and_password
-              - FAILURE: FAILURE
-
-    - get_user_and_password:
-            do:
-              credentials.get_credential_from_manager:
-                - cm_host: 'dca-credential-manager'
-                - cm_port: '5333'
-                - protocol: 'http'
-                - credential_uuid: ${get('credential_id', '')}
-                - proxy_host
-                - proxy_port
-                - proxy_username
-                - proxy_password
-                - trust_all_roots
-                - x_509_hostname_verifier
-                - trust_keystore
-                - trust_password
-                - keystore
-                - keystore_password
-                - connect_timeout
-                - socket_timeout
-                - use_cookies
-                - keep_alive
-                - connections_max_per_route
-                - connections_max_total
-            publish:
-              - return_result
-              - return_code
-              - exception
-              - username
-              - password
-            navigate:
-              - SUCCESS: SUCCESS
-              - FAILURE: FAILURE
 
   outputs:
     - return_result: ${get('return_result', '')}
     - return_code: ${get('return_code', '')}
     - exception: ${get('exception', '')}
     - status: ${get('status', '')}
-    - dns_name: ${get('dns_name', '')}
-    - resource_name: ${get('resource_name', '')}
-    - username: ${get('username', '')}
-    - password:
-        value: ${get('password', '')}
-        sensitive: true
 
   results:
     - FAILURE
