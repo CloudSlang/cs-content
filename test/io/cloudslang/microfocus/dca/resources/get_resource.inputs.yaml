@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 
-testBasicRunForDeployTemplate:
+testBasicRunForGetResource:
   testSuites: [dca-local]
   inputs:
     - dca_host: <dca_host>
@@ -21,13 +21,7 @@ testBasicRunForDeployTemplate:
     - protocol: <protocol>
     - auth_token: <auth_token>
     - refresh_token: <refresh_token>
-    - deployment_name: <deployment_name>
-    - deployment_description: <deployment_description>
-    - deployment_template_id: <deployment_template_id>
-    - deployment_resources_json: <deployment_resources_json>
-    - async: <async>
-    - timeout: <timeout>
-    - polling_interval: <polling_interval>
+    - resource_uuid: <resource_uuid>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -44,6 +38,6 @@ testBasicRunForDeployTemplate:
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-  description: Tests that deploy_template runs with SUCCESS
-  testFlowPath: io.cloudslang.dca.templates.deploy_template
+  description: Tests that get_resource runs with SUCCESS
+  testFlowPath: io.cloudslang.microfocus.dca.resources.get_resource
   result: SUCCESS

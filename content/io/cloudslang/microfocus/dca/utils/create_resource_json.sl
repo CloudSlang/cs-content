@@ -39,7 +39,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.dca.utils
+namespace: io.cloudslang.microfocus.dca.utils
 
 operation:
   name: create_resource_json
@@ -55,12 +55,14 @@ operation:
         default: ${get('deploy_sequence', '')}
         required: false
         private: true
-    - base_resource_uuid_list
+    - base_resource_uuid_list:
+        required: false
     - baseResourceUuidList:
         default: ${get('base_resource_uuid_list', '')}
         required: false
         private: true
-    - base_resource_ci_type_list
+    - base_resource_ci_type_list:
+        required: false
     - baseResourceCiTypeList:
         default: ${get('base_resource_ci_type_list', '')}
         required: false
@@ -87,8 +89,8 @@ operation:
         default: ','
         required: false
     
-  java_action: 
-    gav: 'io.cloudslang.content:cs-dca:1.0.1'
+  java_action:
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
     class_name: 'io.cloudslang.content.dca.actions.utils.CreateResourceJSON'
     method_name: 'execute'
   
