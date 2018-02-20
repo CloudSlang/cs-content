@@ -60,8 +60,8 @@
 #!                     Optional
 #! @input clean_jre: Missing information for input.
 #!                   Optional
-#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files—to clean up the installation
-#!                            directory—in the event of workflow failure.
+#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files to clean up the installation
+#!                            directory in the event of workflow failure.
 #!                            Default: 'false'
 #!                            Valid: 'true', 'false'
 #!                            Optional
@@ -69,8 +69,8 @@
 #!                           the software repository.
 #!                           Example: '/tmp'
 #!                           Optional
-#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files—to clean up the installation
-#!                            directory—in the event of workflow success.
+#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files to clean up the installation
+#!                            directory in the event of workflow success.
 #!                            Default: 'false'
 #!                            Valid: 'true', 'false'
 #!                            Optional
