@@ -1,4 +1,4 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -12,12 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_slack:
-  testSuites: [slack-local]
-  description: Post message to a channel
-  testFlowPath: io.cloudslang.slack.test_slack
+
+testSendSlackMessageToChannel:
   inputs:
     - token: '<token>'
     - channel: '<channelID>'
     - text: '<text>'
+  testSuites: [slack-local]
+  description: Post message to a channel
+  testFlowPath: io.cloudslang.slack.test_slack
   result: SUCCESS

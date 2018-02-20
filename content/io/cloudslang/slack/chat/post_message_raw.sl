@@ -1,4 +1,4 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method posts a message to a public channel, private channel, or direct message/IM channel.
-#!               More can be found at https://api.slack.com/methods/chat.postMessage.
+#! @description: This operation posts a message to a public channel, private channel, or direct message/IM channel.
+#!               More information can be found at https://api.slack.com/methods/chat.postMessage.
 #!
 #! @input token: Authentication token bearing required scopes. Can be bot, workspace or user based token.
 #! @input channel: Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
@@ -62,10 +62,11 @@
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result FAILURE: Failure occurred during execution.
 #! @result SUCCESS: Operation completed successfully.
+#! @result FAILURE: Failure occurred during execution.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.slack.chat
 
 imports:
@@ -73,6 +74,7 @@ imports:
 
 flow:
   name: post_message_raw
+
   inputs:
     - token:
         sensitive: true
@@ -88,14 +90,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -121,7 +126,7 @@ flow:
             - headers: "${'authorization: Bearer ' + token}"
             - attachments: "${attachments if attachments else '[]'}"
             - body: "${'{\"channel\": \"' + channel + '\",\"text\": \"' + text + '\",\"attachments\": ' + attachments + '}'}"
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
@@ -131,12 +136,14 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
     - response_headers
+
   results:
     - FAILURE
     - SUCCESS

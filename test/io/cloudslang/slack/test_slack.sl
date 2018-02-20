@@ -1,4 +1,4 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -22,12 +22,13 @@
 #! @input attachments: A JSON-based array of structured attachments, presented as a URL-encoded string.
 #!                     Optional
 #!
-#! @result SUCCESS: All commands completed successfully thus Vault interaction occured as:
+#! @result SUCCESS: All commands completed successfully thus Vault interaction occurred as:
 #!                  seal status received, vault got unsealed, secrets list was retrieved,
 #!                  particular secret was updated and read, vault was finally sealed.
 #! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.slack
 
 imports:
