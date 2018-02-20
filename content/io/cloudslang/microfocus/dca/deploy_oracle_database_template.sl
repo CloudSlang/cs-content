@@ -429,7 +429,7 @@ flow:
     - create_oracle_resource_json:
         do:
           utils.create_resource_json:
-            - type_uuid: '8475f05e-624c-42b7-a496-339a292c0c84'
+            - type_uuid: '28ee3f10-361e-40fa-a222-d8fc3d59a4da'
             - deploy_sequence: '1'
             - base_resource_uuid_list: ${base_resource_uuid}
             - base_resource_ci_type_list: 'host_node'
@@ -471,7 +471,7 @@ flow:
             - refresh_token
             - deployment_name
             - deployment_description
-            - deployment_template_id: '46eef60c-748e-4d20-be30-0f02d1d76f53'
+            - deployment_template_id: '2b1cf11b-c8c2-4d43-97a5-a96aa810ac05'
             - deployment_resources_json
             - async: 'false'
             - timeout
