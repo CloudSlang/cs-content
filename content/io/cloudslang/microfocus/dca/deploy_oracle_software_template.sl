@@ -38,9 +38,16 @@
 #! @input deployment_description: A description of the deployment.
 #!                                Optional
 #! @input base_resource_uuid: The UUID of the provisioned RHEL 7 resource.
+#! @input install_prerequisites: Whether to run a script to install prerequisites for Oracle Software.
+#!                               Default: 'true'
+#!                               Valid: 'true', 'false'
+#!                               Optional
 #! @input base_resource_dns_name: The dns name of the provisioned RHEL 7 resource.
+#!                                Optional
 #! @input base_resource_username: The username of the credential associated with the RHEL 7 resource.
+#!                                Optional
 #! @input base_resource_password: The password of the credential associated with the RHEL 7 resource.
+#!                                Optional
 #! @input subscription_username: The username of the RHEL 7 subscription to register with.
 #!                               Optional
 #! @input subscription_password: The password of the RHEL 7 subscription to register with.
@@ -60,8 +67,8 @@
 #!                     Optional
 #! @input clean_jre: Missing information for input.
 #!                   Optional
-#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files—to clean up the installation
-#!                            directory—in the event of workflow failure.
+#! @input cleanup_on_failure: Indicates whether to remove downloaded and extracted files to clean up the installation
+#!                            directory in the event of workflow failure.
 #!                            Default: 'false'
 #!                            Valid: 'true', 'false'
 #!                            Optional
@@ -69,8 +76,8 @@
 #!                           the software repository.
 #!                           Example: '/tmp'
 #!                           Optional
-#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files—to clean up the installation
-#!                            directory—in the event of workflow success.
+#! @input cleanup_on_success: Indicates whether to remove downloaded and extracted files to clean up the installation
+#!                            directory in the event of workflow success.
 #!                            Default: 'false'
 #!                            Valid: 'true', 'false'
 #!                            Optional
@@ -211,6 +218,7 @@ imports:
   utils: io.cloudslang.microfocus.dca.utils
   auth: io.cloudslang.microfocus.dca.authentication
   ssh: io.cloudslang.base.ssh
+  base_utils: io.cloudslang.base.utils
 
 flow:
   name: deploy_oracle_software_template
@@ -240,9 +248,14 @@ flow:
         default: ''
         required: false
     - base_resource_uuid
-    - base_resource_dns_name
-    - base_resource_username
-    - base_resource_password
+    - install_prerequisites:
+        default: 'true'
+    - base_resource_dns_name:
+        required: false
+    - base_resource_username:
+        required: false
+    - base_resource_password:
+        required: false
     - subscription_username:
         required: false
     - subscription_password:
@@ -368,6 +381,14 @@ flow:
         required: false
 
   workflow:
+    - check_if_running_prerequisites:
+        do:
+          base_utils.is_true:
+            - bool_value: ${install_prerequisites}
+        navigate:
+          - 'TRUE': oracle_prerequisites_with_ssh
+          - 'FALSE': get_authentication_token
+
     - oracle_prerequisites_with_ssh:
         do:
           ssh.ssh_command:
