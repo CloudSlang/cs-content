@@ -13,10 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Appends text to string.
+#! @description: Calculates a given string length.
 #!
-#! @input origin_string: Optional - String.
+#! @input origin_string: String.
 #!                       Example: "good"
+#!                       Default: ''
+#!                       Optional
 #!
 #! @output length: Length of string.
 #!
@@ -30,7 +32,9 @@ operation:
   name: length
 
   inputs:
-    - origin_string
+    - origin_string:
+       default: ''
+       required: false
 
   python_action:
     script: |

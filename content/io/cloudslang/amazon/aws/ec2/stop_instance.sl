@@ -168,4 +168,3 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-

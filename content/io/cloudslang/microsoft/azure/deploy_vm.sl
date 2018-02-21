@@ -24,9 +24,16 @@
 #!                         Default: 'https://sts.windows.net/common'
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
+#! @input vm_name: The name of the virtual machine to be deployed. Virtual machine name cannot contain non-ASCII or special
+#!                 characters.
+#!                 Default: ''
+#!                 Optional
 #! @input vm_name_prefix: The name of the virtual machine to be deployed. The flow appends to this name a 5 digits unique
 #!                        identifier in order to avoid duplicate names.
 #!                        Virtual machine name cannot contain non-ASCII or special characters.
+#!                        If the "vm_name" input is set, this input will be ignored.
+#!                        Default: ''
+#!                        Optional
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #!                 Default: 'Standard_DS1_v2'
@@ -95,13 +102,13 @@
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
-#! @output vm_name: The final virtual machine name composed of vm_name_prefix and the 5 digits unique identifier.
+#! @output vm_final_name: The final virtual machine name.
 #! @output status_code: Equals 200 if the request completed successfully and other status codes in case an error occurred
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #!
 #! @result SUCCESS: The flow completed successfully.
-#! @result FAILURE: Something went wrong
+#! @result FAILURE: Something went wrong.
 #!!#
 ########################################################################################################################
 
@@ -132,7 +139,12 @@ flow:
         default: 'https://sts.windows.net/common'
         required: false
     - location
-    - vm_name_prefix
+    - vm_name:
+        default: ''
+        required: false
+    - vm_name_prefix:
+        default: ''
+        required: false
     - vm_size
     - offer
     - sku
@@ -196,7 +208,7 @@ flow:
     - create_public_ip:
         do:
           ip.create_public_ip_address:
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - location
             - subscription_id
             - resource_group_name
@@ -223,7 +235,7 @@ flow:
     - create_network_interface:
         do:
           nic.create_nic:
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - nic_name: ${vm_name + '-nic'}
             - location
             - subscription_id
@@ -287,7 +299,7 @@ flow:
           vm.create_windows_vm:
             - subscription_id
             - resource_group_name
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - nic_name: ${vm_name + '-nic'}
             - location
             - vm_username
@@ -326,7 +338,7 @@ flow:
             - sku
             - offer
             - resource_group_name
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - nic_name: ${vm_name + '-nic'}
             - location
             - vm_username
@@ -353,7 +365,7 @@ flow:
           vm.get_vm_details:
             - subscription_id
             - resource_group_name
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - auth_token
             - connect_timeout
             - socket_timeout: '0'
@@ -493,7 +505,7 @@ flow:
             - location
             - resource_group_name
             - auth_token
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - storage_account
             - disk_name: ${vm_name}
             - disk_size
@@ -538,7 +550,7 @@ flow:
             - subscription_id
             - resource_group_name
             - location
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - auth_token
             - tag_name
             - tag_value
@@ -562,7 +574,7 @@ flow:
     - delete_public_ip_address:
         do:
           ip.delete_public_ip_address:
-            - vm_name
+            - vm_name: ${vm_tmp_name}
             - location
             - subscription_id
             - resource_group_name
@@ -587,11 +599,11 @@ flow:
     - delete_nic:
         do:
           nic.delete_nic:
-            - nic_name: ${vm_name + '-nic'}
+            - nic_name: ${vm_tmp_name + '-nic'}
             - location
             - subscription_id
             - resource_group_name
-            - public_ip_address_name: ${vm_name + '-ip'}
+            - public_ip_address_name: ${vm_tmp_name + '-ip'}
             - auth_token
             - connect_timeout
             - socket_timeout: '0'
@@ -631,7 +643,7 @@ flow:
         publish:
           - random_number: ${random_number}
         navigate:
-          - SUCCESS: append
+          - SUCCESS: append_vm_prefix
           - FAILURE: random_number_generator
 
     - get_vm_details_1:
@@ -640,7 +652,7 @@ flow:
             - subscription_id: ${subscription_id}
             - resource_group_name: ${resource_group_name}
             - auth_token: ${auth_token}
-            - vm_name: ${vm_name}
+            - vm_name: ${vm_tmp_name}
             - connect_timeout: ${connect_timeout}
             - proxy_username: ${proxy_username}
             - proxy_password: ${proxy_password}
@@ -653,16 +665,17 @@ flow:
         publish:
           - vm_details: ${output}
         navigate:
-          - SUCCESS: remove
+          - SUCCESS: remove_vm_prefix
           - FAILURE: string_occurrence_counter
 
-    - append:
+    - append_vm_prefix:
         do:
           strings.append:
+            - vm_name
             - origin_string: ${vm_name_prefix}
             - text: ${random_number}
         publish:
-          - vm_name: ${new_string}
+          - vm_tmp_name: ${new_string if vm_name == '' else vm_name }
         navigate:
           - SUCCESS: get_vm_details_1
 
@@ -676,20 +689,53 @@ flow:
           - SUCCESS: create_public_ip
           - FAILURE: FAILURE
 
-    - remove:
+    - remove_vm_prefix:
         do:
           strings.remove:
-            - origin_string: ${vm_name}
+            - vm_name
+            - origin_string: ${vm_tmp_name}
             - text: ${random_number}
         publish:
-          - vm_name: ${new_string}
+          - vm_tmp_name: ${new_string if vm_name == '' else vm_name }
         navigate:
-          - SUCCESS: random_number_generator
+          - SUCCESS: check_if_vm_name_alerady_exists
+
+    - check_if_vm_name_alerady_exists:
+        do:
+          json.json_path_query:
+            - json_object: ${vm_details}
+            - json_path: '$.name'
+        publish:
+          - vm_to_check: ${return_result}
+        navigate:
+          - SUCCESS: check_if_same_name
+          - FAILURE: random_number_generator
+
+    - check_if_same_name:
+        do:
+          strings.string_equals:
+            - string_in_which_to_search: ${vm_to_check}
+            - string_to_find: ${vm_tmp_name}
+            - ignore_case: 'true'
+        publish: []
+        navigate:
+          - SUCCESS: same_name_error_msg
+          - FAILURE: same_name_error_msg
+
+    - same_name_error_msg:
+        do:
+          strings.append:
+            - origin_string: ${'A virtual machine with the name "' + vm_tmp_name + '" already exists.'}
+            - text: ''
+        publish:
+          - error_message: ${new_string}
+        navigate:
+          - SUCCESS: FAILURE
 
   outputs:
     - output
     - ip_address
-    - vm_name: ${vm_name}
+    - vm_final_name: ${vm_tmp_name}
     - status_code
     - return_code
     - error_message: ${error_message}

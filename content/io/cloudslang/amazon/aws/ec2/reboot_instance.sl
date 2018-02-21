@@ -178,4 +178,3 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-

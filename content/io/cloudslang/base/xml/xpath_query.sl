@@ -19,33 +19,34 @@
 #! @input xml_document_source: xml document type
 #!                             Default value: 'xmlString'
 #!                             Accepted values: 'xmlString', 'xmlPath'
-#! @input xpath_query: xpath query
+#!                             Optional
+#! @input xpath_query: Xpath query.
 #!                     Example: '/root/child/'
-#! @input query_type: type of selection result from query
-#!                    attribute value; leave empty if setting the value of
-#!                    valid: 'node', 'nodelist' or 'value'
-#!                    optional
-#!                    default: 'nodelist'
-#! @input delimiter: string to use as delimiter in case query_type is nodelist
-#!                   optional
-#!                   default: ','
-#! @input secure_processing: Optional -  sets the secure processing feature
+#! @input query_type: Type of selection result from query attribute value.
+#!                    Valid: 'node', 'nodelist' or 'value'
+#!                    Default: 'nodelist'
+#!                    Optional
+#! @input delimiter: string to use as delimiter in case query_type is nodelist.
+#!                   Default: ','
+#!                   Optional
+#! @input secure_processing: Sets the secure processing feature
 #!                           "http://javax.xml.XMLConstants/feature/secure-processing" to be true or false when parsing
 #!                           the xml document or string. (true instructs the implementation to process XML securely.
 #!                           This may set limits on XML constructs to avoid conditions such as denial of service attacks)
-#!                           and (false instructs the implementation to process XML in accordance with the XML specifications
-#!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
-#!                           denial of service attacks)
-#!                           Default value: 'true'
-#!                           Accepted values: 'true' or 'false'
+#!                           and (false instructs the implementation to process XML in accordance with the XML
+#!                           specifications ignoring security issues such as limits on XML constructs to avoid
+#!                           conditions such as denial of service attacks)
+#!                           Accepted: 'true' or 'false'
+#!                           Default: 'true'
+#!                           Optional
 #!
-#! @output selected_value: value selected, no match found or empty if an error occurs
-#! @output return_result: xpath queried successfully or empty otherwise
+#! @output selected_value: Value selected, no match found or empty if an error occurs.
+#! @output return_result: Xpath queried successfully or empty otherwise.
 #! @output return_code: 0 if success, -1 if failure
-#! @output error_message: An exception in case of failure
+#! @output error_message: An exception in case of failure.
 #!
-#! @result SUCCESS: if return_code = 0
-#! @result FAILURE: otherwise
+#! @result SUCCESS: The operation completed successfully.
+#! @result FAILURE: An error occurred while trying to select from an XML document.
 #!!#
 ########################################################################################################################
 
@@ -85,7 +86,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.XpathQuery
     method_name: execute
 
