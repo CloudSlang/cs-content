@@ -68,6 +68,7 @@
 #! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected and status_code was not 204.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.secrets
 
 imports:
@@ -78,13 +79,13 @@ flow:
   name: write_secret
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
+    - secret
     - x_vault_token:
         sensitive: true
-    - secret
     - secret_value:
         sensitive: true
     - proxy_host:
@@ -111,10 +112,12 @@ flow:
         required: false
 
   workflow:
-    - interrogate_vault_to_write:
+    - create_vault_secret:
         do:
           http.http_client_post:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - body: "${'{\"value\":\"' + secret_value + '\"}'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -125,8 +128,6 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - body: "${'{\"value\":\"' + secret_value + '\"}'}"
         publish:
           - return_result
           - error_message

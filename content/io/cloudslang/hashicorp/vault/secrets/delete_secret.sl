@@ -62,10 +62,11 @@
 #! @output status_code: Status code of the HTTP call. '204' if the key has been deleted.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: Everything completed successfully and the available secret have been deleted from Vault.
+#! @result SUCCESS: Everything completed successfully and the available secrets have been deleted from Vault.
 #! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.secrets
 
 imports:
@@ -91,14 +92,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -107,10 +111,11 @@ flow:
         required: false
 
   workflow:
-    - interrogate_vault_server:
+    - delete_vault_secret:
         do:
           http.http_client_delete:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -121,8 +126,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - return_code
