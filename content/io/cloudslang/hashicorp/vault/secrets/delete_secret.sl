@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a '/v1/sys/unseal' PUT call against a Vault Server.
+#! @description: Executes a '/v1/secret/${secret}' DELETE call against a Vault Server to remove the provided secret.
 #!
 #! @input hostname: Vault's FQDN.
 #! @input port: Vault's Port.
@@ -21,11 +21,7 @@
 #!                  Default: 'https'
 #!                  Possible values: 'https' and 'http'.
 #! @input x_vault_token: Vault's X-VAULT-Token.
-#! @input key: A single master share key needed to unseal Vault.
-#!             Optional
-#! @input reset: True or False reset value. If true, the previously-provided unseal
-#!               keys are discarded from memory and the unseal process is reset.
-#!               Optional
+#! @input secret: The Secret to be retrieved from the vault server
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -60,44 +56,34 @@
 #!                        Default: '0' (infinite)
 #!                        Optional
 #!
-#! @output sealed: Boolean. The sealed status of the Vault server.
-#! @output progress: The progress number of the Vault server.
-#!                   Example: a value of '1' means that unseal process started and one unseal key was provided.
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
-#! @output error_message: return_result if status_code is not contained in interval between '200' and '299'.
+#! @output error_message: return_result if status_code different than '204'.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output status_code: Status code of the HTTP call.
+#! @output status_code: Status code of the HTTP call. '204' if the key has been deleted.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result SUCCESS: Vault server was accessible and command was triggered property.
-#!                  If sealed is false, the Vault server was unsealed.
-#!                  If process is '0' the unseal process did not actually start.
-#! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
+#! @result SUCCESS: Everything completed successfully and the available secrets have been deleted from Vault.
+#! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.vault.seal_unseal
+namespace: io.cloudslang.hashicorp.vault.secrets
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-  vault: io.cloudslang.hashicorp.vault
 
 flow:
-  name: unseal_vault
+  name: delete_secret
 
   inputs:
-    - protocol:
-        default: 'https'
     - hostname
     - port
+    - protocol:
+        default: 'https'
     - x_vault_token:
         sensitive: true
-    - key:
-        required: false
-        sensitive: true
-    - reset:
-        required: false
+    - secret
     - proxy_host:
         required: false
     - proxy_port:
@@ -125,25 +111,11 @@ flow:
         required: false
 
   workflow:
-    - compute_unseal_body:
+    - delete_vault_secret:
         do:
-          vault.utils.compute_unseal_body:
-            - unseal_key: '${key}'
-            - unseal_reset: '${reset}'
-        publish:
-          - json_body: '${return_result}'
-          - return_code
-          - error_message
-        navigate:
-          - SUCCESS: interogate_vault_to_unseal
-          - FAILURE: on_failure
-
-    - interogate_vault_to_unseal:
-        do:
-          http.http_client_put:
-            - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/unseal'}"
+          http.http_client_delete:
+            - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
             - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - body: '${json_body}'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -157,39 +129,15 @@ flow:
             - content_type: 'application/json'
         publish:
           - return_result
-          - error_message
           - return_code
+          - error_message
           - status_code
           - response_headers
-        navigate:
-          - SUCCESS: get_sealed_status
-          - FAILURE: on_failure
-
-    - get_sealed_status:
-        do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .sealed
-        publish:
-          - sealed: "${''.join( c for c in return_result if  c not in '\"[]' )}"
-        navigate:
-          - SUCCESS: get_progress
-          - FAILURE: on_failure
-
-    - get_progress:
-        do:
-          json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: .progress
-        publish:
-          - progress: "${''.join( c for c in return_result if  c not in '\"[]' )}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
 
   outputs:
-    - sealed
-    - progress
     - return_result
     - return_code
     - status_code
