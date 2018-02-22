@@ -471,7 +471,7 @@ flow:
             - refresh_token
             - deployment_name
             - deployment_description
-            - deployment_template_id: '2b1cf11b-c8c2-4d43-97a5-a96aa810ac05'
+            - deployment_template_id: '46eef60c-748e-4d20-be30-0f02d1d76f53'
             - deployment_resources_json
             - async: 'false'
             - timeout
