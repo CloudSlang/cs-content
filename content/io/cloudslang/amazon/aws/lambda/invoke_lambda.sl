@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation launches one new AWS Cloud Formation stack
+#! @description: This operation launches invokes and AWS Lambda Function
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
@@ -28,8 +28,12 @@
 #!                        Optional
 #! @input region: AWS region where the stack will be created
 #!                        Optional
-#! @input stack_name: AWS stack name to be created
-#! @input template_body: AWS template body to be created
+#! @input function: Name of the Lambda function
+#! @input function_payload: JSON payload to be sent to the lambda function
+#!                        Optional
+#! @input qualifier: Lambda function version
+#!                    Default: '$LATEST'
+#!                        Optional
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
