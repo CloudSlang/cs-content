@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation deletes AWS Cloud Formation stack
+#! @description: This operation deletes an AWS Cloud Formation stack
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
@@ -26,9 +26,9 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be created
-#!                        Optional
-#! @input stack_name: AWS stack name to be created
+#! @input region: AWS region where the stack will be delete
+#!                Optional
+#! @input stack_name: AWS stack name to be deleted
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -70,11 +70,11 @@ operation:
     - proxyPassword:
         default: ${get("proxy_password", "")}
         required: false
-        private: true				
+        sensitive: true
+        private: true
     - region:
             required: false
-    - stack_name:
-            required: true
+    - stack_name
     - stackName:
         default: ${get("stack_name", "")}
         required: false

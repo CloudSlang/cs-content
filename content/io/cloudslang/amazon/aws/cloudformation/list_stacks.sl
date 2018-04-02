@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all AWS Cloud Formation stacks
+#! @description: This operation lists all deployed AWS Cloud Formation stacks
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
@@ -26,8 +26,8 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be created
-#!                        Optional
+#! @input region: AWS region from where the stacks should be listed
+#!                Optional
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
