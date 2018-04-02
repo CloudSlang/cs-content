@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation launches invokes and AWS Lambda Function
+#! @description: This operation  invokes an AWS Lambda Function
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
@@ -27,15 +27,15 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input region: AWS region where the stack will be created
-#!                        Optional
+#!                Optional
 #! @input function: Name of the Lambda function
 #! @input function_payload: JSON payload to be sent to the lambda function
-#!                        Optional
+#!                          Optional
 #! @input qualifier: Lambda function version
-#!                    Default: '$LATEST'
-#!                        Optional
+#!                   Default: '$LATEST'
+#!                   Optional
 #!
-#! @output return_result: Contains the instance details in case of success, error message otherwise.
+#! @output return_result: Contains the AWS Lambda function execution result details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -77,11 +77,10 @@ operation:
     - proxyPassword:
         default: ${get("proxy_password", "")}
         required: false
+        sensitive: true
         private: true
-    - region:
-        required: false
-    - function:
-        required: true
+    - region
+    - function
     - qualifier:
         required: false
     - function_payload:
