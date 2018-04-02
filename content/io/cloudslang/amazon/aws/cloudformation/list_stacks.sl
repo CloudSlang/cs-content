@@ -69,6 +69,7 @@ operation:
     - proxyPassword:
         default: ${get("proxy_password", "")}
         required: false
+        sensitive: true
         private: true				
     - region:
         required: false
