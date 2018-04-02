@@ -26,6 +26,10 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
+#! @input connect_timeout: The amount of time (in milliseconds) that the HTTP connection will wait to establish a connection before giving up.
+#!                         Optional
+#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an API call.
+#!                           Optional
 #! @input region: AWS region where the stack will be created
 #!                Optional
 #! @input function: Name of the Lambda function
@@ -78,6 +82,18 @@ operation:
         default: ${get("proxy_password", "")}
         required: false
         sensitive: true
+        private: true
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get("connect_timeout", "")}
+        required: false
+        private: true
+    - execution_timeout:
+        required: false
+    - executionTimeout:
+        default: ${get("execution_timeout", "")}
+        required: false
         private: true
     - region
     - function
