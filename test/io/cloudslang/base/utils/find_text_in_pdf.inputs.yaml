@@ -28,9 +28,9 @@ testFindTextInPdfIgnoreCaseSuccess:
   description: Tests that find_text_in_pdf.sl operation finishes with SUCCESS using ignore_case input
   testFlowPath: io.cloudslang.base.utils.find_text_in_pdf
   inputs:
-    - text: 'file'
+    - text: <text>
     - ignore_case: 'true'
-    - path_to_file: 'C:\Users\marisca\Desktop\dummy.pdf'
+    - path_to_file: <path_to_file>
   outputs:
     - return_code: '0'
   result: SUCCESS
