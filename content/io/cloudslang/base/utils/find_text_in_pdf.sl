@@ -15,17 +15,17 @@
 #!!
 #! @description: This operation checks if a text input is found in a PDF file.
 #!
-#! @input text: The initial string.
+#! @input text: The value of the string to find in the PDF file.
 #! @input ignore_case: A variable used to check if the comparison should ignore the case of the letters.
 #!                     Valid values: 'true', 'false'
 #!                     Default: 'false'
 #!                     Optional
 #! @input path_to_file: The default value used to replace the initial string.
-#! @input password: Password used to decrypt the PDF file.
+#! @input password: Password used to decrypt the PDF file, in case it is protected.
 #!                  Optional
 #!
-#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
 #! @output return_result: The number of occurrences of the text in the PDF file.
+#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result
 #!                    contains the java stack trace of the runtime exception.
 #!
@@ -63,9 +63,9 @@ operation:
     method_name: 'execute'
 
   outputs:
-    - return_code: ${returnCode}
-    - return_result: ${returnResult}
-    - exception: ${exception}
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
