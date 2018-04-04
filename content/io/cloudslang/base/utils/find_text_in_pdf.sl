@@ -16,11 +16,11 @@
 #! @description: This operation checks if a text input is found in a PDF file.
 #!
 #! @input text: The value of the string to find in the PDF file.
-#! @input ignore_case: A variable used to check if the comparison should ignore the case of the letters.
+#! @input ignore_case: Whether to ignore if characters of the text are lowercase or uppercase.
 #!                     Valid values: 'true', 'false'
 #!                     Default: 'false'
 #!                     Optional
-#! @input path_to_file: The default value used to replace the initial string.
+#! @input path_to_file: The full path to the PDF file.
 #! @input password: Password used to decrypt the PDF file, in case it is protected.
 #!                  Optional
 #!
