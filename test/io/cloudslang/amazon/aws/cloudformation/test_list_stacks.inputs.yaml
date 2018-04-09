@@ -1,0 +1,18 @@
+testAmazonCloudFormationCreateStackLocal:
+  testSuites: [amazon]
+  description: "Test that successfully lists AWS Cloud Formation stacks"
+  testFlowPath: io.cloudslang.amazon.aws.cloudformation.list_stacks
+  inputs:
+    - identity:   <identity>
+    - credential: <credential>
+    - region: <aws region>
+    # AWS cloud formation region as described here:
+    # https://docs.aws.amazon.com/general/latest/gr/rande.html#cfn_region
+    - proxy_host: <proxy fqdn or ip>
+    - proxy_port: <proxy port>
+    - proxy_username: <proxy username>
+    - proxy_password: <proxy password>
+  outputs:
+    - expected_return_code: "0"
+    - expected_return_result: "Stack :"
+  result: SUCCESS
