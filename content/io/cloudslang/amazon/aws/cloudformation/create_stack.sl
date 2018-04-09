@@ -39,7 +39,6 @@
 #! @result FAILURE: There was an error while trying to deploy the instance.
 #!!#
 ########################################################################################################################
-
 namespace: io.cloudslang.amazon.aws.cloudformation
 
 operation:
