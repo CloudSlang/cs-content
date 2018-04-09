@@ -79,8 +79,7 @@ operation:
     - stackName:
         default: ${get("stack_name", "")}
         private: true
-    - template_body:
-        required: true
+    - template_body
     - templateBody:
         default: ${get("template_body", "")}
         private: true
