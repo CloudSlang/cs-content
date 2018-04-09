@@ -26,10 +26,10 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be created
+#! @input region: AWS region where the stack will be created.
 #!                Optional
-#! @input stack_name: AWS stack name to be created
-#! @input template_body: AWS template body to be created
+#! @input stack_name: AWS stack name to be created.
+#! @input template_body: AWS template body.
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -88,13 +88,13 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.CreateStackAction
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
+    - return_result: ${get("returnResult", "")}
+    - return_code: get("returnCode", "")
     - exception: ${get("exception", "")}
  
   results:

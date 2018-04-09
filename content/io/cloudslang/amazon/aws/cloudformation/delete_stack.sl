@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation deletes an AWS Cloud Formation stack
+#! @description: This operation deletes an AWS Cloud Formation stack.
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
@@ -26,9 +26,9 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be delete
+#! @input region: AWS region where the stack will be delete.
 #!                Optional
-#! @input stack_name: AWS stack name to be deleted
+#! @input stack_name: AWS stack name to be deleted.
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -81,13 +81,13 @@ operation:
         private: true		
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.DeleteStackAction
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
+    - return_result: ${get("returnResult", "")}
+    - return_code: get("returnCode", "")
     - exception: ${get("exception", "")}
  
   results:
