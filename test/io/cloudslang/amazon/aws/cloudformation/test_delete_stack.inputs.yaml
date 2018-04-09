@@ -1,4 +1,4 @@
-testAmazonCloudFormationCreateStackLocal:
+testAmazonCloudFormationDeleteStackLocal:
   testSuites: [amazon]
   description: "Test that successfully deletes an AWS Cloud Formation stack"
   testFlowPath: io.cloudslang.amazon.aws.cloudformation.delete_stack

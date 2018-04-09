@@ -1,4 +1,4 @@
-testAmazonCloudFormationCreateStackLocal:
+testAmazonCloudFormationListStacksLocal:
   testSuites: [amazon]
   description: "Test that successfully lists AWS Cloud Formation stacks"
   testFlowPath: io.cloudslang.amazon.aws.cloudformation.list_stacks
