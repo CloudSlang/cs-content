@@ -1,4 +1,4 @@
-namespace: io.cloudslang.amazon.aws.cloudformation
+namespace: io.cloudslang.amazon.aws.lambda
 
 imports:
     lambda: io.cloudslang.amazon.aws.lambda
