@@ -71,8 +71,7 @@ operation:
         required: false
         sensitive: true
         private: true
-    - region:
-            required: false
+    - region
     - stack_name
     - stackName:
         default: ${get("stack_name", "")}

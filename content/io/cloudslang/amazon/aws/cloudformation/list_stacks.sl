@@ -70,8 +70,7 @@ operation:
         required: false
         sensitive: true
         private: true				
-    - region:
-        required: false
+    - region
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.15'
