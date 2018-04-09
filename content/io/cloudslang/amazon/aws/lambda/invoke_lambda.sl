@@ -107,13 +107,13 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
     class_name: io.cloudslang.content.amazon.actions.lambda.InvokeLambdaAction
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
+    - return_result: ${get("returnResult", "")}
+    - return_code: ${get("returnCode", "")}
     - exception: ${get("exception", "")}
 
   results:
