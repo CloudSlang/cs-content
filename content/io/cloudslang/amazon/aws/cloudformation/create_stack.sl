@@ -27,7 +27,6 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input region: AWS region where the stack will be created.
-#!                Optional
 #! @input stack_name: AWS stack name to be created.
 #! @input template_body: AWS template body.
 #!

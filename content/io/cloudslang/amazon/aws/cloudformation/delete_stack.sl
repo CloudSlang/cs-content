@@ -27,7 +27,6 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input region: AWS region where the stack will be delete.
-#!                Optional
 #! @input stack_name: AWS stack name to be deleted.
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.

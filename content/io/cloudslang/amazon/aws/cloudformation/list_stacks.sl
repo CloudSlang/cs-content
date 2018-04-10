@@ -27,8 +27,6 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input region: AWS region from where the stacks should be listed
-#!                Optional
-#!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
