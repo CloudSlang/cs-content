@@ -19,6 +19,12 @@
 #! @input credential: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
+#! @input connect_timeout: Connect timeout in milliseconds
+#!                    Default: '10000'
+#!                    Optional
+#! @input execution_timeout: Execution timeout in milliseconds
+#!                    Default: '600000'
+#!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #!                    Optional
@@ -46,6 +52,27 @@ operation:
     - identity
     - credential:
         sensitive: true
+    - region
+    - stack_name
+    - stackName:
+        default: ${get("stack_name", "")}
+        private: true
+    - template_body
+    - templateBody:
+        default: ${get("template_body", "")}
+        private: true
+    - connect_timeout:
+        required: false
+        default: "10000"
+    - connectTimeout:
+        default: ${get("connect_timeout", "")}
+        private: true
+    - execution_timeout:
+        required: false
+        default: "600000"
+    - executionTimeout:
+        default: ${get("execution_timeout", "")}
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -64,7 +91,7 @@ operation:
     - proxyUsername:
         default: ${get("proxy_username", "")}
         required: false
-        private: true		
+        private: true
     - proxy_password:
         required: false
         sensitive: true
@@ -72,15 +99,6 @@ operation:
         default: ${get("proxy_password", "")}
         required: false
         sensitive: true
-        private: true
-    - region
-    - stack_name
-    - stackName:
-        default: ${get("stack_name", "")}
-        private: true
-    - template_body
-    - templateBody:
-        default: ${get("template_body", "")}
         private: true
 
   java_action:

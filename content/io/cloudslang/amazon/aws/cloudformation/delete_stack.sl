@@ -17,6 +17,14 @@
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
+#! @input region: AWS region where the stack will be delete.
+#! @input stack_name: AWS stack name to be deleted.
+#! @input connect_timeout: Connect timeout in milliseconds
+#!                    Default: '10000'
+#!                    Optional
+#! @input execution_timeout: Execution timeout in milliseconds
+#!                    Default: '600000'
+#!                    Optional
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -26,8 +34,6 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be delete.
-#! @input stack_name: AWS stack name to be deleted.
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -45,6 +51,24 @@ operation:
     - identity
     - credential:
         sensitive: true
+    - region
+    - stack_name
+    - stackName:
+        default: ${get("stack_name", "")}
+        required: false
+        private: true
+    - connect_timeout:
+        required: false
+        default: "10000"
+    - connectTimeout:
+        default: ${get("connect_timeout", "")}
+        private: true
+    - execution_timeout:
+        required: false
+        default: "600000"
+    - executionTimeout:
+        default: ${get("execution_timeout", "")}
+        private: true
     - proxyHost:
         default: ${get("proxy_host", "")}
         required: false
@@ -70,12 +94,6 @@ operation:
         required: false
         sensitive: true
         private: true
-    - region
-    - stack_name
-    - stackName:
-        default: ${get("stack_name", "")}
-        required: false
-        private: true		
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.15'
