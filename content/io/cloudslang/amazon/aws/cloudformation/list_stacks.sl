@@ -62,6 +62,8 @@ operation:
     - executionTimeout:
         default: ${get("execution_timeout", "")}
         private: true
+    - proxy_host:
+        required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
         required: false
