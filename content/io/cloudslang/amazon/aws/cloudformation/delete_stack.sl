@@ -17,12 +17,12 @@
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
-#! @input region: AWS region where the stack will be delete.
+#! @input region: AWS region where the stack will be deleted.
 #! @input stack_name: AWS stack name to be deleted.
-#! @input connect_timeout: Connect timeout in milliseconds
+#! @input connect_timeout: Connect timeout in milliseconds.
 #!                    Default: '10000'
 #!                    Optional
-#! @input execution_timeout: Execution timeout in milliseconds
+#! @input execution_timeout: Execution timeout in milliseconds.
 #!                    Default: '600000'
 #!                    Optional
 #! @input proxy_host: Proxy server used to access the provider services.
@@ -94,8 +94,8 @@ operation:
     - proxyPassword:
         default: ${get("proxy_password", "")}
         required: false
-        sensitive: true
         private: true
+        sensitive: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.15'

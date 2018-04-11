@@ -13,15 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all deployed AWS Cloud Formation stacks
+#! @description: This operation lists all deployed AWS Cloud Formation stacks.
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
-#! @input region: AWS region from where the stacks should be listed
-#! @input connect_timeout: Connect timeout in milliseconds
+#! @input region: AWS region from where the stacks should be listed.
+#! @input connect_timeout: Connect timeout in milliseconds.
 #!                    Default: '10000'
 #!                    Optional
-#! @input execution_timeout: Execution timeout in milliseconds
+#! @input execution_timeout: Execution timeout in milliseconds.
 #!                    Default: '600000'
 #!                    Optional
 #! @input proxy_host: Proxy server used to access the provider services.
@@ -87,8 +87,8 @@ operation:
     - proxyPassword:
         default: ${get("proxy_password", "")}
         required: false
+        private: true
         sensitive: true
-        private: true				
     - region
 
   java_action:
