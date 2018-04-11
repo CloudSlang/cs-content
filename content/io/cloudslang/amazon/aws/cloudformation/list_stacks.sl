@@ -80,7 +80,7 @@ operation:
     - proxyUsername:
         default: ${get("proxy_username", "")}
         required: false
-        private: true		
+        private: true
     - proxy_password:
         required: false
         sensitive: true
