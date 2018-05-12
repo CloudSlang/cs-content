@@ -17,12 +17,13 @@
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
-#!                 Valid: 'Oracle', 'MSSQL', 'Sybase', 'Netcool', 'DB2', 'PostgreSQL' and 'Custom'.
+#!                 Valid: 'Oracle', 'MSSQL', 'Sybase', 'Netcool', 'DB2', 'PostgreSQL', 'Vertica' and 'Custom'.
 #! @input username: The username to use when connecting to the database.
 #! @input password: The password to use when connecting to the database.
 #! @input instance: The name instance (for MSSQL Server). Leave it blank for default instance.
 #! @input db_port: The port to connect to.
-#!                 Default: Oracle: '1521', MSSQL: '1433', Sybase: '5000', Netcool: '4100', DB2: '50000', PostgreSQL: '5432'.
+#!                 Default: Oracle: '1521', MSSQL: '1433', Sybase: '5000', Netcool: '4100', DB2: '50000', PostgreSQL: '5432',
+#!                          Vertica: '5433'.
 #! @input database_name: The name of the database.
 #! @input authentication_type: The type of authentication used to access the database (applicable only to MSSQL type).
 #!                             Valid: 'sql', 'windows'
@@ -174,7 +175,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.4'
+    gav: 'io.cloudslang.content:cs-database:0.0.5-SNAPSHOT'
     class_name: io.cloudslang.content.database.actions.SQLCommand
     method_name: execute
 
