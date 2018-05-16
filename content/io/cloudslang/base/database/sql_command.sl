@@ -56,7 +56,7 @@
 #!                                     Example: 'db.pooling.enable=true'
 #! @input result_set_type: The result set type. See JDBC folder description for more details.
 #!                         Valid values: 'TYPE_FORWARD_ONLY', 'TYPE_SCROLL_INSENSITIVE', 'TYPE_SCROLL_SENSITIVE'.
-#!                         Default value: 'TYPE_SCROLL_INSENSITIVE' except DB2 which is overridden to 'TYPE_FORWARD_ONLY'
+#!                         Default value: 'TYPE_SCROLL_INSENSITIVE' except or DB2 and Vertica which is overridden to 'TYPE_FORWARD_ONLY'
 #! @input result_set_concurrency: The result set concurrency. See JDBC folder description for more details.
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
