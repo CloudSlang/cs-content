@@ -22,6 +22,25 @@ flow:
     - output_text
 
   workflow:
+  
+    - clean_up_old_table_ignore_errors:
+        do:
+          io.cloudslang.base.database.sql_command:
+            - db_server_name: ${db_server_name}
+            - db_port: ${db_port}
+            - db_type: Vertica
+            - username: ${username}
+            - password: ${password}
+            - database_name: ${database_name}
+            - command: 'DROP TABLE TestCsTickStore;'
+            - trust_all_roots: 'true'
+        publish:
+          - output_text: ${output_text}
+          - return_result: ${return_result}
+        navigate:
+          - SUCCESS: sql_create_table
+          - FAILURE: sql_create_table
+  
     - sql_create_table:
         do:
           io.cloudslang.base.database.sql_command:

@@ -2,10 +2,10 @@ testVertica:
   testSuites: [vertica]
   testFlowPath: io.cloudslang.base.database.test_vertica
   inputs:
-    - db_server_name: <vertica host name>
-    - username: <vertica username>
-    - password: <vertica password>
-    - database_name: <vertica database_name>
+    - db_server_name: <db_server_name>
+    - username: <username>
+    - password: <password>
+    - database_name: <database_name>
   outputs:
     - return_result: "Command completed successfully"
   result: SUCCESS
