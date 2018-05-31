@@ -1,10 +1,17 @@
-cloud-slang-content
-=============
+<a href="http://cloudslang.io/">
+    <img src="https://camo.githubusercontent.com/ece898cfb3a9cc55353e7ab5d9014cc314af0234/687474703a2f2f692e696d6775722e636f6d2f696849353630562e706e67" alt="CloudSlang logo" title="CloudSlang" align="right" height="60"/>
+</a>
+
+CloudSlang Content
+==================
+
+[![Join the chat at https://gitter.im/CloudSlang/cs-content](https://badges.gitter.im/CloudSlang/cs-content.svg)](https://gitter.im/CloudSlang/cs-content?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 CloudSlang is a [YAML](http://yaml.org) based language for writing human-readable workflows for the Cloud Slang Orchestration Engine (Score). This repository includes CloudSlang flows and operations.
 
-[![Circle CI](https://circleci.com/gh/CloudSlang/cloud-slang-content/tree/master.svg?style=svg)](https://circleci.com/gh/CloudSlang/cloud-slang-content/tree/master)
-[![Build Status](https://travis-ci.org/CloudSlang/cloud-slang-content.svg?branch=master)](https://travis-ci.org/CloudSlang/cloud-slang-content)
+[![Build Status](https://travis-ci.org/CloudSlang/cs-content.svg?branch=master)](https://travis-ci.org/CloudSlang/cs-content) [![Join the chat at https://gitter.im/CloudSlang/cs-content](https://badges.gitter.im/CloudSlang/cs-content.svg)](https://gitter.im/CloudSlang/cs-content?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Click [here](/DOCS.md) for an overview of all the currently supported integrations.
 
 #### Getting started:
 
@@ -38,7 +45,7 @@ Argument|Description
 
 Prerequisites:  Python 2.7 and pip.
 
-You can download Python (version 2.7) from [here] (https://www.python.org/). Python 2.7.9 and later include pip by default. If you already have Python but don't have pip, see the pip [documentation] (https://pip.pypa.io/en/latest/installing.html) for
+You can download Python (version 2.7) from [here](https://www.python.org/). Python 2.7.9 and later include pip by default. If you already have Python but don't have pip, see the pip [documentation](https://pip.pypa.io/en/latest/installing.html) for
 installation instructions.
 
 1. Edit the **requirements.txt** file in the **python-lib** folder, which is found at the same level as the **bin** folder that contains the CLI executable.
