@@ -57,7 +57,7 @@ flow:
     - sleep:
         do:
           utils.sleep:
-            - seconds: '60'
+            - seconds: '150'
         navigate:
           - SUCCESS: get_mysql_status
           - FAILURE: FAILED_TO_SLEEP
@@ -65,11 +65,11 @@ flow:
     - get_mysql_status:
         do:
           mysql.retrieve_mysql_status:
-            - container: "mysqldb"
-            - host: ${ host }
-            - port
-            - username: ${ username }
-            - password: ${ password }
+            - container: 'mysqldb'
+            - host: ${host}
+            - port: ${port}
+            - username: ${username}
+            - password: ${password}
             - mysql_username: "user"
             - mysql_password: "pass"
         navigate:
