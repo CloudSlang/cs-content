@@ -1,8 +1,8 @@
 namespace: io.cloudslang.amazon.aws.cloudformation
 
 imports:
-    cf: io.cloudslang.amazon.aws.cloudformation
-    strings: io.cloudslang.base.strings
+  cf: io.cloudslang.amazon.aws.cloudformation
+  strings: io.cloudslang.base.strings
 
 flow:
   name: test_create_stack

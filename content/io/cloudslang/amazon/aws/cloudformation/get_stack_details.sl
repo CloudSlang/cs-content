@@ -30,6 +30,13 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #!
+#! @output stack_id: CloudFormation stack id in Amazon Resource Notation (ARN) format. Example: arn:aws:cloudformation:<region>:<account>:stack/<stack name>/<UUID>
+#! @output stack_status: CloudFormation stack creation status Example: CREATE_COMPLETE, ROLLBACK_COMPLETE
+#! @output stack_status_reason: CloudFormation stack creation status reason
+#! @output stack_creation_time: CloudFormation stack creation time
+#! @output stack_description: CloudFormation stack description
+#! @output stack_outputs: CloudFormation stack outputs as JSON array
+#! @output stack_resources: CloudFormation stack outputs as JSON array
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
@@ -86,7 +93,6 @@ operation:
     - return_result: ${returnResult}
     - return_code: ${get("returnCode", "")}
     - exception: ${get("exception", "")}
-    - stack_name_out: ${stackName}
     - stack_id: ${stackId}
     - stack_status: ${stackStatus}
     - stack_status_reason: ${stackStatusReason}
