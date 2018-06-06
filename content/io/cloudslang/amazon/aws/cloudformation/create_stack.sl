@@ -61,6 +61,8 @@ operation:
     - templateBody:
         default: ${get("template_body", "")}
         private: true
+    - parameters:
+        required: false
     - connect_timeout:
         required: false
         default: "10000"
