@@ -35,6 +35,7 @@
 #! @input region: AWS region where the stack will be created.
 #! @input stack_name: AWS stack name to be created.
 #! @input template_body: AWS template body.
+#! @input parameters: AWS template parameters in key:value format. Every key:value pair should be on its own line.
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
