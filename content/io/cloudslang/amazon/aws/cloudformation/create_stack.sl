@@ -102,7 +102,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.16'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.CreateStackAction
     method_name: execute
 
