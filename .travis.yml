@@ -25,9 +25,7 @@ env:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
 
  matrix:
-   - SUITE=containers
    - SUITE=images
-   - SUITE=docker_examples
    - SUITE=git,remote-copy
    - SUITE=http,rest,zip
 
