@@ -70,8 +70,8 @@ flow:
             - port: ${port}
             - username: ${username}
             - password: ${password}
-            - mysql_username: "user"
-            - mysql_password: "pass"
+            - mysql_username: 'user'
+            - mysql_password: 'pass'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: MYSQL_CONTAINER_STATUES_CAN_BE_FETCHED
