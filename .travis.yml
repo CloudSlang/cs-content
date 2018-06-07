@@ -25,7 +25,6 @@ env:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
 
  matrix:
-   - SUITE=images
    - SUITE=git,remote-copy
 
 before_install:
