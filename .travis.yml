@@ -24,9 +24,6 @@ env:
  global:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
 
- matrix:
-   - SUITE=remote-copy
-
 before_install:
   - docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
 
