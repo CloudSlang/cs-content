@@ -27,7 +27,7 @@ env:
  matrix:
    - SUITE=containers
    - SUITE=images
-   - SUITE=docker-misc,docker_examples
+   - SUITE=docker_examples
    - SUITE=git,remote-copy
    - SUITE=http,rest,zip
 
