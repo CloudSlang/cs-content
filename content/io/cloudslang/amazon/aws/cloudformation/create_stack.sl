@@ -41,8 +41,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The server (instance) was successfully deployed.
-#! @result FAILURE: There was an error while trying to deploy the instance.
+#! @result SUCCESS: The stack was successfully created
+#! @result FAILURE: There was an error while trying to create the stack
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.cloudformation
