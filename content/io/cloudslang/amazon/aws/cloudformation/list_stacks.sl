@@ -38,8 +38,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The server (instance) was successfully deployed.
-#! @result FAILURE: There was an error while trying to deploy the instance.
+#! @result SUCCESS: The list of stacks was successfully retrieved.
+#! @result FAILURE: There was an error while retrieving the list of stacks from AWS.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.cloudformation
@@ -92,7 +92,7 @@ operation:
     - region
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.16'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.ListStacksAction
     method_name: execute
 

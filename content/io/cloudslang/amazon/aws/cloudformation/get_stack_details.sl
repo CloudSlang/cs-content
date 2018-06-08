@@ -1,4 +1,4 @@
-#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 Micro Focus
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,17 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation launches an AWS Cloud Formation stack.
+#! @description: This operation get AWS CloudFormation Stack details
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS account.
 #! @input credential: Secret access key associated with your Amazon AWS account.
+#! @input region: AWS region where the CloudFormation stack is located
+#! @input stack_name: AWS stack name to get details from
+#!                    Mandatory
 #! @input proxy_host: Proxy server used to access the provider services.
-#!                    Optional
-#! @input connect_timeout: Connect timeout in milliseconds.
-#!                    Default: '10000'
-#!                    Optional
-#! @input execution_timeout: Execution timeout in milliseconds.
-#!                    Default: '600000'
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
@@ -32,23 +29,27 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region: AWS region where the stack will be created.
-#! @input stack_name: AWS stack name to be created.
-#! @input template_body: AWS template body.
-#! @input parameters: AWS template parameters in key:value format. Every key:value pair should be on its own line.
 #!
+#! @output stack_id: CloudFormation stack id in Amazon Resource Notation (ARN) format. Example: arn:aws:cloudformation:<region>:<account>:stack/<stack name>/<UUID>
+#! @output stack_status: CloudFormation stack creation status Example: CREATE_COMPLETE, ROLLBACK_COMPLETE
+#! @output stack_status_reason: CloudFormation stack creation status reason
+#! @output stack_creation_time: CloudFormation stack creation time
+#! @output stack_description: CloudFormation stack description
+#! @output stack_outputs: CloudFormation stack outputs as JSON array
+#! @output stack_resources: CloudFormation stack outputs as JSON array
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The stack was successfully created
-#! @result FAILURE: There was an error while trying to create the stack
+#! @result SUCCESS: The stack details were successfully retrieved
+#! @result FAILURE: There was an error while trying to retrieve details from AWS
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.amazon.aws.cloudformation
 
 operation:
-  name: create_stack
+  name: get_stack_details
   inputs:
     - identity
     - credential:
@@ -58,26 +59,6 @@ operation:
     - stackName:
         default: ${get("stack_name", "")}
         private: true
-    - template_body
-    - templateBody:
-        default: ${get("template_body", "")}
-        private: true
-    - parameters:
-        required: false
-    - connect_timeout:
-        required: false
-        default: "10000"
-    - connectTimeout:
-        default: ${get("connect_timeout", "")}
-        private: true
-    - execution_timeout:
-        required: false
-        default: "600000"
-    - executionTimeout:
-        default: ${get("execution_timeout", "")}
-        private: true
-    - proxy_host:
-        required: false
     - proxyHost:
         default: ${get("proxy_host", "")}
         required: false
@@ -102,18 +83,24 @@ operation:
         default: ${get("proxy_password", "")}
         required: false
         private: true
-        sensitive: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.16'
-    class_name: io.cloudslang.content.amazon.actions.cloudformation.CreateStackAction
+    class_name: io.cloudslang.content.amazon.actions.cloudformation.GetStackDetailsAction
     method_name: execute
 
   outputs:
-    - return_result: ${get("returnResult", "")}
-    - return_code: get("returnCode", "")
+    - return_result: ${returnResult}
+    - return_code: ${get("returnCode", "")}
     - exception: ${get("exception", "")}
- 
+    - stack_id: ${stackId}
+    - stack_status: ${stackStatus}
+    - stack_status_reason: ${stackStatusReason}
+    - stack_creation_time: ${stackCreationTime}
+    - stack_description: ${stackDescription}
+    - stack_outputs: ${stackOutputs}
+    - stack_resources: ${stackResources}
+
   results:
     - SUCCESS: ${returnCode == "0"}
     - FAILURE

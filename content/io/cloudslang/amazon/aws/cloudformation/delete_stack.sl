@@ -39,8 +39,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The server (instance) was successfully deployed.
-#! @result FAILURE: There was an error while trying to deploy the instance.
+#! @result SUCCESS: The stack was successfully deleted.
+#! @result FAILURE: There was an error while trying to delete the stack.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.cloudformation
@@ -98,7 +98,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.15'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.16'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.DeleteStackAction
     method_name: execute
 
