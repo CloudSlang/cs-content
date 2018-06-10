@@ -13,6 +13,7 @@ flow:
     - region
     - stack_name
     - template_body
+    - capabilities
     - proxy_host:
         required: false
     - proxy_port:
@@ -37,6 +38,7 @@ flow:
             - region
             - stack_name
             - template_body
+            - capabilities
             - proxy_host
             - proxy_port
             - proxy_username

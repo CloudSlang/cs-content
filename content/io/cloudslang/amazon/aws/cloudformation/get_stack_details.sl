@@ -85,7 +85,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.16'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.17'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.GetStackDetailsAction
     method_name: execute
 

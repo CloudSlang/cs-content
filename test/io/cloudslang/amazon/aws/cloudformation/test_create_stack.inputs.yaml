@@ -15,6 +15,7 @@ testAmazonCloudFormationCreateStackLocal:
     - proxy_host: <proxy fqdn or ip>
     - proxy_port: <proxy port>
     - template_body: <aws template body in json>
+    - capabilitiess: <CAPABILITY_IAM or CAPABILITY_NAMED_IAM>
   outputs:
     - expected_return_code: "0"
     - expected_return_result: "{StackId:"
