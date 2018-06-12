@@ -36,6 +36,8 @@
 #! @input stack_name: AWS stack name to be created.
 #! @input template_body: AWS template body.
 #! @input parameters: AWS template parameters in key:value format. Every key:value pair should be on its own line.
+#! @input capabilities: A list of values that you must specify before AWS CloudFormation can create certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. or those stacks, you must explicitly acknowledge their capabilities by specifying this parameter.
+#!                      Valid values: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
 #!
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -63,6 +65,8 @@ operation:
         default: ${get("template_body", "")}
         private: true
     - parameters:
+        required: false
+    - capabilities:
         required: false
     - connect_timeout:
         required: false
@@ -105,7 +109,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.16'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.17'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.CreateStackAction
     method_name: execute
 
