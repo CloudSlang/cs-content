@@ -115,7 +115,7 @@ operation:
 
   outputs:
     - return_result: ${get("returnResult", "")}
-    - return_code: get("returnCode", "")
+    - return_code: ${get("returnCode", "")}
     - exception: ${get("exception", "")}
  
   results:
