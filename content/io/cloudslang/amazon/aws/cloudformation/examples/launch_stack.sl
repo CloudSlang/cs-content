@@ -49,6 +49,10 @@
 
 namespace: io.cloudslang.amazon.aws.cloudformation.examples
 
+imports:
+  cloudformation: io.cloudslang.amazon.aws.cloudformation
+  strings: io.cloudslang.base.strings
+
 flow:
   name: launch_stack
   inputs:
@@ -82,18 +86,18 @@ flow:
   workflow:
     - create_stack:
         do:
-          io.cloudslang.amazon.aws.cloudformation.create_stack:
-            - identity: '${access_key_id}'
+          cloudformation.create_stack:
+            - identity
             - credential:
                 sensitive: true
-            - region: '${region}'
-            - stack_name: '${stack_name}'
-            - template_body: '${template_body}'
-            - parameters: '${template_parameters}'
-            - capabilities: '${stack_capabilities}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
+            - region
+            - stack_name
+            - template_body
+            - parameters
+            - capabilities
+            - proxy_host
+            - proxy_port
+            - proxy_username
             - proxy_password:
                 sensitive: true
         publish:
@@ -101,32 +105,34 @@ flow:
         navigate:
           - SUCCESS: get_stack_details
           - FAILURE: on_failure
+
     - list_stacks:
         do:
-          io.cloudslang.amazon.aws.cloudformation.list_stacks:
-            - identity: '${access_key_id}'
+          cloudformation.list_stacks:
+            - identity
             - credential:
                 sensitive: true
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
+            - proxy_host
+            - proxy_port
+            - proxy_username
             - proxy_password:
                 sensitive: true
-            - region: '${region}'
+            - region
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+
     - get_stack_details:
         do:
-          io.cloudslang.amazon.aws.cloudformation.get_stack_details:
-            - identity: '${access_key_id}'
+          cloudformation.get_stack_details:
+            - identity
             - credential:
                 sensitive: true
-            - region: '${region}'
-            - stack_name: '${stack_name}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
+            - region
+            - stack_name
+            - proxy_host
+            - proxy_port
+            - proxy_username
             - proxy_password:
                 sensitive: true
         publish:
@@ -134,14 +140,16 @@ flow:
         navigate:
           - SUCCESS: is_stack_created
           - FAILURE: on_failure
+
     - is_stack_created:
         do:
-          io.cloudslang.base.strings.string_equals:
+          strings.string_equals:
             - first_string: '${stack_status}'
             - second_string: CREATION_COMPLETE
         navigate:
           - SUCCESS: list_stacks
           - FAILURE: add_numbers
+
     - sleep:
         do:
           io.cloudslang.base.utils.sleep:
@@ -149,6 +157,7 @@ flow:
         navigate:
           - SUCCESS: get_stack_details
           - FAILURE: on_failure
+
     - add_numbers:
         do:
           io.cloudslang.base.math.add_numbers:
@@ -159,6 +168,7 @@ flow:
         navigate:
           - SUCCESS: check_retry
           - FAILURE: on_failure
+
     - check_retry:
         do:
           io.cloudslang.base.math.compare_numbers:
