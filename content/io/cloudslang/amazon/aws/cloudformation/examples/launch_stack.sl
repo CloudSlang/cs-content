@@ -87,7 +87,8 @@ flow:
     - create_stack:
         do:
           cloudformation.create_stack:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
                 value: '${access_key}'
                 sensitive: true
@@ -110,7 +111,8 @@ flow:
     - list_stacks:
         do:
           cloudformation.list_stacks:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
                 value: '${access_key}'
                 sensitive: true
@@ -127,7 +129,8 @@ flow:
     - get_stack_details:
         do:
           cloudformation.get_stack_details:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
                 value: '${access_key}'
                 sensitive: true
