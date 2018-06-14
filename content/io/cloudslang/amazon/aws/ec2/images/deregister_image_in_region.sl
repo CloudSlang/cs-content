@@ -105,7 +105,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.17'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.18'
     class_name: io.cloudslang.content.amazon.actions.images.DeregisterImageAction
     method_name: execute
 
