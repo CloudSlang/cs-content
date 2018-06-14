@@ -93,8 +93,8 @@ flow:
             - region
             - stack_name
             - template_body
-            - parameters
-            - capabilities
+            - parameters: '${template_parameters}'
+            - capabilities: '${stack_capabilities}'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -111,6 +111,7 @@ flow:
           cloudformation.list_stacks:
             - identity
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - proxy_host
             - proxy_port
@@ -127,6 +128,7 @@ flow:
           cloudformation.get_stack_details:
             - identity
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - region
             - stack_name
