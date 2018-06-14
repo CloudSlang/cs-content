@@ -187,3 +187,45 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+
+extensions:
+  graph:
+    steps:
+      create_stack:
+        x: 71
+        y: 106
+      list_stacks:
+        x: 659
+        y: 107
+        navigate:
+          40f99d8a-14df-ee1e-08fa-2150abef743d:
+            targetId: 9b31debc-5211-7ae2-d870-fa22325e37a9
+            port: SUCCESS
+      get_stack_details:
+        x: 280
+        y: 106
+      is_stack_created:
+        x: 494
+        y: 99
+      sleep:
+        x: 281
+        y: 280
+      add_numbers:
+        x: 462
+        y: 281
+      check_retry:
+        x: 458
+        y: 433
+        navigate:
+          9675d7e4-57c4-13b5-7a01-dee957d1d14b:
+            targetId: 3aa9d9ea-1ecd-b4d8-106c-f95ab0ef5472
+            port: GREATER_THAN
+    results:
+      FAILURE:
+        3aa9d9ea-1ecd-b4d8-106c-f95ab0ef5472:
+          x: 651
+          y: 423
+      SUCCESS:
+        9b31debc-5211-7ae2-d870-fa22325e37a9:
+          x: 839
+          y: 113
