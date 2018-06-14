@@ -101,6 +101,7 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
         publish:
           - retry_count: '0'
@@ -120,6 +121,7 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
             - region
         navigate:
@@ -140,6 +142,7 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
         publish:
           - stack_status
