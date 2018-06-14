@@ -89,6 +89,7 @@ flow:
           cloudformation.create_stack:
             - identity
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - region
             - stack_name
