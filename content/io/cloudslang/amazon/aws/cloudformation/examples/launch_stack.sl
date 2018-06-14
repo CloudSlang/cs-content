@@ -145,7 +145,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: '${stack_status}'
-            - second_string: CREATION_COMPLETE
+            - second_string: CREATE_COMPLETE
         navigate:
           - SUCCESS: list_stacks
           - FAILURE: add_numbers
