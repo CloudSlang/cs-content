@@ -1,8 +1,8 @@
 namespace: io.cloudslang.amazon.aws.cloudformation
 
 imports:
-    cf: io.cloudslang.amazon.aws.cloudformation
-    strings: io.cloudslang.base.strings
+  cf: io.cloudslang.amazon.aws.cloudformation
+  strings: io.cloudslang.base.strings
 
 flow:
   name: test_create_stack
@@ -13,6 +13,7 @@ flow:
     - region
     - stack_name
     - template_body
+    - capabilities
     - proxy_host:
         required: false
     - proxy_port:
@@ -37,6 +38,7 @@ flow:
             - region
             - stack_name
             - template_body
+            - capabilities
             - proxy_host
             - proxy_port
             - proxy_username
