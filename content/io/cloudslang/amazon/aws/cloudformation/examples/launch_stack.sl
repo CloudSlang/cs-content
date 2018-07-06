@@ -37,7 +37,7 @@
 #! @input stack_capabilities: A list of values that you must specify before AWS CloudFormation can create certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. or those stacks, you must explicitly acknowledge their capabilities by specifying this parameter.
 #!                      Valid values: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
 #! @input template_body: AWS template body.
-#! @input template_parameters: AWS template parameters in key=value format. Every key:value pair should be on its own line.
+#! @input template_parameters: AWS template parameters in key=value format. Example: ${'param1=' + value1 + '\\n\\\nparam2='  + value2 + '\\n\\\nparam3='  + value3}
 #! @input sleep_time: sleep time in seconds between retries
 #! @input retries_max: maximum number of retries before giving up
 #!
@@ -65,7 +65,6 @@ flow:
         required: false
     - template_body: ''
     - template_parameters:
-        default: "${'param1=' + value1 + '\\n\\\nparam2='  + value2 + '\\n\\\nparam3='  + value3}"
         required: false
     - proxy_host:
         required: false
@@ -82,6 +81,11 @@ flow:
     - retries_max:
         default: '10'
         required: false
+  outputs:
+    - return_result
+    - stack_outputs
+    - stack_resources
+    - exception
 
   workflow:
     - create_stack:
@@ -146,6 +150,8 @@ flow:
                 sensitive: true
         publish:
           - stack_status
+          - stack_outputs
+          - stack_resources
         navigate:
           - SUCCESS: is_stack_created
           - FAILURE: on_failure
