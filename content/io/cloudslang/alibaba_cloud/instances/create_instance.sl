@@ -487,7 +487,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-alibaba:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-alibaba:0.0.1-RC2'
     class_name: 'io.cloudslang.content.alibaba.actions.instances.CreateInstance'
     method_name: 'execute'
   
