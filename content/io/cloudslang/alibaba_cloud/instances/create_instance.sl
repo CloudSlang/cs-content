@@ -218,8 +218,7 @@ operation:
         private: true 
         sensitive: true
     - proxy_host:
-        default: '8080'
-        required: false  
+        required: false
     - proxyHost: 
         default: ${get('proxy_host', '')}  
         required: false 
@@ -488,7 +487,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-alibaba:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-alibaba:0.0.1-RC1'
     class_name: 'io.cloudslang.content.alibaba.actions.instances.CreateInstance'
     method_name: 'execute'
   
