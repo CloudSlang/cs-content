@@ -1,28 +1,25 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
-#! @description: Checks if a JSON is valid.
+#! @description: Checks if a JSON is valid and, optionally, if it is valid against a schema.
 #!
-#! @input json_input: JSON to validate
+#! @input json_object: JSON to validate.
+#! @input json_schema: JSON schema to validate against. Can also be a JSON schema, an URL or a file path.
+#!                     Optional
+#! @input proxy_host: The proxy host for getting the Get request.
+#!                    Optional
+#! @input proxy_port: The proxy port for getting the Get request.
+#!                    Optional
+#! @input proxy_username: The username for connecting via proxy.
+#!                        Optional
+#! @input proxy_password: The password for connecting via proxy.
+#!                        Optional
 #!
-#! @output return_result: Message of validity or exception
-#! @output return_code: "0" if is a valid json, "-1" otherwise
-#! @output error_message: Error message if there was an error when executing, empty otherwise
+#! @output return_result:
+#! @output return_code:
+#! @output exception:
 #!
-#! @result SUCCESS: JSON is valid (return_code == '0')
-#! @result FAILURE: Otherwise
+#! @result SUCCESS: JSON is valid (return_code == '0').
+#! @result FAILURE: An error has occurred while trying to validate the given JSON object.
 #!!#
 ########################################################################################################################
 
@@ -32,31 +29,54 @@ operation:
   name: validate_json
 
   inputs:
-    - json_input
+    - json_object
+    - jsonObject:
+        default: ${get('json_object', '')}
+        required: false
+        private: true
+    - json_schema:
+        required: false
+    - jsonSchema:
+        default: ${get('json_schema', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+        sensitive: true
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
+        sensitive: true
 
-  python_action:
-    script: |
-      try:
-        import json,re
-        for c in json_input:
-          if c in ['\'', '\"']:
-            quote = c
-            break
-        if quote == '\'':
-          json_input = str(re.sub(r"(?<!\\)(\')",'"', json_input))
-          json_input = str(re.sub(r"(\\)",'', json_input))
-        decoded = json.loads(json_input)
-        return_result = 'Valid JSON'
-        return_code = '0'
-      except Exception as ex:
-        return_result = ex
-        return_code = '-1'
+  java_action:
+    gav: 'io.cloudslang.content:cs-json:0.0.9-SNAPSHOT'
+    class_name: 'io.cloudslang.content.json.actions.ValidateJson'
+    method_name: 'execute'
 
   outputs:
-    - return_result: ${ str(return_result) }
-    - return_code
-    - error_message: ${ str(return_result) if return_code == '-1' else '' }
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
 
   results:
-    - SUCCESS: ${ return_code == '0' }
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
