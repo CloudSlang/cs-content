@@ -14,9 +14,10 @@
 #! @input proxy_password: The password for connecting via proxy.
 #!                        Optional
 #!
-#! @output return_result:
-#! @output return_code:
-#! @output exception:
+#! @output return_result: JSON was valid or not (optionally, against a JSON schema).
+#!                        Same as exception if an exception was thrown during execution.
+#! @output return_code: "0" if validation was successful, "-1" otherwise.
+#! @output exception: Exception message if an exception was thrown during execution, empty otherwise.
 #!
 #! @result SUCCESS: JSON is valid (return_code == '0').
 #! @result FAILURE: An error has occurred while trying to validate the given JSON object.
