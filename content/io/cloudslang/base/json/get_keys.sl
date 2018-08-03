@@ -18,7 +18,7 @@
 #! @input json_input: JSON from which to retrieve keys
 #!                     Examples: {"one":1, "two":2}, {"one":{"a":"a","B":"B"}, "two":"two", "three":[1,2,3.4]}
 #! @input json_path: path from which to retrieve key represented as a list of keys and/or indices.
-#!                   Passing an empty list ([]) will retrieve top level keys.
+#!                   Passing $ will retrieve top level keys.
 #!                   Example: $, $.one, one
 #!
 #! @output return_result: If any keys were found, list of keys found
