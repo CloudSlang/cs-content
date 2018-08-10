@@ -13,7 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Create an ECS instance.
+#! @description: Create an ECS instance in Alibaba Cloud. Once ECS instance is created, it allocates the Public IP
+#!               Address and start the Instance. In case something goes wrong, it will delete the created instance and
+#!               associated items.
 #!
 #! @input access_key_id: The Access Key ID associated with your Alibaba cloud account.
 #! @input access_key_secret: The Secret ID of the Access Key associated with your Alibaba cloud account.
@@ -26,7 +28,7 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input region_id: Region ID of an instance. You can call DescribeRegions to obtain the latest region list.
+#! @input region_id: Region ID of an instance.
 #! @input image_id: ID of an image file. An image is a running environment template for ECS instances.
 #! @input instance_type: Instance type. For more information, call DescribeInstanceTypes to view the latest instance
 #!                       type list.
@@ -49,11 +51,13 @@
 #!                              Default: PayByTraffic
 #!                              Optional
 #! @input internet_max_bandwidth_in: Maximum inbound bandwidth from the Internet, its unit of measurement is Mbit/s.
-#!                                   Value range: [1, 200]. Default: '200'
+#!                                   Value range: [1, 200].
+#!                                   Default: '200'
 #!                                   Optional
 #! @input internet_max_bandwidth_out: Maximum outbound bandwidth to the Internet, its unit of measurement is Mbit/s. If
 #!                                    this parameter is not specified, an error is returned. Value range: PayByTraffic:
-#!                                    [0,100]. Default: '1'
+#!                                    [0,100].
+#!                                    Default: '1'
 #!                                    Optional
 #! @input hostname: Host name of the ECS instance.It cannot start or end with a period (.) or a hyphen (-) and it cannot
 #!                  have two or more consecutive periods (.) or hyphens (-).On Windows, the host name can contain [2,
@@ -68,10 +72,12 @@
 #!                  Optional
 #! @input password_inherit: Whether to use the password pre-configured in the image you select or not. When
 #!                          PasswordInherit is specified, the Password must be null. For a secure access, make sure that
-#!                          the selected image has password configured.Default: false
+#!                          the selected image has password configured.
+#!                          Default: false
 #!                          Optional
 #! @input is_optimized: Whether it is an I/O-optimized instance or not. For phased-out instance types, the default value
-#!                      is none. For other instance types, the default value is optimized.Valid values: none, optimized
+#!                      is none. For other instance types, the default value is optimized.
+#!                      Valid values: none, optimized
 #!                      Optional
 #! @input system_disk_category: The category of the system disk.  Optional values:cloud: Basic cloud
 #!                              disk.cloud_efficiency: Ultra cloud disk.cloud_ssd: Cloud SSD.ephemeral_ssd: Ephemeral
@@ -79,20 +85,22 @@
 #!                              cloud.Otherwise, the default value is cloud_efficiency.
 #!                              Optional
 #! @input system_disk_size: Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must
-#!                          be equal to or greater than max{20, Imagesize}. Default: max{40, ImageSize}.
+#!                          be equal to or greater than max{20, Imagesize}.
+#!                          Default: max{40, ImageSize}.
 #!                          Optional
 #! @input system_disk_name: Name of the system disk.It can be [2, 128] characters in length, must begin with an English
 #!                          letter or Chinese character, and can contain digits, colons (:), underscores (_), or hyphens
-#!                          (-).The name is displayed in the ECS console.It cannot begin with http:// or
-#!                          https://.Default value: ''
+#!                          (-).The name is displayed in the ECS console.It cannot begin with http:// or https://.
+#!                          Default value: ''
 #!                          Optional
 #! @input system_disk_description: Description of a system disk.It can be [2, 256] characters in length.The description
-#!                                 is displayed in the ECS console.It cannot begin with http:// or https://.Default
-#!                                 value: ''
+#!                                 is displayed in the ECS console.It cannot begin with http:// or https://.
+#!                                 Default value: ''
 #!                                 Optional
 #! @input delimiter: The delimiter used to separate the values for dataDisksSizeList, dataDisksCategoryList,
 #!                   dataDisksEncryptedList, dataDisksSnapshotList, dataDisksNameList, dataDisksDescriptionList,
-#!                   dataDisksDeleteWithInstanceList, tagsKeyList, tagsValueList inputs. Default: ','
+#!                   dataDisksDeleteWithInstanceList, tagsKeyList, tagsValueList inputs.
+#!                   Default: ','
 #!                   Optional
 #! @input cluster_id: The cluster ID to which the instance belongs.
 #!                    Optional
@@ -103,27 +111,32 @@
 #! @input private_ip_address: Private IP address of an ECS instance. PrivateIpAddress depends on VSwitchId and cannot be
 #!                            specified separately
 #!                            Optional
-#! @input instance_charge_type: Billing methods. Valid values: 'PrePaid', 'PostPaid' Default: PostPaid
+#! @input instance_charge_type: Billing methods. Valid values: 'PrePaid', 'PostPaid'
+#!                              Default: PostPaid
 #!                              Optional
 #! @input spot_strategy: The spot price you are willing to accept for a preemptible instance. It takes effect only when
 #!                       parameter InstanceChargeType is PostPaid. Optional values:NoSpot: A normal Pay-As-You-Go
 #!                       instance. SpotWithPriceLimit: Sets the price threshold for a preemptible instance.
-#!                       SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance. Default: 'NoSpot'
+#!                       SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance.
+#!                       Default: 'NoSpot'
 #!                       Optional
 #! @input spot_price_limit: The hourly price threshold for a preemptible instance, and it takes effect only when
-#!                          parameter SpotStrategy is SpotWithPriceLimit. Three decimal places are allowed at
-#!                          most.Default: 0.0
+#!                          parameter SpotStrategy is SpotWithPriceLimit. Three decimal places are allowed at most.
+#!                          Default: 0.0
 #!                          Optional
-#! @input period: Unit: month. This parameter is valid and mandatory only when InstanceChargeType is set to PrePaid.
+#! @input period: This parameter is valid and mandatory only when InstanceChargeType is set to PrePaid. Unit: month.
 #!                Valid values: '1-9', '12', '24', '36', '48', '60'
 #!                Optional
-#! @input period_unit: Value: Optional values: 'week', 'month'. Default: 'month'
+#! @input period_unit: Value: Optional values: 'week', 'month'.
+#!                     Default: 'month'
 #!                     Optional
 #! @input auto_renew: Whether to set AutoRenew. Whether to set AutoRenew. This parameter is valid when
-#!                    InstanceChargeType is PrePaid. Valid values: true, falseDefault: false.
+#!                    InstanceChargeType is PrePaid.
+#!                    Valid values: true, false
+#!                    Default: false.
 #!                    Optional
-#! @input auto_renew_period: When AutoRenew is set to True, this parameter is required. Valid values: '1', '2', '3',
-#!                           '6', '12'
+#! @input auto_renew_period: When AutoRenew is set to True, this parameter is required.
+#!                           Valid values: '1', '2', '3', '6', '12'
 #!                           Optional
 #! @input user_data: The user data for an instance must be encoded in Base64 format. The maximum size of the
 #!                   user-defined data is 16 KB.
@@ -136,13 +149,15 @@
 #!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
 #!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
 #!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance. Default: ''.
+#!                      Linux instance.
+#!                      Default: ''.
 #!                      Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance.
 #!                       Optional
-#! @input security_enhancement_strategy: Whether or not to enable security enhancement. Valid values: active, deactive
+#! @input security_enhancement_strategy: Whether or not to enable security enhancement.
+#!                                       Valid values: active, deactive
 #!                                       Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: '10'
@@ -153,7 +168,8 @@
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output return_result: The authentication token in case of success, or an error message in case of failure.
-#! @output instance_id: The specified instance ID.
+#! @output instance_id: The specified instance ID of the new ECS instance.
+#! @output instance_state: The state of the new ECS instance.
 #! @output public_ip_address: The public IP address of the new instance.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -258,7 +274,7 @@ flow:
         required: false
 
   workflow:
-    - create_instances:
+    - create_instance:
         do:
           instances.create_instance:
             - access_key_id
@@ -329,7 +345,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: check_instance_state
-          - FAILURE: terminate_instances
+          - FAILURE: terminate_instance
 
     - check_instance_state:
         loop:
@@ -354,7 +370,7 @@ flow:
             - exception
         navigate:
           - SUCCESS: start_instance
-          - FAILURE: terminate_instances
+          - FAILURE: terminate_instance
 
     - start_instance:
         do:
@@ -375,9 +391,9 @@ flow:
           - exception
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: terminate_instances
+          - FAILURE: terminate_instance
 
-    - terminate_instances:
+    - terminate_instance:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:

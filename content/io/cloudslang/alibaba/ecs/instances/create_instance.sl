@@ -1,3 +1,16 @@
+#   (c) Copyright 2018 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Create an ECS instance.
@@ -36,11 +49,13 @@
 #!                              Default: PayByTraffic
 #!                              Optional
 #! @input internet_max_bandwidth_in: Maximum inbound bandwidth from the Internet, its unit of measurement is Mbit/s.
-#!                                   Value range: [1, 200]. Default: '200'
+#!                                   Value range: [1, 200].
+#!                                   Default: '200'
 #!                                   Optional
 #! @input internet_max_bandwidth_out: Maximum outbound bandwidth to the Internet, its unit of measurement is Mbit/s. If
 #!                                    this parameter is not specified, an error is returned. Value range: PayByTraffic:
-#!                                    [0,100]. Default: '1'
+#!                                    [0,100].
+#!                                    Default: '1'
 #!                                    Optional
 #! @input hostname: Host name of the ECS instance.It cannot start or end with a period (.) or a hyphen (-) and it cannot
 #!                  have two or more consecutive periods (.) or hyphens (-).On Windows, the host name can contain [2,
@@ -55,10 +70,12 @@
 #!                  Optional
 #! @input password_inherit: Whether to use the password pre-configured in the image you select or not. When
 #!                          PasswordInherit is specified, the Password must be null. For a secure access, make sure that
-#!                          the selected image has password configured.Default: false
+#!                          the selected image has password configured.
+#!                          Default: false
 #!                          Optional
 #! @input is_optimized: Whether it is an I/O-optimized instance or not. For phased-out instance types, the default value
-#!                      is none. For other instance types, the default value is optimized.Valid values: none, optimized
+#!                      is none. For other instance types, the default value is optimized.
+#!                      Valid values: none, optimized
 #!                      Optional
 #! @input system_disk_category: The category of the system disk.  Optional values:cloud: Basic cloud
 #!                              disk.cloud_efficiency: Ultra cloud disk.cloud_ssd: Cloud SSD.ephemeral_ssd: Ephemeral
@@ -66,20 +83,22 @@
 #!                              cloud.Otherwise, the default value is cloud_efficiency.
 #!                              Optional
 #! @input system_disk_size: Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must
-#!                          be equal to or greater than max{20, Imagesize}. Default: max{40, ImageSize}.
+#!                          be equal to or greater than max{20, Imagesize}.
+#!                          Default: max{40, ImageSize}.
 #!                          Optional
 #! @input system_disk_name: Name of the system disk.It can be [2, 128] characters in length, must begin with an English
 #!                          letter or Chinese character, and can contain digits, colons (:), underscores (_), or hyphens
-#!                          (-).The name is displayed in the ECS console.It cannot begin with http:// or
-#!                          https://.Default value: ''
+#!                          (-).The name is displayed in the ECS console.It cannot begin with http:// or https://.
+#!                          Default value: ''
 #!                          Optional
 #! @input system_disk_description: Description of a system disk.It can be [2, 256] characters in length.The description
-#!                                 is displayed in the ECS console.It cannot begin with http:// or https://.Default
-#!                                 value: ''
+#!                                 is displayed in the ECS console.It cannot begin with http:// or https://.
+#!                                 Default value: ''
 #!                                 Optional
 #! @input delimiter: The delimiter used to separate the values for dataDisksSizeList, dataDisksCategoryList,
 #!                   dataDisksEncryptedList, dataDisksSnapshotList, dataDisksNameList, dataDisksDescriptionList,
-#!                   dataDisksDeleteWithInstanceList, tagsKeyList, tagsValueList inputs. Default: ','
+#!                   dataDisksDeleteWithInstanceList, tagsKeyList, tagsValueList inputs.
+#!                   Default: ','
 #!                   Optional
 #! @input cluster_id: The cluster ID to which the instance belongs.
 #!                    Optional
@@ -90,27 +109,32 @@
 #! @input private_ip_address: Private IP address of an ECS instance. PrivateIpAddress depends on VSwitchId and cannot be
 #!                            specified separately
 #!                            Optional
-#! @input instance_charge_type: Billing methods. Valid values: 'PrePaid', 'PostPaid' Default: PostPaid
+#! @input instance_charge_type: Billing methods. Valid values: 'PrePaid', 'PostPaid'
+#!                              Default: PostPaid
 #!                              Optional
 #! @input spot_strategy: The spot price you are willing to accept for a preemptible instance. It takes effect only when
 #!                       parameter InstanceChargeType is PostPaid. Optional values:NoSpot: A normal Pay-As-You-Go
 #!                       instance. SpotWithPriceLimit: Sets the price threshold for a preemptible instance.
-#!                       SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance. Default: 'NoSpot'
+#!                       SpotAsPriceGo: A price that is based on the highest Pay-As-You-Go instance.
+#!                       Default: 'NoSpot'
 #!                       Optional
 #! @input spot_price_limit: The hourly price threshold for a preemptible instance, and it takes effect only when
-#!                          parameter SpotStrategy is SpotWithPriceLimit. Three decimal places are allowed at
-#!                          most.Default: 0.0
+#!                          parameter SpotStrategy is SpotWithPriceLimit. Three decimal places are allowed at most.
+#!                          Default: 0.0
 #!                          Optional
-#! @input period: Unit: month. This parameter is valid and mandatory only when InstanceChargeType is set to PrePaid.
+#! @input period: This parameter is valid and mandatory only when InstanceChargeType is set to PrePaid. Unit: month.
 #!                Valid values: '1-9', '12', '24', '36', '48', '60'
 #!                Optional
-#! @input period_unit: Value: Optional values: 'week', 'month'. Default: 'month'
+#! @input period_unit: Value: Optional values: 'week', 'month'.
+#!                     Default: 'month'
 #!                     Optional
 #! @input auto_renew: Whether to set AutoRenew. Whether to set AutoRenew. This parameter is valid when
-#!                    InstanceChargeType is PrePaid. Valid values: true, falseDefault: false.
+#!                    InstanceChargeType is PrePaid.
+#!                    Valid values: true, false
+#!                    Default: false.
 #!                    Optional
-#! @input auto_renew_period: When AutoRenew is set to True, this parameter is required. Valid values: '1', '2', '3',
-#!                           '6', '12'
+#! @input auto_renew_period: When AutoRenew is set to True, this parameter is required.
+#!                           Valid values: '1', '2', '3', '6', '12'
 #!                           Optional
 #! @input user_data: The user data for an instance must be encoded in Base64 format. The maximum size of the
 #!                   user-defined data is 16 KB.
@@ -123,13 +147,15 @@
 #!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
 #!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
 #!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance. Default: ''.
+#!                      Linux instance.
+#!                      Default: ''.
 #!                      Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance. 
 #!                       Optional
-#! @input security_enhancement_strategy: Whether or not to enable security enhancement. Valid values: active, deactive
+#! @input security_enhancement_strategy: Whether or not to enable security enhancement.
+#!                                       Valid values: active, deactive
 #!                                       Optional
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.

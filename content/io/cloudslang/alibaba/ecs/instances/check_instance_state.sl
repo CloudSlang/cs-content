@@ -1,4 +1,4 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 Micro Focus
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -27,7 +27,7 @@
 #!                        Default: ''
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input region_id: Region ID of an instance. You can call DescribeRegions to obtain the latest region list.
-#! @input instance_state: The state that you would like the instance to have.
+#! @input instance_status: The state that you would like the instance to have.
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: '10'
 #!

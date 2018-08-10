@@ -1,4 +1,4 @@
-#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 Micro Focus
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -19,7 +19,8 @@
 #! @input access_key_secret: The Secret ID of the Access Key associated with your Alibaba cloud account.
 #! @input proxy_host: Proxy server used to access the Alibaba cloud services.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Alibaba cloud services.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Alibaba cloud services.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -27,8 +28,8 @@
 #!                        Optional
 #! @input region_id: Region ID of an instance.
 #! @input instance_id: The specified instance ID.
-#! @input init_local_disk: Recover to the previous normal status of instance local disk when exceptions occurs. Valid
-#!                         values: 'true', 'false'
+#! @input init_local_disk: Recover to the previous normal status of instance local disk when exceptions occurs.
+#!                         Valid values: 'true', 'false'
 #!                         Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
