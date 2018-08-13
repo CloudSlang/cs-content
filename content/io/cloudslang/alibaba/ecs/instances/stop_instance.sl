@@ -128,7 +128,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-alibaba:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-alibaba:0.0.1'
     class_name: 'io.cloudslang.content.alibaba.actions.instances.StopInstance'
     method_name: 'execute'
   
