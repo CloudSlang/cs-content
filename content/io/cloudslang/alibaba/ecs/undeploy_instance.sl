@@ -72,6 +72,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -80,20 +81,24 @@ flow:
     - region_id
     - instance_id
     - force_stop:
+        default: 'false'
         required: false
     - confirm_stop:
+        default: 'false'
         required: false
     - stopped_mode:
         required: false
     - polling_interval:
+        default: '10'
         required: false
     - polling_retries:
+        default: '50'
         required: false
 
   workflow:
-    - get_instance_Status:
+    - get_instance_status:
         do:
-          instances.get_instance_status_:
+          instances.get_instance_status:
             - access_key_id
             - access_key_secret
             - proxy_host
@@ -106,7 +111,7 @@ flow:
           - return_result
           - return_code
           - exception
-          - instance_status_returned: '${instance_status}'
+          - instance_status: '${instance_status}'
         navigate:
           - SUCCESS: string_occurrence_counter
           - FAILURE: on_failure
@@ -114,7 +119,7 @@ flow:
     - string_occurrence_counter:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${instance_status_returned}
+            - string_in_which_to_search: ${instance_status}
             - string_to_find: Stopped
         navigate:
           - SUCCESS: delete_instance

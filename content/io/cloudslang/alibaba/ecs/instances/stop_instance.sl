@@ -78,7 +78,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -108,13 +109,15 @@ operation:
         default: ${get('instance_id', '')}  
         required: false 
         private: true 
-    - force_stop:  
+    - force_stop:
+        default: 'false'
         required: false  
     - forceStop: 
         default: ${get('force_stop', '')}  
         required: false 
         private: true 
-    - confirm_stop:  
+    - confirm_stop:
+        default: 'false'
         required: false  
     - confirmStop: 
         default: ${get('confirm_stop', '')}  

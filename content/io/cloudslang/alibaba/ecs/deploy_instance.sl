@@ -145,13 +145,6 @@
 #!                      client and is guaranteed to be unique between different requests. It can contain a maximum of 64
 #!                      ASCII characters only.
 #!                      Optional
-#! @input client_token: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
-#!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
-#!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
-#!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance.
-#!                      Default: ''.
-#!                      Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance.
@@ -192,7 +185,8 @@ flow:
         sensitive: true
     - proxy_host:  
         required: false
-    - proxy_port:  
+    - proxy_port:
+        default: "8080"
         required: false
     - proxy_username:  
         required: false
@@ -203,24 +197,30 @@ flow:
     - image_id 
     - instance_type
     - security_group_id
-    - zone_id:  
+    - zone_id:
+        default: ''
         required: false
     - instance_name:  
         required: false
-    - description:  
+    - description:
+        default: ''
         required: false  
-    - internet_charge_type:  
+    - internet_charge_type:
+        default: 'PayByTraffic'
         required: false
-    - internet_max_bandwidth_in:  
+    - internet_max_bandwidth_in:
+        default: '200'
         required: false 
-    - internet_max_bandwidth_out:  
+    - internet_max_bandwidth_out:
+        default: '1'
         required: false
     - hostname:  
         required: false  
     - password:  
         required: false  
         sensitive: true
-    - password_inherit:  
+    - password_inherit:
+        default: 'false'
         required: false
     - is_optimized:  
         required: false
@@ -228,11 +228,14 @@ flow:
         required: false
     - system_disk_size:  
         required: false
-    - system_disk_name:  
+    - system_disk_name:
+        default: ''
         required: false
-    - system_disk_description:  
+    - system_disk_description:
+        default: ''
         required: false
-    - delimiter:  
+    - delimiter:
+        default: ','
         required: false  
     - cluster_id:  
         required: false
@@ -242,17 +245,22 @@ flow:
         required: false
     - private_ip_address:  
         required: false
-    - instance_charge_type:  
+    - instance_charge_type:
+        default: 'PostPaid'
         required: false
-    - spot_strategy:  
+    - spot_strategy:
+        default: 'NoSpot'
         required: false
-    - spot_price_limit:  
+    - spot_price_limit:
+        default: '0.0'
         required: false
     - period:  
         required: false  
-    - period_unit:  
+    - period_unit:
+        default: 'month'
         required: false
-    - auto_renew:  
+    - auto_renew:
+        default: 'false'
         required: false
     - auto_renew_period:  
         required: false

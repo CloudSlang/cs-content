@@ -37,7 +37,7 @@
 #!                         Default: 50
 #!
 #! @output output: It contains the state of the instance or the exception in case of failure
-#! @output instance_state: The state of the instance.
+#! @output instance_state: The state of ECS instance.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
@@ -61,6 +61,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -72,14 +73,16 @@ flow:
     - init_local_disk:
         required: false
     - polling_interval:
+        default: '10'
         required: false
     - polling_retries:
+        default: '50'
         required: false
 
   workflow:
-    - get_instance_Status:
+    - get_instance_status:
         do:
-          instances.get_instance_status_:
+          instances.get_instance_status:
             - access_key_id
             - access_key_secret
             - proxy_host
@@ -92,6 +95,7 @@ flow:
           - output: 'Instance is already in Running state'
           - return_code
           - exception
+          - instance_status: '${instance_status}'
 
     - start_instance:
         do:

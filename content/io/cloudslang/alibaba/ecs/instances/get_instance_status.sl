@@ -42,7 +42,7 @@
 namespace: io.cloudslang.alibaba.ecs.instances
 
 operation: 
-  name: get_instance_status_
+  name: get_instance_status
   
   inputs: 
     - access_key_id    
@@ -63,7 +63,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  

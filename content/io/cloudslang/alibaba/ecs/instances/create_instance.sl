@@ -143,13 +143,6 @@
 #!                      client and is guaranteed to be unique between different requests. It can contain a maximum of 64
 #!                      ASCII characters only. 
 #!                      Optional
-#! @input client_token: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
-#!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
-#!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
-#!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance.
-#!                      Default: ''.
-#!                      Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance. 
@@ -192,7 +185,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: "8080"
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -232,7 +226,8 @@ operation:
         default: ${get('security_group_id', '')}  
         required: false 
         private: true 
-    - zone_id:  
+    - zone_id:
+        default: ''
         required: false  
     - zoneId: 
         default: ${get('zone_id', '')}  
@@ -244,21 +239,25 @@ operation:
         default: ${get('instance_name', '')}  
         required: false 
         private: true 
-    - description:  
+    - description:
+        default: ''
         required: false  
-    - internet_charge_type:  
+    - internet_charge_type:
+        default: 'PayByTraffic'
         required: false  
     - internetChargeType: 
         default: ${get('internet_charge_type', '')}  
         required: false 
         private: true 
-    - internet_max_bandwidth_in:  
+    - internet_max_bandwidth_in:
+        default: '200'
         required: false  
     - internetMaxBandwidthIn: 
         default: ${get('internet_max_bandwidth_in', '')}  
         required: false 
         private: true 
-    - internet_max_bandwidth_out:  
+    - internet_max_bandwidth_out:
+        default: '1'
         required: false  
     - internetMaxBandwidthOut: 
         default: ${get('internet_max_bandwidth_out', '')}  
@@ -269,7 +268,8 @@ operation:
     - password:  
         required: false  
         sensitive: true
-    - password_inherit:  
+    - password_inherit:
+        default: "false"
         required: false  
     - passwordInherit: 
         default: ${get('password_inherit', '')}  
@@ -293,19 +293,22 @@ operation:
         default: ${get('system_disk_size', '')}  
         required: false 
         private: true 
-    - system_disk_name:  
+    - system_disk_name:
+        default: ''
         required: false  
     - systemDiskName: 
         default: ${get('system_disk_name', '')}  
         required: false 
         private: true 
-    - system_disk_description:  
+    - system_disk_description:
+        default: ''
         required: false  
     - systemDiskDescription: 
         default: ${get('system_disk_description', '')}  
         required: false 
         private: true 
-    - delimiter:  
+    - delimiter:
+        default: ','
         required: false  
     - cluster_id:  
         required: false  
@@ -331,19 +334,22 @@ operation:
         default: ${get('private_ip_address', '')}  
         required: false 
         private: true 
-    - instance_charge_type:  
+    - instance_charge_type:
+        default: 'PostPaid'
         required: false  
     - instanceChargeType: 
         default: ${get('instance_charge_type', '')}  
         required: false 
         private: true 
-    - spot_strategy:  
+    - spot_strategy:
+        default: 'NoSpot'
         required: false  
     - spotStrategy: 
         default: ${get('spot_strategy', '')}  
         required: false 
         private: true 
-    - spot_price_limit:  
+    - spot_price_limit:
+        default: '0.0'
         required: false  
     - spotPriceLimit: 
         default: ${get('spot_price_limit', '')}  
@@ -351,13 +357,15 @@ operation:
         private: true 
     - period:  
         required: false  
-    - period_unit:  
+    - period_unit:
+        default: 'month'
         required: false  
     - periodUnit: 
         default: ${get('period_unit', '')}  
         required: false 
         private: true 
-    - auto_renew:  
+    - auto_renew:
+        default: "false"
         required: false  
     - autoRenew: 
         default: ${get('auto_renew', '')}  

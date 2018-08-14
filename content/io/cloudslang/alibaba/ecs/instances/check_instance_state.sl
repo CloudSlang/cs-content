@@ -24,7 +24,6 @@
 #!                        Default: ''
 #! @input proxy_password: Optional - Proxy server password associated with the proxy_username
 #!                        input value.
-#!                        Default: ''
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input region_id: Region ID of an instance. You can call DescribeRegions to obtain the latest region list.
 #! @input instance_status: The state that you would like the instance to have.
@@ -57,6 +56,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -67,12 +67,13 @@ flow:
     - region_id
     - instance_status
     - polling_interval:
+        default: '10'
         required: false
 
   workflow:
     - describe_instances:
         do:
-          instances.get_instance_status_:
+          instances.get_instance_status:
             - access_key_id
             - access_key_secret
             - proxy_host

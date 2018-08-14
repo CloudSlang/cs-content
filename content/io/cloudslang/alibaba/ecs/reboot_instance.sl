@@ -62,6 +62,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -71,16 +72,19 @@ flow:
     - region_id
     - instance_id
     - force_stop:
+        default: 'false'
         required: false
     - polling_interval:
+        default: '10'
         required: false
     - polling_retries:
+        default: '50'
         required: false
 
   workflow:
-    - get_instance_Status:
+    - get_instance_status:
         do:
-          instances.get_instance_status_:
+          instances.get_instance_status:
             - access_key_id
             - access_key_secret
             - proxy_host
