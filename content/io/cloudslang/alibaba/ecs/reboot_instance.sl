@@ -38,12 +38,13 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 50
 #!
-#! @output output: contains the state of the instance or the exception in case of failure
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output output: contains the state of the instance or the exception in case of failure.
+#! @output instance_state: The state of ECS instance.
+#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
+#! @output exception: exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The server (instance) was successfully rebooted
-#! @result FAILURE: error rebooting instance
+#! @result SUCCESS: The server (instance) was successfully rebooted.
+#! @result FAILURE: An error occured while trying to reboot the instance.
 #!!#
 ########################################################################################################################
 
@@ -97,15 +98,15 @@ flow:
           - output: 'You can only reboot an ECS instance that is in the Running state.'
           - return_code
           - exception
-          - instance_status_returned: '${instance_status}'
+          - instance_status: '${instance_status}'
         navigate:
-          - SUCCESS: string_occurrence_counter
+          - SUCCESS: instance_status_check
           - FAILURE: on_failure
 
-    - string_occurrence_counter:
+    - instance_status_check:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${instance_status_returned}
+            - string_in_which_to_search: ${instance_status}
             - string_to_find: Stopped
         navigate:
           - SUCCESS: SUCCESS
@@ -150,6 +151,7 @@ flow:
             - SUCCESS
           publish:
             - output
+            - instance_status: '${instance_state}'
             - return_code
             - exception
         navigate:
@@ -158,6 +160,7 @@ flow:
 
   outputs:
     - output
+    - instance_state: '${instance_status}'
     - return_code
     - exception
 

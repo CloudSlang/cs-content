@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to stop an ECS instance.
+#! @description: This flow is used to stop an ECS instance. First it will get the status of the instance and if the
+#!               status is not stopped, it will stop the instance. Otherwise it will go to success.
 #!
 #! @input access_key_id: The Access Key ID associated with your Alibaba cloud account.
 #! @input access_key_secret: The Secret ID of the Access Key associated with your Alibaba cloud account.
@@ -48,6 +49,7 @@
 #!                         Default: 50
 #!
 #! @output return_result: It contains the state of the instance or the exception in case of failure.
+#! @output instance_status: The state of the instance.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -113,10 +115,10 @@ flow:
           - exception
           - instance_status_returned: '${instance_status}'
         navigate:
-          - SUCCESS: string_occurrence_counter
+          - SUCCESS: instance_status_check
           - FAILURE: on_failure
 
-    - string_occurrence_counter:
+    - instance_status_check:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${instance_status_returned}
@@ -166,6 +168,7 @@ flow:
             - SUCCESS
           publish:
             - output
+            - instance_status: '${instance_state}'
             - return_code
             - exception
         navigate:
@@ -174,6 +177,7 @@ flow:
 
   outputs:
     - return_result: '${output}'
+    - instance_status
     - return_code
     - exception
 

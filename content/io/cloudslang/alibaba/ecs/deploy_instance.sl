@@ -145,6 +145,13 @@
 #!                      client and is guaranteed to be unique between different requests. It can contain a maximum of 64
 #!                      ASCII characters only.
 #!                      Optional
+#! @input client_token: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
+#!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
+#!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
+#!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
+#!                      Linux instance. 
+#!						Default: ''.
+#!                      Optional 
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance.
@@ -332,8 +339,34 @@ flow:
           - exception
           - instance_id: '${instance_id}'
         navigate:
-          - SUCCESS: allocate_public_ip_address
+          - SUCCESS: check_instance_state
           - FAILURE: on_failure
+
+    - check_instance_state:
+        loop:
+          for: 'step in range(0, int(get("polling_retries", 50)))'
+          do:
+            instances.check_instance_state:
+              - access_key_id
+              - access_key_secret
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - instance_id
+              - region_id
+              - instance_status: Stopped
+              - polling_interval
+          break:
+            - SUCCESS
+          publish:
+            - output
+            - return_code
+            - exception
+            - instance_status: '${instance_status}'
+        navigate:
+          - SUCCESS: allocate_public_ip_address
+          - FAILURE: terminate_instance
 
     - allocate_public_ip_address:
         do:
@@ -351,31 +384,6 @@ flow:
           - return_code
           - public_ip_address
           - exception
-        navigate:
-          - SUCCESS: check_instance_state
-          - FAILURE: terminate_instance
-
-    - check_instance_state:
-        loop:
-          for: 'step in range(0, int(get("polling_retries", 50)))'
-          do:
-            instances.check_instance_state:
-              - access_key_id
-              - access_key_secret
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password
-              - instance_id: '${instance_id}'
-              - region_id
-              - instance_status: Stopped
-              - polling_interval
-          break:
-            - SUCCESS
-          publish:
-            - return_result: '${output}'
-            - return_code
-            - exception
         navigate:
           - SUCCESS: start_instance
           - FAILURE: terminate_instance

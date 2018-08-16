@@ -36,10 +36,10 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 50
 #!
-#! @output output: It contains the state of the instance or the exception in case of failure
+#! @output output: It contains the state of the instance or the exception in case of failure.
 #! @output instance_state: The state of ECS instance.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
-#! @output exception: Exception if there was an error when executing, empty otherwise
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The server (instance) has been successfully started.
 #! @result FAILURE: An error occured while trying to start the instance.

@@ -49,11 +49,11 @@
 #!                         Default: 50
 #!
 #! @output return_result: The authentication token in case of success, or an error message in case of failure.
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: Exception if there was an error when executing, empty otherwise
+#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The server (instance) has been successfully terminated
-#! @result FAILURE: An error occur while trying to delete the instance
+#! @result SUCCESS: The server (instance) has been successfully terminated.
+#! @result FAILURE: An error occured while trying to delete the instance.
 #!!#
 ########################################################################################################################
 
@@ -113,10 +113,10 @@ flow:
           - exception
           - instance_status: '${instance_status}'
         navigate:
-          - SUCCESS: string_occurrence_counter
+          - SUCCESS: instance_status_check
           - FAILURE: on_failure
 
-    - string_occurrence_counter:
+    - instance_status_check:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${instance_status}

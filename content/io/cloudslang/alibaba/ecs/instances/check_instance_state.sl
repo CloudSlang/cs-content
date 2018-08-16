@@ -15,24 +15,24 @@
 #!!
 #! @description: The operation checks if an instance has a specific state.
 #!
-#! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
-#! @input access_key_secret: Secret access key associated with your Amazon AWS account.
-#! @input proxy_host: Proxy server used to access the provider services
-#! @input proxy_port: Proxy server port used to access the provider services
+#! @input access_key_id: ID of the secret access key associated with your Alibaba account.
+#! @input access_key_secret: Secret access key associated with your Alibaba account.
+#! @input proxy_host: Proxy server used to access the provider services.
+#! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
 #!                        Default: ''
-#! @input proxy_password: Optional - Proxy server password associated with the proxy_username
-#!                        input value.
+#! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
 #! @input instance_id: The ID of the server (instance) you want to check.
 #! @input region_id: Region ID of an instance. You can call DescribeRegions to obtain the latest region list.
 #! @input instance_status: The state that you would like the instance to have.
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: '10'
 #!
-#! @output output: Contains the success message or the exception in case of failure
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: Exception if there was an error when executing, empty otherwise
+#! @output output: Contains the success message or the exception in case of failure.
+#! @output instance_state: The state of the instance.
+#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The server (instance) has the expected state
 #! @result FAILURE: Error checking the instance state, or the actual state is not the expected one
@@ -88,10 +88,10 @@ flow:
           - exception
           - instance_status_returned: '${instance_status}'
         navigate:
-          - SUCCESS: string_occurrence_counter
+          - SUCCESS: instance_status_check
           - FAILURE: on_failure
 
-    - string_occurrence_counter:
+    - instance_status_check:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${instance_status_returned}
@@ -110,6 +110,7 @@ flow:
 
   outputs:
     - output: ${return_result}
+    - instance_state: ${instance_status_returned}
     - return_code
     - exception
 
