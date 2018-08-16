@@ -146,7 +146,7 @@ flow:
 
     - stop_instance:
         do:
-          instances.stop_instance:
+          stop_instance:
             - access_key_id
             - access_key_secret
             - proxy_host

@@ -145,7 +145,7 @@
 #!                      client and is guaranteed to be unique between different requests. It can contain a maximum of 64
 #!                      ASCII characters only.
 #!                      Optional
-#! @input client_token: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
+#! @input key_pair_name: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
 #!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
 #!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
 #!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
@@ -275,6 +275,8 @@ flow:
         required: false
     - client_token:  
         required: false
+    - key_pair_name:
+        required: false
     - deployment_set_id:  
         required: false
     - ram_role_name:  
@@ -330,6 +332,7 @@ flow:
             - auto_renew_period
             - user_data
             - client_token
+            - key_pair_name
             - deployment_set_id
             - ram_role_name
             - security_enhancement_strategy

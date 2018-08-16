@@ -49,7 +49,7 @@
 #!                         Default: 50
 #!
 #! @output return_result: It contains the state of the instance or the exception in case of failure.
-#! @output instance_status: The state of the instance.
+#! @output instance_state: The state of the instance.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -177,7 +177,7 @@ flow:
 
   outputs:
     - return_result: '${output}'
-    - instance_status
+    - instance_state: '${instance_status}'
     - return_code
     - exception
 
