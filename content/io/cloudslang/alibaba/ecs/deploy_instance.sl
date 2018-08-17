@@ -75,9 +75,9 @@
 #!                          the selected image has password configured.
 #!                          Default: false
 #!                          Optional
-#! @input is_optimized: Whether it is an I/O-optimized instance or not. For phased-out instance types, the default value
-#!                      is none. For other instance types, the default value is optimized.
+#! @input is_optimized: Whether it is an I/O-optimized instance or not.
 #!                      Valid values: none, optimized
+#!                      Default: optimized
 #!                      Optional
 #! @input system_disk_category: The category of the system disk.  Optional values:cloud: Basic cloud
 #!                              disk.cloud_efficiency: Ultra cloud disk.cloud_ssd: Cloud SSD.ephemeral_ssd: Ephemeral
@@ -229,7 +229,8 @@ flow:
     - password_inherit:
         default: 'false'
         required: false
-    - is_optimized:  
+    - is_optimized:
+        default: 'optimized'
         required: false
     - system_disk_category:  
         required: false
@@ -276,6 +277,7 @@ flow:
     - client_token:  
         required: false
     - key_pair_name:
+        default: ''
         required: false
     - deployment_set_id:  
         required: false

@@ -73,9 +73,9 @@
 #!                          the selected image has password configured.
 #!                          Default: false
 #!                          Optional
-#! @input is_optimized: Whether it is an I/O-optimized instance or not. For phased-out instance types, the default value
-#!                      is none. For other instance types, the default value is optimized.
+#! @input is_optimized: Whether it is an I/O-optimized instance or not.
 #!                      Valid values: none, optimized
+#!                      Default: optimized
 #!                      Optional
 #! @input system_disk_category: The category of the system disk.  Optional values:cloud: Basic cloud
 #!                              disk.cloud_efficiency: Ultra cloud disk.cloud_ssd: Cloud SSD.ephemeral_ssd: Ephemeral
@@ -282,7 +282,8 @@ operation:
         default: ${get('password_inherit', '')}  
         required: false 
         private: true 
-    - is_optimized:  
+    - is_optimized:
+        default: 'optimized'
         required: false  
     - isOptimized: 
         default: ${get('is_optimized', '')}  
@@ -390,13 +391,14 @@ operation:
         default: ${get('user_data', '')}  
         required: false 
         private: true
-    - client_token:  
+    - client_token:
         required: false  
     - clientToken: 
         default: ${get('client_token', '')}  
         required: false 
         private: true 
     - key_pair_name:
+        default: ''
         required: false
     - keyPairName:
         default: ${get('key_pair_name', '')}
