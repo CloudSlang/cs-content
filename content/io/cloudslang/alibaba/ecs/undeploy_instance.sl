@@ -31,12 +31,12 @@
 #! @input instance_id: The ID of the instance to be terminated.
 #! @input force_stop: Whether to force shutdown upon device restart.
 #!                    Value range:true: force the instance to shut down, false: the instance shuts down normally
-#!                    Default: false
+#!                    Default: 'false'
 #!                    Optional
 #! @input confirm_stop: Whether to stop an I1 ECS instance or not.  A required parameter for I1 type family instance, it
 #!                      only takes effect when the instance is of I1 type family.
 #!                      Valid values: true, false
-#!                      Default value: false
+#!                      Default: 'false'
 #!                      Optional
 #! @input stopped_mode: Whether a VPC ECS instance is billed after it is stopped or not.
 #!                      Optional value: KeepChargingAfter you enable the feature of No fees for stopped instances for a
@@ -44,9 +44,9 @@
 #!                      be billed after it is stopped,  and its resource and Internet IP address are reserved.
 #!                      Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: 10
+#!                          Default: '10'
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Default: 50
+#!                         Default: '50'
 #!
 #! @output return_result: The authentication token in case of success, or an error message in case of failure.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.

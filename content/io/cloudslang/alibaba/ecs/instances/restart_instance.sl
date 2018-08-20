@@ -30,7 +30,7 @@
 #! @input instance_id: The specified instance ID of ECS instance.
 #! @input force_stop: Whether to force shutdown upon device restart.  Value range:true: force the instance to shut down
 #!                    false: the instance shuts down normally
-#!                    Default: false
+#!                    Default: 'false'
 #!                    Optional
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.

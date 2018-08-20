@@ -36,7 +36,7 @@
 #!                           group that manages instances in the same region with the same security requirements and
 #!                           mutual trust.
 #! @input zone_id: ID of a zone to which an instance belongs.  If it is null, a zone is selected by the system.
-#!                 Default value: ''
+#!                 Default: ''
 #!                 Optional
 #! @input instance_name: Name of an ECS instance.It can contain [2, 128] characters in length, must begin with an
 #!                       English or Chinese character, and can contain digits, periods (.), colons (:), underscores (_),
@@ -45,10 +45,10 @@
 #!                       Optional
 #! @input description: Description of an ECS instance.It can be [2, 256] characters in length.It cannot begin with
 #!                     "http://" or "https://".
-#!                     Default value: ''.
+#!                     Default: ''.
 #!                     Optional
 #! @input internet_charge_type: Internet billing method. PayByTraffic: You are billed based on the traffic usage.
-#!                              Default: PayByTraffic
+#!                              Default: 'PayByTraffic'
 #!                              Optional
 #! @input internet_max_bandwidth_in: Maximum inbound bandwidth from the Internet, its unit of measurement is Mbit/s.
 #!                                   Value range: [1, 200].
@@ -73,29 +73,29 @@
 #! @input password_inherit: Whether to use the password pre-configured in the image you select or not. When
 #!                          PasswordInherit is specified, the Password must be null. For a secure access, make sure that
 #!                          the selected image has password configured.
-#!                          Default: false
+#!                          Default: 'false'
 #!                          Optional
 #! @input is_optimized: Whether it is an I/O-optimized instance or not.
 #!                      Valid values: none, optimized
-#!                      Default: optimized
+#!                      Default: 'optimized'
 #!                      Optional
-#! @input system_disk_category: The category of the system disk.  Optional values:cloud: Basic cloud
-#!                              disk.cloud_efficiency: Ultra cloud disk.cloud_ssd: Cloud SSD.ephemeral_ssd: Ephemeral
-#!                              SSD.For phased-out instance types and non-I/O optimized instances, the default value is
-#!                              cloud.Otherwise, the default value is cloud_efficiency.
+#! @input system_disk_category: The category of the system disk.
+#!                              Optional values:cloud: Basic cloud disk. cloud_efficiency: Ultra cloud disk.
+#!                              cloud_ssd: Cloud SSD. ephemeral_ssd: Ephemeral SSD.
+#!                              Default: 'cloud_efficiency'
 #!                              Optional
-#! @input system_disk_size: Size of the system disk, measured in GiB. Value range: [20, 500]. The specified value must
-#!                          be equal to or greater than max{20, Imagesize}.
-#!                          Default: max{40, ImageSize}.
+#! @input system_disk_size: Size of the system disk, measured in GiB.
+#!                          Value range:[20, 500].The specified value must be equal to or greater than max{20,Imagesize}
+#!                          Default: '40'.
 #!                          Optional
 #! @input system_disk_name: Name of the system disk.It can be [2, 128] characters in length, must begin with an English
 #!                          letter or Chinese character, and can contain digits, colons (:), underscores (_), or hyphens
 #!                          (-).The name is displayed in the ECS console.It cannot begin with http:// or https://.
-#!                          Default value: ''
+#!                          Default: ''
 #!                          Optional
 #! @input system_disk_description: Description of a system disk.It can be [2, 256] characters in length.The description
 #!                                 is displayed in the ECS console.It cannot begin with http:// or https://.
-#!                                 Default value: ''
+#!                                 Default: ''
 #!                                 Optional
 #! @input delimiter: The delimiter used to separate the values for dataDisksSizeList, dataDisksCategoryList,
 #!                   dataDisksEncryptedList, dataDisksSnapshotList, dataDisksNameList, dataDisksDescriptionList,
@@ -112,7 +112,7 @@
 #!                            specified separately
 #!                            Optional
 #! @input instance_charge_type: Billing methods. Valid values: 'PrePaid', 'PostPaid'
-#!                              Default: PostPaid
+#!                              Default: 'PostPaid'
 #!                              Optional
 #! @input spot_strategy: The spot price you are willing to accept for a preemptible instance. It takes effect only when
 #!                       parameter InstanceChargeType is PostPaid. Optional values:NoSpot: A normal Pay-As-You-Go
@@ -122,7 +122,7 @@
 #!                       Optional
 #! @input spot_price_limit: The hourly price threshold for a preemptible instance, and it takes effect only when
 #!                          parameter SpotStrategy is SpotWithPriceLimit. Three decimal places are allowed at most.
-#!                          Default: 0.0
+#!                          Default: '0.0'
 #!                          Optional
 #! @input period: This parameter is valid and mandatory only when InstanceChargeType is set to PrePaid. Unit: month.
 #!                Valid values: '1-9', '12', '24', '36', '48', '60'
@@ -133,7 +133,7 @@
 #! @input auto_renew: Whether to set AutoRenew. Whether to set AutoRenew. This parameter is valid when
 #!                    InstanceChargeType is PrePaid.
 #!                    Valid values: true, false
-#!                    Default: false.
+#!                    Default: 'false'
 #!                    Optional
 #! @input auto_renew_period: When AutoRenew is set to True, this parameter is required.
 #!                           Valid values: '1', '2', '3', '6', '12'
@@ -149,7 +149,7 @@
 #!                       instance, if a value is set for parameter KeyPairName, the password still takes effect.The user
 #!                       name and password authentication method is disabled if a value is set for parameter KeyPairName
 #!                       for a Linux instance.
-#!						 Default: ''.
+#!                       Default: ''
 #!                       Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
@@ -231,9 +231,11 @@ flow:
     - is_optimized:
         default: 'optimized'
         required: false
-    - system_disk_category:  
+    - system_disk_category:
+        default: 'cloud_efficiency'
         required: false
-    - system_disk_size:  
+    - system_disk_size:
+        default: '40'
         required: false
     - system_disk_name:
         default: ''

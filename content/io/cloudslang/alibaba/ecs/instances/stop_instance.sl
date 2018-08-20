@@ -17,12 +17,12 @@
 #! @input instance_id: The specified instance ID.
 #! @input force_stop: Whether to force shutdown upon device restart.
 #!                    Value range:true: force the instance to shut down, false: the instance shuts down normally.
-#!                    Default: false
+#!                    Default: 'false'
 #!                    Optional
 #! @input confirm_stop: Whether to stop an I1 ECS instance or not.  A required parameter for I1 type family instance, it
 #!                      only takes effect when the instance is of I1 type family.
 #!                      Valid values: true, false
-#!                      Default value: false
+#!                      Default: 'false'
 #!                      Optional
 #! @input stopped_mode: Whether a VPC ECS instance is billed after it is stopped or not. Optional value:
 #!                      KeepChargingAfter you enable the feature of No fees for stopped instances for a VPC instance,
@@ -65,7 +65,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -95,13 +96,15 @@ operation:
         default: ${get('instance_id', '')}  
         required: false 
         private: true 
-    - force_stop:  
+    - force_stop:
+        default: 'false'
         required: false  
     - forceStop: 
         default: ${get('force_stop', '')}  
         required: false 
         private: true 
-    - confirm_stop:  
+    - confirm_stop:
+        default: 'false'
         required: false  
     - confirmStop: 
         default: ${get('confirm_stop', '')}  
