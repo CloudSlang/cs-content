@@ -146,12 +146,11 @@
 #!                      ASCII characters only.
 #!                      Optional
 #! @input key_pair_name: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
-#!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
-#!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
-#!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance. 
-#!						Default: ''.
-#!                      Optional 
+#!                       instance, if a value is set for parameter KeyPairName, the password still takes effect.The user
+#!                       name and password authentication method is disabled if a value is set for parameter KeyPairName
+#!                       for a Linux instance.
+#!						 Default: ''.
+#!                       Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance.

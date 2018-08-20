@@ -6,7 +6,8 @@
 #! @input access_key_secret: The Secret ID of the Access Key associated with your Alibaba cloud account.
 #! @input proxy_host: Proxy server used to access the Alibaba cloud services.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Alibaba cloud services.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Alibaba cloud services.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -14,12 +15,14 @@
 #!                        Optional
 #! @input region_id: Region ID of an instance. You can call DescribeRegions to obtain the latest region list.
 #! @input instance_id: The specified instance ID.
-#! @input force_stop: Whether to force shutdown upon device restart.  Value range:true: force the instance to shut down
-#!                    false: the instance shuts down normallyDefault: false
+#! @input force_stop: Whether to force shutdown upon device restart.
+#!                    Value range:true: force the instance to shut down, false: the instance shuts down normally.
+#!                    Default: false
 #!                    Optional
 #! @input confirm_stop: Whether to stop an I1 ECS instance or not.  A required parameter for I1 type family instance, it
-#!                      only takes effect when the instance is of I1 type family.Valid values: true, falseDefault value:
-#!                      false
+#!                      only takes effect when the instance is of I1 type family.
+#!                      Valid values: true, false
+#!                      Default value: false
 #!                      Optional
 #! @input stopped_mode: Whether a VPC ECS instance is billed after it is stopped or not. Optional value:
 #!                      KeepChargingAfter you enable the feature of No fees for stopped instances for a VPC instance,

@@ -53,8 +53,8 @@
 #!                                   Default: '200'
 #!                                   Optional
 #! @input internet_max_bandwidth_out: Maximum outbound bandwidth to the Internet, its unit of measurement is Mbit/s. If
-#!                                    this parameter is not specified, an error is returned. Value range: PayByTraffic:
-#!                                    [0,100].
+#!                                    this parameter is not specified, an error is returned.
+#!                                    Value range: PayByTraffic: [0,100].
 #!                                    Default: '1'
 #!                                    Optional
 #! @input hostname: Host name of the ECS instance.It cannot start or end with a period (.) or a hyphen (-) and it cannot
@@ -143,13 +143,12 @@
 #!                      client and is guaranteed to be unique between different requests. It can contain a maximum of 64
 #!                      ASCII characters only. 
 #!                      Optional
-#! @input key_pair_name: The name of the key pair.This parameter is valid only for a Linux instance. For a Windows ECS
-#!                      instance, if a value is set for parameter KeyPairName, the password still takes effect. If a
-#!                      value is set for parameter KeyPairName, the Password still takes effect.The user name and
-#!                      password authentication method is disabled if a value is set for parameter KeyPairName for a
-#!                      Linux instance. 
-#!						Default: ''.
-#!                      Optional 
+#! @input key_pair_name: The name of the key pair. This parameter is valid only for a Linux instance. For a Windows ECS
+#!                       instance, if a value is set for parameter KeyPairName, the password still takes effect. The user
+#!                       name and password authentication method is disabled if a value is set for parameter KeyPairName
+#!                       for a Linux instance.
+#!						 Default: ''.
+#!                       Optional
 #! @input deployment_set_id: Deployment Set ID. If you do not enter the value, 1 is used.
 #!                           Optional
 #! @input ram_role_name: The RAM role name of the instance. 
