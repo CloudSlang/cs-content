@@ -9,27 +9,25 @@
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example:'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
-#!                    Default value: ''
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
 #!                    them both empty.
-#!                    Default: ''
 #!                    Optional
+#!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
-#!                        Default: ''
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.Default: ''
 #!                        Optional
-#! @input connect_timeout: String containing the headers to use for the request separated by new line (CRLF).The header
-#!                         name-value pair will be separated by ':'.Format: Conforming with HTTP standard for headers
-#!                         (RFC 2616)Examples: 'Accept:text/plain'
-#!                         Default: ''
+#! @input connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection before
+#!                         giving up and timing out.
+#!                         Default: '60000'
 #!                         Optional
-#! @input execution_timeout: Value for how long a test run should execute before stopping each device from running a
-#!                           test.
+#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution
+#!                           of an API call. A value of '0' disables this feature.
 #!                           Optional
 #! @input async: Whether to run the operation is async mode.
 #!               Optional
+#!               Default: 'false'
 #! @input product_id: The product identifier.
 #!               Example: 'prod-n3frsv3vnznzo'
 #! @input provisioned_product_name: A user-friendly name for the provisioned product. This value must be unique for the
@@ -58,7 +56,7 @@
 #!                Optional
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
-#! @output return_result: The authentication token in case of success, or an error message in case of failure.
+#! @output return_result: The full API response in case of success, or an error message in case of failure.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output created_time: The UTC time stamp of the creation time.
 #! @output path_id_output: String that contains the identifier path of the product.This value is optional if the product
@@ -97,8 +95,8 @@
 #!                          declaring.Resource properties - Resource properties are additional options that you can
 #!                          specify for a resource.
 #!
-#! @result SUCCESS: The product was successfully provisioned
-#! @result FAILURE: An error has occurred while trying to provision the product
+#! @result SUCCESS: The product was successfully provisioned.
+#! @result FAILURE: An error has occurred while trying to provision the product.
 #!!#
 ########################################################################################################################
 
@@ -117,7 +115,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -137,19 +136,22 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - connect_timeout:  
-        required: false  
+    - connect_timeout:
+        default: '10000'
+        required: false
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
+    - execution_timeout:
+        default: '600000'
         required: false  
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true 
-    - async:  
+    - async:
+        default: 'false'
         required: false  
     - product_id    
     - productId: 
