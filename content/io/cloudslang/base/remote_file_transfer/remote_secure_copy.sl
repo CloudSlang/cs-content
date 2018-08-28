@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,37 +16,49 @@
 #! @description: Copies a file from the local machine to a remote machine or from a remote machine to a different
 #!               remote machine using the SCP protocol.
 #!
-#! @input source_host: Optional - Host of the source machine (only if remote to remote).
+#! @input source_host: Host of the source machine (only if remote to remote).
+#!                     Optional
 #! @input source_path: Absolute or relative path of the file about to be copied.
-#! @input source_port: Optional - Port number for the source machine (only if remote to remote).
+#! @input source_port: Port number for the source machine (only if remote to remote).
+#!                     Optional
 #!                     Default: '22'
-#! @input source_username: Optional - Username of the source machine (only if remote to remote).
-#! @input source_password: Optional - Password of the source machine (only if remote to remote).
-#! @input source_private_key_file: Optional - Path to the private key file on the source machine.
+#! @input source_username: Username of the source machine (only if remote to remote).
+#!                         Optional
+#! @input source_password: Password of the source machine (only if remote to remote).
+#!                         Optional
+#! @input source_private_key_file: Path to the private key file on the source machine.
 #!                                 (only if remote to remote)
+#!                                 Optional
 #! @input destination_host: Host of the destination machine.
 #! @input destination_path: Absolute or relative path where the file will be copied.
-#! @input destination_port: Optional - port number for the destination machine.
+#! @input destination_port: Port number for the destination machine.
 #!                          Default: '22'
+#!                          Optional
 #! @input destination_username: Username of the destination machine.
-#! @input destination_password: Optional - Password of the destination machine.
-#! @input destination_private_key_file: Optional - path to the private key file on the destination machine.
-#! @input known_hosts_policy: Optional - Policy used for managing known_hosts file.
+#! @input destination_password: Password of the destination machine.
+#!                              Optional
+#! @input destination_private_key_file: Path to the private key file on the destination machine.
+#!                                      Optional
+#! @input known_hosts_policy: Policy used for managing known_hosts file.
 #!                            Valid: 'allow', 'strict', 'add'
 #!                            Default: 'allow'
+#!                            Optional
 #! @input known_hosts_path: Path to the known_hosts file.
-#! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
+#! @input timeout: Time in milliseconds to wait for the command to complete.
 #!                 Default: '90000'
-#! @input proxy_host: Optional - HTTP proxy host to access the server.
-#! @input proxy_port: Optional - HTTP proxy port.
-#!                   Default: '8080'
+#!                 Optional
+#! @input proxy_host: HTTP proxy host to access the server.
+#!                    Optional
+#! @input proxy_port: HTTP proxy port.
+#!                    Default: '8080'
+#!                    Optional
 #!
 #! @output return_result: Confirmation message.
 #! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise.
-#! @output exception: Exception description.
+#! @output exception: An exception which displays the stacktrace in case of failure, otherwise empty.
 #!
 #! @result SUCCESS: File copied successfully.
-#! @result FAILURE: Copy failed.
+#! @result FAILURE: An error has occurred while tyring to transfer the file.
 #!!#
 ########################################################################################################################
 
@@ -157,13 +169,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.5'
-    class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
-    method_name: copyTo
+    class_name: 'io.cloudslang.content.rft.actions.RemoteSecureCopyAction'
+    method_name: 'copyTo'
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_code: ${get('returnCode', '')}
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}
