@@ -29,7 +29,7 @@
 #!               Optional
 #!               Default: 'false'
 #! @input product_id: The product identifier.
-#!               Example: 'prod-n3frsv3vnznzo'
+#!                    Example: 'prod-n3frsv3vnznzo'
 #! @input provisioned_product_name: A user-friendly name for the provisioned product. This value must be unique for the
 #!                                  AWS account and cannot be updated after the product is provisioned.
 #! @input provisioning_artifact_id: The identifier of the provisioning artifact also known as version Id.
