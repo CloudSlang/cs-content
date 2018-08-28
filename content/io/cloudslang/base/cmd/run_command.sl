@@ -1,4 +1,4 @@
-#   (c) Copyright 2018 Micro Focus, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,18 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Executes a Shell command(s) on the remote machine using the SSH protocol.
+#! @description: Runs a shell command locally.
 #!
 #! @input command: Command to run.
 #! @input cwd: Current working directory.
-#!             Optional
+#!            If cwd is not None, the child’s current directory will be changed to cwd before it is executed.
+#!            Note that this directory is not considered when searching the executable,
+#!            so you can’t specify the program’s path relative to cwd.
 #!
-#! @output return_result: The output of the command
-#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
-#! @output error_message: An error has occurred while executing the command.
+#! @output return_result: Output of the command.
+#! @output error_message: error in case something went wrong.
+#! @output return_code: 0 if command runs with success, -1 in case of failure.
 #!
-#! @result SUCCESS: The operation completed successfully.
-#! @result FAILURE: An error occurred during execution.
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 
@@ -34,20 +36,37 @@ operation:
   name: run_command
 
   inputs:
-  - command
-  - cwd:
-      required: false
+    - command
+    - cwd:
+        required: false
+        default: null
 
-  java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.6-SNAPSHOT'
-    class_name: 'io.cloudslang.content.rft.actions.RunCommandAction'
-    method_name: 'execute'
+  python_action:
+    script: |
+      import os
+      import subprocess
+      return_code = 0
+      return_result = ''
+      error_message = ''
+      cwd = os.getcwd() if cwd is None else cwd
+      try:
+        res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
+        output,error = res.communicate()
+        if output:
+          return_result = output
+          return_code = res.returncode
+        if error:
+          return_code = res.returncode
+          error_message = error.strip()
+      except Exception as e:
+        return_code = -1
+        error_message = e
 
   outputs:
-  - return_result: ${get('returnResult', '')}
-  - return_code: ${get('returnCode', '')}
-  - error_message: ${get('exception', '')}
+    - return_result
+    - return_code: ${ str(return_code) }
+    - error_message
 
   results:
-  - SUCCESS: ${returnCode=='0'}
-  - FAILURE
+    - SUCCESS: ${return_code == 0}
+    - FAILURE
