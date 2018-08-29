@@ -21,10 +21,22 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
+#! @input proxy_host: The proxy host.
+#!                    Optional
+#! @input proxy_port: The proxy port.
+#!                    Default: '8080'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #!
 #! @output parameters: A list of name:default_value:type objects. Type: 0 - input, 1 - output
+#!
+#! @result SUCCESS: The operation executed successfully
+#! @result FAILURE: The operation could not be executed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.rpa.uft

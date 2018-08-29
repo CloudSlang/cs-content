@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a deafult triggering template.
+#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a deafult triggering
+#!               template.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
 #! @input port: The WinRM port of the provided host. Default: https: 5986 http: 5985
@@ -33,6 +34,11 @@
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input script: The run robot (UFT scenario) VB script template.
 #! @input fileNumber: Used for development purposes.
+#!
+#! @output script_name: Full path VB script
+#!
+#! @result SUCCESS: The operation executed successfully
+#! @result FAILURE: The operation could not be executed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.rpa.utility

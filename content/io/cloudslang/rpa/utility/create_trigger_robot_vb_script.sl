@@ -39,7 +39,11 @@
 #! @input script: The run robot (UFT scenario) VB script template.
 #! @input fileNumber: Used for development purposes
 #!
+#! @output script_name: Full path VB script
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#!
+#! @result SUCCESS: The operation executed successfully
+#! @result FAILURE: The operation could not be executed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.rpa.utility
