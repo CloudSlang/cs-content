@@ -1,3 +1,16 @@
+#   (c) Copyright 2018 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a deafult triggering template.
@@ -7,13 +20,22 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
+#! @input proxy_host: The proxy host.
+#!                    Optional
+#! @input proxy_port: The proxy port.
+#!                    Default: '8080'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input script: The run robot (UFT scenario) VB script template.
 #! @input fileNumber: Used for development purposes.
 #!!#
 ########################################################################################################################
-namespace: utility
+namespace: io.cloudslang.rpa.utility
 flow:
   name: create_get_robot_params_vb_script
   inputs:
