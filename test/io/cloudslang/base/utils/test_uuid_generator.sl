@@ -21,23 +21,64 @@ imports:
 flow:
   name: test_uuid_generator
 
+  inputs:
+    - version:
+        required: false
+
   workflow:
     - execute_uuid_generator:
         do:
           utils.uuid_generator:
+            - version
         publish:
           - new_uuid
         navigate:
           - SUCCESS: verify_output_is_not_empty
+          - FAILURE: FAILURE
+
     - verify_output_is_not_empty:
         do:
-          strings.string_equals:
-            - first_string: ''
-            - second_string: ${ new_uuid }
+          utils.uuid_generator:
+            - version: "1"
+        publish:
+          - new_uuid
         navigate:
-          - SUCCESS: OUTPUT_IS_EMPTY
-          - FAILURE: SUCCESS
+          - SUCCESS: verify_version_is_1
+          - FAILURE: FAILURE
+
+
+    - verify_version_is_1:
+        do:
+          utils.uuid_generator:
+            - version: "3"
+            - name: "test"
+        publish:
+          - new_uuid
+        navigate:
+          - SUCCESS: verify_version_is_3
+          - FAILURE: FAILURE
+
+    - verify_version_is_3:
+        do:
+          utils.uuid_generator:
+            - version: "4"
+        publish:
+          - new_uuid
+        navigate:
+          - SUCCESS: verify_version_is_4
+          - FAILURE: FAILURE
+
+    - verify_version_is_4:
+        do:
+          utils.uuid_generator:
+            - version: "5"
+            - name: "test"
+        publish:
+          - new_uuid
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
-    - OUTPUT_IS_EMPTY
+    - FAILURE

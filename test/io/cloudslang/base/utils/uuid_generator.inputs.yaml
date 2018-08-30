@@ -12,12 +12,12 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testUuidGeneratorSuccess:
-  description: Tests that uuid_generator.sl operation finishes with SUCCESS
-  testFlowPath: io.cloudslang.base.utils.uuid_generator
-  result: SUCCESS
 
 testUuidGeneratorOutputNotEmpty:
+  testSuites: [uuid]
+  testFlowPath: io.cloudslang.base.utils.uuid_generator
+  inputs:
+        - version: ''
   description: Tests that uuid_generator.sl contains an output that is not empty
   testFlowPath: io.cloudslang.base.utils.test_uuid_generator
   result: SUCCESS

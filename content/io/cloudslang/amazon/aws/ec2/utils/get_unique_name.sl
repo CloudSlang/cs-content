@@ -127,6 +127,7 @@ flow:
           - random_name: '${instance_name_prefix + new_uuid}'
         navigate:
           - SUCCESS: is_list_empty
+          - FAILURE: FAILURE
 
     - count_results:
         do:
