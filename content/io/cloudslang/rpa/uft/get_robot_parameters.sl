@@ -82,10 +82,6 @@
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.rpa.uft
-
-imports:
-  strings: io.cloudslang.base.strings
-
 flow:
   name: get_robot_parameters
   inputs:
