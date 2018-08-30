@@ -83,7 +83,7 @@
 #! @result FAILURE: The operation could not be executed.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.rpa.uft
+namespace: io.cloudslang.rpa
 flow:
   name: trigger_robot
   inputs:
