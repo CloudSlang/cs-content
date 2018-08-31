@@ -82,7 +82,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa
+namespace: io.cloudslang.rpa.uft
 
 imports:
   utility: create_get_robot_params_vb_script.utility

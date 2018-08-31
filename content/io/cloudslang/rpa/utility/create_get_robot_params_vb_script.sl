@@ -84,7 +84,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa
+namespace: io.cloudslang.rpa.utility
 
 flow:
   name: create_get_robot_params_vb_script

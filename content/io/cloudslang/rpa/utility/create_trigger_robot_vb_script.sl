@@ -90,7 +90,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa
+namespace: io.cloudslang.rpa.utility
 
 flow:
   name: create_trigger_robot_vb_script
