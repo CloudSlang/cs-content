@@ -82,6 +82,10 @@
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.rpa.uft
+
+imports:
+  utility: create_get_robot_params_vb_script.utility
+
 flow:
   name: get_robot_parameters
   inputs:
