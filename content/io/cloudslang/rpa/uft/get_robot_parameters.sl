@@ -81,6 +81,7 @@
 #! @result FAILURE: The operation could not be executed.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.rpa.uft
 
 imports:
@@ -127,6 +128,7 @@ flow:
         required: false
     - robot_path
     - rpa_workspace_path
+
   workflow:
     - create_get_robot_params_vb_script:
         do:
@@ -247,11 +249,14 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
+
   outputs:
     - parameters: '${parameters}'
+
   results:
     - FAILURE
     - SUCCESS
+
 extensions:
   graph:
     steps:

@@ -89,7 +89,9 @@
 #! @result FAILURE: The operation could not be executed.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.rpa.utility
+
 flow:
   name: create_trigger_robot_vb_script
   inputs:
@@ -138,6 +140,7 @@ flow:
     - fileNumber:
         default: '0'
         private: true
+
   workflow:
     - add_robot_path:
         do:
@@ -314,11 +317,14 @@ flow:
         navigate:
           - SUCCESS: check_if_filename_exists
           - FAILURE: on_failure
+
   outputs:
     - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
+
   results:
     - FAILURE
     - SUCCESS
+
 extensions:
   graph:
     steps:

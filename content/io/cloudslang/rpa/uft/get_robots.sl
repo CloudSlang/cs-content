@@ -80,9 +80,8 @@
 #! @result FAILURE: The operation could not be executed.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.rpa.uft
-
-
 
 flow:
   name: get_robots
@@ -127,6 +126,7 @@ flow:
     - iterator:
         default: '0'
         private: true
+
   workflow:
     - get_folders:
         do:
@@ -261,11 +261,14 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+
   outputs:
     - robots: '${robots_list.rstrip(",")}'
+
   results:
     - SUCCESS
     - FAILURE
+
 extensions:
   graph:
     steps:
