@@ -84,7 +84,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa.uft
+namespace: io.cloudslang.rpa
 
 imports:
   utility: create_trigger_robot_vb_script.utility

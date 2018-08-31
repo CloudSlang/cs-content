@@ -81,7 +81,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa.uft
+namespace: io.cloudslang.rpa
 
 flow:
   name: get_robots
