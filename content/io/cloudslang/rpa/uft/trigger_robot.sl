@@ -87,7 +87,7 @@
 namespace: io.cloudslang.rpa.uft
 
 imports:
-  utility: create_trigger_robot_vb_script.utility
+  utility: create_trigger_robot_vb_script
 
 flow:
   name: trigger_robot
@@ -133,7 +133,6 @@ flow:
     - robot_results_path
     - robot_parameters
     - rpa_workspace_path
-
   workflow:
     - create_trigger_robot_vb_script:
         do:
