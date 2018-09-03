@@ -25,6 +25,10 @@
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution
 #!                           of an API call. A value of '0' disables this feature.
 #!                           Optional
+#! @input pooling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed.
+#!                          Optional
+#!                          Default: '1000'
 #! @input async: Whether to run the operation is async mode.
 #!               Optional
 #!               Default: 'false'
@@ -34,11 +38,12 @@
 #!                                  AWS account and cannot be updated after the product is provisioned.
 #! @input provisioning_artifact_id: The identifier of the provisioning artifact also known as version Id.
 #!                                   Example:'pa-o5nvsxzzyuzjk'
-#! @input param_key_name: Name of an existing EC2 KeyPair to enable SSH access to the instances.
-#! @input param_ssh_location: The IP address range that can be used to SSH to the EC2 instances.
-#!                            Optional
-#! @input param_instance_type: WebServer EC2 instance type.
-#!                             Optional
+#! @input provisioning_parameters: Template parameters in key value format, one key=value, delimited by the value from
+#!                                 delimiter input.
+#!                                 Optional
+#! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.Default: ','
+#!                   Optional
+#!                   Default: ','
 #! @input tags: One or more tags.
 #!              Optional
 #! @input provision_token: An idempotency token that uniquely identifies the provisioning request.
@@ -149,7 +154,14 @@ operation:
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
-        private: true 
+        private: true
+    - pooling_interval:
+        default: '1000'
+        required: false
+    - poolingInterval:
+        default: ${get('pooling_interval', '')}
+        required: false
+        private: true
     - async:
         default: 'false'
         required: false  
@@ -168,23 +180,14 @@ operation:
         default: ${get('provisioning_artifact_id', '')}  
         required: false 
         private: true 
-    - param_key_name    
-    - paramKeyName: 
-        default: ${get('param_key_name', '')}  
-        required: false 
-        private: true 
-    - param_ssh_location:  
-        required: false  
-    - paramSshLocation: 
-        default: ${get('param_ssh_location', '')}  
-        required: false 
-        private: true 
-    - param_instance_type:  
-        required: false  
-    - paramInstanceType: 
-        default: ${get('param_instance_type', '')}  
-        required: false 
-        private: true 
+    - provisioning_parameters:
+        required: false
+    - provisioningParameters:
+        default: ${get('provisioning_parameters', '')}
+        required: false
+        private: true
+    - delimiter:
+        required: false
     - tags:  
         required: false  
     - provision_token:  
@@ -225,9 +228,9 @@ operation:
     - exception: ${get('exception', '')} 
     - created_time: ${get('createdTime', '')} 
     - path_id_output: ${get('pathId', '')} 
-    - product_id_output: ${get('productId', '')} 
+    - product_id_output: ${get('productIdResult', '')}
     - provisioned_product_id: ${get('provisionedProductId', '')} 
-    - provisioned_product_name_output: ${get('provisionedProductName', '')} 
+    - provisioned_product_name_output: ${get('provisionedProductNameResult', '')}
     - provisioned_product_type: ${get('provisionedProductType', '')} 
     - provisioned_artifact_id: ${get('provisionedArtifactId', '')} 
     - status: ${get('status', '')} 
