@@ -95,6 +95,7 @@ flow:
         required: false
     - password:
         required: false
+        sensitive: true
     -  auth_type:
         default: 'basic'
         required: false
