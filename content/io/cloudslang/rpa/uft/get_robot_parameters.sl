@@ -85,7 +85,7 @@
 namespace: io.cloudslang.rpa.uft
 
 imports:
-  utility: io.cloudslang.rpa.utility.create_get_robot_params_vb_script
+  utility: io.cloudslang.rpa.utility
 
 flow:
   name: get_robot_parameters
