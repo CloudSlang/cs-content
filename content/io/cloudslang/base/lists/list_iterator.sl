@@ -7,6 +7,7 @@
 #! @input list: The list to iterate through.
 #! @input separator: A delimiter separating the list elements. This may be single character, multi-characters or special
 #!                   characters.
+#!                   Default: ','
 #!
 #! @output result_string: The current list element (if the response is "has more").
 #! @output return_result: The current list element (if the response is "has more")
