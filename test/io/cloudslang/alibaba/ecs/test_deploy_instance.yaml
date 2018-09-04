@@ -107,7 +107,7 @@ testDeployInstanceWithInvalidAccessKeyId:
   result: FAILURE
 
 testDeployInstanceWithInvalidAccessKeySecret:
-  description: "Deploy ecs instance in alibaba fails with invalid accessKeySecret Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid accessKeySecret Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -126,7 +126,7 @@ testDeployInstanceWithInvalidAccessKeySecret:
   result: FAILURE
 
 testDeployInstanceWithInvalidProxyHost:
-  description: "Deploy ecs instance in alibaba fails with invalid proxyHost Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid proxyHost Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -145,7 +145,7 @@ testDeployInstanceWithInvalidProxyHost:
   result: FAILURE
 
 testDeployInstanceWithInvalidRegionId:
-  description: "Deploy ecs instance in alibaba fails with invalid regionId Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid regionId Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -164,7 +164,7 @@ testDeployInstanceWithInvalidRegionId:
   result: FAILURE
 
 testDeployInstanceWithInvalidImageId:
-  description: "Deploy ecs instance in alibaba fails with invalid imageId Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid imageId Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -183,7 +183,7 @@ testDeployInstanceWithInvalidImageId:
   result: FAILURE
 
 testDeployInstanceWithInvalidInstanceType:
-  description: "Deploy ecs instance in alibaba fails with invalid instanceType Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid instanceType Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -202,7 +202,7 @@ testDeployInstanceWithInvalidInstanceType:
   result: FAILURE
 
 testDeployInstanceWithInvalidSecurityGroupId:
-  description: "Deploy ecs instance in alibaba fails with invalid securityGroupId Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid securityGroupId Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
@@ -221,7 +221,7 @@ testDeployInstanceWithInvalidSecurityGroupId:
   result: FAILURE
 
 testDeployInstanceWithInvalidKeypair:
-  description: "Deploy ecs instance in alibaba fails with invalid accessKeySecret Value"
+  description: "Deploy ecs instance in Alibaba fails with invalid accessKeySecret Value"
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
