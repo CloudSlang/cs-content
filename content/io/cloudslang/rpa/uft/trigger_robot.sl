@@ -70,6 +70,8 @@
 #!                        Default value: 'changeit'
 #!                        Optional
 #! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
+#!                          Valid: 'True' or 'False'
+#!                          Default value: 'True'
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
 #! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
@@ -132,7 +134,8 @@ flow:
     - is_robot_visible
     - robot_path
     - robot_results_path
-    - robot_parameters
+    - robot_parameters:
+        required: false
     - rpa_workspace_path
   workflow:
     - create_trigger_robot_vb_script:
