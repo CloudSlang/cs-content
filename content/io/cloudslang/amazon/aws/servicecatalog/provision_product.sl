@@ -139,6 +139,7 @@ flow:
     - stack_outputs
     - stack_resources
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
+
 
