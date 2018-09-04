@@ -41,20 +41,21 @@
 #! @input provisioning_parameters: Template parameters in key value format, one key=value, delimited by the value from
 #!                                 delimiter input.
 #!                                 Optional
-#! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.Default: ','
+#! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.
 #!                   Optional
 #!                   Default: ','
 #! @input tags: One or more tags.
 #!              Optional
 #! @input provision_token: An idempotency token that uniquely identifies the provisioning request.
 #!                         Optional
-#! @input accept_language: String that contains the language code.Example: en (English), jp (Japanese), zh(Chinese)
+#! @input accept_language: String that contains the language code.
+#!                         Example: en (English), jp (Japanese), zh(Chinese)
 #!                         Default: 'en'
 #!                         Optional
 #! @input notification_arns: Strings that are passed to CloudFormation.The Simple Notification Service topic Amazon
 #!                           Resource Names to which to publish stack-related events.
 #!                           Optional
-#! @input path_id: String that contains the identifier path of the product.This value is optional if the product has a
+#! @input path_id: String that contains the identifier path of the product. This value is optional if the product has a
 #!                 default path, and required if the product has more than one path.
 #!                 Optional
 #! @input region: String that contains the Amazon AWS region name.
