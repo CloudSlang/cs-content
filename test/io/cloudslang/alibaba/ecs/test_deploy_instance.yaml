@@ -76,7 +76,7 @@ testDeployUbuntuInstanceWithInvalidProxyPort:
     - access_key_id: <access_key_id>
     - access_key_secret: <access_key_secret>
     - proxy_host: <proxy_host>
-    - proxy_port: <invalid_proxy_port>
+    - proxy_port: 'invalid_proxy_port'
     - region_id: <region_id>
     - image_id: <image_id>
     - instance_type: <instance_type>
@@ -92,7 +92,7 @@ testDeployInstanceWithInvalidAccessKeyId:
   testSuites: [alibaba-local]
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
-    - access_key_id: <invalid_access_key_id>
+    - access_key_id: 'invalid_access_key_id'
     - access_key_secret: <access_key_secret>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -112,7 +112,7 @@ testDeployInstanceWithInvalidAccessKeySecret:
   testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
   inputs:
     - access_key_id: <access_key_id>
-    - access_key_secret: <invalid_access_key_secret>
+    - access_key_secret: 'invalid_access_key_secret'
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - region_id: <region_id>
@@ -132,7 +132,7 @@ testDeployInstanceWithInvalidProxyHost:
   inputs:
     - access_key_id: <access_key_id>
     - access_key_secret: <access_key_secret>
-    - proxy_host: <invalid_proxy_host>
+    - proxy_host: 'invalid_proxy_host'
     - proxy_port: <proxy_port>
     - region_id: <region_id>
     - image_id: <image_id>
@@ -153,7 +153,7 @@ testDeployInstanceWithInvalidRegionId:
     - access_key_secret: <access_key_secret>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
-    - region_id: <invalid_region_id>
+    - region_id: 'invalid_region_id'
     - image_id: <image_id>
     - instance_type: <instance_type>
     - security_group_id: <security_group_id>
@@ -173,7 +173,7 @@ testDeployInstanceWithInvalidImageId:
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - region_id: <region_id>
-    - image_id: <invalid_image_id>
+    - image_id: 'invalid_image_id'
     - instance_type: <instance_type>
     - security_group_id: <security_group_id>
     - key_pair_name: <key_pair_name>
@@ -193,7 +193,7 @@ testDeployInstanceWithInvalidInstanceType:
     - proxy_port: <proxy_port>
     - region_id: <region_id>
     - image_id: <image_id>
-    - instance_type: <invalid_instance_type>
+    - instance_type: 'invalid_instance_type'
     - security_group_id: <security_group_id>
     - key_pair_name: <key_pair_name>
 
@@ -213,7 +213,7 @@ testDeployInstanceWithInvalidSecurityGroupId:
     - region_id: <region_id>
     - image_id: <image_id>
     - instance_type: <instance_type>
-    - security_group_id: <invalid_security_group_id>
+    - security_group_id: 'invalid_security_group_id'
     - key_pair_name: <key_pair_name>
 
   outputs:
@@ -233,7 +233,7 @@ testDeployInstanceWithInvalidKeypair:
     - image_id: <image_id>
     - instance_type: <instance_type>
     - security_group_id: <security_group_id>
-    - key_pair_name: <invalid_key_pair_name>
+    - key_pair_name: 'invalid_key_pair_name'
 
   outputs:
     - return_code: '-1'
