@@ -77,6 +77,7 @@ flow:
         required: false
     - proxy_port:
         required: false
+        default: '8080'
     - proxy_username:
         required: false
     - proxy_password:
@@ -84,12 +85,16 @@ flow:
         sensitive: true
     - connect_timeout:
         required: false
+        default: '10000'
     - execution_timeout:
         required: false
+        default: '60000'
     - pooling_interval:
         required: false
+        default: '1000'
     - async:
         required: false
+        default: 'false'
     - product_id
     - provisioned_product_name
     - provisioning_artifact_id
@@ -97,6 +102,7 @@ flow:
         required: false
     - delimiter:
         required: false
+        default: ','
     - tags:
         required: false
     - provision_token:
@@ -113,7 +119,7 @@ flow:
     - provision_product:
         do:
           io.cloudslang.amazon.servicecatalog.products.provision_product:
-            - identity: '${identity}'
+            - identity
             - credential:
                 sensitive: true
             - proxy_host
@@ -126,16 +132,16 @@ flow:
             - pooling_interval
             - async
             - provisioning_parameters
-            - product_id: '${product_id}'
-            - provisioned_product_name: '${provisioned_product_name}'
-            - provisioning_artifact_id: '${provisioning_artifact_id}'
+            - product_id
+            - provisioned_product_name
+            - provisioning_artifact_id
             - delimiter
             - tags
             - provision_token
             - accept_language
             - notification_arns
             - path_id
-            - region: '${region}'
+            - region
 
         publish:
             - return_result
