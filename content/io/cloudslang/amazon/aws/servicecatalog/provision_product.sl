@@ -112,13 +112,47 @@ flow:
   workflow:
     - provision_product:
         do:
-          io.cloudslang.amazon.servicecatalog.provision_product:
+          io.cloudslang.amazon.servicecatalog.products.provision_product:
             - identity: '${identity}'
             - credential:
                 sensitive: true
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password:
+                sensitive: true
+            - connect_timeout
+            - execution_timeout
+            - pooling_interval
+            - async
+            - provisioning_parameters
             - product_id: '${product_id}'
             - provisioned_product_name: '${provisioned_product_name}'
             - provisioning_artifact_id: '${provisioning_artifact_id}'
+            - delimiter
+            - tags
+            - provision_token
+            - accept_language
+            - notification_arns
+            - path_id
+            - region: '${region}'
+
+        publish:
+            - return_result
+            - created_time
+            - path_id_output
+            - product_id_output
+            - provisioned_product_id
+            - provisioned_product_name_output
+            - provisioned_product_type
+            - provisioned_artifact_id
+            - status
+            - stack_id
+            - stack_name
+            - stack_outputs
+            - stack_resources
+            - return_code
+            - exception
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
