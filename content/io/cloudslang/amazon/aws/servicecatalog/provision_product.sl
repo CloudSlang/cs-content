@@ -124,8 +124,6 @@ flow:
           - FAILURE: FAILURE
   outputs:
     - return_result
-    - return_code
-    - exception
     - created_time
     - path_id_output
     - product_id_output
@@ -138,6 +136,8 @@ flow:
     - stack_name
     - stack_outputs
     - stack_resources
+    - return_code
+    - exception
   results:
     - SUCCESS
     - FAILURE
