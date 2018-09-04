@@ -108,12 +108,14 @@ flow:
     - provision_token:
         required: false
     - accept_language:
+        default: 'en'
         required: false
     - notification_arns:
         required: false
     - path_id:
         required: false
     - region:
+        default: 'us-east-1'
         required: false
   workflow:
     - provision_product:

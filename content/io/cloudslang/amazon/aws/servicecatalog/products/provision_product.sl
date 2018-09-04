@@ -201,6 +201,7 @@ operation:
         required: false
         private: true
     - delimiter:
+        default: ','
         required: false
     - tags:  
         required: false  
@@ -210,7 +211,8 @@ operation:
         default: ${get('provision_token', '')}  
         required: false 
         private: true 
-    - accept_language:  
+    - accept_language:
+        default: 'en'
         required: false  
     - acceptLanguage: 
         default: ${get('accept_language', '')}  
@@ -228,7 +230,8 @@ operation:
         default: ${get('path_id', '')}  
         required: false 
         private: true 
-    - region:  
+    - region:
+        default: 'us-east-1'
         required: false  
     
   java_action: 
