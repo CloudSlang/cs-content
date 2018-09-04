@@ -1,0 +1,240 @@
+#   (c) Copyright 2018 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testDeployWindowsInstanceWithPasswordSuccess:
+  description: "Tests that deploy windows ecs instance in Alibaba with password SUCCESS"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - password: <password>
+
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+testDeployUbuntuInstanceWithKeypairSuccess:
+  description: "Tests that deploy Ubuntu ecs instance in Alibaba with keypair SUCCESS"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+testDeployUbuntuInstanceWithMandatoryInputsSuccess:
+  description: "Tests that deploy Ubuntu ecs instance in Alibaba with mandatory inputs SUCCESS"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+testDeployUbuntuInstanceWithInvalidProxyPort:
+  description: "Deploy ecs instance fails with invalid proxyPort"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidAccessKeyId:
+  description: "Deploy ecs instance fails with invalid accessKeyId"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidAccessKeySecret:
+  description: "Deploy ecs instance in alibaba fails with invalid accessKeySecret Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidProxyHost:
+  description: "Deploy ecs instance in alibaba fails with invalid proxyHost Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidRegionId:
+  description: "Deploy ecs instance in alibaba fails with invalid regionId Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidImageId:
+  description: "Deploy ecs instance in alibaba fails with invalid imageId Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidInstanceType:
+  description: "Deploy ecs instance in alibaba fails with invalid instanceType Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidSecurityGroupId:
+  description: "Deploy ecs instance in alibaba fails with invalid securityGroupId Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
+
+testDeployInstanceWithInvalidKeypair:
+  description: "Deploy ecs instance in alibaba fails with invalid accessKeySecret Value"
+  testSuites: [alibaba-local]
+  testFlowPath: io.cloudslang.alibaba.ecs.deploy_instance
+  inputs:
+    - access_key_id: <access_key_id>
+    - access_key_secret: <access_key_secret>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - region_id: <region_id>
+    - image_id: <image_id>
+    - instance_type: <instance_type>
+    - security_group_id: <security_group_id>
+    - key_pair_name: <key_pair_name>
+
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
