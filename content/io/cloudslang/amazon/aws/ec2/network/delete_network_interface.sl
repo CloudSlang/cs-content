@@ -114,7 +114,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.19-RC1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.19'
     class_name: io.cloudslang.content.amazon.actions.network.DeleteNetworkInterfaceAction
     method_name: execute
 
