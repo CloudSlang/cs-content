@@ -336,7 +336,7 @@ flow:
         do:
           io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${script}'
-            - text_to_replace: '<visible_param>'
+#!            - text_to_replace: '<visible_param>'
             - replace_with: '${is_robot_visible}'
         publish:
           - script: '${replaced_string}'
