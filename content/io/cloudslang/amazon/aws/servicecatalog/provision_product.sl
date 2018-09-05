@@ -66,7 +66,7 @@
 #! @result SUCCESS: The product was successfully provisioned.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.amazon.servicecatalog
+namespace: io.cloudslang.amazon.aws.servicecatalog
 flow:
   name: provision_product
   inputs:
@@ -120,7 +120,7 @@ flow:
   workflow:
     - provision_product:
         do:
-          io.cloudslang.amazon.servicecatalog.products.provision_product:
+          io.cloudslang.amazon.aws.servicecatalog.products.provision_product:
             - identity
             - credential:
                 sensitive: true

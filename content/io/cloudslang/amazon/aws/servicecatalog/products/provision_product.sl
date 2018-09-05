@@ -119,7 +119,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.servicecatalog.products
+namespace: io.cloudslang.amazon.aws.servicecatalog.products
 
 operation: 
   name: provision_product
