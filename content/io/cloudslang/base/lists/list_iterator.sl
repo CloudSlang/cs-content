@@ -1,3 +1,16 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This operation is used to iterate a list of values with the help of GlobalSessionObject in order to
@@ -7,11 +20,11 @@
 #! @input list: The list to iterate through.
 #! @input separator: A delimiter separating the list elements. This may be single character, multi-characters or special
 #!                   characters.
-#!                   Default: ','
+#!                   Optional
 #!
 #! @output result_string: The current list element (if the response is "has more").
 #! @output return_result: The current list element (if the response is "has more")
-#! @output return_code: "0" if has more, "1" if no more, and "-1" if failed.
+#! @output return_code: "0" if has more, "1" if no more values, and "-1" if failed.
 #!
 #! @result HAS_MORE: Another value was found in the list and it has been returned.
 #! @result NO_MORE: The iterator has gone through the entire list. This response is returned once per list iteration.  A
@@ -20,27 +33,27 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.lists
+namespace: io.cloudslang.actions
 
-operation: 
+operation:
   name: list_iterator
-  
-  inputs: 
-    - list    
-    - separator    
-    
-  java_action: 
+
+  inputs:
+  - list
+  - separator:
+      default: ','
+
+  java_action:
     gav: 'io.cloudslang.content:cs-lists:0.0.8'
     class_name: 'io.cloudslang.content.actions.ListIteratorAction'
     method_name: 'execute'
-  
-  outputs: 
-    - result_string: ${resultString}
-    - return_result: ${result}
-    - return_code: ${returnCode}
+
+  outputs:
+  - result_string: ${get('resultString', '')}
+  - return_result: ${get('result', '')}
+  - return_code: ${get('returnCode', '')}
 
   results:
-    - HAS_MORE: ${returnCode == '0'}
-    - NO_MORE: ${returnCode == '1'}
-    - FAILURE
-
+  - HAS_MORE: ${returnCode == '0'}
+  - NO_MORE: ${returnCode == '1'}
+  - FAILURE
