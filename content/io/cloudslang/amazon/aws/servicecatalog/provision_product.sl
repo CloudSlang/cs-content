@@ -24,7 +24,7 @@
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #! @input connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection before giving up and timing out.
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an API call. A value of '0' disables this feature.
-#! @input pooling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
 #! @input async: Whether to run the operation is async mode.
 #! @input product_id: The product identifier.
 #! @input provisioned_product_name: A user-friendly name for the provisioned product. This value must be unique for the
@@ -89,7 +89,7 @@ flow:
     - execution_timeout:
         required: false
         default: '60000'
-    - pooling_interval:
+    - polling_interval:
         required: false
         default: '1000'
     - async:
@@ -131,7 +131,7 @@ flow:
                 sensitive: true
             - connect_timeout
             - execution_timeout
-            - pooling_interval
+            - polling_interval
             - async
             - provisioning_parameters
             - product_id

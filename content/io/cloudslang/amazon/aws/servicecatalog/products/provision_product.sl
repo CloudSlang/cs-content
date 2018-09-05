@@ -38,7 +38,7 @@
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution
 #!                           of an API call. A value of '0' disables this feature.
 #!                           Optional
-#! @input pooling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
 #!                          is executed.
 #!                          Optional
 #!                          Default: '1000'
@@ -169,11 +169,11 @@ operation:
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true
-    - pooling_interval:
+    - polling_interval:
         default: '1000'
         required: false
-    - poolingInterval:
-        default: ${get('pooling_interval', '')}
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
         required: false
         private: true
     - async:
