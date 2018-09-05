@@ -21,6 +21,8 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
+#! @input robots_path: The path where the robots(UFT scenarios) are located.
+#! @input iterator: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -68,8 +70,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default value: 'changeit'
 #!                        Optional
-#! @input robots_path: The path where the robots(UFT scenarios) are located.
-#! @input iterator: Used for development purposes.
 #! @input operation_timeout: Defines the operation_timeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
 #!                           Default: '60'

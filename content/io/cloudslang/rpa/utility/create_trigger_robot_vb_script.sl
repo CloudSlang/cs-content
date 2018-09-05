@@ -23,6 +23,14 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
+#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
+#! @input robot_path: The path to the robot(UFT scenario).
+#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
+#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#!                          Eg. name1:value1,name2:value2
+#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
+#! @input script: The run robot (UFT scenario) VB script template.
+#! @input fileNumber: Used for development purposes
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -70,14 +78,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Default value: 'changeit'
 #!                        Optional
-#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
-#! @input robot_path: The path to the robot(UFT scenario).
-#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                          Eg. name1:value1,name2:value2
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
-#! @input script: The run robot (UFT scenario) VB script template.
-#! @input fileNumber: Used for development purposes
 #! @input operation_timeout: Defines the operation_timeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
