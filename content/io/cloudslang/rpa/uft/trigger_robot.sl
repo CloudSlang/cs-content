@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow triggers an RPA Robot (UFT Scenario). 
+#! @description: This flow triggers an simple RPA Robot (UFT Scenario) without parameters.
 #!               The UFT Scenario needs to exist before this flow is ran.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
@@ -27,8 +27,6 @@
 #!                          Default value: 'True'
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -80,6 +78,12 @@
 #! @input operation_timeout: Defines the operation_timeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
+#!
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output stderr: The standard error output if any error occurred.
+#! @output script_exit_code: '0' if success, '-1' otherwise.
+#! @output script_name: name of the script.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -226,6 +230,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -245,8 +250,6 @@ flow:
     - is_robot_visible
     - robot_path
     - robot_results_path
-    - robot_parameters:
-        required: false
     - rpa_workspace_path
   workflow:
     - create_trigger_robot_vb_script:
@@ -264,7 +267,6 @@ flow:
             - is_robot_visible: '${is_robot_visible}'
             - robot_path: '${robot_path}'
             - robot_results_path: '${robot_results_path}'
-            - robot_parameters: '${robot_parameters}'
             - rpa_workspace_path: '${rpa_workspace_path}'
         publish:
           - script_name
@@ -301,9 +303,10 @@ flow:
           - return_code
           - stderr
           - script_exit_code
+
         navigate:
-          - SUCCESS: delete_vb_script
-          - FAILURE: delete_vb_script_1
+          - SUCCESS: string_equals
+          - FAILURE: on_failure
     - delete_vb_script:
         do:
           io.cloudslang.base.powershell.powershell_script:
@@ -370,6 +373,21 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
+    - string_equals:
+            do:
+              io.cloudslang.base.strings.string_equals:
+                - first_string: '${stderr}'
+                - ignore_case: 'true'
+            navigate:
+              - SUCCESS: delete_vb_script
+              - FAILURE: delete_vb_script_1
+
+  outputs:
+    - exception: ${get('exception', '')}
+    - return_code: ${get('return_code', '')}
+    - stderr: ${get('stderr', '')}
+    - script_exit_code: ${get('script_exit_code', '')}
+    - script_name: ${get('script_name', '')}
 
   results:
     - FAILURE
@@ -379,34 +397,42 @@ extensions:
   graph:
     steps:
       create_trigger_robot_vb_script:
-        x: 51
-        y: 78
+        x: 20
+        y: 99
       trigger_vb_script:
-        x: 344
-        y: 76
+        x: 181
+        y: 98
       delete_vb_script:
-        x: 585
-        y: 80
+        x: 656
+        y: 94
         navigate:
-          dcf12e0f-57e6-2c88-a65e-a1f3651e7ee4:
-            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
+          9601df64-de18-5c4f-cbb6-49285c2ddf7c:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
             port: SUCCESS
-          82467eb7-5ac6-1523-0211-d9ec99424bdb:
-            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
+            vertices:
+              - x: 766.6607369295532
+                y: 102.76036936598254
+              - x: 847
+                y: 113
+          df284b8a-571a-ded7-1b3c-e34d15eb2d76:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
             port: FAILURE
       delete_vb_script_1:
-        x: 585
-        y: 242
+        x: 658
+        y: 261
         navigate:
-          6585b707-8ed3-ad4a-4c92-06a5c32e5b7a:
-            targetId: 9075912d-0472-2f13-bd04-f716ea7744ed
+          bccc7aeb-f02b-bf14-8d9c-ab09d2c0fe6f:
+            targetId: 3c909de7-63a5-468a-8e37-ade3d8c05b25
             port: SUCCESS
+      string_equals:
+        x: 444
+        y: 78
     results:
-      FAILURE:
-        9075912d-0472-2f13-bd04-f716ea7744ed:
-          x: 823
-          y: 231
       SUCCESS:
-        023c90fc-05ed-adf3-eb3c-da02c1f4333a:
-          x: 824
-          y: 83
+        efaa8ccd-7bc1-b44f-9445-c2adc2a23a31:
+          x: 942
+          y: 96
+      FAILURE:
+        3c909de7-63a5-468a-8e37-ade3d8c05b25:
+          x: 940
+          y: 266

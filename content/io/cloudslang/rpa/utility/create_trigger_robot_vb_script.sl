@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a
-#!               default triggering template.
+#! @description: This flow creates a simple VB script needed to run an RPA Robot (UFT Scenario) based on a
+#!               default triggering template without parameters.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
 #! @input port: The WinRM port of the provided host.
@@ -26,8 +26,6 @@
 #! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input script: The run robot (UFT scenario) VB script template.
 #! @input fileNumber: Used for development purposes
@@ -84,6 +82,9 @@
 #!
 #! @output script_name: Full path VB script
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output stderr: An error message in case there was an error while running power shell
+#! @output script_exit_code: '0' if success, '-1' otherwise.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -246,7 +247,6 @@ flow:
     - is_robot_visible: 'True'
     - robot_path
     - robot_results_path
-    - robot_parameters
     - rpa_workspace_path
     - script: "${get_sp('run_robot_script_template')}"
     - fileNumber:
@@ -432,6 +432,10 @@ flow:
 
   outputs:
     - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
+    - exception
+    - return_code
+    - stderr
+    - script_exit_code
 
   results:
     - FAILURE

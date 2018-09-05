@@ -76,6 +76,11 @@
 #!                           Default: '60'
 #!
 #! @output parameters: A list of name:default_value:type objects. Type: 0 - input, 1 - output.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output stderr: An error message in case there was an error while running power shell
+#! @output script_exit_code: '0' if success, '-1' otherwise.
+#! @output script_name: name of the script.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -364,6 +369,11 @@ flow:
 
   outputs:
     - parameters: '${parameters}'
+    - exception: ${get('exception', '')}
+    - return_code: ${get('return_code', '')}
+    - stderr: ${get('stderr', '')}
+    - script_exit_code: ${get('script_exit_code', '')}
+    - script_name: ${get('script_name', '')}
 
   results:
     - FAILURE

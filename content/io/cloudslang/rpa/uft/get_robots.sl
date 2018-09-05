@@ -75,6 +75,12 @@
 #!                           Default: '60'
 #!
 #! @output robots: UFT robots list from the specified path.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output stderr: An error message in case there was an error while running power shell
+#! @output script_exit_code: '0' if success, '-1' otherwise.
+#! @output folders: folders from the specified path.
+#! @output test_file_exists: file exist.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -376,6 +382,12 @@ flow:
 
   outputs:
     - robots: '${robots_list.rstrip(",")}'
+    - exception: ${get('exception', '')}
+    - return_code: ${get('return_code', '')}
+    - stderr: ${get('stderr', '')}
+    - script_exit_code: ${get('script_exit_code', '')}
+    - folders: ${get('folders', '')}
+    - test_file_exists: ${get('test_file_exists', '')}
 
   results:
     - SUCCESS
