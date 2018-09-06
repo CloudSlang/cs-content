@@ -312,8 +312,8 @@ flow:
           - script_exit_code
 
         navigate:
-          - SUCCESS: string_equals
-          - FAILURE: on_failure
+          - SUCCESS: delete_vb_script
+          - FAILURE: delete_vb_script_1
     - delete_vb_script:
         do:
           ps.powershell_script:
@@ -380,14 +380,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-    - string_equals:
-            do:
-              io.cloudslang.base.strings.string_equals:
-                - first_string: '${stderr}'
-                - ignore_case: 'True'
-            navigate:
-              - SUCCESS: delete_vb_script
-              - FAILURE: delete_vb_script_1
 
   outputs:
     - exception: ${get('exception', '')}
