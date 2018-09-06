@@ -247,9 +247,9 @@ flow:
     - rpa_workspace_path
 
   workflow:
-    - create_get_robot_params_vb_script:
+    - create_get_test_params_vb_script:
         do:
-          utility.create_get_robot_params_vb_script:
+          utility.create_get_test_params_vb_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
