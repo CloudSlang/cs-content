@@ -252,7 +252,7 @@ flow:
     - robot_results_path
     - robot_parameters
     - rpa_workspace_path
-    - script: "${get_sp('io.cloudslang.rpa.run_robot_script_template')}"
+    - script: "${get_sp('io.cloudslang.rpa.vb_script_templates.run_robot_script_template')}"
     - fileNumber:
         default: '0'
         private: true
