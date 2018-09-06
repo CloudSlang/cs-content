@@ -208,7 +208,7 @@ namespace: io.cloudslang.rpa.uft
 imports:
   utility: io.cloudslang.rpa.utility
   ps: io.cloudslang.base.powershell
-  st: io.cloudslang.base.strings
+  st: io.cloudslang.rpa
 
 flow:
   name: trigger_robot
