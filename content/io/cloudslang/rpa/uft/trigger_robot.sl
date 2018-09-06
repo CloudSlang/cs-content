@@ -311,7 +311,7 @@ flow:
 
         navigate:
           - SUCCESS: string_equals
-          - FAILURE: on_failure
+          - FAILURE: delete_vb_script
     - delete_vb_script:
         do:
           io.cloudslang.base.powershell.powershell_script:
