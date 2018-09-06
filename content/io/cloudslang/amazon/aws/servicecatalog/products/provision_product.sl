@@ -33,10 +33,11 @@
 #!                        Optional
 #! @input connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection before
 #!                         giving up and timing out.
-#!                         Default: '60000'
+#!                         Default: '10000'
 #!                         Optional
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution
 #!                           of an API call. A value of '0' disables this feature.
+#!                           Default: '60000'
 #!                           Optional
 #! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
 #!                          is executed.
@@ -54,10 +55,11 @@
 #! @input provisioning_parameters: Template parameters in key value format, one key=value, delimited by the value from
 #!                                 delimiter input.
 #!                                 Optional
+#!                                 Example: 'KeyName=myKey,InstanceType=m1.small'
 #! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.
 #!                   Optional
 #!                   Default: ','
-#! @input tags: One or more tags.
+#! @input tags: One or more tags in key=value format, one key=value, delimited by the value from delimiter input.
 #!              Optional
 #! @input provision_token: An idempotency token that uniquely identifies the provisioning request.
 #!                         Optional
