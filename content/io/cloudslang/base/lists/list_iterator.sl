@@ -20,7 +20,7 @@
 #! @input list: The list to iterate through.
 #! @input separator: A delimiter separating the list elements. This may be single character, multi-characters or special
 #!                   characters.
-#!                   Optional
+#!                   Default: ','
 #!
 #! @output result_string: The current list element (if the response is "has more").
 #! @output return_result: The current list element (if the response is "has more")
@@ -33,7 +33,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.actions
+namespace: io.cloudslang.base.lists
 
 operation:
   name: list_iterator
@@ -49,9 +49,9 @@ operation:
     method_name: 'execute'
 
   outputs:
-  - result_string: ${get('resultString', '')}
-  - return_result: ${get('result', '')}
-  - return_code: ${get('returnCode', '')}
+  - result_string: ${resultString}
+  - return_result: ${result}
+  - return_code: ${returnCode}
 
   results:
   - HAS_MORE: ${returnCode == '0'}
