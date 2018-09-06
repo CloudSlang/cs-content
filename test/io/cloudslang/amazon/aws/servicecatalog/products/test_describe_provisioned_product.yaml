@@ -28,6 +28,8 @@ testDescribeProvisionedProductSuccess:
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.describe_provisioned_product
   testSuites: [amazon-local]
   result: SUCCESS
+  outputs:
+    - provisionedProductId: <provisionedProductId>
 
 testDescribeProvisionedProductInvalidAWSCredentials:
   inputs:
