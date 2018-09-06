@@ -198,13 +198,13 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa.uft
+namespace: io.cloudslang.microfocus.uft
 
 imports:
   utility: io.cloudslang.rpa.utility
 
 flow:
-  name: get_robot_parameters
+  name: get_test_parameters
   inputs:
     - host
     - port:

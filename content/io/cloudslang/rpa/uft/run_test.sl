@@ -13,24 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a
-#!               default triggering template.
+#! @description: This flow triggers an RPA Robot (UFT Scenario). 
+#!               The UFT Scenario needs to exist before this flow is ran.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
 #! @input port: The WinRM port of the provided host.
-#!              Default for https: '5986'
-#!              Default for http: '5985'
+#!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
 #! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
+#!                          Valid: 'True' or 'False'
+#!                          Default value: 'True'
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
 #! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
 #!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
-#! @input script: The run robot (UFT scenario) VB script template.
-#! @input fileNumber: Used for development purposes
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -82,12 +81,11 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
-#! @output script_name: Full path VB script
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output stderr: An error message in case there was an error while running power shell
+#! @output stderr: The standard error output if any error occurred.
 #! @output script_exit_code: '0' if success, '-1' otherwise.
-#! @output fileExists: file exist.
+#! @output script_name: name of the script.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -205,13 +203,15 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rpa.utility
+namespace: io.cloudslang.rpa.uft
 
 imports:
-  sp: io.cloudslang.rpa
+  utility: io.cloudslang.rpa.utility
+  ps: io.cloudslang.base.powershell
+  st: io.cloudslang.strings
 
 flow:
-  name: create_trigger_robot_vb_script
+  name: run_test
   inputs:
     - host
     - port:
@@ -234,6 +234,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -250,31 +251,38 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_robot_visible: 'True'
+    - is_robot_visible
     - robot_path
     - robot_results_path
-    - robot_parameters
+    - robot_parameters:
+        required: false
     - rpa_workspace_path
-    - script: "${get_sp('run_robot_script_template')}"
-    - fileNumber:
-        default: '0'
-        private: true
-
   workflow:
-    - add_robot_path:
+    - create_trigger_robot_vb_script:
         do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<test_path>'
-            - replace_with: '${robot_path}'
+          utility.create_trigger_robot_vb_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password: '${password}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - is_robot_visible: '${is_robot_visible}'
+            - robot_path: '${robot_path}'
+            - robot_results_path: '${robot_results_path}'
+            - robot_parameters: '${robot_parameters}'
+            - rpa_workspace_path: '${rpa_workspace_path}'
         publish:
-          - script: '${replaced_string}'
+          - script_name
         navigate:
-          - SUCCESS: add_robot_results_path
           - FAILURE: on_failure
-    - create_vb_script:
+          - SUCCESS: trigger_vb_script
+    - trigger_vb_script:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -296,7 +304,41 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Set-Content -Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
+            - script: "${'invoke-expression \"cmd /C cscript ' + script_name + '\"'}"
+        publish:
+          - exception
+          - return_code
+          - stderr
+          - script_exit_code
+
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: delete_vb_script_1
+    - delete_vb_script:
+        do:
+          ps.powershell_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout: '${operation_timeout}'
+            - script: "${'Remove-Item \"' + script_name +'\"'}"
         publish:
           - exception
           - return_code
@@ -304,55 +346,10 @@ flow:
           - script_exit_code
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - add_robot_results_path:
+          - FAILURE: SUCCESS
+    - delete_vb_script_1:
         do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<test_results_path>'
-            - replace_with: '${robot_results_path}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: is_robot_visible
-          - FAILURE: on_failure
-    - add_parameter:
-        loop:
-          for: parameter in robot_parameters
-          do:
-            io.cloudslang.base.strings.append:
-              - origin_string: "${get('text', '')}"
-              - text: "${'qtParams.Item(`\"' + parameter.split(\":\")[0] + '`\").Value = `\"' + parameter.split(\":\")[1] +'`\"`r`n'}"
-          break: []
-          publish:
-            - text: '${new_string}'
-        navigate:
-          - SUCCESS: add_parameters
-    - add_parameters:
-        do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<params>'
-            - replace_with: '${text}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: create_folder_structure
-          - FAILURE: on_failure
-    - is_robot_visible:
-        do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<visible_param>'
-            - replace_with: '${is_robot_visible}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: add_parameter
-          - FAILURE: on_failure
-    - create_folder_structure:
-        do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -374,76 +371,30 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'New-item \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
+            - script: "${'Remove-Item \"' + script_name + '\"'}"
         publish:
           - exception
           - return_code
           - stderr
           - script_exit_code
-          - scriptName: output_0
         navigate:
-          - SUCCESS: check_if_filename_exists
-          - FAILURE: on_failure
-    - check_if_filename_exists:
-        do:
-          io.cloudslang.base.powershell.powershell_script:
-            - host: '${host}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
-            - auth_type: '${auth_type}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
-        publish:
-          - exception
-          - return_code
-          - stderr
-          - script_exit_code
-          - fileExists: '${return_result}'
-        navigate:
-          - SUCCESS: string_equals
+          - SUCCESS: FAILURE
           - FAILURE: on_failure
     - string_equals:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${fileExists}'
-            - second_string: 'True'
-        navigate:
-          - SUCCESS: add_numbers
-          - FAILURE: create_vb_script
-    - add_numbers:
-        do:
-          io.cloudslang.base.math.add_numbers:
-            - value1: '${fileNumber}'
-            - value2: '1'
-        publish:
-          - fileNumber: '${result}'
-        navigate:
-          - SUCCESS: check_if_filename_exists
-          - FAILURE: on_failure
-
+            do:
+              io.cloudslang.base.strings.string_equals:
+                - first_string: '${stderr}'
+                - second_string: ''
+                - ignore_case: 'true'
+            navigate:
+              - SUCCESS: delete_vb_script
+              - FAILURE: delete_vb_script_1
   outputs:
-    - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
     - exception: ${get('exception', '')}
     - return_code: ${get('return_code', '')}
     - stderr: ${get('stderr', '')}
     - script_exit_code: ${get('script_exit_code', '')}
-    - fileExists: ${get('fileExists', '')}
+    - script_name: ${get('script_name', '')}
 
   results:
     - FAILURE
@@ -452,42 +403,43 @@ flow:
 extensions:
   graph:
     steps:
-      add_robot_results_path:
-        x: 92
-        y: 357
-      create_folder_structure:
-        x: 660
-        y: 364
-      add_parameters:
-        x: 666
-        y: 139
-      is_robot_visible:
-        x: 366
-        y: 353
-      check_if_filename_exists:
-        x: 974
-        y: 365
-      add_parameter:
-        x: 358
-        y: 143
-      add_numbers:
-        x: 1307
-        y: 368
-      string_equals:
-        x: 1001
-        y: 147
-      add_robot_path:
-        x: 100
-        y: 150
-      create_vb_script:
-        x: 1305
-        y: 157
+      create_trigger_robot_vb_script:
+        x: 20
+        y: 99
+      trigger_vb_script:
+        x: 181
+        y: 98
+      delete_vb_script:
+        x: 656
+        y: 94
         navigate:
-          83c47325-2a49-d09d-2896-f1352a114a41:
-            targetId: fbdddb13-1c72-ade3-566f-e341dcbd36c7
+          9601df64-de18-5c4f-cbb6-49285c2ddf7c:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
             port: SUCCESS
+            vertices:
+              - x: 766.6607369295532
+                y: 102.76036936598254
+              - x: 847
+                y: 113
+          df284b8a-571a-ded7-1b3c-e34d15eb2d76:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
+            port: FAILURE
+      delete_vb_script_1:
+        x: 658
+        y: 261
+        navigate:
+          bccc7aeb-f02b-bf14-8d9c-ab09d2c0fe6f:
+            targetId: 3c909de7-63a5-468a-8e37-ade3d8c05b25
+            port: SUCCESS
+      string_equals:
+        x: 444
+        y: 78
     results:
       SUCCESS:
-        fbdddb13-1c72-ade3-566f-e341dcbd36c7:
-          x: 1625
-          y: 149
+        efaa8ccd-7bc1-b44f-9445-c2adc2a23a31:
+          x: 942
+          y: 96
+      FAILURE:
+        3c909de7-63a5-468a-8e37-ade3d8c05b25:
+          x: 940
+          y: 266
