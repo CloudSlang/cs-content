@@ -52,6 +52,7 @@
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output return_result: The full API response in case of success, or an error message in case of failure.
+#!                        The data is returned in JSON format by the service in the first case.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output provisioned_product_arn: The ARN of the provisioned product.
 #!                                  Pattern: '[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:
