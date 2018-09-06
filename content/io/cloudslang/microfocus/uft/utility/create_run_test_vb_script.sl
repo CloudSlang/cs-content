@@ -208,7 +208,7 @@
 namespace: io.cloudslang.microfocus.uft.utility
 
 imports:
-  sp: io.cloudslang.rpa
+  strings: io.cloudslang.base.strings
 
 flow:
   name: create_run_test_vb_script
@@ -255,7 +255,9 @@ flow:
     - robot_results_path
     - robot_parameters
     - rpa_workspace_path
-    - script: "${get_sp('run_robot_script_template')}"
+    - script:
+         default: ${get_sp('io.cloudslang.rpa.run_robot_script_template')}
+         required: false
     - fileNumber:
         default: '0'
         private: true
@@ -320,7 +322,7 @@ flow:
         loop:
           for: parameter in robot_parameters
           do:
-            io.cloudslang.base.strings.append:
+            strings.append:
               - origin_string: "${get('text', '')}"
               - text: "${'qtParams.Item(`\"' + parameter.split(\":\")[0] + '`\").Value = `\"' + parameter.split(\":\")[1] +'`\"`r`n'}"
           break: []
