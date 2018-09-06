@@ -208,7 +208,7 @@
 namespace: io.cloudslang.rpa.utility
 
 imports:
-  sp: io.cloudslang.rpa.vb_script_templates
+  sp: io.cloudslang.rpa
 
 flow:
   name: create_trigger_robot_vb_script
@@ -255,7 +255,7 @@ flow:
     - robot_results_path
     - robot_parameters
     - rpa_workspace_path
-    - script: "${get_sp('sp.run_robot_script_template')}"
+    - script: "${get_sp('run_robot_script_template')}"
     - fileNumber:
         default: '0'
         private: true
