@@ -206,7 +206,7 @@
 namespace: io.cloudslang.microfocus.uft
 
 imports:
-  utility: io.cloudslang.rpa.utility
+  utility: io.cloudslang.microfocus.uft.utility
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
 

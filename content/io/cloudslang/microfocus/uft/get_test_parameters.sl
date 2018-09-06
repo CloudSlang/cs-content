@@ -201,7 +201,7 @@
 namespace: io.cloudslang.microfocus.uft
 
 imports:
-  utility: io.cloudslang.rpa.utility
+  utility: io.cloudslang.microfocus.uft.utility
 
 flow:
   name: get_test_parameters
