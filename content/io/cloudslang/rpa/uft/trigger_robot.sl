@@ -207,6 +207,8 @@ namespace: io.cloudslang.rpa.uft
 
 imports:
   utility: io.cloudslang.rpa.utility
+  ps: io.cloudslang.base.powershell
+  st: io.cloudslang.base.strings
 
 flow:
   name: trigger_robot
@@ -280,7 +282,7 @@ flow:
           - SUCCESS: trigger_vb_script
     - trigger_vb_script:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -314,7 +316,7 @@ flow:
           - FAILURE: on_failure
     - delete_vb_script:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -347,7 +349,7 @@ flow:
           - FAILURE: SUCCESS
     - delete_vb_script_1:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
