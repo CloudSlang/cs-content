@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow triggers an simple RPA Robot (UFT Scenario) without parameters.
+#! @description: This flow triggers an RPA Robot (UFT Scenario). 
 #!               The UFT Scenario needs to exist before this flow is ran.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
@@ -27,6 +27,8 @@
 #!                          Default value: 'True'
 #! @input robot_path: The path to the robot(UFT scenario).
 #! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
+#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -250,6 +252,8 @@ flow:
     - is_robot_visible
     - robot_path
     - robot_results_path
+    - robot_parameters:
+        required: false
     - rpa_workspace_path
   workflow:
     - create_trigger_robot_vb_script:
@@ -267,6 +271,7 @@ flow:
             - is_robot_visible: '${is_robot_visible}'
             - robot_path: '${robot_path}'
             - robot_results_path: '${robot_results_path}'
+            - robot_parameters: '${robot_parameters}'
             - rpa_workspace_path: '${rpa_workspace_path}'
         publish:
           - script_name
