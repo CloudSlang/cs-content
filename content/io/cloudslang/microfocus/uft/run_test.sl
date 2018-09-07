@@ -379,7 +379,7 @@ flow:
           - stderr
           - script_exit_code
         navigate:
-          - SUCCESS: FAILURE
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - string_equals:
             do:
