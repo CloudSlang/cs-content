@@ -386,7 +386,7 @@ flow:
               io.cloudslang.base.strings.string_equals:
                 - first_string: '${stderr}'
                 - second_string: ''
-                - ignore_case: 'false'
+                - ignore_case: 'true'
             navigate:
               - SUCCESS: delete_vb_script
               - FAILURE: delete_vb_script_1
