@@ -268,7 +268,7 @@ flow:
   workflow:
     - add_robot_path:
         do:
-          st.search_and_replace:
+          io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<test_path>'
             - replace_with: '${robot_path}'
