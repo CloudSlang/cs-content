@@ -13,23 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow triggers an RPA Robot (UFT Scenario). 
+#! @description: This flow triggers an UFT Scenario.
 #!               The UFT Scenario needs to exist before this flow is ran.
 #!
-#! @input host: The host where UFT and robots (UFT scenarios) are located.
+#! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
 #!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
+#! @input is_robot_visible: Parameter to set if the UFT actions should be visible in the UI or not.
 #!                          Valid: 'True' or 'False'
 #!                          Default value: 'True'
-#! @input robot_path: The path to the robot(UFT scenario).
-#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#! @input robot_path: The path to the UFT scenario.
+#! @input robot_results_path: The path where the UFT scenario will save its results.
+#! @input robot_parameters: parameters from the UFT scenario. A list of name:value pairs separated by comma.
 #!                          Eg. name1:value1,name2:value2
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
+#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -209,6 +209,7 @@ imports:
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
   utility: io.cloudslang.microfocus.uft.utility
+  base: io.cloudslang.base
 
 
 flow:
@@ -383,7 +384,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
             do:
-              io.cloudslang.base.strings.string_equals:
+              base.string_equals:
                 - first_string: '${stderr}'
                 - second_string: ''
                 - ignore_case: 'true'
