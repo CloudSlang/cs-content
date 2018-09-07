@@ -202,7 +202,7 @@ namespace: io.cloudslang.microfocus.uft
 
 imports:
   ps: io.cloudslang.base.powershell
-  st: io.cloudslang.strings
+  st: io.cloudslang.base.strings
   math: io.cloudslang.base.math
   base: io.cloudslang.base
 
