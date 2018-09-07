@@ -209,6 +209,7 @@ imports:
   utility: io.cloudslang.microfocus.uft.utility
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
+  base: io.cloudslang.base
 
 flow:
   name: run_test
@@ -382,7 +383,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
             do:
-              io.cloudslang.base.strings.string_equals:
+              base.strings.string_equals:
                 - first_string: '${stderr}'
                 - second_string: ''
                 - ignore_case: 'true'
@@ -403,7 +404,7 @@ flow:
 extensions:
   graph:
     steps:
-      create_trigger_robot_vb_script:
+      create_run_test_vb_script:
         x: 20
         y: 99
       trigger_vb_script:
