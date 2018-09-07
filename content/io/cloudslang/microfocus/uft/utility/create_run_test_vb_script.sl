@@ -259,7 +259,7 @@ flow:
     - robot_parameters
     - rpa_workspace_path
     - script:
-         default: ${get_sp('io.cloudslang.rpa.run_robot_script_template')}
+         default: ${get_sp('io.cloudslang.microfocus.uft.run_robot_script_template')}
          required: false
     - fileNumber:
         default: '0'
