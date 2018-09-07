@@ -209,9 +209,6 @@ namespace: io.cloudslang.microfocus.uft.utility
 
 imports:
   strings: io.cloudslang.base.strings
-  ps: io.cloudslang.base.powershell
-  st: io.cloudslang.base.strings
-  math: io.cloudslang.base.math
 
 flow:
   name: create_run_test_vb_script
@@ -279,7 +276,7 @@ flow:
           - FAILURE: on_failure
     - create_vb_script:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -312,7 +309,7 @@ flow:
           - FAILURE: on_failure
     - add_robot_results_path:
         do:
-          st.search_and_replace:
+          io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<test_results_path>'
             - replace_with: '${robot_results_path}'
@@ -335,7 +332,7 @@ flow:
           - SUCCESS: add_parameters
     - add_parameters:
         do:
-          st.search_and_replace:
+          io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<params>'
             - replace_with: '${text}'
@@ -346,7 +343,7 @@ flow:
           - FAILURE: on_failure
     - is_robot_visible:
         do:
-          st.search_and_replace:
+          io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<visible_param>'
             - replace_with: '${is_robot_visible}'
@@ -357,7 +354,7 @@ flow:
           - FAILURE: on_failure
     - create_folder_structure:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -391,7 +388,7 @@ flow:
           - FAILURE: on_failure
     - check_if_filename_exists:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -425,7 +422,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
         do:
-          st.string_equals:
+          io.cloudslang.base.strings.string_equals:
             - first_string: '${fileExists}'
             - second_string: 'True'
         navigate:
@@ -433,7 +430,7 @@ flow:
           - FAILURE: create_vb_script
     - add_numbers:
         do:
-          math.add_numbers:
+          io.cloudslang.base.math.add_numbers:
             - value1: '${fileNumber}'
             - value2: '1'
         publish:

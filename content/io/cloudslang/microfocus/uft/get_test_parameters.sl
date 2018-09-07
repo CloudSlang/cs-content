@@ -202,7 +202,6 @@ namespace: io.cloudslang.microfocus.uft
 
 imports:
   utility: io.cloudslang.microfocus.uft.utility
-  ps: io.cloudslang.base.powershell
 
 flow:
   name: get_test_parameters
@@ -269,7 +268,7 @@ flow:
           - SUCCESS: trigger_vb_script
     - trigger_vb_script:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -303,7 +302,7 @@ flow:
           - FAILURE: delete_vb_script_1
     - delete_vb_script:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -336,7 +335,7 @@ flow:
           - FAILURE: SUCCESS
     - delete_vb_script_1:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'

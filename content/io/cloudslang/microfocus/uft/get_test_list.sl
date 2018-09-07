@@ -200,12 +200,6 @@
 
 namespace: io.cloudslang.microfocus.uft
 
-imports:
-  ps: io.cloudslang.base.powershell
-  st: io.cloudslang.base.strings
-  math: io.cloudslang.base.math
-  base: io.cloudslang.base
-
 flow:
   name: get_test_list
   inputs:
@@ -254,7 +248,7 @@ flow:
   workflow:
     - get_folders:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -288,7 +282,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
         do:
-          st.string_equals:
+          io.cloudslang.base.strings.string_equals:
             - first_string: '${test_file_exists}'
             - second_string: 'True'
         navigate:
@@ -296,7 +290,7 @@ flow:
           - FAILURE: add_numbers
     - test_file_exists:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -330,7 +324,7 @@ flow:
           - FAILURE: on_failure
     - length:
         do:
-          base.lists.length:
+          io.cloudslang.base.lists.length:
             - list: '${folders}'
         publish:
           - list_length: '${return_result}'
@@ -339,7 +333,7 @@ flow:
           - FAILURE: on_failure
     - is_done:
         do:
-          st.string_equals:
+          io.cloudslang.base.strings.string_equals:
             - first_string: '${iterator}'
             - second_string: '${list_length}'
         navigate:
@@ -347,7 +341,7 @@ flow:
           - FAILURE: get_by_index
     - add_numbers:
         do:
-          math.add_numbers:
+          io.cloudslang.base.math.add_numbers:
             - value1: '${iterator}'
             - value2: '1'
         publish:
@@ -357,7 +351,7 @@ flow:
           - FAILURE: on_failure
     - append:
         do:
-          base.strings.append:
+          io.cloudslang.base.strings.append:
             - origin_string: "${get('robots_list', '')}"
             - text: "${folder_to_check + ','}"
         publish:
@@ -366,7 +360,7 @@ flow:
           - SUCCESS: add_numbers
     - get_by_index:
         do:
-          base.lists.get_by_index:
+          io.cloudslang.base.lists.get_by_index:
             - list: '${folders}'
             - delimiter: ','
             - index: '${iterator}'
@@ -377,7 +371,7 @@ flow:
           - FAILURE: on_failure
     - default_if_empty:
         do:
-          base.utils.default_if_empty:
+          io.cloudslang.base.utils.default_if_empty:
             - initial_value: "${get('robots_list', '')}"
             - default_value: No robots founded in the provided path.
         publish:
