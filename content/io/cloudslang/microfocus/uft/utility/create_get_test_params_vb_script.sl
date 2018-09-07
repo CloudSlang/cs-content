@@ -248,7 +248,7 @@ flow:
     - robot_path
     - rpa_workspace_path
     - script:
-        default: ${get_sp('io.cloudslang.microfocus.uft.get_robot_params_script_template')}
+        default: "${get_sp('io.cloudslang.microfocus.uft.get_robot_params_script_template')}"
         required: false
     - fileNumber:
         default: '0'
