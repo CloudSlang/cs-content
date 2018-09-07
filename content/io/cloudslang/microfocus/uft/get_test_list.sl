@@ -21,7 +21,7 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robot_path: The path to the UFT scenario.
+#! @input robots_path: The path to the UFT scenario.
 #! @input iterator: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -200,6 +200,13 @@
 
 namespace: io.cloudslang.microfocus.uft
 
+imports:
+  ps: io.cloudslang.base.powershell
+  strings: io.cloudslang.base.strings
+  lists: io.cloudslang.base.lists
+  math: io.cloudslang.base.math
+  utils: io.cloudslang.base.utils
+
 flow:
   name: get_test_list
   inputs:
@@ -248,7 +255,7 @@ flow:
   workflow:
     - get_folders:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -282,7 +289,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
         do:
-          io.cloudslang.base.strings.string_equals:
+          strings.string_equals:
             - first_string: '${test_file_exists}'
             - second_string: 'True'
         navigate:
@@ -290,7 +297,7 @@ flow:
           - FAILURE: add_numbers
     - test_file_exists:
         do:
-          io.cloudslang.base.powershell.powershell_script:
+          ps.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -324,7 +331,7 @@ flow:
           - FAILURE: on_failure
     - length:
         do:
-          io.cloudslang.base.lists.length:
+          lists.length:
             - list: '${folders}'
         publish:
           - list_length: '${return_result}'
@@ -333,7 +340,7 @@ flow:
           - FAILURE: on_failure
     - is_done:
         do:
-          io.cloudslang.base.strings.string_equals:
+          strings.string_equals:
             - first_string: '${iterator}'
             - second_string: '${list_length}'
         navigate:
@@ -341,7 +348,7 @@ flow:
           - FAILURE: get_by_index
     - add_numbers:
         do:
-          io.cloudslang.base.math.add_numbers:
+          math.add_numbers:
             - value1: '${iterator}'
             - value2: '1'
         publish:
@@ -351,7 +358,7 @@ flow:
           - FAILURE: on_failure
     - append:
         do:
-          io.cloudslang.base.strings.append:
+          strings.append:
             - origin_string: "${get('robots_list', '')}"
             - text: "${folder_to_check + ','}"
         publish:
@@ -360,7 +367,7 @@ flow:
           - SUCCESS: add_numbers
     - get_by_index:
         do:
-          io.cloudslang.base.lists.get_by_index:
+          lists.get_by_index:
             - list: '${folders}'
             - delimiter: ','
             - index: '${iterator}'
@@ -371,7 +378,7 @@ flow:
           - FAILURE: on_failure
     - default_if_empty:
         do:
-          io.cloudslang.base.utils.default_if_empty:
+          utils.default_if_empty:
             - initial_value: "${get('robots_list', '')}"
             - default_value: No robots founded in the provided path.
         publish:
