@@ -260,7 +260,7 @@ flow:
   workflow:
     - create_trigger_robot_vb_script:
         do:
-          utility.create_trigger_robot_vb_script:
+          utility.create_run_test_vb_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
