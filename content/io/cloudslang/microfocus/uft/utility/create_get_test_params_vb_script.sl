@@ -13,18 +13,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a deafult triggering
+#! @description: This flow creates a VB script needed to run an UFT Scenario based on a deafult triggering
 #!               template.
 #!
-#! @input host: The host where UFT and robots (UFT scenarios) are located.
+#! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
 #!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robot_path: The path to the robot(UFT scenario).
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
-#! @input script: The run robot (UFT scenario) VB script template.
+#! @input robot_path: The path to the UFT scenario.
+#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input script: The run UFT scenario VB script template.
 #! @input fileNumber: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).

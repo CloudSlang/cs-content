@@ -13,23 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a
+#! @description: This flow creates a VB script needed to run an UFT Scenario based on a
 #!               default triggering template.
 #!
-#! @input host: The host where UFT and robots (UFT scenarios) are located.
+#! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
 #!              Default for https: '5986'
 #!              Default for http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
-#! @input robot_path: The path to the robot(UFT scenario).
-#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#! @input is_robot_visible: Parameter to set if the UFT scenario actions should be visible in the UI or not.
+#! @input robot_path: The path to the UFT scenario.
+#! @input robot_results_path: The path where the UFT scenario will save its results.
+#! @input robot_parameters: UFT scenario parameters from the UFT scenario. A list of name:value pairs separated by comma.
 #!                          Eg. name1:value1,name2:value2
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
-#! @input script: The run robot (UFT scenario) VB script template.
+#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input script: The run UFT scenario VB script template.
 #! @input fileNumber: Used for development purposes
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).

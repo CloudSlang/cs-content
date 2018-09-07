@@ -13,15 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow returns the existing robots in a provided path.
+#! @description: This flow returns the existing UFT scenarios in a provided path.
 #!
-#! @input host: The host where UFT and robots (UFT scenarios) are located.
+#! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
 #!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robots_path: The path where the robots(UFT scenarios) are located.
+#! @input robot_path: The path to the UFT scenario.
 #! @input iterator: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -74,7 +74,7 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
-#! @output robots: UFT robots list from the specified path.
+#! @output robots: UFT scenario list from the specified path.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output stderr: An error message in case there was an error while running power shell

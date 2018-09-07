@@ -13,17 +13,17 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow returns the parameters of an RPA Robot (UFT Scenario). 
+#! @description: This flow returns the parameters of an UFT Scenario.
 #!               The return value is a list of name:default_value:0/1 input/output objects.
 #!
-#! @input host: The host where UFT and robots (UFT scenarios) are located.
+#! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
 #!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robot_path: The path to the robot(UFT scenario).
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
+#! @input robot_path: The path to the UFT scenario.
+#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
