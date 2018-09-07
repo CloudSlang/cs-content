@@ -209,6 +209,7 @@ imports:
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
 
+
 flow:
   name: run_test
   inputs:
@@ -259,7 +260,7 @@ flow:
   workflow:
     - create_trigger_robot_vb_script:
         do:
-          io.cloudslang.microfocus.uft.utility.create_run_test_vb_script:
+          utility.create_run_test_vb_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
