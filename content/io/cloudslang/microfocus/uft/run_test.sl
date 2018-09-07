@@ -206,7 +206,6 @@
 namespace: io.cloudslang.microfocus.uft
 
 imports:
-  utility: io.cloudslang.microfocus.uft.utility
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
 
@@ -260,7 +259,7 @@ flow:
   workflow:
     - create_trigger_robot_vb_script:
         do:
-          utility.create_run_test_vb_script:
+          io.cloudslang.microfocus.uft.utility.create_run_test_vb_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
