@@ -209,7 +209,7 @@ imports:
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
   utility: io.cloudslang.microfocus.uft.utility
-  base: io.cloudslang.base
+  strings: io.cloudslang.base.strings
 
 
 flow:
@@ -384,7 +384,7 @@ flow:
           - FAILURE: on_failure
     - string_equals:
             do:
-              base.string_equals:
+              strings.string_equals:
                 - first_string: '${stderr}'
                 - second_string: ''
                 - ignore_case: 'true'
