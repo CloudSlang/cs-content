@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow triggers an RPA Robot (UFT Scenario). 
-#!               The UFT Scenario needs to exist before this flow is ran.
+#! @description: This flow returns the parameters of an RPA Robot (UFT Scenario). 
+#!               The return value is a list of name:default_value:0/1 input/output objects.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
 #! @input port: The WinRM port of the provided host.
@@ -22,13 +22,7 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
-#!                          Valid: 'True' or 'False'
-#!                          Default value: 'True'
 #! @input robot_path: The path to the robot(UFT scenario).
-#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -81,9 +75,10 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
+#! @output parameters: A list of name:default_value:type objects. Type: 0 - input, 1 - output.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output stderr: The standard error output if any error occurred.
+#! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #! @output script_name: name of the script.
 #!
@@ -203,15 +198,13 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus.uft
+namespace: io.cloudslang.rpa.uft
 
 imports:
-  utility: io.cloudslang.microfocus.uft.utility
-  ps: io.cloudslang.base.powershell
-  st: io.cloudslang.strings
+  utility: io.cloudslang.rpa.utility
 
 flow:
-  name: run_test
+  name: get_robot_parameters
   inputs:
     - host
     - port:
@@ -234,7 +227,6 @@ flow:
         required: false
     - proxy_password:
         required: false
-        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -251,16 +243,13 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_robot_visible
     - robot_path
-    - robot_results_path
-    - robot_parameters:
-        required: false
     - rpa_workspace_path
+
   workflow:
-    - create_trigger_robot_vb_script:
+    - create_get_robot_params_vb_script:
         do:
-          utility.create_run_test_vb_script:
+          utility.create_get_robot_params_vb_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -270,10 +259,7 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
-            - is_robot_visible: '${is_robot_visible}'
             - robot_path: '${robot_path}'
-            - robot_results_path: '${robot_results_path}'
-            - robot_parameters: '${robot_parameters}'
             - rpa_workspace_path: '${rpa_workspace_path}'
         publish:
           - script_name
@@ -282,7 +268,7 @@ flow:
           - SUCCESS: trigger_vb_script
     - trigger_vb_script:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -310,13 +296,13 @@ flow:
           - return_code
           - stderr
           - script_exit_code
-
+          - parameters: "${return_result.replace('::',':<no_value>:')}"
         navigate:
-          - SUCCESS: string_equals
+          - SUCCESS: delete_vb_script
           - FAILURE: delete_vb_script_1
     - delete_vb_script:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -349,7 +335,7 @@ flow:
           - FAILURE: SUCCESS
     - delete_vb_script_1:
         do:
-          ps.powershell_script:
+          io.cloudslang.base.powershell.powershell_script:
             - host: '${host}'
             - port: '${port}'
             - protocol: '${protocol}'
@@ -380,16 +366,9 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-    - string_equals:
-            do:
-              io.cloudslang.base.strings.string_equals:
-                - first_string: '${stderr}'
-                - second_string: ''
-                - ignore_case: 'true'
-            navigate:
-              - SUCCESS: delete_vb_script
-              - FAILURE: delete_vb_script_1
+
   outputs:
+    - parameters: '${parameters}'
     - exception: ${get('exception', '')}
     - return_code: ${get('return_code', '')}
     - stderr: ${get('stderr', '')}
@@ -403,43 +382,35 @@ flow:
 extensions:
   graph:
     steps:
-      create_trigger_robot_vb_script:
-        x: 20
-        y: 99
+      create_get_robot_params_vb_script:
+        x: 49
+        y: 84
       trigger_vb_script:
-        x: 181
-        y: 98
+        x: 344
+        y: 76
       delete_vb_script:
-        x: 656
-        y: 94
+        x: 585
+        y: 80
         navigate:
-          9601df64-de18-5c4f-cbb6-49285c2ddf7c:
-            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
+          dcf12e0f-57e6-2c88-a65e-a1f3651e7ee4:
+            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
             port: SUCCESS
-            vertices:
-              - x: 766.6607369295532
-                y: 102.76036936598254
-              - x: 847
-                y: 113
-          df284b8a-571a-ded7-1b3c-e34d15eb2d76:
-            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
+          82467eb7-5ac6-1523-0211-d9ec99424bdb:
+            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
             port: FAILURE
       delete_vb_script_1:
-        x: 658
-        y: 261
+        x: 585
+        y: 242
         navigate:
-          bccc7aeb-f02b-bf14-8d9c-ab09d2c0fe6f:
-            targetId: 3c909de7-63a5-468a-8e37-ade3d8c05b25
+          6585b707-8ed3-ad4a-4c92-06a5c32e5b7a:
+            targetId: 9075912d-0472-2f13-bd04-f716ea7744ed
             port: SUCCESS
-      string_equals:
-        x: 444
-        y: 78
     results:
-      SUCCESS:
-        efaa8ccd-7bc1-b44f-9445-c2adc2a23a31:
-          x: 942
-          y: 96
       FAILURE:
-        3c909de7-63a5-468a-8e37-ade3d8c05b25:
-          x: 940
-          y: 266
+        9075912d-0472-2f13-bd04-f716ea7744ed:
+          x: 823
+          y: 231
+      SUCCESS:
+        023c90fc-05ed-adf3-eb3c-da02c1f4333a:
+          x: 824
+          y: 83

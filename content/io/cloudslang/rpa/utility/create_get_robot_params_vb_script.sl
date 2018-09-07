@@ -13,24 +13,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a
-#!               default triggering template.
+#! @description: This flow creates a VB script needed to run an RPA Robot (UFT Scenario) based on a deafult triggering
+#!               template.
 #!
 #! @input host: The host where UFT and robots (UFT scenarios) are located.
 #! @input port: The WinRM port of the provided host.
-#!              Default for https: '5986'
-#!              Default for http: '5985'
+#!                    Default: https: '5986' http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the Robot actions should be visible in the UI or not.
 #! @input robot_path: The path to the robot(UFT scenario).
-#! @input robot_results_path: The path where the robot(UFT scenario) will save its results.
-#! @input robot_parameters: Robot parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                          Eg. name1:value1,name2:value2
 #! @input rpa_workspace_path: The path where the OO will create needed scripts for robot execution.
 #! @input script: The run robot (UFT scenario) VB script template.
-#! @input fileNumber: Used for development purposes
+#! @input fileNumber: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -82,12 +77,10 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
-#! @output script_name: Full path VB script
+#! @output script_name: Full path for VB script.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output return_code: '0' if success, '-1' otherwise.
 #! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
-#! @output fileExists: file exist.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
@@ -207,11 +200,8 @@
 
 namespace: io.cloudslang.rpa.utility
 
-imports:
-  sp: io.cloudslang.rpa
-
 flow:
-  name: create_run_test_vb_script
+  name: create_get_robot_params_vb_script
   inputs:
     - host
     - port:
@@ -250,12 +240,9 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_robot_visible: 'True'
     - robot_path
-    - robot_results_path
-    - robot_parameters
     - rpa_workspace_path
-    - script: "${get_sp('run_robot_script_template')}"
+    - script: "${get_sp('get_robot_params_script_template')}"
     - fileNumber:
         default: '0'
         private: true
@@ -270,7 +257,7 @@ flow:
         publish:
           - script: '${replaced_string}'
         navigate:
-          - SUCCESS: add_robot_results_path
+          - SUCCESS: create_folder_structure
           - FAILURE: on_failure
     - create_vb_script:
         do:
@@ -296,59 +283,13 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Set-Content -Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
+            - script: "${'Set-Content -Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs \" -Value \"'+ script +'\" -Encoding ASCII'}"
         publish:
           - exception
-          - return_code
           - stderr
           - script_exit_code
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - add_robot_results_path:
-        do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<test_results_path>'
-            - replace_with: '${robot_results_path}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: is_robot_visible
-          - FAILURE: on_failure
-    - add_parameter:
-        loop:
-          for: parameter in robot_parameters
-          do:
-            io.cloudslang.base.strings.append:
-              - origin_string: "${get('text', '')}"
-              - text: "${'qtParams.Item(`\"' + parameter.split(\":\")[0] + '`\").Value = `\"' + parameter.split(\":\")[1] +'`\"`r`n'}"
-          break: []
-          publish:
-            - text: '${new_string}'
-        navigate:
-          - SUCCESS: add_parameters
-    - add_parameters:
-        do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<params>'
-            - replace_with: '${text}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: create_folder_structure
-          - FAILURE: on_failure
-    - is_robot_visible:
-        do:
-          io.cloudslang.base.strings.search_and_replace:
-            - origin_string: '${script}'
-            - text_to_replace: '<visible_param>'
-            - replace_with: '${is_robot_visible}'
-        publish:
-          - script: '${replaced_string}'
-        navigate:
-          - SUCCESS: add_parameter
           - FAILURE: on_failure
     - create_folder_structure:
         do:
@@ -380,7 +321,6 @@ flow:
           - return_code
           - stderr
           - script_exit_code
-          - scriptName: output_0
         navigate:
           - SUCCESS: check_if_filename_exists
           - FAILURE: on_failure
@@ -408,7 +348,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
+            - script: "${'Test-Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs\"'}"
         publish:
           - exception
           - return_code
@@ -438,12 +378,7 @@ flow:
           - FAILURE: on_failure
 
   outputs:
-    - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
-    - exception: ${get('exception', '')}
-    - return_code: ${get('return_code', '')}
-    - stderr: ${get('stderr', '')}
-    - script_exit_code: ${get('script_exit_code', '')}
-    - fileExists: ${get('fileExists', '')}
+    - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs'}"
 
   results:
     - FAILURE
@@ -452,42 +387,30 @@ flow:
 extensions:
   graph:
     steps:
-      add_robot_results_path:
-        x: 92
-        y: 357
-      create_folder_structure:
-        x: 660
-        y: 364
-      add_parameters:
-        x: 666
-        y: 139
-      is_robot_visible:
-        x: 366
-        y: 353
-      check_if_filename_exists:
-        x: 974
-        y: 365
-      add_parameter:
-        x: 358
-        y: 143
-      add_numbers:
-        x: 1307
-        y: 368
-      string_equals:
-        x: 1001
-        y: 147
       add_robot_path:
-        x: 100
-        y: 150
+        x: 101
+        y: 156
       create_vb_script:
-        x: 1305
-        y: 157
+        x: 1008
+        y: 318
         navigate:
-          83c47325-2a49-d09d-2896-f1352a114a41:
-            targetId: fbdddb13-1c72-ade3-566f-e341dcbd36c7
+          bcccb51e-fc73-679f-ef31-658b05e4a04a:
+            targetId: 9fdf022d-4c3e-1f47-ea07-3c46a43ea9e8
             port: SUCCESS
+      create_folder_structure:
+        x: 400
+        y: 150
+      check_if_filename_exists:
+        x: 402
+        y: 348
+      string_equals:
+        x: 729
+        y: 141
+      add_numbers:
+        x: 697
+        y: 342
     results:
       SUCCESS:
-        fbdddb13-1c72-ade3-566f-e341dcbd36c7:
-          x: 1625
-          y: 149
+        9fdf022d-4c3e-1f47-ea07-3c46a43ea9e8:
+          x: 1000
+          y: 150

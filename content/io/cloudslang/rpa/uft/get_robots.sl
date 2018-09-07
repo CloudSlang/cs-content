@@ -198,10 +198,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus.uft
+namespace: io.cloudslang.rpa.uft
 
 flow:
-  name: get_test_list
+  name: get_robots
   inputs:
     - host
     - port:
