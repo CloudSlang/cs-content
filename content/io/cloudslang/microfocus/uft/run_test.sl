@@ -208,6 +208,7 @@ namespace: io.cloudslang.microfocus.uft
 imports:
   ps: io.cloudslang.base.powershell
   st: io.cloudslang.strings
+  utility: io.cloudslang.microfocus.utility
 
 
 flow:
