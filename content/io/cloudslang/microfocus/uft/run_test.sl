@@ -225,6 +225,12 @@ flow:
     - password:
         required: false
         sensitive: true
+    - is_test_visible
+    - test_path
+    - test_results_path
+    - test_parameters:
+        required: false
+    - uft_workspace_path
     -  auth_type:
         default: 'basic'
         required: false
@@ -253,12 +259,7 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_test_visible
-    - test_path
-    - test_results_path
-    - test_parameters:
-        required: false
-    - uft_workspace_path
+
   workflow:
     - create_trigger_robot_vb_script:
         do:

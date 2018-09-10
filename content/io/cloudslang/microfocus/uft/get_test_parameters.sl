@@ -217,6 +217,8 @@ flow:
     - password:
         required: false
         sensitive: true
+    - test_path
+    - uft_workspace_path
     -  auth_type:
         default: 'basic'
         required: false
@@ -244,8 +246,6 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - test_path
-    - uft_workspace_path
 
   workflow:
     - create_get_robot_params_vb_script:

@@ -220,6 +220,7 @@ flow:
     - password:
         required: false
         sensitive: true
+    - test_path
     -  auth_type:
         default: 'basic'
         required: false
@@ -247,7 +248,6 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - test_path
     - iterator:
         default: '0'
         private: true
