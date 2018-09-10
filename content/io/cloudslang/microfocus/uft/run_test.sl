@@ -382,8 +382,8 @@ flow:
           - stderr
           - script_exit_code
         navigate:
-          - SUCCESS: on_failure
-          - FAILURE: SUCCESS
+          - SUCCESS: FAILURE
+          - FAILURE: on_failure
     - string_equals:
             do:
               strings.string_equals:
