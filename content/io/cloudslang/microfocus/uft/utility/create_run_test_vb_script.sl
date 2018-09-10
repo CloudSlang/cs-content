@@ -23,12 +23,12 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the UFT scenario actions should be visible in the UI or not.
-#! @input robot_path: The path to the UFT scenario.
-#! @input robot_results_path: The path where the UFT scenario will save its results.
-#! @input robot_parameters: UFT scenario parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#! @input is_test_visible: Parameter to set if the UFT scenario actions should be visible in the UI or not.
+#! @input test_path: The path to the UFT scenario.
+#! @input test_results_path: The path where the UFT scenario will save its results.
+#! @input test_parameters: UFT scenario parameters from the UFT scenario. A list of name:value pairs separated by comma.
 #!                          Eg. name1:value1,name2:value2
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input script: The run UFT scenario VB script template.
 #! @input fileNumber: Used for development purposes
 #! @input auth_type:Type of authentication used to execute the request on the target server
@@ -252,27 +252,27 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_robot_visible: 'True'
-    - robot_path
-    - robot_results_path
-    - robot_parameters
-    - rpa_workspace_path
+    - is_test_visible: 'True'
+    - test_path
+    - test_results_path
+    - test_parameters
+    - uft_workspace_path
     - script: "${get_sp('run_robot_script_template')}"
     - fileNumber:
         default: '0'
         private: true
 
   workflow:
-    - add_robot_path:
+    - add_test_path:
         do:
           strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<test_path>'
-            - replace_with: '${robot_path}'
+            - replace_with: '${test_path}'
         publish:
           - script: '${replaced_string}'
         navigate:
-          - SUCCESS: add_robot_results_path
+          - SUCCESS: add_test_results_path
           - FAILURE: on_failure
     - create_vb_script:
         do:
@@ -298,7 +298,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Set-Content -Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
+            - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
         publish:
           - exception
           - return_code
@@ -307,20 +307,20 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - add_robot_results_path:
+    - add_test_results_path:
         do:
           strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<test_results_path>'
-            - replace_with: '${robot_results_path}'
+            - replace_with: '${test_results_path}'
         publish:
           - script: '${replaced_string}'
         navigate:
-          - SUCCESS: is_robot_visible
+          - SUCCESS: is_test_visible
           - FAILURE: on_failure
     - add_parameter:
         loop:
-          for: parameter in robot_parameters
+          for: parameter in test_parameters
           do:
             strings.append:
               - origin_string: "${get('text', '')}"
@@ -341,12 +341,12 @@ flow:
         navigate:
           - SUCCESS: create_folder_structure
           - FAILURE: on_failure
-    - is_robot_visible:
+    - is_test_visible:
         do:
           strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<visible_param>'
-            - replace_with: '${is_robot_visible}'
+            - replace_with: '${is_test_visible}'
         publish:
           - script: '${replaced_string}'
         navigate:
@@ -376,7 +376,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'New-item \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
+            - script: "${'New-item \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
         publish:
           - exception
           - return_code
@@ -410,7 +410,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
+            - script: "${'Test-Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
         publish:
           - exception
           - return_code
@@ -440,7 +440,7 @@ flow:
           - FAILURE: on_failure
 
   outputs:
-    - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
+    - script_name: "${uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
     - exception: ${get('exception', '')}
     - return_code: ${get('return_code', '')}
     - stderr: ${get('stderr', '')}
@@ -454,7 +454,7 @@ flow:
 extensions:
   graph:
     steps:
-      add_robot_results_path:
+      add_test_results_path:
         x: 92
         y: 357
       create_folder_structure:
@@ -463,7 +463,7 @@ extensions:
       add_parameters:
         x: 666
         y: 139
-      is_robot_visible:
+      is_test_visible:
         x: 366
         y: 353
       check_if_filename_exists:
@@ -478,7 +478,7 @@ extensions:
       string_equals:
         x: 1001
         y: 147
-      add_robot_path:
+      add_test_path:
         x: 100
         y: 150
       create_vb_script:

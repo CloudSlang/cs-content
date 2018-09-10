@@ -14,7 +14,7 @@
 ########################################################################################################################
 #!!
 #! @description: This flow creates a VB script needed to run an UFT Scenario based on a deafult triggering
-#!               template.
+#!               template. An UFT scenario is equivaleant to an RPA robot.
 #!
 #! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
@@ -22,8 +22,8 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robot_path: The path to the UFT scenario.
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input test_path: The path to the UFT scenario.
+#! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input script: The run UFT scenario VB script template.
 #! @input fileNumber: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
@@ -245,8 +245,8 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - robot_path
-    - rpa_workspace_path
+    - test_path
+    - uft_workspace_path
     - script: "${get_sp('get_robot_params_script_template')}"
 
     - fileNumber:
@@ -254,12 +254,12 @@ flow:
         private: true
 
   workflow:
-    - add_robot_path:
+    - add_test_path:
         do:
           strings.search_and_replace:
             - origin_string: '${script}'
             - text_to_replace: '<test_path>'
-            - replace_with: '${robot_path}'
+            - replace_with: '${test_path}'
         publish:
           - script: '${replaced_string}'
         navigate:
@@ -289,7 +289,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Set-Content -Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs \" -Value \"'+ script +'\" -Encoding ASCII'}"
+            - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs \" -Value \"'+ script +'\" -Encoding ASCII'}"
         publish:
           - exception
           - stderr
@@ -321,7 +321,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'New-item \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
+            - script: "${'New-item \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
         publish:
           - exception
           - return_code
@@ -354,7 +354,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs\"'}"
+            - script: "${'Test-Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs\"'}"
         publish:
           - exception
           - return_code
@@ -384,7 +384,7 @@ flow:
           - FAILURE: on_failure
 
   outputs:
-    - script_name: "${rpa_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + robot_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs'}"
+    - script_name: "${uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs'}"
 
   results:
     - FAILURE
@@ -393,7 +393,7 @@ flow:
 extensions:
   graph:
     steps:
-      add_robot_path:
+      add_test_path:
         x: 101
         y: 156
       create_vb_script:

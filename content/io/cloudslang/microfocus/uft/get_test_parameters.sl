@@ -22,8 +22,8 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robot_path: The path to the UFT scenario.
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input test_path: The path to the UFT scenario.
+#! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -244,8 +244,8 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - robot_path
-    - rpa_workspace_path
+    - test_path
+    - uft_workspace_path
 
   workflow:
     - create_get_robot_params_vb_script:
@@ -260,8 +260,8 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
-            - robot_path: '${robot_path}'
-            - rpa_workspace_path: '${rpa_workspace_path}'
+            - test_path: '${test_path}'
+            - uft_workspace_path: '${uft_workspace_path}'
         publish:
           - script_name
         navigate:

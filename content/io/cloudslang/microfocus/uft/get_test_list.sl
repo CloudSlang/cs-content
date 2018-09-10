@@ -21,7 +21,7 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input robots_path: The path to the UFT scenario.
+#! @input test_path: The path to the UFT scenario.
 #! @input iterator: Used for development purposes.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
@@ -74,7 +74,7 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
-#! @output robots: UFT scenario list from the specified path.
+#! @output tests: UFT scenario list from the specified path.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output stderr: An error message in case there was an error while running power shell
@@ -247,7 +247,7 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - robots_path
+    - test_path
     - iterator:
         default: '0'
         private: true
@@ -277,7 +277,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'(Get-ChildItem -Path \"'+ robots_path +'\" -Directory).Name -join \",\"'}"
+            - script: "${'(Get-ChildItem -Path \"'+ test_path +'\" -Directory).Name -join \",\"'}"
         publish:
           - exception
           - return_code
@@ -319,7 +319,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + robots_path.rstrip(\\\\) + \"\\\\\" + folder_to_check + '\\\\Test.tsp\"'}"
+            - script: "${'Test-Path \"' + test_path.rstrip(\\\\) + \"\\\\\" + folder_to_check + '\\\\Test.tsp\"'}"
         publish:
           - exception
           - return_code
@@ -359,10 +359,10 @@ flow:
     - append:
         do:
           strings.append:
-            - origin_string: "${get('robots_list', '')}"
+            - origin_string: "${get('tests_list', '')}"
             - text: "${folder_to_check + ','}"
         publish:
-          - robots_list: '${new_string}'
+          - tests_list: '${new_string}'
         navigate:
           - SUCCESS: add_numbers
     - get_by_index:
@@ -379,16 +379,16 @@ flow:
     - default_if_empty:
         do:
           utils.default_if_empty:
-            - initial_value: "${get('robots_list', '')}"
-            - default_value: No robots founded in the provided path.
+            - initial_value: "${get('tests_list', '')}"
+            - default_value: No tests founded in the provided path.
         publish:
-          - robots_list: '${return_result}'
+          - tests_list: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
 
   outputs:
-    - robots: '${robots_list.rstrip(",")}'
+    - tests: '${tests_list.rstrip(",")}'
     - exception: ${get('exception', '')}
     - return_code: ${get('return_code', '')}
     - stderr: ${get('stderr', '')}

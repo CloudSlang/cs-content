@@ -22,14 +22,14 @@
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
-#! @input is_robot_visible: Parameter to set if the UFT actions should be visible in the UI or not.
+#! @input is_test_visible: Parameter to set if the UFT actions should be visible in the UI or not.
 #!                          Valid: 'True' or 'False'
 #!                          Default value: 'True'
-#! @input robot_path: The path to the UFT scenario.
-#! @input robot_results_path: The path where the UFT scenario will save its results.
-#! @input robot_parameters: parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#! @input test_path: The path to the UFT scenario.
+#! @input test_results_path: The path where the UFT scenario will save its results.
+#! @input test_parameters: parameters from the UFT scenario. A list of name:value pairs separated by comma.
 #!                          Eg. name1:value1,name2:value2
-#! @input rpa_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -253,12 +253,12 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - is_robot_visible
-    - robot_path
-    - robot_results_path
-    - robot_parameters:
+    - is_test_visible
+    - test_path
+    - test_results_path
+    - test_parameters:
         required: false
-    - rpa_workspace_path
+    - uft_workspace_path
   workflow:
     - create_trigger_robot_vb_script:
         do:
@@ -272,11 +272,11 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
-            - is_robot_visible: '${is_robot_visible}'
-            - robot_path: '${robot_path}'
-            - robot_results_path: '${robot_results_path}'
-            - robot_parameters: '${robot_parameters}'
-            - rpa_workspace_path: '${rpa_workspace_path}'
+            - is_test_visible: '${is_test_visible}'
+            - test_path: '${test_path}'
+            - test_results_path: '${test_results_path}'
+            - test_parameters: '${test_parameters}'
+            - uft_workspace_path: '${uft_workspace_path}'
         publish:
           - script_name
         navigate:
