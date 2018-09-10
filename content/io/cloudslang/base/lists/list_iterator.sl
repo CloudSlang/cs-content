@@ -23,7 +23,10 @@
 #!                   Default: ','
 #!
 #! @output result_string: The current list element (if the response is "has more").
-#! @output return_result: The current list element (if the response is "has more")
+#! @output return_result: "has more" - Another value was found in the list and it has been returned,
+#!                        "no more" - The iterator has gone through the entire list. This response is returned once per
+#!                        list iteration,
+#!                        "failure" - The operation completed unsuccessfully.
 #! @output return_code: "0" if has more, "1" if no more values, and "-1" if failed.
 #!
 #! @result HAS_MORE: Another value was found in the list and it has been returned.
