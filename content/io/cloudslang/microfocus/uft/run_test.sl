@@ -1,4 +1,4 @@
-#   (c) Copyright 2018 Micro Focus
+#   Copyright 2018, Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
