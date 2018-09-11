@@ -203,6 +203,7 @@ namespace: io.cloudslang.microfocus.uft
 imports:
   utility: io.cloudslang.microfocus.uft.utility
   ps: io.cloudslang.base.powershell
+  strings: io.cloudslang.base.strings
 
 flow:
   name: get_test_parameters
