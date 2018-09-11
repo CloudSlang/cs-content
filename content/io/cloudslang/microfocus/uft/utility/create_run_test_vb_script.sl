@@ -298,7 +298,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout: '${operation_timeout}'
-            - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
+            - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script '\" '}"
         publish:
           - exception
           - return_code
