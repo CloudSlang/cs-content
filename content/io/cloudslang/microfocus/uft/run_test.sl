@@ -387,8 +387,8 @@ flow:
     - string_equals:
             do:
               strings.string_equals:
-                - first_string: '${stderr}'
-                - second_string: ''
+                - first_string: '${script_exit_code}'
+                - second_string: '0'
                 - ignore_case: 'true'
             navigate:
               - SUCCESS: delete_vb_script
