@@ -203,6 +203,7 @@ namespace: io.cloudslang.microfocus.uft
 imports:
   utility: io.cloudslang.microfocus.uft.utility
   ps: io.cloudslang.base.powershell
+  strings: io.cloudslang.base.strings
 
 flow:
   name: get_test_parameters
@@ -299,7 +300,7 @@ flow:
           - script_exit_code
           - parameters: "${return_result.replace('::',':<no_value>:')}"
         navigate:
-          - SUCCESS: delete_vb_script
+          - SUCCESS: string_equals
           - FAILURE: delete_vb_script_1
     - delete_vb_script:
         do:
@@ -367,7 +368,15 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-
+    - string_equals:
+            do:
+              strings.string_equals:
+                - first_string: '${script_exit_code}'
+                - second_string: '0'
+                - ignore_case: 'true'
+            navigate:
+              - SUCCESS: delete_vb_script
+              - FAILURE: delete_vb_script_1
   outputs:
     - parameters: '${parameters}'
     - exception: ${get('exception', '')}
