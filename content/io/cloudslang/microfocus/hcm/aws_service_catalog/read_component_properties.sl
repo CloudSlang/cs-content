@@ -39,7 +39,6 @@ flow:
     - csa_rest_uri:
         required: true
     - csa_user:
-        default: admin
         required: true
     - csa_subscription_id:
         required: true
@@ -50,7 +49,6 @@ flow:
     - username:
         required: false
     - password:
-        default: '${password}'
         required: false
         sensitive: true
     - proxy_host:
