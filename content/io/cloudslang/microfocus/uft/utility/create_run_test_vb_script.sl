@@ -196,7 +196,6 @@
 #! @output script_name: Full path VB script
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output return_result: The scripts result.
 #! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #! @output fileExists: file exist.
@@ -212,7 +211,6 @@ imports:
   strings: io.cloudslang.base.strings
   ps: io.cloudslang.base.powershell
   math: io.cloudslang.base.math
-  prop: io.cloudslang.microfocus.uft
 
 flow:
   name: create_run_test_vb_script
@@ -259,7 +257,7 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - script: ${get_sp('io.cloudslang.microfocus.uft.run_robot_script_template')}
+    - script: "${get_sp('run_robot_script_template')}"
     - fileNumber:
         default: '0'
         private: true
@@ -279,34 +277,33 @@ flow:
     - create_vb_script:
         do:
           ps.powershell_script:
-            - host
-            - port
-            - protocol
-            - username
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
-            - auth_type
-            - proxy_host
-            - proxy_port
-            - proxy_username
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
             - proxy_password:
-                value: '${trust_password}'
+                value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - operation_timeout
+            - operation_timeout: '${operation_timeout}'
             - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
         publish:
           - exception
           - return_code
-          - return_result
-          - script_exit_code
           - stderr
+          - script_exit_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -358,33 +355,32 @@ flow:
     - create_folder_structure:
         do:
           ps.powershell_script:
-            - host
-            - port
-            - protocol
-            - username
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
-            - auth_type
-            - proxy_host
-            - proxy_port
-            - proxy_username
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - operation_timeout
+            - operation_timeout: '${operation_timeout}'
             - script: "${'New-item \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
         publish:
           - exception
-          - stderr
-          - return_result
           - return_code
+          - stderr
           - script_exit_code
           - scriptName: output_0
         navigate:
@@ -393,33 +389,32 @@ flow:
     - check_if_filename_exists:
         do:
           ps.powershell_script:
-            - host
-            - port
-            - protocol
-            - username
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
-            - auth_type
-            - proxy_host
-            - proxy_port
-            - proxy_username
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - operation_timeout
+            - operation_timeout: '${operation_timeout}'
             - script: "${'Test-Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
         publish:
           - exception
-          - stderr
-          - return_result
           - return_code
+          - stderr
           - script_exit_code
           - fileExists: '${return_result}'
         navigate:
@@ -446,16 +441,55 @@ flow:
 
   outputs:
     - script_name: "${uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
-    - exception
-    - stderr
-    - return_result
-    - return_code
-    - script_exit_code
-
-    - fileExists
+    - exception: ${get('exception', '')}
+    - return_code: ${get('return_code', '')}
+    - stderr: ${get('stderr', '')}
+    - script_exit_code: ${get('script_exit_code', '')}
+    - fileExists: ${get('fileExists', '')}
 
   results:
     - FAILURE
     - SUCCESS
 
-
+extensions:
+  graph:
+    steps:
+      add_test_results_path:
+        x: 92
+        y: 357
+      create_folder_structure:
+        x: 660
+        y: 364
+      add_parameters:
+        x: 666
+        y: 139
+      is_test_visible:
+        x: 366
+        y: 353
+      check_if_filename_exists:
+        x: 974
+        y: 365
+      add_parameter:
+        x: 358
+        y: 143
+      add_numbers:
+        x: 1307
+        y: 368
+      string_equals:
+        x: 1001
+        y: 147
+      add_test_path:
+        x: 100
+        y: 150
+      create_vb_script:
+        x: 1305
+        y: 157
+        navigate:
+          83c47325-2a49-d09d-2896-f1352a114a41:
+            targetId: fbdddb13-1c72-ade3-566f-e341dcbd36c7
+            port: SUCCESS
+    results:
+      SUCCESS:
+        fbdddb13-1c72-ade3-566f-e341dcbd36c7:
+          x: 1625
+          y: 149

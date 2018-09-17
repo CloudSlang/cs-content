@@ -139,7 +139,6 @@
 #! @input test_path: The path to the UFT scenario.
 #! @input test_results_path: The path where the UFT scenario will save its results.
 #! @input test_parameters: parameters from the UFT scenario. A list of name:value pairs separated by comma.
-#!                         The parameters are optional in case you are running a UFT scenario without parameters.
 #!                          Eg. name1:value1,name2:value2
 #! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
 #! @input auth_type:Type of authentication used to execute the request on the target server
@@ -196,7 +195,6 @@
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output stderr: The standard error output if any error occurred.
-#! @output return_result: The scripts result.
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #! @output script_name: name of the script.
 #!
@@ -231,9 +229,9 @@ flow:
     - is_test_visible
     - test_path
     - test_results_path
-    - uft_workspace_path
     - test_parameters:
-            required: false
+        required: false
+    - uft_workspace_path
     -  auth_type:
         default: 'basic'
         required: false
@@ -264,233 +262,188 @@ flow:
         required: false
 
   workflow:
-      - string_equals_1:
-          do:
-            strings.string_equals:
-              - first_string: '${test_parameters}'
-              - second_string: ''
-              - ignore_case: 'false'
-          navigate:
-            - SUCCESS: create_trigger_robot_vb_script_1
-            - FAILURE: create_trigger_robot_vb_script
-      - create_trigger_robot_vb_script:
-          do:
-            utility.create_run_test_vb_script1:
-              - host
-              - port
-              - protocol
-              - username
-              - password: '${password}'
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password: '${proxy_password}'
-              - is_test_visible
-              - test_path
-              - test_results_path
-              - test_parameters
-              - uft_workspace_path
-          publish:
-            - script_name
-            - exception
-            - return_code
-            - return_result
-            - stderr
-            - script_exit_code
-          navigate:
-            - FAILURE: on_failure
-            - SUCCESS: trigger_vb_script
-      - trigger_vb_script:
-          do:
-            ps.powershell_script:
-              - host
-              - port
-              - protocol
-              - username
-              - password:
-                  value: '${password}'
-                  sensitive: true
-              - auth_type
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password:
-                  value: '${proxy_password}'
-                  sensitive: true
-              - trust_all_roots
-              - x_509_hostname_verifier
-              - trust_keystore
-              - trust_password:
-                  value: 'changeit'
-                  sensitive: true
-              - operation_timeout
-              - script: "${'invoke-expression \"cmd /C cscript ' + script_name + '\"'}"
-          publish:
-            - exception
-            - return_code
-            - return_result
-            - stderr
-            - script_exit_code
-          navigate:
-            - SUCCESS: string_equals
-            - FAILURE: delete_vb_script_1
-      - string_equals:
-          do:
-            strings.string_equals:
-              - first_string: '${script_exit_code}'
-              - second_string: '0'
-              - ignore_case: 'false'
-          navigate:
-            - SUCCESS: delete_vb_script
-            - FAILURE: delete_vb_script_1
-      - delete_vb_script:
-          do:
-            ps.powershell_script:
-              - host
-              - port
-              - protocol
-              - username
-              - password:
-                  value: '${password}'
-                  sensitive: true
-              - auth_type
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password:
-                  value: '${proxy_password}'
-                  sensitive: true
-              - trust_all_roots
-              - x_509_hostname_verifier
-              - trust_keystore
-              - trust_password:
-                  value: 'changeit'
-                  sensitive: true
-              - operation_timeout
-              - script: "${'Remove-Item \"' + script_name +'\"'}"
-          publish:
-            - script_name
-            - exception
-            - return_code
-            - return_result
-            - stderr
-            - script_exit_code
-          navigate:
-            - SUCCESS: SUCCESS
-            - FAILURE: SUCCESS
-      - delete_vb_script_1:
-          do:
-            ps.powershell_script:
-              - host
-              - port
-              - protocol
-              - username
-              - password:
-                  value: '${password}'
-                  sensitive: true
-              - auth_type
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password:
-                  value: '${proxy_password}'
-                  sensitive: true
-              - trust_all_roots
-              - x_509_hostname_verifier
-              - trust_keystore
-              - trust_password:
-                  value: 'changeit'
-              - operation_timeout
-              - script: "${'Remove-Item \"' + script_name + '\"'}"
-          publish:
-            - script_name
-            - exception
-            - return_code
-            - return_result
-            - stderr
-            - script_exit_code
-          navigate:
-            - SUCCESS: FAILURE
-            - FAILURE: on_failure
-      - create_trigger_robot_vb_script_1:
-          do:
-            utility.create_run_test_vb_script1:
-              - host
-              - port
-              - protocol
-              - username
-              - password: '${password}'
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password: '${proxy_password}'
-              - is_test_visible
-              - test_path
-              - test_results_path
-              - test_parameters
-              - uft_workspace_path
-          publish:
-          - exception
-          - stderr
-          - return_result
-          - return_code
-          - script_exit_code
+    - create_trigger_robot_vb_script:
+        do:
+          utility.create_run_test_vb_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password: '${password}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - is_test_visible: '${is_test_visible}'
+            - test_path: '${test_path}'
+            - test_results_path: '${test_results_path}'
+            - test_parameters: '${test_parameters}'
+            - uft_workspace_path: '${uft_workspace_path}'
+        publish:
           - script_name
-
-          navigate:
-            - FAILURE: on_failure
-            - SUCCESS: trigger_vb_script_1
-      - trigger_vb_script_1:
-          do:
-            ps.powershell_script:
-              - host
-              - port
-              - protocol
-              - username
-              - password:
-                  value: '${password}'
-                  sensitive: true
-              - auth_type
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password:
-                  value: '${proxy_password}'
-                  sensitive: true
-              - trust_all_roots
-              - x_509_hostname_verifier
-              - trust_keystore
-              - trust_password:
-                  value: 'changeit'
-              - operation_timeout
-              - script: "${'invoke-expression \"cmd /C cscript ' + script_name + '\"'}"
-          publish:
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: trigger_vb_script
+    - trigger_vb_script:
+        do:
+          ps.powershell_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout: '${operation_timeout}'
+            - script: "${'invoke-expression \"cmd /C cscript ' + script_name + '\"'}"
+        publish:
           - exception
-          - stderr
-          - return_result
           - return_code
+          - stderr
           - script_exit_code
 
-          navigate:
-            - SUCCESS: string_equals_2
-            - FAILURE: delete_vb_script_1
-      - string_equals_2:
-          do:
-            strings.string_equals:
-              - first_string: '${script_exit_code}'
-              - second_string: '0'
-              - ignore_case: 'true'
-          navigate:
-            - SUCCESS: delete_vb_script
-            - FAILURE: delete_vb_script_1
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: delete_vb_script_1
+    - delete_vb_script:
+        do:
+          ps.powershell_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout: '${operation_timeout}'
+            - script: "${'Remove-Item \"' + script_name +'\"'}"
+        publish:
+          - exception
+          - return_code
+          - stderr
+          - script_exit_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: SUCCESS
+    - delete_vb_script_1:
+        do:
+          ps.powershell_script:
+            - host: '${host}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type: '${auth_type}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout: '${operation_timeout}'
+            - script: "${'Remove-Item \"' + script_name + '\"'}"
+        publish:
+          - exception
+          - return_code
+          - stderr
+          - script_exit_code
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: on_failure
+    - string_equals:
+            do:
+              strings.string_equals:
+                - first_string: '${script_exit_code}'
+                - second_string: '0'
+                - ignore_case: 'true'
+            navigate:
+              - SUCCESS: delete_vb_script
+              - FAILURE: delete_vb_script_1
   outputs:
-    - exception
-    - stderr
-    - return_result
-    - return_code
-    - script_exit_code
-    - script_name
+    - exception: ${get('exception', '')}
+    - return_code: ${get('return_code', '')}
+    - stderr: ${get('stderr', '')}
+    - script_exit_code: ${get('script_exit_code', '')}
+    - script_name: ${get('script_name', '')}
 
   results:
     - FAILURE
     - SUCCESS
+
+extensions:
+  graph:
+    steps:
+      create_trigger_robot_vb_script:
+        x: 20
+        y: 99
+      trigger_vb_script:
+        x: 181
+        y: 98
+      delete_vb_script:
+        x: 656
+        y: 94
+        navigate:
+          9601df64-de18-5c4f-cbb6-49285c2ddf7c:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
+            port: SUCCESS
+            vertices:
+              - x: 766.6607369295532
+                y: 102.76036936598254
+              - x: 847
+                y: 113
+          df284b8a-571a-ded7-1b3c-e34d15eb2d76:
+            targetId: efaa8ccd-7bc1-b44f-9445-c2adc2a23a31
+            port: FAILURE
+      delete_vb_script_1:
+        x: 658
+        y: 261
+        navigate:
+          bccc7aeb-f02b-bf14-8d9c-ab09d2c0fe6f:
+            targetId: 3c909de7-63a5-468a-8e37-ade3d8c05b25
+            port: SUCCESS
+      string_equals:
+        x: 444
+        y: 78
+    results:
+      SUCCESS:
+        efaa8ccd-7bc1-b44f-9445-c2adc2a23a31:
+          x: 942
+          y: 96
+      FAILURE:
+        3c909de7-63a5-468a-8e37-ade3d8c05b25:
+          x: 940
+          y: 266
