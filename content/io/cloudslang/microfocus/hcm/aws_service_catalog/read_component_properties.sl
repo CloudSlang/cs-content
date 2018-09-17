@@ -37,20 +37,17 @@ flow:
   name: read_component_properties
   inputs:
     - csa_rest_uri:
-        default: 'https://alpinab7.hpswlabs.adapps.hp.com:8444/csa/rest'
         required: true
     - csa_user:
         default: admin
         required: true
     - csa_subscription_id:
-        default: 90cd883f634f0bae01648d7f681a670e
         required: true
     - delimiter: ','
     - auth_type:
         default: basic
         required: false
     - username:
-        default: admin
         required: false
     - password:
         default: '${password}'
@@ -67,10 +64,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
