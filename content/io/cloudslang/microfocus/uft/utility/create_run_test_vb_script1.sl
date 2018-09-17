@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow returns the existing UFT scenarios in a provided path.
+#! @description: This flow creates a VB script needed to run an UFT Scenario based on a
+#!               default triggering template.
 #!
 #!  Notes:
 #!  1. This operations uses the Windows Remote Management (WinRM) implementation for WS-Management standard to execute
@@ -128,12 +129,19 @@
 #!
 #! @input host: The host where UFT scenarios are located.
 #! @input port: The WinRM port of the provided host.
-#!                    Default: https: '5986' http: '5985'
+#!              Default for https: '5986'
+#!              Default for http: '5985'
 #! @input protocol: The WinRM protocol.
 #! @input username: The username for the WinRM connection.
 #! @input password: The password for the WinRM connection.
+#! @input is_test_visible: Parameter to set if the UFT scenario actions should be visible in the UI or not.
 #! @input test_path: The path to the UFT scenario.
-#! @input iterator: Used for development purposes.
+#! @input test_results_path: The path where the UFT scenario will save its results.
+#! @input test_parameters: UFT scenario parameters from the UFT scenario. A list of name:value pairs separated by comma.
+#!                          Eg. name1:value1,name2:value2
+#! @input uft_workspace_path: The path where the OO will create needed scripts for UFT scenario execution.
+#! @input script: The run UFT scenario VB script template.
+#! @input fileNumber: Used for development purposes
 #! @input auth_type:Type of authentication used to execute the request on the target server
 #!                  Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication).
 #!                    Default: 'basic'
@@ -185,31 +193,29 @@
 #!                           response or a fault within the specified time.
 #!                           Default: '60'
 #!
-#! @output tests: UFT scenario list from the specified path.
+#! @output script_name: Full path VB script
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output return_result: The scripts result.
 #! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
-#! @output folders: folders from the specified path.
-#! @output test_file_exists: file exist.
+#! @output return_result: The scripts result.
+#! @output fileExists: file exist.
 #!
 #! @result SUCCESS: The operation executed successfully.
 #! @result FAILURE: The operation could not be executed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus.uft
+namespace: io.cloudslang.microfocus.uft.utility
 
 imports:
-  ps: io.cloudslang.base.powershell
   strings: io.cloudslang.base.strings
-  lists: io.cloudslang.base.lists
+  ps: io.cloudslang.base.powershell
   math: io.cloudslang.base.math
-  utils: io.cloudslang.base.utils
+  prop: io.cloudslang.microfocus.uft
 
 flow:
-  name: get_test_list
+  name: create_run_test_vb_script1
   inputs:
     - host
     - username:
@@ -221,7 +227,10 @@ flow:
         required: false
     - protocol:
         required: false
+    - is_test_visible: 'True'
     - test_path
+    - test_results_path
+    - uft_workspace_path
     -  auth_type:
         default: 'basic'
         required: false
@@ -249,12 +258,47 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - iterator:
+    - script: ${get_sp('io.cloudslang.microfocus.uft.run_robot_script_template_no_params')}
+    - fileNumber:
         default: '0'
         private: true
 
   workflow:
-    - get_folders:
+    - add_test_path:
+        do:
+          strings.search_and_replace:
+            - origin_string: '${script}'
+            - text_to_replace: '<test_path>'
+            - replace_with: '${test_path}'
+        publish:
+          - script: '${replaced_string}'
+        navigate:
+          - SUCCESS: add_test_results_path
+          - FAILURE: on_failure
+    - add_test_results_path:
+        do:
+          strings.search_and_replace:
+            - origin_string: '${script}'
+            - text_to_replace: '<test_results_path>'
+            - replace_with: '${test_results_path}'
+        publish:
+          - script: '${replaced_string}'
+        navigate:
+          - SUCCESS: is_test_visible
+          - FAILURE: on_failure
+    - is_test_visible:
+        do:
+          strings.search_and_replace:
+            - origin_string: '${script}'
+            - text_to_replace: '<visible_param>'
+            - replace_with: '${is_test_visible}'
+        publish:
+          - script: '${replaced_string}'
+        navigate:
+          - SUCCESS: create_folder_structure
+          - FAILURE: on_failure
+
+    - create_folder_structure:
         do:
           ps.powershell_script:
             - host
@@ -278,73 +322,18 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout
-            - script: "${'(Get-ChildItem -Path \"'+ test_path +'\" -Directory).Name -join \",\"'}"
+            - script: "${'New-item \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + '\" -ItemType Directory -force'}"
         publish:
           - exception
-          - stderr
-          - return_result
           - return_code
+          - return_result
           - script_exit_code
-          - folders: "${return_result.replace('\\n',',')}"
+          - stderr
+          - scriptName: output_0
         navigate:
-          - SUCCESS: string_equals_1
-          - FAILURE: FAILURE
-
-    - string_equals_1:
-              do:
-                strings.string_equals:
-                  - first_string: '${folders}'
-                  - second_string: ''
-                  - ignore_case: 'false'
-
-              navigate:
-                - SUCCESS: FAILURE
-                - FAILURE: length
-    - length:
-        do:
-          lists.length:
-            - list: "${get('folders', '')}"
-        publish:
-          - list_length: '${return_result}'
-          - exception
-          - return_result
-          - return_code
-        navigate:
-          - SUCCESS: is_done
-          - FAILURE: FAILURE
-    - is_done:
-        do:
-          strings.string_equals:
-            - first_string: '${iterator}'
-            - second_string: '${list_length}'
-        navigate:
-          - SUCCESS: default_if_empty
-          - FAILURE: get_by_index
-
-    - default_if_empty:
-        do:
-          utils.default_if_empty:
-            - initial_value: "${get('tests_list', '')}"
-            - default_value: No tests founded in the provided path.
-        publish:
-          - tests_list: '${return_result}'
-        navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: check_if_filename_exists
           - FAILURE: on_failure
-    - get_by_index:
-        do:
-          lists.get_by_index:
-            - list: '${folders}'
-            - delimiter: ','
-            - index: '${iterator}'
-        publish:
-          - folder_to_check: '${return_result}'
-          - tests_list
-        navigate:
-          - SUCCESS: test_file_exists
-          - FAILURE: on_failure
-
-    - test_file_exists:
+    - check_if_filename_exists:
         do:
           ps.powershell_script:
             - host
@@ -368,56 +357,81 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - operation_timeout
-            - script: "${'Test-Path \"' + test_path.rstrip(\\\\) + \"\\\\\" + folder_to_check + '\\\\Test.tsp\"'}"
+            - script: "${'Test-Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber +  '.vbs\"'}"
         publish:
           - exception
-          - stderr
-          - return_result
           - return_code
+          - return_result
           - script_exit_code
-          - test_file_exists: "${return_result.replace('\\n',',')}"
+          - stderr
+          - fileExists: '${return_result}'
         navigate:
           - SUCCESS: string_equals
           - FAILURE: on_failure
-
     - string_equals:
         do:
           strings.string_equals:
-            - first_string: '${test_file_exists}'
+            - first_string: '${fileExists}'
             - second_string: 'True'
         navigate:
-          - SUCCESS: append
-          - FAILURE: add_numbers
-
-    - append:
-        do:
-          strings.append:
-            - origin_string: "${get('tests_list', '')}"
-            - text: "${folder_to_check + ','}"
-        publish:
-          - tests_list: '${new_string}'
-        navigate:
           - SUCCESS: add_numbers
-
+          - FAILURE: create_vb_script
     - add_numbers:
         do:
           math.add_numbers:
-            - value1: '${iterator}'
+            - value1: '${fileNumber}'
             - value2: '1'
         publish:
-          - iterator: '${result}'
+          - fileNumber: '${result}'
         navigate:
-          - SUCCESS: is_done
+          - SUCCESS: check_if_filename_exists
+          - FAILURE: on_failure
+
+    - create_vb_script:
+        do:
+          ps.powershell_script:
+            - host
+            - port
+            - protocol
+            - username
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout
+            - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs\" -Value \"'+ script +'\" -Encoding ASCII'}"
+        publish:
+          - exception
+          - return_code
+          - return_result
+          - script_exit_code
+          - stderr
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
 
   outputs:
-    - tests: ${get('tests_list.rstrip(",")', '')}
+    - script_name: "${uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] + '_' + fileNumber + '.vbs'}"
     - exception
-    - stderr
-    - return_result
     - return_code
+    - return_result
+    - stderr
     - script_exit_code
+    - fileExists
 
   results:
-    - SUCCESS
     - FAILURE
+    - SUCCESS
+

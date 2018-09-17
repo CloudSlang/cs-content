@@ -189,6 +189,8 @@
 #!
 #! @output script_name: Full path for VB script.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output return_result: The scripts result.
 #! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #!
@@ -204,20 +206,21 @@ imports:
   strings: io.cloudslang.base.strings
   ps: io.cloudslang.base.powershell
   math: io.cloudslang.base.math
+  prop: io.cloudslang.microfocus.uft
 
 flow:
   name: create_get_test_params_vb_script
   inputs:
     - host
-    - port:
-        required: false
-    - protocol:
-        required: false
     - username:
         required: false
     - password:
         required: false
         sensitive: true
+    - port:
+        required: false
+    - protocol:
+        required: false
     - test_path
     - uft_workspace_path
     -  auth_type:
@@ -247,7 +250,7 @@ flow:
     - operation_timeout:
         default: '60'
         required: false
-    - script: "${get_sp('get_robot_params_script_template')}"
+    - script: ${get_sp('io.cloudslang.microfocus.uft.get_robot_params_script_template')}
 
     - fileNumber:
         default: '0'
@@ -292,6 +295,8 @@ flow:
             - script: "${'Set-Content -Path \"' + uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs \" -Value \"'+ script +'\" -Encoding ASCII'}"
         publish:
           - exception
+          - return_code
+          - return_result
           - stderr
           - script_exit_code
         navigate:
@@ -325,6 +330,7 @@ flow:
         publish:
           - exception
           - return_code
+          - return_result
           - stderr
           - script_exit_code
         navigate:
@@ -358,6 +364,7 @@ flow:
         publish:
           - exception
           - return_code
+          - return_result
           - stderr
           - script_exit_code
           - fileExists: '${return_result}'
@@ -385,38 +392,12 @@ flow:
 
   outputs:
     - script_name: "${uft_workspace_path.rstrip(\"\\\\\") + \"\\\\\" + test_path.split(\"\\\\\")[-1] +  '_get_params_' + fileNumber + '.vbs'}"
-
+    - exception
+    - return_code
+    - return_result
+    - stderr
+    - script_exit_code
   results:
     - FAILURE
     - SUCCESS
 
-extensions:
-  graph:
-    steps:
-      add_test_path:
-        x: 101
-        y: 156
-      create_vb_script:
-        x: 1008
-        y: 318
-        navigate:
-          bcccb51e-fc73-679f-ef31-658b05e4a04a:
-            targetId: 9fdf022d-4c3e-1f47-ea07-3c46a43ea9e8
-            port: SUCCESS
-      create_folder_structure:
-        x: 400
-        y: 150
-      check_if_filename_exists:
-        x: 402
-        y: 348
-      string_equals:
-        x: 729
-        y: 141
-      add_numbers:
-        x: 697
-        y: 342
-    results:
-      SUCCESS:
-        9fdf022d-4c3e-1f47-ea07-3c46a43ea9e8:
-          x: 1000
-          y: 150

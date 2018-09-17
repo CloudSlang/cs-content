@@ -190,6 +190,7 @@
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output stderr: An error message in case there was an error while running power shell
+#! @output return_result: The scripts result.
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #! @output script_name: name of the script.
 #!
@@ -209,15 +210,15 @@ flow:
   name: get_test_parameters
   inputs:
     - host
-    - port:
-        required: false
-    - protocol:
-        required: false
     - username:
         required: false
     - password:
         required: false
         sensitive: true
+    - port:
+        required: false
+    - protocol:
+        required: false
     - test_path
     - uft_workspace_path
     -  auth_type:
@@ -264,7 +265,13 @@ flow:
             - test_path: '${test_path}'
             - uft_workspace_path: '${uft_workspace_path}'
         publish:
+          - exception
+          - stderr
+          - return_result
+          - return_code
+          - script_exit_code
           - script_name
+
         navigate:
           - FAILURE: on_failure
           - SUCCESS: trigger_vb_script
@@ -295,13 +302,35 @@ flow:
             - script: "${'invoke-expression \"cmd /C cscript ' + script_name + '\"'}"
         publish:
           - exception
-          - return_code
           - stderr
+          - return_result
+          - return_code
           - script_exit_code
           - parameters: "${return_result.replace('::',':<no_value>:')}"
         navigate:
           - SUCCESS: string_equals
           - FAILURE: delete_vb_script_1
+
+    - string_equals:
+            do:
+              strings.string_equals:
+                - first_string: '${script_exit_code}'
+                - second_string: '0'
+                - ignore_case: 'true'
+            navigate:
+              - SUCCESS: string_equals1
+              - FAILURE: delete_vb_script_1
+
+    - string_equals1:
+            do:
+              strings.string_equals:
+                - first_string: '${parameters}'
+                - second_string: ''
+                - ignore_case: 'false'
+            navigate:
+              - SUCCESS: FAILURE
+              - FAILURE: delete_vb_script
+
     - delete_vb_script:
         do:
           ps.powershell_script:
@@ -329,12 +358,14 @@ flow:
             - script: "${'Remove-Item \"' + script_name +'\"'}"
         publish:
           - exception
-          - return_code
           - stderr
+          - return_result
+          - return_code
           - script_exit_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: SUCCESS
+
     - delete_vb_script_1:
         do:
           ps.powershell_script:
@@ -362,65 +393,24 @@ flow:
             - script: "${'Remove-Item \"' + script_name + '\"'}"
         publish:
           - exception
-          - return_code
           - stderr
+          - return_result
+          - return_code
           - script_exit_code
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-    - string_equals:
-            do:
-              strings.string_equals:
-                - first_string: '${script_exit_code}'
-                - second_string: '0'
-                - ignore_case: 'true'
-            navigate:
-              - SUCCESS: delete_vb_script
-              - FAILURE: delete_vb_script_1
+
   outputs:
-    - parameters: '${parameters}'
-    - exception: ${get('exception', '')}
-    - return_code: ${get('return_code', '')}
-    - stderr: ${get('stderr', '')}
-    - script_exit_code: ${get('script_exit_code', '')}
+    - exception
+    - stderr
+    - return_result
+    - return_code
+    - script_exit_code
+    - parameters
     - script_name: ${get('script_name', '')}
 
   results:
     - FAILURE
     - SUCCESS
 
-extensions:
-  graph:
-    steps:
-      create_get_robot_params_vb_script:
-        x: 49
-        y: 84
-      trigger_vb_script:
-        x: 344
-        y: 76
-      delete_vb_script:
-        x: 585
-        y: 80
-        navigate:
-          dcf12e0f-57e6-2c88-a65e-a1f3651e7ee4:
-            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
-            port: SUCCESS
-          82467eb7-5ac6-1523-0211-d9ec99424bdb:
-            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
-            port: FAILURE
-      delete_vb_script_1:
-        x: 585
-        y: 242
-        navigate:
-          6585b707-8ed3-ad4a-4c92-06a5c32e5b7a:
-            targetId: 9075912d-0472-2f13-bd04-f716ea7744ed
-            port: SUCCESS
-    results:
-      FAILURE:
-        9075912d-0472-2f13-bd04-f716ea7744ed:
-          x: 823
-          y: 231
-      SUCCESS:
-        023c90fc-05ed-adf3-eb3c-da02c1f4333a:
-          x: 824
-          y: 83
