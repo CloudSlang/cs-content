@@ -188,6 +188,7 @@
 #! @output tests: UFT scenario list from the specified path.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #! @output return_code: '0' if success, '-1' otherwise.
+#! @output return_result: The scripts result.
 #! @output stderr: An error message in case there was an error while running power shell
 #! @output script_exit_code: '0' if success, '-1' otherwise.
 #! @output folders: folders from the specified path.
@@ -211,15 +212,15 @@ flow:
   name: get_test_list
   inputs:
     - host
-    - port:
-        required: false
-    - protocol:
-        required: false
     - username:
         required: false
     - password:
         required: false
         sensitive: true
+    - port:
+        required: false
+    - protocol:
+        required: false
     - test_path
     -  auth_type:
         default: 'basic'
@@ -256,88 +257,61 @@ flow:
     - get_folders:
         do:
           ps.powershell_script:
-            - host: '${host}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - username: '${username}'
+            - host
+            - port
+            - protocol
+            - username
             - password:
                 value: '${password}'
                 sensitive: true
-            - auth_type: '${auth_type}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
+            - auth_type
+            - proxy_host
+            - proxy_port
+            - proxy_username
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - operation_timeout: '${operation_timeout}'
+            - operation_timeout
             - script: "${'(Get-ChildItem -Path \"'+ test_path +'\" -Directory).Name -join \",\"'}"
         publish:
           - exception
-          - return_code
           - stderr
+          - return_result
+          - return_code
           - script_exit_code
           - folders: "${return_result.replace('\\n',',')}"
         navigate:
-          - SUCCESS: length
-          - FAILURE: on_failure
-    - string_equals:
-        do:
-          strings.string_equals:
-            - first_string: '${test_file_exists}'
-            - second_string: 'True'
-        navigate:
-          - SUCCESS: append
-          - FAILURE: add_numbers
-    - test_file_exists:
-        do:
-          ps.powershell_script:
-            - host: '${host}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
-            - auth_type: '${auth_type}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - operation_timeout: '${operation_timeout}'
-            - script: "${'Test-Path \"' + test_path.rstrip(\\\\) + \"\\\\\" + folder_to_check + '\\\\Test.tsp\"'}"
-        publish:
-          - exception
-          - return_code
-          - stderr
-          - script_exit_code
-          - test_file_exists: "${return_result.replace('\\n',',')}"
-        navigate:
-          - SUCCESS: string_equals
-          - FAILURE: on_failure
+          - SUCCESS: string_equals_1
+          - FAILURE: FAILURE
+
+    - string_equals_1:
+              do:
+                strings.string_equals:
+                  - first_string: '${folders}'
+                  - second_string: ''
+                  - ignore_case: 'false'
+
+              navigate:
+                - SUCCESS: FAILURE
+                - FAILURE: length
     - length:
         do:
           lists.length:
-            - list: '${folders}'
+            - list: "${get('folders', '')}"
         publish:
           - list_length: '${return_result}'
+          - exception
+          - return_result
+          - return_code
         navigate:
           - SUCCESS: is_done
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - is_done:
         do:
           strings.string_equals:
@@ -346,36 +320,7 @@ flow:
         navigate:
           - SUCCESS: default_if_empty
           - FAILURE: get_by_index
-    - add_numbers:
-        do:
-          math.add_numbers:
-            - value1: '${iterator}'
-            - value2: '1'
-        publish:
-          - iterator: '${result}'
-        navigate:
-          - SUCCESS: is_done
-          - FAILURE: on_failure
-    - append:
-        do:
-          strings.append:
-            - origin_string: "${get('tests_list', '')}"
-            - text: "${folder_to_check + ','}"
-        publish:
-          - tests_list: '${new_string}'
-        navigate:
-          - SUCCESS: add_numbers
-    - get_by_index:
-        do:
-          lists.get_by_index:
-            - list: '${folders}'
-            - delimiter: ','
-            - index: '${iterator}'
-        publish:
-          - folder_to_check: '${return_result}'
-        navigate:
-          - SUCCESS: test_file_exists
-          - FAILURE: on_failure
+
     - default_if_empty:
         do:
           utils.default_if_empty:
@@ -386,56 +331,93 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - get_by_index:
+        do:
+          lists.get_by_index:
+            - list: '${folders}'
+            - delimiter: ','
+            - index: '${iterator}'
+        publish:
+          - folder_to_check: '${return_result}'
+          - tests_list
+        navigate:
+          - SUCCESS: test_file_exists
+          - FAILURE: on_failure
+
+    - test_file_exists:
+        do:
+          ps.powershell_script:
+            - host
+            - port
+            - protocol
+            - username
+            - password:
+                value: '${password}'
+                sensitive: true
+            - auth_type
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - operation_timeout
+            - script: "${'Test-Path \"' + test_path.rstrip(\\\\) + \"\\\\\" + folder_to_check + '\\\\Test.tsp\"'}"
+        publish:
+          - exception
+          - stderr
+          - return_result
+          - return_code
+          - script_exit_code
+          - test_file_exists: "${return_result.replace('\\n',',')}"
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: on_failure
+
+    - string_equals:
+        do:
+          strings.string_equals:
+            - first_string: '${test_file_exists}'
+            - second_string: 'True'
+        navigate:
+          - SUCCESS: append
+          - FAILURE: add_numbers
+
+    - append:
+        do:
+          strings.append:
+            - origin_string: "${get('tests_list', '')}"
+            - text: "${folder_to_check + ','}"
+        publish:
+          - tests_list: '${new_string}'
+        navigate:
+          - SUCCESS: add_numbers
+
+    - add_numbers:
+        do:
+          math.add_numbers:
+            - value1: '${iterator}'
+            - value2: '1'
+        publish:
+          - iterator: '${result}'
+        navigate:
+          - SUCCESS: is_done
+          - FAILURE: on_failure
 
   outputs:
-    - tests: '${tests_list.rstrip(",")}'
-    - exception: ${get('exception', '')}
-    - return_code: ${get('return_code', '')}
-    - stderr: ${get('stderr', '')}
-    - script_exit_code: ${get('script_exit_code', '')}
-    - folders: ${get('folders', '')}
-    - test_file_exists: ${get('test_file_exists', '')}
+    - tests: ${get('tests_list.rstrip(",")', '')}
+    - exception
+    - stderr
+    - return_result
+    - return_code
+    - script_exit_code
 
   results:
     - SUCCESS
     - FAILURE
-
-extensions:
-  graph:
-    steps:
-      length:
-        x: 250
-        y: 77
-      default_if_empty:
-        x: 637
-        y: 80
-        navigate:
-          0579a2e1-65b5-64bc-6afb-87ae9d3dcfbb:
-            targetId: 023c90fc-05ed-adf3-eb3c-da02c1f4333a
-            port: SUCCESS
-      add_numbers:
-        x: 251
-        y: 256
-      string_equals:
-        x: 289
-        y: 416
-      test_file_exists:
-        x: 428
-        y: 422
-      get_by_index:
-        x: 424
-        y: 250
-      is_done:
-        x: 462
-        y: 62
-      append:
-        x: 80
-        y: 429
-      get_folders:
-        x: 53
-        y: 80
-    results:
-      SUCCESS:
-        023c90fc-05ed-adf3-eb3c-da02c1f4333a:
-          x: 849
-          y: 83
