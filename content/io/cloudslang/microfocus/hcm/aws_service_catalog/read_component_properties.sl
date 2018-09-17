@@ -42,7 +42,8 @@ flow:
         required: true
     - csa_subscription_id:
         required: true
-    - delimiter: ','
+    - delimiter:
+        default: ','
     - auth_type:
         default: basic
         required: false
