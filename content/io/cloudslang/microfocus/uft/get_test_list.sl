@@ -421,3 +421,62 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+
+extensions:
+  graph:
+    steps:
+      length:
+        x: 425
+        y: 196
+        navigate:
+          1f83690e-0523-fb80-85f6-b17086b3fffc:
+            targetId: da13692d-054f-12fb-908d-c64cbc3a4de2
+            port: FAILURE
+      default_if_empty:
+        x: 863
+        y: 23
+        navigate:
+          0b09f8f5-d4e1-2102-87c5-3bdf6375597c:
+            targetId: 5d5e95ed-dfdf-ef1d-d3e4-4fe51cf6f93c
+            port: SUCCESS
+      add_numbers:
+        x: 1053
+        y: 201
+      string_equals:
+        x: 1356
+        y: 188
+      test_file_exists:
+        x: 1334
+        y: 373
+      get_by_index:
+        x: 880
+        y: 374
+      is_done:
+        x: 705
+        y: 173
+      append:
+        x: 1320
+        y: 42
+      get_folders:
+        x: 40
+        y: 199
+        navigate:
+          bc932a00-711f-4a2d-6449-ada15f9c6a78:
+            targetId: da13692d-054f-12fb-908d-c64cbc3a4de2
+            port: FAILURE
+      string_equals_1:
+        x: 271
+        y: 30
+        navigate:
+          9bc69bc3-65ef-d443-8844-5ea65c925357:
+            targetId: da13692d-054f-12fb-908d-c64cbc3a4de2
+            port: SUCCESS
+    results:
+      FAILURE:
+        da13692d-054f-12fb-908d-c64cbc3a4de2:
+          x: 244
+          y: 371
+      SUCCESS:
+        5d5e95ed-dfdf-ef1d-d3e4-4fe51cf6f93c:
+          x: 1058
+          y: 33

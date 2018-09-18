@@ -401,3 +401,33 @@ flow:
     - FAILURE
     - SUCCESS
 
+extensions:
+  graph:
+    steps:
+      add_test_path:
+        x: 39
+        y: 74
+      create_folder_structure:
+        x: 287
+        y: 72
+      check_if_filename_exists:
+        x: 535
+        y: 68
+      add_numbers:
+        x: 840
+        y: 339
+      string_equals:
+        x: 868
+        y: 48
+      create_vb_script:
+        x: 1090
+        y: 60
+        navigate:
+          29bfc0d9-87d5-9e70-6c5d-d18b940010b9:
+            targetId: 7afe3cef-e39b-ea59-167d-8e1ee27a6efc
+            port: SUCCESS
+    results:
+      SUCCESS:
+        7afe3cef-e39b-ea59-167d-8e1ee27a6efc:
+          x: 1315
+          y: 68
