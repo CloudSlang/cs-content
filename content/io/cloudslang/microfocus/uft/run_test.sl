@@ -271,11 +271,11 @@ flow:
               - second_string: ''
               - ignore_case: 'false'
           navigate:
-            - SUCCESS: create_trigger_robot_vb_script_1
+            - SUCCESS: create_trigger_robot_vb_script_no_parameters
             - FAILURE: create_trigger_robot_vb_script
       - create_trigger_robot_vb_script:
           do:
-            utility.create_run_test_vb_script1:
+            utility.create_run_test_vb_script:
               - host
               - port
               - protocol
@@ -412,9 +412,9 @@ flow:
           navigate:
             - SUCCESS: FAILURE
             - FAILURE: on_failure
-      - create_trigger_robot_vb_script_1:
+      - create_trigger_robot_vb_script_no_parameters:
           do:
-            utility.create_run_test_vb_script1:
+            utility.create_run_test_vb_script_no_parameters:
               - host
               - port
               - protocol
@@ -531,7 +531,7 @@ extensions:
       string_equals:
         x: 841
         y: 491
-      create_trigger_robot_vb_script_1:
+      create_trigger_robot_vb_script_no_parameters:
         x: 285
         y: 216
       trigger_vb_script:
