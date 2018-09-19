@@ -310,21 +310,33 @@ extensions:
   graph:
     steps:
       remove_by_index:
-        x: 1077
-        y: 248
+        x: 1260
+        y: 255
         navigate:
-          c3079282-1c9f-ac33-510c-7a99bd6d936a:
-            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
-            port: SUCCESS
+          0544c6eb-44a6-6c4e-51e5-dc121d4301e3:
+            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
+            port: FAILURE
       get_csa_user_identifier:
         x: 8
         y: 71
+        navigate:
+          628ce993-2555-f3b5-40a0-8cf8821c193f:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
       xpath_query:
         x: 349
         y: 72
+        navigate:
+          740edb64-7828-a4ca-91e4-48e4f1ec3aa0:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
       length:
         x: 1078
         y: 69
+        navigate:
+          0191b7a2-9dee-16e4-1555-238bd029059f:
+            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
+            port: FAILURE
       list_iterator:
         x: 889
         y: 75
@@ -332,21 +344,38 @@ extensions:
         x: 1266
         y: 74
         navigate:
-          4f5be3c2-d553-185e-cbaa-a603f318b065:
-            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
-            port: LESS_THAN
           a0fca19d-bffe-7fe8-f0b1-658d3a08221b:
             targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
             port: EQUALS
+            vertices:
+              - x: 1366
+                y: 130
+              - x: 1378
+                y: 128
+          f77bfb22-e860-f84a-9679-5887166752a1:
+            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
+            port: LESS_THAN
       http_client_action:
         x: 165
         y: 72
+        navigate:
+          f28f44ce-3371-7169-2f03-ebf5d731b65c:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
       xpath_query_1:
         x: 518
         y: 71
+        navigate:
+          b2625d4c-440c-a65e-e000-02494595c596:
+            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
+            port: FAILURE
       build_properties_list:
         x: 704
         y: 68
+        navigate:
+          ea0691e8-16d5-c8b5-cb6b-b400deacd2c3:
+            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
+            port: FAILURE
       string_occurrence_counter:
         x: 891
         y: 275
@@ -356,8 +385,22 @@ extensions:
       add_element:
         x: 696
         y: 281
+        navigate:
+          6131add5-e45a-4f16-3385-ffa8573e516c:
+            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
+            port: FAILURE
     results:
       SUCCESS:
         2fd4062c-60d3-a971-922b-da5fdb5a3531:
-          x: 1278
-          y: 251
+          x: 1381
+          y: 78
+      FAILURE:
+        6306f32e-ac8b-2a15-82b1-d36b3527f1df:
+          x: 159
+          y: 286
+        799e4596-aca7-0bc1-65b8-bcb03a6e347f:
+          x: 1073
+          y: 244
+        4d495d15-0b35-9ed6-b3f2-5036fc1d34c6:
+          x: 514
+          y: 287
