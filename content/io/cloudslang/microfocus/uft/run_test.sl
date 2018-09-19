@@ -271,11 +271,11 @@ flow:
               - second_string: ''
               - ignore_case: 'false'
           navigate:
-            - SUCCESS: create_trigger_robot_vb_script_1
+            - SUCCESS: create_trigger_robot_vb_script_no_parameters
             - FAILURE: create_trigger_robot_vb_script
       - create_trigger_robot_vb_script:
           do:
-            utility.create_run_test_vb_script1:
+            utility.create_run_test_vb_script:
               - host
               - port
               - protocol
@@ -412,9 +412,9 @@ flow:
           navigate:
             - SUCCESS: FAILURE
             - FAILURE: on_failure
-      - create_trigger_robot_vb_script_1:
+      - create_trigger_robot_vb_script_no_parameters:
           do:
-            utility.create_run_test_vb_script1:
+            utility.create_run_test_vb_script_no_parameters:
               - host
               - port
               - protocol
@@ -494,3 +494,68 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+
+extensions:
+  graph:
+    steps:
+      string_equals_2:
+        x: 843
+        y: 193
+      trigger_vb_script_1:
+        x: 496
+        y: 213
+      delete_vb_script:
+        x: 1155
+        y: 368
+        navigate:
+          0b0a142b-ae1f-5278-f728-b193dcee85e7:
+            targetId: a4db0ee9-f9a7-d43e-b1cc-9786b2e5362b
+            port: FAILURE
+            vertices:
+              - x: 1243
+                y: 387
+              - x: 1315
+                y: 353
+              - x: 1351.4605678975008
+                y: 352.92990200488515
+              - x: 1419
+                y: 351
+          f90fa9e6-1ffc-794c-8f9e-e0284e0691f1:
+            targetId: a4db0ee9-f9a7-d43e-b1cc-9786b2e5362b
+            port: SUCCESS
+            vertices:
+              - x: 1315
+                y: 455
+              - x: 1416
+                y: 455
+      string_equals:
+        x: 841
+        y: 491
+      create_trigger_robot_vb_script_no_parameters:
+        x: 285
+        y: 216
+      trigger_vb_script:
+        x: 494
+        y: 513
+      delete_vb_script_1:
+        x: 651
+        y: 355
+        navigate:
+          abc30655-fb3e-2b61-0cfe-e872a41ae21b:
+            targetId: ead7bc63-9890-3ee7-2656-b91ed8438591
+            port: SUCCESS
+      string_equals_1:
+        x: 117
+        y: 344
+      create_trigger_robot_vb_script:
+        x: 283
+        y: 513
+    results:
+      FAILURE:
+        ead7bc63-9890-3ee7-2656-b91ed8438591:
+          x: 907
+          y: 363
+      SUCCESS:
+        a4db0ee9-f9a7-d43e-b1cc-9786b2e5362b:
+          x: 1448
+          y: 374
