@@ -32,7 +32,7 @@
 #! @result FAILURE: Operation failed. The list of provisioning parameters was not retrieved.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microfocus.hcm.aws_service_catalog
+namespace: io.cloudslang.microfocus.hcm.aws_service_catalog.utils
 flow:
   name: read_component_properties
   inputs:
