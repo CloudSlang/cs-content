@@ -193,7 +193,7 @@ flow:
           - FAILURE: FAILURE
     - provision_product:
         do:
-          io.cloudslang.amazon.servicecatalog.provision_product:
+          io.cloudslang.amazon.aws.servicecatalog.provision_product:
             - identity: '${aws_accessKeyId}'
             - credential:
                 value: '${aws_secretAccessKey}'
