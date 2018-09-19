@@ -24,10 +24,47 @@
 #! @input object_type: The type of the object to query.
 #! @input attribute_list: A comma delimited list of attributes to retrieve.
 #! @input cmdb_version: The major version number of the UCMDB server.
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL.
+#!                         A certificate is trusted even if no trusted certification authority issued it.
+#!                         Valid: 'true' or 'false'
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
+#!                                 verification system prevents communication with other hosts other than the ones you
+#!                                 intended. This is done by checking that the hostname is in the subject alternative
+#!                                 name extension of the certificate. This system is designed to ensure that, if an
+#!                                 attacker(Man In The Middle) redirects traffic to his machine, the client will not
+#!                                 accept the connection. If you set this input to "allow_all", this verification is
+#!                                 ignored and you become vulnerable to security attacks. For the value
+#!                                 "browser_compatible" the hostname verifier works the same way as Curl and Firefox.
+#!                                 The hostname must match either the first CN, or any of the subject-alts. A wildcard
+#!                                 can occur in the CN, and in any of the subject-alts. The only difference between
+#!                                 "browser_compatible" and "strict" is that a wildcard (such as "*.foo.com") with
+#!                                 "browser_compatible" matches all subdomains, including "a.b.foo.com".
+#!                                 From the security perspective, to provide protection against possible
+#!                                 Man-In-The-Middle attacks, we strongly recommend to use "strict" option.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'.
+#!                                 Default: 'strict'.
+#!                                 Optional
 #! @input keystore: The path to the KeyStore file. This file should contain a certificate the client is capable of authenticating with on the uCMDB server.
 #! @input keystore_password: The password associated with the keystore file.
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: 'JAVA_HOME/java/lib/security/cacerts'
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Default value: 'changeit'
+#!                        Optional
 #!
-#! @output atributes: The attributes and their values.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output return_result: The result of the execution.
+#! @output attributes: The attributes and their values.
 #!
 #! @result FAILURE: The operation completed unsuccessfully.
 #! @result SUCCESS: The operation completed as stated in the description.
@@ -152,7 +189,7 @@ flow:
     - return_result
     - return_code
     - exception
-    - atributes
+    - attributes
   results:
     - FAILURE
     - SUCCESS
