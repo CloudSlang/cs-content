@@ -1,3 +1,16 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This flow retrieves the AWS Service Catalog provisioning parameters from a given CSA Subscription.
@@ -6,23 +19,34 @@
 #! @input csa_user: The CSA user for which to retrieve the user identifier.
 #! @input csa_subscription_id: The ID of the subscription for which to retrieve the component properties.
 #! @input delimiter: The delimiter used to separate the values from component properties list.
-#! @input auth_type: The type of authentication used by this operation when trying to execute the request on the target server. Default 'basic'
+#! @input auth_type: The type of authentication used by this operation when trying to execute the request on the target server.
+#!                   Default 'basic'
 #! @input username: The username used to connect to the CSA host.
 #! @input password: Password associated with the <username> input to connect to the CSA host.
 #! @input proxy_host: Proxy server used to access the web site.
-#! @input proxy_port: Proxy server port. Default: '8080'
+#! @input proxy_port: Proxy server port.
+#!                    Default: '8080'
 #! @input proxy_username: Username used when connecting to the proxy.
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL. Default: 'false'
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'browser_compatible', 'allow_all'. Default: 'strict'
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's 
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'. 
+#!                                 Default: 'strict'
 #! @input trust_keystore: Location of the TrustStore file. Format: a URL or the local path to it
 #! @input trust_password: Password associated with the trust_keystore file.
 #! @input keystore: Location of the KeyStore file.  Format: a URL or the local path to it.
 #! @input keystore_password: Password associated with the KeyStore file.
-#! @input connect_timeout: Time in seconds to wait for a connection to be established. Default: '0' (infinite timeout)
-#! @input socket_timeout: Time in seconds to wait for data to be retrieved (maximum period inactivity between two consecutive data packets) Default: '0' (infinite timeout)
-#! @input use_cookies: Specifies whether to enable cookie tracking or not. Default: 'true'
-#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls.  Default: 'true'
+#! @input connect_timeout: Time in seconds to wait for a connection to be established. 
+#!                         Default: '0' (infinite timeout)
+#! @input socket_timeout: Time in seconds to wait for data to be retrieved (maximum period inactivity between two 
+#!                        consecutive data packets) 
+#!                        Default: '0' (infinite timeout)
+#! @input use_cookies: Specifies whether to enable cookie tracking or not. 
+#!                     Default: 'true'
+#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls.  
+#!                    Default: 'true'
 #!
 #! @output return_result: The list of provisioning parameters.
 #! @output return_code: '0' if success, '-1' otherwise.
@@ -126,7 +150,7 @@ flow:
           - error_message
           - retrun_result
         navigate:
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
           - SUCCESS: http_client_action
     - http_client_action:
         do:
@@ -166,7 +190,7 @@ flow:
           - xml_response: '${return_result}'
         navigate:
           - SUCCESS: xpath_query
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - xpath_query:
         do:
           io.cloudslang.base.xml.xpath_query:
@@ -177,7 +201,7 @@ flow:
           - selected_keys: '${selected_value}'
         navigate:
           - SUCCESS: xpath_query_1
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - xpath_query_1:
         do:
           io.cloudslang.base.xml.xpath_query:
@@ -188,7 +212,7 @@ flow:
           - selected_values: '${selected_value}'
         navigate:
           - SUCCESS: build_properties_list
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - build_properties_list:
         do:
           io.cloudslang.microfocus.hcm.aws_service_catalog.utils.build_properties_list:
@@ -202,7 +226,7 @@ flow:
           - list_props: '${blank_list}'
         navigate:
           - SUCCESS: list_iterator
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - list_iterator:
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -213,7 +237,7 @@ flow:
         navigate:
           - HAS_MORE: string_occurrence_counter
           - NO_MORE: length
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - string_occurrence_counter:
         do:
           io.cloudslang.base.strings.string_occurrence_counter:
@@ -244,7 +268,7 @@ flow:
           - list_props: '${return_result}'
         navigate:
           - SUCCESS: list_iterator
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - remove_by_index:
         do:
           io.cloudslang.base.lists.remove_by_index:
@@ -255,7 +279,7 @@ flow:
           - list_props: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - length:
         do:
           io.cloudslang.base.lists.length:
@@ -265,7 +289,7 @@ flow:
           - list_length: '${return_result}'
         navigate:
           - SUCCESS: compare_numbers
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - compare_numbers:
         do:
           io.cloudslang.base.math.compare_numbers:
