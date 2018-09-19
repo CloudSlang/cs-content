@@ -151,13 +151,11 @@ extensions:
   graph:
     steps:
       compare_numbers_1:
-        x: 59
-        y: 222
+        x: 63
+        y: 396
         navigate:
           a730ff4d-bd7d-eee5-681e-c7bd7d8abb62:
-            vertices:
-              - x: 239
-                y: 225
+            vertices: []
             targetId: remove_by_index_2
             port: EQUALS
           af2c1b38-d622-c372-95a4-64e95ff6c4ba:
@@ -165,67 +163,80 @@ extensions:
             targetId: remove_by_index_2
             port: LESS_THAN
       remove_by_index:
-        x: 297
-        y: 425
-      get_by_index_1:
-        x: 985
-        y: 424
+        x: 546
+        y: 398
         navigate:
-          d0632cbd-4d77-2ad7-1bac-e6747707cc05:
-            vertices: []
-            targetId: add_element
-            port: SUCCESS
+          8d925016-e4e6-abcc-9438-9469788b15e8:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      get_by_index_1:
+        x: 756
+        y: 38
+        navigate:
+          4a0309ce-17de-4afe-bfb9-b4b9a9575a33:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
       length:
         x: 55
         y: 50
-      compare_numbers:
-        x: 579
-        y: 46
         navigate:
-          18069dfa-5724-c098-3eb8-893881c277fa:
-            vertices:
-              - x: 865
-                y: 40
-              - x: 915
-                y: 41
-            targetId: get_by_index
-            port: GREATER_THAN
+          ca3861ff-30e0-be3d-e915-e123ffac3e95:
+            targetId: 78379e6b-a4b0-c947-5f0f-705ac5657698
+            port: FAILURE
+      compare_numbers:
+        x: 328
+        y: 48
+        navigate:
           b9826b21-53e4-8c88-de81-e03305382146:
             targetId: d03119da-52b7-25a0-6355-c813f5852392
             port: LESS_THAN
-          0fad3aa2-9c31-fc21-946e-c229c690fedc:
-            vertices:
-              - x: 883
-                y: 98
-              - x: 898
-                y: 133
-              - x: 900
-                y: 131
-              - x: 925
-                y: 104
+          292bc5ad-16cb-ca40-a9d8-7f6d73447989:
+            vertices: []
             targetId: get_by_index
-            port: EQUALS
+            port: GREATER_THAN
       get_by_index:
-        x: 986
-        y: 28
-      remove_by_index_1:
-        x: 563
-        y: 425
-      length_1:
-        x: 71
-        y: 424
-      remove_by_index_2:
-        x: 296
-        y: 213
+        x: 539
+        y: 45
         navigate:
-          3e659c99-9fa6-bdab-db9e-12743b703dd7:
+          e795acd7-65c2-b8f2-8252-fe87863b0af6:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      remove_by_index_1:
+        x: 926
+        y: 399
+        navigate:
+          4b906bf5-17aa-15bb-cd00-2866788be7bb:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      length_1:
+        x: 316
+        y: 581
+      remove_by_index_2:
+        x: 321
+        y: 390
+        navigate:
+          6da2dbb6-70cc-7223-6c20-9666783f7ee5:
+            targetId: 78379e6b-a4b0-c947-5f0f-705ac5657698
+            port: FAILURE
+          7b19b19d-abfd-b5f3-ca50-28a221937dd5:
             targetId: d03119da-52b7-25a0-6355-c813f5852392
             port: SUCCESS
       add_element:
-        x: 760
-        y: 424
+        x: 927
+        y: 40
+        navigate:
+          d7b98652-c07a-b2d2-a80b-48861eddf73d:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
     results:
       SUCCESS:
         d03119da-52b7-25a0-6355-c813f5852392:
-          x: 567
-          y: 218
+          x: 546
+          y: 210
+      FAILURE:
+        78379e6b-a4b0-c947-5f0f-705ac5657698:
+          x: 317
+          y: 208
+        ea5dec1e-fc27-0438-a09b-bc2d2b13273f:
+          x: 751
+          y: 210

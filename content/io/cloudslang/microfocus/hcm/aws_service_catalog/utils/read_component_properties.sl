@@ -313,9 +313,9 @@ extensions:
         x: 1260
         y: 255
         navigate:
-          0544c6eb-44a6-6c4e-51e5-dc121d4301e3:
-            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
-            port: FAILURE
+          9d32483a-f415-7544-cb8e-d9d412adbc13:
+            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
+            port: SUCCESS
       get_csa_user_identifier:
         x: 8
         y: 71
@@ -340,6 +340,16 @@ extensions:
       list_iterator:
         x: 889
         y: 75
+        navigate:
+          e2839190-549d-2fd5-982c-53e74ff8056d:
+            vertices:
+              - x: 930
+                y: 215
+            targetId: string_occurrence_counter
+            port: HAS_MORE
+          02ce77f4-0b58-cd03-801e-0fe77c0ce159:
+            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
+            port: FAILURE
       compare_numbers:
         x: 1266
         y: 74
