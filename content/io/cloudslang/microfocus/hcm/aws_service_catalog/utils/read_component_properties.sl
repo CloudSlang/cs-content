@@ -313,7 +313,10 @@ extensions:
         x: 1260
         y: 255
         navigate:
-          9af0567a-8e16-55c9-e558-be120e20c484:
+          bc80aa1f-87de-e92c-79e3-3cfd7a899dc4:
+            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
+            port: SUCCESS
+          68c2c9bd-020c-13ed-2939-83b81df894f2:
             targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
             port: FAILURE
       get_csa_user_identifier:
