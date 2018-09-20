@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets information about the specified provisioned product.
+#! @description: Terminates the specified provisioned product.
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: 'AKIAIOSFODNN7EXAMPLE'
@@ -43,50 +43,39 @@
 #! @input region: String that contains the Amazon AWS region name.
 #!                Default: 'us-east-1'
 #!                Optional
-#! @input accepted_language: The language code.
-#!                           Example: en (English), jp (Japanese), zh(Chinese)
-#!                           Default: 'en'
-#!                           Optional
-#! @input product_id: The provisioned product identifier.
-#!                    Required
+#! @input provisioned_product_id: The identifier of the provisioned product. You cannot specify both
+#!                                provisioned_product_name and provisioned_product_id.
+#!                                Example: 'pp-almi4aq6ylmoa'
+#!                                Optional
+#! @input provisioned_product_name: A user-friendly name for the provisioned product.This value must be unique for the
+#!                                  AWS account and cannot be updated after the product is provisioned. You cannot
+#!                                  specify both provisioned_product_name and provisioned_product_id.
+#!                                  Optional
+#! @input accept_language: String that contains the language code.Example: en (English), jp (Japanese), zh(Chinese).
+#!                         Default: 'en'
+#!                         Optional
+#! @input ignore_errors: If set to true, AWS Service Catalog stops managing the specified provisioned product even if it
+#!                       cannot delete the underlying resources.
+#!                       Default: 'false'
+#!                       Optional
+#! @input terminate_token: An idempotency token that uniquely identifies the termination request. This token is only
+#!                         valid during the termination process. After the provisioned product is terminated, subsequent
+#!                         requests to terminate the same provisioned product always return ResourceNotFound.
+#!                         Pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output return_result: The full API response in case of success, or an error message in case of failure.
-#!                        The data is returned in JSON format by the service in the first case.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output provisioned_product_arn: The ARN of the provisioned product.
-#!                                  Pattern: '[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:
-#!                                  [a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}'
-#! @output provisioned_product_created_time: The UTC time stamp of the creation time.
-#! @output provisioned_product_id: The identifier of the provisioned product.
-#!                                 Example: 'pp-almi4aq6ylmoa'
-#! @output provisioned_product_status: The current status of the provisioned product.
-#!                                     Valid: 'AVAILABLE' - Stable state, ready to perform any operation.
-#!                                                          The most recent operation succeeded and completed.
-#!                                            'UNDER_CHANGE' - Transitive state, operations performed might not have
-#!                                                             valid results. Wait for an AVAILABLE status before
-#!                                                             performing operations.
-#!                                            'TAINTED' - Stable state, ready to perform any operation. The stack has
-#!                                                        completed the requested operation but is not exactly what was
-#!                                                        requested. For example, a request to update to a new version
-#!                                                        failed and the stack rolled back to the current version.
-#!                                            'ERROR' - An unexpected error occurred, the provisioned product exists but
-#!                                                      the stack is not running. For example, CloudFormation received a
-#!                                                      parameter value that was not valid and could not launch the stack.
-#!                                            'PLAN_IN_PROGRESS'
-#! @output provisioned_product_name_result: The user-friendly name of the provisioned product.
-#! @output provisioned_product_type: The type of provisioned product. The supported value is CFN_STACK. 
 #!
-#! @result SUCCESS: The action ended successfully.
-#! @result FAILURE: An error has occurred while trying to get details about the product.
+#! @result SUCCESS: The product was successfully unprovisioned.
+#! @result FAILURE: An error has occurred while trying to unprovision the product.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.servicecatalog.products
 
 operation: 
-  name: describe_provisioned_product
-  
+  name: unprovision_product
   inputs: 
     - identity    
     - credential:    
@@ -97,11 +86,10 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:
-        default: '8080'
+    - proxy_port:  
         required: false  
     - proxyPort: 
-        default: ${get('proxy_port', '')}  
+        default: '8080'
         required: false 
         private: true 
     - proxy_username:  
@@ -138,35 +126,47 @@ operation:
     - region:
         default: 'us-east-1'
         required: false  
-    - accepted_language:
-        default: 'en'
+    - provisioned_product_id:  
         required: false  
-    - acceptedLanguage: 
-        default: ${get('accepted_language', '')}  
+    - provisionedProductId: 
+        default: ${get('provisioned_product_id', '')}  
         required: false 
         private: true 
-    - product_id:
-        required: true
-    - productId: 
-        default: ${get('product_id', '')}  
+    - provisioned_product_name:  
+        required: false  
+    - provisionedProductName: 
+        default: ${get('provisioned_product_name', '')}  
+        required: false 
+        private: true 
+    - accept_language:
+        default: 'en'
+        required: false  
+    - acceptLanguage: 
+        default: ${get('accept_language', '')}  
+        required: false 
+        private: true 
+    - ignore_errors:
+        default: 'false'
+        required: false  
+    - ignoreErrors: 
+        default: ${get('ignore_errors', '')}  
+        required: false 
+        private: true 
+    - terminate_token    
+    - terminateToken: 
+        default: ${get('terminate_token', '')}  
         required: true
         private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-amazon:1.0.20'
-    class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.DescribeProvisionedProductAction'
+    class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UnprovisionProductAction'
     method_name: 'execute'
   
   outputs: 
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - provisioned_product_arn: ${get('provisionedProductArn', '')} 
-    - provisioned_product_created_time: ${get('provisionedProductCreatedTime', '')} 
-    - provisioned_product_id: ${get('provisionedProductId', '')} 
-    - provisioned_product_status: ${get('provisionedProductStatus', '')} 
-    - provisioned_product_name_result: ${get('provisionedProductNameResult', '')} 
-    - provisioned_product_type: ${get('provisionedProductType', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
