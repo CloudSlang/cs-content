@@ -24,7 +24,8 @@
 #! @input second_list_init: Auxiliary input, should not receive a value.
 #!                          Default: ' '
 #!
-#! @output attribute_list: Attribute list processed
+#! @output attribute_list: Attribute list processed.
+#! @output return_result: Success message in case of success, failure message in case of failure.
 #!
 #! @result FAILURE: The operation completed unsuccessfully.
 #! @result SUCCESS: The operation completed as stated in the description.
