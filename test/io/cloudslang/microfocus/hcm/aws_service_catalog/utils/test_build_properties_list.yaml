@@ -1,0 +1,37 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+####################################################
+
+testBuildPropertiesListWithOnlyRequiredInputs:
+  testSuites: [hcm-local]
+  description: "Successfully test for build_properties_list with required inputs."
+  testFlowPath: io.cloudslang.microfocus.hcm.aws_service_catalog.utils.build_properties_list
+  inputs:
+    - list1: 'key1,key2,key3'
+    - list2: 'value1,value2,value3'
+  outputs:
+    - properties_list: 'key1=value1,key2=value2,key3=value3'
+  result: SUCCESS
+
+testSuccessBuildPropertiesList:
+  testSuites: [hcm-local]
+  description: "Successfully test for build_properties_list."
+  testFlowPath: io.cloudslang.microfocus.hcm.aws_service_catalog.utils.build_properties_list
+  inputs:
+    - list1: 'key1,key2,key3'
+    - list2: 'value1,value2,value3'
+    - final_list: ' '
+    - delimiter: ','
+  outputs:
+    - properties_list: 'key1=value1,key2=value2,key3=value3'
+  result: SUCCESS
