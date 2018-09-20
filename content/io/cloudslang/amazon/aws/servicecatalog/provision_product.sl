@@ -102,7 +102,7 @@ flow:
         required: false
     - delimiter:
         required: false
-        default: ','
+        default: '&'
     - tags:
         required: false
     - provision_token:

@@ -58,7 +58,7 @@
 #!                                 Example: 'KeyName=myKey,InstanceType=m1.small'
 #! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.
 #!                   Optional
-#!                   Default: ','
+#!                   Default: '&'
 #! @input tags: One or more tags in key=value format, one key=value, delimited by the value from delimiter input.
 #!              Optional
 #! @input provision_token: An idempotency token that uniquely identifies the provisioning request.
@@ -203,7 +203,7 @@ operation:
         required: false
         private: true
     - delimiter:
-        default: ','
+        default: '&'
         required: false
     - tags:  
         required: false  
