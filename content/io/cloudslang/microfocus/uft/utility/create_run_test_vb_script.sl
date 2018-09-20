@@ -458,3 +458,45 @@ flow:
     - FAILURE
     - SUCCESS
 
+extensions:
+  graph:
+    steps:
+      create_folder_structure:
+        x: 1108
+        y: 56
+      add_parameters:
+        x: 893
+        y: 53
+      check_if_filename_exists:
+        x: 1101
+        y: 300
+      add_parameter:
+        x: 675
+        y: 56
+      add_numbers:
+        x: 908
+        y: 506
+      string_equals:
+        x: 936
+        y: 278
+      add_test_path:
+        x: 40
+        y: 58
+      is_test_visible:
+        x: 461
+        y: 55
+      create_vb_script:
+        x: 502
+        y: 286
+        navigate:
+          c3db07a5-d125-3877-5aba-a4077607d789:
+            targetId: 09dd53a1-80a5-775c-ecf2-2930999b2b46
+            port: SUCCESS
+      add_test_results_path:
+        x: 251
+        y: 57
+    results:
+      SUCCESS:
+        09dd53a1-80a5-775c-ecf2-2930999b2b46:
+          x: 498
+          y: 514

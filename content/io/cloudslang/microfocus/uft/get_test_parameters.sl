@@ -414,3 +414,46 @@ flow:
     - FAILURE
     - SUCCESS
 
+extensions:
+  graph:
+    steps:
+      create_get_robot_params_vb_script:
+        x: 37
+        y: 130
+      trigger_vb_script:
+        x: 286
+        y: 129
+      string_equals:
+        x: 579
+        y: 2
+      delete_vb_script_1:
+        x: 550
+        y: 269
+        navigate:
+          b9282c69-423a-2d78-8603-b3649793ccb1:
+            targetId: c61959cb-d5b5-9967-42d7-9e288e2573d8
+            port: SUCCESS
+      string_equals1:
+        x: 897
+        y: 1
+        navigate:
+          9e1d5e6c-4685-8c7f-85ff-457550292ac3:
+            targetId: c61959cb-d5b5-9967-42d7-9e288e2573d8
+            port: SUCCESS
+      delete_vb_script:
+        x: 1146
+        y: 13
+        navigate:
+          5e587d6a-8d5b-fd6a-b51b-d2d0d42adff8:
+            targetId: 712df0f1-61f0-3c93-1863-dbad6e6ff3dd
+            port: SUCCESS
+    results:
+      FAILURE:
+        c61959cb-d5b5-9967-42d7-9e288e2573d8:
+          x: 870
+          y: 274
+      SUCCESS:
+        712df0f1-61f0-3c93-1863-dbad6e6ff3dd:
+          x: 1361
+          y: 15
+
