@@ -30,11 +30,13 @@
 #! @input aws_provisioned_product_name: A user-friendly name for the provisioned product. This value must be unique for
 #!                                      the AWS account and cannot be updated after the product is provisioned.
 #! @input aws_provisioning_artifact_id: The identifier of the provisioning artifact also known as version Id.
-#! @input aws_tags: One or more tags.
+#! @input aws_tags: One or more tags in key value format, one key=value, delimited by "&" character.
+#!                  Examples: tag1=tagValue1&tag2=tagValue2
 #! @input aws_provision_token: An idempotency token that uniquely identifies the provisioning request.
 #! @input aws_accept_language: String that contains the language code.
-#! @input aws_notification_arns: Strings that are passed to CloudFormation.The Simple Notification Service topic Amazon
-#!                               Resource Names to which to publish stack-related events.
+#!                             Examples: "en" - English, "jp" - Japanese, "zh" - Chinese
+#! @input aws_notification_arns: The Simple Notification Service topic Amazon Resource Names to which to publish
+#!                               stack-related events.
 #! @input aws_path_id: String that contains the identifier path of the product. This value is optional if the product
 #!                     has a default path, and required if the product has more than one path.
 #! @input aws_region: String that contains the Amazon AWS region name.
@@ -81,7 +83,7 @@
 #!                        the AWS CloudFormation console.
 #! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
 #!                          EC2 instance or an Amazon S3 bucket.
-#! @output return_result: The full AWS Service Catalog API response in case of success, or an error message in case of failure.
+#! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error message in case of failure.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
