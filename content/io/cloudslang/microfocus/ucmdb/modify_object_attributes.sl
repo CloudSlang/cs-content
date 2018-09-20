@@ -13,23 +13,28 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Retrieves a list of all attributes of a given object.
+#! @description: Changes one or more attributes on an object.
+#!               Notes: Due to the issue of UCMDB API, when integrate with UCMDB 9.0 or lower version,  if update the
+#!                      value of an attribute which is not editable, the API will come back with successful status,
+#!                      however the attribute won't get updated with the new value.
 #!
 #! @input cmdb_host: The host running UCMDB.
 #! @input cmdb_port: The UCMDB server port.
-#! @input protocol: The protocol used to connect to the UCMDB server. HTTPS (TLS) is supported only by UCMDB version
-#!                  9.x and 10.x.
-#! @input username: The user name used for the UCMDB server connection.
+#! @input protocol: The protocol used to connect to the UCMDB server. HTTPS (TLS) is supported only by UCMDB version 9.x
+#!                  and 10.x.
+#!                  Valid: 'http' or 'https'.
+#!                  Default: 'http'.
+#! @input username:  The user name used for the UCMDB server connection.
 #! @input password: The password associated with the 'username' input value.
 #! @input object_id: The identifier of the object to query.
 #! @input object_type: The type of the object to query.
-#! @input attribute_list: A comma delimited list of attributes to retrieve.
-#! @input cmdb_version: The major version number of the UCMDB server.
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL.
-#!                         A certificate is trusted even if no trusted certification authority issued it.
-#!                         Valid: 'true' or 'false'
-#!                         Default: 'false'
-#!                         Optional
+#! @input property_list: A property to set (name=value), The type of the property will be automatically determined.
+#!                       Additional properties can be added by making extra prop inputs with a number appended, such
+#!                       as prop1.
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Valid: 'true' or 'false'.
+#!                         Default: 'false'.
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -51,20 +56,17 @@
 #! @input keystore: The path to the KeyStore file. This file should contain a certificate the client is capable of
 #!                  authenticating with on the uCMDB server.
 #! @input keystore_password: The password associated with the keystore file.
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
-#!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots
+#!                        is 'true' this input is ignored. Format: Java KeyStore (JKS).
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false and
+#!                        trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output return_code: '0' if success, '-1' otherwise.
 #! @output return_result: The result of the execution.
-#! @output attributes: The attributes and their values.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output ci_update_summary: Summary result message from uCMDB about the updated CI's
 #!
 #! @result FAILURE: The operation completed unsuccessfully.
 #! @result SUCCESS: The operation completed as stated in the description.
@@ -72,7 +74,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.ucmdb
 flow:
-  name: get_object_attributes_by_id
+  name: modify_object_attributes
   inputs:
     - cmdb_host
     - cmdb_port
@@ -80,20 +82,19 @@ flow:
         default: http
         required: false
     - username:
-        required: false
+        required: true
     - password:
-        required: false
+        required: true
         sensitive: true
     - object_id
     - object_type
-    - attribute_list:
-        required: false
-    - cmdb_version:
+    - property_list:
         required: false
     - trust_all_roots:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
+        default: strict
         required: false
     - keystore:
         required: false
@@ -104,6 +105,7 @@ flow:
         required: false
     - trust_password:
         required: false
+        sensitive: true
   workflow:
     - authenticate:
         do:
@@ -123,73 +125,74 @@ flow:
             - keystore_password:
                 value: '${keystore_password}'
                 sensitive: true
-            - source_file: null
             - body: "${'{\"username\": \"' + username + '\", \"password\": \"' + password + '\", \"clientContext\": 1 }'}"
             - content_type: application/json
             - method: POST
         publish:
           - json_token: '${return_result}'
+          - return_result
+          - return_code
+          - error_message
         navigate:
-          - SUCCESS: get_value
-          - FAILURE: FAILURE
-    - get_value:
+          - SUCCESS: get_token_value
+          - FAILURE: on_failure
+    - get_token_value:
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${json_token}'
             - json_path: token
         publish:
           - token: '${return_result}'
+          - return_result
         navigate:
-          - SUCCESS: get_ci
-          - FAILURE: FAILURE
-    - get_ci:
+          - SUCCESS: separate_attributes_list
+          - FAILURE: on_failure
+    - modify_selected_attributes:
         do:
           io.cloudslang.base.http.http_client_action:
             - url: "${protocol + '://' + cmdb_host + ':' + cmdb_port + '/rest-api/dataModel/ci/' + object_id}"
             - auth_type: anonymous
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - trust_keystore: '${trust_keystore}'
             - trust_password:
-                value: '${keystore_password}'
+                value: '${trust_password}'
                 sensitive: true
             - keystore: '${keystore}'
             - keystore_password:
                 value: '${keystore_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + token}"
+            - body: "${'{ \"ucmdbId\": \"' + object_id + '\",' + '\"type\": \"' + object_type + '\",' + ' \"properties\": {' + attributes + '}}'}"
             - content_type: application/json
-            - method: GET
+            - method: PUT
         publish:
-          - ci_output: '${return_result}'
+          - json_result: '${return_result}'
+          - return_code
+          - error_message
+          - return_result
         navigate:
-          - SUCCESS: get_properties
-          - FAILURE: FAILURE
-    - get_properties:
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${ci_output}'
-            - json_path: properties
-        publish:
-          - ci_output: '${return_result}'
-        navigate:
-          - SUCCESS: parse_attribute_list
-          - FAILURE: FAILURE
-    - parse_attribute_list:
-        do:
-          io.cloudslang.microfocus.ucmdb.utility.parse_attribute_list:
-            - attribute_list: '${attribute_list}'
-            - json: '${ci_output}'
-        publish:
-          - attributes: '${attributes_list}'
-        navigate:
-          - FAILURE: FAILURE
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - separate_attributes_list:
+        do:
+          io.cloudslang.microfocus.ucmdb.utility.separate_attributes_list:
+            - prop_list: '${property_list}'
+        publish:
+          - attributes: '${attribute_list}'
+          - return_result
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: modify_selected_attributes
   outputs:
     - return_result
-    - return_code
-    - exception
-    - attributes
+    - return_code: '${return_code}'
+    - exception: '${error_message}'
+    - ci_update_summary: '${json_result}'
   results:
     - FAILURE
     - SUCCESS
@@ -197,49 +200,23 @@ extensions:
   graph:
     steps:
       authenticate:
-        x: 40
-        y: 126
+        x: 23
+        y: 148
+      modify_selected_attributes:
+        x: 503
+        y: 150
         navigate:
-          343b2945-5ecc-c12c-055a-a942d028d294:
-            targetId: 58bcba2e-dac0-8b9d-0b56-157900c2f12d
-            port: FAILURE
-      get_value:
-        x: 203
-        y: 128
-        navigate:
-          89850a21-4c6f-cb95-12a9-a81090455e6a:
-            targetId: 58bcba2e-dac0-8b9d-0b56-157900c2f12d
-            port: FAILURE
-      get_ci:
-        x: 362
-        y: 127
-        navigate:
-          189844a8-4892-7cc7-26ba-dc6b19f59efa:
-            targetId: 58bcba2e-dac0-8b9d-0b56-157900c2f12d
-            port: FAILURE
-      get_properties:
-        x: 522
-        y: 127
-        navigate:
-          df82a75d-ec0d-e8c2-e5fc-4ffd2d86adb2:
-            targetId: 58bcba2e-dac0-8b9d-0b56-157900c2f12d
-            port: FAILURE
-      parse_attribute_list:
-        x: 706
-        y: 128
-        navigate:
-          f83ea97d-1f1d-64aa-a36b-0465827f6696:
-            targetId: ec4d30fa-0afc-f2cc-bc04-efccfea82d5a
+          f492cb37-23e3-f0b5-fa76-35bd7ac6f485:
+            targetId: 75769412-4f0b-c358-1d7f-b95f956c0094
             port: SUCCESS
-          cd3ec36f-44c2-8c8f-536c-900a9fe253a8:
-            targetId: 58bcba2e-dac0-8b9d-0b56-157900c2f12d
-            port: FAILURE
+      separate_attributes_list:
+        x: 334
+        y: 147
+      get_token_value:
+        x: 177
+        y: 146
     results:
-      FAILURE:
-        58bcba2e-dac0-8b9d-0b56-157900c2f12d:
-          x: 362
-          y: 485
       SUCCESS:
-        ec4d30fa-0afc-f2cc-bc04-efccfea82d5a:
-          x: 963
-          y: 130
+        75769412-4f0b-c358-1d7f-b95f956c0094:
+          x: 728
+          y: 154
