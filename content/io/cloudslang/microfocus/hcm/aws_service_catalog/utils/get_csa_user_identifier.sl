@@ -38,7 +38,7 @@
 #!                         Default: '10'
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved (maximum period inactivity between two
 #!                        consecutive data packets)
-#!                        Default: '0'
+#!                        Default: '0' (infinite timeout)
 #! @input use_cookies: Specifies whether to enable cookie tracking or not.
 #!                     Default: 'true'
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls.
