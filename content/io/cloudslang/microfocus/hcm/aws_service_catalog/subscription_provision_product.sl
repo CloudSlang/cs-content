@@ -63,7 +63,7 @@
 #! @input hcm_keystore: Location of the KeyStore file.  Format: a URL or the local path to it.
 #! @input hcm_keystore_password: Password associated with the KeyStore file.
 #! @input hcm_connect_timeout: Time (in seconds) to wait for a connection to be established.
-#!                             Default: '0' (infinite timeout)
+#!                             Default: '10'
 #! @input hcm_socket_timeout: Time (in seconds) to wait for data to be retrieved (maximum period inactivity between two
 #!                            consecutive data packets)
 #!                            Default: '0' (infinite timeout)
@@ -161,7 +161,7 @@ flow:
         required: false
         sensitive: true
     - hcm_connect_timeout:
-        default: '0'
+        default: '10'
         required: false
     - hcm_socket_timeout:
         default: '0'
