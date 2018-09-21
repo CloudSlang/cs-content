@@ -39,7 +39,7 @@
 #! @input keystore: Location of the KeyStore file.  Format: a URL or the local path to it.
 #! @input keystore_password: Password associated with the KeyStore file.
 #! @input connect_timeout: Time in seconds to wait for a connection to be established. 
-#!                         Default: '0' (infinite timeout)
+#!                         Default: '10'
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved (maximum period inactivity between two 
 #!                        consecutive data packets) 
 #!                        Default: '0' (infinite timeout)
@@ -103,7 +103,7 @@ flow:
         required: false
         sensitive: true
     - connect_timeout:
-        default: '0'
+        default: '10'
         required: false
     - socket_timeout:
         default: '0'

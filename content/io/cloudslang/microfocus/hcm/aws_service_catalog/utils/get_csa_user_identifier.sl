@@ -34,10 +34,11 @@
 #! @input trust_password: Password associated with the trust_keystore file.
 #! @input keystore: Location of the KeyStore file.  Format: a URL or the local path to it.
 #! @input keystore_password: Password associated with the KeyStore file.
-#! @input connect_timeout: Time in seconds to wait for a connection to be established. Default: '0' (infinite timeout)
+#! @input connect_timeout: Time in seconds to wait for a connection to be established.
+#!                         Default: '10'
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved (maximum period inactivity between two
 #!                        consecutive data packets)
-#!                        Default: '0' (infinite timeout)
+#!                        Default: '0'
 #! @input use_cookies: Specifies whether to enable cookie tracking or not.
 #!                     Default: 'true'
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls.
@@ -95,7 +96,7 @@ flow:
         required: false
         sensitive: true
     - connect_timeout:
-        default: '0'
+        default: '10'
         required: false
     - socket_timeout:
         default: '0'
