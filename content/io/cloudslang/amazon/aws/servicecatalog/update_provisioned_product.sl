@@ -16,59 +16,31 @@
 #! @description: Requests updates to the configuration of the specified provisioned product.
 #!
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
-#!                  Example: 'AKIAIOSFODNN7EXAMPLE'
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
-#!                    Example: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
-#!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
 #!                    them both empty.
-#!                    Default: '8080'
-#!                    Optional
 #! @input proxy_username: Proxy server user name.
-#!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
-#!                        Optional
 #! @input connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection before
 #!                         giving up and timing out.
-#!                         Default: '10000'
-#!                         Optional
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
 #!                           API call. A value of '0' disables this feature.
-#!                           Default: '60000'
-#!                           Optional
 #! @input async: Whether to run the operation is async mode.
-#!               Default: 'false'
-#!               Optional
 #! @input region: String that contains the Amazon AWS region name.
-#!                Optional
 #! @input accepted_language: The language code.
-#!                Example: en (English), jp (Japanese), zh(Chinese)
-#!                Default: 'en'
-#!                Optional
 #! @input path_id: The new path identifier. This value is optional if the product has a default path, and required if
 #!                 the product has more than one path.
-#!                 Optional
 #! @input product_id: The product identifier.
-#!                    Example: 'prod-n3frsv3vnznzo'
-#!                    Optional
 #! @input provisioned_product_id: The identifier of the provisioned product. You cannot specify both
 #!                                ProvisionedProductName and ProvisionedProductId.
-#!                                Optional
 #! @input provisioned_product_name: The updated name of the provisioned product. You cannot specify both
 #!                                  ProvisionedProductName and ProvisionedProductId.
-#!                                  Optional
 #! @input provisioning_artifact_id: The identifier of the provisioning artifact.
-#!                                  Optional
 #! @input provisioning_parameters: The new parameters.
-#!                                 Optional
 #! @input use_previous_value: If set to true, The new parameters are ignored and the previous parameter value is
 #!                            kept.
-#!                            Default: 'false'
-#!                            Optional
 #! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.
-#!                   Default: ','
-#!                   Optional
 #! @input update_token: The idempotency token that uniquely identifies the provisioning update request.
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -78,7 +50,6 @@
 #! @output path_id_output: The new path identifier. This value is optional if the product has a default path, and
 #!                         required if the product has more than one path.
 #! @output product_id_result: The product identifier.
-#!                            Example: 'prod-n3frsv3vnznzo'
 #! @output provisioned_product_id_output: The identifier of the provisioned product.
 #! @output provisioned_product_name_result: The updated name of the provisioned product. You cannot specify both
 #!                                          ProvisionedProductName and ProvisionedProductId.
@@ -105,138 +76,116 @@
 #! @result FAILURE: An error has occured while trying to update the specified product.
 #!!#
 ########################################################################################################################
+namespace: io.cloudslang.amazon.aws.servicecatalog
 
-namespace: io.cloudslang.amazon.aws.servicecatalog.products
-
-operation: 
+flow:
   name: update_provisioned_product
-  
-  inputs: 
-    - identity    
-    - credential:    
-        sensitive: true
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
-        sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    - region:  
-        required: false  
-    - accepted_language:  
-        required: false  
-    - acceptedLanguage: 
-        default: ${get('accepted_language', '')}  
-        required: false 
-        private: true 
-    - path_id:  
-        required: false  
-    - pathId: 
-        default: ${get('path_id', '')}  
-        required: false 
-        private: true 
-    - product_id:  
-        required: false  
-    - productId: 
-        default: ${get('product_id', '')}  
-        required: false 
-        private: true 
-    - provisioned_product_id:  
-        required: false  
-    - provisionedProductId: 
-        default: ${get('provisioned_product_id', '')}  
-        required: false 
-        private: true 
-    - provisioned_product_name:  
-        required: false  
-    - provisionedProductName: 
-        default: ${get('provisioned_product_name', '')}  
-        required: false 
-        private: true 
-    - provisioning_artifact_id:  
-        required: false  
-    - provisioningArtifactId: 
-        default: ${get('provisioning_artifact_id', '')}  
-        required: false 
-        private: true 
-    - provisioning_parameters:  
-        required: false  
-    - provisioningParameters: 
-        default: ${get('provisioning_parameters', '')}  
-        required: false 
-        private: true 
-    - use_previous_value:  
-        required: false  
-    - usePreviousValue: 
-        default: ${get('use_previous_value', '')}  
-        required: false 
-        private: true 
-    - delimiter:  
-        required: false  
-    - update_token:  
-        required: false  
-    - updateToken: 
-        default: ${get('update_token', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.22-SNAPSHOT'
-    class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UpdateProvisionedProduct'
-    method_name: 'execute'
-  
-  outputs: 
-    - return_code: ${get('returnCode', '')} 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - created_time: ${get('createdTime', '')} 
-    - path_id_output: ${get('pathId', '')} 
-    - product_id_result: ${get('productIdResult', '')} 
-    - provisioned_product_id_output: ${get('provisionedProductId', '')} 
-    - provisioned_product_name_result: ${get('provisionedProductNameResult', '')} 
-    - provisioned_product_type: ${get('provisionedProductType', '')} 
-    - provisioning_artifact_id_output: ${get('provisioningArtifactId', '')} 
-    - update_time: ${get('updateTime', '')} 
-    - record_id: ${get('recordId', '')} 
-    - record_type: ${get('recordType', '')} 
-    - record_errors: ${get('recordErrors', '')} 
-    - record_tags: ${get('recordTags', '')} 
-    - status: ${get('status', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+  inputs:
+  - identity
+  - credential:
+      sensitive: true
+  - proxy_host:
+      required: false
+  - proxy_port:
+      required: false
+  - proxy_username:
+      required: false
+  - proxy_password:
+      required: false
+      sensitive: true
+  - connect_timeout:
+      required: false
+  - execution_timeout:
+      required: false
+  - async:
+      required: false
+  - region:
+      required: false
+  - accepted_language:
+      required: false
+  - path_id:
+      required: false
+  - product_id:
+      required: false
+  - provisioned_product_id:
+      required: false
+  - provisioned_product_name:
+      required: false
+  - provisioning_artifact_id:
+      required: false
+  - provisioning_parameters:
+      required: false
+  - use_previous_value:
+      required: false
+  - delimiter:
+      required: false
+  - update_token:
+      required: false
+  workflow:
+    - update_provisioned_product:
+        do:
+          io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product:
+            - identity
+            - credential:
+                value: '${credential}'
+                sensitive: true
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password:
+                sensitive: true
+            - connect_timeout
+            - execution_timeout
+            - async
+            - region
+            - accepted_language
+            - path_id
+            - product_id
+            - provisioned_product_id
+            - provisioned_product_name
+            - provisioning_artifact_id
+            - provisioning_parameters
+            - use_previous_value
+            - delimiter
+            - update_token
+
+        publish:
+          - return_code
+          - return_result
+          - exception
+          - created_time
+          - path_id_output
+          - product_id_result
+          - provisioned_product_id_output
+          - provisioned_product_name_result
+          - provisioned_product_type
+          - provisioning_artifact_id_output
+          - update_time
+          - record_id
+          - record_type
+          - record_errors
+          - record_tags
+          - status
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+  outputs:
+    - return_code
+    - return_result
+    - exception
+    - created_time
+    - path_id_output
+    - product_id_result
+    - provisioned_product_id_output
+    - provisioned_product_name_result
+    - provisioned_product_type
+    - provisioning_artifact_id_output
+    - update_time
+    - record_id
+    - record_type
+    - record_errors
+    - record_tags
+    - status
+  results:
+    - SUCCESS
     - FAILURE
