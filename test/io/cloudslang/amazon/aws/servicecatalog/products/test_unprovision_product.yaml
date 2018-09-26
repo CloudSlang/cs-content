@@ -1,0 +1,153 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testUnprovisionProductSuccess:
+  description: Tests that unprovision_product.sl runs successfully.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: <provisioned_product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '0'
+  result: SUCCESS
+
+testUnprovisionProductInvalidAWSCredentials:
+  description: Tests that unprovision_product.sl fails when using invalid AWS credentials.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: 'invalid'
+  - credential: 'invalid'
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: <provisioned_product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUnprovisionProductInvalidProxyHost:
+  description: Tests that unprovision_product.sl fails when using invalid AWS credentials.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: 'invalid'
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: <provisioned_product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUnprovisionProductInvalidProxyPort:
+  description: Tests that unprovision_product.sl fails when using invalid AWS credentials.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: 'invalid'
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: <provisioned_product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUnprovisionProductHavingBothProductIdAndProductNameInputs:
+  description: Tests that unprovision_product.sl fails when using both provisioned_product_id and provisioned_product_name input.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: invalid
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: 'provisionedProductId'
+  - provisioned_product_name: 'test'
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUnprovisionProductHavingInvalidProvisionedProductId:
+  description: Tests that unprovision_product.sl fails when having an invalid provisioned_product_id input.
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.unprovision_product
+  testSuites: [amazon-local]
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - region: <region>
+  - accept_language: <accepted_language>
+  - provisioned_product_id: 'invalid'
+  - provisioned_product_name: <provisioned_product_name>
+  - terminate_token: <terminate_token>
+  - ignore_errors: <ignore_errors>
+
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+
