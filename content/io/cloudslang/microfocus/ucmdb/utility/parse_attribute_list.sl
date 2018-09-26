@@ -86,23 +86,45 @@ extensions:
   graph:
     steps:
       list_iterator:
-        x: 129
-        y: 97
-      json_path_query:
-        x: 530
-        y: 96
-      add_element:
-        x: 345
-        y: 308
-      remove_by_index:
-        x: 97
-        y: 403
+        x: 65
+        y: 113
         navigate:
-          2ee60863-7c66-fce8-4698-79d02033f23e:
+          3419109b-5f3b-671d-b5d1-868b7fd8eaac:
+            targetId: e3d2cca3-20b6-4bb0-1893-ab63cf98140a
+            port: FAILURE
+      json_path_query:
+        x: 599
+        y: 105
+        navigate:
+          514a6683-fc79-8392-56e6-64d70f57ffb4:
+            targetId: e3d2cca3-20b6-4bb0-1893-ab63cf98140a
+            port: FAILURE
+      add_element:
+        x: 325
+        y: 209
+        navigate:
+          3143da42-d534-e9ec-8a34-b7b5bc52c2c5:
+            targetId: e3d2cca3-20b6-4bb0-1893-ab63cf98140a
+            port: FAILURE
+            vertices:
+            - x: 362
+              y: 293
+      remove_by_index:
+        x: 60
+        y: 579
+        navigate:
+          28f0d129-dfbb-489e-adfb-4bbbdebefca0:
+            targetId: e3d2cca3-20b6-4bb0-1893-ab63cf98140a
+            port: FAILURE
+          063e529d-4ab1-b67b-25f7-ea702af4b4fe:
             targetId: 8f96a361-cb9e-cdcd-7929-34037cf3d7c6
             port: SUCCESS
     results:
+      FAILURE:
+        e3d2cca3-20b6-4bb0-1893-ab63cf98140a:
+          x: 329
+          y: 392
       SUCCESS:
         8f96a361-cb9e-cdcd-7929-34037cf3d7c6:
-          x: 283
-          y: 498
+          x: 602
+          y: 570
