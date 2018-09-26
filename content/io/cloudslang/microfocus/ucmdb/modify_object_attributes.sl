@@ -135,7 +135,7 @@ flow:
           - error_message
         navigate:
           - SUCCESS: get_token_value
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - get_token_value:
         do:
           io.cloudslang.base.json.get_value:
@@ -146,7 +146,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: separate_attributes_list
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - modify_selected_attributes:
         do:
           io.cloudslang.base.http.http_client_action:
@@ -177,7 +177,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - separate_attributes_list:
         do:
           io.cloudslang.microfocus.ucmdb.utility.separate_attributes_list:
@@ -186,7 +186,7 @@ flow:
           - attributes: '${attribute_list}'
           - return_result
         navigate:
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
           - SUCCESS: modify_selected_attributes
   outputs:
     - return_result

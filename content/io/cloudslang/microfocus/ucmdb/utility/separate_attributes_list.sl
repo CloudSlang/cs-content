@@ -156,7 +156,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - get_by_index_1:
         do:
           io.cloudslang.base.lists.get_by_index:
@@ -167,7 +167,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - attribute_list: '${list_init}'
     - return_result: '${return_result}'
