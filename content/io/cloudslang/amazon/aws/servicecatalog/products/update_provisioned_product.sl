@@ -21,13 +21,13 @@
 #!                    Example: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
-#! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
+#! @input proxy_port: Proxy server port. You must either specify values for both proxy_host and proxy_port inputs or leave
 #!                    them both empty.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
-#! @input proxy_password: Proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection before
 #!                         giving up and timing out.
@@ -43,9 +43,9 @@
 #! @input region: String that contains the Amazon AWS region name.
 #!                Optional
 #! @input accepted_language: The language code.
-#!                Example: en (English), jp (Japanese), zh(Chinese)
-#!                Default: 'en'
-#!                Optional
+#!                           Example: en (English), jp (Japanese), zh(Chinese)
+#!                           Default: 'en'
+#!                           Optional
 #! @input path_id: The new path identifier. This value is optional if the product has a default path, and required if
 #!                 the product has more than one path.
 #!                 Optional
@@ -53,20 +53,21 @@
 #!                    Example: 'prod-n3frsv3vnznzo'
 #!                    Optional
 #! @input provisioned_product_id: The identifier of the provisioned product. You cannot specify both
-#!                                ProvisionedProductName and ProvisionedProductId.
+#!                                provisioned_product_name and provisioned_product_id.
 #!                                Optional
 #! @input provisioned_product_name: The updated name of the provisioned product. You cannot specify both
-#!                                  ProvisionedProductName and ProvisionedProductId.
+#!                                  provisioned_product_name and provisioned_product_id.
 #!                                  Optional
 #! @input provisioning_artifact_id: The identifier of the provisioning artifact.
+#!                                  Example:'pa-o5nvsxzzyuzjk'
 #!                                  Optional
 #! @input provisioning_parameters: The new parameters.
+#!                                 Example: 'KeyName=myKey,InstanceType=m1.small'
 #!                                 Optional
-#! @input use_previous_value: If set to true, The new parameters are ignored and the previous parameter value is
-#!                            kept.
+#! @input use_previous_value: If set to true, the new parameters are ignored and the previous parameter value is kept.
 #!                            Default: 'false'
 #!                            Optional
-#! @input delimiter: The delimiter used to separate the values from provisioningParameters and tags inputs.
+#! @input delimiter: The delimiter used to separate the values from provisioning_parameters input.
 #!                   Default: ','
 #!                   Optional
 #! @input update_token: The idempotency token that uniquely identifies the provisioning update request.
@@ -80,8 +81,7 @@
 #! @output product_id_result: The product identifier.
 #!                            Example: 'prod-n3frsv3vnznzo'
 #! @output provisioned_product_id_output: The identifier of the provisioned product.
-#! @output provisioned_product_name_result: The updated name of the provisioned product. You cannot specify both
-#!                                          ProvisionedProductName and ProvisionedProductId.
+#! @output provisioned_product_name_result: The updated name of the provisioned product.
 #! @output provisioned_product_type: The type of provisioned product. The supported value is 'CFN_STACK'.
 #! @output provisioning_artifact_id_output: The identifier of the provisioning artifact.
 #! @output update_time: The time when the record was last updated.
