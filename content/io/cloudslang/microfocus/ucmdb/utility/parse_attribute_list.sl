@@ -44,7 +44,7 @@ flow:
         navigate:
           - HAS_MORE: json_path_query
           - NO_MORE: remove_by_index
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - json_path_query:
         do:
           io.cloudslang.base.json.json_path_query:
@@ -54,7 +54,7 @@ flow:
           - attribute_value: '${return_result}'
         navigate:
           - SUCCESS: add_element
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - add_element:
         do:
           io.cloudslang.base.lists.add_element:
@@ -65,7 +65,7 @@ flow:
           - attributes: '${return_result}'
         navigate:
           - SUCCESS: list_iterator
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - remove_by_index:
         do:
           io.cloudslang.base.lists.remove_by_index:
@@ -76,7 +76,7 @@ flow:
           - attributes: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - attributes_list: '${attributes}'
   results:
