@@ -28,9 +28,7 @@
 #! @input password: The password associated with the 'username' input value.
 #! @input object_id: The identifier of the object to query.
 #! @input object_type: The type of the object to query.
-#! @input property_list: A property to set (name=value), The type of the property will be automatically determined.
-#!                       Additional properties can be added by making extra prop inputs with a number appended, such
-#!                       as prop1.
+#! @input property_list: A comma delimited list of properties to set (name=value). The type of the property will be automatically determined.
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Valid: 'true' or 'false'.
@@ -144,6 +142,8 @@ flow:
         publish:
           - token: '${return_result}'
           - return_result
+          - return_code
+          - error_message
         navigate:
           - SUCCESS: separate_attributes_list
           - FAILURE: FAILURE
