@@ -192,7 +192,7 @@ flow:
     - return_result
     - return_code: '${return_code}'
     - exception: '${error_message}'
-    - ci_update_summary: '${json_result}'
+    - ci_update_summary: "${get('json_result', ' ')}"
   results:
     - FAILURE
     - SUCCESS
@@ -202,20 +202,39 @@ extensions:
       authenticate:
         x: 23
         y: 148
+        navigate:
+          639471e2-07de-ede1-b0fc-ae4c1523e9aa:
+            targetId: 43788b53-72d9-a30d-ce7a-62c127211d10
+            port: FAILURE
+      get_token_value:
+        x: 177
+        y: 146
+        navigate:
+          4db3936b-c39f-9b89-19e6-55b9c94bb4ea:
+            targetId: 43788b53-72d9-a30d-ce7a-62c127211d10
+            port: FAILURE
       modify_selected_attributes:
         x: 503
         y: 150
         navigate:
-          f492cb37-23e3-f0b5-fa76-35bd7ac6f485:
+          7a503ee0-06a3-7a4a-f136-6983e9d210e4:
+            targetId: 43788b53-72d9-a30d-ce7a-62c127211d10
+            port: FAILURE
+          20933980-cee4-2ed4-989b-971cb5c3b389:
             targetId: 75769412-4f0b-c358-1d7f-b95f956c0094
             port: SUCCESS
       separate_attributes_list:
         x: 334
         y: 147
-      get_token_value:
-        x: 177
-        y: 146
+        navigate:
+          32c41d8c-2fd1-7af8-e886-bd384c615307:
+            targetId: 43788b53-72d9-a30d-ce7a-62c127211d10
+            port: FAILURE
     results:
+      FAILURE:
+        43788b53-72d9-a30d-ce7a-62c127211d10:
+          x: 266
+          y: 365
       SUCCESS:
         75769412-4f0b-c358-1d7f-b95f956c0094:
           x: 728
