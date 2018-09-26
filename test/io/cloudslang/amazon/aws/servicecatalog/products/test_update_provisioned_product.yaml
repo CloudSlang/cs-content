@@ -1,0 +1,126 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+####################################################
+
+testUpdateProvionedProduct:
+  testSuites: [amazon-local]
+  description: "Successfully test for Update Provisioning Product"
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - provisioning_parameters: <provisioning_parameters>
+  - product_id: <product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - provisioning_artifact_id: <provisioning_artifact_id>
+  - delimiter: <delimiter>
+  - use_previous_value: <use_previous_value>
+  - update_token: <update_token>
+  result: SUCCESS
+
+testUpdateProvionedProductWithInvalidIdentity:
+  testSuites: [amazon-local]
+  description: "Failure test because of invalid identity."
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
+  inputs:
+  - identity: 'invalid_identity'
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - provisioning_parameters: <provisioning_parameters>
+  - product_id: <product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - provisioning_artifact_id: <provisioning_artifact_id>
+  - delimiter: <delimiter>
+  - use_previous_value: <use_previous_value>
+  - update_token: <update_token>
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUpdateProvionedProductWithInvalidProxyHost:
+  testSuites: [amazon-local]
+  description: "Failure test because of invalid proxy host"
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: 'invalid_proxy_host'
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - provisioning_parameters: <provisioning_parameters>
+  - product_id: <product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - provisioning_artifact_id: <provisioning_artifact_id>
+  - delimiter: <delimiter>
+  - use_previous_value: <use_previous_value>
+  - update_token: <update_token>
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUpdateProvionedProductWithInvalidProductName:
+  testSuites: [amazon-local]
+  description: "Failure test because of invalid product name"
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - provisioning_parameters: <provisioning_parameters>
+  - product_id: <product_id>
+  - provisioned_product_name: 'invalid_product_name'
+  - provisioning_artifact_id: <provisioning_artifact_id>
+  - delimiter: <delimiter>
+  - use_previous_value: <use_previous_value>
+  - update_token: <update_token>
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
+
+testUpdateProvionedProductWithInvalidProxyPort:
+  testSuites: [amazon-local]
+  description: "Failure test because of invalid proxy port"
+  testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
+  inputs:
+  - identity: <identity>
+  - credential: <credential>
+  - proxy_host: <proxy_host>
+  - proxy_port: 'invalid_proxy_port'
+  - connect_timeout: <connect_timeout>
+  - execution_timeout: <execution_timeout>
+  - async: <async>
+  - provisioning_parameters: <provisioning_parameters>
+  - product_id: <product_id>
+  - provisioned_product_name: <provisioned_product_name>
+  - provisioning_artifact_id: <provisioning_artifact_id>
+  - delimiter: <delimiter>
+  - use_previous_value: <use_previous_value>
+  - update_token: <update_token>
+  outputs:
+  - return_code: '-1'
+  result: FAILURE
