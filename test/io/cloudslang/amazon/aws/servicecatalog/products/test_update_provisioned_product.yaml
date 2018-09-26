@@ -13,7 +13,7 @@
 ####################################################
 
 testUpdateProvionedProduct:
-  testSuites: [amazon-local-ioana]
+  testSuites: [amazon-local]
   description: "Successfully test for Update Provisioning Product"
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
   inputs:
@@ -34,7 +34,7 @@ testUpdateProvionedProduct:
   result: SUCCESS
 
 testUpdateProvionedProductWithInvalidIdentity:
-  testSuites: [amazon-local-ioana]
+  testSuites: [amazon-local]
   description: "Failure test because of invalid identity."
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
   inputs:
@@ -57,7 +57,7 @@ testUpdateProvionedProductWithInvalidIdentity:
   result: FAILURE
 
 testUpdateProvionedProductWithInvalidProxyHost:
-  testSuites: [amazon-local-ioana]
+  testSuites: [amazon-local]
   description: "Failure test because of invalid proxy host"
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
   inputs:
@@ -80,7 +80,7 @@ testUpdateProvionedProductWithInvalidProxyHost:
   result: FAILURE
 
 testUpdateProvionedProductWithInvalidProductName:
-  testSuites: [amazon-local-ioana]
+  testSuites: [amazon-local]
   description: "Failure test because of invalid product name"
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
   inputs:
@@ -103,7 +103,7 @@ testUpdateProvionedProductWithInvalidProductName:
   result: FAILURE
 
 testUpdateProvionedProductWithInvalidProxyPort:
-  testSuites: [amazon-local-ioana]
+  testSuites: [amazon-local]
   description: "Failure test because of invalid proxy port"
   testFlowPath: io.cloudslang.amazon.aws.servicecatalog.products.update_provisioned_product
   inputs:
