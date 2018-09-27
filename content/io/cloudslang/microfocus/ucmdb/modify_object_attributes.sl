@@ -89,7 +89,7 @@ flow:
     - object_id
     - object_type
     - property_list:
-        required: false
+        required: true
     - trust_all_roots:
         default: 'false'
         required: false
