@@ -80,9 +80,9 @@ flow:
         default: http
         required: false
     - username:
-        required: false
+        required: true
     - password:
-        required: false
+        required: true
         sensitive: true
     - object_id
     - object_type
@@ -129,6 +129,9 @@ flow:
             - method: POST
         publish:
           - json_token: '${return_result}'
+          - error_message
+          - return_code
+          - return_result
         navigate:
           - SUCCESS: get_value
           - FAILURE: FAILURE
@@ -139,6 +142,9 @@ flow:
             - json_path: token
         publish:
           - token: '${return_result}'
+          - return_result
+          - return_code
+          - error_message
         navigate:
           - SUCCESS: get_ci
           - FAILURE: FAILURE
@@ -162,6 +168,9 @@ flow:
             - method: GET
         publish:
           - ci_output: '${return_result}'
+          - return_result
+          - error_message
+          - return_code
         navigate:
           - SUCCESS: get_properties
           - FAILURE: FAILURE
@@ -172,6 +181,9 @@ flow:
             - json_path: properties
         publish:
           - ci_output: '${return_result}'
+          - return_result
+          - return_code
+          - error_message
         navigate:
           - SUCCESS: parse_attribute_list
           - FAILURE: FAILURE
@@ -186,10 +198,10 @@ flow:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
   outputs:
-    - return_result
-    - return_code
-    - exception
-    - attributes
+    - return_result: '${return_result}'
+    - return_code: '${return_code}'
+    - exception: '${error_message}'
+    - attributes: "${get('attributes', ' ')}"
   results:
     - FAILURE
     - SUCCESS
