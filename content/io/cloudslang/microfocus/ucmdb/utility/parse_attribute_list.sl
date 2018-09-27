@@ -116,7 +116,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
   outputs:
-    - attributes_list: '${attributes}'
+    - attributes_list: "${get('attributes', ' ')}"
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${exception}'

@@ -200,8 +200,8 @@ flow:
   outputs:
     - return_result: '${return_result}'
     - return_code: '${return_code}'
-    - exception: '${exception}'
-    - attributes
+    - exception: '${error_message}'
+    - attributes: "${get('attributes', ' ')}"
   results:
     - FAILURE
     - SUCCESS

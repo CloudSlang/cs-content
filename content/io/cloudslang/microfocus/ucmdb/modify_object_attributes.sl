@@ -189,7 +189,7 @@ flow:
           - FAILURE: FAILURE
           - SUCCESS: modify_selected_attributes
   outputs:
-    - return_result
+    - return_result: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${error_message}'
     - ci_update_summary: "${get('json_result', ' ')}"
