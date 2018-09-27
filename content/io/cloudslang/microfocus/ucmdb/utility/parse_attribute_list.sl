@@ -20,6 +20,9 @@
 #! @input attributes: Auxiliary input, should not receive a value.
 #!
 #! @output attributes_list: A list of attribute and attribute value in comma delimited pairs.
+#! @output return_result: The result of the execution.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result FAILURE: The operation completed unsuccessfully.
 #! @result SUCCESS: The operation completed as stated in the description.

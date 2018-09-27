@@ -198,9 +198,9 @@ flow:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
   outputs:
-    - return_result
-    - return_code
-    - exception
+    - return_result: '${return_result}'
+    - return_code: '${return_code}'
+    - exception: '${exception}'
     - attributes
   results:
     - FAILURE
