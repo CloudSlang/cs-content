@@ -20,6 +20,9 @@
 #! @input attributes: Auxiliary input, should not receive a value.
 #!
 #! @output attributes_list: A list of attribute and attribute value in comma delimited pairs.
+#! @output return_result: The result of the execution.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result FAILURE: The operation completed unsuccessfully.
 #! @result SUCCESS: The operation completed as stated in the description.
@@ -29,12 +32,44 @@ namespace: io.cloudslang.microfocus.ucmdb.utility
 flow:
   name: parse_attribute_list
   inputs:
-    - attribute_list
+    - attribute_list:
+        required: false
     - json
     - attributes:
         default: ' '
         required: false
   workflow:
+    - default_if_attribute_list_empty:
+        do:
+          io.cloudslang.base.utils.default_if_empty:
+            - initial_value: '${attribute_list}'
+            - default_value: all
+        publish:
+          - get_all: '${default_value}'
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: FAILURE
+    - string_equals:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${get_all}'
+            - second_string: all
+        publish: []
+        navigate:
+          - SUCCESS: parse_json_keys
+          - FAILURE: list_iterator
+    - parse_json_keys:
+        do:
+          io.cloudslang.microfocus.ucmdb.utility.parse_json_keys:
+            - json: '${json}'
+        publish:
+          - attribute_list: '${attribute_key_list}'
+        navigate:
+          - FAILURE: FAILURE
+          - SUCCESS: list_iterator
     - list_iterator:
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -52,6 +87,9 @@ flow:
             - json_path: "${'$.' + attribute}"
         publish:
           - attribute_value: '${return_result}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - SUCCESS: add_element
           - FAILURE: FAILURE
@@ -78,7 +116,10 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
   outputs:
-    - attributes_list: '${attributes}'
+    - attributes_list: "${get('attributes', ' ')}"
+    - return_result: '${return_result}'
+    - return_code: '${return_code}'
+    - exception: '${exception}'
   results:
     - FAILURE
     - SUCCESS
