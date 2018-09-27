@@ -18,6 +18,9 @@
 #! @input json: The json from which the keys are extracted.
 #!
 #! @output attribute_key_list: A comma delimited list of all keys from the json.
+#!
+#! @result FAILURE: The operation completed unsuccessfully.
+#! @result SUCCESS: The operation completed as stated in the description.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.ucmdb.utility
