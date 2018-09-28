@@ -55,7 +55,7 @@ flow:
     - string_equals:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${get_all}'
+            - first_string: '${return_result}'
             - second_string: all
         publish: []
         navigate:
