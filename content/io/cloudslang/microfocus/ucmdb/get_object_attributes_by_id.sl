@@ -194,6 +194,9 @@ flow:
             - json: '${ci_output}'
         publish:
           - attributes: '${attributes_list}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
