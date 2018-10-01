@@ -22,7 +22,6 @@
 #! @input username: The user name used for the UCMDB server connection.
 #! @input password: The password associated with the 'username' input value.
 #! @input object_id: The identifier of the object to query.
-#! @input object_type: The type of the object to query.
 #! @input attribute_list: A comma delimited list of attributes to retrieve.
 #! @input cmdb_version: The major version number of the UCMDB server.
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL.
@@ -84,8 +83,8 @@ flow:
     - password:
         required: true
         sensitive: true
-    - object_id
-    - object_type
+    - object_id:
+        required: true
     - attribute_list:
         required: false
     - cmdb_version:
@@ -194,6 +193,9 @@ flow:
             - json: '${ci_output}'
         publish:
           - attributes: '${attributes_list}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
