@@ -32,12 +32,12 @@ namespace: io.cloudslang.microfocus.ucmdb.utility
 flow:
   name: parse_attribute_list
   inputs:
-  - attribute_list:
-      required: false
-  - json
-  - attributes:
-      default: ' '
-      required: false
+    - attribute_list:
+        required: false
+    - json
+    - attributes:
+        default: ' '
+        required: false
   workflow:
   - default_if_attribute_list_empty:
       do:
