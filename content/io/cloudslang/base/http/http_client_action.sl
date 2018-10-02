@@ -378,8 +378,8 @@ operation:
   outputs:
     - return_result: ${get('returnResult', '')}
     - error_message: ${returnResult if returnCode != '0' else ''}
-    - return_code: ${returnCode}
     - status_code: ${get('statusCode', '')}
+    - return_code: ${returnCode if (str(status_code) in valid_http_status_codes) else '-1'}
     - response_headers: ${get('responseHeaders', '')}
 
   results:
