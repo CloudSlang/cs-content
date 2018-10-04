@@ -22,7 +22,6 @@
 #! @input username: The user name used for the UCMDB server connection.
 #! @input password: The password associated with the 'username' input value.
 #! @input object_id: The identifier of the object to query.
-#! @input object_type: The type of the object to query.
 #! @input attribute_list: A comma delimited list of attributes to retrieve.
 #! @input cmdb_version: The major version number of the UCMDB server.
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL.
@@ -80,12 +79,12 @@ flow:
         default: http
         required: false
     - username:
-        required: false
+        required: true
     - password:
-        required: false
+        required: true
         sensitive: true
-    - object_id
-    - object_type
+    - object_id:
+        required: true
     - attribute_list:
         required: false
     - cmdb_version:
@@ -129,6 +128,9 @@ flow:
             - method: POST
         publish:
           - json_token: '${return_result}'
+          - error_message
+          - return_code
+          - return_result
         navigate:
           - SUCCESS: get_value
           - FAILURE: FAILURE
@@ -139,6 +141,9 @@ flow:
             - json_path: token
         publish:
           - token: '${return_result}'
+          - return_result
+          - return_code
+          - error_message
         navigate:
           - SUCCESS: get_ci
           - FAILURE: FAILURE
@@ -162,6 +167,9 @@ flow:
             - method: GET
         publish:
           - ci_output: '${return_result}'
+          - return_result
+          - error_message
+          - return_code
         navigate:
           - SUCCESS: get_properties
           - FAILURE: FAILURE
@@ -172,6 +180,9 @@ flow:
             - json_path: properties
         publish:
           - ci_output: '${return_result}'
+          - return_result
+          - return_code
+          - error_message
         navigate:
           - SUCCESS: parse_attribute_list
           - FAILURE: FAILURE
@@ -182,14 +193,17 @@ flow:
             - json: '${ci_output}'
         publish:
           - attributes: '${attributes_list}'
+          - return_result
+          - return_code
+          - exception
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: SUCCESS
   outputs:
-    - return_result
-    - return_code
-    - exception
-    - attributes
+    - return_result: '${return_result}'
+    - return_code: '${return_code}'
+    - exception: '${error_message}'
+    - attributes: "${get('attributes', ' ')}"
   results:
     - FAILURE
     - SUCCESS

@@ -156,7 +156,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - get_by_index_1:
         do:
           io.cloudslang.base.lists.get_by_index:
@@ -167,7 +167,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - attribute_list: '${list_init}'
     - return_result: '${return_result}'
@@ -184,18 +184,21 @@ extensions:
           4326244e-2393-8d41-907a-915de4765a60:
             targetId: 4bd95e94-2899-c5ca-438a-3234e9344be8
             port: SUCCESS
+            vertices:
+            - x: 542
+              y: 503
       remove_second_extra_space:
         x: 1084
         y: 117
         navigate:
           483b9363-0ce9-38e4-28d7-b1208170244e:
             vertices:
-              - x: 1010
-                y: 17
-              - x: 196
-                y: 10
-              - x: 179
-                y: 24
+            - x: 1010
+              y: 17
+            - x: 196
+              y: 10
+            - x: 179
+              y: 24
             targetId: list_iterator
             port: SUCCESS
       get_value:
@@ -213,20 +216,23 @@ extensions:
         navigate:
           c09162f0-6b57-ccf2-1b89-4a3ea3f2bb6d:
             vertices:
-              - x: 50
-                y: 187
+            - x: 50
+              y: 187
             targetId: get_by_index
             port: NO_MORE
       get_by_index:
         x: 13
         y: 422
         navigate:
-          410f2e17-95da-3704-063f-41d16d32aeed:
+          be58ed9d-6a44-81f4-a474-6b87e44cb9af:
+            targetId: 4bd95e94-2899-c5ca-438a-3234e9344be8
+            port: FAILURE
+          80e96211-4e7a-4346-17a1-2be6b0862643:
             targetId: e61e32b1-556a-891a-ed1f-d090cb057648
             port: SUCCESS
             vertices:
-              - x: 69
-                y: 499
+            - x: 54
+              y: 503
       add_pair_attribute:
         x: 161
         y: 110
@@ -242,22 +248,22 @@ extensions:
         navigate:
           96383a0d-67fd-ea6b-0fd9-9e16c0024306:
             vertices:
-              - x: 912
-                y: 67
-              - x: 598
-                y: 63
-              - x: 247
-                y: 61
-              - x: 177
-                y: 62
+            - x: 912
+              y: 67
+            - x: 598
+              y: 63
+            - x: 247
+              y: 61
+            - x: 177
+              y: 62
             targetId: list_iterator
             port: FAILURE
     results:
+      FAILURE:
+        4bd95e94-2899-c5ca-438a-3234e9344be8:
+          x: 508
+          y: 603
       SUCCESS:
         e61e32b1-556a-891a-ed1f-d090cb057648:
           x: 19
           y: 603
-      FAILURE:
-        4bd95e94-2899-c5ca-438a-3234e9344be8:
-          x: 772
-          y: 412
