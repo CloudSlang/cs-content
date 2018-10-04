@@ -195,7 +195,7 @@ flow:
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${xml_response}'
-            - xpath_query: '//options/property/*[ name()="displayName"]/text()'
+            - xpath_query: '//options/property/*[ name()="name"]/text()'
             - delimiter: '${delimiter}'
         publish:
           - selected_keys: '${selected_value}'
