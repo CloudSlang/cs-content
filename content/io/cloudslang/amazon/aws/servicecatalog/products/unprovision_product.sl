@@ -155,7 +155,7 @@ operation:
     - terminate_token    
     - terminateToken: 
         default: ${get('terminate_token', '')}  
-        required: true
+        required: false
         private: true 
     
   java_action: 
