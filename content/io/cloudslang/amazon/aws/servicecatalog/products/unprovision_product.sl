@@ -147,12 +147,13 @@ operation:
         private: true 
     - ignore_errors:
         default: 'false'
-        required: false  
+        required: false
     - ignoreErrors: 
         default: ${get('ignore_errors', '')}  
         required: false 
         private: true 
-    - terminate_token    
+    - terminate_token:
+        required: false
     - terminateToken: 
         default: ${get('terminate_token', '')}  
         required: false
