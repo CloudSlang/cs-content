@@ -14,8 +14,26 @@
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.hcm
 properties:
-  - csa_rest_uri: 'https://localhost:8444/csa/rest'
-  - csa_rest_user: 'admin'
-  - csa_rest_password:
+  - rest_uri: 'https://localhost:8444/csa/rest'
+  - user: 'admin'
+  - password:
       value: 'cloud'
       sensitive: true
+  - auth_type:
+      value: 'basic'
+  - trust_all_roots:
+      valuue: 'true'
+  - x_509_hostname_verifier:
+      value: 'allow_all'
+  - trust_keystore
+  - trust_password
+  - keystore
+  - keystore_password
+  - connect_timeout:
+      value: '10'
+  - socket_timeout:
+      value: '0'
+  - use_cookies:
+      value: 'true'
+  - keep_alive:
+      value: 'true'
