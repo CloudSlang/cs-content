@@ -15,7 +15,7 @@
 namespace: io.cloudslang.microfocus.hcm
 properties:
   - rest_uri: 'https://localhost:8444/csa/rest'
-  - user: 'admin'
+  - user: 'ooInboundUser'
   - password:
       value: 'cloud'
       sensitive: true
@@ -26,11 +26,7 @@ properties:
   - trust_password: ''
   - keystore: ''
   - keystore_password: ''
-  - connect_timeout:
-      value: '10'
-  - socket_timeout:
-      value: '0'
-  - use_cookies:
-      value: 'true'
-  - keep_alive:
-      value: 'true'
+  - connect_timeout: '10'
+  - socket_timeout: '0'
+  - use_cookies: 'true'
+  - keep_alive: 'true'
