@@ -95,12 +95,8 @@ namespace: io.cloudslang.microfocus.hcm.aws_service_catalog
 flow:
   name: subscription_provision_product
   inputs:
-    - hcm_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.rest_uri')}
     - hcm_user
     - hcm_subscription_id
-    - hcm_username: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.user')}
-    - hcm_password: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.password')}
-    - hcm_auth_type: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.auth_type')}
     - aws_accessKeyId
     - aws_secretAccessKey:
         sensitive: true
@@ -139,45 +135,35 @@ flow:
         default: 'false'
         required: false
     - aws_connect_timeout: '10000'
-    - hcm_trust_all_roots: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_all_roots')}
-    - hcm_x_509_hostname_verifier: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.x_509_hostname_verifier')}
-    - hcm_trust_keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_keystore')}
-    - hcm_trust_password: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_password')}
-    - hcm_keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore')}
-    - hcm_keystore_password: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore_password')}
-    - hcm_connect_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.connect_timeout')}
-    - hcm_socket_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.socket_timeout')}
-    - hcm_use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.use_cookies')}
-    - hcm_keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keep_alive')}
   workflow:
     - read_component_properties:
         do:
           io.cloudslang.microfocus.hcm.aws_service_catalog.utils.read_component_properties:
-            - csa_rest_uri: '${hcm_rest_uri}'
+            - csa_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.rest_uri')}
             - csa_user: '${hcm_user}'
             - csa_subscription_id: '${hcm_subscription_id}'
             - delimiter: '&'
-            - auth_type: '${hcm_auth_type}'
-            - username: '${hcm_username}'
+            - auth_type: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.auth_type')}
+            - username: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.user')}
             - password:
-                value: '${hcm_password}'
+                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.password')}
                 sensitive: true
             - proxy_host: ''
             - proxy_username: ''
-            - trust_all_roots: '${hcm_trust_all_roots}'
-            - x_509_hostname_verifier: '${hcm_x_509_hostname_verifier}'
-            - trust_keystore: '${hcm_trust_keystore}'
+            - trust_all_roots: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_all_roots')}
+            - x_509_hostname_verifier: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.x_509_hostname_verifier')}
+            - trust_keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_keystore')}
             - trust_password:
-                value: '${hcm_trust_password}'
+                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_password')}
                 sensitive: true
-            - keystore: '${hcm_keystore}'
+            - keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore')}
             - keystore_password:
-                value: '${hcm_keystore_password}'
+                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore_password')}
                 sensitive: true
-            - connect_timeout: '${hcm_connect_timeout}'
-            - socket_timeout: '${hcm_socket_timeout}'
-            - use_cookies: '${hcm_use_cookies}'
-            - keep_alive: '${hcm_keep_alive}'
+            - connect_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.connect_timeout')}
+            - socket_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.socket_timeout')}
+            - use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.use_cookies')}
+            - keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keep_alive')}
         publish:
           - parameters_list: '${return_result}'
         navigate:
