@@ -23,9 +23,13 @@ properties:
   - trust_all_roots: 'true'
   - x_509_hostname_verifier: 'allow_all'
   - trust_keystore: ''
-  - trust_password: ''
+  - trust_password:
+      value: 'changeit'
+      sensitive: true
   - keystore: ''
-  - keystore_password: ''
+  - keystore_password:
+      value: 'changeit'
+      sensitive: true
   - connect_timeout: '10'
   - socket_timeout: '0'
   - use_cookies: 'true'
