@@ -19,16 +19,13 @@ properties:
   - password:
       value: 'cloud'
       sensitive: true
-  - auth_type:
-      value: 'basic'
-  - trust_all_roots:
-      valuue: 'true'
-  - x_509_hostname_verifier:
-      value: 'allow_all'
-  - trust_keystore
-  - trust_password
-  - keystore
-  - keystore_password
+  - auth_type: 'basic'
+  - trust_all_roots: 'true'
+  - x_509_hostname_verifier: 'allow_all'
+  - trust_keystore: ''
+  - trust_password: ''
+  - keystore: ''
+  - keystore_password: ''
   - connect_timeout:
       value: '10'
   - socket_timeout:
