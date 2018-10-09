@@ -139,31 +139,31 @@ flow:
     - read_component_properties:
         do:
           io.cloudslang.microfocus.hcm.aws_service_catalog.utils.read_component_properties:
-            - csa_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.rest_uri')}
+            - csa_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.rest_uri')}
             - csa_user: '${hcm_user}'
             - csa_subscription_id: '${hcm_subscription_id}'
             - delimiter: '&'
-            - auth_type: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.auth_type')}
-            - username: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.user')}
+            - auth_type: ${get_sp('io.cloudslang.microfocus.hcm.auth_type')}
+            - username: ${get_sp('io.cloudslang.microfocus.hcm.user')}
             - password:
-                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.password')}
+                value: ${get_sp('io.cloudslang.microfocus.hcm.password')}
                 sensitive: true
             - proxy_host: ''
             - proxy_username: ''
-            - trust_all_roots: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_all_roots')}
-            - x_509_hostname_verifier: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.x_509_hostname_verifier')}
-            - trust_keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_keystore')}
+            - trust_all_roots: ${get_sp('io.cloudslang.microfocus.hcm.trust_all_roots')}
+            - x_509_hostname_verifier: ${get_sp('io.cloudslang.microfocus.hcm.x_509_hostname_verifier')}
+            - trust_keystore: ${get_sp('io.cloudslang.microfocus.hcm.trust_keystore')}
             - trust_password:
-                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.trust_password')}
+                value: ${get_sp('io.cloudslang.microfocus.hcm.trust_password')}
                 sensitive: true
-            - keystore: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore')}
+            - keystore: ${get_sp('io.cloudslang.microfocus.hcm.keystore')}
             - keystore_password:
-                value: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keystore_password')}
+                value: ${get_sp('io.cloudslang.microfocus.hcm.keystore_password')}
                 sensitive: true
-            - connect_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.connect_timeout')}
-            - socket_timeout: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.socket_timeout')}
-            - use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.use_cookies')}
-            - keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.hcm_oo.keep_alive')}
+            - connect_timeout: ${get_sp('io.cloudslang.microfocus.hcm.connect_timeout')}
+            - socket_timeout: ${get_sp('io.cloudslang.microfocus.hcm.socket_timeout')}
+            - use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.use_cookies')}
+            - keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.keep_alive')}
         publish:
           - parameters_list: '${return_result}'
         navigate:
