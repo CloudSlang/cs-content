@@ -14,24 +14,21 @@
 ########################################################################################################################
 #!!
 #! @description: This flow reads the component properties from a given CSA subscription, select the properties associated
-#!               with Amazon Service Catalog provisioning parameters and provision an Amazon Service Catalog product with
-#!               selected parameters from CSA subscription.
+#!               with Amazon Service Catalog provisioning parameters and updates a provisioned Amazon Service Catalog
+#!               product with selected parameters from CSA subscription.
 #!
 #! @input hcm_user: The HCM user for which to retrieve the user identifier.
 #! @input hcm_subscription_id: The ID of the subscription for which to retrieve the component properties.
 #! @input aws_accessKeyId: ID of the secret access key associated with your Amazon AWS account.
 #! @input aws_secretAccessKey: Secret access key associated with your Amazon AWS account.
 #! @input aws_product_id: The AWS product identifier.
+#! @input aws_provisioned_product_id: The identifier of the provisioning artifact also known as version Id.
 #! @input aws_provisioned_product_name: A user-friendly name for the provisioned product. This value must be unique for
 #!                                      the AWS account and cannot be updated after the product is provisioned.
 #! @input aws_provisioning_artifact_id: The identifier of the provisioning artifact also known as version Id.
-#! @input aws_tags: One or more tags in key value format, one key=value, delimited by "&" character.
-#!                  Examples: tag1=tagValue1&tag2=tagValue2
-#! @input aws_provision_token: An idempotency token that uniquely identifies the provisioning request.
-#! @input aws_accept_language: String that contains the language code.
+#! @input aws_update_token: An idempotency token that uniquely identifies the update request.
+#! @input aws_accepted_language: String that contains the language code.
 #!                             Examples: "en" - English, "jp" - Japanese, "zh" - Chinese
-#! @input aws_notification_arns: The Simple Notification Service topic Amazon Resource Names to which to publish
-#!                               stack-related events.
 #! @input aws_path_id: String that contains the identifier path of the product. This value is optional if the product
 #!                     has a default path, and required if the product has more than one path.
 #! @input aws_region: String that contains the Amazon AWS region name.
@@ -48,18 +45,15 @@
 #! @input aws_connect_timeout: The amount of time to wait (in milliseconds) when initially establishing a connection to
 #!                             Amazon before giving up and timing out.
 #!
-#! @output provisioned_product_created_time: The UTC time stamp of the resource creation time.
+#! @output update_time: The time when the record was last updated.
 #! @output provisioned_product_type: The type of provisioned product. The supported value is 'CFN_STACK'.
 #! @output provisioned_product_id: The identifier of the provisioned product.
+#! @output provisioned_product_name: The identifier of the provisioned product.
 #! @output provisioned_product_status: The status of the provisioned product.
-#! @output stack_id: The unique stack ID that is associated with the stack.
-#! @output stack_name: The name that is associated with the stack.
-#! @output stack_outputs: The optional Outputs section declares output values that you can import into other stacks
-#!                        (to create cross-stack references), return in response (to describe stack calls), or view on
-#!                        the AWS CloudFormation console.
-#! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
-#!                          EC2 instance or an Amazon S3 bucket.
-#! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error message in case of failure.
+#! @output path_id_output: The new path identifier. This value is optional if the product has a default path, and
+#!                         required if the product has more than one path.
+#! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error
+#!                        message in case of failure.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -69,7 +63,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.hcm.aws_service_catalog
 flow:
-  name: subscription_provision_product
+  name: subscription_update_product
   inputs:
     - hcm_user
     - hcm_subscription_id
@@ -77,15 +71,12 @@ flow:
     - aws_secretAccessKey:
         sensitive: true
     - aws_product_id
+    - aws_provisioned_product_id
     - aws_provisioned_product_name
     - aws_provisioning_artifact_id
-    - aws_tags:
+    - aws_update_token:
         required: false
-    - aws_provision_token:
-        required: false
-    - aws_accept_language:
-        required: false
-    - aws_notification_arns:
+    - aws_accepted_language:
         required: false
     - aws_path_id:
         required: false
@@ -143,11 +134,11 @@ flow:
         publish:
           - parameters_list: '${return_result}'
         navigate:
-          - SUCCESS: provision_product
+          - SUCCESS: update_product
           - FAILURE: FAILURE
-    - provision_product:
+    - update_product:
         do:
-          io.cloudslang.amazon.aws.servicecatalog.provision_product:
+          io.cloudslang.amazon.aws.servicecatalog.update_provisioned_product:
             - identity: '${aws_accessKeyId}'
             - credential:
                 value: '${aws_secretAccessKey}'
@@ -163,40 +154,37 @@ flow:
             - pooling_interval: '${aws_polling_interval}'
             - async: '${aws_async}'
             - product_id: '${aws_product_id}'
+            - provisioned_product_id: '${aws_provisioned_product_id}'
             - provisioned_product_name: '${aws_provisioned_product_name}'
             - provisioning_artifact_id: '${aws_provisioning_artifact_id}'
             - provisioning_parameters: '${parameters_list}'
             - delimiter: '&'
-            - tags: '${aws_tags}'
-            - provision_token: '${aws_provision_token}'
-            - accept_language: '${aws_accept_language}'
-            - notification_arns: '${aws_notification_arns}'
+            - update_token: '${aws_update_token}'
+            - accepted_language: '${aws_accepted_language}'
             - path_id: '${aws_path_id}'
             - region: '${aws_region}'
         publish:
-          - return_result
           - return_code
+          - return_result
           - exception
-          - created_time
+          - path_id_output
+          - product_id_result
+          - provisioned_product_id_output
+          - provisioned_product_name_result
           - provisioned_product_type
+          - provisioning_artifact_id_output
+          - update_time
           - status
-          - stack_id
-          - stack_name
-          - stack_outputs
-          - stack_resources
-          - provisioned_product_id
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
   outputs:
-    - provisioned_product_created_time: '${created_time}'
+    - update_time: '${update_time}'
     - provisioned_product_type: '${provisioned_product_type}'
-    - provisioned_product_id: '${provisioned_product_id}'
+    - provisioned_product_id: '${provisioned_product_id_output}'
+    - provisioned_product_name: '${provisioned_product_name_result}'
     - provisioned_product_status: '${status}'
-    - stack_id: '${stack_id}'
-    - stack_name: '${stack_name}'
-    - stack_outputs: '${stack_outputs}'
-    - stack_resources: '${stack_resources}'
+    - path_id_output: '${path_id_output}'
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${exception}'
