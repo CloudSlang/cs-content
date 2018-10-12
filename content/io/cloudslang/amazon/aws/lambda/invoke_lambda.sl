@@ -1,4 +1,4 @@
-#   (c) Copyright 2018 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2018 Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -107,7 +107,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.18'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.23'
     class_name: io.cloudslang.content.amazon.actions.lambda.InvokeLambdaAction
     method_name: execute
 
