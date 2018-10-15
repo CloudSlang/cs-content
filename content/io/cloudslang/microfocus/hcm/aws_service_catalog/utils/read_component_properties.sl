@@ -151,8 +151,18 @@ flow:
           - retrun_result
         navigate:
           - FAILURE: FAILURE
-          - SUCCESS: http_client_action
-    - http_client_action:
+          - SUCCESS: request_csa_subscription
+    - validate_parameter:
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${current_prop}'
+            - string_to_find: param_
+        publish:
+          - occurence_count: '${return_result}'
+        navigate:
+          - SUCCESS: remove_param_from_name
+          - FAILURE: iterate_properties_list
+    - request_csa_subscription:
         do:
           io.cloudslang.base.http.http_client_action:
             - url: "${csa_rest_uri + '/artifact/' + csa_subscription_id}"
@@ -189,9 +199,9 @@ flow:
           - return_code
           - xml_response: '${return_result}'
         navigate:
-          - SUCCESS: xpath_query
+          - SUCCESS: get_property_name
           - FAILURE: FAILURE
-    - xpath_query:
+    - get_property_name:
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${xml_response}'
@@ -200,9 +210,9 @@ flow:
         publish:
           - selected_keys: '${selected_value}'
         navigate:
-          - SUCCESS: xpath_query_1
+          - SUCCESS: get_property_value
           - FAILURE: FAILURE
-    - xpath_query_1:
+    - get_property_value:
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${xml_response}'
@@ -225,9 +235,9 @@ flow:
           - properties_list
           - list_props: '${blank_list}'
         navigate:
-          - SUCCESS: list_iterator
+          - SUCCESS: iterate_properties_list
           - FAILURE: FAILURE
-    - list_iterator:
+    - iterate_properties_list:
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${properties_list}'
@@ -235,20 +245,10 @@ flow:
         publish:
           - current_prop: '${result_string}'
         navigate:
-          - HAS_MORE: string_occurrence_counter
-          - NO_MORE: length
+          - HAS_MORE: validate_parameter
+          - NO_MORE: get_parameters_list_length
           - FAILURE: FAILURE
-    - string_occurrence_counter:
-        do:
-          io.cloudslang.base.strings.string_occurrence_counter:
-            - string_in_which_to_search: '${current_prop}'
-            - string_to_find: param_
-        publish:
-          - occurence_count: '${return_result}'
-        navigate:
-          - SUCCESS: regex_replace
-          - FAILURE: list_iterator
-    - regex_replace:
+    - remove_param_from_name:
         do:
           io.cloudslang.base.strings.regex_replace:
             - regex: param_
@@ -257,8 +257,8 @@ flow:
         publish:
           - result_text
         navigate:
-          - SUCCESS: add_element
-    - add_element:
+          - SUCCESS: add_element_to_paramters_list
+    - add_element_to_paramters_list:
         do:
           io.cloudslang.base.lists.add_element:
             - list: '${list_props}'
@@ -267,9 +267,9 @@ flow:
         publish:
           - list_props: '${return_result}'
         navigate:
-          - SUCCESS: list_iterator
+          - SUCCESS: iterate_properties_list
           - FAILURE: FAILURE
-    - remove_by_index:
+    - remove_first_element_from_parameters_list:
         do:
           io.cloudslang.base.lists.remove_by_index:
             - list: '${list_props}'
@@ -280,7 +280,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-    - length:
+    - get_parameters_list_length:
         do:
           io.cloudslang.base.lists.length:
             - list: '${list_props}'
@@ -288,15 +288,15 @@ flow:
         publish:
           - list_length: '${return_result}'
         navigate:
-          - SUCCESS: compare_numbers
+          - SUCCESS: check_if_parameters_list_has_elements
           - FAILURE: FAILURE
-    - compare_numbers:
+    - check_if_parameters_list_has_elements:
         do:
           io.cloudslang.base.math.compare_numbers:
             - value1: '${list_length}'
             - value2: '0'
         navigate:
-          - GREATER_THAN: remove_by_index
+          - GREATER_THAN: remove_first_element_from_parameters_list
           - EQUALS: SUCCESS
           - LESS_THAN: SUCCESS
   outputs:
@@ -309,35 +309,17 @@ flow:
 extensions:
   graph:
     steps:
-      remove_by_index:
-        x: 1260
-        y: 255
+      validate_parameter:
+        x: 891
+        y: 275
+      add_element_to_paramters_list:
+        x: 696
+        y: 281
         navigate:
-          64f797ec-358f-a298-9d34-2d21f4675308:
-            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
+          6131add5-e45a-4f16-3385-ffa8573e516c:
+            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
             port: FAILURE
-      get_csa_user_identifier:
-        x: 8
-        y: 71
-        navigate:
-          628ce993-2555-f3b5-40a0-8cf8821c193f:
-            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
-            port: FAILURE
-      xpath_query:
-        x: 349
-        y: 72
-        navigate:
-          740edb64-7828-a4ca-91e4-48e4f1ec3aa0:
-            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
-            port: FAILURE
-      length:
-        x: 1078
-        y: 69
-        navigate:
-          0191b7a2-9dee-16e4-1555-238bd029059f:
-            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
-            port: FAILURE
-      list_iterator:
+      iterate_properties_list:
         x: 889
         y: 75
         navigate:
@@ -350,7 +332,35 @@ extensions:
           02ce77f4-0b58-cd03-801e-0fe77c0ce159:
             targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
             port: FAILURE
-      compare_numbers:
+      get_csa_user_identifier:
+        x: 8
+        y: 71
+        navigate:
+          628ce993-2555-f3b5-40a0-8cf8821c193f:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
+      remove_first_element_from_parameters_list:
+        x: 1260
+        y: 255
+        navigate:
+          755734b1-8bea-b2f5-622b-e5cb5471452a:
+            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
+            port: SUCCESS
+      get_property_name:
+        x: 349
+        y: 72
+        navigate:
+          740edb64-7828-a4ca-91e4-48e4f1ec3aa0:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
+      get_property_value:
+        x: 518
+        y: 71
+        navigate:
+          b2625d4c-440c-a65e-e000-02494595c596:
+            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
+            port: FAILURE
+      check_if_parameters_list_has_elements:
         x: 1266
         y: 74
         navigate:
@@ -365,20 +375,9 @@ extensions:
           f77bfb22-e860-f84a-9679-5887166752a1:
             targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
             port: LESS_THAN
-      http_client_action:
-        x: 165
-        y: 72
-        navigate:
-          f28f44ce-3371-7169-2f03-ebf5d731b65c:
-            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
-            port: FAILURE
-      xpath_query_1:
-        x: 518
-        y: 71
-        navigate:
-          b2625d4c-440c-a65e-e000-02494595c596:
-            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
-            port: FAILURE
+      remove_param_from_name:
+        x: 879
+        y: 503
       build_properties_list:
         x: 704
         y: 68
@@ -386,24 +385,25 @@ extensions:
           ea0691e8-16d5-c8b5-cb6b-b400deacd2c3:
             targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
             port: FAILURE
-      string_occurrence_counter:
-        x: 891
-        y: 275
-      regex_replace:
-        x: 879
-        y: 503
-      add_element:
-        x: 696
-        y: 281
+      request_csa_subscription:
+        x: 165
+        y: 72
         navigate:
-          6131add5-e45a-4f16-3385-ffa8573e516c:
-            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
+          f28f44ce-3371-7169-2f03-ebf5d731b65c:
+            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
+            port: FAILURE
+      get_parameters_list_length:
+        x: 1078
+        y: 69
+        navigate:
+          0191b7a2-9dee-16e4-1555-238bd029059f:
+            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
             port: FAILURE
     results:
       SUCCESS:
         2fd4062c-60d3-a971-922b-da5fdb5a3531:
-          x: 1381
-          y: 78
+          x: 1434
+          y: 80
       FAILURE:
         6306f32e-ac8b-2a15-82b1-d36b3527f1df:
           x: 159

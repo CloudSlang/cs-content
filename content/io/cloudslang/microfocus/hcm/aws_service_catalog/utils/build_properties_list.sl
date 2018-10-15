@@ -40,7 +40,7 @@ flow:
         default: ','
         required: false
   workflow:
-    - length:
+    - get_parameters_list_length:
         do:
           io.cloudslang.base.lists.length:
             - list: '${list1}'
@@ -48,18 +48,18 @@ flow:
         publish:
           - list_length: '${return_result}'
         navigate:
-          - SUCCESS: compare_numbers
+          - SUCCESS: check_if_list_has_more_elements
           - FAILURE: FAILURE
-    - compare_numbers:
+    - check_if_list_has_more_elements:
         do:
           io.cloudslang.base.math.compare_numbers:
             - value1: '${list_length}'
             - value2: '1'
         navigate:
-          - GREATER_THAN: get_by_index
-          - EQUALS: get_by_index
+          - GREATER_THAN: get_parameter_name
+          - EQUALS: get_parameter_name
           - LESS_THAN: SUCCESS
-    - get_by_index:
+    - get_parameter_name:
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${list1}'
@@ -68,9 +68,9 @@ flow:
         publish:
           - element1: '${return_result}'
         navigate:
-          - SUCCESS: get_by_index_1
+          - SUCCESS: get_parameter_value
           - FAILURE: FAILURE
-    - get_by_index_1:
+    - get_parameter_value:
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${list2}'
@@ -79,9 +79,9 @@ flow:
         publish:
           - element2: '${return_result}'
         navigate:
-          - SUCCESS: add_element
+          - SUCCESS: add_paramter_to_list
           - FAILURE: FAILURE
-    - add_element:
+    - add_paramter_to_list:
         do:
           io.cloudslang.base.lists.add_element:
             - list: '${final_list}'
@@ -90,9 +90,9 @@ flow:
         publish:
           - final_list: '${return_result}'
         navigate:
-          - SUCCESS: remove_by_index_1
+          - SUCCESS: remove_parameter_name
           - FAILURE: FAILURE
-    - remove_by_index:
+    - remove_parameter_value:
         do:
           io.cloudslang.base.lists.remove_by_index:
             - list: '${list2}'
@@ -101,9 +101,9 @@ flow:
         publish:
           - list2: '${return_result}'
         navigate:
-          - SUCCESS: length_1
+          - SUCCESS: retrieve_parameters_list_length
           - FAILURE: FAILURE
-    - remove_by_index_1:
+    - remove_parameter_name:
         do:
           io.cloudslang.base.lists.remove_by_index:
             - list: '${list1}'
@@ -112,26 +112,26 @@ flow:
         publish:
           - list1: '${return_result}'
         navigate:
-          - SUCCESS: remove_by_index
+          - SUCCESS: remove_parameter_value
           - FAILURE: FAILURE
-    - length_1:
+    - retrieve_parameters_list_length:
         do:
           io.cloudslang.base.strings.length:
             - origin_string: '${list1}'
         publish:
           - list1_length: '${length}'
         navigate:
-          - SUCCESS: compare_numbers_1
-    - compare_numbers_1:
+          - SUCCESS: check_if_list_has_elements
+    - check_if_list_has_elements:
         do:
           io.cloudslang.base.math.compare_numbers:
             - value1: '${list1_length}'
             - value2: '0'
         navigate:
-          - GREATER_THAN: length
-          - EQUALS: remove_by_index_2
-          - LESS_THAN: remove_by_index_2
-    - remove_by_index_2:
+          - GREATER_THAN: get_parameters_list_length
+          - EQUALS: remove_first_element_from_parameters_list
+          - LESS_THAN: remove_first_element_from_parameters_list
+    - remove_first_element_from_parameters_list:
         do:
           io.cloudslang.base.lists.remove_by_index:
             - list: '${final_list}'
@@ -150,7 +150,49 @@ flow:
 extensions:
   graph:
     steps:
-      compare_numbers_1:
+      remove_parameter_value:
+        x: 546
+        y: 398
+        navigate:
+          8d925016-e4e6-abcc-9438-9469788b15e8:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      check_if_list_has_more_elements:
+        x: 328
+        y: 48
+        navigate:
+          b9826b21-53e4-8c88-de81-e03305382146:
+            targetId: d03119da-52b7-25a0-6355-c813f5852392
+            port: LESS_THAN
+          292bc5ad-16cb-ca40-a9d8-7f6d73447989:
+            vertices: []
+            targetId: get_by_index
+            port: GREATER_THAN
+      get_parameter_name:
+        x: 539
+        y: 45
+        navigate:
+          e795acd7-65c2-b8f2-8252-fe87863b0af6:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      remove_first_element_from_parameters_list:
+        x: 321
+        y: 391
+        navigate:
+          6da2dbb6-70cc-7223-6c20-9666783f7ee5:
+            targetId: 78379e6b-a4b0-c947-5f0f-705ac5657698
+            port: FAILURE
+          7b19b19d-abfd-b5f3-ca50-28a221937dd5:
+            targetId: d03119da-52b7-25a0-6355-c813f5852392
+            port: SUCCESS
+      get_parameter_value:
+        x: 756
+        y: 38
+        navigate:
+          4a0309ce-17de-4afe-bfb9-b4b9a9575a33:
+            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
+            port: FAILURE
+      check_if_list_has_elements:
         x: 63
         y: 396
         navigate:
@@ -162,70 +204,28 @@ extensions:
             vertices: []
             targetId: remove_by_index_2
             port: LESS_THAN
-      remove_by_index:
-        x: 546
-        y: 398
+      retrieve_parameters_list_length:
+        x: 316
+        y: 581
+      add_paramter_to_list:
+        x: 927
+        y: 40
         navigate:
-          8d925016-e4e6-abcc-9438-9469788b15e8:
+          d7b98652-c07a-b2d2-a80b-48861eddf73d:
             targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
             port: FAILURE
-      get_by_index_1:
-        x: 756
-        y: 38
-        navigate:
-          4a0309ce-17de-4afe-bfb9-b4b9a9575a33:
-            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
-            port: FAILURE
-      length:
+      get_parameters_list_length:
         x: 55
         y: 50
         navigate:
           ca3861ff-30e0-be3d-e915-e123ffac3e95:
             targetId: 78379e6b-a4b0-c947-5f0f-705ac5657698
             port: FAILURE
-      compare_numbers:
-        x: 328
-        y: 48
-        navigate:
-          b9826b21-53e4-8c88-de81-e03305382146:
-            targetId: d03119da-52b7-25a0-6355-c813f5852392
-            port: LESS_THAN
-          292bc5ad-16cb-ca40-a9d8-7f6d73447989:
-            vertices: []
-            targetId: get_by_index
-            port: GREATER_THAN
-      get_by_index:
-        x: 539
-        y: 45
-        navigate:
-          e795acd7-65c2-b8f2-8252-fe87863b0af6:
-            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
-            port: FAILURE
-      remove_by_index_1:
+      remove_parameter_name:
         x: 926
         y: 399
         navigate:
           4b906bf5-17aa-15bb-cd00-2866788be7bb:
-            targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
-            port: FAILURE
-      length_1:
-        x: 316
-        y: 581
-      remove_by_index_2:
-        x: 321
-        y: 390
-        navigate:
-          6da2dbb6-70cc-7223-6c20-9666783f7ee5:
-            targetId: 78379e6b-a4b0-c947-5f0f-705ac5657698
-            port: FAILURE
-          7b19b19d-abfd-b5f3-ca50-28a221937dd5:
-            targetId: d03119da-52b7-25a0-6355-c813f5852392
-            port: SUCCESS
-      add_element:
-        x: 927
-        y: 40
-        navigate:
-          d7b98652-c07a-b2d2-a80b-48861eddf73d:
             targetId: ea5dec1e-fc27-0438-a09b-bc2d2b13273f
             port: FAILURE
     results:
