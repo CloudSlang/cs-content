@@ -73,7 +73,7 @@ flow:
     - aws_product_id
     - aws_provisioned_product_id:
         required: false
-    - aws_provisioned_product_name
+    - aws_provisioned_product_name:
         required: false
     - aws_provisioning_artifact_id
     - aws_update_token:
