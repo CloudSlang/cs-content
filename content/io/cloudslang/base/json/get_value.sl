@@ -1,4 +1,4 @@
-#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2014-2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,14 +16,13 @@
 #! @description: Parses the given JSON input to retrieve the corresponding value addressed by the json_path input.
 #!
 #! @input json_input: JSON data input
-#!                    Example: '{"k1": {"k2": ["v1", "v2"]}}'
+#!                    Examples: {"one":1, "two":2}, {"one":{"a":"a","B":"B"}, "two":"two", "three":[1,2,3.4]}
 #! @input json_path: path from which to retrieve value represented as a list of keys and/or indices.
-#!                   Passing an empty list ([]) will retrieve the entire json_input.
-#!                   Example: ["k1", "k2", 1]
+#!                   Example: one, $.one, $.one[1].a
 #!
 #! @output return_result: The corresponding value of the key referred to by json_path
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
-#! @output error_message: Error message if there was an error when executing, empty otherwise
+#! @output exception: Error message if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: Parsing was successful (return_code == '0')
 #! @result FAILURE: Otherwise
@@ -37,53 +36,28 @@ operation:
 
   inputs:
     - json_input
+    - jsonInput:
+        default: ${get('json_input', '')}
+        required: false
+        private: true
+
     - json_path:
         required: false
+    - jsonPath:
+        default: ${get('json_path','$')}
+        required: false
+        private: true
 
-  python_action:
-    script: |
-      def representsInt(s):
-          try:
-              int(s)
-              return True
-          except ValueError:
-              return False
-      try:
-        import json, re
-        quote = None
-        for c in json_input:
-          if c in ['\'', '\"']:
-            quote = c
-            break
-        if quote == '\'':
-          json_input = str(re.sub(r"(?<!\\)(\')",'"', json_input))
-          json_input = str(re.sub(r"(\\')",'\'', json_input))
-        decoded = json.loads(json_input)
-        for key in json_path.split(","):
-          if key in ["", ''] and key not in decoded:
-            pass
-          else:
-            if representsInt(key):
-              key = int(key)
-            decoded = decoded[key]
-        if type(decoded) in [dict, list]:
-          encoded = json.dumps(decoded, ensure_ascii=False)
-          if quote == '\'':
-            encoded = encoded.replace('\'','\\\'').replace('\"','\'')
-        elif decoded is None:
-          encoded = 'null'
-        else:
-          encoded = str(decoded)
-        return_code = '0'
-      except Exception as ex:
-        error_message = ex
-        return_code = '-1'
+  java_action:
+    gav: 'io.cloudslang.content:cs-json:0.0.9-SNAPSHOT'
+    class_name: 'io.cloudslang.content.json.actions.GetValue'
+    method_name: 'execute'
 
   outputs:
-    - return_result: ${ encoded if return_code == '0' else '' }
-    - return_code
-    - error_message: ${ str(error_message) if return_code == '-1' else '' }
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
 
   results:
-    - SUCCESS: ${ return_code == '0' }
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

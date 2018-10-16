@@ -1,4 +1,4 @@
-#   (c) Copyright 2015-2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2015-2018 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -19,54 +19,70 @@ testGetValueOuter:
     - json_path: "outer_key1"
   description: Tests that get_value.sl correctly gets an outer value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'outer_value1'
 
 testGetValueInner:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,inner_key1"
+    - json_path: "$.outer_key2.inner_key1"
   description: Tests that get_value.sl correctly gets an inner value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'inner_value1'
 
 testGetValueInnerArray:
   inputs:
     - json_input: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,inner_key2,1"
+    - json_path: "$.outer_key2.inner_key2[1]"
   description: Tests that get_value.sl correctly gets an inner array value from a JSON
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'list_item2'
 
 testGetValueArray:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,inner_key2"
-    - found_value: '["list_item1", "list_item2"]'
+    - json_path: "$.outer_key2.inner_key2"
+    - found_value: '["list_item1","list_item2"]'
   description: Tests that get_value.sl correctly gets an array from a JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
+
+
+estGetValueEmtpyInput2:
+  inputs:
+    - json_input: '{}'
+    - json_path: "city"
+  description: Tests that get_value.sl gets value from emptyInput
+  testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
+  result: FAILURE
 
 testGetValueObject:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
     - json_path: "outer_key2"
     - found_value:
-        value: '{"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}'
+        value: '{"inner_key1":"inner_value1","inner_key2":["list_item1","list_item2"]}'
   description: Tests that get_value.sl correctly gets an object from a JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
 
 testGetEverything:
   inputs:
     - json_before: '{"outer_key1": "outer_value1", "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: ""
+    - json_path: "$"
     - found_value:
-        value: '{"outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}, "outer_key1": "outer_value1"}'
+        value: '{"outer_key1":"outer_value1","outer_key2":{"inner_key1":"inner_value1","inner_key2":["list_item1","list_item2"]}}'
   description: Tests that get_value.sl correctly gets the entire JSON
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
 
 testGetFromInexistentKey:
@@ -75,6 +91,7 @@ testGetFromInexistentKey:
     - json_path: "my_key"
   description: Tests that get_value.sl fails when the key does not exist
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_code: '-1'
   result: FAILURE
@@ -85,6 +102,7 @@ testGetFromInexistentPath:
     - json_path: "outer_key2,inner_key1"
   description: Tests that get_value.sl fails when the key does not exist
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_code: '-1'
   result: FAILURE
@@ -92,29 +110,45 @@ testGetFromInexistentPath:
 testGetScientificFloat:
   inputs:
     - json_before: '{"number1": 1.9e1, "outer_key2": {"number2": 2.9e+1, "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,number2"
+    - json_path: "$.outer_key2.number2"
     - found_value: '29.0'
   description: Tests that get_value.sl reads scientific format floats correctly
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
 
 testGetPathIndexExceeded:
   inputs:
     - json_input: '{"number1": 1.9e1, "outer_key2": {"inner_key1": "inner_value1", "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,inner_key2,2"
+    - json_path: "$.outer_key2.inner_key2[25]"
+    - found_value: ''
   description: Tests get_value.sl when path to value uses out of range indices
   testFlowPath: io.cloudslang.base.json.get_value
-  result: FAILURE
+  testSuites: [getValue]
+  outputs:
+      - return_code: '0'
 
 testGetFromEmptyJSON:
   inputs:
     - json_input: '{}'
-    - json_path: ""
+    - json_path: "$"
   description: Tests get_value.sl when source JSON is empty
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: '{}'
   result: SUCCESS
+
+testGetValueFromEmptyPath:
+  inputs:
+    - json_input: '{}'
+    - json_path: ""
+  description: Tests get_value.sl when source JSON and path is empty
+  testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
 
 testGetFromInvalidJSON:
   inputs:
@@ -122,6 +156,7 @@ testGetFromInvalidJSON:
     - json_path: "k1"
   description: Tests get_value.sl when source JSON is invalid
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   result: FAILURE
 
 testGetSpecialCharactersValue:
@@ -131,16 +166,29 @@ testGetSpecialCharactersValue:
     - found_value: 'v2!#%@&*`?|>{[-'
   description: Tests get_value.sl when value contains special characters (documented for cloudslang)
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
 
 testGetBoolean1:
   inputs:
     - json_before: '{"number1": 1.9e1, "outer_key2": {"boolean": true, "inner_key2": ["list_item1", "list_item2"]}}'
-    - json_path: "outer_key2,boolean"
-    - found_value: "True"
+    - json_path: "$.outer_key2.boolean"
+    - found_value: "true"
   description: Tests that get_value.sl reads boolean values correctly
   testFlowPath: io.cloudslang.base.json.test_get_value
+  testSuites: [getValue]
   result: SUCCESS
+
+testGetValueDupKeys:
+  inputs:
+    - json_input: '{"k1": {["v1", "v2"]}, "k1":"v3"}'
+    - json_path: "k1"
+  description: Tests that get_value.sl reads values from dup keys
+  testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
+  result: FAILURE
+
+
 
 testGetNull:
   inputs:
@@ -148,6 +196,7 @@ testGetNull:
     - json_path: "outer_key1"
   description: Tests that get_value.sl correctly gets a null value
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'null'
   result: SUCCESS
@@ -158,6 +207,7 @@ testGetCaseSensitiveKeys1:
     - json_path: "Key"
   description: Tests that get_value.sl reads correct case-sensitive key
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'rightValue'
   result: SUCCESS
@@ -168,57 +218,18 @@ testGetCaseSensitiveKeys2:
     - json_path: "key"
   description: Tests that get_value.sl searches for case-sensitive key
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   result: FAILURE
 
 testGetValueInnerArraySingleQuote:
   inputs:
     - json_input: "{'outer_key1': 'outer_value1', 'outer_key2': {'inner_key1': 'inner_value1', 'inner_key2': ['list_item1', 'list_item2']}}"
-    - json_path: 'outer_key2,inner_key2,1'
+    - json_path: '$.outer_key2.inner_key2[1]'
   description: Tests that get_value.sl correctly gets an inner array value from a JSON with single quote
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
     - return_result: 'list_item2'
-
-testGetValueSingleQuoteSuccess:
-  inputs:
-    - json_input: "{
-                                                                                         'server' : {
-                                                                                                        'name' : 'server_3',
-                                                                                                        'imageRef' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
-                                                                                                        'flavorRef' : '42',
-                                                                                                        'block_device_mapping_v2' : [{
-                                                                                                                                      'source_type' : 'image',
-                                                                                                                                      'uuid' : 'b67f9da0-4a89-4588-b0f5-bf4d19401743',
-                                                                                                                                      'boot_index' : '0',
-                                                                                                                                      'delete_on_termination' : true
-                                                                                                                       }
-                                                                                                        ],
-                                                                                                        'networks' : [],
-                                                                                                        'availability_zone' : 'nova',
-                                                                                                        'key_name' : 'default_key',
-                                                                                                        'adminPass' : '{ENCRYPTED}EuA4xiNWgPmWZkcHvkvb0Q==',
-                                                                                                        'user_data' : 'IyEvYmluL3NoCmFwdC1nZXQgdXBkYXRlCmFwdC1nZXQgaW5zdGFsbCBnaXQgLXk=',
-                                                                                         'metadata' : {
-                                                                                                        'My Server Name' : 'Apache1',
-                                                                                                        'min_ram' : '2'
-                                                                                         },
-                                                                                                        'security_groups' : [{
-                                                                                                                                      'name' : 'default'
-                                                                                                                       }
-                                                                                                        ],
-                                                                                                        'personality' : [{
-                                                                                                                                      'path' : '/etc/banner.txt',
-                                                                                                                                      'contents' : 'ICAgICAgDQoiQSBjbG91ZCBkb2VzIG5vdCBrbm93IHdoeSBpdCBtb3ZlcyBpbiBqdXN0IHN1Y2ggYSBkaXJlY3Rpb24gYW5kIGF0IHN1Y2ggYSBzcGVlZC4uLkl0IGZlZWxzIGFuIGltcHVsc2lvbi4uLnRoaXMgaXMgdGhlIHBsYWNlIHRvIGdvIG5vdy4gQnV0IHRoZSBza3kga25vd3MgdGhlIHJlYXNvbnMgYW5kIHRoZSBwYXR0ZXJucyBiZWhpbmQgYWxsIGNsb3VkcywgYW5kIHlvdSB3aWxsIGtub3csIHRvbywgd2hlbiB5b3UgbGlmdCB5b3Vyc2VsZiBoaWdoIGVub3VnaCB0byBzZWUgYmV5b25kIGhvcml6b25zLiINCg0KLVJpY2hhcmQgQmFjaA=='
-                                                                                                                       }
-                                                                                                        ]
-                                                                                         }
-                                                                      }"
-    - json_path: 'server,security_groups'
-  description: Tests that get_value.sl correctly gets an inner value from a JSON with single quotes
-  testFlowPath: io.cloudslang.base.json.get_value
-  outputs:
-    - return_result: "[{'name': 'default'}]"
-  result: SUCCESS
 
 testGetValueSingleQuoteFailure:
   inputs:
@@ -257,7 +268,7 @@ testGetValueSingleQuoteFailure:
     - json_path: 'server,security_groups,personality'
   description: Tests that get_value.sl has a return_code of '-1' for a path that doesn't exist in a JSON with single quotes
   testFlowPath: io.cloudslang.base.json.get_value
+  testSuites: [getValue]
   outputs:
-    - return_result: ''
     - return_code: '-1'
   result: FAILURE
