@@ -107,14 +107,12 @@ flow:
       required: false
   - path_id:
       required: false
-  - product_id:
-      required: false
+  - product_id
   - provisioned_product_id:
       required: false
   - provisioned_product_name:
       required: false
-  - provisioning_artifact_id:
-      required: false
+  - provisioning_artifact_id
   - provisioning_parameters:
       required: false
   - use_previous_value:

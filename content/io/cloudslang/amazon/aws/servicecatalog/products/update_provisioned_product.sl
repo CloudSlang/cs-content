@@ -180,11 +180,9 @@ operation:
         default: ${get('path_id', '')}  
         required: false 
         private: true 
-    - product_id:  
-        required: false  
+    - product_id
     - productId: 
-        default: ${get('product_id', '')}  
-        required: false 
+        default: ${get('product_id', '')}
         private: true 
     - provisioned_product_id:  
         required: false  
@@ -198,11 +196,9 @@ operation:
         default: ${get('provisioned_product_name', '')}  
         required: false 
         private: true 
-    - provisioning_artifact_id:  
-        required: false  
+    - provisioning_artifact_id
     - provisioningArtifactId: 
-        default: ${get('provisioning_artifact_id', '')}  
-        required: false 
+        default: ${get('provisioning_artifact_id', '')}
         private: true 
     - provisioning_parameters:  
         required: false  
