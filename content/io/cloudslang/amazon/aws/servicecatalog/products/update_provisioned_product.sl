@@ -37,6 +37,10 @@
 #!                           API call. A value of '0' disables this feature.
 #!                           Default: '60000'
 #!                           Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed.
+#!                          Optional
+#!                          Default: '1000'
 #! @input async: Whether to run the operation is async mode.
 #!               Default: 'false'
 #!               Optional
@@ -152,7 +156,14 @@ operation:
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
-        private: true 
+        private: true
+    - polling_interval:
+        default: '1000'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
     - async:  
         required: false  
     - region:  
