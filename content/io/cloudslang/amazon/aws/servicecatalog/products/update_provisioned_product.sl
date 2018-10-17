@@ -37,6 +37,10 @@
 #!                           API call. A value of '0' disables this feature.
 #!                           Default: '60000'
 #!                           Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed.
+#!                          Optional
+#!                          Default: '1000'
 #! @input async: Whether to run the operation is async mode.
 #!               Default: 'false'
 #!               Optional
@@ -152,7 +156,14 @@ operation:
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
-        private: true 
+        private: true
+    - polling_interval:
+        default: '1000'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
     - async:  
         required: false  
     - region:  
@@ -169,11 +180,9 @@ operation:
         default: ${get('path_id', '')}  
         required: false 
         private: true 
-    - product_id:  
-        required: false  
+    - product_id
     - productId: 
-        default: ${get('product_id', '')}  
-        required: false 
+        default: ${get('product_id', '')}
         private: true 
     - provisioned_product_id:  
         required: false  
@@ -187,11 +196,9 @@ operation:
         default: ${get('provisioned_product_name', '')}  
         required: false 
         private: true 
-    - provisioning_artifact_id:  
-        required: false  
+    - provisioning_artifact_id
     - provisioningArtifactId: 
-        default: ${get('provisioning_artifact_id', '')}  
-        required: false 
+        default: ${get('provisioning_artifact_id', '')}
         private: true 
     - provisioning_parameters:  
         required: false  
@@ -215,7 +222,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.24'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.25'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UpdateProvisionedProduct'
     method_name: 'execute'
   

@@ -26,6 +26,7 @@
 #!                         giving up and timing out.
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
 #!                           API call. A value of '0' disables this feature.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
 #! @input async: Whether to run the operation is async mode.
 #! @input region: String that contains the Amazon AWS region name.
 #! @input accepted_language: The language code.
@@ -95,6 +96,9 @@ flow:
       required: false
   - execution_timeout:
       required: false
+  - polling_interval:
+      required: false
+      default: '1000'
   - async:
       required: false
   - region:
@@ -103,14 +107,12 @@ flow:
       required: false
   - path_id:
       required: false
-  - product_id:
-      required: false
+  - product_id
   - provisioned_product_id:
       required: false
   - provisioned_product_name:
       required: false
-  - provisioning_artifact_id:
-      required: false
+  - provisioning_artifact_id
   - provisioning_parameters:
       required: false
   - use_previous_value:
@@ -134,6 +136,7 @@ flow:
                 sensitive: true
             - connect_timeout
             - execution_timeout
+            - polling_interval
             - async
             - region
             - accepted_language
