@@ -513,7 +513,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.26'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.27'
     class_name: io.cloudslang.content.amazon.actions.network.DescribeNetworkInterfacesAction
     method_name: execute
 
