@@ -54,6 +54,11 @@
 #!                         required if the product has more than one path.
 #! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error
 #!                        message in case of failure.
+#! @output stack_outputs: The optional Outputs section declares output values that you can import into other stacks
+#!                        (to create cross-stack references), return in response (to describe stack calls), or view on
+#!                        the AWS CloudFormation console.
+#! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
+#!                          EC2 instance or an Amazon S3 bucket.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -177,6 +182,8 @@ flow:
           - provisioning_artifact_id_output
           - update_time
           - status
+          - stack_outputs
+          - stack_resources
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -188,6 +195,8 @@ flow:
     - provisioned_product_status: '${status}'
     - path_id_output: '${path_id_output}'
     - return_result: '${return_result}'
+    - stack_outputs: '${stack_outputs}'
+    - stack_resources: '${stack_resources}'
     - return_code: '${return_code}'
     - exception: '${exception}'
   results:
