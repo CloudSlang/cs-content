@@ -18,6 +18,7 @@
 #!               selected parameters from CSA subscription.
 #!
 #! @input hcm_subscription_id: The ID of the subscription for which to retrieve the component properties.
+#! @input hcm_service_instance_id: The ID of the service instance which will be used for tagging.
 #! @input aws_accessKeyId: ID of the secret access key associated with your Amazon AWS account.
 #! @input aws_secretAccessKey: Secret access key associated with your Amazon AWS account.
 #! @input aws_product_id: The AWS product identifier.
@@ -71,6 +72,7 @@ flow:
   name: subscription_provision_product
   inputs:
     - hcm_subscription_id
+    - hcm_service_instance_id
     - aws_accessKeyId
     - aws_secretAccessKey:
         sensitive: true
@@ -165,7 +167,7 @@ flow:
             - provisioning_artifact_id: '${aws_provisioning_artifact_id}'
             - provisioning_parameters: '${parameters_list}'
             - delimiter: '&'
-            - tags: '${aws_tags}'
+            - tags: 'hcm_service_instance_id=${hcm_service_instance_id}'
             - provision_token: '${aws_provision_token}'
             - accept_language: '${aws_accept_language}'
             - notification_arns: '${aws_notification_arns}'
