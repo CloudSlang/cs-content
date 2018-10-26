@@ -167,7 +167,7 @@ flow:
             - provisioning_artifact_id: '${aws_provisioning_artifact_id}'
             - provisioning_parameters: '${parameters_list}'
             - delimiter: '&'
-            - tags: 'hcm_service_instance_id=${hcm_service_instance_id}'
+            - tags: '${hcm_service_instance_id}'
             - provision_token: '${aws_provision_token}'
             - accept_language: '${aws_accept_language}'
             - notification_arns: '${aws_notification_arns}'
