@@ -17,8 +17,8 @@
 #!               with Amazon Service Catalog provisioning parameters and provision an Amazon Service Catalog product with
 #!               selected parameters from CSA subscription.
 #!
-#! @input hcm_user: The HCM user for which to retrieve the user identifier.
 #! @input hcm_subscription_id: The ID of the subscription for which to retrieve the component properties.
+#! @input hcm_service_instance_id: The ID of the service instance which will be used for tagging.
 #! @input aws_accessKeyId: ID of the secret access key associated with your Amazon AWS account.
 #! @input aws_secretAccessKey: Secret access key associated with your Amazon AWS account.
 #! @input aws_product_id: The AWS product identifier.
@@ -71,8 +71,8 @@ namespace: io.cloudslang.microfocus.hcm.aws_service_catalog
 flow:
   name: subscription_provision_product
   inputs:
-    - hcm_user
     - hcm_subscription_id
+    - hcm_service_instance_id
     - aws_accessKeyId
     - aws_secretAccessKey:
         sensitive: true
@@ -116,7 +116,7 @@ flow:
         do:
           io.cloudslang.microfocus.hcm.aws_service_catalog.utils.read_component_properties:
             - csa_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.rest_uri')}
-            - csa_user: '${hcm_user}'
+            - csa_user: ${get_sp('io.cloudslang.microfocus.hcm.user')}
             - csa_subscription_id: '${hcm_subscription_id}'
             - delimiter: '&'
             - auth_type: ${get_sp('io.cloudslang.microfocus.hcm.auth_type')}
@@ -167,7 +167,7 @@ flow:
             - provisioning_artifact_id: '${aws_provisioning_artifact_id}'
             - provisioning_parameters: '${parameters_list}'
             - delimiter: '&'
-            - tags: '${aws_tags}'
+            - tags: '${"hcm_service_instance_id=" +  hcm_service_instance_id}'
             - provision_token: '${aws_provision_token}'
             - accept_language: '${aws_accept_language}'
             - notification_arns: '${aws_notification_arns}'

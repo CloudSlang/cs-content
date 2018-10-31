@@ -17,7 +17,6 @@
 #!               with Amazon Service Catalog provisioning parameters and updates a provisioned Amazon Service Catalog
 #!               product with selected parameters from CSA subscription.
 #!
-#! @input hcm_user: The HCM user for which to retrieve the user identifier.
 #! @input hcm_subscription_id: The ID of the subscription for which to retrieve the component properties.
 #! @input aws_accessKeyId: ID of the secret access key associated with your Amazon AWS account.
 #! @input aws_secretAccessKey: Secret access key associated with your Amazon AWS account.
@@ -54,6 +53,11 @@
 #!                         required if the product has more than one path.
 #! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error
 #!                        message in case of failure.
+#! @output stack_outputs: The optional Outputs section declares output values that you can import into other stacks
+#!                        (to create cross-stack references), return in response (to describe stack calls), or view on
+#!                        the AWS CloudFormation console.
+#! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
+#!                          EC2 instance or an Amazon S3 bucket.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
@@ -65,7 +69,6 @@ namespace: io.cloudslang.microfocus.hcm.aws_service_catalog
 flow:
   name: subscription_update_product
   inputs:
-    - hcm_user
     - hcm_subscription_id
     - aws_accessKeyId
     - aws_secretAccessKey:
@@ -109,7 +112,7 @@ flow:
         do:
           io.cloudslang.microfocus.hcm.aws_service_catalog.utils.read_component_properties:
             - csa_rest_uri: ${get_sp('io.cloudslang.microfocus.hcm.rest_uri')}
-            - csa_user: '${hcm_user}'
+            - csa_user: ${get_sp('io.cloudslang.microfocus.hcm.user')}
             - csa_subscription_id: '${hcm_subscription_id}'
             - delimiter: '&'
             - auth_type: ${get_sp('io.cloudslang.microfocus.hcm.auth_type')}
@@ -177,6 +180,8 @@ flow:
           - provisioning_artifact_id_output
           - update_time
           - status
+          - stack_outputs
+          - stack_resources
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -188,6 +193,8 @@ flow:
     - provisioned_product_status: '${status}'
     - path_id_output: '${path_id_output}'
     - return_result: '${return_result}'
+    - stack_outputs: '${stack_outputs}'
+    - stack_resources: '${stack_resources}'
     - return_code: '${return_code}'
     - exception: '${exception}'
   results:
