@@ -234,6 +234,9 @@ flow:
     - uft_workspace_path
     - test_parameters:
             required: false
+    - name_value_delimiter:
+            required: false
+            default: ':'
     -  auth_type:
         default: 'basic'
         required: false
