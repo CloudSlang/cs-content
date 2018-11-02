@@ -59,6 +59,7 @@
 #!                        the AWS CloudFormation console.
 #! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
 #!                          EC2 instance or an Amazon S3 bucket.
+#! @output amazon_resource_name: The ARN that is associated with the stack.
 #! @output return_result: The full AWS Service Catalog API response, in JSON format, in case of success, or an error message in case of failure.
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
@@ -197,6 +198,7 @@ flow:
     - stack_name: '${stack_name}'
     - stack_outputs: '${stack_outputs}'
     - stack_resources: '${stack_resources}'
+    - amazon_resource_name: '${stack_id}'
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${exception}'
