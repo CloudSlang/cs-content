@@ -343,7 +343,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.24'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.27'
     class_name: io.cloudslang.content.amazon.actions.volumes.DescribeVolumesAction
     method_name: execute
 

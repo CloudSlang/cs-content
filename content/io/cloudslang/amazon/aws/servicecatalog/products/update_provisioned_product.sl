@@ -37,6 +37,10 @@
 #!                           API call. A value of '0' disables this feature.
 #!                           Default: '60000'
 #!                           Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed.
+#!                          Optional
+#!                          Default: '1000'
 #! @input async: Whether to run the operation is async mode.
 #!               Default: 'false'
 #!               Optional
@@ -100,6 +104,21 @@
 #!                 'SUCCEEDED' - The requested operation has successfully completed.
 #!                 'FAILED' - The requested operation has unsuccessfully completed. Investigate using the error messages
 #!                 returned.
+#! @output stack_outputs: The optional Outputs section declares output values that you can import into other stacks (to
+#!                        create cross-stack references), return in response (to describe stack calls), or view on the
+#!                        AWS CloudFormation console. The Outputs section can include the following fields: Logical ID -
+#!                        An identifier for the current output. The logical ID must be alphanumeric (a-z, A-Z, 0-9) and
+#!                        unique within the template.Description(optional) - A String type that describes the output
+#!                        valueValue (required) - The value of the property returned by the aws cloudformation
+#!                        describe-stacks command. The value of an output can include literals, parameter references,
+#!                        pseudo-parameters, a mapping value, or intrinsic functions.Export (optional) - The name of the
+#!                        resource output to be exported for a cross-stack reference.
+#! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
+#!                          EC2 instance or an Amazon S3 bucket.The Resources section can include the following fields:
+#!                          Logical ID - The logical ID must be alphanumeric (A-Za-z0-9) and unique within the
+#!                          template.Resource type - The resource type identifies the type of resource that you are
+#!                          declaring.Resource properties - Resource properties are additional options that you can
+#!                          specify for a resource.
 #!
 #! @result SUCCESS: The specified product was successfully update.
 #! @result FAILURE: An error has occured while trying to update the specified product.
@@ -152,7 +171,14 @@ operation:
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
-        private: true 
+        private: true
+    - polling_interval:
+        default: '1000'
+        required: false
+    - pollingInterval:
+        default: ${get('polling_interval', '')}
+        required: false
+        private: true
     - async:  
         required: false  
     - region:  
@@ -169,11 +195,9 @@ operation:
         default: ${get('path_id', '')}  
         required: false 
         private: true 
-    - product_id:  
-        required: false  
+    - product_id
     - productId: 
-        default: ${get('product_id', '')}  
-        required: false 
+        default: ${get('product_id', '')}
         private: true 
     - provisioned_product_id:  
         required: false  
@@ -187,11 +211,9 @@ operation:
         default: ${get('provisioned_product_name', '')}  
         required: false 
         private: true 
-    - provisioning_artifact_id:  
-        required: false  
+    - provisioning_artifact_id
     - provisioningArtifactId: 
-        default: ${get('provisioning_artifact_id', '')}  
-        required: false 
+        default: ${get('provisioning_artifact_id', '')}
         private: true 
     - provisioning_parameters:  
         required: false  
@@ -215,7 +237,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.24'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.27'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UpdateProvisionedProduct'
     method_name: 'execute'
   
@@ -235,7 +257,9 @@ operation:
     - record_type: ${get('recordType', '')} 
     - record_errors: ${get('recordErrors', '')} 
     - record_tags: ${get('recordTags', '')} 
-    - status: ${get('status', '')} 
+    - status: ${get('status', '')}
+    - stack_outputs: ${get('stackOutputs', '')}
+    - stack_resources: ${get('stackResources', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

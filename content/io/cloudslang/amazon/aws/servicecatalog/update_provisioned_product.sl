@@ -26,6 +26,7 @@
 #!                         giving up and timing out.
 #! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
 #!                           API call. A value of '0' disables this feature.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
 #! @input async: Whether to run the operation is async mode.
 #! @input region: String that contains the Amazon AWS region name.
 #! @input accepted_language: The language code.
@@ -69,6 +70,21 @@
 #!                 'SUCCEEDED' - The requested operation has successfully completed.
 #!                 'FAILED' - The requested operation has unsuccessfully completed. Investigate using the error messages
 #!                 returned.
+#! @output stack_outputs: The optional Outputs section declares output values that you can import into other stacks (to
+#!                        create cross-stack references), return in response (to describe stack calls), or view on the
+#!                        AWS CloudFormation console. The Outputs section can include the following fields: Logical ID -
+#!                        An identifier for the current output. The logical ID must be alphanumeric (a-z, A-Z, 0-9) and
+#!                        unique within the template.Description(optional) - A String type that describes the output
+#!                        valueValue (required) - The value of the property returned by the aws cloudformation
+#!                        describe-stacks command. The value of an output can include literals, parameter references,
+#!                        pseudo-parameters, a mapping value, or intrinsic functions.Export (optional) - The name of the
+#!                        resource output to be exported for a cross-stack reference.
+#! @output stack_resources: The key name of the AWS Resources that you want to include in the stack, such as an Amazon
+#!                          EC2 instance or an Amazon S3 bucket.The Resources section can include the following fields:
+#!                          Logical ID - The logical ID must be alphanumeric (A-Za-z0-9) and unique within the
+#!                          template.Resource type - The resource type identifies the type of resource that you are
+#!                          declaring.Resource properties - Resource properties are additional options that you can
+#!                          specify for a resource.
 #!
 #! @result SUCCESS: The specified product was successfully update.
 #! @result FAILURE: An error has occured while trying to update the specified product.
@@ -95,6 +111,9 @@ flow:
       required: false
   - execution_timeout:
       required: false
+  - polling_interval:
+      required: false
+      default: '1000'
   - async:
       required: false
   - region:
@@ -103,14 +122,12 @@ flow:
       required: false
   - path_id:
       required: false
-  - product_id:
-      required: false
+  - product_id
   - provisioned_product_id:
       required: false
   - provisioned_product_name:
       required: false
-  - provisioning_artifact_id:
-      required: false
+  - provisioning_artifact_id
   - provisioning_parameters:
       required: false
   - use_previous_value:
@@ -134,6 +151,7 @@ flow:
                 sensitive: true
             - connect_timeout
             - execution_timeout
+            - polling_interval
             - async
             - region
             - accepted_language
@@ -164,6 +182,8 @@ flow:
           - record_errors
           - record_tags
           - status
+          - stack_outputs
+          - stack_resources
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
@@ -184,6 +204,8 @@ flow:
     - record_errors
     - record_tags
     - status
+    - stack_outputs
+    - stack_resources
   results:
     - SUCCESS
     - FAILURE
