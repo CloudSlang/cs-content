@@ -197,6 +197,7 @@ flow:
     - stack_name: '${stack_name}'
     - stack_outputs: '${stack_outputs}'
     - stack_resources: '${stack_resources}'
+    - amazon_resource_name: '${stack_id}'
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - exception: '${exception}'
