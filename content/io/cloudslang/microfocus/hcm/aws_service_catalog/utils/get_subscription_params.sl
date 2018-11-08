@@ -106,7 +106,8 @@ operation:
     - username:  
         required: false  
     - password:  
-        required: false  
+        required: false
+        sensitive: true
     - proxy_host:  
         required: false  
     - proxyHost: 
