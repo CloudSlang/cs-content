@@ -200,8 +200,7 @@ operation:
         default: ${get('query_params', '')}  
         required: false 
         private: true 
-    - encr:
-        sensitive: true
+
   java_action: 
     gav: 'io.cloudslang.content:cs-microfocus-hcm:1.0.0'
     class_name: 'io.cloudslang.content.hcm.actions.utils.GetSubscriptionParamsAction'
@@ -211,7 +210,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - param_list: ${param_list + encrypt}
+    - param_list: ${get('paramList', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
