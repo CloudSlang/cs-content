@@ -81,7 +81,7 @@
 #! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
 #! @output return_result: 
 #! @output exception: In case of failure, the error message, otherwise empty.
-#! @output final_list: The final list which is composed of all properties name and their values 
+#! @output param_list: The final list which is composed of all properties name and their values
 #!
 #! @result SUCCESS: Generated description.
 #! @result FAILURE: Generated description.
