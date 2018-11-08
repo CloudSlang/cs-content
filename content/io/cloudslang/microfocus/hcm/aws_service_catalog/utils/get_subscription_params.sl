@@ -1,7 +1,7 @@
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve a list of all properties that contain in the property name the
-#!               string "param_" and all the values associated with the selected items
+#! @description: This operation is used to retrieve a list of properties from a subscription used in brokering 
+#!               capability in HCM.
 #!
 #! @input url: The web address to make the request to.
 #! @input auth_type: The type of authentication used by this operation when trying toexecute the request on the target
@@ -14,16 +14,14 @@
 #!                   values: Basic, digest, ntlm, kerberos, any, anonymous, or a list of valid values separated by
 #!                   comma.Example: Basic,digest
 #!                   Optional
-#! @input username: The user name used for authentication. For NTLM authentication, the required format is
-#!                  "domain\user". If you only specify the user, a period is added in the format ".\user" so that a
-#!                  local user on the target machine can be used. The username is required for all authentication
-#!                  schemes except Kerberos.
+#! @input username: The user name used for authentication.
 #!                  Optional
 #! @input password: The password used for authentication.
 #!                  Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1 and integer values greater than 0.
+#! @input proxy_port: The proxy server port. Default value: 8080.
+#!                    Valid values: -1 and integer values greater than 0.
 #!                    The value '-1' indicates that the proxy port is not set and the protocol default port will be
 #!                    used. If the protocol is 'http' and the 'proxyPort' is set to '-1' then port '80' will be used.
 #!                    Optional
