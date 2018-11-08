@@ -210,7 +210,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - final_list: ${get('finalList', '')} 
+    - param_list: ${get('paramList', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

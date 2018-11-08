@@ -148,7 +148,7 @@ flow:
         publish:
           - user_id
           - error_message
-          - retrun_result
+          - return_result
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: get_subscription_params
@@ -185,7 +185,7 @@ flow:
         publish:
         - return_code
         - exception
-        - final_list
+        - param_list
         - return_result
         navigate:
         - SUCCESS: SUCCESS
@@ -194,7 +194,7 @@ flow:
   - return_result: '${return_result}'
   - return_code: '${return_code}'
   - error_message: '${error_message}'
-  - final_list: '${final_list}'
+  - param_list: '${param_list}'
   results:
   - SUCCESS
   - FAILURE
