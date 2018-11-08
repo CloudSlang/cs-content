@@ -88,7 +88,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hcm.utils
+namespace: io.cloudslang.microfocus.hcm.aws_service_catalog.utils
 
 operation: 
   name: get_subscription_params
