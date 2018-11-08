@@ -137,7 +137,7 @@ flow:
             - use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.use_cookies')}
             - keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.keep_alive')}
         publish:
-          - parameters_list: '${return_result}'
+          - parameters_list: '${param_list}'
         navigate:
           - SUCCESS: update_product
           - FAILURE: FAILURE

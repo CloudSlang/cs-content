@@ -51,6 +51,7 @@
 #! @output return_result: The list of provisioning parameters.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output error_message: Return_result when the return_code is non-zero (e.g. network or other failure).
+#! @output param_list: The final list which is composed of all properties name and their values
 #!
 #! @result SUCCESS: Operation succeeded. The list of provisioning parameters was retrieved.
 #! @result FAILURE: Operation failed. The list of provisioning parameters was not retrieved.
@@ -148,269 +149,82 @@ flow:
         publish:
           - user_id
           - error_message
-          - retrun_result
-        navigate:
-          - FAILURE: FAILURE
-          - SUCCESS: request_csa_subscription
-    - validate_parameter:
-        do:
-          io.cloudslang.base.strings.string_occurrence_counter:
-            - string_in_which_to_search: '${current_prop}'
-            - string_to_find: param_
-        publish:
-          - occurence_count: '${return_result}'
-        navigate:
-          - SUCCESS: remove_param_from_name
-          - FAILURE: iterate_properties_list
-    - request_csa_subscription:
-        do:
-          io.cloudslang.base.http.http_client_action:
-            - url: "${csa_rest_uri + '/artifact/' + csa_subscription_id}"
-            - auth_type: '${auth_type}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - use_cookies: '${use_cookies}'
-            - keep_alive: '${keep_alive}'
-            - query_params: "${'userIdentifier=' + user_id + '&view=propertyvalue'}"
-            - method: get
-        publish:
           - return_result
-          - error_message
-          - return_code
-          - xml_response: '${return_result}'
         navigate:
-          - SUCCESS: get_property_name
           - FAILURE: FAILURE
-    - get_property_name:
+          - SUCCESS: get_subscription_params
+    - get_subscription_params:
         do:
-          io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${xml_response}'
-            - xpath_query: '//options/property/*[ name()="name"]/text()'
-            - delimiter: '${delimiter}'
+          io.cloudslang.microfocus.hcm.aws_service_catalog.utils.get_subscription_params:
+          - url: "${csa_rest_uri + '/artifact/' + csa_subscription_id}"
+          - auth_type: '${auth_type}'
+          - username: '${username}'
+          - password:
+              value: '${password}'
+              sensitive: true
+          - proxy_host: '${proxy_host}'
+          - proxy_port: '${proxy_port}'
+          - proxy_username: '${proxy_username}'
+          - proxy_password:
+              value: '${proxy_password}'
+              sensitive: true
+          - trust_all_roots: '${trust_all_roots}'
+          - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+          - trust_keystore: '${trust_keystore}'
+          - trust_password:
+              value: '${trust_password}'
+              sensitive: true
+          - keystore: '${keystore}'
+          - keystore_password:
+              value: '${keystore_password}'
+              sensitive: true
+          - connect_timeout: '${connect_timeout}'
+          - socket_timeout: '${socket_timeout}'
+          - use_cookies: '${use_cookies}'
+          - keep_alive: '${keep_alive}'
+          - query_params: "${'userIdentifier=' + user_id + '&view=propertyvalue'}"
         publish:
-          - selected_keys: '${selected_value}'
+        - return_code
+        - exception
+        - param_list
+        - return_result
         navigate:
-          - SUCCESS: get_property_value
-          - FAILURE: FAILURE
-    - get_property_value:
-        do:
-          io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${xml_response}'
-            - xpath_query: '//options/property/values/*[name()="value" ]/text()'
-            - delimiter: '${delimiter}'
-        publish:
-          - selected_values: '${selected_value}'
-        navigate:
-          - SUCCESS: build_properties_list
-          - FAILURE: FAILURE
-    - build_properties_list:
-        do:
-          io.cloudslang.microfocus.hcm.aws_service_catalog.utils.build_properties_list:
-            - list1: '${selected_keys}'
-            - list2: '${selected_values}'
-            - final_list: ' '
-            - delimiter: '${delimiter}'
-            - blank_list: ' '
-        publish:
-          - properties_list
-          - list_props: '${blank_list}'
-        navigate:
-          - SUCCESS: iterate_properties_list
-          - FAILURE: FAILURE
-    - iterate_properties_list:
-        do:
-          io.cloudslang.base.lists.list_iterator:
-            - list: '${properties_list}'
-            - separator: '${delimiter}'
-        publish:
-          - current_prop: '${result_string}'
-        navigate:
-          - HAS_MORE: validate_parameter
-          - NO_MORE: get_parameters_list_length
-          - FAILURE: FAILURE
-    - remove_param_from_name:
-        do:
-          io.cloudslang.base.strings.regex_replace:
-            - regex: param_
-            - text: '${current_prop}'
-            - replacement: ''
-        publish:
-          - result_text
-        navigate:
-          - SUCCESS: add_element_to_paramters_list
-    - add_element_to_paramters_list:
-        do:
-          io.cloudslang.base.lists.add_element:
-            - list: '${list_props}'
-            - element: '${result_text}'
-            - delimiter: '${delimiter}'
-        publish:
-          - list_props: '${return_result}'
-        navigate:
-          - SUCCESS: iterate_properties_list
-          - FAILURE: FAILURE
-    - remove_first_element_from_parameters_list:
-        do:
-          io.cloudslang.base.lists.remove_by_index:
-            - list: '${list_props}'
-            - element: '0'
-            - delimiter: '${delimiter}'
-        publish:
-          - list_props: '${return_result}'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
-    - get_parameters_list_length:
-        do:
-          io.cloudslang.base.lists.length:
-            - list: '${list_props}'
-            - delimiter: '${delimiter}'
-        publish:
-          - list_length: '${return_result}'
-        navigate:
-          - SUCCESS: check_if_parameters_list_has_elements
-          - FAILURE: FAILURE
-    - check_if_parameters_list_has_elements:
-        do:
-          io.cloudslang.base.math.compare_numbers:
-            - value1: '${list_length}'
-            - value2: '0'
-        navigate:
-          - GREATER_THAN: remove_first_element_from_parameters_list
-          - EQUALS: SUCCESS
-          - LESS_THAN: SUCCESS
+        - SUCCESS: SUCCESS
+        - FAILURE: FAILURE
   outputs:
-    - return_result: '${list_props}'
-    - return_code: '${return_code}'
-    - error_message: '${error_message}'
+  - return_result: '${return_result}'
+  - return_code: '${return_code}'
+  - error_message: '${error_message}'
+  - param_list: '${param_list}'
   results:
-    - SUCCESS
-    - FAILURE
+  - SUCCESS
+  - FAILURE
 extensions:
   graph:
     steps:
-      validate_parameter:
-        x: 891
-        y: 275
-      add_element_to_paramters_list:
-        x: 696
-        y: 281
-        navigate:
-          6131add5-e45a-4f16-3385-ffa8573e516c:
-            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
-            port: FAILURE
-      iterate_properties_list:
-        x: 889
-        y: 75
-        navigate:
-          e2839190-549d-2fd5-982c-53e74ff8056d:
-            vertices:
-              - x: 930
-                y: 215
-            targetId: string_occurrence_counter
-            port: HAS_MORE
-          02ce77f4-0b58-cd03-801e-0fe77c0ce159:
-            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
-            port: FAILURE
       get_csa_user_identifier:
-        x: 8
+        x: 7
         y: 71
         navigate:
           628ce993-2555-f3b5-40a0-8cf8821c193f:
             targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
             port: FAILURE
-      remove_first_element_from_parameters_list:
-        x: 1260
-        y: 255
+      get_subscription_params:
+        x: 453
+        y: 84
         navigate:
-          755734b1-8bea-b2f5-622b-e5cb5471452a:
+          af158969-7381-df0d-45a7-7ee4a49e7882:
             targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
             port: SUCCESS
-      get_property_name:
-        x: 349
-        y: 72
-        navigate:
-          740edb64-7828-a4ca-91e4-48e4f1ec3aa0:
+          55a81b41-62c6-b837-c2ad-0f9f8494daf3:
             targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
-            port: FAILURE
-      get_property_value:
-        x: 518
-        y: 71
-        navigate:
-          b2625d4c-440c-a65e-e000-02494595c596:
-            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
-            port: FAILURE
-      check_if_parameters_list_has_elements:
-        x: 1266
-        y: 74
-        navigate:
-          a0fca19d-bffe-7fe8-f0b1-658d3a08221b:
-            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
-            port: EQUALS
-            vertices:
-              - x: 1366
-                y: 130
-              - x: 1378
-                y: 128
-          f77bfb22-e860-f84a-9679-5887166752a1:
-            targetId: 2fd4062c-60d3-a971-922b-da5fdb5a3531
-            port: LESS_THAN
-      remove_param_from_name:
-        x: 879
-        y: 503
-      build_properties_list:
-        x: 704
-        y: 68
-        navigate:
-          ea0691e8-16d5-c8b5-cb6b-b400deacd2c3:
-            targetId: 4d495d15-0b35-9ed6-b3f2-5036fc1d34c6
-            port: FAILURE
-      request_csa_subscription:
-        x: 165
-        y: 72
-        navigate:
-          f28f44ce-3371-7169-2f03-ebf5d731b65c:
-            targetId: 6306f32e-ac8b-2a15-82b1-d36b3527f1df
-            port: FAILURE
-      get_parameters_list_length:
-        x: 1078
-        y: 69
-        navigate:
-          0191b7a2-9dee-16e4-1555-238bd029059f:
-            targetId: 799e4596-aca7-0bc1-65b8-bcb03a6e347f
             port: FAILURE
     results:
       SUCCESS:
         2fd4062c-60d3-a971-922b-da5fdb5a3531:
-          x: 1434
-          y: 80
+          x: 710
+          y: 75
       FAILURE:
         6306f32e-ac8b-2a15-82b1-d36b3527f1df:
           x: 159
           y: 286
-        799e4596-aca7-0bc1-65b8-bcb03a6e347f:
-          x: 1073
-          y: 244
-        4d495d15-0b35-9ed6-b3f2-5036fc1d34c6:
-          x: 514
-          y: 287
