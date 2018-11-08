@@ -51,6 +51,7 @@
 #! @output return_result: The list of provisioning parameters.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output error_message: Return_result when the return_code is non-zero (e.g. network or other failure).
+#! @output param_list: The final list which is composed of all properties name and their values
 #!
 #! @result SUCCESS: Operation succeeded. The list of provisioning parameters was retrieved.
 #! @result FAILURE: Operation failed. The list of provisioning parameters was not retrieved.
@@ -154,7 +155,7 @@ flow:
           - SUCCESS: get_subscription_params
     - get_subscription_params:
         do:
-          io.cloudslang.hcm.utils.get_subscription_params:
+          io.cloudslang.microfocus.hcm.aws_service_catalog.utils.get_subscription_params:
           - url: "${csa_rest_uri + '/artifact/' + csa_subscription_id}"
           - auth_type: '${auth_type}'
           - username: '${username}'
