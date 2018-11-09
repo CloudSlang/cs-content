@@ -37,7 +37,7 @@ operation:
     - value1
     - value2
     - input11:
-        default: ' '
+        default: '0'
         sensitive: true
 
   python_action:
