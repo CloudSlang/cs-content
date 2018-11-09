@@ -17,9 +17,11 @@
 #!
 #! @input value1: First value as number or string.
 #! @input value2: Second value as number or string.
+#! @input input11: Second value as number or string.
 #!
 #! @output result: Operation result or reason for failure.
 #! @output return_code: Operation return code ('0' or '-1').
+#! @output test_result: Operation return code ('0' or '-1').
 #!
 #! @result SUCCESS: The operation completed successfully.
 #! @result FAILURE: The operation failed.
@@ -34,6 +36,9 @@ operation:
   inputs:
     - value1
     - value2
+    - input11:
+        default: ''
+        sensitive: true
 
   python_action:
     script: |
@@ -54,6 +59,7 @@ operation:
   outputs:
      - result
      - return_code
+     - test_result: '${result + input11}'
 
   results:
     - SUCCESS: ${return_code == '0'}
