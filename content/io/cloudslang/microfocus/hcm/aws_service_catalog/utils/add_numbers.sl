@@ -37,6 +37,7 @@ operation:
     - value1
     - value2
     - input11:
+        required: false
         default: '0'
         sensitive: true
 
