@@ -57,9 +57,8 @@ operation:
      - result
      - return_code
      - test_result: '${result + input11}'
-     - test11:
-         value: '${result}'
-         sensitive: true
+     - test11: '${result}'
+
   results:
     - SUCCESS: ${return_code == '0'}
     - FAILURE
