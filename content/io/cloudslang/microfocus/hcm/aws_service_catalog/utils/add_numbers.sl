@@ -57,9 +57,7 @@ operation:
      - result
      - return_code
      - test_result: '${result + input11}'
-     - test11:
-         value: ${get('result', '')}
-         sensitive: true
+     - test11: ${get('result', '')}
 
   results:
     - SUCCESS: ${return_code == '0'}
