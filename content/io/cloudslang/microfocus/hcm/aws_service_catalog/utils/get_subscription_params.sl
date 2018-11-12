@@ -207,9 +207,11 @@ operation:
   outputs: 
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - param_list: ${get('paramList', '')}
-  
-  results: 
+    - exception: ${get('exception', '')}
+    - param_list:
+         value: ${get('paramList', '')}
+         sensitive: true
+
+  results:
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
