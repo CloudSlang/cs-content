@@ -36,6 +36,10 @@ operation:
   inputs:
     - value1
     - value2
+    - input11:
+        required: false
+        default: ''
+        sensitive: true
 
   python_action:
     script: |
@@ -57,7 +61,9 @@ operation:
      - result
      - return_code
      - test_result: '${result + input11}'
-     - test11: '${result}'
+     - teadjsfgsldjkr11:
+         value: '${result}'
+         sensitive: true
 
   results:
     - SUCCESS: ${return_code == '0'}
