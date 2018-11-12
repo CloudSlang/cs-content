@@ -16,6 +16,7 @@
 #!                   Optional
 #! @input username: The user name used for authentication.
 #!                  Optional
+#! @input input_sec: Used for marking the output as sensitive
 #! @input password: The password used for authentication.
 #!                  Optional
 #! @input proxy_host: The proxy server used to access the web site.
