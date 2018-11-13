@@ -16,6 +16,7 @@
 #!                   Optional
 #! @input username: The user name used for authentication.
 #!                  Optional
+#! @input input_sec: Used for marking the output as sensitive
 #! @input password: The password used for authentication.
 #!                  Optional
 #! @input proxy_host: The proxy server used to access the web site.
@@ -198,7 +199,11 @@ operation:
         default: ${get('query_params', '')}  
         required: false 
         private: true 
-
+    - input_sec:
+        default: ''
+        required: false
+        sensitive: true
+        private: true
   java_action: 
     gav: 'io.cloudslang.content:cs-microfocus-hcm:1.0.0'
     class_name: 'io.cloudslang.content.hcm.actions.utils.GetSubscriptionParamsAction'
@@ -208,7 +213,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - param_list: ${get('paramList', '')}
+    - param_list: ${get('paramList', '') + input_sec}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
