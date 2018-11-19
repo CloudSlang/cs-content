@@ -18,7 +18,7 @@
 #!                         Default value: '10000'
 #! @input execution_timeout: Optional - Time in milliseconds to wait for the command to complete.
 #!                 Default: '90000'
-#! @input installation_file: Optional - the postgresql installation file or link - Default: 'https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm'
+#! @input installation_file: Optional - the postgresql installation file or link - Default: 'https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm'
 #! @input service_name: The service name
 #! @input service_account: The service account
 #! @input service_password: The service password
@@ -75,16 +75,16 @@ flow:
     - execution_timeout:
         default: '90000'
     - installation_file:
-        default: 'https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm'
+        default: 'https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm'
         required: false
     - service_account:
         default: 'postgres'
     - service_name:
-        default: 'postgresql-9.6'
+        default: 'postgresql-10'
     - service_password:
         default: 'postgres'
     - private_key_file:
-        default: '/Users/mhjkc/Downloads/mhike-oregon-key-01.pem'
+        required: false
 
   workflow:
     - derive_postgres_version:
@@ -94,6 +94,7 @@ flow:
         publish:
           - pkg_name
           - home_dir
+          - initdb_dir
         navigate:
           - SUCCESS: verify_if_postgres_is_running
 
@@ -223,6 +224,15 @@ flow:
           - command_return_code
         navigate:
           - SUCCESS: install_server_packages
+          - FAILURE: check_rpm_install_error
+
+    - check_rpm_install_error:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${standard_err}
+            - string_to_find: 'Nothing to do'
+        navigate:
+          - SUCCESS: install_server_packages
           - FAILURE: POSTGRES_INSTALL_RPM_REPO_FAILURE
 
     - install_server_packages:
@@ -264,7 +274,7 @@ flow:
             - timeout: ${execution_timeout}
             - connect_timeout: ${connection_timeout}
             - command: >
-                ${'sudo /usr/' + home_dir + '/bin/' + service_name + '-setup initdb'}
+                ${'sudo rm -fR ' + initdb_dir + '/data && sudo /usr/' + home_dir + '/bin/' + service_name + '-setup initdb'}
         publish:
           - return_result
           - standard_err
@@ -317,7 +327,7 @@ flow:
             - string_in_which_to_search: ${standard_out}
             - string_to_find: 'Started'
         publish:
-          - return_result
+          - return_result: 'The PostgreSQL server was successfully installed'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: POSTGRES_START_FAILURE
