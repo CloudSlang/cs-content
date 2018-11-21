@@ -5,24 +5,36 @@
 #!
 #! @prerequisites: Java package
 #!
-#! @input hostname: hostname or IP address
-#! @input username: username
+#! @input hostname: Hostname or IP address of the target machine
+#! @input username: Username used to connect to the target machine
 #! @input password: The root or priviledged account password
-#! @input proxy_host: Optional - The proxy server used to access the remote machine.
-#! @input proxy_port: Optional - The proxy server port.
+#! @input proxy_host: The proxy server used to access the remote machine
+#!                    Optional
+#! @input proxy_port: The proxy server port
 #!                    Valid values: -1 and numbers greater than 0.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - The user name used when connecting to the proxy.
-#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
-#! @input connection_timeout: Optional - Time in milliseconds to wait for the connection to be made.
-#!                         Default value: '10000'
-#! @input execution_timeout: Optional - Time in milliseconds to wait for the command to complete.
-#!                 Default: '90000'
-#! @input installation_file: Optional - the postgresql installation file or link - Default: 'https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm'
+#!                    Optional
+#! @input proxy_username: The user name used when connecting to the proxy
+#!                        Optional
+#! @input proxy_password: The proxy server password associated with the proxy_username input value
+#!                        Optional 
+#! @input connection_timeout: Time in milliseconds to wait for the connection to be made
+#!                            Default value: '10000'
+#!                            Optional
+#! @input execution_timeout: Time in milliseconds to wait for the command to complete
+#!                           Default: '90000'
+#!                           Optional
+#! @input installation_file: The postgresql installation file or link
+#!                           Default: 'https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm'
 #! @input service_name: The service name
 #! @input service_account: The service account
+#!                         Default: 'postgres'
+#!                         Optional
 #! @input service_password: The service password
-#! @input private_key_file: Optional - the private key
+#!                          Default: 'postgres'
+#!                          Optional
+#! @input private_key_file: Absolute path to private key file
+#!                          Optional
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
