@@ -3,51 +3,75 @@
 #! @description: Performs several powershell commands in order to deploy install postgresql application on machines that are running
 #!               windows Server 2016
 #!
-#! @input hostname: hostname or IP address
-#! @input port: winrm port
-#! @input protocol: http or https
-#! @input username: username
+#! @input hostname: Hostname or IP address of the target machine
+#! @input username: Username used to connect to the target machine
 #! @input password: The root or priviledged account password
-#! @input proxy_host: Optional - The proxy server used to access the remote machine.
-#! @input proxy_port: Optional - The proxy server port.
+#! @input port: The WinRM service port
+#!              Default: '5985'
+#!              Optional
+#! @input protocol: The protocol used to connect to the WinRM service.
+#!                  Valid values: 'http' or 'https'.
+#!                  Optional
+#! @input proxy_host: The proxy server used to access the remote machine.
+#!                    Optional
+#! @input proxy_port: The proxy server port.
 #!                    Valid values: -1 and numbers greater than 0.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - The user name used when connecting to the proxy.
-#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
-#! @input connection_timeout: Optional - Time in milliseconds to wait for the connection to be made.
-#!                         Default value: '10000'
-#! @input execution_timeout: Optional - Time in milliseconds to wait for the command to complete.
-#!                 Default: '90000'
-#! @input installation_file: Optional - the postgresql installation file or link - Default: 'http://get.enterprisedb.com/postgresql/postgresql-10.6-1-windows-x64.exe'
-#! @input installation_location: Optional - the installation location - Default: 'C:\\Program Files\\PostgreSQL\\10.6'
-#! @input data_dir: Optional - the directory where database files will reside - Default: 'C:\\Program Files\\PostgreSQL\\10.6\\data'
-
-#! @input create_shortcuts: Optional: Flag to specify whether menu shortcuts should be created.
+#!                    Optional
+#! @input proxy_username: The user name used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: The proxy server password associated with the proxy_username input value.
+#!                        Optional
+#! @input connection_timeout: Time in milliseconds to wait for the connection to be made.
+#!                            Default value: '10000'
+#!                            Optional
+#! @input execution_timeout: Time in milliseconds to wait for the command to complete.
+#!                           Default: '90000'
+#!                           Optional
+#! @input installation_file: The postgresql installation file or link
+#!                           Default: 'http://get.enterprisedb.com/postgresql/postgresql-10.6-1-windows-x64.exe'
+#!                           Optional
+#! @input installation_location: The installation location in the target machine
+#!                               Default: 'C:\\Program Files\\PostgreSQL\\10.6'
+#!                               Optional
+#! @input data_dir: The directory where database data files will reside
+#!                  Default: 'C:\\Program Files\\PostgreSQL\\10.6\\data'
+#!                  Optional
+#! @input create_shortcuts: Flag to specify whether menu shortcuts should be created.
 #!                          Valid values: true or false
 #!                          Default: true
-#! @input debug_level: Optional: Level of detail written to the debug_log file (debug_trace).
+#!                          Optional
+#! @input debug_level: Level of detail written to the debug_log file (debug_trace).
 #!                     Valid values: 0 to 4
 #!                     Default: 2
-#! @input debug_trace: Optional: Log filename to troubleshoot installation problems.
+#!                     Optional
+#! @input debug_trace: Log filename to troubleshoot installation problems.
 #!                     Valid values: Filename with valid path.
-#! @input extract_only: Optional: Flag to indicate that the installer should extract the PostgreSQL binaries without performing an installation.
+#!                     Optional
+#! @input extract_only: Flag to indicate that the installer should extract the PostgreSQL binaries without performing an installation.
 #!                      Valid values: true or false
 #!                      Default: false
-#! @input installer_language: Optional: Installation language.
+#!                      Optional
+#! @input installer_language: Installation language.
 #!                            Valid values: en, es, fr
 #!                            Default: en
-#! @input install_runtimes: Optional: Flag to specify whether the installer should install the Microsoft Visual C++ runtime libraries.
+#!                            Optional
+#! @input install_runtimes: Flag to specify whether the installer should install the Microsoft Visual C++ runtime libraries.
 #!                          Valid values: true or false
 #!                          Default: true
-#! @input super_account: The user name of the database superuser.
-#!                       Default: postgres
-#! @input super_password: The database superuser password.
-
-#! @input server_port: The postgres db server port - Default: 5432
+#!                          Optional
+#! @input server_port: The postgres db server port
+#!                     Default: '5432'
+#!                     Optional
 #! @input service_name: The service name
+#!                      Default: 'postgresql'
 #! @input service_account: The service account
+#!                         Default: 'postgres'
 #! @input service_password: The service password
+#!                          Optional
 #! @input locale: The locale
+#!                Default: 'English, United States'
+#!                Optional
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
@@ -82,7 +106,6 @@ flow:
         default: 'Administrator'
         sensitive: true
     - password:
-        default: '9B-CIqRP@z&rzv2HP)k8bCi$oeo?86G5'
         required: false
         sensitive: true
     - proxy_host:
@@ -137,14 +160,101 @@ flow:
     - install_runtimes:
         default: 'true'
         required: false
-    - super_account:
-        default: ''
-        required: false
-    - super_password:
-        default: ''
-        required: false
 
   workflow:
+    - verify_if_postgres_is_installed:
+        do:
+          scripts.powershell_script:
+            - host: ${hostname}
+            - port
+            - protocol
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                ${'Get-Service'}
+        publish:
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: check_if_postgres_is_installed_result
+          - FAILURE: VERIFY_IF_POSTGRES_IS_INSTALLED_FAILURE
+
+    - check_if_postgres_is_installed_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: ${service_name}
+        navigate:
+          - SUCCESS: POSTGRES_ALREADY_INSTALLED
+          - FAILURE: verify_if_postgres_user_exists
+
+    - verify_if_postgres_user_exists:
+        do:
+          scripts.powershell_script:
+            - host: ${hostname}
+            - port
+            - protocol
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                ${'Get-LocalUser'}
+        publish:
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: check_if_postgres_user_exists_result
+          - FAILURE: VERIFY_IF_POSTGRES_USER_EXISTS_FAILURE
+
+    - check_if_postgres_user_exists_result:
+        do:
+          strings.string_occurrence_counter:
+            - string_in_which_to_search: ${return_result}
+            - string_to_find: ${service_account}
+        navigate:
+          - SUCCESS: remove_user
+          - FAILURE: download_installer_module
+
+    - remove_user:
+        do:
+          scripts.powershell_script:
+            - host: ${hostname}
+            - port
+            - protocol
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                ${'Remove-LocalUser -Name ' + service_account}
+        publish:
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: download_installer_module
+          - FAILURE: REMOVE_USER_FAILURE
+
     - download_installer_module:
         do:
           scripts.powershell_script:
@@ -184,7 +294,7 @@ flow:
             - proxy_password
             - operation_timeout: '600'
             - script: >
-                ${'Import-Module Install-Postgres; Install-Postgres -User \"' + service_account + '\" -Password \"' + service_password + '\" -InstallerUrl \"' + installation_file + '\" -InstallPath \"' + installation_location + '\" -DataPath \"' + data_dir + '\" -Locale \"' + locale + '\" -Port ' + server_port + ' -ServiceName \"' + service_name + '\" -CreateShortcuts ' + '1' if (create_shortcuts) else '0' + ' -DebugLevel \"' + debug_level + '\" -DebugTrace \"' + debug_trace + '\" -ExtractOnly ' + '1' if (extract_only) else '0' + ' -InstallerLanguage \"' + installer_language + '\" -InstallerRuntimes ' + '1' if (install_runtimes) else '0' + ' -SuperAccount \"' + super_account + '\" -SuperPassword \"' + super_password + '\"'}
+                ${'Import-Module Install-Postgres; Install-Postgres -User \"' + service_account + '\" -Password \"' + service_password + '\" -InstallerUrl \"' + installation_file + '\" -InstallPath \"' + installation_location + '\" -DataPath \"' + data_dir + '\" -Locale \"' + locale + '\" -Port ' + server_port + ' -ServiceName \"' + service_name + '\" -CreateShortcuts ' + '1' if (create_shortcuts) else '0' + ' -DebugLevel \"' + debug_level + '\" -DebugTrace \"' + debug_trace + '\" -ExtractOnly ' + '1' if (extract_only) else '0' + ' -InstallerLanguage \"' + installer_language + '\" -InstallerRuntimes ' + '1' if (install_runtimes) else '0'}
         publish:
           -  return_code
           -  return_result
@@ -220,5 +330,9 @@ flow:
 
   results:
     - SUCCESS
+    - POSTGRES_ALREADY_INSTALLED
+    - VERIFY_IF_POSTGRES_IS_INSTALLED_FAILURE
+    - VERIFY_IF_POSTGRES_USER_EXISTS_FAILURE
+    - REMOVE_USER_FAILURE
     - DOWNLOAD_INSTALLER_MODULE_FAILURE
     - POSTGRES_INSTALL_PACKAGE_FAILURE
