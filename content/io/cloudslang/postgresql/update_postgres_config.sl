@@ -1,5 +1,3 @@
-namespace: io.cloudslang.postgresql
-
 ########################################################################################################################
 #!!
 #! @description: The configuration modifies the postgresql.conf
@@ -26,6 +24,8 @@ namespace: io.cloudslang.postgresql
 #! @result FAILURE: There was an error modifying postgresql configuration
 #!!#
 ########################################################################################################################
+
+namespace: io.cloudslang.postgresql
 
 operation:
   name: update_postgres_config

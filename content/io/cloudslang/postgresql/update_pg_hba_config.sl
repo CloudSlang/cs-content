@@ -14,6 +14,7 @@
 #! @result FAILURE: There was an error modifying postgresql configuration
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.postgresql
 
 operation:

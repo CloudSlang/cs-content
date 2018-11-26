@@ -43,6 +43,7 @@
 #! @result FAILURE: There was an error
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.postgresql
 
 imports:
