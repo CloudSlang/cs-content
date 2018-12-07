@@ -1,0 +1,95 @@
+testOperatePostgresWithUnrecognizedOperatiOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - operation: 'unrecognized-operation'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run operate_postgres_on_linux.sl with an unrecognized operation name and finishes with FAILURE"
+  outputs:
+    - operation_exception: |-
+        pg_ctl: unrecognized operation mode "unrecognized-operation"
+        Try "pg_ctl --help" for more information.
+  result: SUCCESS
+
+testOperatePostgresWithOperationStopOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - operation: 'stop'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+     Tests that run operate_postgres_on_linux.sl with the operation 'stop' and finishes with SUCCESS.
+     Stopping db is background process.
+     PreRequest: db is running
+     Test: do the operation 'stop', do the operation 'status' and verify a result.
+     PostRequest: check the current status and if db is stopped then run the operation 'start'
+  outputs:
+    - operation_return_result: |-
+        pg_ctl: no server running
+  result: SUCCESS
+
+testOperatePostgresWithOperationRestartOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - operation: 'restart'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+     Tests that run operate_postgres_on_linux.sl with the operation 'restart' and finishes with SUCCESS.
+     Restarting db is background process.
+     PreRequest: db is running
+     Test: do the operation 'restart', do the operation 'status' and verify a result.
+     PostRequest: check the current status and if db is stopped then run the operation 'start'
+  outputs:
+    - is_proccess_id_changed: "True"
+  result: SUCCESS
+
+testOperatePostgresWithOperationReloadOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - operation: 'reload'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+     Tests that run operate_postgres_on_linux.sl with the operation 'reload' and finishes with SUCCESS.
+     Reloading db doesn't stop server, process id should be the same
+     PreRequest: db is running
+     Test: do the operation 'reload', do the operation 'status' and verify a result.
+     PostRequest: check the current status and if db is stopped then run the operation 'start'
+  outputs:
+    - is_proccess_id_changed: "False"
+  result: SUCCESS
+
+testOperatePostgresWithEnableOnBootOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - start_on_boot: 'true'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run operate_postgres_on_linux.sl with start_on_boot='true' and finishes with FAILURE"
+  outputs:
+    - service_status: "enabled"
+  result: SUCCESS
+
+testOperatePostgresWithDisableOnBootOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,operate-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_operate_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - start_on_boot: 'false'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run operate_postgres_on_linux.sl with start_on_boot='false' and finishes with FAILURE"
+  outputs:
+    - service_status: "disabled"
+  result: SUCCESS

@@ -1,0 +1,24 @@
+testCreateDbCommandWithDefaultParametersSuccess:
+  testSuites: [postgresql,postgresql-maintenance]
+  testFlowPath: io.cloudslang.postgresql.common.createdb_command
+  description: Tests building a command to create a database with default parameters
+  inputs:
+  outputs:
+    - psql_command: 'createdb'
+
+testCreateDbCommandWithCustomParametersSuccess:
+  testSuites: [postgresql,postgresql-maintenance]
+  testFlowPath: io.cloudslang.postgresql.common.createdb_command
+  description: Tests building a command to create a database with custom parameters
+  inputs:
+      - db_name: 'demo'
+      - db_description: '"my database"'
+      - db_owner: 'owner'
+      - db_tablespace: 'pg_default'
+      - db_encoding: 'UTF8'
+      - db_locale: 'en_US.utf8'
+      - db_template: 'template0'
+      - db_echo: 'true'
+      - db_username: 'postgres'
+  outputs:
+    - psql_command: 'createdb --tablespace="pg_default" --echo --encoding="UTF8" --locale="en_US.utf8" --owner=owner --template="template0" --username="postgres" --no-password demo "my database"'

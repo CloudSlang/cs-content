@@ -1,0 +1,101 @@
+testInstallPostgresWithDefaultSettingsOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+     Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name is 'postgresql-10' by default
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres10OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-10'
+    - service_password: 'postgres'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+     Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name must be 'postgresql-10'
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres96OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-9.6'
+    - service_password: 'postgres'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+      Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+       - service_name must be 'postgresql-9.6'
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.6.11
+  result: SUCCESS
+
+testInstallPostgres95OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-3.noarch.rpm'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-9.5'
+    - service_password: 'postgres'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+      Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+        - service_name must be 'postgresql-9.5'
+        - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.5.15
+  result: SUCCESS
+
+testInstallPostgresWithInvalidFileOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/invalid.rpm'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: >
+      Tests that run install_postgres_on_linux.sl to try installing postgres with invalid installation file and finishes with FAILURE.
+  outputs:
+      - install_exception: |-
+          Cannot open: https://download.postgresql.org/pub/repos/yum/invalid.rpm. Skipping.
+          Error: Nothing to do

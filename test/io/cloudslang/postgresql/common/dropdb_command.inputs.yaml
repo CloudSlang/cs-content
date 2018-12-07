@@ -1,0 +1,19 @@
+testDropDbCommandWithDefaultParametersSuccess:
+  testSuites: [postgresql,postgresql-maintenance]
+  testFlowPath: io.cloudslang.postgresql.common.dropdb_command
+  description: Tests building a command to drop a database
+  inputs:
+    - db_name: 'demo'
+  outputs:
+    - psql_command: 'dropdb demo'
+
+testDropDbCommandWithCustomParametersSuccess:
+  testSuites: [postgresql,postgresql-maintenance]
+  testFlowPath: io.cloudslang.postgresql.common.dropdb_command
+  description: Tests building a command to drop a database with custom parameters
+  inputs:
+    - db_name: 'demo'
+    - db_username: 'owner'
+    - db_echo: 'true'
+  outputs:
+    - psql_command: 'dropdb --echo --username="owner" --no-password demo'

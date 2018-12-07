@@ -1,0 +1,134 @@
+testCreateDbWithDefaultSettingsOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with default settings and finishes with SUCCESS"
+  outputs:
+    - db_settings: "cs_test|postgres|UTF8|en_US.UTF-8||f|pg_default"
+  result: SUCCESS
+
+testCreateDbWithCustomSettingsOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_name: 'cs_test_custom'
+    - db_description: 'cs\ test\ database'
+    - db_tablespace: 'pg_default'
+    - db_encoding: 'UTF8'
+    - db_locale: 'en_US.utf8'
+    - db_owner: 'postgres'
+    - db_template: 'template0'
+    - db_echo: 'true'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with custom settings and finishes with SUCCESS"
+  outputs:
+    - db_settings: "cs_test_custom|postgres|UTF8|en_US.utf8|cs test database|f|pg_default"
+  result: SUCCESS
+
+testCreateDbWithInvalidUsernameOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'invalid-username'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Test that run create_db_on_linux.sl with invalid username and finishes with Auth failure"
+  outputs:
+    -  return_result: 'com.jcraft.jsch.JSchException: Auth fail'
+  result: FAILURE
+
+testCreateDbWithInvalidInstallationLocationOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - installation_location: '/some/path'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with invalid installation_location and finishes with FAILURE"
+  outputs:
+    - exception: 'pg_ctl: directory "/some/path/data" does not exist'
+  result: FAILURE
+
+testCreateDbWithInvalidPgCtlLocationOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - pg_ctl_location: '/some/path'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with invalid pg_ctl_location and finishes with FAILURE"
+  outputs:
+    - exception: '-bash: /some/path/pg_ctl: No such file or directory'
+  result: FAILURE
+
+testCreateDbWithNonExsitingOwnerOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_owner: 'non-existing-db-owner'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with non-existing db_owner and finishes with FAILURE"
+  outputs:
+    - exception: 'createdb: database creation failed: ERROR:  role "non-existing-db-owner" does not exist'
+  result: FAILURE
+
+testCreateDbWithNonExsitingTemplateOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_template: 'non-existing-db-template'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with non-existing db_template and finishes with FAILURE"
+  outputs:
+    - exception: 'createdb: database creation failed: ERROR:  template database "non-existing-db-template" does not exist'
+  result: FAILURE
+
+testCreateDbWithNonExsitingTablespaceOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_tablespace: 'non-existing-db-tablespace'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with non-existing db_tablespace and finishes with FAILURE"
+  outputs:
+    - exception: 'createdb: database creation failed: ERROR:  tablespace "non-existing-db-tablespace" does not exist'
+  result: FAILURE
+
+testCreateDbWithInvalidLocaleOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_locale: 'invalid-locale'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with invalid locale and finishes with FAILURE"
+  outputs:
+    - exception: 'createdb: database creation failed: ERROR:  invalid locale name: "invalid-locale"'
+  result: FAILURE
+
+testCreateDbWithInvalidEncodingOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,createdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - username: 'ec2-user'
+    - db_encoding: 'invalid-encoding'
+    - private_key_file: './rhel-psql-aws.pem'
+  description: "Tests that run create_db_on_linux.sl to create a database with invalid encoding and finishes with FAILURE"
+  outputs:
+    - exception: 'createdb: "invalid-encoding" is not a valid encoding name'
+  result: FAILURE
