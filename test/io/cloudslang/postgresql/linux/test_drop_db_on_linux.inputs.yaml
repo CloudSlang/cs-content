@@ -2,10 +2,10 @@ testDropDbOnLinuxSuccess:
   testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_drop_db_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
+    - hostname: <hostname>
+    - username: <username>
     - db_name: 'cs_test'
-    - private_key_file: './rhel-psql-aws.pem'
+    - private_key_file: <my_file.pem>
   description: "Tests that run drop_db_on_linux.sl to drop a database and finishes with SUCCESS"
   result: SUCCESS
 
@@ -13,9 +13,9 @@ testDropDbWithInvalidUsernameOnLinuxFailure:
   testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
+    - hostname: <hostname>
     - username: 'invalid-username'
-    - private_key_file: './rhel-psql-aws.pem'
+    - private_key_file: <my_file.pem>
   description: "Test that run drop_db_on_linux.sl with invalid username and finishes with Auth failure"
   outputs:
     -  return_result: 'com.jcraft.jsch.JSchException: Auth fail'
@@ -25,10 +25,10 @@ testDropDbWithInvalidInstallationLocationOnLinuxFailure:
   testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
+    - hostname: <hostname>
+    - username: <username>
     - installation_location: '/some/path'
-    - private_key_file: './rhel-psql-aws.pem'
+    - private_key_file: <my_file.pem>
   description: "Tests that run drop_db_on_linux.sl to drop a database with invalid installation_location and finishes with FAILURE"
   outputs:
     - exception: 'pg_ctl: directory "/some/path/data" does not exist'
@@ -38,10 +38,10 @@ testDropDbWithInvalidPgCtlLocationOnLinuxFailure:
   testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
+    - hostname: <hostname>
+    - username: <username>
     - pg_ctl_location: '/some/path'
-    - private_key_file: './rhel-psql-aws.pem'
+    - private_key_file: <my_file.pem>
   description: "Tests that run drop_db_on_linux.sl to drop a database with invalid pg_ctl_location and finishes with FAILURE"
   outputs:
     - exception: '-bash: /some/path/pg_ctl: No such file or directory'

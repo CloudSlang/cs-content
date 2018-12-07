@@ -93,7 +93,7 @@ flow:
     - service_name:
         default: 'postgresql-10'
     - service_password:
-        default: 'postgres'
+        sensitive: true
     - private_key_file:
         required: false
   workflow:

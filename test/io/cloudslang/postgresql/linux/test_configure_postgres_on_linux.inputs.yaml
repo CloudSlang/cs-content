@@ -2,9 +2,9 @@ testConfigurePostgresConfigWithCommandLineParametersOnLinuxSuccess:
   testSuites: [postgresql,postgresql-linux,configure-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_configure_postgres_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
-    - private_key_file: './rhel-psql-aws.pem'
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
     - max_connections: '99'
     - listen_addresses: "'localhost'"
     - port: '5432'
@@ -41,10 +41,10 @@ testConfigurePostgresConfigWithLocalPostgressConfFileOnLinuxSuccess:
   testSuites: [postgresql,postgresql-linux,configure-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_configure_postgres_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
-    - private_key_file: './rhel-psql-aws.pem'
-    - configuration_file: "C:\\projects\\TopCoder\\CloudSlang-mhikeo\\cs-postgresql-int\\test\\io\\cloudslang\\postgresql\\postgresql.conf"
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
+    - configuration_file: <full_path_to_postgresql.conf>
     - reboot: 'yes'
   description: >
       Tests that run configure_postgres_on_linux.sl to update parameters from CLI and finishes with SUCCESS
@@ -70,10 +70,10 @@ testConfigurePgHbaConfigWithLocalPostgressConfFileOnLinuxSuccess:
   testSuites: [postgresql,postgresql-linux,configure-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_configure_postgres_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
-    - private_key_file: './rhel-psql-aws.pem'
-    - configuration_file: "C:\\projects\\TopCoder\\CloudSlang-mhikeo\\cs-postgresql-int\\test\\io\\cloudslang\\postgresql\\pg_hba.conf"
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
+    - configuration_file:  <full_path_to_pg_hba.conf>
   description: >
       Tests that run configure_postgres_on_linux.sl to update pg_hba.conf from CLI and finishes with SUCCESS
       Notes:
@@ -85,9 +85,9 @@ testConfigurePgHbaConfigWithCommandLineParametersOnLinuxSuccess:
   testSuites: [postgresql,postgresql-linux,configure-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_configure_postgres_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
-    - private_key_file: './rhel-psql-aws.pem'
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
     - allowed_users: 'all'
     - allowed_hosts: 'local'
   description: >
@@ -101,9 +101,9 @@ testConfigurePostgresWithNonExistinglocalConfigurationFileOnLinuxFailure:
   testSuites: [postgresql,postgresql-linux,configure-postgres-linux]
   testFlowPath: io.cloudslang.postgresql.linux.test_configure_postgres_on_linux
   inputs:
-    - hostname: 'ec2-107-21-171-41.compute-1.amazonaws.com'
-    - username: 'ec2-user'
-    - private_key_file: './rhel-psql-aws.pem'
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
     - configuration_file: "./some.conf"
     - reboot: 'yes'
   description: >
