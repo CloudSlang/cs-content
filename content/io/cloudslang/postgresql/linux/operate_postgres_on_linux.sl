@@ -109,6 +109,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -150,6 +151,7 @@ flow:
             - pg_ctl_location
             - hostname
             - username
+            - password
             - proxy_host
             - proxy_port
             - proxy_username
@@ -193,6 +195,7 @@ flow:
            - host: ${hostname}
            - port: '22'
            - username
+           - password
            - private_key_file
            - proxy_host
            - proxy_port
@@ -216,6 +219,7 @@ flow:
            - host: ${hostname}
            - port: '22'
            - username
+           - password
            - private_key_file
            - proxy_host
            - proxy_port

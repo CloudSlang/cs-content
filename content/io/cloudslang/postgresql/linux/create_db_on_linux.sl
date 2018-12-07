@@ -114,12 +114,12 @@ flow:
   workflow:
       - check_postgress_is_running:
           do:
-             postgres.linux.utils.run_pg_ctl_command:
-                - operation: 'status'
+             postgres.linux.utils.check_postgres_is_up:
                 - installation_location
                 - pg_ctl_location
                 - hostname
                 - username
+                - password
                 - proxy_host
                 - proxy_port
                 - proxy_username
@@ -129,10 +129,12 @@ flow:
                 - private_key_file
           publish:
               - return_result
-              - error_message
               - exception
               - return_code
               - standard_err
+          navigate:
+            - SUCCESS: build_createdb_command
+            - FAILURE: FAILURE
       - build_createdb_command:
          do:
             postgres.common.createdb_command:
@@ -179,8 +181,7 @@ flow:
 
   outputs:
     - return_result
-    - exception
-    - psql_command
+    - exception: ${get('exception','').strip()}
     - return_code :  ${"0" if exception == '' else "-1"}
   results:
     - SUCCESS

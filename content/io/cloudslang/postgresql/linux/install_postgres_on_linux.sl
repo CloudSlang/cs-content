@@ -94,7 +94,8 @@ flow:
     - service_name:
         default: 'postgresql-10'
     - service_password:
-        default: 'postgres'
+        required: true
+        sensitive: true
     - private_key_file:
         required: false
 
@@ -107,6 +108,7 @@ flow:
           - pkg_name
           - home_dir
           - initdb_dir
+          - setup_file
         navigate:
           - SUCCESS: verify_if_postgres_is_running
 
@@ -116,6 +118,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -151,6 +154,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -185,6 +189,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -219,6 +224,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -234,6 +240,7 @@ flow:
           - standard_out
           - return_code
           - command_return_code
+          - exception: ${standard_err}
         navigate:
           - SUCCESS: install_server_packages
           - FAILURE: check_rpm_install_error
@@ -253,6 +260,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -278,6 +286,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port
@@ -286,7 +295,7 @@ flow:
             - timeout: ${execution_timeout}
             - connect_timeout: ${connection_timeout}
             - command: >
-                ${'sudo rm -fR ' + initdb_dir + '/data && sudo /usr/' + home_dir + '/bin/' + service_name + '-setup initdb'}
+                ${'sudo rm -fR ' + initdb_dir + '/data && sudo /usr/' + home_dir + '/bin/' + setup_file + ' initdb'}
         publish:
           - return_result
           - standard_err
@@ -314,6 +323,7 @@ flow:
             - host: ${hostname}
             - port: '22'
             - username
+            - password
             - private_key_file
             - proxy_host
             - proxy_port

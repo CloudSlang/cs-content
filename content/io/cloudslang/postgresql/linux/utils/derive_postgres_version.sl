@@ -5,7 +5,9 @@
 #! @input service_name: The service name.
 #!
 #! @output pkg_name: The package name.
-#! @output home_dir: The hom directory.
+#! @output home_dir: The home directory.
+#! @output initdb_dir: The initdb_dir directory.
+#! @output setup_file: The setup_file.
 #!
 #! @result SUCCESS: String is found at least once.
 #! @result FAILURE: Otherwise.
@@ -28,19 +30,21 @@ operation:
         pkg_name = 'postgresql10'
         home_dir = 'pgsql-10'
         initdb_dir = '/var/lib/pgsql/10'
-      elif service_name == 'postgresql-95':
+        setup_file = 'postgresql-10-setup'
+      elif service_name == 'postgresql-9.5':
         pkg_name = 'postgresql95'
         home_dir = 'pgsql-9.5'
         initdb_dir = '/var/lib/pgsql/9.5'
+        setup_file = 'postgresql95-setup '
       else:
         pkg_name = 'postgresql96'
         home_dir = 'pgsql-9.6'
         initdb_dir = '/var/lib/pgsql/9.6'
-
+        setup_file = 'postgresql96-setup'
   outputs:
     - pkg_name
     - home_dir
     - initdb_dir
-
+    - setup_file
   results:
     - SUCCESS: true

@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Performs several linux commands in order to deploy install postgresql application on machines that are running
+#! @description: Performs several linux commands in order to do a complete setup of postgresql on machines that are running
 #!               Red Hat based linux
 #!
 #! @prerequisites: Java package
@@ -40,14 +40,8 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #!
-#! @result SUCCESS: Postgresql install and/or startup was successful
-#! @result POSTGRES_PROCESS_CHECK_FAILURE: There was an error checking postgresql process
-#! @result POSTGRES_VERIFY_INSTALL_FAILURE: error verifying installation
-#! @result POSTGRES_VERIFY_RPM_FAILURE: error verifying existence of postgresql rpm installer
-#! @result POSTGRES_INSTALL_RPM_REPO_FAILURE: error installation postgresql rpm repo
-#! @result POSTGRES_INSTALL_PACKAGE_FAILURE: error installing postgresql package
-#! @result POSTGRES_INIT_DB_FAILURE: error initializing db
-#! @result POSTGRES_START_FAILURE: error starting postgresql
+#! @result SUCCESS: Postgresql setup was successful
+#! @result FAILURE: Postgresql setup was failed
 #!!#
 ########################################################################################################################
 
@@ -66,6 +60,7 @@ flow:
     - username:
         sensitive: true
     - password:
+        default: ''
         required: false
         sensitive: true
     - proxy_host:
@@ -87,7 +82,8 @@ flow:
     - service_name:
         default: 'postgresql-10'
     - service_password:
-        default: 'postgres'
+        required: true
+        sensitive: true
     - private_key_file:
         required: false
 

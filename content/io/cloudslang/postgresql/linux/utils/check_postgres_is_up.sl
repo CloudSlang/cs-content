@@ -1,7 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Drop a postgresql database on machines that are running
-#!               Red Hat based linux
+#! @description: Check a postgresql database is up
 #!
 #! @input hostname: Hostname or IP address of the target machine
 #! @input username: Username used to connect to the target machine
@@ -24,12 +23,8 @@
 #!                           Optional
 #! @input installation_location: The postgresql installation location
 #!                           Default: '/var/lib/pgsql/10'
-#! @input pg_ctl_location: Path of the pg_ctl binay
+#! @input pg_ctl_location: Path of the pg_ctl binary
 #!                         Default: '/usr/pgsql-10/bin'
-#! @input db_name: Specifies the name of the database to be dropped
-#! @input db_echo: Echo the commands that dropdb generates and sends to the server
-#!              Valid values: 'true', 'false'
-#!              Default value: 'true'
 #! @input private_key_file: Absolute path to private key file
 #!                          Optional
 #!
@@ -41,18 +36,18 @@
 #! @result FAILURE: error
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.postgresql.linux
+
+namespace: io.cloudslang.postgresql.linux.utils
 
 imports:
   base: io.cloudslang.base.cmd
   ssh: io.cloudslang.base.ssh
   strings: io.cloudslang.base.strings
-  utils: io.cloudslang.base.utils
   postgres: io.cloudslang.postgresql
-  print: io.cloudslang.base.print
+  utils: io.cloudslang.base.utils
 
 flow:
-  name: drop_db_on_linux
+  name: check_postgres_is_up
 
   inputs:
     - hostname:
@@ -76,82 +71,48 @@ flow:
     - execution_timeout:
         default: '90000'
     - installation_location:
-        default: '/var/lib/pgsql/10'
-    - pg_ctl_location:
-        default: '/usr/pgsql-10/bin'
-    - db_name:
         required: true
-    - db_echo:
-        default: 'true'
+    - pg_ctl_location:
+        required: true
     - private_key_file:
         required: false
   workflow:
-    - check_postgress_is_running:
-        do:
-           postgres.linux.utils.check_postgres_is_up:
-              - installation_location
-              - pg_ctl_location
-              - hostname
-              - username
-              - password
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password
-              - connection_timeout
-              - execution_timeout
-              - private_key_file
-        publish:
-            - return_result
-            - exception
-            - return_code
-            - standard_err
-        navigate:
-          - SUCCESS: build_dropdb_command
-          - FAILURE: FAILURE
-
-    - build_dropdb_command:
-        do:
-           postgres.common.dropdb_command:
-              - db_name
-              - db_echo
-              - db_username: 'postgres'
-        publish:
-           - psql_command
-        navigate:
-           - SUCCESS: drop_database
-
-    - drop_database:
-        do:
-           ssh.ssh_flow:
-              - host: ${hostname}
-              - port: '22'
-              - username
-              - password
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password
-              - connect_timeout: ${connection_timeout}
-              - timeout: ${execution_timeout}
-              - private_key_file
-              - command: >
-                  ${'sudo -i -u postgres ' + psql_command}
-        publish:
-            - return_code
-            - return_result
-            - exception: ${standard_err}
-
-    - check_result:
+      - check_postgress_is_up:
           do:
-            strings.string_equals:
-              - first_string: ${exception}
-              - second_string: ${''}
-
+             postgres.linux.utils.run_pg_ctl_command:
+                - operation: 'status'
+                - installation_location
+                - pg_ctl_location
+                - hostname
+                - username
+                - proxy_host
+                - proxy_port
+                - proxy_username
+                - proxy_password
+                - connection_timeout
+                - execution_timeout
+                - private_key_file
+          publish:
+              - return_result
+              - error_message
+              - exception
+              - return_code
+              - standard_err
+              - standard_out
+      - verify:
+          do:
+            strings.string_occurrence_counter:
+              - string_in_which_to_search: ${standard_out}
+              - string_to_find: 'server is running'
+          navigate:
+            - SUCCESS: SUCCESS
+            - FAILURE: FAILURE
+  # pg_ctl: server is running (PID: 30718)
   outputs:
-    - return_result
-    - exception
-    - return_code :  ${"0" if exception == '' else "-1"}
+      - process_id : ${standard_out.split('PID:')[1].split(')')[0] if standard_out is not None and 'server is running' in standard_out else ""}
+      - return_result
+      - exception : ${get('standard_err','').strip()}
+      - return_code
   results:
     - SUCCESS
     - FAILURE

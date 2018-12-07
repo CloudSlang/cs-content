@@ -103,7 +103,7 @@ flow:
         default: 'http'
         required: false
     - username:
-        default: 'Administrator'
+        required: true
         sensitive: true
     - password:
         required: false
@@ -137,8 +137,8 @@ flow:
     - service_account:
         default: 'postgres'
     - service_password:
-        default: 'Passw0rd123!'
-        required: false
+        required: true
+        sensitive: true
     - locale:
         default: 'English, United States'
         required: false

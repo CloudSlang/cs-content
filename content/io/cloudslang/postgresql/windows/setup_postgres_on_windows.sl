@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Performs several powershell commands in order to deploy install postgresql application on machines that are running
+#! @description: Performs several powershell commands in order to do a complete setup of postgresql on machines that are running
 #!               windows Server 2016
 #!
 #! @input hostname: Hostname or IP address of the target machine
@@ -77,9 +77,8 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output stderr: contains the stack trace in case of an exception
 #!
-#! @result SUCCESS: Postgresql install and/or startup was successful
-#! @result DOWNLOAD_INSTALLER_MODULE_FAILURE: There was an error downloading or extracting the installer module
-#! @result POSTGRES_INSTALL_PACKAGE_FAILURE: error installing postgres
+#! @result SUCCESS: Postgresql setup was successful
+#! @result FAILURE: Postgresql setup was failed
 #!!#
 ########################################################################################################################
 
@@ -87,6 +86,7 @@ namespace: io.cloudslang.postgresql.windows
 
 imports:
   postgres: io.cloudslang.postgresql
+  print: io.cloudslang.base.print
 
 flow:
   name: setup_postgres_on_windows
@@ -101,10 +101,9 @@ flow:
         default: 'http'
         required: false
     - username:
-        default: 'Administrator'
         sensitive: true
     - password:
-        default: ')I*nH4gLG;6wh=mNbUsDzOs6PG)!LAF3'
+        default: ''
         required: false
         sensitive: true
     - proxy_host:
@@ -136,8 +135,8 @@ flow:
     - service_account:
         default: 'postgres'
     - service_password:
-        default: 'Passw0rd123!'
-        required: false
+        sensitive: true
+        required: true
     - locale:
         default: 'English, United States'
         required: false
@@ -159,7 +158,6 @@ flow:
     - install_runtimes:
         default: 'true'
         required: false
-
     - listen_addresses:
         default: 'localhost'
         required: false
@@ -195,7 +193,6 @@ flow:
     - temp_local_dir:
         default: '/tmp'
         required: false
-
     - db_name:
         default: 'postgres'
     - db_description:
@@ -212,88 +209,87 @@ flow:
         required: false
     - db_echo:
         default: 'true'
-
     - start_on_boot:
         required: false
 
 
   workflow:
-    # - install_postgres:
-    #     do:
-    #       postgres.windows.install_postgres_on_windows:
-    #       - hostname
-    #       - port
-    #       - protocol
-    #       - username
-    #       - password
-    #       - proxy_host
-    #       - proxy_port
-    #       - proxy_username
-    #       - proxy_password
-    #       - connection_timeout
-    #       - execution_timeout
-    #       - installation_file
-    #       - installation_location
-    #       - data_dir
-    #       - server_port
-    #       - service_name
-    #       - service_account
-    #       - service_password
-    #       - locale
-    #       - create_shortcuts
-    #       - debug_level
-    #       - debug_trace
-    #       - extract_only
-    #       - installer_language
-    #       - install_runtimes
-    #     publish:
-    #       - return_result
-    #       - return_code
-    #       - exception
-    #     navigate:
-    #       - SUCCESS: stop_postgres
-    #       - DOWNLOAD_INSTALLER_MODULE_FAILURE: FAILURE
-    #       - POSTGRES_INSTALL_PACKAGE_FAILURE: FAILURE
+    - install_postgres:
+        do:
+          postgres.windows.install_postgres_on_windows:
+          - hostname
+          - port
+          - protocol
+          - username
+          - password
+          - proxy_host
+          - proxy_port
+          - proxy_username
+          - proxy_password
+          - connection_timeout
+          - execution_timeout
+          - installation_file
+          - installation_location
+          - data_dir
+          - server_port
+          - service_name
+          - service_account
+          - service_password
+          - locale
+          - create_shortcuts
+          - debug_level
+          - debug_trace
+          - extract_only
+          - installer_language
+          - install_runtimes
+        publish:
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: configure_postgres
+          - DOWNLOAD_INSTALLER_MODULE_FAILURE: FAILURE
+          - POSTGRES_INSTALL_PACKAGE_FAILURE: FAILURE
 
-    # - configure_postgres:
-    #     do:
-    #       postgres.windows.configure_postgres_on_windows:
-    #         - hostname
-    #         - hostname_port: ${port}
-    #         - hostname_protocol: ${protocol}
-    #         - username
-    #         - password
-    #         - proxy_host
-    #         - proxy_port
-    #         - proxy_username
-    #         - proxy_password
-    #         - execution_timeout
-    #         - listen_addresses
-    #         - port: ${server_port}
-    #         - ssl
-    #         - ssl_ca_file
-    #         - ssl_cert_file
-    #         - ssl_key_file
-    #         - max_connections
-    #         - shared_buffers
-    #         - effective_cache_size
-    #         - autovacuum
-    #         - work_mem
-    #         - configuration_file
-    #         - allowed_hosts
-    #         - allowed_users
-    #         - installation_location
-    #         - data_dir
-    #         - reboot
-    #         - private_key_file
-    #         - temp_local_dir
-    #     publish:
-    #       - return_result
-    #       - return_code
-    #       - exception
-    #     navigate:
-    #       - SUCCESS: create_database
-    #       - FAILURE: FAILURE
+    - configure_postgres:
+        do:
+          postgres.windows.configure_postgres_on_windows:
+            - hostname
+            - hostname_port: ${port}
+            - hostname_protocol: ${protocol}
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - execution_timeout
+            - listen_addresses
+            - port: ${server_port}
+            - ssl
+            - ssl_ca_file
+            - ssl_cert_file
+            - ssl_key_file
+            - max_connections
+            - shared_buffers
+            - effective_cache_size
+            - autovacuum
+            - work_mem
+            - configuration_file
+            - allowed_hosts
+            - allowed_users
+            - installation_location
+            - data_dir
+            - reboot
+            - private_key_file
+            - temp_local_dir
+        publish:
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: create_database
+          - FAILURE: FAILURE
 
     - create_database:
         do:
@@ -310,6 +306,8 @@ flow:
             - execution_timeout
             - installation_location
             - service_name
+            - service_account
+            - service_password
             - db_name
             - db_description
             - db_tablespace
@@ -422,6 +420,8 @@ flow:
             - execution_timeout
             - installation_location
             - service_name
+            - service_account
+            - service_password
             - db_name
             - db_echo
         publish:

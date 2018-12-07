@@ -159,6 +159,9 @@ flow:
     - temp_local_dir:
         default: '/tmp'
         required: false
+    - service_name:
+        default: 'postgresql'
+        required: true
 
   workflow:
     - check_installation_location:
@@ -455,7 +458,7 @@ flow:
             - proxy_password
             - operation_timeout: ${execution_timeout}
             - script: >
-                ${'$dl_path=\"' + data_dir +'\"; $il_path=\"' + installation_location +'\\\\bin\\\\pg_ctl.exe\"; & "$il_path" -s -D "$dl_path" restart;'}
+                ${'Restart-Service -Name ' + service_name}
         publish:
           -  return_code
           -  return_result

@@ -29,15 +29,19 @@ operation:
         required: true
     - db_username:
         required: false
+    - db_password:
+        required: false
     - db_echo:
         required: false
   python_action:
     script: |
-      result = 'dropdb '
+      result = 'dropdb'
       if (db_echo is not None and db_echo.lower() == 'true'):
          result+= ' --echo'
       if db_username is not None:
-         result+= ' --username=\"' + str(db_username) + '\" --no-password'
+         result+= ' --username=\"' + str(db_username) + '\"'
+      if db_password is None:
+         result+= ' --no-password'
       result += ' ' + db_name
   outputs:
     - psql_command: ${result}

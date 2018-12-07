@@ -55,6 +55,8 @@ operation:
         required: false
     - db_username:
         required: false
+    - db_password:
+        required: false
   python_action:
     script: |
       result = 'createdb'
@@ -71,7 +73,9 @@ operation:
       if db_template is not None:
          result+= ' --template=\"' + str(db_template) + '\"'
       if db_username is not None:
-         result+= ' --username=\"' + str(db_username) + '\" --no-password'
+         result+= ' --username=\"' + str(db_username) + '\"'
+      if db_password is None:
+         result+= ' --no-password'
       if db_name is not None:
          result+= ' ' +  str(db_name)
       if db_description is not None:

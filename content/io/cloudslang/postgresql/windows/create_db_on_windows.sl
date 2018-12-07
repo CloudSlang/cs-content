@@ -98,6 +98,11 @@ flow:
         default: 'C:\\Program Files\\PostgreSQL\\10.6'
     - service_name:
         default: 'postgresql'
+    - service_account:
+        required: true
+    - service_password:
+        required: true
+        sensitive: true
     - db_name:
         default: 'postgres'
     - db_description:
@@ -171,6 +176,7 @@ flow:
                 - db_template
                 - db_echo
                 - db_username: ${service_user}
+                - db_password: ${service_password}
            publish:
               - psql_command
            navigate:
@@ -190,7 +196,7 @@ flow:
               - proxy_password
               - operation_timeout: ${execution_timeout}
               - script: >
-                  ${ 'Set-Location -Path \"' + installation_location+'\\\\bin\"; .\\' + psql_command}
+                  ${ '$env:PGPASSWORD = \"' + service_password + '\"; Set-Location -Path \"' + installation_location+'\\\\bin\"; .\\' + psql_command}
          publish:
             - return_code: ${script_exit_code}
             - script_exit_code

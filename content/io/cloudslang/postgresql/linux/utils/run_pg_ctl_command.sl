@@ -110,6 +110,7 @@ flow:
             - return_code
             - standard_err
             - standard_out
+            - command_return_code
          navigate:
             - SUCCESS: SUCCESS
             - FAILURE: FAILURE
@@ -135,13 +136,14 @@ flow:
           - return_code
           - standard_err
           - standard_out
+          - command_return_code
          navigate:
             - SUCCESS: SUCCESS
             - FAILURE: FAILURE
 
   outputs:
       - return_result
-      - exception
+      - exception: ${get('exception', '').strip()}
       - return_code
       - standard_err
       - standard_out
