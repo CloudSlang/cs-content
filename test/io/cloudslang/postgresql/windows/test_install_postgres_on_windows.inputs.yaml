@@ -1,0 +1,125 @@
+testInstallPostgresWithDefaultSettingsOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - private_key_file: <my_file.pem>
+  description: >
+     Tests that run install_postgres_on_windows.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name is 'postgresql-10' by default
+       - service uses port 5432
+  outputs:
+    - installer_return_result: "The PostgreSQL server was successfully installed"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres10OnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: >
+     Tests that run install_postgres_on_windows.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name must be 'postgresql-10'
+       - service uses port 5432
+  outputs:
+    - installer_return_result: "The PostgreSQL server was successfully installed"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres96OnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - service_name: 'postgresql-9.6'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - installation_file: 'http://get.enterprisedb.com/postgresql/postgresql-9.6.11-1-windows-x64.exe'
+    - installation_location: 'C:\\Program Files\\PostgreSQL\\9.6'
+    - data_dir: 'C:\\Program Files\\PostgreSQL\\9.6\\data'
+  description: >
+      Tests that run install_postgres_on_windows.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+       - service_name must be 'postgresql-9.6'
+       - service uses port 5432
+  outputs:
+    - installer_return_result: "The PostgreSQL server was successfully installed"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.6.11
+  result: SUCCESS
+
+testInstallPostgres95OnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - installation_file: 'http://get.enterprisedb.com/postgresql/postgresql-9.5.15-1-windows-x64.exe'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-9.5'
+    - service_password: 'postgres'
+    - installation_location: 'C:\\Program Files\\PostgreSQL\\9.5'
+    - data_dir: 'C:\\Program Files\\PostgreSQL\\9.5\\data'
+  description: >
+      Tests that run install_postgres_on_windows.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+        - service_name must be 'postgresql-9.5'
+        - service uses port 5432
+  outputs:
+    - installer_return_result: "The PostgreSQL server was successfully installed"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.5.15
+  result: SUCCESS
+
+testInstallPostgresWithInvalidFileOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - service_account: 'postgres'
+    - service_name: 'postgres-service'
+    - service_password: 'Passw0rd123!'
+    - installation_file: 'http://download.postgresql.org/pub/file.exe'
+  description: >
+      Tests that run install_postgres_on_windows.sl to try installing postgres with invalid installation file and finishes with FAILURE.
+  outputs:
+      - exception_from_xml: |-
+          Install-Postgres : The remote server returned an error: (404) Not Found._x000D__x000A_
+  result: FAILURE
+
+testInstallPostgresWithNotMeetPasswordPolicyOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,install-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_install_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - service_account: 'postgres'
+    - service_name: 'postgres-service'
+    - service_password: 'simple_password'
+  description: >
+      Tests that run install_postgres_on_windows.sl to try installing postgres with invalid installation file and finishes with FAILURE.
+  outputs:
+      - exception_from_xml: |-
+          Install-Postgres : Exception calling "SetInfo" with "0" argument(s): "The password does not meet the password policy _x000D__x000A_
+  result: FAILURE

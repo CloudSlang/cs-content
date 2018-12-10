@@ -1,0 +1,164 @@
+testCreateDbWithDefaultSettingsOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with default settings and finishes with SUCCESS"
+  outputs:
+    - db_settings: "cs_test|postgres|UTF8|English_United States.1252||f|pg_default"
+  result: SUCCESS
+
+testCreateDbWithCustomSettingsOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - db_name: 'cs_test_custom'
+    - db_description: 'description'
+    - db_tablespace: 'pg_default'
+    - db_encoding: 'UTF8'
+    - db_locale: 'English_United States.1252'
+    - db_owner: 'postgres'
+    - db_template: 'template0'
+    - db_echo: 'true'
+  description: "Tests that run create_db_on_windows.sl to create a database with custom settings and finishes with SUCCESS"
+  outputs:
+    - db_settings: "cs_test_custom|postgres|UTF8|English_United States.1252|description|f|pg_default"
+  result: SUCCESS
+
+testCreateDbWithInvalidUsernameOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: 'invalid-user'
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Test that run create_db_on_windows.sl with invalid username and finishes with Auth failure"
+  outputs:
+    -  return_result: 'Unauthorized! Service responded with 401 status code!'
+  result: FAILURE
+
+testCreateDbWithInvalidInstallationLocationOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - installation_location: '/some/path'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with invalid installation_location and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: |-
+        Set-Location : Cannot find path 'C:\some\path\bin' because it does not exist._x000D__x000A_
+  result: FAILURE
+
+testCreateDbWithInvalidServiceAccountOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'invalid-service-account'
+    - service_password: 'password'
+  description: "Tests that run create_db_on_windows.sl to create a database with an invalid service account and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: |-
+        createdb: could not connect to database template1: FATAL:  password authentication failed for user "postgres"
+  result: FAILURE
+
+testCreateDbWithNonExsitingOwnerOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - db_owner: 'non-existing-db-owner'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with non-existing db_owner and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: 'createdb: database creation failed: ERROR:  role "non-existing-db-owner" does not exist'
+  result: FAILURE
+
+testCreateDbWithNonExsitingTemplateOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - db_template: 'non-existing-db-template'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with non-existing db_template and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: 'createdb: database creation failed: ERROR:  template database "non-existing-db-template" does not exist'
+  result: FAILURE
+
+testCreateDbWithNonExsitingTablespaceOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - db_tablespace: 'non-existing-db-tablespace'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with non-existing db_tablespace and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: 'createdb: database creation failed: ERROR:  tablespace "non-existing-db-tablespace" does not exist'
+  result: FAILURE
+
+testCreateDbWithInvalidLocaleOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - db_locale: 'invalid-locale'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with invalid locale and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: 'createdb: database creation failed: ERROR:  invalid locale name: "invalid-locale"'
+  result: FAILURE
+
+testCreateDbWithInvalidEncodingOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,createdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_create_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - db_encoding: 'invalid-encoding'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run create_db_on_windows.sl to create a database with invalid encoding and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: 'createdb: "invalid-encoding" is not a valid encoding name'
+  result: FAILURE

@@ -1,0 +1,129 @@
+testConfigurePostgresConfigWithCommandLineParametersOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,configure-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_configure_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - max_connections: '99'
+    - listen_addresses: "localhost"
+    - port: '5432'
+    - shared_buffers: '129MB'
+    - effective_cache_size: '6GB'
+    - autovacuum: 'off'
+    - work_mem: '6MB'
+    - ssl: 'off'
+    - ssl_ca_file: ''
+    - ssl_cert_file: ''
+    - ssl_key_file: ''
+    - reboot: 'yes'
+  description: >
+      Tests that run configure_postgres_on_windows.sl to update parameters from CLI and finishes with SUCCESS
+      Notes:
+        ssl_*_file must be existing files or empty values. Otherwise, postgres doesn't start after rebooting
+        Set 'reboot' = yes to apply the parameters and verify them by loading from a postgres database
+  outputs:
+    - db_settings: |-
+        autovacuum|off
+        effective_cache_size|786432
+        listen_addresses|localhost
+        max_connections|99
+        port|5432
+        shared_buffers|16512
+        ssl|off
+        ssl_ca_file|
+        ssl_cert_file|server.crt
+        ssl_key_file|server.key
+        work_mem|6144
+  result: SUCCESS
+
+testConfigurePostgresConfigWithLocalPostgressConfFileOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,configure-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_configure_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - configuration_file: ".\\cs-content\\test\\io\\cloudslang\\postgresql\\windows\\postgresql.conf"
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - reboot: 'yes'
+  description: >
+      Tests that run configure_postgres_on_windows.sl to update parameters from CLI and finishes with SUCCESS
+      Notes:
+        Set 'reboot' = yes to apply the parameters and verify them by loading from a postgres database
+  outputs:
+    - db_settings: |-
+        autovacuum|off
+        effective_cache_size|1179648
+        listen_addresses|localhost
+        max_connections|97
+        port|5432
+        shared_buffers|16512
+        ssl|off
+        ssl_ca_file|
+        ssl_cert_file|server.crt
+        ssl_key_file|server.key
+        work_mem|7168
+  result: SUCCESS
+
+testConfigurePgHbaConfigWithLocalPostgressConfFileOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,configure-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_configure_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - configuration_file: ".\\cs-content\\test\\io\\cloudslang\\postgresql\\windows\\pg_hba.conf"
+  description: >
+      Tests that run configure_postgres_on_windows.sl to update pg_hba.conf from CLI and finishes with SUCCESS
+  outputs:
+  result: SUCCESS
+
+testConfigurePgHbaConfigWithCommandLineParametersOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,configure-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_configure_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - allowed_users: 'all'
+    - allowed_hosts: '127.0.0.1/32'
+  description: >
+      Tests that run configure_postgres_on_windows.sl to update pg_hba.conf from CLI and finishes with SUCCESS
+  outputs:
+  result: SUCCESS
+
+testConfigurePostgresWithNonExistinglocalConfigurationFileOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,configure-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_configure_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - private_key_file: <my_file.pem>
+    - service_name: 'postgresql'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+    - configuration_file: "./some.conf"
+    - reboot: 'yes'
+  description: >
+      Tests that run configure_postgres_on_windows.sl to update parameters with non-existing config file and finishes with FAILURE
+  outputs:
+    - exception: "[Errno 2] No such file or directory: u'./some.conf'"
+  result: FAILURE
+

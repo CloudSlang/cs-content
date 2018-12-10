@@ -1,0 +1,96 @@
+testOperatePostgresWithUnrecognizedOperatiOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - operation: 'unrecognized-operation'
+  description: "Tests that run operate_postgres_on_windows.sl with an unrecognized operation name and finishes with FAILURE"
+  outputs:
+    - operation_exception: "Unknown or unsupported operation"
+  result: FAILURE
+
+testOperatePostgresWithOperationStopOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - operation: 'stop'
+  description: >
+     Tests that run operate_postgres_on_windows.sl with the operation 'stop' and finishes with SUCCESS.
+     Stopping postgres windows service
+     PreRequest: db is running
+     PostRequest: check the current status of the windows service and if it is stopped then run the operation 'start'
+  outputs:
+    - operation_return_result: |-
+         Status : Stopped
+  result: SUCCESS
+
+testOperatePostgresWithOperationRestartOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - operation: 'restart'
+  description: >
+     Tests that run operate_postgres_on_windows.sl with the operation 'restart' and finishes with SUCCESS.
+     Restarting postgres windows service
+     PreRequest: db is running
+     Test: do the operation 'restart', do the operation 'status' and verify a result.
+     PostRequest: check the current status and if db is stopped then run the operation 'start'
+  outputs:
+    - is_proccess_id_changed: "True"
+  result: SUCCESS
+
+testOperatePostgresWithOperationReloadOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - operation: 'reload'
+  description: >
+     Tests that run operate_postgres_on_windows.sl with the operation 'reload' and finishes with SUCCESS.
+     Windows service doesn't have the command 'reload'. So The command 'restart' will be executed
+     PreRequest: db is running
+     Test: do the operation 'reload', do the operation 'status' and verify a result.
+     PostRequest: check the current status and if db is stopped then run the operation 'start'
+  outputs:
+     - is_proccess_id_changed: "True"
+  result: SUCCESS
+
+testOperatePostgresWithEnableOnBootOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - start_on_boot: 'true'
+  description: >
+     Tests that run operate_postgres_on_windows.sl with start_on_boot='true' and finishes with SUCCESS
+     PreRequest: db is running
+  outputs:
+    - service_status: "Auto"
+  result: SUCCESS
+
+testOperatePostgresWithDisableOnBootOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,operate-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_operate_postgres_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - start_on_boot: 'false'
+  description: >
+       Tests that run operate_postgres_on_windows.sl with start_on_boot='false' and finishes with SUCCESS
+       PreRequest: db is running
+  outputs:
+    - service_status: "Disabled"
+  result: SUCCESS

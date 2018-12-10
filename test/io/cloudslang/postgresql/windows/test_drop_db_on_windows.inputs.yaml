@@ -1,0 +1,60 @@
+testDropDbOnWindowsSuccess:
+  testSuites: [postgresql,postgresql-windows,dropdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_drop_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run drop_db_on_windows.sl to drop a database and finishes with SUCCESS"
+  result: SUCCESS
+
+testDropDbWithInvalidUsernameOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,dropdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_drop_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: 'invalid-username'
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Test that run drop_db_on_windows.sl with invalid username and finishes with Auth failure"
+  outputs:
+    -  return_result: 'Unauthorized! Service responded with 401 status code!'
+  result: FAILURE
+
+testDropDbWithInvalidInstallationLocationOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,dropdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_drop_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - installation_location: '/some/path'
+    - service_account: 'postgres'
+    - service_password: 'Passw0rd123!'
+  description: "Tests that run drop_db_on_windows.sl to drop a database with invalid installation_location and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: |-
+        Set-Location : Cannot find path 'C:\some\path\bin' because it does not exist._x000D__x000A_
+  result: FAILURE
+
+testDropDbWithInvalidServiceAccountOnWindowsFailure:
+  testSuites: [postgresql,postgresql-windows,dropdb-postgres-windows]
+  testFlowPath: io.cloudslang.postgresql.windows.test_drop_db_on_windows
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - password: <password>
+    - db_name: 'cs_test'
+    - service_account: 'invalid-service-account'
+    - service_password: 'password'
+  description: "Tests that run drop_db_on_windows.sl to drop a database with an invalid service account and finishes with FAILURE"
+  outputs:
+    - exception_from_xml: |-
+        createdb: could not connect to database template1: FATAL:  password authentication failed for user "postgres"
+  result: FAILURE
