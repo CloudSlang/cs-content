@@ -1,20 +1,28 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Verifies whether session recovery mechanism is enabled, if there are tries left
 #!               and in such case checks whether the ssh session failed with a certain pattern.
 #!
-#! @input enabled: Optional - Whether session recovery is enabled.
+#! @input enabled: Whether session recovery is enabled.
 #!                 Default: 'true'
+#!                 Optional
 #! @input retries: Limit of reconnect tries.
 #! @input return_result: From SSH: STDOUT of the remote machine in case of success or the cause of the error in case of
 #!                       exception.
+#!                       Optional
 #! @input return_code: From SSH: '0' if SSH session , different than '0' otherwise.
 #! @input exit_status: From SSH: Return code of the remote command.
 #!
@@ -40,7 +48,9 @@ flow:
   name: handle_session_recovery
 
   inputs:
-    - enabled: "True"
+    - enabled:
+       default: 'true'
+       required: false
     - retries
     - return_result:
         required: false

@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -33,6 +39,14 @@
 #! @output return_result: A JSON containing the Instance resource information.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output instance_id: The id of the instance.
+#! @output instance_name_out: The name of the instance.
+#! @output internal_ips: The internal IPs of the instance.
+#! @output external_ips: The external IPs of the instance.
+#! @output status: The status of the instance.
+#! @output metadata: The metadata of the instance.
+#! @output tags: The tags of the instance.
+#! @output disks: The attached disks of the instance.
 #!
 #! @result SUCCESS: The Instance was found and successfully retrieved.
 #! @result FAILURE: The Instance was not found or some inputs were given incorrectly
@@ -103,7 +117,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesGet
     method_name: execute
 
@@ -111,6 +125,14 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
+    - instance_id: ${get('instanceId'. '')}
+    - instance_name_out: ${get('instanceName', '')}
+    - internal_ips: ${get('internalIps', '')}
+    - external_ips: ${get('externalIps', '')}
+    - status
+    - metadata
+    - tags
+    - disks
 
   results:
     - SUCCESS: ${returnCode=='0'}

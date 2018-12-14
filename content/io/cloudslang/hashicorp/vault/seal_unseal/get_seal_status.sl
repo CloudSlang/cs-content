@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -58,9 +64,11 @@
 #! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
 #! @result SUCCESS: Everything completed successfully and Vault's sealed status was retrieved.
-#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved or Vault's response could not be properly parsed.
+#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved
+#!                  or Vault's response could not be properly parsed.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
@@ -71,10 +79,10 @@ flow:
   name: get_seal_status
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
     - proxy_host:
         required: false
     - proxy_port:
@@ -83,14 +91,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -113,7 +124,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - return_code

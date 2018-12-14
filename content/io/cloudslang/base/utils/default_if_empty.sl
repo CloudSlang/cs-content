@@ -1,3 +1,16 @@
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This operation checks if a string is blank or empty and if it's true
@@ -42,14 +55,14 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.0'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.4'
     class_name: 'io.cloudslang.content.utilities.actions.DefaultIfEmpty'
     method_name: 'execute'
   
   outputs: 
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

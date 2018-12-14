@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -42,15 +48,21 @@
 #! 11. An element from the default namespace can be retrieved using a location path.
 #!
 #! @input xml: The XML (in the form of a String).
-#! @input file_path: absolute or remote path of the XML file.
+#!             Optional
+#! @input file_path: Absolute or remote path of the XML file.
+#!                   Optional
 #! @input action: The edit action to take place.
-#!                Valid values: delete, insert, append, subnode, move, rename, update.
+#!                Valid: delete, insert, append, subnode, move, rename, update.
 #! @input xpath_1: The XPath Query to be run. The changes take place at the resulting elements.
 #! @input xpath_2: The XPath Query to be run. For the move action the results of xpath1 are moved to the results of xpath2.
+#!                 Optional
 #! @input value: The new value.
 #!               Examples: <newNode>newNodeValue</newNode> , <newNode newAttribute="newAttributeValue">newNodeValue</newNode>, new value.
-#! @input type: Defines on what should the changes take effect : The element, the value of the element or the attributes of the element.
-#!              Valid values: elem, text, attr
+#!               Optional
+#! @input type: Defines on what should the changes take effect.
+#!              The element, the value of the element or the attributes of the element.
+#!              Valid: elem, text, attr
+#!              Optional
 #! @input name: The name of the attribute in case the selected type is 'attr' .
 #! @input parsing_features: The list of XML parsing features separated by new line (CRLF).
 #!                          The feature name - value must be separated by empty space.
@@ -72,9 +84,9 @@
 #!                          http://xml.org/sax/features/external-general-entities false
 #!                          http://xml.org/sax/features/external-parameter-entities false
 #!
-#! @output return_result: this is the primary output. The edited XML.
+#! @output return_result: This is the primary output. The edited XML.
 #! @output return_code: 0 for success; -1 for failure.
-#! @output exception: The exception message in case one occured.
+#! @output exception: The exception message in case one occurred.
 #!
 #! @result SUCCESS: The operation completed as stated in the description.
 #! @result FAILURE: The operation completed unsuccessfully.
@@ -125,7 +137,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.EditXml
     method_name: xPathReplaceNode
 

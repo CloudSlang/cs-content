@@ -1,4 +1,4 @@
-# (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+# (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -51,7 +51,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.5'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.6'
     class_name: io.cloudslang.content.datetime.actions.OffsetTimeBy
     method_name: execute
 

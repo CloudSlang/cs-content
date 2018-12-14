@@ -1,15 +1,21 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to delete a Network resource. The operation returns a ZoneOperation resource
-#!               as a JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
-#!               ZoneOperationsGet operation.
+#! @description: This operation can be used to delete a Network resource. The operation returns a GlobalOperation resource
+#!               as a JSON object, that can be used to retrieve the status and progress of the GlobalOperation, using the
+#!               GlobalOperationsGet operation.
 #!
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
@@ -30,10 +36,11 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
+#! @output return_result: Contains the GlobalOperation resource, as a JSON object.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output global_operation_name: Contains the GlobalOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output status: The status of the operation if async is true, otherwise the status of the instance.
 #!
 #! @result SUCCESS: The request for the Network to be deleted was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -103,7 +110,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.2.1'
+    gav: 'io.cloudslang.content:cs-google:0.4.2'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.networks.NetworksDelete
     method_name: execute
 
@@ -111,7 +118,8 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - global_operation_name: ${globalOperationName}
+    - status
 
   results:
     - SUCCESS: ${returnCode=='0'}

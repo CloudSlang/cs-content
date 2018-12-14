@@ -1,33 +1,40 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Pulls and runs a Docker container in a Swarm cluster.
 #!
 #! @input swarm_manager_ip: IP address of the machine with the Swarm manager container
-#! @input swarm_manager_port: port used by the Swarm manager container
-#! @input container_name: Optional - container name
-#! @input container_params: Optional - command parameters
-#! @input container_command: Optional - container command
+#! @input swarm_manager_port: Port used by the Swarm manager container
+#! @input container_name: Optional - Container name
+#! @input container_params: Optional - Command parameters
+#! @input container_command: Optional - Container command
 #! @input image_name: Docker image that will be assigned to the container
 #! @input host: Docker machine host
 #! @input port: Optional - SSH port
 #! @input username: Docker machine username
 #! @input password: Optional - Docker machine password
-#! @input private_key_file: Optional - path to private key file
-#! @input character_set: Optional - character encoding used for input stream encoding from target machine
+#! @input private_key_file: Optional - Path to private key file
+#! @input character_set: Optional - Character encoding used for input stream encoding from target machine
 #!                       Valid: SJIS, EUC-JP, UTF-8
-#! @input pty: Optional - whether to use PTY - Valid: true, false
-#! @input timeout: Optional - time in milliseconds to wait for the command to complete
-#! @input close_session: Optional - if false SSH session will be cached for future calls during the life of the flow,
+#! @input pty: Optional - whether to use PTY
+#!             Valid: true, false
+#! @input timeout: Optional - Time in milliseconds to wait for the command to complete
+#! @input close_session: Optional - If false SSH session will be cached for future calls during the life of the flow,
 #!                       if true the SSH session used will be closed;
 #!                       Valid: true, false
-#! @input agent_forwarding: Optional - whether to forward the user authentication agent
+#! @input agent_forwarding: Optional - Whether to forward the user authentication agent
 #!
 #! @output container_id: ID of the container
 #!

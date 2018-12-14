@@ -1,15 +1,21 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: This flow retrieves the recipient's response using twilio (www.twilio.com).
+#! @description: This flow retrieves the recipient's response using Twilio (www.twilio.com).
 #!               The returned value is the response from the recipient that the SMS has been sent to.
-#!               The user should have an account created in twilio and a verified number to retrieve the messages from.
+#!               The user should have an account created in Twilio and a verified number to retrieve the messages from.
 #!               See the settings in: https://www.twilio.com/console/account/settings
 #!               If you are using a Twilio Trial account for this example, you will only be able to retrieve the
 #!               recipient's response messages from phone numbers that you have verified with Twilio.

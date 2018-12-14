@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -12,16 +18,17 @@
 #! @input xml: The XML document (in the form of a String).
 #! @input text_elements_name: Specify custom property name for text elements. This will be used for elements that
 #!                            have attributes and text content.
-#!                             Default value: _text
+#!                            Default: '_text'
+#!                            Optional
 #! @input include_root_element: The flag for including the xml root in the resulted JSON.
-#!                       Default value: true
-#!                       Accepted values: true, false
+#!                       Accepted: 'true' or 'false'
+#!                       Default: 'true'
 #! @input include_attributes: The flag for including XML attributes in the resulted JSON
-#!                             Default value: true
-#!                             Accepted values: true, false
+#!                             Accepted: 'true' or 'false'
+#!                             Default: 'true'
 #! @input pretty_print: The flag for formatting the resulted XML. The newline character is '\n'
-#!                       Default value: true
-#!                       Accepted values: true, false
+#!                       Accepted: true, false
+#!                       Default: 'true'
 #! @input parsing_features: The list of XML parsing features separated by new line. The feature name - value must
 #!                          be separated by empty space. Setting specific features this field could be used to avoid XML
 #!                          security issues like "XML Entity Expansion injection" and "XML External Entity injection".
@@ -58,8 +65,7 @@ operation:
   name: convert_xml_to_json
 
   inputs:
-    - xml:
-        required: true
+    - xml
     - text_elements_name:
         required: false
     - textElementsName:
@@ -85,18 +91,18 @@ operation:
         required: false
         private: true
     - parsing_features:
-        required: false
         default: |
             http://apache.org/xml/features/disallow-doctype-decl true
             http://xml.org/sax/features/external-general-entities false
             http://xml.org/sax/features/external-parameter-entities false
+        required: false
     - parsingFeatures:
         default: ${get("parsing_features", "")}
         required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.ConvertXmlToJson
     method_name: execute
 

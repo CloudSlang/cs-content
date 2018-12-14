@@ -1,9 +1,15 @@
-#   (c) Copyright 2014-2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2014-2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -41,7 +47,7 @@
 #! @input timeout: Time in milliseconds to wait for command to complete.
 #!                 Default: '30000000'
 #! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made.
-#!                         Default value: '10000'
+#!                         Default: '10000'
 #! @input close_session: Optional - if 'false' the SSH session will be cached for future calls of this operation during
 #!                       the life of the flow, if 'true' the SSH session used by this operation will be closed
 #!                       Valid: 'true', 'false'
@@ -139,7 +145,8 @@ operation:
     - pty:
         default: 'false'
         private: true
-    - timeout: '30000000'
+    - timeout:
+        default: '30000000'
     - close_session:
         required: false
     - closeSession:
@@ -188,7 +195,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-ssh:0.0.36'
+    gav: 'io.cloudslang.content:cs-ssh:0.0.37'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
 

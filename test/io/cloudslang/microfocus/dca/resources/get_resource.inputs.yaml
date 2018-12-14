@@ -1,0 +1,43 @@
+#   (c) Copyright 2018 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+
+testBasicRunForGetResource:
+  testSuites: [dca-local]
+  inputs:
+    - dca_host: <dca_host>
+    - dca_port: <dca_port>
+    - protocol: <protocol>
+    - auth_token: <auth_token>
+    - refresh_token: <refresh_token>
+    - resource_uuid: <resource_uuid>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - keystore: <keystore>
+    - keystore_password: <keystore_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - use_cookies: <use_cookies>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+  description: Tests that get_resource runs with SUCCESS
+  testFlowPath: io.cloudslang.microfocus.dca.resources.get_resource
+  result: SUCCESS

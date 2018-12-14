@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -62,6 +68,7 @@
 #! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected and status_code was not 204.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.secrets
 
 imports:
@@ -72,13 +79,13 @@ flow:
   name: write_secret
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
+    - secret
     - x_vault_token:
         sensitive: true
-    - secret
     - secret_value:
         sensitive: true
     - proxy_host:
@@ -105,10 +112,12 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_to_write:
+    - create_vault_secret:
         do:
           http.http_client_post:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - body: "${'{\"value\":\"' + secret_value + '\"}'}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -119,8 +128,6 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - body: "${'{\"value\":\"' + secret_value + '\"}'}"
         publish:
           - return_result
           - error_message

@@ -1,9 +1,15 @@
-#   (c) Copyright 2017 Hewlett-Packard Enterprise Development Company, L.P.
+#   (c) Copyright 2017 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
 #   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 #
 ########################################################################################################################
 #!!
@@ -23,15 +29,15 @@
 #!                           and (false instructs the implementation to process XML in accordance with the XML specifications
 #!                           ignoring security issues such as limits on XML constructs to avoid conditions such as
 #!                           denial of service attacks)
-#!                           Default value: 'true'
-#!                           Accepted values: 'true' or 'false'
+#!                           Accepted: 'true' or 'false'
+#!                           Default: 'true'
 #!
-#! @output result_xml: given XML with element inserted
+#! @output result_xml: Given XML with element inserted.
 #! @output return_result: exception in case of failure, success message otherwise
 #! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: element was inserted
-#! @result FAILURE: otherwise
+#! @result SUCCESS: Element was inserted.
+#! @result FAILURE: An error occurred while trying to insert the element
 #!!#
 ########################################################################################################################
 
@@ -70,7 +76,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.10'
+    gav: 'io.cloudslang.content:cs-xml:0.0.11'
     class_name: io.cloudslang.content.xml.actions.InsertBefore
     method_name: execute
 
