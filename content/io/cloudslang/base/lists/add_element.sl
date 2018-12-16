@@ -21,34 +21,26 @@
 #!                 Example: '7'
 #! @input delimiter: The list delimiter
 #!
-#! @output response: 'success' or 'failure'
 #! @output return_result: The new list or an error message otherwise
-#! @output return_code: 0 if success, -1 if failure
 #!
 #! @result SUCCESS: The new list was retrieved with success
-#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
-
 namespace: io.cloudslang.base.lists
-
 operation:
   name: add_element
-
   inputs:
-    - list
-    - element
-    - delimiter
-
-  java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.7'
-    class_name: io.cloudslang.content.actions.ListAppenderAction
-    method_name: appendElement
-
+    - list:
+        required: false
+    - element:
+        required: false
+    - delimiter:
+        default: ','
+        required: false
+  python_action:
+    script: |
+      list = list+delimiter+element if list else element
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-
+    - return_result: ${list}
   results:
-    - SUCCESS: ${returnCode == '0'}
-    - FAILURE
+    - SUCCESS
