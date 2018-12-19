@@ -1,11 +1,7 @@
 ########################################################################################################################
 #!!
-#! @description: The flow verifies that 'drop_db_on_linux' flow works correctly.
-#!               Logical steps:
-#!                  - check_host_prerequest
-#!                  - call postgres.linux.create_db_on_linux flow
-#!                  - call postgres.linux.drop_db_on_linux flow
-#!                  - verify if db exists
+#! @description: Drop a postgresql database on machines that are running
+#!               Red Hat based linux
 #!
 #! @input hostname: Hostname or IP address of the target machine
 #! @input username: Username used to connect to the target machine
@@ -43,10 +39,8 @@
 #!
 #! @result SUCCESS: The result of a flow
 #! @result FAILURE: error
-#! @result DB_IS_NOT_CLEAN: Database exists
 #!!#
 ########################################################################################################################
-
 namespace: io.cloudslang.postgresql.linux
 
 imports:
@@ -58,7 +52,7 @@ imports:
   print: io.cloudslang.base.print
 
 flow:
-  name: test_drop_db_on_linux
+  name: drop_db_on_linux
 
   inputs:
     - hostname:
@@ -92,87 +86,11 @@ flow:
     - private_key_file:
         required: false
   workflow:
-    - check_host_prereqeust:
-         do:
-            postgres.linux.utils.check_if_db_exists:
-              - hostname
-              - username
-              - password
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password
-              - connection_timeout
-              - execution_timeout
-              - db_name
-              - private_key_file
-         publish:
-            - return_code
-            - return_result
-            - exception
-         navigate:
-            - DB_EXIST: DB_IS_NOT_CLEAN
-            - DB_NOT_EXIST: create_db
-            - FAILURE: FAILURE
-
-    - create_db:
+    - check_postgress_is_running:
         do:
-          postgres.linux.create_db_on_linux:
-            - hostname
-            - username
-            - password
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - connection_timeout
-            - execution_timeout
-            - installation_location
-            - pg_ctl_location
-            - db_name
-            - db_description
-            - db_tablespace
-            - db_encoding
-            - db_locale
-            - db_owner
-            - db_template
-            - db_echo
-            - private_key_file
-        publish:
-          - return_result
-          - exception
-          - return_code
-        navigate:
-          - SUCCESS: drop_db
-          - FAILURE: FAILURE
-
-    - drop_db:
-         do:
-            postgres.linux.drop_db_on_linux:
-              - hostname
-              - username
-              - password
-              - proxy_host
-              - proxy_port
-              - proxy_username
-              - proxy_password
-              - connection_timeout
-              - execution_timeout
+           postgres.linux.utils.check_postgres_is_up:
               - installation_location
               - pg_ctl_location
-              - db_name
-              - db_echo
-              - private_key_file
-         publish:
-             - return_result
-             - exception
-             - return_code
-         navigate:
-          - SUCCESS: verify
-          - FAILURE: FAILURE
-    - verify:
-         do:
-            postgres.linux.utils.check_if_db_exists:
               - hostname
               - username
               - password
@@ -182,22 +100,58 @@ flow:
               - proxy_password
               - connection_timeout
               - execution_timeout
-              - db_name
               - private_key_file
-         publish:
-            - return_code
+        publish:
             - return_result
             - exception
-         navigate:
-            - DB_EXIST: FAILURE
-            - DB_NOT_EXIST: SUCCESS
-            - FAILURE: FAILURE
+            - return_code
+            - standard_err
+        navigate:
+          - SUCCESS: build_dropdb_command
+          - FAILURE: FAILURE
+
+    - build_dropdb_command:
+        do:
+           postgres.common.dropdb_command:
+              - db_name
+              - db_echo
+              - db_username: 'postgres'
+        publish:
+           - psql_command
+        navigate:
+           - SUCCESS: drop_database
+
+    - drop_database:
+        do:
+           ssh.ssh_flow:
+              - host: ${hostname}
+              - port: '22'
+              - username
+              - password
+              - proxy_host
+              - proxy_port
+              - proxy_username
+              - proxy_password
+              - connect_timeout: ${connection_timeout}
+              - timeout: ${execution_timeout}
+              - private_key_file
+              - command: >
+                  ${'sudo -i -u postgres ' + psql_command}
+        publish:
+            - return_code
+            - return_result
+            - exception: ${standard_err}
+
+    - check_result:
+          do:
+            strings.string_equals:
+              - first_string: ${exception}
+              - second_string: ${''}
 
   outputs:
     - return_result
     - exception
-    - return_code
+    - return_code :  ${"0" if exception == '' else "-1"}
   results:
     - SUCCESS
     - FAILURE
-    - DB_IS_NOT_CLEAN

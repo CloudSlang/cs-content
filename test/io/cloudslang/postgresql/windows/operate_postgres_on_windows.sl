@@ -42,14 +42,6 @@
 #! @output  return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output  return_code: '0' if success, '-1' otherwise
 #! @output  exception: contains the stack trace in case of an exception
-#! @output  operation_return_result: STDOUT of the operation flow in case of success or the cause of the error in case of exception
-#! @output  operation_exception: contains the stack trace of operation flow in case of an exception
-#! @output  service_status: 'enabled' or 'disabled'
-#! @output  command_return_code: '0' if success, '-1'/'1' otherwise
-#! @output  operation_return_code: '0' if success, '-1'/'1' otherwise
-#! @output  current_process_id: Current postgres process id
-#! @output  prev_process_id: Process Id before calling operation flow
-#! @output  is_proccess_id_changed: true if process id was changed
 #!
 #! @result SUCCESS: Operation was executed successfully
 #! @result FAILURE: There was an error
@@ -59,10 +51,14 @@
 namespace: io.cloudslang.postgresql.windows
 
 imports:
+  base: io.cloudslang.base.cmd
+  strings: io.cloudslang.base.strings
+  utils: io.cloudslang.base.utils
   postgres: io.cloudslang.postgresql
+  scripts: io.cloudslang.base.powershell
 
 flow:
-  name: test_operate_postgres_on_windows
+  name: operate_postgres_on_windows
 
   inputs:
     - hostname:
@@ -99,115 +95,169 @@ flow:
         required: false
     - private_key_file:
         required: false
+
   workflow:
-    - check_host_prerequest:
+    - check_installation_location:
         do:
-          postgres.windows.utils.check_postgres_is_up:
-            - hostname
-            - hostname_port
-            - hostname_protocol
+           scripts.powershell_script:
+            - host: ${hostname}
+            - port: ${hostname_port}
+            - protocol: ${hostname_protocol}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - execution_timeout
-            - service_name
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                ${'$is_found = Test-Path -Path "'+ installation_location +'"; ; if(!$is_found) {" installation_location was not found"; Exit(1)}'}
         publish:
-            - return_result
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: check_data_dir
+          - FAILURE: FAILURE
+
+    - check_data_dir:
+        do:
+           scripts.powershell_script:
+            - host: ${hostname}
+            - port: ${hostname_port}
+            - protocol: ${hostname_protocol}
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                 ${'$is_found = Test-Path -Path "'+ data_dir +'"; ; if(!$is_found) {" Data_dir was not found"; Exit(1)}'}
+        publish:
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: check_operation_value
+          - FAILURE: FAILURE
+
+    - check_operation_value:
+        do:
+           utils.is_null:
+            - variable: ${operation}
+        navigate:
+          - IS_NULL: check_start_on_boot_value
+          - IS_NOT_NULL: get_pwsh_command_by_operation_name
+
+    - get_pwsh_command_by_operation_name:
+        do:
+          postgres.windows.utils.get_system_service_command:
+             - service_name: ${service_name}
+             - operation: ${operation}
+        publish:
+            - pwsh_command
             - exception
             - return_code
-            - prev_process_id: ${process_id}
-        navigate:
-            - SUCCESS: do_operation
-            - FAILURE: DB_IS_NOT_RUNNING
-
-    - do_operation:
-        do:
-          postgres.windows.operate_postgres_on_windows:
-            - hostname
-            - hostname_port
-            - hostname_protocol
-            - username
-            - password
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - execution_timeout
-            - installation_location
-            - data_dir
-            - service_name
-            - operation
-            - start_on_boot
-            - private_key_file
-        publish:
             - return_result
-            - exception
-            - command_return_code
-            - return_code
-            - operation_return_code: ${return_code}
-            - operation_return_result: ${return_result}
-            - operation_exception: ${exception}
-
-    - check_host_postrequest:
-        do:
-          postgres.windows.utils.check_postgres_is_up:
-            - hostname
-            - hostname_port
-            - hostname_protocol
-            - username
-            - password
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - execution_timeout
-            - installation_location
-            - data_dir
-            - service_name
-            - start_on_boot
-            - private_key_file
-        publish:
-          - current_process_id: ${process_id}
-          - service_status: ${return_result.splitlines()[3].split(':')[1].strip() if return_result is not None and 'StartMode' in return_result else ""}
         navigate:
-            - SUCCESS: SUCCESS
-            - FAILURE: start_postgres_postrequest
+          - SUCCESS: run_command
+          - FAILURE: FAILURE
 
-    - start_postgres_postrequest:
+    - run_command:
         do:
-          postgres.windows.operate_postgres_on_windows:
-            - hostname
-            - hostname_port
-            - hostname_protocol
+           scripts.powershell_script:
+            - host: ${hostname}
+            - port: ${hostname_port}
+            - protocol: ${hostname_protocol}
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - execution_timeout
-            - installation_location
-            - data_dir
-            - service_name
-            - operation: 'start'
-            - start_on_boot
-            - private_key_file
+            - operation_timeout: ${execution_timeout}
+            - script: ${pwsh_command}
+        publish:
+          -  return_code
+          -  return_result
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+
+    - check_start_on_boot_value:
+        do:
+           utils.is_null:
+            - variable: ${start_on_boot}
+        navigate:
+          - IS_NULL: SUCCESS
+          - IS_NOT_NULL: run_start_on_boot
+
+    - run_start_on_boot:
+        do:
+           utils.is_true:
+            - bool_value: ${start_on_boot}
+        navigate:
+          - 'TRUE': enable_start_on_boot
+          - 'FALSE': disable_start_on_boot
+
+    - enable_start_on_boot:
+       do:
+         scripts.powershell_script:
+          - host: ${hostname}
+          - port: ${hostname_port}
+          - protocol: ${hostname_protocol}
+          - username
+          - password
+          - proxy_host
+          - proxy_port
+          - proxy_username
+          - proxy_password
+          - operation_timeout: ${execution_timeout}
+          - script: >
+               ${'Set-Service -Name '+ service_name +' -StartupType Automatic'}
+       publish:
+          -  return_code
+          -  return_result
+          -  exception
+       navigate:
+         - SUCCESS: SUCCESS
+         - FAILURE: FAILURE
+
+    - disable_start_on_boot:
+       do:
+         scripts.powershell_script:
+          - host: ${hostname}
+          - port: ${hostname_port}
+          - protocol: ${hostname_protocol}
+          - username
+          - password
+          - proxy_host
+          - proxy_port
+          - proxy_username
+          - proxy_password
+          - operation_timeout: ${execution_timeout}
+          - script: >
+               ${'Set-Service -Name '+ service_name + ' -StartupType Disabled'}
+       publish:
+          -  return_code
+          -  return_result
+          -  exception
+       navigate:
+         - SUCCESS: SUCCESS
+         - FAILURE: FAILURE
+
   outputs:
     - return_result
     - exception
-    - command_return_code
     - return_code
-    - operation_return_code: ${get(operation_return_code,'')}
-    - operation_return_result: ${get('operation_return_result', '').strip()}
-    - operation_exception: ${get('operation_exception', '').strip()}
-    - service_status
-    - prev_process_id
-    - current_process_id
-    - is_proccess_id_changed: ${ str(prev_process_id != '' and current_process_id != '' and prev_process_id != current_process_id)}
   results:
     - SUCCESS
     - FAILURE
-    - DB_IS_NOT_RUNNING
