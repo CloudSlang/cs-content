@@ -1,1 +1,0 @@
-Sample file in Postgres folder
