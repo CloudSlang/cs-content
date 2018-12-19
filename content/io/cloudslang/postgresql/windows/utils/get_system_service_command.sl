@@ -33,7 +33,7 @@ operation:
         pwsh_command = 'Start-Service -Name "' + service_name + '" -PassThru | Format-List status'
       elif operation == 'stop':
         pwsh_command = 'Stop-Service -Name "' + service_name + '" -PassThru | Format-List status'
-      elif operation == 'restart':
+      elif operation == 'restart' or operation == 'reload':
         pwsh_command = 'Get-Service -Name "' + service_name + '" | Restart-Service  -PassThru | Format-List status'
       elif operation == 'status':
         pwsh_command = 'Get-Service -Name "' + service_name + '" | Format-List status'

@@ -201,7 +201,7 @@ flow:
             - proxy_password
             - operation_timeout: '600'
             - script: >
-                ${'Import-Module Install-Postgres; Install-Postgres -User \"' + service_account + '\" -Password \"' + service_password + '\" -InstallerUrl \"' + installation_file + '\" -InstallPath \"' + installation_location + '\" -DataPath \"' + data_dir + '\" -Locale \"' + locale + '\" -Port ' + server_port + ' -ServiceName \"' + service_name + '\" -CreateShortcuts ' + '1' if (create_shortcuts) else '0' + ' -DebugLevel \"' + debug_level + '\" -DebugTrace \"' + debug_trace + '\" -ExtractOnly ' + '1' if (extract_only) else '0' + ' -InstallerLanguage \"' + installer_language + '\" -InstallerRuntimes ' + '1' if (install_runtimes) else '0'}
+                ${'Import-Module Install-Postgres; Install-Postgres -User \"' + service_account + '\" -Password \"' + service_password + '\" -SuperAccount \"' + service_account + '\" -SuperPassword \"' + service_password + '\" -InstallerUrl \"' + installation_file + '\" -InstallPath \"' + installation_location + '\" -DataPath \"' + data_dir + '\" -Locale \"' + locale + '\" -Port ' + server_port + ' -ServiceName \"' + service_name + '\" -CreateShortcuts ' + '1' if (create_shortcuts) else '0' + ' -DebugLevel \"' + debug_level + '\" -DebugTrace \"' + debug_trace + '\" -ExtractOnly ' + '1' if (extract_only) else '0' + ' -InstallerLanguage \"' + installer_language + '\" -InstallerRuntimes ' + '1' if (install_runtimes) else '0'}
         publish:
           -  return_code
           -  return_result
