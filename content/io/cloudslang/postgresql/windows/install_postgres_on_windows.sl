@@ -177,7 +177,7 @@ flow:
             - proxy_password
             - operation_timeout: ${execution_timeout}
             - script: >
-                ${'(New-Object Net.WebClient).DownloadFile(\"https://drive.google.com/uc?export=download&id=1RbJTU9-sg1hLjDz5B4p74vX8oF-oHhZH\",\"C:\Windows\Temp\Install-Postgres.zip\");(new-object -com shell.application).namespace(\"C:\Program Files\WindowsPowerShell\Modules\").CopyHere((new-object -com shell.application).namespace(\"C:\Windows\Temp\Install-Postgres.zip\").Items(),16)'}
+                ${'(New-Object Net.WebClient).DownloadFile(\"https://github.com/CloudSlang/cs-actions/raw/master/cs-postgres/src/main/resources/Install-Postgres.zip\",\"C:\Windows\Temp\Install-Postgres.zip\");(new-object -com shell.application).namespace(\"C:\Program Files\WindowsPowerShell\Modules\").CopyHere((new-object -com shell.application).namespace(\"C:\Windows\Temp\Install-Postgres.zip\").Items(),16)'}
         publish:
           -  return_code
           -  return_result
