@@ -69,6 +69,7 @@
 #! @input temp_local_dir: The local folder to keep files downloaded from remote host. Use relative path to support different platforms. If the folder doesn't exist, it'll be created.
 #!                        Default: '/tmp'
 #!                        Optional
+#! @input service_name: The service name
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise

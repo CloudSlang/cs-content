@@ -29,6 +29,8 @@
 #!                               Optional
 #! @input service_name: The service name
 #!                      Default: 'postgresql'
+#! @input service_account: The service account
+#! @input service_password: The service password
 #! @input db_name: Specifies the name of the database to be created.
 #!                 The default is to create a database with the same name as the current system user ('postgres')
 #!                 Default: 'postgres'

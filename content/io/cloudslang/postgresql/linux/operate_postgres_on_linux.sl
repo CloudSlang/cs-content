@@ -36,6 +36,7 @@
 #!                         Optional
 #!
 #! @output  return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
+#! @output  command_return_code: Command execution return code
 #! @output  return_code: '0' if success, '-1' otherwise
 #! @output  exception: contains the stack trace in case of an exception
 #!

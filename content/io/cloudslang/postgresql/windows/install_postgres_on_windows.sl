@@ -76,6 +76,7 @@
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output stderr: contains the stack trace in case of an exception
+#! @output exception: contains the stack trace in case of an exception
 #!
 #! @result SUCCESS: Postgresql install and/or startup was successful
 #! @result DOWNLOAD_INSTALLER_MODULE_FAILURE: There was an error downloading or extracting the installer module

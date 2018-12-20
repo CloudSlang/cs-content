@@ -29,7 +29,8 @@
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
 #!
-#! @result SUCCESS: The result of a flow
+#! @result DB_EXIST: The database was found
+#! @result DB_NOT_EXIST: The database was not found
 #! @result FAILURE: error
 #!!#
 ########################################################################################################################

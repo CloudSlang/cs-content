@@ -3,6 +3,11 @@
 #! @description: Check whether a postgresql database exists
 #!
 #! @input hostname: Hostname or IP address of the target machine
+#! @input hostname_port: The WinRM service port
+#! @input hostname_protocol: The WinRM service protocol
+#! @input service_account: The service account
+#! @input service_password: The service password
+#! @input installation_location: The full path to the location where PostgreSQL was installed.
 #! @input username: Username used to connect to the target machine
 #! @input password: The root or priviledged account password
 #! @input proxy_host: The proxy server used to access the remote machine
@@ -28,8 +33,11 @@
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
+#! @output stderr: contains the stack trace in case of an exception
+#! @output xml_output: contains the xml output of the execution
 #!
-#! @result SUCCESS: The result of a flow
+#! @result DB_EXIST: The database was found
+#! @result DB_NOT_EXIST: The database was not found
 #! @result FAILURE: error
 #!!#
 ########################################################################################################################

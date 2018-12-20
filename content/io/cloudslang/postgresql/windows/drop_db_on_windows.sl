@@ -29,6 +29,8 @@
 #!                               Default: 'C:\\Program Files\\PostgreSQL\\10.6'
 #! @input service_name: The service name
 #!                      Default: 'postgresql'
+#! @input service_account: The service account
+#! @input service_password: The service password
 #! @input db_name: Specifies the name of the database to be dropped
 #! @input db_echo: Echo the commands that dropdb generates and sends to the server
 #!              Valid values: 'true', 'false'
