@@ -24,6 +24,8 @@
 #!                      Optional
 #! @input db_username:  Username to connect as.
 #!                      Optional
+#! @input db_password: Password of the username.
+#!                     Optional
 #!
 #! @output psql_command: The command to create a new database
 #!

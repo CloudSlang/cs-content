@@ -6,6 +6,8 @@
 #! @input db_name: Specifies the name of the database to be removed
 #! @input db_username:  Username to connect as.
 #!                      Optional
+#! @input db_password: Password of the username.
+#!                     Optional
 #! @input db_echo: Echo the commands that dropdb generates and sends to the server
 #!              Valid values: 'true', 'false'
 #!              Optional
