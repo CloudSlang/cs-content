@@ -15,7 +15,7 @@
 
 testValidateJsonComplexSuccess:
   inputs:
-    - json_input:
+    - json_object:
         value: '{
                                   "server" : {
                                                  "name" : "server_3",
@@ -50,17 +50,20 @@ testValidateJsonComplexSuccess:
                }'
   description: Tests that validate_json.sl ends with SUCCESS
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
+
   outputs:
-    - return_result: Valid JSON
+    - return_result: 'Valid JSON'
     - return_code: '0'
   result: SUCCESS
 
 testValidateJsonSimpleSuccess:
   inputs:
-    - json_input:
+    - json_object:
         value: '[{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}]'
   description: Tests that validate_json.sl ends with SUCCESS
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: '0'
@@ -68,32 +71,33 @@ testValidateJsonSimpleSuccess:
 
 testValidateJsonExtraDataFailure:
   inputs:
-    - json_input:
+    - json_object:
         value: '{"firstName":"Darth", "lastName":"Vader"}, {"firstName":"Luke", "lastName":"Skywalker"}'
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
-    - return_result: "Extra data: line 1 column 42 - line 1 column 88 (char 41 - 87)"
     - return_code: '-1'
   result: FAILURE
 
 testValidateJsonPrimitiveDataFailure:
   inputs:
-    - json_input:
+    - json_object:
         value: '{"Luke":Skywalker}'
   description: Tests that validate_json.sl ends with FAILURE
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
-    - return_result: "No JSON object could be decoded"
     - return_code: "-1"
   result: FAILURE
 
 testValidateJsonDataTypesSuccess:
   inputs:
-    - json_input:
+    - json_object:
         value: '[{"integer":5, "float1":2.5, "float2":1.54e-1}, {"boolean1":true, "boolean2":false}, {"null":null}]'
   description: Tests that validate_json.sl ends with SUCCESS when JSON contains numbers, booleans and null
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: "0"
@@ -101,10 +105,11 @@ testValidateJsonDataTypesSuccess:
 
 testValidateEmptyJson:
   inputs:
-    - json_input:
+    - json_object:
         value: '""'
   description: Tests that validate_json.sl ends with SUCCESS for the empty JSON
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: "0"
@@ -112,10 +117,11 @@ testValidateEmptyJson:
 
 testValidateNestedJSON:
   inputs:
-    - json_input:
+    - json_object:
         value: '{"level1":{"level2":{"level3":{"level4":{"level5":{"level6":{"level7":{"level8":{"level9":{"level10":{"level11":{"level12":{"level13":{"level14":{"level15":{"level16":{"level17":{"level18":{"level19":{"level20":{"level21":{}}}}}}}}}}}}}}}}}}}}}}'
   description: Tests that validate_json.sl ends with SUCCESS when there are many levels of nesting
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: "0"
@@ -123,10 +129,11 @@ testValidateNestedJSON:
 
 testValidateSpecialCharactersJSON:
   inputs:
-    - json_input:
+    - json_object:
         value: '{"k1": "v1","k1!#%@&*`|>-": "v2!#%@&*`?|>{[-"}'
   description: Tests that validate_json.sl ends with SUCCESS when there are many levels of nesting
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: "0"
@@ -134,10 +141,11 @@ testValidateSpecialCharactersJSON:
 
 testValidateJsonDataSuccess:
   inputs:
-    - json_input:
+    - json_object:
         value: '[15, "string", 1.54e-1]'
   description: Tests that validate_json.sl ends with SUCCESS when JSON contains standalone numbers or strings
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: Valid JSON
     - return_code: "0"
@@ -145,10 +153,11 @@ testValidateJsonDataSuccess:
 
 testValidateJsonSingleQuote:
   inputs:
-    - json_input:
+    - json_object:
         value: "[{'firstName':'Darth', 'lastName':'Vader'}, {'firstName':'Luke', 'lastName':'Skywalker'}]"
   description: Tests that validate_json.sl ends with SUCCESS for a single quotes JSON
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: "Valid JSON"
     - return_code: "0"
@@ -156,7 +165,7 @@ testValidateJsonSingleQuote:
 
 testValidateJsonSingleQuoteSuccess:
   inputs:
-    - json_input:
+    - json_object:
         value: "{
                                                                                                         'server' : {
                                                                                                                        'name' : 'server_3',
@@ -191,6 +200,7 @@ testValidateJsonSingleQuoteSuccess:
                                                                                      }"
   description: Tests that validate_json.sl ends with SUCCESS for a complex single quotes JSON
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_result: "Valid JSON"
     - return_code: "0"
@@ -198,7 +208,7 @@ testValidateJsonSingleQuoteSuccess:
 
 testValidateJsonSingleQuoteFailure:
   inputs:
-    - json_input:
+    - json_object:
         value: "{
                                                                                                         'server' : {
                                                                                                                        'name' : 'server_3',
@@ -233,6 +243,99 @@ testValidateJsonSingleQuoteFailure:
                                                                                      }"
   description: Tests that validate_json.sl ends with FAILURE for a invalid complex single quotes JSON
   testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
   outputs:
     - return_code: "-1"
   result: FAILURE
+
+testEmptySchemaSuccess:
+  inputs:
+    - json_object:
+        value: '{"first_name": "George", "last_name": "Daniel"}'
+    - json_schema:
+        value: ''
+  description: Tests that validate_json.sl ends with SUCCESS for an empty JSON schema
+  testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
+  outputs:
+    - return_code: "0"
+  result: SUCCESS
+
+testValidateJsonAgainstSchemaSuccess:
+  inputs:
+    - json_object:
+        value: '{
+                  "first_name": "George",
+                  "last_name": "Washington",
+                  "birthday": "22-02-1732",
+                  "address": {
+                    "street_address": "3200 Mount Vernon Memorial Highway",
+                    "city": "Mount Vernon",
+                    "state": "Virginia",
+                    "country": "United States"
+                  }
+                }'
+    - json_schema:
+        value: '{
+                  "type": "object",
+                  "properties": {
+                    "first_name": { "type": "string" },
+                    "last_name": { "type": "string" },
+                    "birthday": { "type": "string", "format": "string" },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "street_address": { "type": "string" },
+                        "city": { "type": "string" },
+                        "state": { "type": "string" },
+                        "country": { "type" : "string" }
+                      }
+                    }
+                  }
+                }'
+  description: Tests that validate_json.sl ends with SUCCESS for a JSON string that validates against a JSON schema
+  testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
+  outputs:
+    - return_code: "0"
+  result: SUCCESS
+
+testValidateJsonAgainstSchemaFailure:
+  inputs:
+    - json_object:
+        value: '{
+                  "first_name": "George",
+                  "last_name": "Washington",
+                  "birthday": "22-02-1732",
+                  "address": {
+                    "street_address": "3200 Mount Vernon Memorial Highway",
+                    "city": "Mount Vernon",
+                    "state": "Virginia",
+                    "country": "United States"
+                  }
+                }'
+    - json_schema:
+        value: '{
+                  "type": "object",
+                  "properties": {
+                    "first_name": { "type": "number" },
+                    "last_name": { "type": "string" },
+                    "birthday": { "type": "string", "format": "string" },
+                    "address": {
+                      "type": "object",
+                      "properties": {
+                        "street_address": { "type": "string" },
+                        "city": { "type": "string" },
+                        "state": { "type": "string" },
+                        "country": { "type" : "string" }
+                      }
+                    }
+                  }
+                }'
+  description: Tests that validate_json.sl ends with FAILURE for a JSON string that does not validate against a JSON schema
+  testFlowPath: io.cloudslang.base.json.validate_json
+  testSuites: [validate]
+  outputs:
+    - return_code: "-1"
+  result: FAILURE
+
