@@ -60,62 +60,6 @@
 #!                          Valid values: true or false
 #!                          Default: true
 #!                          Optional
-#! @input listen_addresses: The address where the PostgreSQL database listens.
-#!                          Optional
-#! @input ssl: Flag to enable SSL connections.
-#!             Optional
-#! @input ssl_ca_file: The name of the file containing the SSL server certificate authority (CA).
-#!                     Optional
-#! @input ssl_cert_file: The name of the file containing the SSL server certificate.
-#!                       Optional
-#! @input ssl_key_file: The name of the file containing the SSL server private key.
-#!                      Optional
-#! @input max_connections: The maximum number of client connections allowed.
-#!                         Optional
-#! @input shared_buffers: Flag that determines how much memory is dedicated to PostgreSQL to use for caching data.
-#!                        Optional
-#! @input effective_cache_size: The effective cache size.
-#!                              Optional
-#! @input autovacuum: Flag to enable/disable autovacuum. The autovacuum process takes care of several maintenance chores inside your database that you really need.
-#!                    Optional
-#! @input work_mem: The memory used for sorting and queries.
-#!                  Optional
-#! @input configuration_file: The full path to the PostgreSQL configuration file in the local machine to be merged and applied to server.
-#!                            Optional
-#! @input allowed_hosts: A wildcard or a comma-separated list of hostnames or IPs (IPv4 or IPv6).
-#!                       Optional
-#! @input allowed_users: A comma-separated list of PostgreSQL users. If no value is specified for this input, all users will have access to the server.
-#!                       Optional
-#! @input reboot: A flag to indicate if server should be restart after configuration
-#!                Default: 'no'
-#!                Optional
-#! @input private_key_file: Absolute path to private key file
-#!                          Optional
-#! @input temp_local_dir: The temporary solution to keep files downloaded from remote host.
-#!                           Default: '/tmp'
-#!                           Optional
-#! @input db_name: Specifies the name of the database to be created.
-#!                 The default is to create a database with the same name as the current system user ('postgres')
-#!                 Default: 'postgres'
-#! @input db_description: Specifies a comment to be associated with the newly created database
-#!                        Optional
-#! @input db_owner: Specifies the database user who will own the new database.
-#!                  If no value is specified, the superuser account will own this database.
-#!                  Default: 'postgres'
-#! @input db_tablespace: Specifies the default tablespace for the database
-#!                       Optional
-#! @input db_encoding: Specifies the character encoding scheme to be used in this database
-#!                     Optional
-#! @input db_locale: Specifies the locale to be used in this database
-#!                   Optional
-#! @input db_template: Specifies the template database from which to build this database
-#!                     Optional
-#! @input db_echo: Echo the commands that createdb generates and sends to the server
-#!                 Valid values: 'true', 'false'
-#!                 Default value: 'true'
-#! @input start_on_boot: A flag to indicate if server should be restart after configuration
-#!                       Valid values: true, false
-#!                       Optional
 #! @input server_port: The postgres db server port
 #!                     Default: '5432'
 #!                     Optional
@@ -125,6 +69,11 @@
 #!                         Default: 'postgres'
 #! @input service_password: The service password
 #!                          Optional
+#! @input private_key_file: The absolute path to a private key file
+#!                          Optional
+#! @input temp_local_folder: The local folder to keep files downloaded from remote host. Use relative path to support different platforms. If the folder doesn't exist, it'll be created.
+#!                           Default: '/tmp'
+#!                           Optional
 #! @input locale: The locale
 #!                Default: 'English, United States'
 #!                Optional
@@ -245,8 +194,8 @@ flow:
         default: 'no'
         required: false
     - private_key_file:
-        required: true
-    - temp_local_dir:
+        required: false
+    - temp_local_folder:
         default: '/tmp'
         required: false
     - db_name:
@@ -305,6 +254,7 @@ flow:
         navigate:
           - SUCCESS: configure_postgres
           - DOWNLOAD_INSTALLER_MODULE_FAILURE: FAILURE
+          - INSTALL_INSTALLER_MODULE_FAILURE: FAILURE
           - POSTGRES_INSTALL_PACKAGE_FAILURE: FAILURE
 
     - configure_postgres:
@@ -338,7 +288,7 @@ flow:
             - data_dir
             - reboot
             - private_key_file
-            - temp_local_dir
+            - temp_local_folder
         publish:
           - return_result
           - return_code
