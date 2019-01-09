@@ -26,13 +26,18 @@
 #! @input installation_file: The postgresql installation file or link
 #!                           Default: 'https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-2.noarch.rpm'
 #! @input service_name: The service name
+#! @input service_account: The service account
+#!                         Default: 'postgres'
+#!                         Optional
+#! @input service_password: The service password
+#!                          Default: 'postgres'
+#!                          Optional
 #! @input private_key_file: Absolute path to private key file
 #!                          Optional
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
-#! @output standard_err: STDERR of the machine in case of successful request, null otherwise
 #!
 #! @result SUCCESS: Postgresql uninstalled successfully
 #! @result FAILURE: There was an error during uninstalling postgresql
