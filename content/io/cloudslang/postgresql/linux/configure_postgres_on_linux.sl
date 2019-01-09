@@ -79,6 +79,7 @@ namespace: io.cloudslang.postgresql.linux
 imports:
   base: io.cloudslang.base.cmd
   ssh: io.cloudslang.base.ssh
+  rft: io.cloudslang.base.remote_file_transfer
   remote: io.cloudslang.base.remote_file_transfer
   folders: io.cloudslang.base.os.linux.folders
   groups: io.cloudslang.base.os.linux.groups
@@ -213,7 +214,7 @@ flow:
               - timeout: ${execution_timeout}
               - connect_timeout: ${connection_timeout}
               - command: >
-                  ${'mkdir -p ~/temp && sudo cp -a '+ installation_location  +'/data/postgresql.conf ~/temp  && sudo chmod 777 '+ '~/temp/postgresql.conf && sudo cp -a '+ installation_location  +'/data/pg_hba.conf ~/temp && sudo chmod 777 '+ '~/temp/pg_hba.conf' }
+                  ${'mkdir -p ~/temp && sudo cp -a '+ installation_location  +'/data/postgresql.conf ~/temp  && sudo chmod 777 '+ '~/temp/postgresql.conf && sudo cp -a '+ installation_location  +'/data/pg_hba.conf ~/temp && sudo chmod 664 '+ '~/temp/pg_hba.conf && sudo chown ' + username + ' ~/temp/*' }
           publish:
             - return_result
             - standard_err
@@ -221,30 +222,47 @@ flow:
             - return_code
             - command_return_code
           navigate:
-            - SUCCESS: download_configs_to_local_folder
+            - SUCCESS: download_postgres_conf_to_temp_local_folder
             - FAILURE: FAILURE
 
-    - download_configs_to_local_folder:
+    - download_postgres_conf_to_temp_local_folder:
         do:
-           base.run_command:
-            - command: >
-                ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' ' + username+ '@'+ hostname+':~/temp/*.conf ' + temp_local_folder}
-        publish:
-            - return_result
-            - return_code
-            - error_message
+          rft.remote_secure_copy:
+            - source_path: ${'./temp/postgresql.conf'}
+            - source_host: ${hostname}
+            - source_port: '22'
+            - source_username: ${username}
+            - source_password: ${password if private_key_file is None else None}
+            - source_private_key_file: ${private_key_file}
+            - destination_path: ${temp_local_folder + '/postgresql.conf'}
+        navigate:
+          - SUCCESS: download_hba_conf_to_temp_local_folder
+          - FAILURE: FAILURE
+
+    - download_hba_conf_to_temp_local_folder:
+        do:
+          rft.remote_secure_copy:
+            - source_path: ${'./temp/pg_hba.conf'}
+            - source_host: ${hostname}
+            - source_port: '22'
+            - source_username: ${username}
+            - source_password: ${password if private_key_file is None else None}
+            - source_private_key_file: ${private_key_file}
+            - destination_path: ${temp_local_folder + '/pg_hba.conf'}
         navigate:
           - SUCCESS: update_postgres_conf
           - FAILURE: FAILURE
 
     - upload_local_configuration_file_to_user_folder:
         do:
-           base.run_command:
-            - command: >
-                ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' ' + configuration_file +' ' + username+ '@'+ hostname+':~/temp'}
-        publish:
-            - return_result: ${error_message}
-            - return_code
+          rft.remote_secure_copy:
+            - source_path: ${configuration_file}
+            - destination_host: ${hostname}
+            - destination_path: ${'./temp/' + configuration_file}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
         navigate:
           - SUCCESS: change_permission_and_move_file_to_postgress_installation_location
           - FAILURE: FAILURE
@@ -273,7 +291,6 @@ flow:
            - SUCCESS: update_pg_hba_config
            - FAILURE: FAILURE
 
-
     - update_pg_hba_config:
         do:
            postgres.common.update_pg_hba_config:
@@ -286,17 +303,33 @@ flow:
             - exception
             - stderr
         navigate:
-           - SUCCESS: upload_updated_file_from_temp_local_folder_to_user_folder
+           - SUCCESS: upload_updated_postgres_conf_to_data_dir
            - FAILURE: FAILURE
 
-    - upload_updated_file_from_temp_local_folder_to_user_folder:
+    - upload_updated_postgres_conf_to_data_dir:
         do:
-           base.run_command:
-            - command: >
-               ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' ' + temp_local_folder+'/postgresql.conf ' + username+ '@'+ hostname+':~/temp && scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' '+ temp_local_folder + '/pg_hba.conf ' + username+ '@'+ hostname+':~/temp'}
-        publish:
-            - return_result : ${error_message}
-            - return_code
+          rft.remote_secure_copy:
+            - source_path: ${temp_local_folder + '/postgresql.conf'}
+            - destination_host: ${hostname}
+            - destination_path: ${'temp/postgresql.conf'}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
+        navigate:
+          - SUCCESS: upload_updated_pg_hba_conf_to_data_dir
+          - FAILURE: FAILURE
+
+    - upload_updated_pg_hba_conf_to_data_dir:
+        do:
+          rft.remote_secure_copy:
+            - source_path: ${temp_local_folder + '/pg_hba.conf'}
+            - destination_host: ${hostname}
+            - destination_path: ${'temp/pg_hba.conf'}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
         navigate:
           - SUCCESS: change_permission_and_move_file_to_postgress_installation_location
           - FAILURE: FAILURE
@@ -324,35 +357,6 @@ flow:
        navigate:
          - SUCCESS: need_reboot_postgres
          - FAILURE: FAILURE
-
-
-    # Need 'cd /home' because by default we are in the folder 'username' and the user 'postgres' doesn't have permission to it.
-    # Example the error without  'cd /home' : could not change directory to "/home/ec2-user": Permission denied'
-    # cd /home && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'root'" < /dev/null
-    #- set_superuser_password:
-    #   do:
-    #     ssh.ssh_flow:
-    #       - host: ${hostname}
-    #       - port: '22'
-    #       - username
-    #       - private_key_file
-    #       - proxy_host
-    #       - proxy_port
-    #       - proxy_username
-    #       - proxy_password
-    #       - timeout: ${execution_timeout}
-    #       - connect_timeout: ${connection_timeout}
-    #       - command: >
-    #           ${'cd /home && sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD \''+ superuser_password +'\'" < /dev/null'}
-    #   publish:
-    #     - return_result
-    #     - standard_err
-    #     - standard_out
-    #     - return_code
-    #     - command_return_code
-    #   navigate:
-    #     - SUCCESS: need_reboot_postgres
-    #     - FAILURE: FAILURE
 
     - need_reboot_postgres:
         do:
