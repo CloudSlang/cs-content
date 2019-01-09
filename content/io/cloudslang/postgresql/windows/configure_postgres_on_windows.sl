@@ -66,10 +66,9 @@
 #!                Optional
 #! @input private_key_file: The absolute path to a private key file
 #!                          Optional
-#! @input temp_local_dir: The local folder to keep files downloaded from remote host. Use relative path to support different platforms. If the folder doesn't exist, it'll be created.
-#!                        Default: '/tmp'
-#!                        Optional
-#! @input service_name: The service name
+#! @input temp_local_folder: The local folder to keep files downloaded from remote host. Use relative path to support different platforms. If the folder doesn't exist, it'll be created.
+#!                           Default: '/tmp'
+#!                           Optional
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
@@ -156,8 +155,8 @@ flow:
         default: 'no'
         required: false
     - private_key_file:
-        required: true
-    - temp_local_dir:
+        required: false
+    - temp_local_folder:
         default: '/tmp'
         required: false
     - service_name:
@@ -264,27 +263,27 @@ flow:
            utils.is_null:
             - variable: ${configuration_file}
         navigate:
-          - IS_NULL: check_if_temp_local_dir_exists
+          - IS_NULL: check_if_temp_local_folder_exists
           - IS_NOT_NULL: check_if_configuration_file_exists
 
-    - check_if_temp_local_dir_exists:
+    - check_if_temp_local_folder_exists:
         do:
           fs.create_folder:
-            - folder_name: ${temp_local_dir}
+            - folder_name: ${temp_local_folder}
         publish:
-          - temp_local_dir_exists_message: ${message}
+          - temp_local_folder_exists_message: ${message}
         navigate:
            - SUCCESS: copy_configuration_files_to_temp_dir
-           - FAILURE: check_if_temp_local_dir_exists_result
+           - FAILURE: check_if_temp_local_folder_exists_result
 
-    - check_if_temp_local_dir_exists_result:
+    - check_if_temp_local_folder_exists_result:
         do:
           strings.string_occurrence_counter:
-            - string_in_which_to_search: ${temp_local_dir_exists_message}
+            - string_in_which_to_search: ${temp_local_folder_exists_message}
             - string_to_find: 'folder already exists'
         publish:
           - return_result
-          - exception: ${get('temp_local_dir_exists_message', '')}
+          - exception: ${get('temp_local_folder_exists_message', '')}
         navigate:
           - SUCCESS: copy_configuration_files_to_temp_dir
           - FAILURE: FAILURE
@@ -302,13 +301,14 @@ flow:
 
     - upload_configuration_file_to_temp_dir:
         do:
-           cmd.run_command:
-               - command: >
-                  ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' \"' + configuration_file + '\" ' + username + '@'+ hostname+':/C:/Users/'+username+'/tmp'}
-        publish:
-             - return_result: ''
-             - exception: ${error_message}
-             - return_code
+          rft.remote_secure_copy:
+            - source_path: ${configuration_file}
+            - destination_host: ${hostname}
+            - destination_path: ${'/Users/' + username + '/tmp/' + configuration_file}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
         navigate:
           - SUCCESS: move_file_to_data_dir
           - FAILURE: FAILURE
@@ -358,18 +358,33 @@ flow:
           -  exception
           -  stderr
         navigate:
-          - SUCCESS: download_configuration_files_to_temp_local_dir
+          - SUCCESS: download_postgres_conf_to_temp_local_folder
           - FAILURE: FAILURE
 
-    - download_configuration_files_to_temp_local_dir:
+    - download_postgres_conf_to_temp_local_folder:
         do:
-           cmd.run_command:
-             - command: >
-                ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file +' ' + username + '@'+ hostname +':/C:/Users/'+ username+'/tmp/postgresql.conf \"' + temp_local_dir + '\"'
-                ' && scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file +' ' +  username + '@'+ hostname + ':/C:/Users/' + username +'/tmp/pg_hba.conf \"' + temp_local_dir +'\"'}
-        publish:
-          - exception : ${error_message}
-          - return_code
+          rft.remote_secure_copy:
+            - source_path: ${'/Users/' + username + '/tmp/postgresql.conf'}
+            - source_host: ${hostname}
+            - source_port: '22'
+            - source_username: ${username}
+            - source_password: ${password if private_key_file is None else None}
+            - source_private_key_file: ${private_key_file}
+            - destination_path: ${temp_local_folder + '/postgresql.conf'}
+        navigate:
+          - SUCCESS: download_hba_conf_to_temp_local_folder
+          - FAILURE: FAILURE
+
+    - download_hba_conf_to_temp_local_folder:
+        do:
+          rft.remote_secure_copy:
+            - source_path: ${'/Users/' + username + '/tmp/pg_hba.conf'}
+            - source_host: ${hostname}
+            - source_port: '22'
+            - source_username: ${username}
+            - source_password: ${password if private_key_file is None else None}
+            - source_private_key_file: ${private_key_file}
+            - destination_path: ${temp_local_folder + '/pg_hba.conf'}
         navigate:
           - SUCCESS: update_postgresql_conf
           - FAILURE: FAILURE
@@ -377,7 +392,7 @@ flow:
     - update_postgresql_conf:
         do:
            postgres.common.update_postgres_config:
-             - file_path: ${temp_local_dir + '/postgresql.conf'}
+             - file_path: ${temp_local_folder + '/postgresql.conf'}
              - listen_addresses: ${listen_addresses}
              - port: ${port}
              - ssl: ${ssl}
@@ -400,12 +415,14 @@ flow:
 
     - upload_updated_postgres_conf_to_data_dir:
         do:
-           cmd.run_command:
-             - command: >
-                ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' \"' + temp_local_dir + '/postgresql.conf\" ' + username + '@'+ hostname + ':/C:/Users/'+username+'/tmp'}
-        publish:
-          - exception : ${error_message}
-          - return_code
+          rft.remote_secure_copy:
+            - source_path: ${temp_local_folder + '/postgresql.conf'}
+            - destination_host: ${hostname}
+            - destination_path: ${'/Users/' + username + '/tmp/postgresql.conf'}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
         navigate:
           - SUCCESS: update_pg_hba_conf
           - FAILURE: FAILURE
@@ -413,7 +430,7 @@ flow:
     - update_pg_hba_conf:
         do:
            postgres.common.update_pg_hba_config:
-              - file_path: ${temp_local_dir + '/pg_hba.conf'}
+              - file_path: ${temp_local_folder + '/pg_hba.conf'}
               - allowed_hosts: ${allowed_hosts}
               - allowed_users: ${allowed_users}
         publish:
@@ -426,12 +443,14 @@ flow:
 
     - upload_updated_pg_hba_conf_to_data_dir:
         do:
-           cmd.run_command:
-             - command: >
-                 ${'scp -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=QUIET -i ' + private_key_file + ' \"' + temp_local_dir + '/pg_hba.conf\" ' + username + '@'+ hostname + ':/C:/Users/'+username+'/tmp'}
-        publish:
-          - exception : ${error_message}
-          - return_code
+          rft.remote_secure_copy:
+            - source_path: ${temp_local_folder + '/pg_hba.conf'}
+            - destination_host: ${hostname}
+            - destination_path: ${'/Users/' + username + '/tmp/pg_hba.conf'}
+            - destination_port: '22'
+            - destination_username: ${username}
+            - destination_password: ${password if private_key_file is None else None}
+            - destination_private_key_file: ${private_key_file}
         navigate:
           - SUCCESS: move_file_to_data_dir
           - FAILURE: FAILURE
