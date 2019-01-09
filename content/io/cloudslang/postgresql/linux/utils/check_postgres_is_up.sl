@@ -28,7 +28,6 @@
 #! @input private_key_file: Absolute path to private key file
 #!                          Optional
 #!
-#! @output process_id: The ID of the PostgreSQL process
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: '0' if success, '-1' otherwise
 #! @output exception: contains the stack trace in case of an exception
