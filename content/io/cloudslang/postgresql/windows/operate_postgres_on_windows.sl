@@ -36,8 +36,6 @@
 #! @input start_on_boot: A flag to indicate if server should be restart after configuration
 #!                       Valid values: true, false
 #!                       Optional
-#! @input private_key_file: Absolute path to private key file
-#!                          Optional
 #!
 #! @output  return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output  return_code: '0' if success, '-1' otherwise
@@ -92,8 +90,6 @@ flow:
     - operation:
         required: false
     - start_on_boot:
-        required: false
-    - private_key_file:
         required: false
 
   workflow:
