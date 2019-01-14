@@ -93,7 +93,8 @@ operation:
         default: ${get("source_private_key_file", "")}
         required: false
         private: true
-    - destination_host
+    - destination_host:
+        required: false
     - destinationHost:
         default: ${get("destination_host", "")}
         required: false
@@ -108,7 +109,8 @@ operation:
     - destinationPort:
         default: ${get("destination_port", "22")}
         private: true
-    - destination_username
+    - destination_username:
+        required: false
     - destinationUsername:
         default: ${get("destination_username", "")}
         required: false
@@ -156,7 +158,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.5'
+    gav: 'io.cloudslang.content:cs-rft:0.0.6'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
 

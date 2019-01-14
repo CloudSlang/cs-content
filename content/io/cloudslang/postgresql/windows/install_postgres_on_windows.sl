@@ -80,6 +80,7 @@
 #!
 #! @result SUCCESS: Postgresql install and/or startup was successful
 #! @result DOWNLOAD_INSTALLER_MODULE_FAILURE: There was an error downloading or extracting the installer module
+#! @result INSTALL_INSTALLER_MODULE_FAILURE: There was an error downloading or extracting the installer module
 #! @result POSTGRES_INSTALL_PACKAGE_FAILURE: error installing postgres
 #!!#
 ########################################################################################################################
@@ -177,7 +178,32 @@ flow:
             - proxy_password
             - operation_timeout: ${execution_timeout}
             - script: >
-                ${'(New-Object Net.WebClient).DownloadFile(\"https://github.com/CloudSlang/cs-actions/raw/master/cs-postgres/src/main/resources/Install-Postgres.zip\",\"C:\Windows\Temp\Install-Postgres.zip\");(new-object -com shell.application).namespace(\"C:\Program Files\WindowsPowerShell\Modules\").CopyHere((new-object -com shell.application).namespace(\"C:\Windows\Temp\Install-Postgres.zip\").Items(),16)'}
+                ${'[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;(New-Object Net.WebClient).DownloadFile(\"https://github.com/CloudSlang/cs-actions/raw/master/cs-postgres/src/main/resources/Install-Postgres.zip\",\"C:\Windows\Temp\Install-Postgres.zip\")'}
+        publish:
+          -  return_code
+          -  return_result
+          -  stderr
+          -  script_exit_code
+          -  exception
+        navigate:
+          - SUCCESS: install_installer_module
+          - FAILURE: DOWNLOAD_INSTALLER_MODULE_FAILURE
+
+    - install_installer_module:
+        do:
+          scripts.powershell_script:
+            - host: ${hostname}
+            - port
+            - protocol
+            - username
+            - password
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - operation_timeout: ${execution_timeout}
+            - script: >
+                ${'(new-object -com shell.application).namespace(\"C:\Program Files\WindowsPowerShell\Modules\").CopyHere((new-object -com shell.application).namespace(\"C:\Windows\Temp\Install-Postgres.zip\").Items(),16)'}
         publish:
           -  return_code
           -  return_result
@@ -186,7 +212,7 @@ flow:
           -  exception
         navigate:
           - SUCCESS: install_postgres
-          - FAILURE: DOWNLOAD_INSTALLER_MODULE_FAILURE
+          - FAILURE: INSTALL_INSTALLER_MODULE_FAILURE
 
     - install_postgres:
         do:
@@ -239,4 +265,5 @@ flow:
   results:
     - SUCCESS
     - DOWNLOAD_INSTALLER_MODULE_FAILURE
+    - INSTALL_INSTALLER_MODULE_FAILURE
     - POSTGRES_INSTALL_PACKAGE_FAILURE
