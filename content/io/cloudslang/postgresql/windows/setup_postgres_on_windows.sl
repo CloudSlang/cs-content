@@ -91,7 +91,7 @@
 #!                Optional
 #! @input private_key_file: Absolute path to private key file
 #!                          Optional
-#! @input temp_local_dir: The temporary solution to keep files downloaded from remote host.
+#! @input temp_local_folder: The local folder to keep files downloaded from remote host. Use relative path to support different platforms. If the folder doesn't exist, it'll be created.
 #!                           Default: '/tmp'
 #!                           Optional
 #! @input db_name: Specifies the name of the database to be created.
@@ -245,8 +245,8 @@ flow:
         default: 'no'
         required: false
     - private_key_file:
-        required: true
-    - temp_local_dir:
+        required: false
+    - temp_local_folder:
         default: '/tmp'
         required: false
     - db_name:
@@ -305,6 +305,7 @@ flow:
         navigate:
           - SUCCESS: configure_postgres
           - DOWNLOAD_INSTALLER_MODULE_FAILURE: FAILURE
+          - INSTALL_INSTALLER_MODULE_FAILURE: FAILURE
           - POSTGRES_INSTALL_PACKAGE_FAILURE: FAILURE
 
     - configure_postgres:
@@ -338,7 +339,7 @@ flow:
             - data_dir
             - reboot
             - private_key_file
-            - temp_local_dir
+            - temp_local_folder
         publish:
           - return_result
           - return_code
