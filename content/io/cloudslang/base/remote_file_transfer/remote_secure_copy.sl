@@ -43,10 +43,10 @@
 #!
 #! @output return_result: Confirmation message.
 #! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise.
-#! @output exception: Exception description.
+#! @output exception: An exception which displays the stacktrace in case of failure, otherwise empty.
 #!
 #! @result SUCCESS: File copied successfully.
-#! @result FAILURE: Copy failed.
+#! @result FAILURE: An error has occurred while tyring to transfer the file.
 #!!#
 ########################################################################################################################
 
@@ -163,9 +163,9 @@ operation:
     method_name: copyTo
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_code: ${get('returnCode', '')}
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}
