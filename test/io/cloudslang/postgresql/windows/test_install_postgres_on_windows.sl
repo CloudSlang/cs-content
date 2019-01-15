@@ -243,6 +243,7 @@ flow:
         navigate:
           - SUCCESS: check_postgres_version
           - DOWNLOAD_INSTALLER_MODULE_FAILURE: parse_xml_exception
+          - INSTALL_INSTALLER_MODULE_FAILURE: parse_xml_exception
           - POSTGRES_INSTALL_PACKAGE_FAILURE: parse_xml_exception
 
     - parse_xml_exception:
