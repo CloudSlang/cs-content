@@ -1,0 +1,115 @@
+#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testInstallPostgresWithDefaultSettingsOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - private_key_file: <my_file.pem>
+  description: >
+     Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name is 'postgresql-10' by default
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres10OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - service_account: 'postgres'
+    - service_name: 'postgresql-10'
+    - service_password: 'postgres'
+    - private_key_file: <my_file.pem>
+  description: >
+     Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+     Notes:
+       - service_name must be 'postgresql-10'
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 10.6
+  result: SUCCESS
+
+testInstallPostgres96OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-9.6'
+    - service_password: 'postgres'
+    - private_key_file: <my_file.pem>
+  description: >
+      Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+       - service_name must be 'postgresql-9.6'
+       - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.6.11
+  result: SUCCESS
+
+testInstallPostgres95OnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-3.noarch.rpm'
+    - service_account: 'postgres'
+    - service_name: 'postgresql-9.5'
+    - service_password: 'postgres'
+    - private_key_file: <my_file.pem>
+  description: >
+      Tests that run install_postgres_on_linux.sl to install postgres, check status, remove installation and finishes with SUCCESS.
+      Notes:
+        - service_name must be 'postgresql-9.5'
+        - service uses port 5432
+  outputs:
+    - install_return_result: "The PostgreSQL server was successfully installed"
+    - install_return_code: "0"
+    - installed_postgres_version: |-
+        psql (PostgreSQL) 9.5.15
+  result: SUCCESS
+
+testInstallPostgresWithInvalidFileOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,install-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_install_postgres_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - installation_file: 'https://download.postgresql.org/pub/repos/yum/invalid.rpm'
+    - private_key_file: <my_file.pem>
+  description: >
+      Tests that run install_postgres_on_linux.sl to try installing postgres with invalid installation file and finishes with FAILURE.
+  outputs:
+      - install_exception: |-
+          Cannot open: https://download.postgresql.org/pub/repos/yum/invalid.rpm. Skipping.
+          Error: Nothing to do
