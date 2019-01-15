@@ -1,9 +1,28 @@
+#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Performs several powershell commands in order to deploy install postgresql application on machines that are running
 #!               windows Server 2016
 #!
 #! @input hostname: Hostname or IP address of the target machine
+#! @input hostname_port: The WinRM service port
+#!              Default: '5985'
+#!              Optional
+#! @input hostname_protocol: The protocol used to connect to the WinRM service.
+#!                  Valid values: 'http' or 'https'.
+#!                  Optional
 #! @input username: Username used to connect to the target machine
 #! @input password: The root or priviledged account password
 #! @input port: The WinRM service port
@@ -88,18 +107,18 @@ namespace: io.cloudslang.postgresql.windows
 imports:
   scripts: io.cloudslang.base.powershell
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
+  postgres: io.cloudslang.postgresql
 
 flow:
-  name: install_postgres_on_windows
+  name: test_install_postgres_on_windows
 
   inputs:
     - hostname:
         required: true
-    - port:
+    - hostname_port:
         default: '5985'
         required: false
-    - protocol:
+    - hostname_protocol:
         default: 'http'
         required: false
     - username:
@@ -119,7 +138,7 @@ flow:
     - connection_timeout:
         default: '10'
     - execution_timeout:
-        default: '90'
+        default: '900'
     - installation_file:
         default: 'http://get.enterprisedb.com/postgresql/postgresql-10.6-1-windows-x64.exe'
         required: false
@@ -134,108 +153,167 @@ flow:
         required: false
     - service_name:
         default: 'postgresql'
+        required: false
     - service_account:
-        default: 'postgres'
+        required: true
     - service_password:
         required: true
         sensitive: true
     - locale:
-        default: 'English, United States'
         required: false
     - create_shortcuts:
-        default: 'true'
         required: false
     - debug_level:
-        default: '2'
         required: false
     - debug_trace:
-        default: ''
         required: false
     - extract_only:
-        default: 'false'
         required: false
     - installer_language:
-        default: 'en'
         required: false
     - install_runtimes:
-        default: 'true'
         required: false
 
   workflow:
-    - download_installer_module:
+    - check_postgress_is_running:
         do:
-          scripts.powershell_script:
-            - host: ${hostname}
-            - port
-            - protocol
+           postgres.windows.utils.check_postgres_is_up:
+             - hostname
+             - hostname_port
+             - hostname_protocol
+             - username
+             - password
+             - proxy_host
+             - proxy_port
+             - proxy_username
+             - proxy_password
+             - execution_timeout
+             - service_name
+        publish:
+           - exception
+           - return_code
+           - return_result
+        navigate:
+          - SUCCESS: POSTGRES_ALREADY_EXISTS
+          - FAILURE: verify
+
+    - verify:
+          do:
+            strings.string_occurrence_counter:
+              - string_in_which_to_search: ${return_result}
+              - string_to_find: 'State     : Running'
+          navigate:
+            - SUCCESS: parse_xml_exception
+            - FAILURE: installer_postgres
+
+    - installer_postgres:
+        do:
+          postgres.windows.install_postgres_on_windows:
+             - hostname
+             - port: ${hostname_port}
+             - protocol: ${hostname_protocol}
+             - username
+             - password
+             - proxy_host
+             - proxy_port
+             - proxy_username
+             - proxy_password
+             - connection_timeout
+             - execution_timeout
+             - installation_file
+             - installation_location
+             - data_dir
+             - server_port
+             - service_name
+             - service_account
+             - service_password
+             - locale
+             - create_shortcuts
+             - debug_level
+             - debug_trace
+             - extract_only
+             - installer_language
+             - install_runtimes
+        publish:
+            -  return_code
+            -  installer_return_result: ${return_result}
+            -  exception
+            -  installer_exception: ${exception}
+            -  print_install_error
+        navigate:
+          - SUCCESS: check_postgres_version
+          - DOWNLOAD_INSTALLER_MODULE_FAILURE: parse_xml_exception
+          - INSTALL_INSTALLER_MODULE_FAILURE: parse_xml_exception
+          - POSTGRES_INSTALL_PACKAGE_FAILURE: parse_xml_exception
+
+    - parse_xml_exception:
+         do:
+            parse_powershell_xml_object:
+               - xml_object: ${get('exception', '')}
+         publish:
+             - exception_from_xml: ${exception_message}
+         navigate:
+            - SUCCESS: uninstall_postgres
+
+    - check_postgres_version:
+            do:
+              scripts.powershell_script:
+                - host: ${hostname}
+                - port: ${hostname_port}
+                - protocol: ${hostname_protocol}
+                - username
+                - password
+                - proxy_host
+                - proxy_port
+                - proxy_username
+                - proxy_password
+                - operation_timeout: ${execution_timeout}
+                - script: >
+                    ${'$env:PGPASSWORD=\''+ service_password +'\';Set-Location -Path \"' + installation_location+'\\\\bin\"; $psql = get-command .\\psql.exe; $user =\''+ service_account +'\'; & $psql -U $user --version'}
+            publish:
+                - return_code
+                - installed_postgres_version: ${return_result.replace('\r', '')}
+                - exception
+            navigate:
+                - SUCCESS: uninstall_postgres
+                - FAILURE: uninstall_postgres
+
+    - uninstall_postgres:
+        do:
+          postgres.windows.uninstall_postgres_on_windows:
+            - hostname
+            - hostname_port
+            - hostname_protocol
             - username
             - password
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
-            - operation_timeout: ${execution_timeout}
-            - script: >
-                ${'(New-Object Net.WebClient).DownloadFile(\"https://drive.google.com/uc?export=download&id=1RbJTU9-sg1hLjDz5B4p74vX8oF-oHhZH\",\"C:\Windows\Temp\Install-Postgres.zip\");(new-object -com shell.application).namespace(\"C:\Program Files\WindowsPowerShell\Modules\").CopyHere((new-object -com shell.application).namespace(\"C:\Windows\Temp\Install-Postgres.zip\").Items(),16)'}
+            - execution_timeout
+            - service_name
+            - service_account
+            - service_password
+            - installation_location
+            - data_dir
         publish:
-          -  return_code
-          -  return_result
-          -  stderr
-          -  script_exit_code
-          -  exception
+            - return_code
+            - return_result
+            - exception
         navigate:
-          - SUCCESS: install_postgres
-          - FAILURE: DOWNLOAD_INSTALLER_MODULE_FAILURE
-
-    - install_postgres:
-        do:
-          scripts.powershell_script:
-            - host: ${hostname}
-            - port
-            - protocol
-            - username
-            - password
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - operation_timeout: '600'
-            - script: >
-                ${'Import-Module Install-Postgres; Install-Postgres -User \"' + service_account + '\" -Password \"' + service_password + '\" -SuperAccount \"' + service_account + '\" -SuperPassword \"' + service_password + '\" -InstallerUrl \"' + installation_file + '\" -InstallPath \"' + installation_location + '\" -DataPath \"' + data_dir + '\" -Locale \"' + locale + '\" -Port ' + server_port + ' -ServiceName \"' + service_name + '\" -CreateShortcuts ' + '1' if (create_shortcuts) else '0' + ' -DebugLevel \"' + debug_level + '\" -DebugTrace \"' + debug_trace + '\" -ExtractOnly ' + '1' if (extract_only) else '0' + ' -InstallerLanguage \"' + installer_language + '\" -InstallerRuntimes ' + '1' if (install_runtimes) else '0'}
-        publish:
-          -  return_code
-          -  return_result
-          -  stderr
-          -  script_exit_code
-          -  exception
-        navigate:
-          - SUCCESS: check_postgres_install_is_successful
-          - FAILURE: print_install_error
-
-    - print_install_error:
-        do:
-          print.print_text:
-            - text: ${stderr}
-        navigate:
-          - SUCCESS: POSTGRES_INSTALL_PACKAGE_FAILURE
-
-    - check_postgres_install_is_successful:
-        do:
-          strings.string_occurrence_counter:
-            - string_in_which_to_search: ${return_result}
-            - string_to_find: 'Postgres has been installed'
-        publish:
-          - return_result: 'The PostgreSQL server was successfully installed'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: POSTGRES_INSTALL_PACKAGE_FAILURE
+            - SUCCESS: SUCCESS
+            - FAILURE: FAILURE
 
   outputs:
-    -  return_code
-    -  return_result
-    -  exception: ${stderr}
+    - return_code
+    - return_result
+    - exception
+    - installed_postgres_version
+    - exception_from_xml: ${get('exception_from_xml', '')}
+    - installer_exception: ${get('installer_exception', '')}
+    - installer_return_result: ${get('installer_return_result', '').strip()}
 
   results:
     - SUCCESS
-    - DOWNLOAD_INSTALLER_MODULE_FAILURE
-    - POSTGRES_INSTALL_PACKAGE_FAILURE
+    - FAILURE
+    - POSTGRES_ALREADY_EXISTS
