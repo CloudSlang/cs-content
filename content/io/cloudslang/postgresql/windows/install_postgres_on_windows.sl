@@ -103,7 +103,6 @@ namespace: io.cloudslang.postgresql.windows
 imports:
   scripts: io.cloudslang.base.powershell
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: install_postgres_on_windows
