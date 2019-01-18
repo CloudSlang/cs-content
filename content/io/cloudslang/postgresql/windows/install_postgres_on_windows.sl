@@ -103,7 +103,6 @@ namespace: io.cloudslang.postgresql.windows
 imports:
   scripts: io.cloudslang.base.powershell
   strings: io.cloudslang.base.strings
-  print: io.cloudslang.base.print
 
 flow:
   name: install_postgres_on_windows
@@ -250,14 +249,7 @@ flow:
           -  exception
         navigate:
           - SUCCESS: check_postgres_install_is_successful
-          - FAILURE: print_install_error
-
-    - print_install_error:
-        do:
-          print.print_text:
-            - text: ${stderr}
-        navigate:
-          - SUCCESS: POSTGRES_INSTALL_PACKAGE_FAILURE
+          - FAILURE: POSTGRES_INSTALL_PACKAGE_FAILURE
 
     - check_postgres_install_is_successful:
         do:
