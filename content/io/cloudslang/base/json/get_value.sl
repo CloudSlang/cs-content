@@ -17,7 +17,7 @@
 #!
 #! @input json_input: JSON data input
 #!                    Example 1: '{"k1": {"k2": ["v1", "v2"]}}'
-                      Example 2: '{"token":"0123456789"}'
+#!                    Example 2: '{"token":"0123456789"}'
 #! @input json_path: path from which to retrieve value represented as a list of keys and/or indices.
 #!                   Passing an empty list ([]) will retrieve the entire json_input.
 #!                   Example 1: ["k1", "k2", 1]
