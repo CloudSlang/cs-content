@@ -16,10 +16,12 @@
 #! @description: Parses the given JSON input to retrieve the corresponding value addressed by the json_path input.
 #!
 #! @input json_input: JSON data input
-#!                    Example: '{"k1": {"k2": ["v1", "v2"]}}'
+#!                    Example 1: '{"k1": {"k2": ["v1", "v2"]}}'
+                      Example 2: '{"token":"0123456789"}'
 #! @input json_path: path from which to retrieve value represented as a list of keys and/or indices.
 #!                   Passing an empty list ([]) will retrieve the entire json_input.
-#!                   Example: ["k1", "k2", 1]
+#!                   Example 1: ["k1", "k2", 1]
+#!                   Example 2 (get the value of the token from json_input from Example 2 above): token
 #!
 #! @output return_result: The corresponding value of the key referred to by json_path
 #! @output return_code: "0" if parsing was successful, "-1" otherwise
