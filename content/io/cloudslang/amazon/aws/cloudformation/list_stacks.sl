@@ -92,7 +92,7 @@ operation:
     - region
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.22'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.27'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.ListStacksAction
     method_name: execute
 
