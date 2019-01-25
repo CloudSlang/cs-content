@@ -37,7 +37,7 @@
 #! @input stack_capabilities: A list of values that you must specify before AWS CloudFormation can create certain stacks. Some stack templates might include resources that can affect permissions in your AWS account, for example, by creating new AWS Identity and Access Management (IAM) users. or those stacks, you must explicitly acknowledge their capabilities by specifying this parameter.
 #!                      Valid values: CAPABILITY_IAM, CAPABILITY_NAMED_IAM
 #! @input template_body: AWS template body.
-#! @input template_parameters: AWS template parameters in key:value format. Every key:value pair should be on its own line.
+#! @input template_parameters: AWS template parameters in key=value format. Example: ${'param1=' + value1 + '\\n\\\nparam2='  + value2 + '\\n\\\nparam3='  + value3}
 #! @input sleep_time: sleep time in seconds between retries
 #! @input retries_max: maximum number of retries before giving up
 #!
@@ -65,7 +65,6 @@ flow:
         required: false
     - template_body: ''
     - template_parameters:
-        default: "${'param1=' + value1 + '\\n\\\nparam2='  + value2 + '\\n\\\nparam3='  + value3}"
         required: false
     - proxy_host:
         required: false
@@ -82,23 +81,31 @@ flow:
     - retries_max:
         default: '10'
         required: false
+  outputs:
+    - return_result
+    - stack_outputs
+    - stack_resources
+    - exception
 
   workflow:
     - create_stack:
         do:
           cloudformation.create_stack:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - region
             - stack_name
             - template_body
-            - parameters
-            - capabilities
+            - parameters: '${template_parameters}'
+            - capabilities: '${stack_capabilities}'
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
         publish:
           - retry_count: '0'
@@ -109,13 +116,16 @@ flow:
     - list_stacks:
         do:
           cloudformation.list_stacks:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
             - region
         navigate:
@@ -125,8 +135,10 @@ flow:
     - get_stack_details:
         do:
           cloudformation.get_stack_details:
-            - identity
+            - identity:
+                value: '${access_key_id}'
             - credential:
+                value: '${access_key}'
                 sensitive: true
             - region
             - stack_name
@@ -134,9 +146,12 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password:
+                value: '${proxy_password}'
                 sensitive: true
         publish:
           - stack_status
+          - stack_outputs
+          - stack_resources
         navigate:
           - SUCCESS: is_stack_created
           - FAILURE: on_failure
@@ -181,3 +196,45 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+
+extensions:
+  graph:
+    steps:
+      create_stack:
+        x: 71
+        y: 106
+      list_stacks:
+        x: 659
+        y: 107
+        navigate:
+          40f99d8a-14df-ee1e-08fa-2150abef743d:
+            targetId: 9b31debc-5211-7ae2-d870-fa22325e37a9
+            port: SUCCESS
+      get_stack_details:
+        x: 280
+        y: 106
+      is_stack_created:
+        x: 494
+        y: 99
+      sleep:
+        x: 281
+        y: 280
+      add_numbers:
+        x: 462
+        y: 281
+      check_retry:
+        x: 458
+        y: 433
+        navigate:
+          9675d7e4-57c4-13b5-7a01-dee957d1d14b:
+            targetId: 3aa9d9ea-1ecd-b4d8-106c-f95ab0ef5472
+            port: GREATER_THAN
+    results:
+      FAILURE:
+        3aa9d9ea-1ecd-b4d8-106c-f95ab0ef5472:
+          x: 651
+          y: 423
+      SUCCESS:
+        9b31debc-5211-7ae2-d870-fa22325e37a9:
+          x: 839
+          y: 113
