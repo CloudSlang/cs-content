@@ -98,7 +98,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.18'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.22'
     class_name: io.cloudslang.content.amazon.actions.cloudformation.DeleteStackAction
     method_name: execute
 
