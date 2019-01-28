@@ -27,6 +27,12 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'true'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'allow_all'
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -101,6 +107,16 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get("trust_all_roots", "true")}
+        private: true
+    - x_509_hostname_verifier:
+        required: false
+    - x509HostnameVerifier:
+        default: ${get("x_509_hostname_verifier", "allow_all")}
+        private: true
     - trust_keystore:
         default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
         required: false
