@@ -111,12 +111,12 @@ flow:
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: ${get("trust_all_roots", "true")}
+        default: ${get("trust_all_roots", "false")}
         private: true
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
-        default: ${get("x_509_hostname_verifier", "allow_all")}
+        default: ${get("x_509_hostname_verifier", "strict")}
         private: true
     - trust_keystore:
         default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
