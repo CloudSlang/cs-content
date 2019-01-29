@@ -197,12 +197,12 @@ operation:
         required: false
     - trustAllRoots:
         default: ${get("trust_all_roots", "true")}
-        private: true
+        private: false
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
         default: ${get("x_509_hostname_verifier", "allow_all")}
-        private: true
+        private: false
     - trust_keystore:
         required: false
     - trustKeystore:
