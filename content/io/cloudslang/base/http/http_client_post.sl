@@ -112,15 +112,11 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
+        default: 'false'
         required: false
-    - trustAllRoots:
-        default: ${get("trust_all_roots", "false")}
-        private: true
     - x_509_hostname_verifier:
+        default: 'strict'
         required: false
-    - x509HostnameVerifier:
-        default: ${get("x_509_hostname_verifier", "strict")}
-        private: true
     - trust_keystore:
         default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
         required: false
@@ -168,8 +164,8 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
-            - trust_all_roots: 'false'
-            - x_509_hostname_verifier: 'strict'
+            - trust_all_roots
+            - x_509_hostname_verifier
             - trust_keystore
             - trust_password
             - keystore
