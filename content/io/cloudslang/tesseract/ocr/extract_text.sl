@@ -57,7 +57,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC2'
+    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC5'
     class_name: 'io.cloudslang.content.tesseract.actions.ExtractText'
     method_name: 'execute'
 
