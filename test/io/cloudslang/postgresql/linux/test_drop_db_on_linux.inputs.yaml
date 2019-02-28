@@ -1,0 +1,62 @@
+#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testDropDbOnLinuxSuccess:
+  testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_drop_db_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - db_name: 'cs_test'
+    - private_key_file: <my_file.pem>
+  description: "Tests that run drop_db_on_linux.sl to drop a database and finishes with SUCCESS"
+  result: SUCCESS
+
+testDropDbWithInvalidUsernameOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: 'invalid-username'
+    - private_key_file: <my_file.pem>
+  description: "Test that run drop_db_on_linux.sl with invalid username and finishes with Auth failure"
+  outputs:
+    -  return_result: 'com.jcraft.jsch.JSchException: Auth fail'
+  result: FAILURE
+
+testDropDbWithInvalidInstallationLocationOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - installation_location: '/some/path'
+    - private_key_file: <my_file.pem>
+  description: "Tests that run drop_db_on_linux.sl to drop a database with invalid installation_location and finishes with FAILURE"
+  outputs:
+    - exception: 'pg_ctl: directory "/some/path/data" does not exist'
+  result: FAILURE
+
+testDropDbWithInvalidPgCtlLocationOnLinuxFailure:
+  testSuites: [postgresql,postgresql-linux,dropdb-postgres-linux]
+  testFlowPath: io.cloudslang.postgresql.linux.test_create_db_on_linux
+  inputs:
+    - hostname: <hostname>
+    - username: <username>
+    - pg_ctl_location: '/some/path'
+    - private_key_file: <my_file.pem>
+  description: "Tests that run drop_db_on_linux.sl to drop a database with invalid pg_ctl_location and finishes with FAILURE"
+  outputs:
+    - exception: '-bash: /some/path/pg_ctl: No such file or directory'
+  result: FAILURE

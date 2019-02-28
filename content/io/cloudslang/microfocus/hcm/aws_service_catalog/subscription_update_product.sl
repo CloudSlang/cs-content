@@ -1,4 +1,4 @@
-#   (c) Copyright 2018 Micro Focus, L.P.
+#   (c) Copyright 2019 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -137,7 +137,7 @@ flow:
             - use_cookies: ${get_sp('io.cloudslang.microfocus.hcm.use_cookies')}
             - keep_alive: ${get_sp('io.cloudslang.microfocus.hcm.keep_alive')}
         publish:
-          - parameters_list: '${return_result}'
+          - parameters_list: '${param_list}'
         navigate:
           - SUCCESS: update_product
           - FAILURE: FAILURE
