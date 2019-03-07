@@ -24,9 +24,15 @@
 #!                  Optional
 #! @input dpi: The DPI value when converting the PDF file to image.
 #!             Optional
+#! @input text_blocks: If set to 'true' operation will return a json containing text blocks  extracted from image.
+#!                     Valid values: false, true
+#!                     Default: false
+#!                     Optional
 #!
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output return_result: This will contain the extracted text.
+#! @output text_string: The extracted text from image.
+#! @output text_json: A json containing extracted blocks of text from image.
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result
 #!                    contains the java stack trace of the runtime exception.
 #!
@@ -56,6 +62,12 @@ operation:
       required: false
   - dpi:
       required: false
+  - text_blocks:
+      required: false
+  - textBlocks:
+      default: ${get('text_blocks', '')}
+      required: false
+      private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC7'
@@ -65,6 +77,8 @@ operation:
   outputs:
   - return_code: ${get('returnCode', '')}
   - return_result: ${get('returnResult', '')}
+  - text_string: ${get('textString', '')}
+  - text_json: ${get('textJson', '')}
   - exception: ${get('exception', '')}
 
   results:
