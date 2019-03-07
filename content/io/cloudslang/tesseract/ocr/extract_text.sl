@@ -69,7 +69,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC8'
     class_name: 'io.cloudslang.content.tesseract.actions.ExtractText'
     method_name: 'execute'
 
