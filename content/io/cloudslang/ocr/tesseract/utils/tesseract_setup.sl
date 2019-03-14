@@ -18,7 +18,7 @@
 #! @input data_path: The path to a folder where OCR Tesseract configuration files will be created.
 #!
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output return_result: This will contain the extracted text.
+#! @output return_result: A message in case of success, or an error message in case of failure.
 #! @output data_path_output: The path to the tessdata folder that contains the tesseract config files.
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result
 #!                    contains the java stack trace of the runtime exception.
