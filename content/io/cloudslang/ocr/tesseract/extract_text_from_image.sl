@@ -13,21 +13,28 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation converts a PDF file given as input and extracts the text using Tesseract's OCR library.
+#! @description: This operation extracts the text from a specified image given as input using Tesseract's OCR library.
 #!
-#! @input file_path: The path to the PDF file from where the text needs to be extracted.
-#! @input data_path: The path to the Tesseract data config directory. This directory can contain different configuration
-#!                   files as well as trained language data files.
+#! @input file_path: The path to the file from where the text needs to be extracted.
+#! @input data_path: The path to the tessdata folder that contains the tesseract config files. If no file path is
+#!                   provided, at runtime a tessdata folder containing the ENG traineddata file will be created in the
+#!                   system's temp folder. It is recommended to create the tessdata folder and provide the path in this
+#!                   input, in order to be able to provide newer traineddata files, other langauge files and to avoid
+#!                   unnecessary disk writes. The folder and files can be found on the official tesseract Github.
 #!                   Optional
 #! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
 #!                  specifying the dataPath input as well.
+#!                  Default value: 'ENG'
 #!                  Optional
-#! @input dpi: The DPI value when converting the PDF file to image.
-#!             Optional
-#! @input text_blocks: If set to 'true' operation will return a json containing text blocks  extracted from image.
+#! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image.
 #!                     Valid values: false, true
-#!                     Default: false
+#!                     Default value: false
 #!                     Optional
+#! @input deskew: Improve text recognition if an image does not have a normal text orientation(skewed image). If set to
+#!                'true' the image will be rotated to the correct text orientation.
+#!                Valid values: false, true
+#!                Default value: false
+#!                Optional
 #!
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output return_result: This will contain the extracted text.
@@ -41,16 +48,16 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.tesseract.ocr
+namespace: io.cloudslang.ocr.tesseract
 
 operation:
-  name: extract_text_from_pdf
+  name: extract_text_from_image
 
   inputs:
   - file_path
   - filePath:
       default: ${get('file_path', '')}
-      required: false
+      required: true
       private: true
   - data_path:
       required: false
@@ -60,18 +67,18 @@ operation:
       private: true
   - language:
       required: false
-  - dpi:
-      required: false
   - text_blocks:
       required: false
   - textBlocks:
       default: ${get('text_blocks', '')}
       required: false
       private: true
+  - deskew:
+      required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC8'
-    class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromPDF'
+    gav: 'io.cloudslang.content:cs-tesseract:1.0.0-RC9'
+    class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromImage'
     method_name: 'execute'
 
   outputs:
