@@ -16,16 +16,10 @@
 #! @description: This operation extracts the text from a specified image given as input using Tesseract's OCR library.
 #!
 #! @input file_path: The path to the file from where the text needs to be extracted.
-#! @input data_path: The path to the tessdata folder that contains the tesseract config files. If no file path is
-#!                   provided, at runtime a tessdata folder containing the ENG traineddata file will be created in the
-#!                   system's temp folder. It is recommended to create the tessdata folder and provide the path in this
-#!                   input, in order to be able to provide newer traineddata files, other langauge files and to avoid
-#!                   unnecessary disk writes. The folder and files can be found on the official tesseract Github.
-#!                   Optional
+#! @input data_path: The path to the tessdata folder that contains the tesseract config files.
 #! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
 #!                  specifying the dataPath input as well.
 #!                  Default value: 'ENG'
-#!                  Optional
 #! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image.
 #!                     Valid values: false, true
 #!                     Default value: false
@@ -60,13 +54,13 @@ operation:
       required: true
       private: true
   - data_path:
-      required: false
+      required: true
   - dataPath:
       default: ${get('data_path', '')}
-      required: false
+      required: true
       private: true
   - language:
-      required: false
+      required: true
   - text_blocks:
       required: false
   - textBlocks:
