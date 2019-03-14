@@ -21,23 +21,28 @@
 #!                   Optional
 #! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
 #!                  specifying the dataPath input as well.
+#!                  Default value: 'ENG'
 #!                  Optional
 #! @input dpi: The DPI value when converting the PDF file to image.
+#!             Default value: 300
 #!             Optional
-#! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image. Valid
-#!                     values: false, trueDefault value: false
+#! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image.
+ #!                    Valid values: false, true
+#!                     Default value: false
 #!                     Optional
 #! @input deskew: Improve text recognition if an image does not have a normal text orientation(skewed image). If set to
 #!                'true' the image will be rotated to the correct text orientation.
 #!                 Valid values: false, true
-#!                 Default
-#!                 value: false
+#!                 Default value: false
 #!                 Optional
 #! @input from_page: The starting page from where the text should be retrieved
+#!                   Default value: 0
 #!                   Optional
 #! @input to_page: The last page from where the text should be retrieved
+#!                 Default value: 0
 #!                 Optional
 #! @input page_index: A list of indexes from where the text should be retrieved
+#!                    Default value: 0
 #!                    Optional
 #!
 #! @output return_code: 0 if success, -1 otherwise.
@@ -52,7 +57,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.tesseract.ocr
+namespace: io.cloudslang.ocr.tesseract
 
 operation:
   name: extract_text_from_pdf
@@ -61,7 +66,7 @@ operation:
   - file_path
   - filePath:
       default: ${get('file_path', '')}
-      required: false
+      required: true
       private: true
   - data_path:
       required: false
