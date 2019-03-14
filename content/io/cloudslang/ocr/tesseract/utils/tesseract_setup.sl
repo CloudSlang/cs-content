@@ -23,8 +23,8 @@
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result
 #!                    contains the java stack trace of the runtime exception.
 #!
-#! @result SUCCESS: Text extracted successfully.
-#! @result FAILURE: There was an error while trying to extract the text.
+#! @result SUCCESS: Configuration files created successfully.
+#! @result FAILURE: There was an error while trying to create configuration files.
 #!!#
 ########################################################################################################################
 
