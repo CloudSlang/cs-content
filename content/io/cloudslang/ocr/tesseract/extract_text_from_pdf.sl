@@ -97,13 +97,13 @@ operation:
       private: true
   - page_index:
       required: false
-  - PageIndex:
+  - pageIndex:
       default: ${get('page_index', '')}
       required: false
       private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-tesseract:1.0.0'
+    gav: 'io.cloudslang.content:cs-tesseract:1.0.1-SNAPSHOT'
     class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromPDF'
     method_name: 'execute'
 
