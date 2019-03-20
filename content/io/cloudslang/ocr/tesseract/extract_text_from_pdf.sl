@@ -97,7 +97,7 @@ operation:
       private: true
   - page_index:
       required: false
-  - PageIndex:
+  - pageIndex:
       default: ${get('page_index', '')}
       required: false
       private: true
