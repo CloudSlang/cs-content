@@ -46,8 +46,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.5-SNAPSHOT'
-    class_name: io.cloudslang.content.utilities.actions.Base64Decoder
+    gav: 'io.cloudslang.content:cs-utilities:0.1.5-RC8'
+    class_name: io.cloudslang.content.utilities.actions.Base64DecoderToFile
     method_name: execute
 
   outputs:
