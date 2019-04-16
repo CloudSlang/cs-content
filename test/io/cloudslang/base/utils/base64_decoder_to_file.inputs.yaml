@@ -17,12 +17,11 @@ testBase64DecoderToFileSuccess:
   testFlowPath: io.cloudslang.base.utils.base64_decoder_to_file
   testSuites: [base64-decoder-to-file]
   inputs:
-    - file_path: "C:\\Eric\\cv.txt"
+    - file_path: <file_path>
     - content_bytes: "bW9vbg0KbWFuDQptZWRpY2luZQ0KcmVzdGF1cmFudA0KYW50DQphcHBsZQ0KcGVvcGxlDQpvbmxpbmUNCm5ldXJvbmFsDQphbGwNCmVyZ29ub21pYw0KbGVuZ2h0DQpoZWlnaHQNCg=="
   outputs:
     - return_code: '0'
-    - return_path: 'C:\Eric\cv.txt'
-    - return_result: 'File was succesfully created at: C:\Eric\cv.txt'
+    - return_path: <file_path>
   result: SUCCESS
 
 testBase64DecoderToFileInvalidPathException:
@@ -30,7 +29,7 @@ testBase64DecoderToFileInvalidPathException:
   testFlowPath: io.cloudslang.base.utils.base64_decoder_to_file
   testSuites: [base64-decoder-file]
   inputs:
-    - file_path: "C:\\asd\\cv.txt"
+    - file_path: <invalid_file_path>
     - content_bytes: "bW9vbg0KbWFuDQptZWRpY2luZQ0KcmVzdGF1cmFudA0KYW50DQphcHBsZQ0KcGVvcGxlDQpvbmxpbmUNCm5ldXJvbmFsDQphbGwNCmVyZ29ub21pYw0KbGVuZ2h0DQpoZWlnaHQNCg=="
   outputs:
     - return_code: '-1'
