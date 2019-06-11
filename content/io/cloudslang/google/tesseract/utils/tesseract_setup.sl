@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation setup Tesseract config files.
 #!
-#! @input data_path: The path to a folder where OCR Tesseract configuration files will be created.
+#! @input data_path: The path to a folder where CS Google Tesseract configuration files will be created.
 #!
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output return_result: A message in case of success, or an error message in case of failure.
@@ -28,7 +28,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.ocr.tesseract.utils
+namespace: io.cloudslang.google.tesseract.utils
 
 operation:
   name: tesseract_setup
