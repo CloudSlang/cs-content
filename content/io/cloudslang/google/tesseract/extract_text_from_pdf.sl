@@ -13,22 +13,34 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation extracts the text from a specified image given as input using Tesseract's OCR library.
+#! @description: This operation converts a PDF file given as input and extracts the text using Tesseract's OCR library.
 #!
-#! @input file_path: The path to the file from where the text needs to be extracted.
+#! @input file_path: The path to the PDF file from where the text needs to be extracted.
 #! @input data_path: The path to the tessdata folder that contains the tesseract config files.
 #! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
 #!                  specifying the dataPath input as well.
 #!                  Default value: 'ENG'
+#! @input dpi: The DPI value when converting the PDF file to image.
+#!             Default value: 300
+#!             Optional
 #! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image.
-#!                     Valid values: false, true
+ #!                    Valid values: false, true
 #!                     Default value: false
 #!                     Optional
 #! @input deskew: Improve text recognition if an image does not have a normal text orientation(skewed image). If set to
 #!                'true' the image will be rotated to the correct text orientation.
-#!                Valid values: false, true
-#!                Default value: false
-#!                Optional
+#!                 Valid values: false, true
+#!                 Default value: false
+#!                 Optional
+#! @input from_page: The starting page from where the text should be retrieved
+#!                   Default value: 0
+#!                   Optional
+#! @input to_page: The last page from where the text should be retrieved
+#!                 Default value: 0
+#!                 Optional
+#! @input page_index: A list of indexes from where the text should be retrieved
+#!                    Default value: 0
+#!                    Optional
 #!
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output return_result: This will contain the extracted text.
@@ -42,10 +54,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.ocr.tesseract
+namespace: io.cloudslang.google.tesseract
 
 operation:
-  name: extract_text_from_image
+  name: extract_text_from_pdf
 
   inputs:
   - file_path
@@ -61,6 +73,8 @@ operation:
       private: true
   - language:
       required: true
+  - dpi:
+      required: false
   - text_blocks:
       required: false
   - textBlocks:
@@ -69,10 +83,28 @@ operation:
       private: true
   - deskew:
       required: false
+  - from_page:
+      required: false
+  - fromPage:
+      default: ${get('from_page', '')}
+      required: false
+      private: true
+  - to_page:
+      required: false
+  - toPage:
+      default: ${get('to_page', '')}
+      required: false
+      private: true
+  - page_index:
+      required: false
+  - pageIndex:
+      default: ${get('page_index', '')}
+      required: false
+      private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-tesseract:1.0.1-RC1'
-    class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromImage'
+    class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromPDF'
     method_name: 'execute'
 
   outputs:
