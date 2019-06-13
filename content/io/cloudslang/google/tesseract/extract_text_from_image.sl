@@ -13,14 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation extracts the text from a specified image given as input using Tesseract's OCR library.
+#! @description: This operation extracts the text from a specified image, given as input, using the Google Tesseract
+#! library.
+#!
+#! Tesseract works best on images which have a DPI of at least 300 dpi, so it may be beneficial to resize images.
+#!
+#! For information regarding setting up the prerequisites, where to obtain more trained models or how to train your own
+#! please see the description of the tesseract_setup operation.
 #!
 #! @input file_path: The path to the file from where the text needs to be extracted.
 #! @input data_path: The path to the tessdata folder that contains the tesseract config files.
-#! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
+#! @input language: The language that will be used by the Tesseract engine. This input is taken into consideration only when
 #!                  specifying the dataPath input as well.
 #!                  Default value: 'ENG'
-#! @input text_blocks: If set to 'true' operation will return a json containing text blocks extracted from image.
+#! @input text_blocks: If set to 'true' operation will return the text blocks extracted from image, formatted as JSON.
 #!                     Valid values: false, true
 #!                     Default value: false
 #!                     Optional
