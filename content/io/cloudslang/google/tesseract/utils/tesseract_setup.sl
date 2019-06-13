@@ -13,7 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation setup Tesseract config files.
+#! @description: This operations can be used to setup the Tesseract configuration folder to a specific file system
+#! location. By default the created folder contains the latest ENG trained data file available in 06.2019.
+#!
+#! There are three sets of .traineddata files on the Tesseract Github in the following locations:
+#! https://github.com/tesseract-ocr/tessdata_best
+#! https://github.com/tesseract-ocr/tessdata_fast
+#! https://github.com/tesseract-ocr/tessdata
+#!
+#! In order to train your own .traineddata files you can follow the official Tesseract Documentation available at:
+#! https://github.com/tesseract-ocr/tesseract/wiki/TrainingTesseract-4.00
 #!
 #! @input data_path: The path to a folder where CS Google Tesseract configuration files will be created.
 #!

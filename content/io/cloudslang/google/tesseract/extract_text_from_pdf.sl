@@ -13,12 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation converts a PDF file given as input and extracts the text using Tesseract's OCR library.
+#! @description: This operation converts a PDF file given as input and extracts the text using Google Tesseract library.
+#!
+#! For information regarding setting up the prerequisites, where to obtain more trained models or how to train your own
+#! please see the description of the tesseract_setup operation.
 #!
 #! @input file_path: The path to the PDF file from where the text needs to be extracted.
 #! @input data_path: The path to the tessdata folder that contains the tesseract config files.
-#! @input language: The language that will be used by the OCR engine. This input is taken into consideration only when
-#!                  specifying the dataPath input as well.
+#! @input language: The language that will be used by the Tesseract engine. This input is taken into consideration only
+#!                  when specifying the dataPath input as well.
 #!                  Default value: 'ENG'
 #! @input dpi: The DPI value when converting the PDF file to image.
 #!             Default value: 300
@@ -32,14 +35,12 @@
 #!                 Valid values: false, true
 #!                 Default value: false
 #!                 Optional
-#! @input from_page: The starting page from where the text should be retrieved
-#!                   Default value: 0
+#! @input from_page: The starting page number from where the text should be retrieved.
 #!                   Optional
-#! @input to_page: The last page from where the text should be retrieved
-#!                 Default value: 0
+#! @input to_page: The last page number from where the text should be retrieved.
 #!                 Optional
-#! @input page_index: A list of indexes from where the text should be retrieved
-#!                    Default value: 0
+#! @input page_index: A comma separated list of page numbers from where the text should be retrieved.
+#!                    Example: 1,2,5,8
 #!                    Optional
 #!
 #! @output return_code: 0 if success, -1 otherwise.
