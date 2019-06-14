@@ -24,7 +24,7 @@
 #! In order to train your own .traineddata files you can follow the official Tesseract Documentation available at:
 #! https://github.com/tesseract-ocr/tesseract/wiki/TrainingTesseract-4.00
 #!
-#! @input data_path: The path to a folder where CS Google Tesseract configuration files will be created.
+#! @input data_path: The path to a folder where CS Tesseract OCR configuration files will be created.
 #!
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output return_result: A message in case of success, or an error message in case of failure.
@@ -37,7 +37,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.google.tesseract.utils
+namespace: io.cloudslang.tesseract.ocr.utils
 
 operation:
   name: tesseract_setup
