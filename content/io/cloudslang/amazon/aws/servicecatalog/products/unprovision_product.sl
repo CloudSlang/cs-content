@@ -131,7 +131,6 @@ operation:
         default: ${get('polling_interval', '')}
         required: false
         private: true
-        private: true
     - async:
         default: 'false'
         required: false  
