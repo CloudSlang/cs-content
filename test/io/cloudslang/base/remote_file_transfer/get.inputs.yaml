@@ -4,6 +4,8 @@ TestGetSuccess:
     - port: <imap_port>
     - localFile: <local_file>
     - remoteFile: <remote_file>
+    - user: <user>
+    - password: <password>
   description: Tests that get.sl finishes with SUCCESS
   testFlowPath: io.cloudslang.base.remote_file_transfer.get
   testSuites: [ftp-ops]
@@ -17,6 +19,8 @@ TestGetWithWrongLoginInformation:
     - port: <imap_port>
     - localFile: <local_file>
     - remoteFile: <remote_file>
+    - user: <user>
+    - password: <user_password>
   description: Tests that get.sl finishes with FAILURE with wrong login information.
   testFlowPath: io.cloudslang.base.remote_file_transfer.get
   testSuites: [ftp-ops]
