@@ -1,0 +1,30 @@
+TestGetSuccess:
+  inputs:
+    - host: <imap_host>
+    - port: <imap_port>
+    - user: <user>
+    - password: <password>
+    - localFile: <local_location>
+    - remoteFile: <remote_file>
+
+  description: Tests that sftp_get.sl finishes with SUCCESS
+  testFlowPath: io.cloudslang.base.remote_file_transfer.sftp_get
+  testSuites: [ftp-ops]
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
+
+TestGetWithWrongLoginInformation:
+  inputs:
+    - hostName: <imap_host>
+    - port: <imap_port>
+    - localFile: <local_file>
+    - remoteFile: <remote_file>
+    - user: <user>
+    - password: <user_password>
+  description: Tests that sftp_get.sl finishes with FAILURE with wrong login information.
+  testFlowPath: io.cloudslang.base.remote_file_transfer.sftp_get
+  testSuites: [ftp-ops]
+  outputs:
+    - return_code: '-1'
+  result: FAILURE
