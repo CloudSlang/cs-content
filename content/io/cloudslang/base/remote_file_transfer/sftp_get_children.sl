@@ -9,15 +9,15 @@
 #! @input username: Remote username.
 #!
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the  file
-#! @input privateKey: Absolute path for private key file for public/private key authentication.
+#! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remotePath: The remote file or directory name.
+#! @input remote_path: The remote file or directory name.
 #! @input delimiter:  A delimiter to use for the result lists (returnResult, files, folders).
-#! @input agentForwarding: The sessionObject that holds the connection if the close session is false.
+#! @input agent_forwarding: The sessionObject that holds the connection if the close session is false.
 #!                          Optional
-#! @input characterSet: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
+#! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Optional
-#! @input closeSession: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
+#! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
 #!                       Valid values: true, false.
 #!                       Optional
