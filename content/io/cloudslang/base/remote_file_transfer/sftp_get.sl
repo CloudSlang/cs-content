@@ -55,7 +55,7 @@ operation:
     - local_location:
         required: true
     - localLocation:
-        default: ${get("local_location"),"")}
+        default: ${get("local_location","")}
         required: false
     - character_set:
         required: false
