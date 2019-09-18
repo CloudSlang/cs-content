@@ -44,18 +44,33 @@ operation:
     - username
     - password:
         sensitive: true
-    - privateKey:
+    - private_key:
         required: false
-    - remotePath
+    - privateKey:
+        default: ${get("private_key","")}
+        required: false
+    - remote_path:
+        required: true
+    - remotePath:
+        default: ${get("remote_path","")}
+        required: false
     - delimiter
-    - agentForwarding:
+    - character_set:
         required: false
     - characterSet:
-        default: 'UTF-8'
+        default: ${get("character_set", "UTF-8")}
+        private: true
+    - close_session:
         required: false
     - closeSession:
-        default: 'true'
+        default: ${get("close_session", "true")}
+        private: true
+    - agent_forwarding:
         required: false
+    - agentForwarding:
+        default: ${get("agent_forwarding", "")}
+        required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.7-SNAPSHOT'

@@ -11,13 +11,13 @@
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the  file
 #! @input privateKey: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remoteFile: The remote file.
-#! @input localLocation: The location where file is to be placed on the RAS.
-#! @input agentForwarding: The sessionObject that holds the connection if the close session is false.
+#! @input remote_file: The remote file.
+#! @input local_location: The location where file is to be placed on the RAS.
+#! @input agent_forwarding: The sessionObject that holds the connection if the close session is false.
 #!                          Optional
-#! @input characterSet: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
+#! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Optional
-#! @input closeSession: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
+#! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
 #!                       Valid values: true, false.
 #!                       Optional
@@ -42,18 +42,37 @@ operation:
     - username
     - password:
         sensitive: true
-    - privateKey:
+    - private_key:
         required: false
-    - remoteFile
-    - localLocation
-    - agentForwarding:
+    - privateKey:
+        default: ${get("private_key","")}
+        required: false
+    - remote_file:
+        required: true
+    - remoteFile:
+        default: ${get("remote_file","")}
+        required: false
+    - local_location:
+        required: true
+    - localLocation:
+        default: ${get("local_location"),"")}
+        required: false
+    - character_set:
         required: false
     - characterSet:
-        default: 'UTF-8'
+        default: ${get("character_set", "UTF-8")}
+        private: true
+    - close_session:
         required: false
     - closeSession:
-        default: 'true'
+        default: ${get("close_session", "true")}
+        private: true
+    - agent_forwarding:
         required: false
+    - agentForwarding:
+        default: ${get("agent_forwarding", "")}
+        required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.7-SNAPSHOT'
