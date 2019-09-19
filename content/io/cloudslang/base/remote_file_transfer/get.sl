@@ -55,7 +55,7 @@ operation:
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.7-SNAPSHOT'
     class_name: io.cloudslang.content.rft.actions.ftp.Get
-    method_name: execute
+    method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
