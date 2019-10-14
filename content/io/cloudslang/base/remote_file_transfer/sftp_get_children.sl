@@ -13,8 +13,6 @@
 #!                     Optional
 #! @input remote_path: The remote file or directory name.
 #! @input delimiter:  A delimiter to use for the result lists (returnResult, files, folders).
-#! @input agent_forwarding: The sessionObject that holds the connection if the close session is false.
-#!                          Optional
 #! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
@@ -64,12 +62,6 @@ operation:
         required: false
     - closeSession:
         default: ${get("close_session", "true")}
-        private: true
-    - agent_forwarding:
-        required: false
-    - agentForwarding:
-        default: ${get("agent_forwarding", "")}
-        required: false
         private: true
 
   java_action:
