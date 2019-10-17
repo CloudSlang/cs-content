@@ -53,7 +53,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.7-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.7-RC2'
     class_name: io.cloudslang.content.rft.actions.ftp.Get
     method_name: execute
 
