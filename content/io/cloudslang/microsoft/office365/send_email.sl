@@ -94,9 +94,7 @@ operation:
         default: ${get('client_id', '')}
         required: false
         private: true
-    - client_secret:
-        required: false
-        sensitive: true
+    - client_secret
     - clientSecret:
         default: ${get('client_secret', '')}
         required: false
@@ -210,8 +208,8 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-office-365:1.0.0-SNAPSHOT'
-    class_name: io.cloudslang.content.office365.actions.email.SendEmail
-    method_name: execute
+    class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
+    method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
