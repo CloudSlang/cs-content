@@ -94,7 +94,8 @@ operation:
         default: ${get('client_id', '')}
         required: false
         private: true
-    - client_secret
+    - client_secret:
+        private: true
     - clientSecret:
         default: ${get('client_secret', '')}
         required: false
