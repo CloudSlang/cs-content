@@ -89,6 +89,7 @@ operation:
   name: send_email
 
   inputs:
+    - tenant
     - client_id
     - clientId:
         default: ${get('client_id', '')}
@@ -101,7 +102,22 @@ operation:
         required: false
         private: true
         sensitive: true
-    - tenant
+    - from
+    - to_recipients
+    - toRecipients:
+        default: ${get('to_recipients', '')}
+        required: false
+        private: true
+    - cc_recipients:
+        required: false
+    - ccRecipients:
+        default: ${get('cc_recipients', '')}
+        required: false
+        private: true
+    - subject:
+        required: false
+    - body:
+        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -128,22 +144,6 @@ operation:
         required: false
         private: true
         sensitive: true
-    - cc_recipients:
-        required: false
-    - ccRecipients:
-        default: ${get('cc_recipients', '')}
-        required: false
-        private: true
-    - from
-    - to_recipients
-    - toRecipients:
-        default: ${get('to_recipients', '')}
-        required: false
-        private: true
-    - body:
-        required: false
-    - subject:
-        required: false
     - trust_all_roots:
         required: false
     - trustAllRoots:
