@@ -214,11 +214,11 @@ operation:
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception: ${exception}
-    - status_code: ${statusCode}
-    - message_id: ${messageId}
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
+    - status_code: ${get('statusCode', '')}
+    - message_id: ${get('messageId', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}
