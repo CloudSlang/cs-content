@@ -14,9 +14,9 @@
 ########################################################################################################################
 #!!
 #! @description: This operation retrieves a message based on a message id.
-#                If a messageId is not provided the flow retrieves the message list from the provided
-#                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
-#                based on the date and time.
+#!                If a messageId is not provided the flow retrieves the message list from the provided
+#!                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
+#!                based on the date and time.
 #!
 #! @input client_id: Service Client ID
 #! @input email_address: The email address on which to perform the action,
@@ -80,10 +80,10 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is empty,
-##                                 the charset from the 'Content-Type' HTTP response header will be used. If responseCharacterSet
-##                                 is empty and the charset from the HTTP response Content-Type header is empty,
-##                                 the default value will be used. You should not use this for method=HEAD or OPTIONS.
-##                                 Default value: UTF-8
+#!                                 the charset from the 'Content-Type' HTTP response header will be used. If responseCharacterSet
+#!                                 is empty and the charset from the HTTP response Content-Type header is empty,
+#!                                 the default value will be used. You should not use this for method=HEAD or OPTIONS.
+#!                                 Default value: UTF-8
 #!
 #! @output return_result: A message is returned in case of success, an error message is returned in case of failure.
 #! @output return_code: 0 if success, -1 otherwise.
