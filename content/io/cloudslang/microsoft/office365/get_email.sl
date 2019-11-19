@@ -151,7 +151,7 @@ operation:
         required: false
         default: '$select=subject,bodyPreview,sender,from'
     - oDataQuery:
-        default: ${get('o_data_query', '$select=subject,bodyPreview,sender,from')}
+        default: ${get('o_data_query', '')}
         required: false
         private: true
     - proxy_host:
