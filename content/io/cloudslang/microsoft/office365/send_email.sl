@@ -15,10 +15,19 @@
 #!!
 #! @description: Send email using Office 365.
 #!
+#! @input tenant: Your application tenant.
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
-#! @input tenant: Your application tenant.
+#! @input from: The mailbox owner and sender of the message. Updatable only if isDraft = true. Mustcorrespond to the
+#!              actual mailbox used.
+#! @input to_recipients: The 'To recipients' for the message. Updatable only if 'isDraft' = true.
+#! @input cc_recipients: The Cc recipients for the message. Updatable only if 'isDraft' = true.
+#!                       Optional
+#! @input subject: The subject of the message. Updatable only if 'isDraft' = true.
+#!                 Optional
+#! @input body: The body of the message. Updatable only if 'isDraft' = true.
+#!              Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -27,15 +36,6 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input cc_recipients: The Cc recipients for the message. Updatable only if 'isDraft' = true.
-#!                       Optional
-#! @input from: The mailbox owner and sender of the message. Updatable only if isDraft = true. Mustcorrespond to the
-#!              actual mailbox used.
-#! @input to_recipients: The 'To recipients' for the message. Updatable only if 'isDraft' = true.
-#! @input body: The body of the message. Updatable only if 'isDraft' = true.
-#!              Optional
-#! @input subject: The subject of the message. Updatable only if 'isDraft' = true.
-#!                 Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Optional

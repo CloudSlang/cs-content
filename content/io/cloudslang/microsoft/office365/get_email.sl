@@ -14,26 +14,18 @@
 ########################################################################################################################
 #!!
 #! @description: This operation retrieves a message based on a message id.
-#!                If a messageId is not provided the flow retrieves the message list from the provided
+#!                If a messageId is not provided the operation retrieves the message list from the provided
 #!                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
 #!                based on the date and time.
 #!
+#! @input tenant: Your application tenant.
 #! @input client_id: Service Client ID
-#! @input email_address: The email address on which to perform the action,
-#!                       Optional
 #! @input client_secret: Service Client Secret
 #!                       Optional
-#! @input tenant: Your application tenant.
+#! @input email_address: The email address on which to perform the action,
+#!                       Optional
 #! @input message_id: The ID of the sent mail.
 #!                    Optional
-#! @input proxy_host: Proxy server used to access the Office 365 service.
-#!                    Optional
-#! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
-#!                    Optional
-#! @input proxy_username: Proxy server user name.
-#!                        Optional
-#! @input proxy_password: Proxy server password associated with the proxy_username input value.
-#!                        Optional
 #! @input folder_id: The ID of the folder which contains the message to retrieve.
 #!                   Optional
 #! @input top_query: Query parameter use to specify the number of results. Default value: 10
@@ -43,9 +35,19 @@
 #!                      Optional
 #! @input o_data_query: Query parameters which can be used to specify and control the amount of data returned in a
 #!                      response specified in 'key1=val1&key2=val2' format. $top and $select options should be not
-#!                      passed for this input because the valuesfor these options can be passed in topQuery and
-#!                      selectQuery inputs. Example: $format=json
+#!                      passed for this input because the values for these options can be passed in topQuery and
+#!                      selectQuery inputs. In order to customize the Office 365 response, modify or remove the default value.
+#!                      Example: $format=json
+#!                      Default value: $select=subject,bodyPreview,sender,from
 #!                      Optional
+#! @input proxy_host: Proxy server used to access the Office 365 service.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Optional
@@ -89,7 +91,6 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while sending the email.
 #! @output status_code: The HTTP status code for Office 365 API request.
-#! @output message_id_output: The ID of the sent mail.
 #! @output message_id_list: A comma-separated list of message IDs from the retrieved document.
 #!
 #! @result SUCCESS: The email was retrieved with success.
@@ -148,8 +149,9 @@ operation:
         private: true
     - o_data_query:
         required: false
+        default: '$select=subject,bodyPreview,sender,from'
     - oDataQuery:
-        default: ${get('o_data_query', '')}
+        default: ${get('o_data_query', '$select=subject,bodyPreview,sender,from')}
         required: false
         private: true
     - proxy_host:
@@ -251,7 +253,6 @@ operation:
     - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
-    - message_id_output: ${get('messageId', '')}
     - message_id_list: ${get('messageIdList', '')}
 
   results:
