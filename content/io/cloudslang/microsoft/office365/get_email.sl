@@ -13,12 +13,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Send email using Office 365.
+#! @description: This operation retrieves a message based on a message id.
+#                If a messageId is not provided the flow retrieves the message list from the provided
+#                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
+#                based on the date and time.
 #!
 #! @input client_id: Service Client ID
+#! @input email_address: The email address on which to perform the action,
+#!                       Optional
 #! @input client_secret: Service Client Secret
 #!                       Optional
 #! @input tenant: Your application tenant.
+#! @input message_id: The ID of the sent mail.
+#!                    Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -27,15 +34,18 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input cc_recipients: The Cc recipients for the message. Updatable only if 'isDraft' = true.
-#!                       Optional
-#! @input from: The mailbox owner and sender of the message. Updatable only if isDraft = true. Mustcorrespond to the
-#!              actual mailbox used.
-#! @input to_recipients: The 'To recipients' for the message. Updatable only if 'isDraft' = true.
-#! @input body: The body of the message. Updatable only if 'isDraft' = true.
-#!              Optional
-#! @input subject: The subject of the message. Updatable only if 'isDraft' = true.
-#!                 Optional
+#! @input folder_id: The ID of the folder which contains the message to retrieve.
+#!                   Optional
+#! @input top_query: Query parameter use to specify the number of results. Default value: 10
+#!                   Optional
+#! @input select_query: A list of query parameters in the form of a comma delimited list. Example:
+#!                      id,internetMessageHeaders
+#!                      Optional
+#! @input o_data_query: Query parameters which can be used to specify and control the amount of data returned in a
+#!                      response specified in 'key1=val1&key2=val2' format. $top and $select options should be not
+#!                      passed for this input because the valuesfor these options can be passed in topQuery and
+#!                      selectQuery inputs. Example: $format=json
+#!                      Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Optional
@@ -70,26 +80,27 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is empty,
-#                                 the charset from the 'Content-Type' HTTP response header will be used. If responseCharacterSet
-#                                 is empty and the charset from the HTTP response Content-Type header is empty,
-#                                 the default value will be used. You should not use this for method=HEAD or OPTIONS.
-#                                 Default value: UTF-8
+##                                 the charset from the 'Content-Type' HTTP response header will be used. If responseCharacterSet
+##                                 is empty and the charset from the HTTP response Content-Type header is empty,
+##                                 the default value will be used. You should not use this for method=HEAD or OPTIONS.
+##                                 Default value: UTF-8
 #!
 #! @output return_result: A message is returned in case of success, an error message is returned in case of failure.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while sending the email.
 #! @output status_code: The HTTP status code for Office 365 API request.
-#! @output message_id: The ID of the sent mail.
+#! @output message_id_output: The ID of the sent mail.
+#! @output message_id_list: A comma-separated list of message IDs from the retrieved document.
 #!
-#! @result SUCCESS: The email was sent successfully.
-#! @result FAILURE: There was an error while sending the email.
+#! @result SUCCESS: The email was retrieved with success.
+#! @result FAILURE: There was an error while trying to retrieve the email.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.office365
 
 operation:
-  name: send_email
+  name: get_email
 
   inputs:
     - tenant
@@ -105,22 +116,42 @@ operation:
         required: false
         private: true
         sensitive: true
-    - from
-    - to_recipients
-    - toRecipients:
-        default: ${get('to_recipients', '')}
+    - email_address:
+        required: false
+    - emailAddress:
+        default: ${get('email_address', '')}
         required: false
         private: true
-    - cc_recipients:
+    - message_id:
         required: false
-    - ccRecipients:
-        default: ${get('cc_recipients', '')}
+    - messageId:
+        default: ${get('message_id', '')}
         required: false
         private: true
-    - subject:
+    - folder_id:
         required: false
-    - body:
+    - folderId:
+        default: ${get('folder_id', '')}
         required: false
+        private: true
+    - top_query:
+        required: false
+    - topQuery:
+        default: ${get('top_query', '')}
+        required: false
+        private: true
+    - select_query:
+        required: false
+    - selectQuery:
+        default: ${get('select_query', '')}
+        required: false
+        private: true
+    - o_data_query:
+        required: false
+    - oDataQuery:
+        default: ${get('o_data_query', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -212,7 +243,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-office-365:1.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
+    class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
   outputs:
@@ -220,8 +251,9 @@ operation:
     - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
-    - message_id: ${get('messageId', '')}
+    - message_id_output: ${get('messageId', '')}
+    - message_id_list: ${get('messageIdList', '')}
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
