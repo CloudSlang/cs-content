@@ -105,7 +105,11 @@ operation:
         required: false
         private: true
         sensitive: true
-    - from
+    - test1
+    - from:
+        default: $(get('test1', ''))
+        required: false
+        private: true
     - to_recipients
     - toRecipients:
         default: ${get('to_recipients', '')}
