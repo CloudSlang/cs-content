@@ -105,9 +105,9 @@ operation:
         required: false
         private: true
         sensitive: true
-    - test1
+    - from_address
     - from:
-        default: ${get('test1', '')}
+        default: ${get('from_address', '')}
         required: false
         private: true
     - to_recipients
