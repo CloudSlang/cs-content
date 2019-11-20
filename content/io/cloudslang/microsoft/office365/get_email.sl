@@ -244,7 +244,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.3-SNAPSHOT'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 

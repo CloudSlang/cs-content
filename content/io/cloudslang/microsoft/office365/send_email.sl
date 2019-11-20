@@ -106,7 +106,7 @@ operation:
         private: true
         sensitive: true
     - from_address
-    - from:
+    - fromAddress:
         default: ${get('from_address', '')}
         required: false
         private: true
@@ -215,7 +215,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.3-SNAPSHOT'
     class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
     method_name: 'execute'
 
