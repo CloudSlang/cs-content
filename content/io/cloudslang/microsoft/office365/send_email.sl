@@ -105,7 +105,8 @@ operation:
         required: false
         private: true
         sensitive: true
-    - from
+    - from:
+        default: ''
     - to_recipients
     - toRecipients:
         default: ${get('to_recipients', '')}
