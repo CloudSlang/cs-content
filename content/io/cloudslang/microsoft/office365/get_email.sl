@@ -135,8 +135,10 @@ operation:
         default: ${get('folder_id', '')}
         required: false
         private: true
-    - count
-    - query
+    - count:
+        required: false
+    - query:
+        required: false
     - o_data_query:
         required: false
         default: '$select=subject,bodyPreview,sender,from'
