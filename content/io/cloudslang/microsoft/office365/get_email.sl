@@ -28,9 +28,9 @@
 #!                    Optional
 #! @input folder_id: The ID of the folder which contains the message to retrieve.
 #!                   Optional
-#! @input top_query: Query parameter use to specify the number of results. Default value: 10
+#! @input count: Query parameter use to specify the number of results. Default value: 10
 #!                   Optional
-#! @input select_query: A list of query parameters in the form of a comma delimited list. Example:
+#! @input query: A list of query parameters in the form of a comma delimited list. Example:
 #!                      id,internetMessageHeaders
 #!                      Optional
 #! @input o_data_query: Query parameters which can be used to specify and control the amount of data returned in a
@@ -135,18 +135,8 @@ operation:
         default: ${get('folder_id', '')}
         required: false
         private: true
-    - top_query:
-        required: false
-    - topQuery:
-        default: ${get('top_query', '')}
-        required: false
-        private: true
-    - select_query:
-        required: false
-    - selectQuery:
-        default: ${get('select_query', '')}
-        required: false
-        private: true
+    - count
+    - query
     - o_data_query:
         required: false
         default: '$select=subject,bodyPreview,sender,from'
@@ -244,7 +234,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC24'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC25'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
