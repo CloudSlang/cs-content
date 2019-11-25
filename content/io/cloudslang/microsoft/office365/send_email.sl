@@ -19,7 +19,7 @@
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
-#! @input from: The mailbox owner and sender of the message. Updatable only if isDraft = true. Mustcorrespond to the
+#! @input from_address: The mailbox owner and sender of the message. Updatable only if isDraft = true. Mustcorrespond to the
 #!              actual mailbox used.
 #! @input to_recipients: The 'To recipients' for the message. Updatable only if 'isDraft' = true.
 #! @input cc_recipients: The Cc recipients for the message. Updatable only if 'isDraft' = true.
