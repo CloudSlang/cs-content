@@ -38,7 +38,7 @@ script:
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov -des -cs
   
-  jdk:
+jdk:
   - openjdk8
 
 # cat prints only part of the file for some reason so we print ourselves
