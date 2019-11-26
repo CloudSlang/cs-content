@@ -13,15 +13,15 @@
 #
 ########################################################################################################################
 
-test_clear_unused_images_success:
-  testSuites: [docker,images]
-  description: Tests that clear docker images flow finishes with success
-  testFlowPath: io.cloudslang.docker.images.test_clear_unused_images
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name1: hello-world
-    - image_name2: busybox
-  result: SUCCESS
+#test_clear_unused_images_success:
+#  testSuites: [docker,images]
+#  description: Tests that clear docker images flow finishes with success
+#  testFlowPath: io.cloudslang.docker.images.test_clear_unused_images
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name1: hello-world
+#    - image_name2: busybox
+#  result: SUCCESS
