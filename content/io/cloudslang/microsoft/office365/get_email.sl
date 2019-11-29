@@ -40,6 +40,9 @@
 #!                      Example: $format=json
 #!                      Default value: $select=subject,bodyPreview,sender,from
 #!                      Optional
+#! @input file_path: The file path under which the attachment will be downloaded. The attachment will not be downloaded
+#!                   if a path is not provided.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -146,6 +149,10 @@ operation:
         default: ${get('o_data_query', '')}
         required: false
         private: true
+    - file_path:
+        required: false
+    - filePath:
+        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -236,7 +243,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC25'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC26'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
