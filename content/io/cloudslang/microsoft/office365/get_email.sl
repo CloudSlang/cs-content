@@ -152,7 +152,9 @@ operation:
     - file_path:
         required: false
     - filePath:
+        default: ${get('file_path', '')}
         required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
