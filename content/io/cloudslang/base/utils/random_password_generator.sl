@@ -58,50 +58,50 @@ operation:
     - password_length:
         required: false
     - passwordLength:
-        default: '10'
+        default: ${get('password_length', '10')}
         required: false
         private: true
     - number_of_lower_case_characters:
         required: false
     - numberOfLowerCaseCharacters:
-        default: '1'
+        default: ${get('number_of_lower_case_characters', '1')}
         required: false
         private: true
     - number_of_upper_case_characters:
         required: false
     - numberOfUpperCaseCharacters:
-        default: '1'
+        default: ${get('number_of_upper_case_characters', '1')}
         required: false
         private: true
     - number_of_numerical_characters:
         required: false
     - numberOfNumericalCharacters:
-        default: '1'
+        default: ${get('number_of_numerical_characters', '1')}
         required: false
         private: true
     - number_of_special_characters:
         required: false
     - numberOfSpecialCharacters:
-        default: '1'
+        default: ${get('number_of_special_characters', '1')}
         required: false
         private: true
     - forbidden_characters:
         required: false
     - forbiddenCharacters:
-        default: ''
+        default: ${get('forbidden_characters', '')}
         required: false
         private: true
 
 
   java_action:
     gav: 'io.cloudslang.content:cs-utilities:0.1.6'
-    class_name: 'io.cloudslang.content.utilities.actions.RandomPasswordGenerator'
-    method_name: 'execute'
+    class_name: io.cloudslang.content.utilities.actions.RandomPasswordGenerator
+    method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${ returnCode == '0'}
