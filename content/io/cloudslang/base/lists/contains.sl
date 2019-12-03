@@ -54,7 +54,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.7'
+    gav: 'io.cloudslang.content:cs-lists:0.0.8'
     class_name: io.cloudslang.content.actions.ListContainsAction
     method_name: containsElement
 
