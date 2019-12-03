@@ -30,16 +30,22 @@
 #!                   Optional
 #! @input count: Query parameter use to specify the number of results. Default value: 10
 #!                   Optional
-#! @input query: A list of query parameters in the form of a comma delimited list. Example:
-#!                      id,internetMessageHeaders
+#! @input query: A list of query parameters in the form of a comma delimited list.
+#!                      Example: id,internetMessageHeaders,body,sender,sentDateTime,subject
 #!                      Optional
 #! @input o_data_query: Query parameters which can be used to specify and control the amount of data returned in a
 #!                      response specified in 'key1=val1&key2=val2' format. $top and $select options should be not
 #!                      passed for this input because the values for these options can be passed in topQuery and
 #!                      selectQuery inputs. In order to customize the Office 365 response, modify or remove the default value.
-#!                      Example: $format=json
+#!                      Example: &filter=Subject eq 'Test' AND IsRead eq true
+#!                               &filter=HasAttachments eq true
+#!                               &search="from:help@contoso.com"
+#!                               &search="subject:Test"
 #!                      Default value: $select=subject,bodyPreview,sender,from
 #!                      Optional
+#! @input file_path: The file path under which the attachment will be downloaded. The attachment will not be downloaded
+#!                   if a path is not provided.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -146,6 +152,12 @@ operation:
         default: ${get('o_data_query', '')}
         required: false
         private: true
+    - file_path:
+        required: false
+    - filePath:
+        default: ${get('file_path', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -236,7 +248,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC25'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC26'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
