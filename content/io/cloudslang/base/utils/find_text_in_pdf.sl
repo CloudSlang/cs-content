@@ -58,7 +58,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.4'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.6'
     class_name: 'io.cloudslang.content.utilities.actions.FindTextInPdf'
     method_name: 'execute'
 
