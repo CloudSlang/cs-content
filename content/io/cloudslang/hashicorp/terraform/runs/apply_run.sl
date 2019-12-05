@@ -13,29 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List an oauth client id.
+#! @description: Applies a run that is paused waiting for confirmation after a plan. This includes runs in the "needs
+#!               confirmation" and "policy checked" states. This action is only required for runs that can't be
+#!               auto-applied.
 #!
-#! @input auth_token: The authorization token for terraform
-#! @input variable_name: The name of the variable.
-#!                       Optional
-#! @input variable_value: The value of the variable.
-#!                        Optional
-#! @input variable_category: Whether this is a Terraform or environment variable. Valid values are "terraform" or "env".
-#!                           Optional
-#! @input sensitive: Whether the value is sensitive. If true then the variable is written once and not visible
-#!                   thereafter.
-#!                   Optional
-#! @input hcl: Whether to evaluate the value of the variable as a string of HCL code. Has no effect for environment
-#!             variables.
-#!             Optional
-#! @input workspace_id: The Id of created workspace
-#!                      Optional
+#! @input auth_token: The authorization token for terraform.
+#! @input run_id: Specifies the run.
+#! @input run_comment: Specifies the comment to be associated with this run.
+#!                     Optional
 #! @input request_body: Request Body for the Create Variable.
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
-#!                    Default: '8080'
+#!                      Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -65,19 +56,18 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution.
-#!                           of an API call. A value of '0' disables this feature.
-#!                           Default: '60000'
-#!                           Optional
-#! @input async:  Whether to run the operation is async mode.
-#!                Default: 'false'
-#!                Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.
+#! @input execution_timeout:  The amount of time (in milliseconds) to allow the client to complete the execution of an API call. A value of '0' disables this feature.
+#!                            Default: '60000'
+#!                            Optional
+#! @input async:   Whether to run the operation is async mode.
+#!                 Default: 'false'
+#!                 Optional
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
 #!                          Default: '1000'
 #!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -99,33 +89,45 @@
 #!                                Optional
 #!
 #! @output return_result: The response of the apply run.
-#! @output exception: An error message in case there was an error while creating the variable.
+#! @output exception: An error message in case there was an error while apply run.
 #! @output status_code: The HTTP status code for Terraform API request.
-#! @output variable_id: The Id of created variable.
 #!
 #! @result SUCCESS: The request was successfully executed.
-#! @result FAILURE: There was an error while creating workspace.
+#! @result FAILURE: There was an error while trying to get the messages.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.actions
+namespace: io.cloudslang.hashicorp.terraform.runs
 
 operation: 
-  name: list_o_auth_client
+  name: apply_run
   
-  inputs: 
-    - auth_token:    
+  inputs:
+    - auth_token:
         sensitive: true
-        required: true		
+        required: true
     - authToken:
         default: ${get('auth_token', '')}
         required: true
         private: true
         sensitive: true
-    - organization_name    
-    - organizationName: 
-        default: ${get('organization_name', '')}  
-        required: true 
+    - run_id:
+        required: true
+    - runId:
+        default: ${get('runId', '')}
+        required: true
+        private: true
+    - run_comment:  
+        required: false  
+    - runComment: 
+        default: ${get('run_comment', '')}  
+        required: false 
+        private: true 
+    - request_body:  
+        required: false  
+    - requestBody: 
+        default: ${get('request_body', '')}  
+        required: false 
         private: true 
     - proxy_host:  
         required: false  
@@ -191,6 +193,20 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
+    - execution_timeout:  
+        required: false  
+    - executionTimeout: 
+        default: ${get('execution_timeout', '')}  
+        required: false 
+        private: true 
+    - async:  
+        required: false  
+    - polling_interval:  
+        required: false  
+    - pollingInterval: 
+        default: ${get('polling_interval', '')}  
+        required: false 
+        private: true 
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -217,13 +233,13 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC1'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.ListOAuthClient'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC2'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyRun'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - oauth_token_id: ${get('oauthTokenId', '')} 
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 

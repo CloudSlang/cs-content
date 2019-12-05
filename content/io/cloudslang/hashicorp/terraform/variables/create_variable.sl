@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a run in workspace.
+#! @description: Creates a variable in workspace.
 #!
 #! @input auth_token: The authorization token for terraform
 #! @input variable_name: The name of the variable.
@@ -76,8 +76,7 @@
 #! @input async:  Whether to run the operation is async mode.
 #!                Default: 'false'
 #!                Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
 #!                          Default: '1000'
 #!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -108,44 +107,50 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.runs
+namespace: io.cloudslang.hashicorp.terraform.variables
 
-operation: 
-  name: create_run
+operation:
+  name: create_variable
   
-  inputs: 
-    - auth_token:    
+  inputs:
+    - auth_token:
         sensitive: true
-        required: true 		
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: true 
+        required: true
+    - authToken:
+        default: ${get('auth_token', '')}
+        required: true
+        private: true
+        sensitive: true
+    - variable_name:  
+        required: false  
+    - variableName: 
+        default: ${get('variable_name', '')}  
+        required: false 
         private: true 
-        sensitive: true
+    - variable_value:  
+        required: false  
+    - variableValue: 
+        default: ${get('variable_value', '')}  
+        required: false 
+        private: true 
+    - variable_category:  
+        required: false  
+    - variableCategory: 
+        default: ${get('variable_category', '')}  
+        required: false 
+        private: true 
+    - sensitive:  
+        required: false  
+    - hcl:  
+        required: false  
     - workspace_id:  
         required: false  
     - workspaceId: 
         default: ${get('workspace_id', '')}  
         required: false 
         private: true 
-    - run_message:  
+    - request_body:
         required: false  
-    - runMessage: 
-        default: ${get('run_message', '')}  
-        required: false 
-        private: true 
-    - is_destroy:  
-        required: false  
-    - isDestroy: 
-        default: ${get('is_destroy', '')}  
-        required: false 
-        private: true 
-    - request_body:  
-        required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
-        required: false 
-        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -250,14 +255,15 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC1'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.CreateRun'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC2'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.CreateVariable'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - run_id: ${get('runId', '')} 
+    - variable_id: ${get('variableId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
