@@ -255,7 +255,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC3'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.CreateVariable'
     method_name: 'execute'
   
