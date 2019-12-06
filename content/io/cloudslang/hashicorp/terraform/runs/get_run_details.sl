@@ -54,7 +54,7 @@
 #!                                Optional
 #!
 #! @output return_result: The decoded 'url'. In case of an error this output will contain the error message.
-#! @output exception: An error message in case there was an error while apply run.
+#! @output exception: An error message in case there was an error while getting run details.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
