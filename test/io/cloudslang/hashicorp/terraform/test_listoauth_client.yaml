@@ -14,7 +14,7 @@
 ########################################################################################################################
 testListOAuthClientInWorkspaceSuccess:
   testSuites: [terraform-local]
-  description: "Tests that create run in workspace SUCCESS."
+  description: "Tests that ListOAuthClient in organization SUCCESS."
   testFlowPath: io.cloudslang.hashicorp.terraform.actions.list_o_auth_client
   inputs:
     - auth_token: <auth_token>
@@ -42,9 +42,9 @@ testListOAuthClientInWorkspaceSuccess:
 
   result: SUCCESS
 
-testCreateRunInWorkspaceWithInvalidAuthToken:
+testOAuthClientInOrganizationWithInvalidAuthToken:
   testSuites: [terraform-local]
-  description: "Create run fails with invalid auth token."
+  description: "ListOAuthClient fails with invalid auth token."
   testFlowPath: io.cloudslang.hashicorp.terraform.actions.list_o_auth_client
   inputs:
     - auth_token: <auth_token>
@@ -72,9 +72,9 @@ testCreateRunInWorkspaceWithInvalidAuthToken:
 
   result: FAILURE
 
-testCreateRunInWorkspaceWithInvalidWorkspaceId:
+testListOAuthClientInOrganizationWithInvalidorganizationName:
   testSuites: [terraform-local]
-  description: "Create run fails with invalid worksace id."
+  description: "ListOAuthClient fails with invalid organizationName."
   testFlowPath: io.cloudslang.hashicorp.terraform.actions.list_o_auth_client
   inputs:
     - auth_token: <auth_token>
