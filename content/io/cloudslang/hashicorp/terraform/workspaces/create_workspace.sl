@@ -64,7 +64,7 @@
 #!                           version is selected unless otherwise specified (e.g. "0.11.1").
 #!                           Default: '0.12.1'
 #!                           Optional
-#! @input body: The request body of the workspace.
+#! @input request_body: The request body of the workspace.
 #!              Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -240,7 +240,7 @@ operation:
         default: ${get('terraform_version', '')}  
         required: false 
         private: true 
-    - body:  
+    - request_body:  
         required: false  
     - proxy_host:  
         required: false  
