@@ -70,11 +70,13 @@ operation:
   name: get_workspace_details
   
   inputs: 
-    - auth_token    
+    - auth_token:    
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
+        sensitive: true
     - organization_name    
     - organizationName: 
         default: ${get('organization_name', '')}  
