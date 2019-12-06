@@ -109,11 +109,9 @@ operation:
         default: ${get('auth_token', '')}
         private: true
         sensitive: true
-    - run_id:
-        required: true
+    - run_id
     - runId:
         default: ${get('runId', '')}
-        required: true
         private: true
     - run_comment:  
         required: false  
