@@ -1,0 +1,95 @@
+#   (c) Copyright 2020 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testCreateWorkspaceSuccess:
+  testSuites: [terraform-local]
+  description: "Tests that create workspace in organization SUCCESS"
+  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.create_workspace
+  inputs:
+    - auth_token: <auth_token>
+    - organization_name: <organization_name>
+    - workspace_name: <workspace_name>
+    - workspace_description: <workspace_description>
+    - auto_apply: <auto_apply>
+    - file_triggers_enabled: <file_triggers_enabled>
+    - working_directory: <working_directory>
+    - trigger_prefixes: <trigger_prefixes>
+    - queue_all_runs: <queue_all_runs>
+    - speculative_enabled: <speculative_enabled>
+    - ingress_submodules: <ingress_submodules>
+    - vcs_repo_id: <vcs_repo_id>
+    - vcs_branch_name: <vcs_branch_name>
+    - oauth_token_id: <oauth_token_id>
+    - terraform_version: <terraform_version>
+    - body: <body>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - execution_timeout: <execution_timeout>
+    - polling_interval: <polling_interval>
+    - async: <async>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+    - response_character_set: <response_character_set>
+
+  result: SUCCESS
+
+testCreateWorkspaceFailureWithInvalidOrganizationName:
+  testSuites: [terraform-local]
+  description: "Tests that create workspace FAILURE"
+  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.create_workspace
+  inputs:
+    - auth_token: <auth_token>
+    - organization_name: <organization_name>
+    - workspace_name: <workspace_name>
+    - workspace_description: <workspace_description>
+    - auto_apply: <auto_apply>
+    - file_triggers_enabled: <file_triggers_enabled>
+    - working_directory: <working_directory>
+    - trigger_prefixes: <trigger_prefixes>
+    - queue_all_runs: <queue_all_runs>
+    - speculative_enabled: <speculative_enabled>
+    - ingress_submodules: <ingress_submodules>
+    - vcs_repo_id: <vcs_repo_id>
+    - vcs_branch_name: <vcs_branch_name>
+    - oauth_token_id: <oauth_token_id>
+    - terraform_version: <terraform_version>
+    - body: <body>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - execution_timeout: <execution_timeout>
+    - polling_interval: <polling_interval>
+    - async: <async>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+    - response_character_set: <response_character_set>
+
+  result: FAILURE
