@@ -115,10 +115,8 @@ operation:
   inputs:
     - auth_token:
         sensitive: true
-        required: true
     - authToken:
         default: ${get('auth_token', '')}
-        required: true
         private: true
         sensitive: true
     - variable_name:  
