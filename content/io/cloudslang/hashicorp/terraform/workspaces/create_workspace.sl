@@ -65,7 +65,7 @@
 #!                           Default: '0.12.1'
 #!                           Optional
 #! @input request_body: The request body of the workspace.
-#!              Optional
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -241,6 +241,10 @@ operation:
         private: true 
     - request_body:  
         required: false  
+    - requestBody: 
+        default: ${get('request_body', '')}  
+        required: false 
+        private: true  
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -345,7 +349,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC3'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
     method_name: 'execute'
   
