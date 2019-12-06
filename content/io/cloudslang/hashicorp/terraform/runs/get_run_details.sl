@@ -53,7 +53,7 @@
 #!                                method=HEAD or OPTIONS.Default: UTF-8
 #!                                Optional
 #!
-#! @output return_result: The decoded 'url'. In case of an error this output will contain the error message.
+#! @output return_result: Run details or error message in case of failure.
 #! @output exception: An error message in case there was an error while getting run details.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
@@ -175,7 +175,7 @@ operation:
     method_name: 'execute'
   
   outputs: 
-    - return_result: ${get('returnResult', '')}
+    - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   
