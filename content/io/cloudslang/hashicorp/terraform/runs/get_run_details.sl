@@ -175,7 +175,8 @@ operation:
     method_name: 'execute'
   
   outputs: 
-    - return_result: ${get('returnResult', '')} 
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 
