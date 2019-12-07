@@ -53,7 +53,8 @@
 #!                                method=HEAD or OPTIONS.Default: UTF-8
 #!                                Optional
 #!
-#! @output return_result: The percent-decoded 'url'. In case of an error this output will contain the error message.
+#! @output return_result: Run details or error message in case of failure.
+#! @output exception: An error message in case there was an error while getting run details.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -169,12 +170,13 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC5'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.GetRunDetails'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 

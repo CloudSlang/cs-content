@@ -105,17 +105,13 @@ operation:
   inputs:
     - auth_token:
         sensitive: true
-        required: true
     - authToken:
         default: ${get('auth_token', '')}
-        required: true
         private: true
         sensitive: true
-    - run_id:
-        required: true
+    - run_id
     - runId:
-        default: ${get('runId', '')}
-        required: true
+        default: ${get('run_id', '')}
         private: true
     - run_comment:  
         required: false  
@@ -233,7 +229,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC5'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyRun'
     method_name: 'execute'
   
