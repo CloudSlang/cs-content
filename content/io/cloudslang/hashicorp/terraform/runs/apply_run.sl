@@ -26,7 +26,7 @@
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
-#!                      Default: '8080'
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -61,13 +61,15 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout:  The amount of time (in milliseconds) to allow the client to complete the execution of an API call. A value of '0' disables this feature.
+#! @input execution_timeout:  The amount of time (in milliseconds) to allow the client to complete the execution of an
+#!                            API call. A value of '0' disables this feature.
 #!                            Default: '60000'
 #!                            Optional
 #! @input async:   Whether to run the operation is async mode.
 #!                 Default: 'false'
 #!                 Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished is executed.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
+#!                          is executed.
 #!                          Default: '1000'
 #!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -88,12 +90,14 @@
 #!                                Default: 'UTF-8'
 #!                                Optional
 #!
-#! @output return_result: The response of the apply run.
-#! @output exception: An error message in case there was an error while apply run.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
+#! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
-#! @result FAILURE: There was an error while trying to get the messages.
+#! @result FAILURE: There was an error while executing the request.
+#!
 #!!#
 ########################################################################################################################
 
@@ -111,7 +115,7 @@ operation:
         sensitive: true
     - run_id
     - runId:
-        default: ${get('runId', '')}
+        default: ${get('run_id', '')}
         private: true
     - run_comment:  
         required: false  
