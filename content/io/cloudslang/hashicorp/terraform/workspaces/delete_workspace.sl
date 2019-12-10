@@ -13,59 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a workspace which represent running infrastructure managed by Terraform.
+#! @description: Deletes the workspace from an organization using workspace name and organization name.
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input organization_name: The name of the organization.
-#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
-#!                        used as an identifier and must be unique in the organization.
-#!                        Optional
-#! @input workspace_description: A description of the workspace to be created.
-#!                               Optional
-#! @input auto_apply: Whether to automatically apply changes when a Terraform plan is successful, with some
-#!                    exceptions.
-#!                    Default: 'false'
-#!                    Optional
-#! @input file_triggers_enabled: Whether to filter runs based on the changed files in a VCS push. If enabled, the
-#!                               working-directory and trigger-prefixes describe a set of paths which must contain
-#!                               changes for a VCS push to trigger a run. If disabled, any push will trigger a run.
-#!                               Default: 'true'
-#!                               Optional
-#! @input working_directory: A relative path that Terraform will execute within. This defaults to the root of your
-#!                           repository and is typically set to a subdirectory matching the environment when multiple
-#!                           environments exist within the same repository.
-#!                           Optional
-#! @input trigger_prefixes: List of repository-root-relative paths which should be tracked for changes, in addition to
-#!                          the working directory.
-#!                          Optional
-#! @input queue_all_runs: Whether runs should be queued immediately after workspace creation. When set to false, runs
-#!                        triggered by a VCS change will not be queued until at least one run is manually
-#!                        queued.
-#!                        Default: 'false'
-#!                        Optional
-#! @input speculative_enabled: Whether this workspace allows speculative plans. Setting this to false prevents Terraform
-#!                             Cloud from running plans on pull requests, which can improve security if the VCS
-#!                             repository is public or includes untrusted contributors.
-#!                               Default: 'true'
-#!                             Optional
-#! @input ingress_submodules: Whether submodules should be fetched when cloning the VCS repository.
-#!                            Default: 'false'
-#!                            Optional
-#! @input vcs_repo_id: A reference to your VCS repository in the format :org/:repo where :org and :repo refer to the
-#!                     organization and repository in your VCS provider.
-#!                     Optional
-#! @input vcs_branch_name: The repository branch that Terraform will execute from. If omitted or submitted as an empty
-#!                         string, this defaults to the repository's default branch (e.g. master) .
-#!                         Optional
-#! @input oauth_token_id: The VCS Connection (OAuth Connection + Token) to use. This ID can be obtained from the
-#!                        oauth-tokens endpoint.
-#!                        Optional
-#! @input terraform_version: The version of Terraform to use for this workspace. Upon creating a workspace, the latest
-#!                           version is selected unless otherwise specified (e.g. "0.11.1").
-#!                           Default: '0.12.1'
-#!                           Optional
-#! @input request_body: The request body of the workspace.
-#!                      Optional
+#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _.This will be used
+#!                        as an identifier and must be unique in the organization.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -104,17 +57,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                           API call. A value of '0' disables this feature.
-#!                           Default: '60000'
-#!                           Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation
-#!                          finished is executed.
-#!                          Default: '1000'
-#!                          Optional
-#! @input async: Whether to run the operation is async mode.
-#!               Default: 'false'
-#!               Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: 'true'
@@ -147,103 +89,23 @@
 namespace: io.cloudslang.hashicorp.terraform.workspaces
 
 operation: 
-  name: create_workspace
+  name: delete_workspace
   
   inputs: 
-    - auth_token:
+    - auth_token:    
         sensitive: true
-    - authToken:
+    - authToken: 
         default: ${get('auth_token', '')}
-        private: true
+        private: true 
         sensitive: true
-    - organization_name
+    - organization_name    
     - organizationName: 
-        default: ${get('organization_name', '')}  
+        default: ${get('organization_name', '')}
         private: true 
-    - workspace_name:  
-        required: false  
+    - workspace_name
     - workspaceName: 
-        default: ${get('workspace_name', '')}  
-        required: false 
+        default: ${get('workspace_name', '')}
         private: true 
-    - workspace_description:  
-        required: false  
-    - workspaceDescription: 
-        default: ${get('workspace_description', '')}  
-        required: false 
-        private: true 
-    - auto_apply:  
-        required: false  
-    - autoApply: 
-        default: ${get('auto_apply', '')}  
-        required: false 
-        private: true 
-    - file_triggers_enabled:  
-        required: false  
-    - fileTriggersEnabled: 
-        default: ${get('file_triggers_enabled', '')}  
-        required: false 
-        private: true 
-    - working_directory:  
-        required: false  
-    - workingDirectory: 
-        default: ${get('working_directory', '')}  
-        required: false 
-        private: true 
-    - trigger_prefixes:  
-        required: false  
-    - triggerPrefixes: 
-        default: ${get('trigger_prefixes', '')}  
-        required: false 
-        private: true 
-    - queue_all_runs:  
-        required: false  
-    - queueAllRuns: 
-        default: ${get('queue_all_runs', '')}  
-        required: false 
-        private: true 
-    - speculative_enabled:  
-        required: false  
-    - speculativeEnabled: 
-        default: ${get('speculative_enabled', '')}  
-        required: false 
-        private: true 
-    - ingress_submodules:  
-        required: false  
-    - ingressSubmodules: 
-        default: ${get('ingress_submodules', '')}  
-        required: false 
-        private: true 
-    - vcs_repo_id:  
-        required: false  
-    - vcsRepoId: 
-        default: ${get('vcs_repo_id', '')}  
-        required: false 
-        private: true 
-    - vcs_branch_name:  
-        required: false  
-    - vcsBranchName: 
-        default: ${get('vcs_branch_name', '')}  
-        required: false 
-        private: true 
-    - oauth_token_id:  
-        required: false  
-    - oauthTokenId: 
-        default: ${get('oauth_token_id', '')}  
-        required: false 
-        private: true 
-    - terraform_version:  
-        required: false  
-    - terraformVersion: 
-        default: ${get('terraform_version', '')}  
-        required: false 
-        private: true 
-    - request_body:  
-        required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
-        required: false 
-        private: true  
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -308,20 +170,6 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -348,15 +196,14 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-SNAPSHOT'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.DeleteWorkspace'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - workspace_id: ${get('workspaceId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
