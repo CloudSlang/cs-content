@@ -1,28 +1,13 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
-#! @description: Applies a run that is paused waiting for confirmation after a plan. This includes runs in the "needs
-#!               confirmation" and "policy checked" states. This action is only required for runs that can't be
-#!               auto-applied.
+#! @description: Lists the runs in a workspace.
 #!
 #! @input auth_token: The authorization token for terraform.
-#! @input run_id: Specifies the run.
-#! @input run_comment: Specifies the comment to be associated with this run.
-#!                     Optional
-#! @input request_body: Request Body for the Create Variable.
+#! @input workspace_id: The Id of created workspace.
+#! @input page_number:  If omitted, the endpoint will return the first page.
 #!                      Optional
+#! @input page_size: If omitted, the endpoint will return 20 items per page. The maximum page size is 150.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -61,17 +46,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout:  The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                            API call. A value of '0' disables this feature.
-#!                            Default: '60000'
-#!                            Optional
-#! @input async:   Whether to run the operation is async mode.
-#!                 Default: 'false'
-#!                 Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.
-#!                          Default: '1000'
-#!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: 'true'
@@ -104,7 +78,7 @@
 namespace: io.cloudslang.hashicorp.terraform.runs
 
 operation: 
-  name: apply_run
+  name: list_runs_in_a_workspace
   
   inputs:
     - auth_token:
@@ -113,20 +87,20 @@ operation:
         default: ${get('auth_token', '')}
         private: true
         sensitive: true
-    - run_id
-    - runId:
-        default: ${get('run_id', '')}
-        private: true
-    - run_comment:  
+    - workspace_id    
+    - workspaceId: 
+        default: ${get('workspace_id', '')}
+        private: true 
+    - page_number:  
         required: false  
-    - runComment: 
-        default: ${get('run_comment', '')}  
+    - pageNumber: 
+        default: ${get('page_number', '')}  
         required: false 
         private: true 
-    - request_body:  
+    - page_size:  
         required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
+    - pageSize: 
+        default: ${get('page_size', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -192,21 +166,7 @@ operation:
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
-        private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
+        private: true
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -234,7 +194,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC7'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyRun'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ListRunsInWorkspace'
     method_name: 'execute'
   
   outputs: 

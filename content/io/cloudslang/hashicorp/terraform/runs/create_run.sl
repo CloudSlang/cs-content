@@ -13,7 +13,8 @@
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Terraform service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -67,12 +68,14 @@
 #!                                method=HEAD or OPTIONS
 #!                                Optional
 #!
-#! @output return_result: If successful, returns the complete API response containing the messages.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
 #! @output status_code: The HTTP status code for Terraform API request.
 #! @output run_id: Id of the run.
 #!
 #! @result SUCCESS: The request was successfully executed.
-#! @result FAILURE: There was an error while trying to get the messages.
+#! @result FAILURE: There was an error while executing the request.
+#!
 #!!#
 ########################################################################################################################
 
@@ -217,7 +220,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC7'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.CreateRun'
     method_name: 'execute'
   
