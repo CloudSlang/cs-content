@@ -97,12 +97,13 @@
 #!                                Default: 'UTF-8'
 #!                                Optional
 #!
-#! @output return_result: The response of the apply run.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
 #! @output exception: An error message in case there was an error while creating the variable.
 #! @output status_code: The HTTP status code for Terraform API request.
 #! @output variable_id: The Id of created variable.
 #!
-#! @result SUCCESS: The request was successfully executed.
+#! @result SUCCESS: The request is successfully executed.
 #! @result FAILURE: There was an error while creating workspace.
 #!!#
 ########################################################################################################################

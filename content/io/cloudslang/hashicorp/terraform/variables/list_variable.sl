@@ -82,7 +82,7 @@
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
-#! @result SUCCESS: The request was successfully executed.
+#! @result SUCCESS: The request is successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
