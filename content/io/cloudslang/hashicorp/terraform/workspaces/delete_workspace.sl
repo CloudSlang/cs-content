@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,14 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List all available variables in a workspace.
+#! @description: Deletes the workspace from an organization using workspace name and organization name.
 #!
-#! @input auth_token: The authorization token for terraform
-#! @input organization_name: The name of the organization
-#!                           Optional
-#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
-#!                        used as an identifier and must be unique in the organization.
-#!                        Optional
+#! @input auth_token: The authorization token for terraform.
+#! @input organization_name: The name of the organization.
+#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _.This will be used
+#!                        as an identifier and must be unique in the organization.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -81,36 +79,32 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
+#! @output workspace_id: The Id of created workspace
 #!
 #! @result SUCCESS: The request is successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.variables
+namespace: io.cloudslang.hashicorp.terraform.workspaces
 
 operation: 
-  name: list_variable
+  name: delete_workspace
   
   inputs: 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - organization_name:  
-        required: false  
+    - organization_name    
     - organizationName: 
-        default: ${get('organization_name', '')}  
-        required: false 
+        default: ${get('organization_name', '')}
         private: true 
-    - workspace_name:  
-        required: false  
+    - workspace_name
     - workspaceName: 
-        default: ${get('workspace_name', '')}  
-        required: false 
+        default: ${get('workspace_name', '')}
         private: true 
     - proxy_host:  
         required: false  
@@ -203,7 +197,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC8'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.ListVariables'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.DeleteWorkspace'
     method_name: 'execute'
   
   outputs: 

@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,14 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List all available variables in a workspace.
+#! @description: List of workspaces present in given Organization.
 #!
-#! @input auth_token: The authorization token for terraform
-#! @input organization_name: The name of the organization
-#!                           Optional
-#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
-#!                        used as an identifier and must be unique in the organization.
-#!                        Optional
+#! @input auth_token: The authorization token for terraform.
+#! @input organization_name: The name of the organization.
+#! @input page_number: If omitted, the endpoint will return the first page.
+#!                     Default: '1'
+#!                     Optional
+#! @input page_size: If omitted, the endpoint will return 20 items per page. The maximum page size is 150.
+#!                   Default: '100'
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -61,7 +63,7 @@
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
-#!                    Default: 'true'
+#!                    Default: true
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Default: '2'
@@ -80,36 +82,40 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
+#! @output workspace_list: List of all workspaces under the organization.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
-#! @result SUCCESS: The request is successfully executed.
+#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.variables
+namespace: io.cloudslang.hashicorp.terraform.workspaces
 
 operation: 
-  name: list_variable
+  name: list_workspaces
   
   inputs: 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - organization_name:  
-        required: false  
+    - organization_name    
     - organizationName: 
-        default: ${get('organization_name', '')}  
+        default: ${get('organization_name', '')}
+        private: true 
+    - page_number:  
+        required: false  
+    - pageNumber: 
+        default: ${get('page_number', '')}  
         required: false 
         private: true 
-    - workspace_name:  
+    - page_size:  
         required: false  
-    - workspaceName: 
-        default: ${get('workspace_name', '')}  
+    - pageSize: 
+        default: ${get('page_size', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -203,12 +209,12 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC8'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.ListVariables'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.ListWorkspaces'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
+    - workspace_list: ${get('workspaceList', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 
