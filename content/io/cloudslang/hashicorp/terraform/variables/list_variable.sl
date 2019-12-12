@@ -13,16 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Applies a run that is paused waiting for confirmation after a plan. This includes runs in the "needs
-#!               confirmation" and "policy checked" states. This action is only required for runs that can't be
-#!               auto-applied.
+#! @description: List all available variables in a workspace.
 #!
-#! @input auth_token: The authorization token for terraform.
-#! @input run_id: Specifies the run.
-#! @input run_comment: Specifies the comment to be associated with this run.
-#!                     Optional
-#! @input request_body: Request Body for the Create Variable.
-#!                      Optional
+#! @input auth_token: The authorization token for terraform
+#! @input organization_name: The name of the organization
+#!                           Optional
+#! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
+#!                        used as an identifier and must be unique in the organization.
+#!                        Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -61,17 +59,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout:  The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                            API call. A value of '0' disables this feature.
-#!                            Default: '60000'
-#!                            Optional
-#! @input async:   Whether to run the operation is async mode.
-#!                 Default: 'false'
-#!                 Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.
-#!                          Default: '1000'
-#!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: 'true'
@@ -95,38 +82,34 @@
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
-#! @result SUCCESS: The request was successfully executed.
+#! @result SUCCESS: The request is successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.runs
+namespace: io.cloudslang.hashicorp.terraform.variables
 
 operation: 
-  name: apply_run
+  name: list_variable
   
-  inputs:
-    - auth_token:
+  inputs: 
+    - auth_token:    
         sensitive: true
-    - authToken:
-        default: ${get('auth_token', '')}
-        private: true
-        sensitive: true
-    - run_id
-    - runId:
-        default: ${get('run_id', '')}
-        private: true
-    - run_comment:  
-        required: false  
-    - runComment: 
-        default: ${get('run_comment', '')}  
+    - authToken: 
+        default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - request_body:  
+        sensitive: true
+    - organization_name:  
         required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
+    - organizationName: 
+        default: ${get('organization_name', '')}  
+        required: false 
+        private: true 
+    - workspace_name:  
+        required: false  
+    - workspaceName: 
+        default: ${get('workspace_name', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -193,20 +176,6 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -234,7 +203,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC7'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyRun'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.ListVariables'
     method_name: 'execute'
   
   outputs: 

@@ -97,13 +97,14 @@
 #!                                Default: 'UTF-8'
 #!                                Optional
 #!
-#! @output return_result: The response of the apply run.
-#! @output exception: An error message in case there was an error while creating the variable.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
+#! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
 #! @output variable_id: The Id of created variable.
 #!
-#! @result SUCCESS: The request was successfully executed.
-#! @result FAILURE: There was an error while creating workspace.
+#! @result SUCCESS: The request is successfully executed.
+#! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
@@ -253,7 +254,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC4'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC7'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.CreateVariable'
     method_name: 'execute'
   
