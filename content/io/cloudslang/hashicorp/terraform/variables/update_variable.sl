@@ -29,7 +29,7 @@
 #! @input hcl: Whether to evaluate the value of the variable as a string of HCL code. Has no effect for environment
 #!             variables.
 #!             Optional
-#! @input body: Request Body for the Create Variable.
+#! @input request_body: Request Body for the Create Variable.
 #!              Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
