@@ -56,7 +56,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.excel.actions
+namespace: io.cloudslang.base.excel
 
 operation: 
   name: get_cell
