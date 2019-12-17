@@ -259,5 +259,5 @@ operation:
     - variable_id: ${get('variableId', '')} 
   
   results: 
-    - SUCCESS: ${returnResult!=''} 
+    - SUCCESS 
     - FAILURE
