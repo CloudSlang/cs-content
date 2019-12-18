@@ -26,7 +26,7 @@
 #!                    Default value: yes
 #!                    Optional
 #! @input first_row_index: The index of the first row in the Excel worksheet, including the header row.
-#!                         Default value: 1
+#!                         Default value: 0
 #!                         Optional
 #! @input row_index: A list of row indexes.
 #!                   Examples: 1:3, 10, 15:20, 25
