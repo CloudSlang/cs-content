@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -10,27 +10,13 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: Updates a variable attributes in workspace.
+#! @description: Deletes a variable from workspace.
 #!
-#! @input auth_token: The authorization token for terraform
+#! @input auth_token: The authorization token for terraform.
 #! @input variable_id: The ID of the variable to be updated.
-#!                     Optional
-#! @input variable_name: The name of the variable.
-#!                       Optional
-#! @input variable_value: The value of the variable.
-#!                        Optional
-#! @input variable_category: Whether this is a Terraform or environment variable. Valid values are "terraform" or "env".
-#!                           Optional
-#! @input sensitive: Whether the value is sensitive. If true then the variable is written once and not visible
-#!                   thereafter.
-#!                   Optional
-#! @input hcl: Whether to evaluate the value of the variable as a string of HCL code. Has no effect for environment
-#!             variables.
-#!             Optional
-#! @input request_body: Request Body for the Create Variable.
-#!              Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -42,7 +28,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
-#!                         Default: false
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -73,29 +59,35 @@
 #!                           API call. A value of '0' disables this feature.
 #!                           Default: '60000'
 #!                           Optional
-#! @input async: Whether to run the operation is async mode.Default: 'false'
+#! @input async: Whether to run the operation is async mode.
+#!               Default: 'false'
 #!               Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.
+#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation
+#!                          finished is executed.
 #!                          Default: '1000'
 #!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.Default: true
+#!                    it.
+#!                    Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: 2
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: 20
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.Default: UTF-8
+#!                                method=HEAD or OPTIONS.
+#!                                Default: 'UTF-8'
 #!                                Optional
 #!
-#! @output return_result: The response of the update variable request.
-#! @output exception: An error message in case there was an error while updating the variable.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
+#! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -106,7 +98,7 @@
 namespace: io.cloudslang.hashicorp.terraform.variables
 
 operation: 
-  name: update_variable
+  name: delete_variable
   
   inputs: 
     - auth_token:    
@@ -116,14 +108,11 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - variable_id
+    - variable_id    
     - variableId: 
-        default: ${get('variable_id', '')}
-        private: true
-    - request_body
-    - requestBody:
-        default: ${get('request_body', '')}
-        private: true
+        default: ${get('variable_id', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -229,7 +218,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC9'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.UpdateVariable'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.DeleteVariable'
     method_name: 'execute'
   
   outputs: 
