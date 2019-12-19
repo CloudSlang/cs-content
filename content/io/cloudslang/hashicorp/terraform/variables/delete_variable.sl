@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deleted a variable from workspace.
+#! @description: Deletes a variable from workspace.
 #!
-#! @input auth_token: The authorization token for terraform
+#! @input auth_token: The authorization token for terraform.
 #! @input variable_id: The ID of the variable to be updated.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -28,7 +28,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
-#!                         Default: false
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
