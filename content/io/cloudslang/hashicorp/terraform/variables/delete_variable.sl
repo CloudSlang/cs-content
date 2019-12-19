@@ -1,3 +1,15 @@
+#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 ########################################################################################################################
 #!!
 #! @description: Deleted a variable from workspace.
@@ -37,7 +49,7 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
-#!                         Default: 10000
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
@@ -56,20 +68,20 @@
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
 #!                    it.
-#!                    Default: true
+#!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default: 2
+#!                                   Default: '2'
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
-#!                               Default: 20
+#!                               Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
 #!                                method=HEAD or OPTIONS.
-#!                                Default: UTF-8
+#!                                Default: 'UTF-8'
 #!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
