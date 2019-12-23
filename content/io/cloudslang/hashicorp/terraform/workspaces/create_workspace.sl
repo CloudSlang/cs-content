@@ -349,7 +349,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC10'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC11'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
     method_name: 'execute'
   
