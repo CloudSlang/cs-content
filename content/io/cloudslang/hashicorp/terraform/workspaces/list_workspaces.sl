@@ -18,8 +18,6 @@
 #! @input auth_token: The authorization token for terraform.
 #! @input organization_name: The name of the organization.
 #! @input page_number: If omitted, the endpoint will return the first page.
-#!                     Minimum value: '1'
-#!                     Maximum value: '100'
 #!                     Default: '1'
 #!                     Optional
 #! @input page_size: If omitted, the endpoint will return 20 items per page. The maximum page size is 100.
