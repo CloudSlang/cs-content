@@ -159,9 +159,11 @@ operation:
     - organizationName: 
         default: ${get('organization_name', '')}  
         private: true 
-    - workspace_name
+    - workspace_name:
+        required: false
     - workspaceName:
         default: ${get('workspace_name', '')}
+        required: false
         private: true 
     - workspace_description:  
         required: false  
