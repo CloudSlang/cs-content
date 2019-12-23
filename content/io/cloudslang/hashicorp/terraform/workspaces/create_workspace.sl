@@ -19,7 +19,6 @@
 #! @input organization_name: The name of the organization.
 #! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
 #!                        used as an identifier and must be unique in the organization.
-#!                        Optional
 #! @input workspace_description: A description of the workspace to be created.
 #!                               Optional
 #! @input auto_apply: Whether to automatically apply changes when a Terraform plan is successful, with some
@@ -160,11 +159,9 @@ operation:
     - organizationName: 
         default: ${get('organization_name', '')}  
         private: true 
-    - workspace_name:  
-        required: false  
-    - workspaceName: 
-        default: ${get('workspace_name', '')}  
-        required: false 
+    - workspace_name
+    - workspaceName:
+        default: ${get('workspace_name', '')}
         private: true 
     - workspace_description:  
         required: false  

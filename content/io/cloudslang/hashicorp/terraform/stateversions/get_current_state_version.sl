@@ -13,20 +13,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: List of workspaces present in given Organization.
+#! @description: This operation fetches the current state version for the given workspace.
 #!
 #! @input auth_token: The authorization token for terraform.
-#! @input organization_name: The name of the organization.
-#! @input page_number: If omitted, the endpoint will return the first page.
-#!                     Minimum value: '1'
-#!                     Maximum value: '100'
-#!                     Default: '1'
-#!                     Optional
-#! @input page_size: If omitted, the endpoint will return 20 items per page. The maximum page size is 100.
-#!                   Minimum value: '1'
-#!                   Maximum value: '100'
-#!                   Default: '100'
-#!                   Optional
+#! @input workspace_id: The Id of the workspace.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -67,7 +57,7 @@
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
-#!                    Default: true
+#!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Default: '2'
@@ -86,18 +76,19 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output workspace_list: List of all workspaces under the organization.
 #! @output status_code: The HTTP status code for Terraform API request.
+#! @output state_version_id: The ID of the desired state version.
+#! @output hosted_state_download_url: A url from which you can download the raw state.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.workspaces
+namespace: io.cloudslang.hashicorp.terraform.stateversions
 
 operation: 
-  name: list_workspaces
+  name: get_current_state_version
   
   inputs: 
     - auth_token:    
@@ -106,21 +97,9 @@ operation:
         default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - organization_name    
-    - organizationName: 
-        default: ${get('organization_name', '')}
-        private: true 
-    - page_number:  
-        required: false  
-    - pageNumber: 
-        default: ${get('page_number', '')}  
-        required: false 
-        private: true 
-    - page_size:  
-        required: false  
-    - pageSize: 
-        default: ${get('page_size', '')}  
-        required: false 
+    - workspace_id    
+    - workspaceId: 
+        default: ${get('workspace_id', '')}
         private: true 
     - proxy_host:  
         required: false  
@@ -212,14 +191,16 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC8'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.ListWorkspaces'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-SNAPSHOT'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.stateversions.GetCurrentStateVersion'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - workspace_list: ${get('workspaceList', '')} 
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
+    - state_version_id: ${get('stateVersionId', '')} 
+    - hosted_state_download_url: ${get('hostedStateDownloadUrl', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
