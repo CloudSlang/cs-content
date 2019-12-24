@@ -93,14 +93,12 @@ operation:
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
     - apply_id    
     - applyId: 
         default: ${get('apply_id', '')}  
-        required: false 
         private: true 
     - proxy_host:  
         required: false  
