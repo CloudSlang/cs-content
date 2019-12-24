@@ -13,27 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a variable in workspace.
+#! @description: Creates  multiple sensitive and non-sensitive variables or both in a workspace.
 #!
 #! @input auth_token: The authorization token for terraform.
-#! @input sensitive_variable_name: The name of the variable.
-#!                                 Optional
-#! @input sensitive_variable_value: The value of the variable.
-#!                                  Optional
-#! @input variable_category: Whether this is a Terraform or environment variable. Valid values are "terraform" or "env".
-#!                           Optional
-#! @input sensitive: Whether the value is sensitive. If true then the variable is written once and not visible
-#!                   thereafter.
-#!                   Optional
-#! @input hcl: Whether to evaluate the value of the variable as a string of HCL code. Has no effect for environment
-#!             variables.
-#!             Optional
 #! @input workspace_id: The Id of the workspace
-#!                      Optional
-#! @input request_body: Request Body for the Create Variable.
 #!                      Optional
 #! @input variables_json: List of variables in json format.
 #!                        Optional
+#! @input sensitive_variables_json: List of sensitive variables in json format.
+#!                                  Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.Default: '8080'
@@ -68,14 +56,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                           API call. A value of '0' disables this feature.Default: '60000'
-#!                           Optional
-#! @input async: Whether to run the operation is async mode.Default: 'false'
-#!               Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation finished
-#!                          is executed.Default: '1000'
-#!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
 #!                    it.Default: 'true'
@@ -95,7 +75,6 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Terraform API request.
-#! @output variable_id: The Id of created variable.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -115,40 +94,10 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - sensitive_variable_name:  
-        required: false  
-    - sensitiveVariableName: 
-        default: ${get('sensitive_variable_name', '')}  
-        required: false 
-        private: true 
-    - sensitive_variable_value:  
-        required: false  
-        sensitive: true
-    - sensitiveVariableValue: 
-        default: ${get('sensitive_variable_value', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - variable_category:  
-        required: false  
-    - variableCategory: 
-        default: ${get('variable_category', '')}  
-        required: false 
-        private: true 
-    - sensitive:  
-        required: false  
-    - hcl:  
-        required: false  
     - workspace_id:  
         required: false  
     - workspaceId: 
         default: ${get('workspace_id', '')}  
-        required: false 
-        private: true 
-    - request_body:  
-        required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
         required: false 
         private: true 
     - variables_json:  
@@ -157,6 +106,14 @@ operation:
         default: ${get('variables_json', '')}  
         required: false 
         private: true 
+    - sensitive_variables_json:  
+        required: false  
+        sensitive: true
+    - sensitiveVariablesJson: 
+        default: ${get('sensitive_variables_json', '')}  
+        required: false 
+        private: true 
+        sensitive: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -221,20 +178,6 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -261,7 +204,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC11'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-SNAPSHOT'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.CreateVariables'
     method_name: 'execute'
   
@@ -269,7 +212,6 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - variable_id: ${get('variableId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
