@@ -110,12 +110,6 @@ operation:
         default: ${get('variable_value', '')}  
         required: false 
         private: true 
-    - sensitive_variable_name:  
-        required: false  
-    - sensitiveVariableName: 
-        default: ${get('sensitive_variable_name', '')}  
-        required: false 
-        private: true 
     - sensitive_variable_value:  
         required: false  
         sensitive: true
@@ -129,9 +123,7 @@ operation:
     - variableCategory: 
         default: ${get('variable_category', '')}  
         required: false 
-        private: true 
-    - sensitive:  
-        required: false  
+        private: true  
     - hcl:  
         required: false  
     - workspace_id:  
