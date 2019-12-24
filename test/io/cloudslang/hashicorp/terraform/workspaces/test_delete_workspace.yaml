@@ -39,7 +39,7 @@ testDeleteWorkspaceSuccess:
 
 testDeleteWorkspaceFailureWithInvalidOrganizationName:
   testSuites: [terraform-local]
-  description: "Tests delete workspace FAILURE"
+  description: "Tests that delete workspace FAILURE"
   testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.delete_workspace
   inputs:
     - auth_token: <auth_token>
