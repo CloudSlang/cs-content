@@ -160,11 +160,11 @@ operation:
     - organizationName: 
         default: ${get('organization_name', '')}  
         private: true 
-    - workspace_name:  
-        required: false  
-    - workspaceName: 
-        default: ${get('workspace_name', '')}  
-        required: false 
+    - workspace_name:
+        required: false
+    - workspaceName:
+        default: ${get('workspace_name', '')}
+        required: false
         private: true 
     - workspace_description:  
         required: false  
@@ -348,7 +348,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC8'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC11'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
     method_name: 'execute'
   
