@@ -3,24 +3,19 @@ flow:
   name: DeployModule
   inputs:
     - auth_token:
-        default: ********
         sensitive: true
-    - organization_name: cypherorg
+    - organization_name
     - workspace_name:
-        default: testws
         required: true
     - workspace_description:
-        default: test workspace
         required: false
     - vcs_repo_id:
-        default: soumyanayak71/terraform-azurerm-resourcegroup
         required: false
     - working_directory:
         required: false
     - variable_category:
         required: false
     - auto_apply:
-        default: 'false'
         required: false
     - trigger_prefixes:
         required: false
@@ -35,30 +30,23 @@ flow:
     - terraform_version:
         required: false
     - run_message:
-        default: test message
         required: false
     - is_destroy:
-        default: 'false'
         required: false
     - sensitive:
         required: false
     - hcl:
         required: false
     - run_comment:
-        default: test
         required: false
     - variables_json:
-        default: '[{"propertyName":"tenant_id","propertyValue":"6002e264-31f7-43d3-a51e-9ed1ba9ca689","HCL":false,"Category":"terraform"},{"propertyName":"client_id","propertyValue":"eee76a2b-c83a-48ac-951d-dbf87e166d77","HCL":false,"Category":"terraform"},{"propertyName":"subscription_id","propertyValue":"d20eaed0-0b36-44eb-acff-7ae3f080cd9a","HCL":false,"Category":"terraform"},{"propertyName":"name","propertyValue":"terrrrrargrp","HCL":false,"Category":"terraform"},{"propertyName":"tags","propertyValue":"Production","HCL":false,"Category":"terraform"},{"propertyName":"location","propertyValue":"West US","HCL":false,"Category":"terraform"},{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}]'
         required: false
     - sensitive_variables_json:
-        default: ********
         required: false
         sensitive: true
     - proxy_host:
-        default: web-proxy.in.softwaregrp.net
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -77,7 +65,6 @@ flow:
     - socket_timeout:
         required: false
     - keep_alive:
-        default: 'true'
         required: false
     - connections_max_per_route:
         required: false
