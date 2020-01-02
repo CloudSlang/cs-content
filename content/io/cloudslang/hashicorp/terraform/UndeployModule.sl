@@ -294,6 +294,16 @@ flow:
         navigate:
           - SUCCESS: on_failure
           - FAILURE: SUCCESS
+    - get_auto_apply_value:
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: 'data,attributes,auto-apply'
+        publish:
+          - auto_apply: '${return_result}'
+        navigate:
+          - SUCCESS: create_variables
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
