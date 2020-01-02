@@ -229,17 +229,18 @@ flow:
     - wait_for_state_version_id:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '180'
+            - seconds: '20'
         navigate:
-          - SUCCESS: get_current_state_version
+          - SUCCESS: delete_workspace
           - FAILURE: on_failure
-    - get_current_state_version:
+    - delete_workspace:
         do:
-          io.cloudslang.hashicorp.terraform.stateversions.get_current_state_version:
+          io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
-            - workspace_id: '${workspace_id}'
+            - organization_name: '${organization_name}'
+            - workspace_name: '${workspace_name}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -258,22 +259,41 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
-        publish:
-          - hosted_state_download_url
-          - state_version_id
+        publish: []
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_workspace_details
           - FAILURE: on_failure
-    - get_auto_apply_value:
+    - get_workspace_details:
         do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: 'data,attributes,auto-apply'
+          io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
+            - auth_token:
+                value: '${auth_token}'
+                sensitive: true
+            - organization_name: '${organization_name}'
+            - workspace_name: '${workspace_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
         publish:
-          - auto_apply: '${return_result}'
+          - workspace_id
+          - return_result
         navigate:
-          - SUCCESS: create_variables
-          - FAILURE: on_failure
+          - SUCCESS: on_failure
+          - FAILURE: SUCCESS
   results:
     - FAILURE
     - SUCCESS
