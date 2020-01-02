@@ -263,7 +263,7 @@ flow:
         navigate:
           - SUCCESS: get_workspace_details
           - FAILURE: on_failure
-    - get_workspace_details:
+    - check_workspace_is_present:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
