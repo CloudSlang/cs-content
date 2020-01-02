@@ -143,7 +143,7 @@ flow:
     - wait_for_apply_status:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '240'
+            - seconds: '120'
         navigate:
           - SUCCESS: get_run_details
           - FAILURE: on_failure
@@ -229,7 +229,7 @@ flow:
     - wait_for_state_version_id:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '20'
+            - seconds: '120'
         navigate:
           - SUCCESS: delete_workspace
           - FAILURE: on_failure
