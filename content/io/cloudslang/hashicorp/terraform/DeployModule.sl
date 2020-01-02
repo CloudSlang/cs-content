@@ -207,15 +207,15 @@ flow:
         publish:
           - run_id
         navigate:
-          - SUCCESS: is_true
+          - SUCCESS: is_auto_apply_true
           - FAILURE: on_failure
-    - is_true:
+    - is_auto_apply_true:
         do:
           io.cloudslang.base.utils.is_true:
             - bool_value: '${auto_apply}'
         navigate:
-          - 'TRUE': wait_for_state_version_id
-          - 'FALSE': wait_for_apply_status
+          - 'TRUE': wait_for_apply_state
+          - 'FALSE': wait_for_plan_status
     - get_run_status_value:
         do:
           io.cloudslang.base.json.get_value:
@@ -263,12 +263,12 @@ flow:
             - response_character_set: '${response_character_set}'
         publish: []
         navigate:
-          - SUCCESS: wait_for_state_version_id
+          - SUCCESS: wait_for_apply_state
           - FAILURE: on_failure
-    - wait_for_apply_status:
+    - wait_for_plan_status:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '240'
+            - seconds: '40'
         navigate:
           - SUCCESS: get_run_details
           - FAILURE: on_failure
@@ -303,10 +303,10 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - wait_for_state_version_id:
+    - wait_for_apply_state:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '180'
+            - seconds: '40'
         navigate:
           - SUCCESS: get_current_state_version
           - FAILURE: on_failure

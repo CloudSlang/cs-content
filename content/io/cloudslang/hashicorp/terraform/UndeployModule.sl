@@ -261,7 +261,7 @@ flow:
             - response_character_set: '${response_character_set}'
         publish: []
         navigate:
-          - SUCCESS: get_workspace_details
+          - SUCCESS: check_workspace_is_present
           - FAILURE: on_failure
     - check_workspace_is_present:
         do:
