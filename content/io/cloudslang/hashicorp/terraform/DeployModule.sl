@@ -268,7 +268,7 @@ flow:
     - wait_for_plan_status:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '120'
+            - seconds: '240'
         navigate:
           - SUCCESS: get_run_details
           - FAILURE: on_failure
@@ -306,7 +306,7 @@ flow:
     - wait_for_apply_state:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '120'
+            - seconds: '240'
         navigate:
           - SUCCESS: get_current_state_version
           - FAILURE: on_failure
