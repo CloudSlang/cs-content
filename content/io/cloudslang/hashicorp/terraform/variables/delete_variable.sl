@@ -55,17 +55,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                           API call. A value of '0' disables this feature.
-#!                           Default: '60000'
-#!                           Optional
-#! @input async: Whether to run the operation is async mode.
-#!               Default: 'false'
-#!               Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation
-#!                          finished is executed.
-#!                          Default: '1000'
-#!                          Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
 #!                    it.
@@ -176,21 +165,7 @@ operation:
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
-        private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
+        private: true
     - keep_alive:  
         required: false  
     - keepAlive: 
