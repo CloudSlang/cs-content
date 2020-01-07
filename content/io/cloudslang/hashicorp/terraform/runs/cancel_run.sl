@@ -17,6 +17,10 @@
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input run_id: runIdDescription
+#! @input run_comment: Specifies the comment to be associated with this run
+#!                     Optional
+#! @input request_body: Request Body for the cancel run.
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -43,7 +47,8 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
@@ -98,7 +103,19 @@ operation:
         sensitive: true
     - run_id    
     - runId: 
-        default: ${get('run_id', '')}  
+        default: ${get('run_id', '')}
+        private: true 
+    - run_comment:  
+        required: false  
+    - runComment: 
+        default: ${get('run_comment', '')}  
+        required: false 
+        private: true 
+    - request_body:  
+        required: false  
+    - requestBody: 
+        default: ${get('request_body', '')}  
+        required: false 
         private: true 
     - proxy_host:  
         required: false  
