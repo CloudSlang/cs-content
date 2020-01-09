@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Applies a run that is paused waiting for confirmation after a plan. This includes runs in the "needs
-#!               confirmation" and "policy checked" states. This action is only required for runs that can't be
-#!               auto-applied.
+#! @description: Undeploy's the module from the given organization.
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input organization_name: The name of the organization
