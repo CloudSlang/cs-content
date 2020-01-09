@@ -13,10 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Getting details about a apply id
+#! @description: Updates variables attributes in the workspace.
 #!
 #! @input auth_token: The authorization token for terraform.
-#! @input apply_id: The ID of the apply to show
+#! @input organization_name: The name of the organization.
+#! @input workspace_name: The name of workspace whose description is to be fetched.
+#! @input variables_json: List of variables in json format.
+#!                        Optional
+#! @input sensitive_variables_json: List of sensitive variables in json format.
+#!                                  Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -28,7 +33,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
-#!                         Default: 'false'
+#!                         Default: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -57,26 +62,21 @@
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
-#!                    Default: 'true'
+#!                    it.Default: true
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: 2
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.
-#!                               Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.Default: 20
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
+#!                                method=HEAD or OPTIONS.Default: UTF-8
 #!                                Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
-#! @output exception: An error message in case there was an error while executing the request.
+#! @output return_result: The response of the update variable request.
+#! @output exception: An error message in case there was an error while updating the variable.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -84,10 +84,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.runs
+namespace: io.cloudslang.hashicorp.terraform.variables
 
 operation: 
-  name: get_apply_details
+  name: update_variables
   
   inputs: 
     - auth_token:    
@@ -96,10 +96,28 @@ operation:
         default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - apply_id    
-    - applyId: 
-        default: ${get('apply_id', '')}  
-        private: true 
+    - organization_name
+    - organizationName:
+        default: ${get('organization_name', '')}
+        private: true
+    - workspace_name
+    - workspaceName:
+        default: ${get('workspace_name', '')}
+        private: true
+    - variables_json:
+        required: false
+    - variablesJson:
+        default: ${get('variables_json', '')}
+        required: false
+        private: true
+    - sensitive_variables_json:
+        required: false
+        sensitive: true
+    - sensitiveVariablesJson:
+        default: ${get('sensitive_variables_json', '')}
+        required: false
+        private: true
+        sensitive: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -163,7 +181,7 @@ operation:
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
-        private: true 
+        private: true
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -191,7 +209,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyDetails'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.UpdateVariables'
     method_name: 'execute'
   
   outputs: 

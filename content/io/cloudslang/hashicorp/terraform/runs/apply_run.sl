@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -208,7 +208,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC11'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC12'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyRun'
     method_name: 'execute'
   
