@@ -162,7 +162,7 @@ operation:
     - keepAlive: 
         default: ${get('keep_alive', '')}  
         required: false 
-        private: true 
+        private: true
     - connections_max_per_route:  
         required: false  
     - connectionsMaxPerRoute: 
