@@ -31,9 +31,6 @@ testApplyRunSuccess:
     - trust_password: <trust_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
-    - execution_timeout: <execution_timeout>
-    - async: <async>
-    - polling_interval: <polling_interval>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
@@ -60,9 +57,6 @@ testApplyRunFailureWithInvalidRunID:
     - trust_password: <trust_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
-    - execution_timeout: <execution_timeout>
-    - async: <async>
-    - polling_interval: <polling_interval>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>

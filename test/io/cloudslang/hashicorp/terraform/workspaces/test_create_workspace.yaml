@@ -44,9 +44,6 @@ testCreateWorkspaceSuccess:
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
-    - execution_timeout: <execution_timeout>
-    - polling_interval: <polling_interval>
-    - async: <async>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
     - response_character_set: <response_character_set>
@@ -85,9 +82,6 @@ testCreateWorkspaceFailureWithInvalidOrganizationName:
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
-    - execution_timeout: <execution_timeout>
-    - polling_interval: <polling_interval>
-    - async: <async>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
     - response_character_set: <response_character_set>
