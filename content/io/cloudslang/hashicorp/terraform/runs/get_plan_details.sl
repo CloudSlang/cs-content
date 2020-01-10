@@ -65,7 +65,7 @@
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
 #!                                method=HEAD or OPTIONS.Default: 'UTF-8'
-#!                                Optional
+#!                                Optional.
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
