@@ -193,5 +193,5 @@ operation:
     - status_code: ${get('statusCode', '')} 
   
   results: 
-    - SUCCESS: ${returnCode=='0'} 
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
