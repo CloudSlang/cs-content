@@ -126,7 +126,7 @@ operation:
         required: false 
         private: true 
     - x_509_hostname_verifier:  
-        required: false  
+        required: false
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
         required: false 
