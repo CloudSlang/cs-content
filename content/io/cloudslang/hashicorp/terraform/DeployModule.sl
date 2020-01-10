@@ -239,7 +239,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - oauth_token_id
+          - oauth_token_id 
         navigate:
           - SUCCESS: create_workspace
           - FAILURE: on_failure
