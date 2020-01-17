@@ -12,11 +12,11 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testHttpClientDelete:
-  inputs:
-    - url: "http://localhost:3000/v2/pet"
-  description: "Test the Http Client Delete against a REST API."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.http.test_http_client_delete
-  testSuites: [rest]
-  result: SUCCESS
+#testHttpClientDelete:
+#  inputs:
+#    - url: "http://localhost:3000/v2/pet"
+#  description: "Test the Http Client Delete against a REST API."
+#  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+#  testFlowPath: io.cloudslang.base.http.test_http_client_delete
+#  testSuites: [rest]
+#  result: SUCCESS

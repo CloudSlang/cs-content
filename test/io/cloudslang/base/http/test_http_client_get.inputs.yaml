@@ -12,11 +12,11 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testHttpClientGet:
-  inputs:
-    - url: "http://localhost:3000/v2/pet/findByStatus?status=available"
-  description: "Test the Http Client Get against a REST API."
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.http.test_http_client_get
-  testSuites: [rest]
-  result: SUCCESS
+#testHttpClientGet:
+#  inputs:
+#    - url: "http://localhost:3000/v2/pet/findByStatus?status=available"
+#  description: "Test the Http Client Get against a REST API."
+#  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+#  testFlowPath: io.cloudslang.base.http.test_http_client_get
+#  testSuites: [rest]
+#  result: SUCCESS

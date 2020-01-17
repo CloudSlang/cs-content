@@ -12,76 +12,76 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testSSHManyInputs2:
-  inputs:
-    - host: <host>
-    - port: "22"
-    - username: root
-    - command: echo testing
-    - pty: "false"
-    - private_key_file: "LOCAL_PATH\\id_rsa"
-    - timeout: "90000"
-    - characterSet: "UTF-8"
-    - closeSession: "false"
-    - smart_recovery: "true"
-    - retries: "5"
-  description: Tests ssh works with most of the inputs, including private key
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - standard_out: |
-        testing
-
-#the newline after the 'testing' string is required for this test to pass
-#don't remove it
-  testSuites: [ssh-local]
-  result: SUCCESS
-
-testSSHInvalidPrivateKeyFile:
-  inputs:
-    - host: <host>
-    - port: "22"
-    - username: root
-    - command: echo testing
-    - private_key_file: "LOCAL_PATH\\id_rsa_inexistent"
-  description: Tests ssh doesn't work with inexistent private key specified
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  testSuites: [ssh-local]
-  result: FAILURE
-
-testSSHonSolarisI18N:
-  inputs:
-    - host: <host>
-    - port: "22"
-    - username: root
-    - password: <password>
-    - command: echo testing
-  description: Tests ssh actually works on a Solaris I18N machine
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - standard_out: |
-        testing
-
-    - return_result: |
-        testing
-
-#the newline after the 'testing' string is required for this test to pass
-#don't remove it
-  testSuites: [ssh-local]
-  result: SUCCESS
-
-testSSHdifferentEncryptionType:
-  inputs:
-    - host: <host>
-    - port: "22"
-    - username: root
-    - password: <password>
-    - command: "echo testing"
-    - private_key_file: "LOCAL_PATH\\id_rsa"
-  description: Tests ssh command when a aes256-cbc encryption private key is used
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - standard_out: |
-        testing
-
-  testSuites: [ssh-local]
-  result: SUCCESS
+#testSSHManyInputs2:
+#  inputs:
+#    - host: <host>
+#    - port: "22"
+#    - username: root
+#    - command: echo testing
+#    - pty: "false"
+#    - private_key_file: "LOCAL_PATH\\id_rsa"
+#    - timeout: "90000"
+#    - characterSet: "UTF-8"
+#    - closeSession: "false"
+#    - smart_recovery: "true"
+#    - retries: "5"
+#  description: Tests ssh works with most of the inputs, including private key
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - standard_out: |
+#        testing
+#
+##the newline after the 'testing' string is required for this test to pass
+##don't remove it
+#  testSuites: [ssh-local]
+#  result: SUCCESS
+#
+#testSSHInvalidPrivateKeyFile:
+#  inputs:
+#    - host: <host>
+#    - port: "22"
+#    - username: root
+#    - command: echo testing
+#    - private_key_file: "LOCAL_PATH\\id_rsa_inexistent"
+#  description: Tests ssh doesn't work with inexistent private key specified
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  testSuites: [ssh-local]
+#  result: FAILURE
+#
+#testSSHonSolarisI18N:
+#  inputs:
+#    - host: <host>
+#    - port: "22"
+#    - username: root
+#    - password: <password>
+#    - command: echo testing
+#  description: Tests ssh actually works on a Solaris I18N machine
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - standard_out: |
+#        testing
+#
+#    - return_result: |
+#        testing
+#
+##the newline after the 'testing' string is required for this test to pass
+##don't remove it
+#  testSuites: [ssh-local]
+#  result: SUCCESS
+#
+#testSSHdifferentEncryptionType:
+#  inputs:
+#    - host: <host>
+#    - port: "22"
+#    - username: root
+#    - password: <password>
+#    - command: "echo testing"
+#    - private_key_file: "LOCAL_PATH\\id_rsa"
+#  description: Tests ssh command when a aes256-cbc encryption private key is used
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - standard_out: |
+#        testing
+#
+#  testSuites: [ssh-local]
+#  result: SUCCESS

@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testDocker_test_mysql_monitor:
-  testSuites: [docker,docker-misc]
-  description: Tests the operation that monitor a mysql container.
-  testFlowPath: io.cloudslang.docker.monitoring.mysql.test_mysql_monitor
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-  result: SUCCESS
+#testDocker_test_mysql_monitor:
+#  testSuites: [docker,docker-misc]
+#  description: Tests the operation that monitor a mysql container.
+#  testFlowPath: io.cloudslang.docker.monitoring.mysql.test_mysql_monitor
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#  result: SUCCESS
