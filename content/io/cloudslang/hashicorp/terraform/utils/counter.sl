@@ -17,14 +17,14 @@
 #!
 #! @input from: The number to start counting at.
 #! @input to: The number to count to.
-#! @input increment_by: The number to increment by while counting. If unspecified this is 1. If you wanted to count
-#!                      2,4,6,8 this would be 2.
+#! @input increment_by: The number to increment by while counting. If unspecified this will be 1. If you want to count
+#!                      2,4,6,8 this will be 2.
 #!                      Optional
 #! @input reset: If true, then the counter will restart counting from the beginning.
 #!               Optional
 #!
-#! @output result_string: The primary result is resultString, Result can also be used. result (All lower case) should
-#!                        not be used as it is the response code.
+#! @output result_string: The primary result is resultString, Result can also be used.
+#!                        The "result" (All lower case) should not be used as it is the response code.
 #! @output result: If successful, returns the complete API response. In case of an error this output will contain the
 #!                 error message.
 #!
