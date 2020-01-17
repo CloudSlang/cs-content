@@ -133,7 +133,7 @@
 #!                                Default: 'UTF-8'
 #!                                Optional
 #!
-#! @output hosted_state_url: A url from which you can download the raw state.
+#! @output hosted_state_download_url: A url from which you can download the raw state.
 #! @output state_version_id: The ID of the desired state version.
 #!
 #! @result SUCCESS: The request was successfully executed.
