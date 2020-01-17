@@ -12,14 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_all_images_success:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name: hello-world
-  description: Tests that getting images list done with success result and correct output message
-  testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
-  testSuites: [docker,images]
-  result: SUCCESS
+#test_get_all_images_success:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name: hello-world
+#  description: Tests that getting images list done with success result and correct output message
+#  testFlowPath: io.cloudslang.docker.images.test_get_all_images_outputs
+#  testSuites: [docker,images]
+#  result: SUCCESS

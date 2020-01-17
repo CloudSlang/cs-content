@@ -74,7 +74,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.actions
+namespace: io.cloudslang.hashicorp.terraform.utils
 
 operation: 
   name: list_o_auth_client
@@ -182,8 +182,8 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.ListOAuthClient'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC20'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.utils.ListOAuthClient'
     method_name: 'execute'
   
   outputs: 

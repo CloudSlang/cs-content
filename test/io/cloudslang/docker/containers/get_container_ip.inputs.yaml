@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_container_ip:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name: busybox
-    - container_name: ip_test
-  description: Tests that get_container_ip works
-  testFlowPath: io.cloudslang.docker.containers.test_get_container_ip
-  testSuites: [docker,containers]
-  result: SUCCESS
+#test_get_container_ip:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name: busybox
+#    - container_name: ip_test
+#  description: Tests that get_container_ip works
+#  testFlowPath: io.cloudslang.docker.containers.test_get_container_ip
+#  testSuites: [docker,containers]
+#  result: SUCCESS

@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_run_container_success:
-  testSuites: [docker,containers]
-  description: Tests that run containers works
-  testFlowPath: io.cloudslang.docker.containers.test_run_container
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - container_name: test_hello-world
-    - image_name: hello-world
-  result: SUCCESS
+#test_run_container_success:
+#  testSuites: [docker,containers]
+#  description: Tests that run containers works
+#  testFlowPath: io.cloudslang.docker.containers.test_run_container
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - container_name: test_hello-world
+#    - image_name: hello-world
+#  result: SUCCESS

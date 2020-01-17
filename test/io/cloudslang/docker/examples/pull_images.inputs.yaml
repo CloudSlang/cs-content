@@ -12,14 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_pull_images_success:
-  testSuites: [docker,docker_examples]
-  description: Tests build_images example success case.
-  testFlowPath: io.cloudslang.docker.examples.test_pull_images
-  inputs:
-    - images_to_pull: 'busybox,alpine'
-    - host: 'localhost'
-    - port: "49153"
-    - username: 'root'
-    - password: 'screencast'
-  result: SUCCESS
+#test_pull_images_success:
+#  testSuites: [docker,docker_examples]
+#  description: Tests build_images example success case.
+#  testFlowPath: io.cloudslang.docker.examples.test_pull_images
+#  inputs:
+#    - images_to_pull: 'busybox,alpine'
+#    - host: 'localhost'
+#    - port: "49153"
+#    - username: 'root'
+#    - password: 'screencast'
+#  result: SUCCESS

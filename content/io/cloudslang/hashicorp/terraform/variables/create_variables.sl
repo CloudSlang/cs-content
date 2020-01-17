@@ -20,8 +20,11 @@
 #!                      Optional
 #! @input variables_json: List of variables in json format.
 #!                        Optional
+#!                        Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"Category":"terraform"}]'
 #! @input sensitive_variables_json: List of sensitive variables in json format.
 #!                                  Optional
+#!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
+#!                                            "Category":"terraform"}]'
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -210,7 +213,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC20'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.CreateVariables'
     method_name: 'execute'
   

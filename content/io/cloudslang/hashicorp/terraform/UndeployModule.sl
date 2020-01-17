@@ -163,9 +163,9 @@ flow:
                 value: '${auth_token}'
                 sensitive: true
             - workspace_id: '${workspace_id}'
-            - variables_json: null
+            - variables_json: '[{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}]'
             - sensitive_variables_json:
-                value: '[{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}]'
+                value:
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -219,19 +219,19 @@ flow:
         publish:
           - run_id
         navigate:
-          - SUCCESS: is_true
+          - SUCCESS: is_auto_apply_true
           - FAILURE: on_failure
-    - is_true:
+    - is_auto_apply_true:
         do:
           io.cloudslang.base.utils.is_true:
             - bool_value: '${auto_apply}'
         navigate:
-          - 'TRUE': wait_for_state_version_id
-          - 'FALSE': wait_for_apply_status
+          - 'TRUE': get_run_details_for_get_state_version_details
+          - 'FALSE': get_run_details
     - wait_for_apply_status:
         do:
           io.cloudslang.base.utils.sleep:
-            - seconds: '240'
+            - seconds: '20'
         navigate:
           - SUCCESS: get_run_details
           - FAILURE: on_failure
@@ -282,7 +282,7 @@ flow:
             - second_string: planned
         navigate:
           - SUCCESS: apply_run
-          - FAILURE: on_failure
+          - FAILURE: counter
     - apply_run:
         do:
           io.cloudslang.hashicorp.terraform.runs.apply_run:
@@ -312,14 +312,7 @@ flow:
             - response_character_set: '${response_character_set}'
         publish: []
         navigate:
-          - SUCCESS: wait_for_state_version_id
-          - FAILURE: on_failure
-    - wait_for_state_version_id:
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '240'
-        navigate:
-          - SUCCESS: delete_workspace
+          - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
     - delete_workspace:
         do:
@@ -392,6 +385,84 @@ flow:
         navigate:
           - SUCCESS: create_variables
           - FAILURE: on_failure
+    - counter:
+        do:
+          io.cloudslang.hashicorp.terraform.utils.counter:
+            - from: '1'
+            - to: '100'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_for_apply_status
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - get_run_details_for_get_state_version_details:
+        do:
+          io.cloudslang.hashicorp.terraform.runs.get_run_details:
+            - auth_token:
+                value: '${auth_token}'
+                sensitive: true
+            - run_id: '${run_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: get_run_status_value_state_version
+          - FAILURE: on_failure
+    - get_run_status_value_state_version:
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: 'data,attributes,status'
+        publish:
+          - plan_status: '${return_result}'
+        navigate:
+          - SUCCESS: run_status_for_get_state_version_details
+          - FAILURE: on_failure
+    - run_status_for_get_state_version_details:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${plan_status}'
+            - second_string: applied
+        navigate:
+          - SUCCESS: delete_workspace
+          - FAILURE: counter_for_get_state_version_details
+    - counter_for_get_state_version_details:
+        do:
+          io.cloudslang.hashicorp.terraform.utils.counter:
+            - from: '1'
+            - to: '100'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_for_get_state_version_details
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_for_get_state_version_details:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_run_details_for_get_state_version_details
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
+

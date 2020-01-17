@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_build_image:
-  testSuites: [docker,images]
-  description: Tests that build image operation works
-  testFlowPath: io.cloudslang.docker.images.test_build_image
-  inputs:
-    - docker_image: user/busy
-    - workdir: workdir
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-  result: SUCCESS
+#test_build_image:
+#  testSuites: [docker,images]
+#  description: Tests that build image operation works
+#  testFlowPath: io.cloudslang.docker.images.test_build_image
+#  inputs:
+#    - docker_image: user/busy
+#    - workdir: workdir
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#  result: SUCCESS

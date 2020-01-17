@@ -12,14 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_pull_image_success:
-  testSuites: [docker,images]
-  description: Tests that pull image flow finishes with success
-  testFlowPath: io.cloudslang.docker.images.test_pull_image
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name: hello-world
-  result: SUCCESS
+#test_pull_image_success:
+#  testSuites: [docker,images]
+#  description: Tests that pull image flow finishes with success
+#  testFlowPath: io.cloudslang.docker.images.test_pull_image
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name: hello-world
+#  result: SUCCESS

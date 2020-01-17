@@ -12,14 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_delete_container_success:
-  testSuites: [docker,containers]
-  description: Tests that delete container works
-  testFlowPath: io.cloudslang.docker.containers.test_delete_container
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - container_name: hello-world
-  result: SUCCESS
+#test_delete_container_success:
+#  testSuites: [docker,containers]
+#  description: Tests that delete container works
+#  testFlowPath: io.cloudslang.docker.containers.test_delete_container
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - container_name: hello-world
+#  result: SUCCESS

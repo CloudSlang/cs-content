@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_stop_container_success:
-  testSuites: [docker,containers]
-  description: Tests that stop containers works
-  testFlowPath: io.cloudslang.docker.containers.test_stop_container
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - container_name: test
-    - image_name: busybox
-  result: SUCCESS
+#test_stop_container_success:
+#  testSuites: [docker,containers]
+#  description: Tests that stop containers works
+#  testFlowPath: io.cloudslang.docker.containers.test_stop_container
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - container_name: test
+#    - image_name: busybox
+#  result: SUCCESS

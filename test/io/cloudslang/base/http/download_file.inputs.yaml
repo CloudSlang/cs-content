@@ -12,53 +12,53 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testDownloadFileSuccess:
-  inputs:
-    - url: <download_link>
-    - proxy_host: <proxy_host>
-    - proxy_port: <proxy_port>
-  description: "Tests that download_file.sl operation finishes with SUCCESS"
-  testSuites: [download-local]
-  testFlowPath: io.cloudslang.base.http.download_file
-  outputs:
-    - return_result: <download_file_name>
-    - return_code: '0'
-  result: SUCCESS
-
-testDownloadFileWithCurrentWorkingDirectory:
-  inputs:
-    - url: <download_link>
-    - cwd: <current_working_directory>
-    - proxy_host: <proxy_host>
-    - proxy_port: <proxy_port>
-  description: "Tests that download_file.sl operation finishes with SUCCESS when cwd is provided"
-  testSuites: [download-local]
-  testFlowPath: io.cloudslang.base.http.download_file
-  outputs:
-    - return_result: <download_file_name>
-    - return_code: '0'
-  result: SUCCESS
-
-testDownloadUrlInvalidProxy:
-  inputs:
-    - url: <download_link>
-    - proxy_host: <invalid_proxy_host>
-    - proxy_port: <proxy_port>
-  description: "Tests that download_file.sl operation finishes with FAILURE when invalid proxy is provided"
-  testSuites: [download-local]
-  testFlowPath: io.cloudslang.base.http.download_file
-  outputs:
-    - return_code: '-1'
-  result: FAILURE
-
-testDownloadUrlInvalidFile:
-  inputs:
-    - url: <invalid_download_link>
-    - proxy_host: <proxy_host>
-    - proxy_port: <proxy_port>
-  description: "Tests that download_file.sl operation finishes with FAILURE when invalid download link is provided"
-  testSuites: [download-local]
-  testFlowPath: io.cloudslang.base.http.download_file
-  outputs:
-    - return_code: '-1'
-  result: FAILURE
+#testDownloadFileSuccess:
+#  inputs:
+#    - url: <download_link>
+#    - proxy_host: <proxy_host>
+#    - proxy_port: <proxy_port>
+#  description: "Tests that download_file.sl operation finishes with SUCCESS"
+#  testSuites: [download-local]
+#  testFlowPath: io.cloudslang.base.http.download_file
+#  outputs:
+#    - return_result: <download_file_name>
+#    - return_code: '0'
+#  result: SUCCESS
+#
+#testDownloadFileWithCurrentWorkingDirectory:
+#  inputs:
+#    - url: <download_link>
+#    - cwd: <current_working_directory>
+#    - proxy_host: <proxy_host>
+#    - proxy_port: <proxy_port>
+#  description: "Tests that download_file.sl operation finishes with SUCCESS when cwd is provided"
+#  testSuites: [download-local]
+#  testFlowPath: io.cloudslang.base.http.download_file
+#  outputs:
+#    - return_result: <download_file_name>
+#    - return_code: '0'
+#  result: SUCCESS
+#
+#testDownloadUrlInvalidProxy:
+#  inputs:
+#    - url: <download_link>
+#    - proxy_host: <invalid_proxy_host>
+#    - proxy_port: <proxy_port>
+#  description: "Tests that download_file.sl operation finishes with FAILURE when invalid proxy is provided"
+#  testSuites: [download-local]
+#  testFlowPath: io.cloudslang.base.http.download_file
+#  outputs:
+#    - return_code: '-1'
+#  result: FAILURE
+#
+#testDownloadUrlInvalidFile:
+#  inputs:
+#    - url: <invalid_download_link>
+#    - proxy_host: <proxy_host>
+#    - proxy_port: <proxy_port>
+#  description: "Tests that download_file.sl operation finishes with FAILURE when invalid download link is provided"
+#  testSuites: [download-local]
+#  testFlowPath: io.cloudslang.base.http.download_file
+#  outputs:
+#    - return_code: '-1'
+#  result: FAILURE

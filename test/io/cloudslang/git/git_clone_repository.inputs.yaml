@@ -12,21 +12,21 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGitFlowsContent:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - git_repository: "https://github.com/CloudSlang/cs-content.git"
-    - git_repository_localdir: "/tmp/cs-content"
-    - git_branch: "master"
-    - git_merge_branch: "master"
-    - git_pull_remote: "origin"
-    - git_fetch_remote: "origin"
-    - git_reset_target: "d4a770d3ffa6906f58e1f45a304fc285f635fa0a"
-    - sudo_user: 'false'
-  description: Test that git is successfully able to perform git flows operations such as clone, checkout, fetch, merge, and reset
-  testFlowPath: io.cloudslang.git.test_git_flow
-  testSuites: [git]
-  result: SUCCESS
+#testGitFlowsContent:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - git_repository: "https://github.com/CloudSlang/cs-content.git"
+#    - git_repository_localdir: "/tmp/cs-content"
+#    - git_branch: "master"
+#    - git_merge_branch: "master"
+#    - git_pull_remote: "origin"
+#    - git_fetch_remote: "origin"
+#    - git_reset_target: "d4a770d3ffa6906f58e1f45a304fc285f635fa0a"
+#    - sudo_user: 'false'
+#  description: Test that git is successfully able to perform git flows operations such as clone, checkout, fetch, merge, and reset
+#  testFlowPath: io.cloudslang.git.test_git_flow
+#  testSuites: [git]
+#  result: SUCCESS

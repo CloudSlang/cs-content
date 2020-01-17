@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_start_container_success:
-  testSuites: [docker,containers]
-  description: Tests that start containers works
-  testFlowPath: io.cloudslang.docker.containers.test_start_container
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name: busybox
-    - container_name: busybox
-  result: SUCCESS
+#test_start_container_success:
+#  testSuites: [docker,containers]
+#  description: Tests that start containers works
+#  testFlowPath: io.cloudslang.docker.containers.test_start_container
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name: busybox
+#    - container_name: busybox
+#  result: SUCCESS

@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_filtered_containers_success:
-  testSuites: [docker,containers]
-  description: "Tests SUCCESS case - filters out containers based on busybox:latest image"
-  testFlowPath: io.cloudslang.docker.containers.test_get_filtered_containers
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-  result: SUCCESS
+#test_get_filtered_containers_success:
+#  testSuites: [docker,containers]
+#  description: "Tests SUCCESS case - filters out containers based on busybox:latest image"
+#  testFlowPath: io.cloudslang.docker.containers.test_get_filtered_containers
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#  result: SUCCESS

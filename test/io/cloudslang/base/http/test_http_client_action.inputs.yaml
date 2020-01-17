@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testHttpClientAction:
-  inputs:
-    - url: "http://localhost:3000/v2/pet"
-    - resource_id: "123"
-    - resource_name: 'cloud_slang_test_CI'
-  description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
-  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
-  testFlowPath: io.cloudslang.base.http.test_http_client_action
-  testSuites: [http]
-  result: SUCCESS
+#testHttpClientAction:
+#  inputs:
+#    - url: "http://localhost:3000/v2/pet"
+#    - resource_id: "123"
+#    - resource_name: 'cloud_slang_test_CI'
+#  description: "Test that http_client_action is successfully able to use: POST, GET, PUT, DELETE methods against a REST API"
+#  systemPropertiesFile: ${project_path}/configuration/properties/io/cloudslang/base/http/http.prop.sl
+#  testFlowPath: io.cloudslang.base.http.test_http_client_action
+#  testSuites: [http]
+#  result: SUCCESS

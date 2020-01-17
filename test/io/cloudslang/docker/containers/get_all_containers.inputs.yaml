@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_all_containers:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - first_image_name: hello-world
-    - second_image_name: busybox
-  description: Tests that get_all_containers operation works
-  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
-  testSuites: [docker,containers]
-  result: SUCCESS
+#test_get_all_containers:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - first_image_name: hello-world
+#    - second_image_name: busybox
+#  description: Tests that get_all_containers operation works
+#  testFlowPath: io.cloudslang.docker.containers.test_get_all_containers
+#  testSuites: [docker,containers]
+#  result: SUCCESS
