@@ -52,7 +52,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC20'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.utils.Counter'
     method_name: 'execute'
 
