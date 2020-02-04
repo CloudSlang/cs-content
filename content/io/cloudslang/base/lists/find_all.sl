@@ -35,7 +35,7 @@ operation:
     - list
     - element
     - ignore_case:
-        default: 'false'
+        default: "false"
 
   python_action:
     script: |
