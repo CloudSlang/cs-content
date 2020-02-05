@@ -46,3 +46,6 @@ operation:
 
   outputs:
     - indices: ${ ",".join(indices) }
+
+  results:
+    - SUCCESS
