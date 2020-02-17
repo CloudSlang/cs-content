@@ -53,6 +53,16 @@
 #!                               Default: ''
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                               Default: 'false'
+#! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
+#!                            Default: no timeout
+#! @input proxy_host: Optional - The proxy server used.
+#!                                Default: ''
+#! @input proxy_port: Optional - The proxy server port.
+#!                                Default: ''
+#! @input proxy_username: Optional - The user name used when connecting to the proxy.
+#!                                Default: ''
+#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
+#!                                    Default: ''
 #!
 #! @output return_result: That will contain the 'Sent Mail Successfully' if the mail was sent successfully.
 #! @output return_code: '0' if success, '-1' otherwise.
@@ -114,9 +124,43 @@ operation:
         default: ${get("enable_TLS", "")}
         required: false
         private: true
+    - encryption_algorithm:
+        required: false
+    - encryptionAlgorithm:
+        default: ${get("encryption_algorithm", "")}
+        required: false
+        private: true
+    - timeout:
+        required: false
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get("proxy_host", "")}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get("proxy_port", "")}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get("proxy_username", "")}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+        sensitive: true
+    - proxyPassword:
+        default: ${get("proxy_password", "")}
+        required: false
+        private: true
+        sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.38'
+    gav: 'io.cloudslang.content:cs-mail:0.0.39'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
 
