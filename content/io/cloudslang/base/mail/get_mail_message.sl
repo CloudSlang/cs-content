@@ -222,8 +222,9 @@ operation:
     - verify_certificate:
         required: false
     - verifyCertificate:
-        default: ${get("verifyCertificate", "")}
+        default: ${get("verify_certificate", "")}
         private: true
+        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -252,7 +253,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.145-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.146-SNAPSHOT'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageAction
     method_name: execute
 
