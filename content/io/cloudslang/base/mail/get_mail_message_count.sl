@@ -31,19 +31,19 @@
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                               Valid values: 'true', 'false'.
 #!                               Default: 'false'
-#! @input tlsVersion: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
-#!                               is set to 'false'.
-#!                               Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
-#!                               Default: 'TLSv1.2'.
-#! @input encryptionAlgorithm - A list of ciphers to use. The value of this input will be ignored if "tlsVersion" does
-#!                              not contain 'TLSv1.2'.
-#!                              Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-#!                              TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
-#!                              TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-#!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-#!                              TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-#!                              TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-#!                              TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256.
+#! @input tls_Version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
+#!                                is set to 'false'.
+#!                                Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
+#!                                Default: 'TLSv1.2'.
+#! @input encryption_Algorithm - A list of ciphers to use. The value of this input will be ignored if "tlsVersion" does
+#!                               not contain 'TLSv1.2'.
+#!                               Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+#!                               TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
+#!                               TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                               TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+#!                               TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+#!                               TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
+#!                               TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
 #! @input enable_SSL: Optional - Specify if the connection should be SSL enabled or not.
 #!                               Valid values: 'true', 'false'.
 #!                               Default: 'false'.
@@ -96,7 +96,7 @@ operation:
     - enable_TLS:
         required: false
     - enableTLS:
-        default: ${get("enable_TLS", "true")}
+        default: ${get("enable_TLS", "false")}
         private: true
     - tls_Version:
         required: false

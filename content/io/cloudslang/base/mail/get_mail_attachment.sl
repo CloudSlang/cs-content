@@ -49,13 +49,13 @@
 #!                               Default: 'TLSv1.2'.
 #! @input encryptionAlgorithm - A list of ciphers to use. The value of this input will be ignored if "tlsVersion" does
 #!                              not contain 'TLSv1.2'.
-#!                              Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+#!                              Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                              TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
 #!                              TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
 #!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
 #!                              TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
 #!                              TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-#!                              TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256.
+#!                              TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
 #! @input keystore: Optional - The path to the keystore to use for SSL Client Certificates.
 #!                             Default: ''
 #! @input keystore_password: Optional - The password for the keystore.
@@ -134,13 +134,14 @@ operation:
     - enable_TLS:
         required: false
     - enableTLS:
-        default: ${get("enable_TLS", "")}
+        default: ${get("enable_TLS", "false")}
         required: false
         private: true
     - tls_Version:
         required: false
     - tlsVersion:
         default: ${get("tls_Version", "TLSv1.2")}
+        required: false
         private: true
     - encryption_Algorithm:
         required: false
