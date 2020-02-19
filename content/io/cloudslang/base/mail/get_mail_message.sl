@@ -262,9 +262,9 @@ operation:
     - return_code: ${returnCode}
     - subject
     - body
-    - plain_text_body: ${plainTextBody}
-    - attached_file_names: ${attachedFileNames}
-    - exception
+    - plain_text_body: ${get('plainTextBody', '')}
+    - attached_file_names: ${get('attachedFileNames', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}

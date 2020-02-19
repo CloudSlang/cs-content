@@ -234,7 +234,7 @@ operation:
 
   outputs:
     - return_result: ${returnResult}
-    - temporary_file: ${temporaryFile}
+    - temporary_file: ${get('temporaryFile', '')}
     - return_code: ${returnCode}
     - exception: ${get('exception', '')}
 
