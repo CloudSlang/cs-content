@@ -122,31 +122,31 @@ operation:
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: 'true'
+        default: ${get("trust_all_roots", "true")}
         required: false
         private: true
     - enable_SSL:
         required: false
     - enableSSL:
-        default: 'false'
+        default: ${get("enable_SSL", "false")}
         required: false
         private: true
     - enable_TLS:
         required: false
     - enableTLS:
-        default: 'false'
+        default: ${get("enable_TLS", "false")}
         required: false
         private: true
     - tls_version:
         required: false
     - tlsVersion:
-        default: 'TLSv1.2'
+        default: ${get("tls_version", "TLSv1.2")}
         required: false
         private: true
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
-        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
+        default: ${get("encryption_algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
         private: true
     - keystore:
         required: false
@@ -171,7 +171,7 @@ operation:
     - character_set:
         required: false
     - characterSet:
-        default: 'UTF-8'
+        default: ${get("character_set", "UTF-8")}
         private: true
     - destination:
         required: false
@@ -209,7 +209,7 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: '8080'
+        default: ${get("proxy_port", "8080")}
         required: false
         private: true
     - proxy_username:

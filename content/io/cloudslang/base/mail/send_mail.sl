@@ -119,12 +119,12 @@ operation:
     - html_email:
         required: false
     - htmlEmail:
-        default: 'true'
+        default: ${get("html_email", "true")}
         private: true
     - read_receipt:
         required: false
     - readReceipt:
-        default: 'false'
+        default: ${get("read_receipt", "false")}
         private: true
     - attachments:
         required: false
@@ -134,12 +134,12 @@ operation:
     - row_delimiter:
         required: false
     - rowDelimiter:
-        default: ':'
+        default: ${get("row_delimiter", ":")}
         private: true
     - column_delimiter:
         required: false
     - columnDelimiter:
-        default: '\n'
+        default: ${get("column_delimiter", "\n")}
         private: true
     - username:
         required: false
@@ -149,12 +149,12 @@ operation:
     - character_set:
         required: false
     - characterSet:
-        default: 'UTF-8'
+        default: ${get("character_set", "UTF-8")}
         private: true
     - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
-        default: 'quoted-printable'
+        default: ${get("content_transfer_encoding", "quoted-printable")}
         private: true
     - delimiter:
         default: ','
@@ -180,18 +180,18 @@ operation:
     - enable_TLS:
         required: false
     - enableTLS:
-        default: 'false'
+        default: ${get("enable_TLS", "false")}
         required: false
         private: true
     - tls_version:
         required: false
     - tlsVersion:
-        default: 'TLSv1.2'
+        default: ${get("tls_version", "TLSv1.2")}
         private: true
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
-        default: 'AES256_CBC'
+        default: ${get("encryption_algorithm", "AES256_CBC")}
         required: false
         private: true
     - timeout:
@@ -205,7 +205,7 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: '8080'
+        default: ${get("proxy_port", "8080")}
         required: false
         private: true
     - proxy_username:

@@ -91,27 +91,27 @@ operation:
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: 'true'
+        default: ${get("trust_all_roots", "true")}
         private: true
     - enable_TLS:
         required: false
     - enableTLS:
-        default: 'true'
+        default: ${get("enable_TLS", "false")}
         private: true
     - tls_version:
         required: false
     - tlsVersion:
-        default: 'TLSv1.2'
+        default: ${get("tls_version", "TLSv1.2")}
         private: true
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
-        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
+        default: ${get("encryption_algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
         private: true
     - enable_SSL:
         required: false
     - enableSSL:
-        default: 'false'
+        default: ${get("enable_SSL", "false")}
         private: true
     - keystore:
         default: ''
@@ -147,7 +147,7 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: '8080'
+        default: ${get("proxy_port", "8080")}
         required: false
         private: true
     - proxy_username:
