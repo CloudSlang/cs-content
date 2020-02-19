@@ -44,12 +44,12 @@
 #!                       Default: 'false'.
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                               Default: 'false'
-#! @input tls_Version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
+#! @input tls_version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
 #!                                is set to 'false'.
 #!                                Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
 #!                                Default: 'TLSv1.2'.
-#! @input encryption_Algorithm - A list of ciphers to use. The value of this input will be ignored if "tlsVersion" does
-#!                               not contain 'TLSv1.2'.
+#! @input encryption_algorithm: Optional - A list of ciphers to use. The value of this input will be ignored if "tlsVersion"
+#!                               does not contain 'TLSv1.2'.
 #!                               Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                               TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
 #!                               TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
@@ -132,37 +132,37 @@ operation:
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: ${get("trust_all_roots", "false")}
+        default: 'true'
         private: true
     - message_number:
         required: false
     - messageNumber:
-        default: ${get("message_number", "1")}
+        default: ${get("message_number", "")}
         private: true
     - subject_only:
         required: false
     - subjectOnly:
-        default: ${get("subject_only", "false")}
+        default: 'false'
         private: true
     - enable_TLS:
         required: false
     - enableTLS:
-        default: ${get("enable_TLS", "false")}
+        default: 'false'
         private: true
-    - tls_Version:
+    - tls_version:
         required: false
     - tlsVersion:
-        default: ${get("tls_Version", "TLSv1.2")}
+        default: 'TLSv1.2'
         private: true
-    - encryption_Algorithm:
+    - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
-        default: ${get("encryption_Algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
+        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
         private: true
     - enable_SSL:
         required: false
     - enableSSL:
-        default: ${get("enable_SSL", "false")}
+        default: 'false'
         private: true
     - trust_keystore:
         required: false
@@ -192,12 +192,12 @@ operation:
     - character_set:
         required: false
     - characterSet:
-        default: ${get("character_set", "UTF-8")}
+        default: 'UTF-8'
         private: true
     - delete_upon_retrieval:
         required: false
     - deleteUponRetrieval:
-        default: ${get("delete_upon_retrieval", "false")}
+        default: 'false'
         private: true
     - decryption_keystore:
         required: false
@@ -222,7 +222,7 @@ operation:
     - verify_certificate:
         required: false
     - verifyCertificate:
-        default: ${get("verifyCertificate", "false")}
+        default: ${get("verifyCertificate", "")}
         private: true
     - proxy_host:
         required: false
@@ -233,7 +233,7 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "")}
+        default: '8080'
         required: false
         private: true
     - proxy_username:
