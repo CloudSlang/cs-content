@@ -53,6 +53,10 @@
 #!                               Default: ''
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                               Default: 'false'
+#! @input tlsVersion: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
+#!                               is set to 'false'.
+#!                               Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
+#!                               Default: 'TLSv1.2'.
 #! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
 #!                            Default: no timeout
 #! @input proxy_host: Optional - The proxy server used.
@@ -123,6 +127,11 @@ operation:
     - enableTLS:
         default: ${get("enable_TLS", "")}
         required: false
+        private: true
+    - tls_Version:
+        required: false
+    - tlsVersion:
+        default: ${get("tls_Version", "TLSv1.2")}
         private: true
     - encryption_algorithm:
         required: false
