@@ -109,6 +109,10 @@ operation:
     - hostname
     - port
     - from_address
+    - fromAddress:
+        default: ${get("from_address", "")}
+        private: true
+        required: false
     - to
     - cc:
         required: false
