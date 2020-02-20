@@ -161,6 +161,7 @@ operation:
     - allowedCyphers:
         default: ${get("allowed_cyphers", "")}
         private: true
+        required: false
     - username:
         required: false
     - password:
