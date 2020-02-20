@@ -12,13 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRunDetailsSuccess:
+testListWorkspacesSuccess:
   testSuites: [terraform-local]
-  description: "Test to gets run details SUCCESS"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that list workspaces in organization SUCCESS"
+  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.list_workspace
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - organization_name: <organization_name>
+    - workspace_name: <workspace_name>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -36,13 +37,14 @@ testRunDetailsSuccess:
 
   result: SUCCESS
 
-testRunDetailsFailureWithInvalidOrganizationName:
+testListWorkspacesFailureWithInvalidOrganizationName:
   testSuites: [terraform-local]
-  description: "Test to gets run details FAILURE"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests list workspace FAILURE"
+  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.list_workspaces
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - organization_name: <organization_name>
+    - workspace_name: <workspace_name>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>

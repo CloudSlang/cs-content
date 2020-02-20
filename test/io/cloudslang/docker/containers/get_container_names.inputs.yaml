@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_container_names:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-  description: Tests SUCCESS case
-  testFlowPath: io.cloudslang.docker.containers.test_get_container_names
-  testSuites: [docker,containers]
-  result: SUCCESS
+#test_get_container_names:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#  description: Tests SUCCESS case
+#  testFlowPath: io.cloudslang.docker.containers.test_get_container_names
+#  testSuites: [docker,containers]
+#  result: SUCCESS

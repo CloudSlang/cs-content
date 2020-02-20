@@ -12,99 +12,99 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testSSHBasicallyWorks:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - command: echo testing
-    - username: root
-    - password: screencast
-  description: Tests ssh actually works
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - standard_out: |
-        testing
-
-#the newline after the 'testing' string is required for this test to pass
-#don't remove it
-  testSuites: [docker,docker-misc]
-  result: SUCCESS
-
-testSSHManyInputs:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - command: echo testing
-    - timeout: "90000"
-    - characterSet: "SJIS"
-    - closeSession: "true"
-    - smart_recovery: "false"
-    - retries: "5"
-  description: Tests ssh works with most of the inputs
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - standard_out: |
-        testing
-
-    - return_result: |
-        testing
-
-#the newline after the 'testing' string is required for this test to pass
-#don't remove it
-  testSuites: [docker,docker-misc]
-  result: SUCCESS
-
-testSSHexitStatusCommandNotFound:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - command: of
-  description: Tests ssh command returns the code 127 when the command is not found
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  outputs:
-    - command_return_code: 127
-  testSuites: [docker,docker-misc]
-
-testSSHWorksWhenPTYtrue:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - command: "echo testing\nexit\n"
-    - pty: "true"
-    - username: root
-    - password: screencast
-  description: Tests ssh actually works when pty = true by closing the channel with an appended exit command
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  testSuites: [docker,docker-misc]
-  result: SUCCESS
-
-testSSHWorksWithProxy:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - command: "echo testing\nexit\n"
-    - username: root
-    - password: screencast
-    - proxy_host: <proxy_host>
-    - connect_timeout: '0'
-  description: Tests ssh actually works when proxy is defined
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  testSuites: [ssh-local]
-  result: SUCCESS
-
-testSSHFailsWhenHostPolicyIsStrict:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - command: "echo testing\nexit\n"
-    - username: root
-    - password: screencast
-    - known_hosts_policy: strict
-  description: Tests ssh actually works when known hosts policy is strict
-  testFlowPath: io.cloudslang.base.ssh.ssh_flow
-  testSuites: [docker,docker-misc]
-  result: FAILURE
+#testSSHBasicallyWorks:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - command: echo testing
+#    - username: root
+#    - password: screencast
+#  description: Tests ssh actually works
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - standard_out: |
+#        testing
+#
+##the newline after the 'testing' string is required for this test to pass
+##don't remove it
+#  testSuites: [docker,docker-misc]
+#  result: SUCCESS
+#
+#testSSHManyInputs:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - command: echo testing
+#    - timeout: "90000"
+#    - characterSet: "SJIS"
+#    - closeSession: "true"
+#    - smart_recovery: "false"
+#    - retries: "5"
+#  description: Tests ssh works with most of the inputs
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - standard_out: |
+#        testing
+#
+#    - return_result: |
+#        testing
+#
+##the newline after the 'testing' string is required for this test to pass
+##don't remove it
+#  testSuites: [docker,docker-misc]
+#  result: SUCCESS
+#
+#testSSHexitStatusCommandNotFound:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - command: of
+#  description: Tests ssh command returns the code 127 when the command is not found
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  outputs:
+#    - command_return_code: 127
+#  testSuites: [docker,docker-misc]
+#
+#testSSHWorksWhenPTYtrue:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - command: "echo testing\nexit\n"
+#    - pty: "true"
+#    - username: root
+#    - password: screencast
+#  description: Tests ssh actually works when pty = true by closing the channel with an appended exit command
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  testSuites: [docker,docker-misc]
+#  result: SUCCESS
+#
+#testSSHWorksWithProxy:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - command: "echo testing\nexit\n"
+#    - username: root
+#    - password: screencast
+#    - proxy_host: <proxy_host>
+#    - connect_timeout: '0'
+#  description: Tests ssh actually works when proxy is defined
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  testSuites: [ssh-local]
+#  result: SUCCESS
+#
+#testSSHFailsWhenHostPolicyIsStrict:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - command: "echo testing\nexit\n"
+#    - username: root
+#    - password: screencast
+#    - known_hosts_policy: strict
+#  description: Tests ssh actually works when known hosts policy is strict
+#  testFlowPath: io.cloudslang.base.ssh.ssh_flow
+#  testSuites: [docker,docker-misc]
+#  result: FAILURE

@@ -17,25 +17,26 @@
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
-#!                         Examples: c:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet
+#!                         Example: c:\temp\test.xls
+#! @input worksheet_name: The name of Excel worksheet.
+#!                        Default: Sheet1
 #!                        Optional
-#! @input has_header: If Yes, then the first row of the document is expected to be the header row. 
+#! @input has_header: If yes, then the first row of the document is expected to be the header row.
 #!                    Valid values: yes, no
-#!                    Default value: Yes
+#!                    Default value: yes
 #!                    Optional
 #! @input first_row_index: The index of the first row in the Excel worksheet, including the header row.
 #!                         Default value: 0
 #!                         Optional
 #! @input row_index: A list of row indexes.
-#!                   Examples: 1:3, 10, 15:20,25
+#!                   Examples: 1:3, 10, 15:20, 25
 #!                   Default Value: from the index of the first row
-#!                                  to the index of the last row in the Excel worksheet.
+#!                                  to the index of the last row with content in the Excel worksheet.
 #!                   Optional
 #! @input column_index: A list of column indexes.
-#!                      Examples: 1:3, 10, 15:20,25
+#!                      Examples: 1:3, 10, 15:20, 25
 #!                      Default value: from 0 to the index of the
-#!                                     last column in the Excel worksheet.
+#!                                     last column with content in the Excel worksheet.
 #!                      Optional
 #! @input row_delimiter: The delimiter used to separate the rows of the returnResult.
 #!                       Default value: | (pipe)
@@ -111,7 +112,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.1'
+    gav: 'io.cloudslang.content:cs-excel:0.0.2-RC2'
     class_name: 'io.cloudslang.content.excel.actions.GetCell'
     method_name: 'execute'
   

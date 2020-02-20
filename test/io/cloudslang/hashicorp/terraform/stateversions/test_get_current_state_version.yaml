@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRunDetailsSuccess:
+testGetCurrentStateVersionSuccess:
   testSuites: [terraform-local]
-  description: "Test to gets run details SUCCESS"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that gets the current state version in given workspace SUCCESS"
+  testFlowPath: io.cloudslang.hashicorp.terraform.stateversions.get_current_state_version
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - workspace_id: <workspace_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -36,13 +36,13 @@ testRunDetailsSuccess:
 
   result: SUCCESS
 
-testRunDetailsFailureWithInvalidOrganizationName:
+testGetCurrentStateVersionFailureWithInvalidWorkspaceId:
   testSuites: [terraform-local]
-  description: "Test to gets run details FAILURE"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that gets the current state version in given workspace FAILURE"
+  testFlowPath: io.cloudslang.hashicorp.terraform.stateversions.get_current_state_version
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - workspace_id: <workspace_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>

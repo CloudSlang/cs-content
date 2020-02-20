@@ -13,17 +13,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a run in workspace.
+#! @description: Updates variables attributes in the workspace.
 #!
-#! @input auth_token: The authorization token for terraform
-#! @input workspace_id: The Id of created workspace
-#!                      Optional
-#! @input run_message: Specifies the message to be associated with this run
-#!                     Optional
-#! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
-#!                    Optional
-#! @input request_body: The request body of the crate run.
-#!                      Optional
+#! @input auth_token: The authorization token for terraform.
+#! @input organization_name: The name of the organization.
+#! @input workspace_name: The name of workspace whose description is to be fetched.
+#! @input variables_json: List of variables in json format.
+#!                        Optional
+#!                        Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"sensitive":false}]'
+#! @input sensitive_variables_json: List of sensitive variables in json format.
+#!                                  Optional
+#!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
+#!                                  "sensitive":false}]'
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -35,15 +36,17 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
+#!                         Default: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 allow_all to skip any checking. For the value browser_compatible the hostname
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
 #!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between browser_compatible and strict is that a
-#!                                 wildcard (such as *.foo.com) with browser_compatible matches all subdomains,
-#!                                 including a.b.foo.com.
+#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
+#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -55,72 +58,69 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after execution it will close
+#!                    it.Default: true
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: 2
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.
+#! @input connections_max_total: The maximum limit of connections in total.Default: 20
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response,If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used.If
+#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
+#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS
+#!                                method=HEAD or OPTIONS.Default: UTF-8
 #!                                Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
+#! @output return_result: The response of the update variable request.
+#! @output exception: An error message in case there was an error while updating the variable.
 #! @output status_code: The HTTP status code for Terraform API request.
-#! @output run_id: Id of the run.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.runs
+namespace: io.cloudslang.hashicorp.terraform.variables
 
 operation: 
-  name: create_run
+  name: update_variables
   
-  inputs:
-    - auth_token:
+  inputs: 
+    - auth_token:    
         sensitive: true
-    - authToken:
+    - authToken: 
         default: ${get('auth_token', '')}
-        required: true
+        private: true 
+        sensitive: true
+    - organization_name
+    - organizationName:
+        default: ${get('organization_name', '')}
+        private: true
+    - workspace_name
+    - workspaceName:
+        default: ${get('workspace_name', '')}
+        private: true
+    - variables_json:
+        required: false
+    - variablesJson:
+        default: ${get('variables_json', '')}
+        required: false
+        private: true
+    - sensitive_variables_json:
+        required: false
+        sensitive: true
+    - sensitiveVariablesJson:
+        default: ${get('sensitive_variables_json', '')}
+        required: false
         private: true
         sensitive: true
-    - workspace_id:  
-        required: false  
-    - workspaceId: 
-        default: ${get('workspace_id', '')}  
-        required: false 
-        private: true 
-    - run_message:  
-        required: false  
-    - runMessage: 
-        default: ${get('run_message', '')}  
-        required: false 
-        private: true 
-    - is_destroy:  
-        required: false  
-    - isDestroy: 
-        default: ${get('is_destroy', '')}  
-        required: false 
-        private: true 
-    - request_body:  
-        required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
-        required: false 
-        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -212,13 +212,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.CreateRun'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.variables.UpdateVariables'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - run_id: ${get('runId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

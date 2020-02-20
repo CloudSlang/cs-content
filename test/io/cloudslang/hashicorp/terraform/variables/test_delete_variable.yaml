@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRunDetailsSuccess:
+testDeleteTerraformVariableInWorkspaceSuccess:
   testSuites: [terraform-local]
-  description: "Test to gets run details SUCCESS"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that deletes terraform variable in workspace SUCCESS."
+  testFlowPath: io.cloudslang.hashicorp.terraform.variables.delete_variable
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - variable_id: <variable_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -36,13 +36,13 @@ testRunDetailsSuccess:
 
   result: SUCCESS
 
-testRunDetailsFailureWithInvalidOrganizationName:
+testDeleteEnvironmentVariableInvalidAuthtoken:
   testSuites: [terraform-local]
-  description: "Test to gets run details FAILURE"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that terraform variable fails with invalid auth token."
+  testFlowPath: io.cloudslang.hashicorp.terraform.variables.delete_variable
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - variable_id: <variable_id>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -59,3 +59,4 @@ testRunDetailsFailureWithInvalidOrganizationName:
     - response_character_set: <response_character_set>
 
   result: FAILURE
+

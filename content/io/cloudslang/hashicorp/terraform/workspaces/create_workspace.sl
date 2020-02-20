@@ -104,17 +104,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input execution_timeout: The amount of time (in milliseconds) to allow the client to complete the execution of an
-#!                           API call. A value of '0' disables this feature.
-#!                           Default: '60000'
-#!                           Optional
-#! @input polling_interval: The time, in seconds, to wait before a new request that verifies if the operation
-#!                          finished is executed.
-#!                          Default: '1000'
-#!                          Optional
-#! @input async: Whether to run the operation is async mode.
-#!               Default: 'false'
-#!               Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: 'true'
@@ -160,11 +149,11 @@ operation:
     - organizationName: 
         default: ${get('organization_name', '')}  
         private: true 
-    - workspace_name:  
-        required: false  
-    - workspaceName: 
-        default: ${get('workspace_name', '')}  
-        required: false 
+    - workspace_name:
+        required: false
+    - workspaceName:
+        default: ${get('workspace_name', '')}
+        required: false
         private: true 
     - workspace_description:  
         required: false  
@@ -307,21 +296,7 @@ operation:
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
-        private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - polling_interval:  
-        required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
+        private: true
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -348,7 +323,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0-RC8'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
     method_name: 'execute'
   

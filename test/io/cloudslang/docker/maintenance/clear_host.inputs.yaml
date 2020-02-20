@@ -12,15 +12,15 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_clear_host_success:
-  testSuites: [docker,docker-misc]
-  description: Tests that clear host removes all containers and images from host
-  testFlowPath: io.cloudslang.docker.maintenance.test_clear_host
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - image_name_to_pull: "hello-world"
-    - image_name_to_run: "meirwah/hello-world"
-  result: SUCCESS
+#test_clear_host_success:
+#  testSuites: [docker,docker-misc]
+#  description: Tests that clear host removes all containers and images from host
+#  testFlowPath: io.cloudslang.docker.maintenance.test_clear_host
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - image_name_to_pull: "hello-world"
+#    - image_name_to_run: "meirwah/hello-world"
+#  result: SUCCESS

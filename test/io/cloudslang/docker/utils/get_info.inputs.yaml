@@ -12,13 +12,13 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_get_info_success:
-  testSuites: [docker,docker-misc]
-  description: Tests that flow works - information was retrieved successfully
-  testFlowPath: io.cloudslang.docker.utils.get_info
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-  result: SUCCESS
+#test_get_info_success:
+#  testSuites: [docker,docker-misc]
+#  description: Tests that flow works - information was retrieved successfully
+#  testFlowPath: io.cloudslang.docker.utils.get_info
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#  result: SUCCESS

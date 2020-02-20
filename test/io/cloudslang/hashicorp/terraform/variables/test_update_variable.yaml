@@ -12,13 +12,14 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRunDetailsSuccess:
+testUpdateTerraformVariableInWorkspaceSuccess:
   testSuites: [terraform-local]
-  description: "Test to gets run details SUCCESS"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that update terraform variable in workspace SUCCESS."
+  testFlowPath: io.cloudslang.hashicorp.terraform.variables.update_variable
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - variable_id: <variable_id>
+    - request_body: <request_body>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -36,13 +37,14 @@ testRunDetailsSuccess:
 
   result: SUCCESS
 
-testRunDetailsFailureWithInvalidOrganizationName:
+testUpdateEnvironmentVariableInvalidAuthtoken:
   testSuites: [terraform-local]
-  description: "Test to gets run details FAILURE"
-  testFlowPath: io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details
+  description: "Tests that update variable failed with invalid auth token."
+  testFlowPath: io.cloudslang.hashicorp.terraform.variables.update_variable
   inputs:
     - auth_token: <auth_token>
-    - run_id: <run_id>
+    - variable_id: <variable_id>
+    - request_body: <request_body>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
     - proxy_username: <proxy_username>
@@ -59,3 +61,5 @@ testRunDetailsFailureWithInvalidOrganizationName:
     - response_character_set: <response_character_set>
 
   result: FAILURE
+
+

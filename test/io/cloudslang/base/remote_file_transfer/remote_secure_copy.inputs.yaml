@@ -12,33 +12,33 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testRemoteSecureCopySucessRemoteToRemote:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - first_scp_host_port: "22022"
-    - second_scp_host_port: "22023"
-    - key_name: "key_r2r"
-    - scp_username: "data"
-    - scp_file: "file.txt"
-    - text_to_check: "helloworld"
-  description: Tests rft successfully transfers a file from one remote to another
-  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_remote_to_remote
-  testSuites: [remote-copy]
-  result: SUCCESS
-
-testRemoteSecureCopySucessLocalToRemote:
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - scp_host_port: "22024"
-    - key_name: "key_l2r"
-    - scp_username: "data"
-    - scp_file: "file.txt"
-    - text_to_check: "helloworld"
-  description: Tests rft successfully transfers a file from local to another
-  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_local_to_remote
-  testSuites: [remote-copy]
-  result: SUCCESS
+#testRemoteSecureCopySucessRemoteToRemote:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - first_scp_host_port: "22022"
+#    - second_scp_host_port: "22023"
+#    - key_name: "key_r2r"
+#    - scp_username: "data"
+#    - scp_file: "file.txt"
+#    - text_to_check: "helloworld"
+#  description: Tests rft successfully transfers a file from one remote to another
+#  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_remote_to_remote
+#  testSuites: [remote-copy]
+#  result: SUCCESS
+#
+#testRemoteSecureCopySucessLocalToRemote:
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - scp_host_port: "22024"
+#    - key_name: "key_l2r"
+#    - scp_username: "data"
+#    - scp_file: "file.txt"
+#    - text_to_check: "helloworld"
+#  description: Tests rft successfully transfers a file from local to another
+#  testFlowPath: io.cloudslang.base.remote_file_transfer.test_remote_secure_copy_local_to_remote
+#  testSuites: [remote-copy]
+#  result: SUCCESS

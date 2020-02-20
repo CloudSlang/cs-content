@@ -12,19 +12,19 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-test_demo_clear_containers_wrapper:
-  testSuites: [docker,containers]
-  description: >
-    Tests that demo_clear_containers_wrapper works.
-    The linked_image, linked_container_cmd and linked_container_name inputs are introduced to save disk space.
-    If there is enough disk space, these inputs can be skipped so the default application image will be used.
-  testFlowPath: io.cloudslang.docker.containers.test_demo_clear_containers_wrapper
-  inputs:
-    - host: localhost
-    - port: "49153"
-    - username: root
-    - password: screencast
-    - linked_image: busybox
-    - linked_container_cmd: '/bin/sh -c "while true; do echo hello linked busybox; sleep 1; done"'
-    - linked_container_name: busybox
-  result: SUCCESS
+#test_demo_clear_containers_wrapper:
+#  testSuites: [docker,containers]
+#  description: >
+#    Tests that demo_clear_containers_wrapper works.
+#    The linked_image, linked_container_cmd and linked_container_name inputs are introduced to save disk space.
+#    If there is enough disk space, these inputs can be skipped so the default application image will be used.
+#  testFlowPath: io.cloudslang.docker.containers.test_demo_clear_containers_wrapper
+#  inputs:
+#    - host: localhost
+#    - port: "49153"
+#    - username: root
+#    - password: screencast
+#    - linked_image: busybox
+#    - linked_container_cmd: '/bin/sh -c "while true; do echo hello linked busybox; sleep 1; done"'
+#    - linked_container_name: busybox
+#  result: SUCCESS

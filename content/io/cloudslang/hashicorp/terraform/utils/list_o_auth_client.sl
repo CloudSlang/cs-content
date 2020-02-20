@@ -13,21 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a run in workspace.
+#! @description: List An OAuth Client Id
 #!
 #! @input auth_token: The authorization token for terraform
-#! @input workspace_id: The Id of created workspace
-#!                      Optional
-#! @input run_message: Specifies the message to be associated with this run
-#!                     Optional
-#! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
-#!                    Optional
-#! @input request_body: The request body of the crate run.
-#!                      Optional
+#! @input organization_name: Name of the organization
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Terraform service.
-#!                    Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Terraform service.Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -73,21 +65,19 @@
 #!                                method=HEAD or OPTIONS
 #!                                Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
+#! @output return_result: If successful, returns the complete API response containing the messages.
+#! @output oauth_token_id: Id of the oauthtoken
 #! @output status_code: The HTTP status code for Terraform API request.
-#! @output run_id: Id of the run.
 #!
 #! @result SUCCESS: The request was successfully executed.
-#! @result FAILURE: There was an error while executing the request.
-#!
+#! @result FAILURE: There was an error while trying to get the messages.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.hashicorp.terraform.runs
+namespace: io.cloudslang.hashicorp.terraform.utils
 
 operation: 
-  name: create_run
+  name: list_o_auth_client
   
   inputs:
     - auth_token:
@@ -97,28 +87,9 @@ operation:
         required: true
         private: true
         sensitive: true
-    - workspace_id:  
-        required: false  
-    - workspaceId: 
-        default: ${get('workspace_id', '')}  
-        required: false 
-        private: true 
-    - run_message:  
-        required: false  
-    - runMessage: 
-        default: ${get('run_message', '')}  
-        required: false 
-        private: true 
-    - is_destroy:  
-        required: false  
-    - isDestroy: 
-        default: ${get('is_destroy', '')}  
-        required: false 
-        private: true 
-    - request_body:  
-        required: false  
-    - requestBody: 
-        default: ${get('request_body', '')}  
+    - organization_name    
+    - organizationName: 
+        default: ${get('organization_name', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -184,7 +155,7 @@ operation:
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
-        private: true
+        private: true 
     - keep_alive:  
         required: false  
     - keepAlive: 
@@ -212,13 +183,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.0'
-    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.CreateRun'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.utils.ListOAuthClient'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - oauth_token_id: ${get('oauthTokenId', '')} 
     - status_code: ${get('statusCode', '')} 
-    - run_id: ${get('runId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
