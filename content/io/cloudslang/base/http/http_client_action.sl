@@ -386,7 +386,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-http-client:0.1.76'
-    class_name: io.cloudslang.content.httpclient.HttpClientAction
+    class_name: io.cloudslang.content.httpclient.actions.HttpClientAction
     method_name: execute
 
   outputs:
