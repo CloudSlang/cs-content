@@ -103,15 +103,16 @@ flow:
         required: false
         sensitive: true
     - tls_version:
-            required: false
+        default: 'TLSv1.2'
+        required: false
     - tlsVersion:
-            default: ${get("tls_version", "true")}
-            private: true
+        default: ${get("tls_version", "true")}
+        private: true
     - allowed_cyphers:
-            required: false
+        required: false
     - allowedCyphers:
-            default: ${get("allowed_cyphers", "true")}
-            private: true
+        default: ${get("allowed_cyphers", "true")}
+        private: true
     - proxy_host:
         default: ''
         required: false
@@ -172,6 +173,8 @@ flow:
             - auth_type
             - username
             - password
+            - tls_version
+            - allowed_cyphers
             - proxy_host
             - proxy_port
             - proxy_username
