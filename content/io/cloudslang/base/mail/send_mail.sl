@@ -17,7 +17,7 @@
 #!
 #! @input hostname: The hostname or ip address of the smtp server.
 #! @input port: The port of the smtp service.
-#! @input from: From email address.
+#! @input from_address: From email address.
 #! @input to: A delimiter separated list of email address(es) or recipients where the email will be sent.
 #! @input cc: Optional - A delimiter separated list of email address(es) or recipients, to be placed in the CC.
 #!            Default: ''
@@ -108,7 +108,10 @@ operation:
   inputs:
     - hostname
     - port
-    - from
+    - from_address
+    - from:
+        private: true
+        default: ${get("from_address", "")}
     - to
     - cc:
         required: false
