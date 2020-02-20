@@ -105,14 +105,9 @@ flow:
     - tls_version:
         default: 'TLSv1.2'
         required: false
-    - tlsVersion:
-        default: ${get("tls_version", "true")}
-        private: true
     - allowed_cyphers:
+        default: ${get_sp('io.cloudslang.base.http.allowed_cyphers')}
         required: false
-    - allowedCyphers:
-        default: ${get("allowed_cyphers", "true")}
-        private: true
     - proxy_host:
         required: false
     - proxy_port:

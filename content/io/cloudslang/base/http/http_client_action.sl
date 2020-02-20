@@ -154,12 +154,12 @@ operation:
     - tls_version:
         required: false
     - tlsVersion:
-        default: ${get("tls_version", "true")}
+        default: ${get("tls_version", "TLSv1.2")}
         private: true
     - allowed_cyphers:
         required: false
     - allowedCyphers:
-        default: ${get("allowed_cyphers", "true")}
+        default: ${get("allowed_cyphers", "")}
         private: true
     - username:
         required: false
