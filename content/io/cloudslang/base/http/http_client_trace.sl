@@ -23,7 +23,7 @@
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.
 #!                  Format: 'domain\user'
 #! @input password: Optional - Password used for URL authentication.
-#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.Valid values SSLv3, TLSv1.0, TLSv1.1, TLSv1.2.
+#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.Valid values SSLv3, TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default value: 'TLSv1.2'
 #! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2'.
 #!                                    Default values: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, THS_DHE_RSA_WITH_AES_256_CBC_SHA256, THS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_WITH_AES_256_CBC_SHA384, TLS_ECDHE_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256
