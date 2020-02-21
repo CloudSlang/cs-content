@@ -13,8 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to get the contents of a mail message. Inline attachments are not supported by
-#!               this operation.
+#! @description: This operation downloads an email attachment to a specific directory or as a temporary file.
+#!               If the attachment is in plain text format, it also reads the text content of the attachment in a result.
+#!               Inline attachments are not supported by this operation.
 #!
 #! @input host: The email host.
 #! @input port: The port to connect to on host (normally 110 for POP3, 143 for IMAP4).
@@ -37,47 +38,41 @@
 #!                                    certificate installed. The steps are explained at the end of inputs description.
 #!                                    Valid values: 'true', 'false'.
 #!                                    Default: 'false'.
-#! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
-#!                        setting that is independent of the client.
-#! @input subject_only:  A boolean value. If true, only subjects are retrieved instead of the entire message.
-#!                       Valid values: 'true', 'false'.
-#!                       Default: 'false'.
-#! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
-#!                               Default: 'false'
-#! @input tls_version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
-#!                                is set to 'false'.
-#!                                Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
-#!                                Default: 'TLSv1.2'.
-#! @input encryption_algorithm: Optional - A list of ciphers to use. The value of this input will be ignored if "tlsVersion"
-#!                               does not contain 'TLSv1.2'.
-#!                               Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-#!                               TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
-#!                               TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-#!                               TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-#!                               TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-#!                               TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-#!                               TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
 #! @input enable_SSL: Optional - Specify if the connection should be SSL enabled or not.
 #!                               Valid values: 'true', 'false'.
 #!                               Default: 'false'.
+#! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
+#!                               Default: 'false'
+#! @input tls_version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'
+#!                               is set to 'false'.
+#!                               Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
+#!                               Default: 'TLSv1.2'.
+#! @input encryption_algorithm: Optional - A list of ciphers to use. The value of this input will be ignored if "tlsVersion"
+#!                                        does not contain 'TLSv1.2'.
+#!                              Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+#!                              TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
+#!                              TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
+#!                              TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
+#!                              TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
+#!                              TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
 #! @input keystore: Optional - The path to the keystore to use for SSL Client Certificates.
 #!                             Default: ''
 #! @input keystore_password: Optional - The password for the keystore.
 #!                                      Default: ''
-#! @input trust_keystore: Optional - The path to the trust_keystore to use for SSL Server Certificates.
-#!                                   Default: ''
-#! @input trust_password: Optional - The password for the trust_keystore.
-#!                                   Default: ''
+#! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
+#!                        setting that is independent of the client.
+#! @input attachment_name: The name of the attachment in the email that should be read/downloaded.
 #! @input character_set: Optional - The character set used to read the email. By default the operation uses the character
 #!                                  set with which the email is marked, in order to read its content. Because sometimes
 #!                                  this character set isn't accurate you can provide you own value for this property.
 #!                                  Valid values: 'UTF-8', 'UTF-16', 'UTF-32', 'EUC-JP',
 #!                                                'ISO-2022-JP', 'Shift_JIS', 'Windows-31J'.
 #!                                  Default: 'UTF-8'.
-#! @input delete_upon_retrieval: Optional - If true the email which is retrieved will be deleted. For any other values
-#!                                          it will be just retrieved.
-#!                                          Valid values: 'true', 'false'.
-#!                                          Default: 'false'.
+#! @input destination: Optional - The folder where the attachment will be saved. If this input is empty the attachment will be
+#!                                saved as a temporary file. Examples: C:\Folder Name, \\<computerName>\<Shared Folder>.
+#! @input overwrite: Optional - If true the attachment will overwrite any existing file with the same name in destination.
+#!                              Valid values: true, false.
 #! @input decryption_keystore: Optional - The path to the pks12 format keystore to use to decrypt the mail.
 #!                                        Default: ''
 #! @input decryption_key_alias: Optional - The alias of the key from the decryption_keystore to use to decrypt the mail.
@@ -100,11 +95,7 @@
 #! @output return_result: The list of messages that was retrieved from the mail server.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success,
 #!                      -1 if the operation goes to failure.
-#! @output subject: Subject of the email.
-#! @output body: Only the body contents of the email. This will not contain the attachment including inline
-#!               attachments. This is in HTML format, not plain text.
-#! @output plain_text_body: Attached file names to the email.
-#! @output attached_file_names: Attached file names to the email.
+#! @output temporary_file: The path to the temporary file where the attachment was saved.
 #! @output exception: The exception message if the operation goes to failure.
 #!
 #! @result SUCCESS: Mail message retrieved successfully and return_code = '0'.
@@ -115,14 +106,13 @@
 namespace: io.cloudslang.base.mail
 
 operation:
-  name: get_mail_message
+  name: get_mail_attachment
 
   inputs:
     - host
     - port:
-        default: '993'
+        required: false
     - protocol:
-        default: 'imap'
         required: false
     - username
     - password:
@@ -133,53 +123,32 @@ operation:
         required: false
     - trustAllRoots:
         default: ${get("trust_all_roots", "true")}
-        private: true
-    - message_number:
         required: false
-    - messageNumber:
-        default: ${get("message_number", "")}
         private: true
-    - subject_only:
+    - enable_SSL:
         required: false
-    - subjectOnly:
-        default: ${get("subject_only", "false")}
+    - enableSSL:
+        default: ${get("enable_SSL", "false")}
+        required: false
         private: true
     - enable_TLS:
         required: false
     - enableTLS:
         default: ${get("enable_TLS", "false")}
+        required: false
         private: true
     - tls_version:
         required: false
     - tlsVersion:
         default: ${get("tls_version", "TLSv1.2")}
+        required: false
         private: true
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
         default: ${get("encryption_algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
         private: true
-    - enable_SSL:
-        required: false
-    - enableSSL:
-        default: ${get("enable_SSL", "false")}
-        private: true
-    - trust_keystore:
-        required: false
-    - trustKeystore:
-        default: ${get("trust_keystore", "")}
-        required: false
-        private: true
-    - trust_password:
-        required: false
-        sensitive: true
-    - trustPassword:
-        default: ${get("trust_password", "")}
-        required: false
-        private: true
-        sensitive: true
     - keystore:
-        default: ''
         required: false
     - keystore_password:
         required: false
@@ -189,16 +158,26 @@ operation:
         required: false
         private: true
         sensitive: true
+    - message_number
+    - messageNumber:
+        default: ${get("message_number", "")}
+        required: false
+        private: true
+    - attachment_name
+    - attachmentName:
+        default: ${get("attachment_name", "")}
+        required: false
+        private: true
     - character_set:
         required: false
     - characterSet:
         default: ${get("character_set", "UTF-8")}
         private: true
-    - delete_upon_retrieval:
+    - destination:
         required: false
-    - deleteUponRetrieval:
-        default: ${get("delete_upon_retrieval", "false")}
-        private: true
+    - overwrite:
+        default: 'false'
+        required: false
     - decryption_keystore:
         required: false
     - decryptionKeystore:
@@ -213,17 +192,13 @@ operation:
         private: true
     - decryption_keystore_password:
         required: false
+        sensitive: true
     - decryptionKeystorePassword:
         default: ${get("decryption_keystore_password", "")}
         required: false
         private: true
+        sensitive: true
     - timeout:
-        required: false
-    - verify_certificate:
-        required: false
-    - verifyCertificate:
-        default: ${get("verify_certificate", "")}
-        private: true
         required: false
     - proxy_host:
         required: false
@@ -254,16 +229,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-mail:0.0.45'
-    class_name: io.cloudslang.content.mail.actions.GetMailMessageAction
+    class_name: io.cloudslang.content.mail.actions.GetMailAttachmentAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
+    - temporary_file: ${get('temporaryFile', '')}
     - return_code: ${returnCode}
-    - subject
-    - body
-    - plain_text_body: ${get('plainTextBody', '')}
-    - attached_file_names: ${get('attachedFileNames', '')}
     - exception: ${get('exception', '')}
 
   results:
