@@ -17,7 +17,7 @@
 #!
 #! @input hostname: The hostname or ip address of the smtp server.
 #! @input port: The port of the smtp service.
-#! @input from_address: From email address.
+#! @input from: From email address.
 #! @input to: A delimiter separated list of email address(es) or recipients where the email will be sent.
 #! @input cc: Optional - A delimiter separated list of email address(es) or recipients, to be placed in the CC.
 #!            Default: ''
@@ -108,11 +108,7 @@ operation:
   inputs:
     - hostname
     - port
-    - from_address
-    - fromAddress:
-        default: ${get("from_address", "")}
-        private: true
-        required: false
+    - from
     - to
     - cc:
         required: false
@@ -228,7 +224,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.440-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.45'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
 

@@ -228,7 +228,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.440-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.45'
     class_name: io.cloudslang.content.mail.actions.GetMailAttachmentAction
     method_name: execute
 
