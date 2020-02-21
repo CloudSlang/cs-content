@@ -121,11 +121,13 @@ operation:
     - htmlEmail:
         default: ${get("html_email", "true")}
         private: true
+        required: false
     - read_receipt:
         required: false
     - readReceipt:
         default: ${get("read_receipt", "false")}
         private: true
+        required: false
     - attachments:
         required: false
     - headers:
@@ -136,11 +138,13 @@ operation:
     - rowDelimiter:
         default: ${get("row_delimiter", ":")}
         private: true
+        required: false
     - column_delimiter:
         required: false
     - columnDelimiter:
         default: ${get("column_delimiter", "\n")}
         private: true
+        required: false
     - username:
         required: false
     - password:
@@ -151,11 +155,13 @@ operation:
     - characterSet:
         default: ${get("character_set", "UTF-8")}
         private: true
+        required: false
     - content_transfer_encoding:
         required: false
     - contentTransferEncoding:
         default: ${get("content_transfer_encoding", "quoted-printable")}
         private: true
+        required: false
     - delimiter:
         default: ','
         required: false
@@ -188,6 +194,7 @@ operation:
     - tlsVersion:
         default: ${get("tls_version", "TLSv1.2")}
         private: true
+        required: false
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
