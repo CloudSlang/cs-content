@@ -62,7 +62,7 @@
 #!                                      Default: ''
 #! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
 #!                        setting that is independent of the client.
-#! @input attachment_mail: The name of the attachment in the email that should be read/downloaded.
+#! @input attachment_name: The name of the attachment in the email that should be read/downloaded.
 #! @input character_set: Optional - The character set used to read the email. By default the operation uses the character
 #!                                  set with which the email is marked, in order to read its content. Because sometimes
 #!                                  this character set isn't accurate you can provide you own value for this property.
