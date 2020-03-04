@@ -19,18 +19,14 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server.
 #!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
 #!                   Default: 'basic'
+#! @input username: Optional - Username used for URL authentication; for NTLM authentication.
+#!                  Format: 'domain\user'
+#! @input password: Optional - Password used for URL authentication.
 #! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request
 #!                         with no authentication info will be made and if server responds with 401 and a header.
 #!                         like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info
 #!                         will be sent
 #!                         Default: 'true'
-#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.Valid values SSLv3, TLSv1, TLSv1.1, TLSv1.2.
-#!                     Default value: 'TLSv1.2'
-#! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2'.
-#!                                    Default values: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, THS_DHE_RSA_WITH_AES_256_CBC_SHA256, THS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_WITH_AES_256_CBC_SHA384, TLS_ECDHE_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256
-#! @input username: Optional - Username used for URL authentication; for NTLM authentication.
-#!                  Format: 'domain\user'
-#! @input password: Optional - Password used for URL authentication.
 #! @input kerberos_conf_file: Optional - Path to the Kerberos configuration file.
 #!                            Default: '0'
 #! @input kerberos_login_conf_file: Optional - login.conf file needed by the JAAS framework with the content similar to
@@ -43,6 +39,18 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
+#!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
+#!                     Default: 'TLSv1.2'
+#! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored
+#!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
+#!                         documentation for further security considerations. In order to connect successfully to the target
+#!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the
+#!                         user's responsibility to configure the host accordingly or to update the list of allowed cyphers.
+#!                         Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'true'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
@@ -146,27 +154,16 @@ operation:
     - authType:
         default: ${get("auth_type", "basic")}
         private: true
-    - preemptive_auth:
-        required: false
-    - preemptiveAuth:
-        default: ${get("preemptive_auth", "true")}
-        private: true
-    - tls_version:
-        required: false
-    - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
-        private: true
-    - allowed_cyphers:
-        required: false
-    - allowedCyphers:
-        default: ${get("allowed_cyphers", "")}
-        private: true
-        required: false
     - username:
         required: false
     - password:
         required: false
         sensitive: true
+    - preemptive_auth:
+        required: false
+    - preemptiveAuth:
+        default: ${get("preemptive_auth", "true")}
+        private: true
     - kerberos_conf_file:
         required: false
     - kerberosConfFile:
@@ -208,6 +205,17 @@ operation:
         required: false
         private: true
         sensitive: true
+    - tls_version:
+        required: false
+    - tlsVersion:
+        default: ${get("tls_version", "TLSv1.2")}
+        private: true
+    - allowed_cyphers:
+        required: false
+    - allowedCyphers:
+        default: ${get("allowed_cyphers", "")}
+        private: true
+        required: false
     - trust_all_roots:
         required: false
     - trustAllRoots:
