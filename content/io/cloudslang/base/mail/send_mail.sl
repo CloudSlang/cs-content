@@ -69,11 +69,16 @@
 #!                              Default: ''
 #! @input encryption_keystore_password: Optional - The password for the encryptionKeystore.
 #!                                      Default: ''
-#! @input encryption_algorithm: Optional - The encryption algorithm applied on the key from the keystore in order to encypt email parts.
-#!                              Valid values: 'DES_EDE3_CBC', 'RC2_CBC', 'IDEA_CBC', 'CAST5_CBC', 'AES128_CBC', 'AES192_CBC', 'AES256_CBC',
-#!                                            'CAMELLIA192_CBC', 'CAMELLIA256_CBC', 'SEED_CBC', 'DES_EDE3_WRAP', 'AES128_WRAP', 'AES256_WRAP',
-#!                                            'CAMELLIA192_WRAP', 'CAMELLIA256_WRAP', 'SEED_WRAP', 'CAMELLIA128_CBC', 'CAMELLIA128_WRAP'.
-#!                              Default value: 'AES256_CBC'.
+#! @input encryption_algorithm: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
+#!                              if "tlsVersion" does not contain "TLSv1.2". This capability is provided “as is”, please see
+#!                              product documentation for further security considerations. In order to connect successfully
+#!                              to the target host, it should accept at least one of the following cyphers. If this is not
+#!                              the case, it is the user's responsibility to configure the host accordingly or to update
+#!                              the list of allowed cyphers.
+#!                              Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                              TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                              TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256.
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                    Default: 'false'
 #! @input tls_version: Optional - The version of TLS to use. The value of this input will be ignored if 'enableTLS/'enableSSL'

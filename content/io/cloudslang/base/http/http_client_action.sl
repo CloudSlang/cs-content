@@ -42,7 +42,7 @@
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
 #!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default: 'TLSv1.2'
-#! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored
+#! @input allowed_cyphers: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
 #!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
 #!                         documentation for further security considerations. In order to connect successfully to the target
 #!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the

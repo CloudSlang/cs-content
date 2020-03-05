@@ -33,11 +33,21 @@
 #! @input password: The password for the mail host.
 #! @input folder: Optional - The folder to read the message from (NOTE: POP3 only supports "INBOX").
 #!                           Default: 'INBOX'
-#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate authorities. This input is ignored
-#!                                    if the enable_SSL input is set to false. If false, make sure to have the
-#!                                    certificate installed. The steps are explained at the end of inputs description.
-#!                                    Valid values: 'true', 'false'.
-#!                                    Default: 'false'.
+#! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
+#!                        setting that is independent of the client.
+#! @input destination: Optional - The folder where the attachment will be saved. If this input is empty the attachment will be
+#!                                saved as a temporary file. Examples: C:\Folder Name, \\<computerName>\<Shared Folder>.
+#! @input attachment_name: The name of the attachment in the email that should be read/downloaded.
+#! @input overwrite: Optional - If true the attachment will overwrite any existing file with the same name in destination.
+#!                              Valid values: true, false.
+#! @input proxy_host: Optional - The proxy server used.
+#!                                Default: ''
+#! @input proxy_port: Optional - The proxy server port.
+#!                                Default: ''
+#! @input proxy_username: Optional - The user name used when connecting to the proxy.
+#!                                Default: ''
+#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
+#!                                    Default: ''
 #! @input enable_SSL: Optional - Specify if the connection should be SSL enabled or not.
 #!                               Valid values: 'true', 'false'.
 #!                               Default: 'false'.
@@ -47,32 +57,31 @@
 #!                               is set to 'false'.
 #!                               Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
 #!                               Default: 'TLSv1.2'.
-#! @input encryption_algorithm: Optional - A list of ciphers to use. The value of this input will be ignored if "tlsVersion"
-#!                                        does not contain 'TLSv1.2'.
-#!                              Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-#!                              TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
-#!                              TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-#!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-#!                              TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-#!                              TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-#!                              TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
+#! @input encryption_algorithm: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
+#!                              if "tlsVersion" does not contain "TLSv1.2". This capability is provided “as is”, please see
+#!                              product documentation for further security considerations. In order to connect successfully
+#!                              to the target host, it should accept at least one of the following cyphers. If this is not
+#!                              the case, it is the user's responsibility to configure the host accordingly or to update
+#!                              the list of allowed cyphers.
+#!                              Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                              TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                              TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                              TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate authorities. This input is ignored
+#!                                    if the enable_SSL input is set to false. If false, make sure to have the
+#!                                    certificate installed. The steps are explained at the end of inputs description.
+#!                                    Valid values: 'true', 'false'.
+#!                                    Default: 'false'.
 #! @input keystore: Optional - The path to the keystore to use for SSL Client Certificates.
 #!                             Default: ''
 #! @input keystore_password: Optional - The password for the keystore.
 #!                                      Default: ''
-#! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
-#!                        setting that is independent of the client.
-#! @input attachment_name: The name of the attachment in the email that should be read/downloaded.
 #! @input character_set: Optional - The character set used to read the email. By default the operation uses the character
 #!                                  set with which the email is marked, in order to read its content. Because sometimes
 #!                                  this character set isn't accurate you can provide you own value for this property.
 #!                                  Valid values: 'UTF-8', 'UTF-16', 'UTF-32', 'EUC-JP',
 #!                                                'ISO-2022-JP', 'Shift_JIS', 'Windows-31J'.
 #!                                  Default: 'UTF-8'.
-#! @input destination: Optional - The folder where the attachment will be saved. If this input is empty the attachment will be
-#!                                saved as a temporary file. Examples: C:\Folder Name, \\<computerName>\<Shared Folder>.
-#! @input overwrite: Optional - If true the attachment will overwrite any existing file with the same name in destination.
-#!                              Valid values: true, false.
 #! @input decryption_keystore: Optional - The path to the pks12 format keystore to use to decrypt the mail.
 #!                                        Default: ''
 #! @input decryption_key_alias: Optional - The alias of the key from the decryption_keystore to use to decrypt the mail.
@@ -80,17 +89,6 @@
 #! @input decryption_keystore_password: Optional - The password for the decryption_keystore.
 #!                                                 Default: ''
 #! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
-#! @input verify_certificate: Optional - Verify the SSL certificate on your web server to make sure it is correctly
-#!                                       installed, valid, trusted and doesn't give any errors to any of your users.
-#!                                       Default: 'false'
-#! @input proxy_host: Optional - The proxy server used.
-#!                                Default: ''
-#! @input proxy_port: Optional - The proxy server port.
-#!                                Default: ''
-#! @input proxy_username: Optional - The user name used when connecting to the proxy.
-#!                                Default: ''
-#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
-#!                                    Default: ''
 #!
 #! @output return_result: The list of messages that was retrieved from the mail server.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success,
@@ -119,87 +117,27 @@ operation:
         sensitive: true
     - folder:
         default: 'INBOX'
+    - message_number
+    - messageNumber:
+        default: ${get("message_number", "")}
+        required: false
+        private: true
+    - destination:
+        required: false
+    - attachment_name
+    - attachmentName:
+        default: ${get("attachment_name", "")}
+        required: false
+        private: true
+    - overwrite:
+        default: 'false'
+        required: false
     - trust_all_roots:
         required: false
     - trustAllRoots:
         default: ${get("trust_all_roots", "true")}
         required: false
         private: true
-    - enable_SSL:
-        required: false
-    - enableSSL:
-        default: ${get("enable_SSL", "false")}
-        required: false
-        private: true
-    - enable_TLS:
-        required: false
-    - enableTLS:
-        default: ${get("enable_TLS", "false")}
-        required: false
-        private: true
-    - tls_version:
-        required: false
-    - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
-        required: false
-        private: true
-    - encryption_algorithm:
-        required: false
-    - encryptionAlgorithm:
-        default: ${get("encryption_algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
-        private: true
-    - keystore:
-        required: false
-    - keystore_password:
-        required: false
-        sensitive: true
-    - keystorePassword:
-        default: ${get("keystore_password", "")}
-        required: false
-        private: true
-        sensitive: true
-    - message_number
-    - messageNumber:
-        default: ${get("message_number", "")}
-        required: false
-        private: true
-    - attachment_name
-    - attachmentName:
-        default: ${get("attachment_name", "")}
-        required: false
-        private: true
-    - character_set:
-        required: false
-    - characterSet:
-        default: ${get("character_set", "UTF-8")}
-        private: true
-    - destination:
-        required: false
-    - overwrite:
-        default: 'false'
-        required: false
-    - decryption_keystore:
-        required: false
-    - decryptionKeystore:
-        default: ${get("decryption_keystore", "")}
-        required: false
-        private: true
-    - decryption_key_alias:
-        required: false
-    - decryptionKeyAlias:
-        default: ${get("decryption_key_alias", "")}
-        required: false
-        private: true
-    - decryption_keystore_password:
-        required: false
-        sensitive: true
-    - decryptionKeystorePassword:
-        default: ${get("decryption_keystore_password", "")}
-        required: false
-        private: true
-        sensitive: true
-    - timeout:
-        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -226,6 +164,66 @@ operation:
         required: false
         private: true
         sensitive: true
+    - enable_SSL:
+        required: false
+    - enableSSL:
+        default: ${get("enable_SSL", "false")}
+        required: false
+        private: true
+    - enable_TLS:
+        required: false
+    - enableTLS:
+        default: ${get("enable_TLS", "false")}
+        required: false
+        private: true
+    - tls_version:
+        required: false
+    - tlsVersion:
+        default: ${get("tls_version", "TLSv1.2")}
+        required: false
+        private: true
+    - encryption_algorithm:
+        required: false
+    - encryptionAlgorithm:
+        default: ${get("encryption_algorithm", "")}
+        private: true
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
+        sensitive: true
+    - keystorePassword:
+        default: ${get("keystore_password", "")}
+        required: false
+        private: true
+        sensitive: true
+    - character_set:
+        required: false
+    - characterSet:
+        default: ${get("character_set", "UTF-8")}
+        private: true
+    - decryption_keystore:
+        required: false
+    - decryptionKeystore:
+        default: ${get("decryption_keystore", "")}
+        required: false
+        private: true
+    - decryption_key_alias:
+        required: false
+    - decryptionKeyAlias:
+        default: ${get("decryption_key_alias", "")}
+        required: false
+        private: true
+    - decryption_keystore_password:
+        required: false
+        sensitive: true
+    - decryptionKeystorePassword:
+        default: ${get("decryption_keystore_password", "")}
+        required: false
+        private: true
+        sensitive: true
+    - timeout:
+        required: false
 
   java_action:
     gav: 'io.cloudslang.content:cs-mail:0.0.45'
