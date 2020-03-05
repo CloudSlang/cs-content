@@ -16,9 +16,6 @@
 #! @description: Gets the total number of messages in a folder via POP3 or IMAP4.
 #!
 #! @input host: The email host.
-#! @input username: The username for the mail host.
-#! @input password: The password for the mail host.
-#! @input folder: The folder to read the message from (NOTE: POP3 only supports "INBOX").
 #! @input port: The port to connect to on host (normally 110 for POP3, 143 for IMAP4).
 #!              This input can be left empty if the "protocol" value is "pop3" or "imap4": for "pop3"
 #!              this input will be completed by default with 110, for "imap4", this input will be
@@ -28,6 +25,20 @@
 #!                             if the provided port value is 143, the imap4 protocol will be used by default.
 #!                             For other values for the "port" input, the protocol should be also specified.
 #!                             Valid values: 'pop3', 'imap4', 'imap'.
+#! @input username: The username for the mail host.
+#! @input password: The password for the mail host.
+#! @input folder: The folder to read the message from (NOTE: POP3 only supports "INBOX").
+#! @input proxy_host: Optional - The proxy server used.
+#!                                Default: ''
+#! @input proxy_port: Optional - The proxy server port.
+#!                                Default: ''
+#! @input proxy_username: Optional - The user name used when connecting to the proxy.
+#!                                Default: ''
+#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
+#!                                    Default: ''
+#! @input enable_SSL: Optional - Specify if the connection should be SSL enabled or not.
+#!                               Valid values: 'true', 'false'.
+#!                               Default: 'false'.
 #! @input enable_TLS: Optional - Specify if the connection should be TLS enabled or not.
 #!                               Valid values: 'true', 'false'.
 #!                               Default: 'false'
@@ -35,18 +46,16 @@
 #!                                is set to 'false'.
 #!                                Valid values: 'SSLv3', 'TLSv1', 'TLSv1.1', 'TLSv1.2'.
 #!                                Default: 'TLSv1.2'.
-#! @input encryption_algorithm: Optional - A list of ciphers to use. The value of this input will be ignored if "tlsVersion"
-#!                               does not contain 'TLSv1.2'.
-#!                               Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-#!                               TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
-#!                               TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-#!                               TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-#!                               TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384,
-#!                               TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-#!                               TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
-#! @input enable_SSL: Optional - Specify if the connection should be SSL enabled or not.
-#!                               Valid values: 'true', 'false'.
-#!                               Default: 'false'.
+#! @input encryption_algorithm: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
+#!                              if "tlsVersion" does not contain "TLSv1.2". This capability is provided “as is”, please see
+#!                              product documentation for further security considerations. In order to connect successfully
+#!                              to the target host, it should accept at least one of the following cyphers. If this is not
+#!                              the case, it is the user's responsibility to configure the host accordingly or to update
+#!                              the list of allowed cyphers.
+#!                               Default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                               TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                               TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                               TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'.
 #! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate authorities. This input is ignored
 #!                                    if the enable_SSL input is set to false. If false, make sure to have the
 #!                                    certificate installed. The steps are explained at the end of inputs description.
@@ -57,10 +66,6 @@
 #! @input keystore_password: Optional - The password for the keystore.
 #! @input trust_keystore: Optional - The path to the trust_keystore to use for SSL Server Certificates.
 #! @input trust_password: Optional - The password for the trust_keystore.
-#! @input proxy_host: Optional - The proxy server used.
-#! @input proxy_port: Optional - The proxy server port.
-#! @input proxy_username: Optional - The user name used when connecting to the proxy.
-#! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
 #! @input timeout: Optional - The timeout (seconds) for retrieving the number of mail messages.
 #!
 #! @output return_result: The list of messages that was retrieved from the mail server.
@@ -80,64 +85,14 @@ operation:
 
   inputs:
     - host
-    - username
-    - password:
-        sensitive: true
-    - folder
     - port:
         required: false
     - protocol:
         required: false
-    - trust_all_roots:
-        required: false
-    - trustAllRoots:
-        default: ${get("trust_all_roots", "true")}
-        private: true
-    - enable_TLS:
-        required: false
-    - enableTLS:
-        default: ${get("enable_TLS", "false")}
-        private: true
-    - tls_version:
-        required: false
-    - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
-        private: true
-    - encryption_algorithm:
-        required: false
-    - encryptionAlgorithm:
-        default: ${get("encryption_algorithm", "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,  TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256")}
-        private: true
-    - enable_SSL:
-        required: false
-    - enableSSL:
-        default: ${get("enable_SSL", "false")}
-        private: true
-    - keystore:
-        default: ''
-        required: false
-    - keystore_password:
-        required: false
+    - username
+    - password:
         sensitive: true
-    - keystorePassword:
-        default: ${get("keystore_password", "")}
-        required: false
-        private: true
-        sensitive: true
-    - trust_keystore:
-        required: false
-    - trustKeystore:
-        default: ${get("trust_keystore", "")}
-        required: false
-        private: true
-    - trust_password:
-        required: false
-        sensitive: true
-    - trustPassword:
-        default: ${get("trust_password", "")}
-        required: false
-        private: true
-        sensitive: true
+    - folder
     - proxy_host:
         required: false
     - proxyHost:
@@ -161,6 +116,56 @@ operation:
         sensitive: true
     - proxyPassword:
         default: ${get("proxy_password", "")}
+        required: false
+        private: true
+        sensitive: true
+    - enable_SSL:
+        required: false
+    - enableSSL:
+        default: ${get("enable_SSL", "false")}
+        private: true
+    - enable_TLS:
+        required: false
+    - enableTLS:
+        default: ${get("enable_TLS", "false")}
+        private: true
+    - tls_version:
+        required: false
+    - tlsVersion:
+        default: ${get("tls_version", "TLSv1.2")}
+        private: true
+    - encryption_algorithm:
+        required: false
+    - encryptionAlgorithm:
+        default: ${get("encryption_algorithm", "")}
+        private: true
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get("trust_all_roots", "true")}
+        private: true
+    - keystore:
+        default: ''
+        required: false
+    - keystore_password:
+        required: false
+        sensitive: true
+    - keystorePassword:
+        default: ${get("keystore_password", "")}
+        required: false
+        private: true
+        sensitive: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get("trust_keystore", "")}
+        required: false
+        private: true
+    - trust_password:
+        required: false
+        sensitive: true
+    - trustPassword:
+        default: ${get("trust_password", "")}
         required: false
         private: true
         sensitive: true
