@@ -23,15 +23,23 @@
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.
 #!                  Format: 'domain\user'
 #! @input password: Optional - Password used for URL authentication.
-#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.Valid values SSLv3, TLSv1, TLSv1.1, TLSv1.2.
-#!                     Default value: 'TLSv1.2'
-#! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2'.
-#!                                    Default values: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, THS_DHE_RSA_WITH_AES_256_CBC_SHA256, THS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_WITH_AES_256_CBC_SHA384, TLS_ECDHE_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
+#!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
+#!                     Default: 'TLSv1.2'
+#! @input allowed_cyphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored
+#!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
+#!                         documentation for further security considerations. In order to connect successfully to the target
+#!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the
+#!                         user's responsibility to configure the host accordingly or to update the list of allowed cyphers.
+#!                         Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
@@ -102,12 +110,6 @@ flow:
         default: ''
         required: false
         sensitive: true
-    - tls_version:
-        default: 'TLSv1.2'
-        required: false
-    - allowed_cyphers:
-        default: ${get_sp('io.cloudslang.base.http.allowed_cyphers')}
-        required: false
     - proxy_host:
         default: ''
         required: false
@@ -121,6 +123,12 @@ flow:
         default: ''
         required: false
         sensitive: true
+    - tls_version:
+        default: 'TLSv1.2'
+        required: false
+    - allowed_cyphers:
+        default: ${get_sp('io.cloudslang.base.http.allowed_cyphers')}
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
