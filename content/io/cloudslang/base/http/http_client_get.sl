@@ -120,10 +120,8 @@ flow:
         required: false
         sensitive: true
     - tls_version:
-        default: 'TLSv1.2'
         required: false
     - allowed_cyphers:
-        default: ${get_sp('io.cloudslang.base.http.allowed_cyphers')}
         required: false
     - trust_all_roots:
         default: 'false'

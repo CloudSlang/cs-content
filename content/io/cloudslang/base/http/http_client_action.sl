@@ -208,7 +208,7 @@ operation:
     - tls_version:
         required: false
     - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
+        default: ${get("tls_version", "")}
         private: true
     - allowed_cyphers:
         required: false

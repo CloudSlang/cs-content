@@ -197,7 +197,7 @@ operation:
     - tls_version:
         required: false
     - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
+        default: ${get("tls_version", "")}
         private: true
         required: false
     - encryption_algorithm:

@@ -179,13 +179,14 @@ operation:
     - tls_version:
         required: false
     - tlsVersion:
-        default: ${get("tls_version", "TLSv1.2")}
+        default: ${get("tls_version", "")}
         required: false
         private: true
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
         default: ${get("encryption_algorithm", "")}
+        required: false
         private: true
     - keystore:
         required: false
