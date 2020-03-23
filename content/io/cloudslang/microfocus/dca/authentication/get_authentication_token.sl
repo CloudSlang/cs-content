@@ -269,7 +269,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.1'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.4'
     class_name: 'io.cloudslang.content.dca.actions.authentication.GetAuthenticationToken'
     method_name: 'execute'
   

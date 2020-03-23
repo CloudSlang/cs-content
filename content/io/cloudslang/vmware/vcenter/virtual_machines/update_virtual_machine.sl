@@ -119,7 +119,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.23'
     class_name: io.cloudslang.content.vmware.actions.vm.UpdateVM
     method_name: updateVM
 
