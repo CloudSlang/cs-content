@@ -154,7 +154,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-vmware:0.0.21'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.22'
     class_name: io.cloudslang.content.vmware.actions.vm.CreateVM
     method_name: createVM
 
