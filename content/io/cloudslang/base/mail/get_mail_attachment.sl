@@ -232,9 +232,9 @@ operation:
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
+    - return_result: ${get('returnResult', '')}
     - temporary_file: ${get('temporaryFile', '')}
-    - return_code: ${returnCode}
+    - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
 
   results:
