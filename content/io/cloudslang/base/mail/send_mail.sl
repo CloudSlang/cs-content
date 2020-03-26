@@ -236,7 +236,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.45'
+    gav: 'io.cloudslang.content:cs-mail:0.0.46-SNAPSHOT'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
 
