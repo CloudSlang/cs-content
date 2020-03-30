@@ -175,7 +175,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.46-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.48-SNAPSHOT-12'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageCountAction
     method_name: execute
 
