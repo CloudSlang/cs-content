@@ -40,6 +40,10 @@
 #! @input attachment_name: The name of the attachment in the email that should be read/downloaded.
 #! @input overwrite: Optional - If true the attachment will overwrite any existing file with the same name in destination.
 #!                              Valid values: true, false.
+#! @input delete_upon_retrieval: Optional - If true the email from which the attachment is retrieved will be deleted.
+#!                                          For any other values the email will not be deleted.
+#!                                          Valid values: true, false.
+#!                                          Default: 'false'
 #! @input proxy_host: Optional - The proxy server used.
 #!                                Default: ''
 #! @input proxy_port: Optional - The proxy server port.
@@ -88,7 +92,7 @@
 #!                                         Default: ''
 #! @input decryption_keystore_password: Optional - The password for the decryption_keystore.
 #!                                                 Default: ''
-#! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
+#! @input timeout: Optional - The timeout (seconds) for retrieving the mail attachment.
 #!
 #! @output return_result: The list of messages that was retrieved from the mail server.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success,
@@ -132,6 +136,12 @@ operation:
     - overwrite:
         default: 'false'
         required: false
+    - delete_upon_retrieval:
+        required: false
+    - deleteUponRetrieval:
+        default: ${get("delete_upon_retrieval", "false")}
+        required: false
+        private: true
     - trust_all_roots:
         required: false
     - trustAllRoots:
@@ -227,14 +237,14 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.47'
+    gav: 'io.cloudslang.content:cs-mail:0.0.48'
     class_name: io.cloudslang.content.mail.actions.GetMailAttachmentAction
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
+    - return_result: ${get('returnResult', '')}
     - temporary_file: ${get('temporaryFile', '')}
-    - return_code: ${returnCode}
+    - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
 
   results:
