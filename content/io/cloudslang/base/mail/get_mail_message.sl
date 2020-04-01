@@ -96,7 +96,7 @@
 #!                                       Default: 'false'
 #! @input decryption_keystore_password: Optional - The password for the decryption_keystore.
 #!                                                 Default: ''
-#! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
+#! @input timeout: Optional - The timeout (seconds) for retrieving the mail message.
 #!
 #! @output return_result: The list of messages that was retrieved from the mail server.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success,
@@ -256,7 +256,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.150-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.48'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageAction
     method_name: execute
 

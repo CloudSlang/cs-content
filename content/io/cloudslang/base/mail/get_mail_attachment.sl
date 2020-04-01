@@ -42,6 +42,7 @@
 #!                              Valid values: true, false.
 #! @input delete_upon_retrieval: Optional - If true the email from which the attachment is retrieved will be deleted.
 #!                                          For any other values the email will not be deleted.
+#!                                          Valid values: true, false.
 #!                                          Default: 'false'
 #! @input proxy_host: Optional - The proxy server used.
 #!                                Default: ''
@@ -91,7 +92,7 @@
 #!                                         Default: ''
 #! @input decryption_keystore_password: Optional - The password for the decryption_keystore.
 #!                                                 Default: ''
-#! @input timeout: Optional - The timeout (seconds) for sending the mail messages.
+#! @input timeout: Optional - The timeout (seconds) for retrieving the mail attachment.
 #!
 #! @output return_result: The list of messages that was retrieved from the mail server.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success,
@@ -236,7 +237,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.150-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.48'
     class_name: io.cloudslang.content.mail.actions.GetMailAttachmentAction
     method_name: execute
 
