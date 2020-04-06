@@ -21,8 +21,6 @@
 #!                     Valid: 'cloud-eu', 'cloud-westus'.
 #! @input application_id: The ID of the application to be used.
 #! @input password: The password for the application
-#! @input time_to_wait: //TODO
-#! @input number_of_retries: //TODO
 #! @input proxy_host: Optional - The proxy server used to access the web site.
 #! @input proxy_port: Optional - The proxy server port. The value '-1' indicates that the proxy port is not set
 #!                               and the scheme default port will be used, e.g. if the scheme is 'http://' and
@@ -57,9 +55,6 @@
 #! @input socket_timeout: Optional - The timeout for waiting for data (a maximum period inactivity between two consecutive data packets),
 #!                                   in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Default: '0'.
-#! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Cookies are stored between consecutive calls
-#!                                in a serializable session object therefore they will be available on a branch level.
-#!                     Default: 'true'.
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
 #!                               If keepAlive is 'false', the already open connection will be used and after execution it will close it.
 #!                               The operation will use a connection pool stored in a GlobalSessionObject that will be available throughout
@@ -72,29 +67,17 @@
 #! @input connections_max_total: Optional - The maximum limit of connections in total.
 #!                                          The default will create no more than 2 concurrent connections in total.
 #!                               Default: '20'.
-#! @input headers: Optional - The list containing the headers to use for the request separated by new line (CRLF).
-#!                            The header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616).
-#!                            Examples: 'Accept:text/plain'
-#!                 Default: ''.
 #! @input response_character_set: Optional - The character encoding to be used for the HTTP response.
 #!                                           If responseCharacterSet is empty, the charset from the 'Content-Type' HTTP response header will be used.
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
 #!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
-#!                                Default: 'ISO-8859-1'.
+#!                                Default: 'UTF-8'.
 #! @input destination_file: Optional - The absolute path of a file on disk where to save the entity returned by the response.
 #!                                     'returnResult' will no longer be populated with the entity if this is specified.
 #!                                     Example: 'C:\temp\destinationFile.txt'.
 #!                          Default: ''.
 #! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
 #!                     Default: 'false'.
-#! @input chunked_request_entity: Optional - Data is sent in a series of "chunks". It uses the Transfer-Encoding HTTP header in place
-#!                                           of the Content-Length header. Generally it is recommended to let HttpClient choose the
-#!                                           most appropriate transfer encoding based on the properties of the HTTP message being transferred.
-#!                                           It is possible, however, to inform HttpClient that chunk coding is preferred by setting this input to "true".
-#!                                           Please note that HttpClient will use this flag as a hint only.
-#!                                           This value will be ignored when using HTTP protocol versions that do not support chunk coding, such as HTTP/1.0.
-#!                                           This setting is ignored for multipart post entities.
-#!                                Default: ''.
 #! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
 #!                             names separated with commas, for example "English,French,German".
 #!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
@@ -152,10 +135,8 @@
 #! @output result_url: The URL at which the result of the recognition process can be found.
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: '0' if success, '-1' otherwise.
-#! @output exception: The exception message if the operation goes to failure.
-#! @output failureMessage: //TODO
-#! @output: timedOut: //TODO
-#! @output response_headers: //TODO
+#! @output exception: The exception message and stack trace if the operation goes to failure.
+#! @output: timedOut: True if the operation timed out before the document was processed, false otherwise.
 #!
 #! @result SUCCESS: Operation succeeded.
 #! @result FAILURE: Operation failed.
@@ -178,18 +159,6 @@ operation:
         private: true
     - password:
         sensitive: true
-    - time_to_wait:
-        required: false
-    - timeToWait:
-        default: ${get("time_to_wait", "")}
-        required: false
-        private: true
-    - number_of_retries:
-        required: false
-    - numberOfRetries:
-        default: ${get("number_of_retries", "")}
-        required: false
-        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -197,9 +166,10 @@ operation:
         required: false
         private: true
     - proxy_port:
+        default: '8080'
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "8080")}
+        default: ${get("proxy_port", "")}
         private: true
     - proxy_username:
         required: false
@@ -216,9 +186,10 @@ operation:
         private: true
         sensitive: true
     - trust_all_roots:
+        default: 'false'
         required: false
     - trustAllRoots:
-        default: ${get("trust_all_roots", "true")}
+        default: ${get("trust_all_roots", "")}
         private: true
     - x_509_hostname_verifier:
         default: 'strict'
@@ -253,12 +224,6 @@ operation:
     - socketTimeout:
         default: ${get("socket_timeout", "")}
         private: true
-    - use_cookies:
-        default: 'true'
-        required: false
-    - useCookies:
-        default: ${get("use_cookies", "")}
-        private: true
     - keep_alive:
         default: 'true'
         required: false
@@ -277,10 +242,8 @@ operation:
     - connectionsMaxTotal:
         default: ${get("connections_max_total", "")}
         private: true
-    - headers:
-        required: false
     - response_character_set:
-        default: 'ISO-8859-1'
+        default: 'UTF-8'
         required: false
     - responseCharacterSet:
         default: ${get("response_character_set", "")}
@@ -295,12 +258,6 @@ operation:
         required: false
     - sourceFile:
         default: ${get("source_file", "")}
-        required: false
-        private: true
-    - chunked_request_entity:
-        required: false
-    - chunkedRequestEntity:
-        default: ${get("chunked_request_entity", "")}
         required: false
         private: true
     - language:
@@ -382,7 +339,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abby:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-SNAPSHOT'
     class_name: io.cloudslang.content.abby.actions.ProcessImageAction
     method_name: execute
 
@@ -396,7 +353,6 @@ operation:
     - exception
     - failure_message: ${failureMessage}
     - timed_out: ${timedOut}
-    - response_headers: ${responseHeaders}
 
   results:
     - SUCCESS: ${returnCode == '0'}
