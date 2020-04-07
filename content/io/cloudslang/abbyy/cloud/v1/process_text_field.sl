@@ -135,7 +135,7 @@
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: The exception message and stack trace if the operation goes to failure.
-#! @output: timedOut: True if the operation timed out before the document was processed, false otherwise.
+#! @output timedOut: True if the operation timed out before the document was processed, false otherwise.
 #!
 #! @result SUCCESS: Operation succeeded.
 #! @result FAILURE: Operation failed.
@@ -145,7 +145,7 @@
 namespace: io.cloudslang.abby.cloud.v1
 
 operation:
-  name: process_document
+  name: process_text_field
 
   inputs:
     - location_id
@@ -249,7 +249,7 @@ operation:
         private: true
         sensitive: true
     - trust_all_roots:
-        default: 'false'
+        default: false
         required: false
     - trustAllRoots:
         default: ${get("trust_all_roots", "")}
