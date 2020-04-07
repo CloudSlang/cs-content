@@ -299,11 +299,11 @@ operation:
     - keepAlive:
         default: ${get("keep_alive", "")}
         private: true
-    - connections_max_per_root:
+    - connections_max_per_route:
         default: '2'
         required: false
-    - connectionsMaxPerRoot:
-        default: ${get("connections_max_per_root", "")}
+    - connectionsMaxPerRoute:
+        default: ${get("connections_max_per_route", "")}
         private: true
     - connections_max_total:
         default: '20'
@@ -331,7 +331,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.6-SNAPSHOT'
     class_name: io.cloudslang.content.abby.actions.ProcessDocumentAction
     method_name: execute
 
@@ -343,7 +343,6 @@ operation:
     - status_code: ${statusCode}
     - return_code: ${returnCode}
     - exception
-    - failure_message: ${failureMessage}
     - timed_out: ${timedOut}
 
   results:

@@ -281,10 +281,10 @@ operation:
     - keepAlive:
         default: ${get("keep_alive", "true")}
         private: true
-    - connections_max_per_root:
+    - connections_max_per_route:
         required: false
-    - connectionsMaxPerRoot:
-        default: ${get("connections_max_per_root", "2")}
+    - connectionsMaxPerRoute:
+        default: ${get("connections_max_per_route", "2")}
         private: true
     - connections_max_total:
         required: false
@@ -322,7 +322,6 @@ operation:
     - status_code: ${statusCode}
     - return_code: ${returnCode}
     - exception
-    - failure_message: ${failureMessage}
     - timed_out: ${timedOut}
 
   results:
