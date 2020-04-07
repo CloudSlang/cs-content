@@ -171,45 +171,39 @@ operation:
         required: false
         private: true
     - text_type:
-        default: 'normal'
         required: false
     - textType:
-        default: ${get("text_type", "")}
+        default: ${get("text_type", "normal")}
         required: false
         private: true
     - one_text_line:
-        default: 'false'
         required: false
     - oneTextLine:
-        default: ${get("one_text_line", "")}
+        default: ${get("one_text_line", "false")}
         required: false
         private: true
     - one_word_per_text_line:
-        default: 'false'
         required: false
     - oneWordPerTextLine:
-        default: ${get("one_word_per_text_line", "")}
+        default: ${get("one_word_per_text_line", "false")}
         required: false
         private: true
     - marking_type:
-        default: 'simpleText'
         required: false
     - markingType:
-        default: ${get("marking_type", "")}
+        default: ${get("marking_type", "simpleText")}
         required: false
-        private: true;
+        private: true
     - placeholders_count:
-        default: '1'
         required: false
     - placeholdersCount:
-        default: ${get("placeholders_count", "")}
+        default: ${get("placeholders_count", "1")}
         required: false
         private: true
     - writing_style:
-        default: 'default'
         required: false
     - writingStyle:
-        default: ${get("writing_style", "")}
+        default: ${get("writing_style", "default")}
         required: false
         private: true
     - description:
@@ -229,10 +223,9 @@ operation:
         required: false
         private: true
     - proxy_port:
-        default: '8080'
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "")}
+        default: ${get("proxy_port", "8080")}
         private: true
     - proxy_username:
         required: false
@@ -249,16 +242,14 @@ operation:
         private: true
         sensitive: true
     - trust_all_roots:
-        default: false
         required: false
     - trustAllRoots:
-        default: ${get("trust_all_roots", "")}
+        default: ${get("trust_all_roots", "false")}
         private: true
     - x_509_hostname_verifier:
-        default: 'strict'
         required: false
     - x509HostnameVerifier:
-        default: ${get("x_509_hostname_verifier", "")}
+        default: ${get("x_509_hostname_verifier", "strict")}
         private: true
     - trust_keystore:
         required: false
@@ -275,41 +266,35 @@ operation:
         private: true
         sensitive: true
     - connect_timeout:
-        default: '0'
         required: false
     - connectTimeout:
-        default: ${get("connect_timeout", "")}
+        default: ${get("connect_timeout", "0")}
         required: false
         private: true
     - socket_timeout:
-        default: '0'
         required: false
     - socketTimeout:
-        default: ${get("socket_timeout", "")}
+        default: ${get("socket_timeout", "0")}
         private: true
     - keep_alive:
-        default: 'true'
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "")}
+        default: ${get("keep_alive", "true")}
         private: true
     - connections_max_per_root:
-        default: '2'
         required: false
     - connectionsMaxPerRoot:
-        default: ${get("connections_max_per_root", "")}
+        default: ${get("connections_max_per_root", "2")}
         private: true
     - connections_max_total:
-        default: '20'
         required: false
     - connectionsMaxTotal:
-        default: ${get("connections_max_total", "")}
+        default: ${get("connections_max_total", "20")}
         private: true
     - response_character_set:
-        default: 'UTF-8'
         required: false
     - responseCharacterSet:
-        default: ${get("response_character_set", "")}
+        default: ${get("response_character_set", "UTF-8")}
         private: true
     - destination_file:
         required: false
