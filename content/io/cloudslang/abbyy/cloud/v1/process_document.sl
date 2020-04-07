@@ -21,6 +21,56 @@
 #!                     Valid: 'cloud-eu', 'cloud-westus'.
 #! @input application_id: The ID of the application to be used.
 #! @input password: The password for the application
+#! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
+#!                             names separated with commas, for example "English,French,German".
+#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
+#!                  Default: 'English'.
+#! @input profile: Optional - Specifies a profile with predefined processing settings.
+#!                 Valid values: 'documentConversion', 'documentArchiving', 'textExtraction', 'barcodeRecognition'.
+#!                 Default: 'documentConversion'.
+#! @input text_type: Optional - Specifies the type of the text on a page.
+#!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
+#!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
+#!                   Default: 'normal'.
+#! @input image_source: Optional - Specifies the source of the image. It can be either a scanned image, or a photograph created
+#!                                 with a digital camera. Special preprocessing operations can be performed with the image depending
+#!                                 on the selected source. For example, the system can automatically correct distorted text lines,
+#!                                 poor focus and lighting on photos.
+#!                      Valid: 'auto', 'photo', 'scanner'.
+#!                      Default: 'auto'.
+#! @input correct_orientation: Optional - Specifies whether the orientation of the image should be automatically detected and corrected.
+#!                             Valid: 'true', 'false'.
+#!                             Default: 'true'.
+#! @input correct_skew: Optional - Specifies whether the skew of the image should be automatically detected and corrected.
+#!                      Valid: 'true', 'false'.
+#!                      Default: 'true'.
+#! @input read_barcodes: Optional - Specifies whether barcodes must be detected on the image, recognized and exported to the result file.
+#!                       Valid: 'true', 'false'.
+#!                       Default: 'true' if 'exportFormat' input value is set to 'xml', 'false' otherwise.
+#! @input exportFormat: Optional - Specifies the export format.
+#!                                 This parameter can contain up to three export formats, separated with commas (example: "pdfa,txt,xml").
+#!                      Valid: 'txt', 'txtUnstructured', 'rtf', 'docx', 'xlsx', 'pptx', 'pdfSearchable',
+#!                             'pdfTextAndImages', 'pdfa', 'xml', 'xmlForCorrectedImage', 'alto'.
+#!                      Default: 'xml'.
+#! @input write_formatting: Optional - Specifies whether the paragraph and character styles should be written to an output file
+#!                                     in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
+#!                                     or 'xmlForCorrectedImage' value.
+#!                          Valid: 'true', 'false'.
+#!                          Default: 'false'.
+#! @input write_recognition_variants: Optional - Specifies whether the variants of characters recognition should be written to an output file
+#!                                               in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
+#!                                               or xmlForCorrectedImage value.
+#!                                    Valid: 'true', 'false'.
+#!                                    Default: 'false'.
+#! @input write_tags: Optional - Specifies whether the result must be written as tagged PDF. This parameter can be
+#!                               used only if the exportFormat parameter contains one of the values for export to PDF.
+#!                    Valid: 'auto', 'write', 'dontWrite'.
+#!                    Default: 'auto'.
+#! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
+#!                                If the description contains more than 255 characters, then the text will be truncated.
+#!                     Default: ''.
+#! @input pdf_password: Optional - Contains a password for accessing password-protected images in PDF format.
+#!                      Default: ''.
 #! @input proxy_host: Optional - The proxy server used to access the web site.
 #! @input proxy_port: Optional - The proxy server port. The value '-1' indicates that the proxy port is not set
 #!                               and the scheme default port will be used, e.g. if the scheme is 'http://' and
@@ -78,55 +128,6 @@
 #!                          Default: ''.
 #! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
 #!                     Default: 'false'.
-#! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
-#!                             names separated with commas, for example "English,French,German".
-#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
-#!                  Default: 'English'.
-#! @input profile: Optional - Specifies a profile with predefined processing settings.
-#!                 Valid values: 'documentConversion', 'documentArchiving', 'textExtraction', 'barcodeRecognition'.
-#!                 Default: 'documentConversion'.
-#! @input text_type: Optional - Specifies the type of the text on a page.
-#!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
-#!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
-#!                   Default: 'normal'.
-#! @input image_source: Optional - Specifies the source of the image. It can be either a scanned image, or a photograph created
-#!                                 with a digital camera. Special preprocessing operations can be performed with the image depending
-#!                                 on the selected source. For example, the system can automatically correct distorted text lines,
-#!                                 poor focus and lighting on photos.
-#!                      Valid: 'auto', 'photo', 'scanner'.
-#!                      Default: 'auto'.
-#! @input correct_orientation: Optional - Specifies whether the orientation of the image should be automatically detected and corrected.
-#!                             Valid: 'true', 'false'.
-#!                             Default: 'true'.
-#! @input correct_skew: Optional - Specifies whether the skew of the image should be automatically detected and corrected.
-#!                      Valid: 'true', 'false'.
-#!                      Default: 'true'.
-#! @input read_barcodes: Optional - Specifies whether barcodes must be detected on the image, recognized and exported to the result file.
-#!                       Valid: 'true', 'false'.
-#!                       Default: 'true' if 'exportFormat' input value is set to 'xml', 'false' otherwise.
-#! @input exportFormat: Optional - Specifies the export format.
-#!                                 This parameter can contain up to three export formats, separated with commas (example: "pdfa,txt,xml").
-#!                      Valid: 'txt', 'txtUnstructured', 'rtf', 'docx', 'xlsx', 'pptx', 'pdfSearchable',
-#!                             'pdfTextAndImages', 'pdfa', 'xml', 'xmlForCorrectedImage', 'alto'.
-#!                      Default: 'xml'.
-#! @input write_formatting: Optional - Specifies whether the paragraph and character styles should be written to an output file
-#!                                     in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
-#!                                     or 'xmlForCorrectedImage' value.
-#!                          Valid: 'true', 'false'.
-#!                          Default: 'false'.
-#! @input write_recognition_variants: Optional - Specifies whether the variants of characters recognition should be written to an output file
-#!                                               in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
-#!                                               or xmlForCorrectedImage value.
-#!                                    Valid: 'true', 'false'.
-#!                                    Default: 'false'.
-#! @input write_tags: Optional - Specifies whether the result must be written as tagged PDF. This parameter can be
-#!                               used only if the exportFormat parameter contains one of the values for export to PDF.
-#!                    Valid: 'auto', 'write', 'dontWrite'.
-#!                    Default: 'auto'.
-#! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
-#!                     Default: ''.
-#! @input pdf_password: Optional - Contains a password for accessing password-protected images in PDF format.
-#!                      Default: ''.
 #!
 #! @output return_result: Contains the text returned in the response body, if the output source was TXT,
 #!                        otherwise if will contain a human readable message mentioning the success or failure of the task.
@@ -159,6 +160,74 @@ operation:
         private: true
     - password:
         sensitive: true
+    - language:
+        default: 'English'
+        required: false
+    - text_type:
+        default: 'normal'
+        required: false
+    - textType:
+        default: ${get("text_type", "")}
+        required: false
+        private: true
+    - image_source:
+        default: 'auto'
+        required: false
+    - imageSource:
+        default: ${get("image_source", "")}
+        required: false
+        private: true
+    - correct_orientation:
+        default: 'true'
+        required: false
+    - correctOrientation:
+        default: ${get("correct_orientation", "")}
+        required: false
+        private: true
+    - correct_skew:
+        default: 'true'
+        required: false
+    - correctSkew:
+        default: ${get("correct_skew", "")}
+        required: false
+        private: true
+    - export_format:
+        default: 'xml'
+    - exportFormat:
+        default: ${get("export_format", "")}
+        required: false
+        private: true
+    - write_formatting:
+        default: 'false'
+        required: false
+    - writeFormatting:
+        default: ${get("write_formatting", "")}
+        required: false
+        private: true
+    - write_recognition_variants:
+        default: 'false'
+        required: false
+    - writeRecognitionVariants:
+        default: ${get("write_recognition_variants", "")}
+        required: false
+        private: true
+    - write_tags:
+        default: 'auto'
+        required: false
+    - writeTags:
+        default: ${get("write_tags", "")}
+        required: false
+        private: true
+    - description:
+        required: false
+    - pdf_password:
+        required: false
+        sensitive: true
+    - pdfPassword:
+        default: ${get("pdf_password", "")}
+        required: false
+        sensitive: true
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -260,87 +329,10 @@ operation:
         default: ${get("source_file", "")}
         required: false
         private: true
-    - language:
-        default: 'English'
-        required: false
-    - profile:
-        default: 'documentConversion'
-        required: false
-    - text_type:
-        default: 'normal'
-        required: false
-    - textType:
-        default: ${get("text_type", "")}
-        required: false
-        private: true
-    - image_source:
-        default: 'auto'
-        required: false
-    - imageSource:
-        default: ${get("image_source", "")}
-        required: false
-        private: true
-    - correct_orientation:
-        default: 'true'
-        required: false
-    - correctOrientation:
-        default: ${get("correct_orientation", "")}
-        required: false
-        private: true
-    - correct_skew:
-        default: 'true'
-        required: false
-    - correctSkew:
-        default: ${get("correct_skew", "")}
-        required: false
-        private: true
-    - read_barcodes:
-        required: false
-    - readBarcodes:
-        default: ${get("read_barcodes", "")}
-        required: false
-        private: true
-    - export_format:
-        default: 'xml'
-    - exportFormat:
-        default: ${get("export_format", "")}
-        required: false
-        private: true
-    - write_formatting:
-        default: 'false'
-        required: false
-    - writeFormatting:
-        default: ${get("write_formatting", "")}
-        required: false
-        private: true
-    - write_recognition_variants:
-        default: 'false'
-        required: false
-    - writeRecognitionVariants:
-        default: ${get("write_recognition_variants", "")}
-        required: false
-        private: true
-    - write_tags:
-        default: 'auto'
-        required: false
-    - writeTags:
-        default: ${get("write_tags", "")}
-        required: false
-        private: true
-    - description:
-        required: false
-    - pdf_password:
-        required: false
-        sensitive: true
-    - pdfPassword:
-        default: ${get("pdf_password", "")}
-        required: false
-        sensitive: true
-        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-abbyy:0.0.1-SNAPSHOT'
-    class_name: io.cloudslang.content.abby.actions.ProcessImageAction
+    class_name: io.cloudslang.content.abby.actions.ProcessDocumentAction
     method_name: execute
 
   outputs:

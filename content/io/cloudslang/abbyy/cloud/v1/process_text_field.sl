@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: converts a given image to text in the specified output format using the ABBYY Cloud OCR SDK.
+#! @description: converts a given document to text in the specified output format using the ABBYY Cloud OCR SDK.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -21,6 +21,54 @@
 #!                     Valid: 'cloud-eu', 'cloud-westus'.
 #! @input application_id: The ID of the application to be used.
 #! @input password: The password for the application
+#! @input region: Optional - Specifies the region of the text field on the image. The coordinates of the region are measured
+#!                           in pixels relative to the left top corner of the image and are specified in the following order:
+#!                           left, top, right, bottom. By default, the region of the whole image is used.
+#!                Valid: a list of exactly 4 numbers greater than or equal to 0 or equal to -1.
+#!                Default: '-1,-1,-1,-1'.
+#! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
+#!                             names separated with commas, for example "English,French,German".
+#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
+#!                  Default: 'English'.
+#! @input letter_set: Optional - Specifies the letter set, which should be used during recognition. Contains a string with
+#!                              the letter set characters. For example, "ABCDabcd'-.".
+#!                              By default, the letter set of the language, specified in the language parameter, is used.
+#!                   Default: ''.
+#! @input reg_exp: Optional - Specifies the regular expression which defines which words are allowed in the field and which are not.
+#!                            See the description of regular expressions. By default, the set of allowed words is defined
+#!                            by the dictionary of the language, specified in the language parameter.
+#!                 Default: ''.
+#! @input text_type: Optional - Specifies the type of the text on a page.
+#!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
+#!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
+#!                   Default: 'normal'.
+#! @input one_text_line: Optional - Specifies whether the field contains only one text line. The value should be true,
+#!                                  if there is one text line in the field; otherwise it should be false.
+#!                       Default: 'false'.
+#! @input one_word_per_text_line: Optional - Specifies whether the field contains only one word in each text line. The value should be true,
+#!                                           if no text line contains more than one word (so the lines of text will be recognized as a single word);
+#!                                           otherwise it should be false.
+#!                                Default: 'false'.
+#! @input marking_type: Optional - This property is valid only for the handprint recognition. Specifies the type of marking around letters
+#!                                (for example, underline, frame, box, etc.). By default, there is no marking around letters.
+#!                      Valid: 'simpleText', 'underlinedText', 'textInFrame', 'greyBoxes', 'charBoxSeries,
+#!                             'simpleComb', combInFrame', 'partitionedFrame'.
+#!                      Default: 'simpleText'.
+#! @input placeholders_count: Optional - Specifies the number of character cells for the field. This property has a sense only for the field
+#!                                       marking types (the markingType parameter) that imply splitting the text in cells.
+#!                            Valid: an integer greater than or equal to 0.
+#!                            Default: '1'.
+#! @input writing_style: Optional - Provides additional information about handprinted letters writing style.
+#!                       Valid: 'default', 'american', 'german', 'russian', 'polish', 'thai', 'japanese',
+#!                              'arabic', 'baltic', 'british', 'bulgarian', 'canadian', 'czech', 'croatian', 'french',
+#!                              'greek', 'hungarian', 'italian', 'romanian', 'slovak', 'spanish', 'turkish', 'ukrainian'
+#!                              'common', 'chinese', 'azerbaijan', 'kazakh', 'kirgiz', 'latvian'.
+#!                       Default: 'default'.
+#! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
+#!                                If the description contains more than 255 characters, then the text will be truncated.
+#!                     Default: ''.
+#! @input pdf_password: Optional - Contains a password for accessing password-protected images in PDF format.
+#!                      Default: ''.
 #! @input proxy_host: Optional - The proxy server used to access the web site.
 #! @input proxy_port: Optional - The proxy server port. The value '-1' indicates that the proxy port is not set
 #!                               and the scheme default port will be used, e.g. if the scheme is 'http://' and
@@ -78,53 +126,6 @@
 #!                          Default: ''.
 #! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
 #!                     Default: 'false'.
-#! @input region: Optional - Specifies the region of the text field on the image. The coordinates of the region are measured
-#!                           in pixels relative to the left top corner of the image and are specified in the following order:
-#!                           left, top, right, bottom. By default, the region of the whole image is used.
-#!                Valid: a list of exactly 4 numbers greater than or equal to 0 or equal to -1.
-#!                Default: '-1,-1,-1,-1'.
-#! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
-#!                             names separated with commas, for example "English,French,German".
-#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
-#!                  Default: 'English'.
-#! @input letter_set: Optional - Specifies the letter set, which should be used during recognition. Contains a string with
-#!                              the letter set characters. For example, "ABCDabcd'-.".
-#!                              By default, the letter set of the language, specified in the language parameter, is used.
-#!                   Default: ''.
-#! @input reg_exp: Optional - Specifies the regular expression which defines which words are allowed in the field and which are not.
-#!                            See the description of regular expressions. By default, the set of allowed words is defined
-#!                            by the dictionary of the language, specified in the language parameter.
-#!                 Default: ''.
-#! @input text_type: Optional - Specifies the type of the text on a page.
-#!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
-#!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
-#!                   Default: 'normal'.
-#! @input one_text_line: Optional - Specifies whether the field contains only one text line. The value should be true,
-#!                                  if there is one text line in the field; otherwise it should be false.
-#!                       Default: 'false'.
-#! @input one_word_per_text_line: Optional - Specifies whether the field contains only one word in each text line. The value should be true,
-#!                                           if no text line contains more than one word (so the lines of text will be recognized as a single word);
-#!                                           otherwise it should be false.
-#!                                Default: 'false'.
-#! @input marking_type: Optional - This property is valid only for the handprint recognition. Specifies the type of marking around letters
-#!                                (for example, underline, frame, box, etc.). By default, there is no marking around letters.
-#!                      Valid: 'simpleText', 'underlinedText', 'textInFrame', 'greyBoxes', 'charBoxSeries,
-#!                             'simpleComb', combInFrame', 'partitionedFrame'.
-#!                      Default: 'simpleText'.
-#! @input placeholders_count: Optional - Specifies the number of character cells for the field. This property has a sense only for the field
-#!                                       marking types (the markingType parameter) that imply splitting the text in cells.
-#!                            Valid: an integer greater than or equal to 0.
-#!                            Default: '1'.
-#! @input writing_style: Optional - Provides additional information about handprinted letters writing style.
-#!                       Valid: 'default', 'american', 'german', 'russian', 'polish', 'thai', 'japanese',
-#!                              'arabic', 'baltic', 'british', 'bulgarian', 'canadian', 'czech', 'croatian', 'french',
-#!                              'greek', 'hungarian', 'italian', 'romanian', 'slovak', 'spanish', 'turkish', 'ukrainian'
-#!                              'common', 'chinese', 'azerbaijan', 'kazakh', 'kirgiz', 'latvian'.
-#!                       Default: 'default'.
-#! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
-#!                     Default: ''.
-#! @input pdf_password: Optional - Contains a password for accessing password-protected images in PDF format.
-#!                      Default: ''.
 #!
 #! @output return_result: Contains the text returned in the response body, if the output source was TXT,
 #!                        otherwise if will contain a human readable message mentioning the success or failure of the task.
@@ -144,7 +145,7 @@
 namespace: io.cloudslang.abby.cloud.v1
 
 operation:
-  name: process_image
+  name: process_document
 
   inputs:
     - location_id
@@ -157,6 +158,70 @@ operation:
         private: true
     - password:
         sensitive: true
+    - region:
+        default: '-1,-1,-1,-1'
+        required: false
+    - language:
+        default: 'English'
+        required: false
+    - reg_exp:
+        required: false
+    - regExp:
+        default: ${get("reg_exp", "")}
+        required: false
+        private: true
+    - text_type:
+        default: 'normal'
+        required: false
+    - textType:
+        default: ${get("text_type", "")}
+        required: false
+        private: true
+    - one_text_line:
+        default: 'false'
+        required: false
+    - oneTextLine:
+        default: ${get("one_text_line", "")}
+        required: false
+        private: true
+    - one_word_per_text_line:
+        default: 'false'
+        required: false
+    - oneWordPerTextLine:
+        default: ${get("one_word_per_text_line", "")}
+        required: false
+        private: true
+    - marking_type:
+        default: 'simpleText'
+        required: false
+    - markingType:
+        default: ${get("marking_type", "")}
+        required: false
+        private: true;
+    - placeholders_count:
+        default: '1'
+        required: false
+    - placeholdersCount:
+        default: ${get("placeholders_count", "")}
+        required: false
+        private: true
+    - writing_style:
+        default: 'default'
+        required: false
+    - writingStyle:
+        default: ${get("writing_style", "")}
+        required: false
+        private: true
+    - description:
+        required: false
+    - pdf_password:
+        required: false
+        sensitive: true
+    - pdfPassword:
+        default: ${get("pdf_password", "")}
+        required: false
+        sensitive: true
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -257,70 +322,6 @@ operation:
     - sourceFile:
         default: ${get("source_file", "")}
         required: false
-        private: true
-    - region:
-        default: '-1,-1,-1,-1'
-        required: false
-    - language:
-        default: 'English'
-        required: false
-    - reg_exp:
-        required: false
-    - regExp:
-        default: ${get("reg_exp", "")}
-        required: false
-        private: true
-    - text_type:
-        default: 'normal'
-        required: false
-    - textType:
-        default: ${get("text_type", "")}
-        required: false
-        private: true
-    - one_text_line:
-        default: 'false'
-        required: false
-    - oneTextLine:
-        default: ${get("one_text_line", "")}
-        required: false
-        private: true
-    - one_word_per_text_line:
-        default: 'false'
-        required: false
-    - oneWordPerTextLine:
-        default: ${get("one_word_per_text_line", "")}
-        required: false
-        private: true
-    - marking_type:
-        default: 'simpleText'
-        required: false
-    - markingType:
-        default: ${get("marking_type", "")}
-        required: false
-        private: true;
-    - placeholders_count:
-        default: '1'
-        required: false
-    - placeholdersCount:
-        default: ${get("placeholders_count", "")}
-        required: false
-        private: true
-    - writing_style:
-        default: 'default'
-        required: false
-    - writingStyle:
-        default: ${get("writing_style", "")}
-        required: false
-        private: true
-    - description:
-        required: false
-    - pdf_password:
-        required: false
-        sensitive: true
-    - pdfPassword:
-        default: ${get("pdf_password", "")}
-        required: false
-        sensitive: true
         private: true
 
   java_action:
