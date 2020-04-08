@@ -122,15 +122,19 @@
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
 #!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'.
-#! @input destination_file: Optional - The absolute path of a file on disk where to save the entity returned by the response.
-#!                                     'returnResult' will no longer be populated with the entity if this is specified.
-#!                                     Example: 'C:\temp\destinationFile.txt'.
+#! @input destination_file: Optional - The absolute path of a directory on disk where to save the entities returned by the response.
+#!                                     For each export format selected a file will be created in the specified directory with name of
+#!                                     'sourceFile' and corresponding extension (e.g. for exportFormat=xml,txt and sourceFile=source.jpg
+#!                                     the files 'source.xml' and 'source.txt' will be created). Files already existing will be overwritten.
 #!                          Default: ''.
 #! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
 #!                     Default: 'false'.
 #!
 #! @output return_result: Contains the text returned in the response body, if the output source was TXT,
 #!                        otherwise if will contain a human readable message mentioning the success or failure of the task.
+#! @output txt_result: The result for 'txt' export format in clear text (empty if 'txt' was not provided in 'exportFormat' input).
+#! @output xml_result: The result for 'xml' export format in clear text (empty if 'xml' was not provided in 'exportFormat' input).
+#! @output pdfUrl: The URL at which the PDF result of the recognition process can be found.
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
 #! @output result_url: The URL at which the result of the recognition process can be found.
@@ -331,15 +335,17 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.6-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.8-SNAPSHOT'
     class_name: io.cloudslang.content.abby.actions.ProcessDocumentAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
+    - txt_result: ${get("txtResult", "")}
+    - xml_result: ${get("xmlResult", "")}
+    - pdf_url: ${get("pdfUrl", "")}
     - task_id: ${taskId}
     - credits
-    - result_url: ${resultUrl}
     - status_code: ${statusCode}
     - return_code: ${returnCode}
     - exception
