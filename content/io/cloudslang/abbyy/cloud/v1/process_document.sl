@@ -327,15 +327,13 @@ operation:
         default: ${get("destination_file", "")}
         required: false
         private: true
-    - source_file:
-        required: false
+    - source_file
     - sourceFile:
         default: ${get("source_file", "")}
-        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.8-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.12-SNAPSHOT'
     class_name: io.cloudslang.content.abby.actions.ProcessDocumentAction
     method_name: execute
 

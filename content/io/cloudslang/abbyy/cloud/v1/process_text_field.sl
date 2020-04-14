@@ -171,39 +171,45 @@ operation:
         required: false
         private: true
     - text_type:
+        default: 'normal'
         required: false
     - textType:
-        default: ${get("text_type", "normal")}
+        default: ${get("text_type", "")}
         required: false
         private: true
     - one_text_line:
+        default: 'false'
         required: false
     - oneTextLine:
-        default: ${get("one_text_line", "false")}
+        default: ${get("one_text_line", "")}
         required: false
         private: true
     - one_word_per_text_line:
+        default: 'false'
         required: false
     - oneWordPerTextLine:
-        default: ${get("one_word_per_text_line", "false")}
+        default: ${get("one_word_per_text_line", "")}
         required: false
         private: true
     - marking_type:
+        default: 'simpleText'
         required: false
     - markingType:
-        default: ${get("marking_type", "simpleText")}
+        default: ${get("marking_type", "")}
         required: false
         private: true
     - placeholders_count:
+        default: '1'
         required: false
     - placeholdersCount:
-        default: ${get("placeholders_count", "1")}
+        default: ${get("placeholders_count", "")}
         required: false
         private: true
     - writing_style:
+        default: 'default'
         required: false
     - writingStyle:
-        default: ${get("writing_style", "default")}
+        default: ${get("writing_style", "")}
         required: false
         private: true
     - description:
@@ -223,9 +229,10 @@ operation:
         required: false
         private: true
     - proxy_port:
+        default: '8080'
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "8080")}
+        default: ${get("proxy_port", "")}
         private: true
     - proxy_username:
         required: false
@@ -242,14 +249,16 @@ operation:
         private: true
         sensitive: true
     - trust_all_roots:
+        default: 'false'
         required: false
     - trustAllRoots:
-        default: ${get("trust_all_roots", "false")}
+        default: ${get("trust_all_roots", "")}
         private: true
     - x_509_hostname_verifier:
+        default: 'strict'
         required: false
     - x509HostnameVerifier:
-        default: ${get("x_509_hostname_verifier", "strict")}
+        default: ${get("x_509_hostname_verifier", "")}
         private: true
     - trust_keystore:
         required: false
@@ -266,35 +275,41 @@ operation:
         private: true
         sensitive: true
     - connect_timeout:
+        default: '0'
         required: false
     - connectTimeout:
-        default: ${get("connect_timeout", "0")}
+        default: ${get("connect_timeout", "")}
         required: false
         private: true
     - socket_timeout:
+        default: '0'
         required: false
     - socketTimeout:
-        default: ${get("socket_timeout", "0")}
+        default: ${get("socket_timeout", "")}
         private: true
     - keep_alive:
+        default: 'true'
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "true")}
+        default: ${get("keep_alive", "")}
         private: true
     - connections_max_per_route:
+        default: '2'
         required: false
     - connectionsMaxPerRoute:
-        default: ${get("connections_max_per_route", "2")}
+        default: ${get("connections_max_per_route", "")}
         private: true
     - connections_max_total:
+        default: '20'
         required: false
     - connectionsMaxTotal:
-        default: ${get("connections_max_total", "20")}
+        default: ${get("connections_max_total", "")}
         private: true
     - response_character_set:
+        default: 'UTF-8'
         required: false
     - responseCharacterSet:
-        default: ${get("response_character_set", "UTF-8")}
+        default: ${get("response_character_set", "")}
         private: true
     - destination_file:
         required: false
@@ -302,23 +317,21 @@ operation:
         default: ${get("destination_file", "")}
         required: false
         private: true
-    - source_file:
-        required: false
+    - source_file
     - sourceFile:
         default: ${get("source_file", "")}
-        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.12-SNAPSHOT'
     class_name: io.cloudslang.content.abby.actions.ProcessTextFieldAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
+    - xml_result:  ${get("xmlResult", "")}
     - task_id: ${taskId}
     - credits
-    - result_url: ${resultUrl}
     - status_code: ${statusCode}
     - return_code: ${returnCode}
     - exception
