@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: converts a given document to text in the specified output format using the ABBYY Cloud OCR SDK.
+#! @description: Converts a text field from a given image to text in XML output format using the ABBYY Cloud OCR SDK.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -58,12 +58,6 @@
 #!                                       marking types (the markingType parameter) that imply splitting the text in cells.
 #!                            Valid: an integer greater than or equal to 0.
 #!                            Default: '1'.
-#! @input writing_style: Optional - Provides additional information about handprinted letters writing style.
-#!                       Valid: 'default', 'american', 'german', 'russian', 'polish', 'thai', 'japanese',
-#!                              'arabic', 'baltic', 'british', 'bulgarian', 'canadian', 'czech', 'croatian', 'french',
-#!                              'greek', 'hungarian', 'italian', 'romanian', 'slovak', 'spanish', 'turkish', 'ukrainian'
-#!                              'common', 'chinese', 'azerbaijan', 'kazakh', 'kirgiz', 'latvian'.
-#!                       Default: 'default'.
 #! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
 #!                                If the description contains more than 255 characters, then the text will be truncated.
 #!                     Default: ''.
@@ -127,22 +121,21 @@
 #! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
 #!                     Default: 'false'.
 #!
-#! @output return_result: Contains the text returned in the response body, if the output source was TXT,
-#!                        otherwise if will contain a human readable message mentioning the success or failure of the task.
+#! @output return_result: Contains a human readable message mentioning the success or failure of the task.
+#! @output xml_result: The result for 'xml' export format in clear text.
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
-#! @output result_url: The URL at which the result of the recognition process can be found.
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: The exception message and stack trace if the operation goes to failure.
-#! @output timedOut: True if the operation timed out before the document was processed, false otherwise.
+#! @output timed_out: True if the operation timed out before the document was processed, false otherwise.
 #!
 #! @result SUCCESS: Operation succeeded.
 #! @result FAILURE: Operation failed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.abby.cloud.v1
+namespace: io.cloudslang.abbyy.cloud.v1
 
 operation:
   name: process_text_field
@@ -203,13 +196,6 @@ operation:
         required: false
     - placeholdersCount:
         default: ${get("placeholders_count", "")}
-        required: false
-        private: true
-    - writing_style:
-        default: 'default'
-        required: false
-    - writingStyle:
-        default: ${get("writing_style", "")}
         required: false
         private: true
     - description:
@@ -323,8 +309,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.12-SNAPSHOT'
-    class_name: io.cloudslang.content.abby.actions.ProcessTextFieldAction
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC1'
+    class_name: io.cloudslang.content.abbyy.actions.ProcessTextFieldAction
     method_name: execute
 
   outputs:

@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: converts a given image to text in the specified output format using the ABBYY Cloud OCR SDK.
+#! @description: Converts a given image to text in the specified output format using the ABBYY Cloud OCR SDK.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -25,9 +25,6 @@
 #!                             names separated with commas, for example "English,French,German".
 #!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
 #!                  Default: 'English'.
-#! @input profile: Optional - Specifies a profile with predefined processing settings.
-#!                 Valid values: 'documentConversion', 'documentArchiving', 'textExtraction', 'barcodeRecognition'.
-#!                 Default: 'documentConversion'.
 #! @input text_type: Optional - Specifies the type of the text on a page.
 #!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
 #!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
@@ -44,28 +41,10 @@
 #! @input correct_skew: Optional - Specifies whether the skew of the image should be automatically detected and corrected.
 #!                      Valid: 'true', 'false'.
 #!                      Default: 'true'.
-#! @input read_barcodes: Optional - Specifies whether barcodes must be detected on the image, recognized and exported to the result file.
-#!                       Valid: 'true', 'false'.
-#!                       Default: 'true' if 'exportFormat' input value is set to 'xml', 'false' otherwise.
-#! @input exportFormat: Optional - Specifies the export format.
-#!                                 This parameter can contain up to three export formats, separated with commas (example: "pdfa,txt,xml").
-#!                      Valid: 'txt', 'txtUnstructured', 'rtf', 'docx', 'xlsx', 'pptx', 'pdfSearchable',
-#!                             'pdfTextAndImages', 'pdfa', 'xml', 'xmlForCorrectedImage', 'alto'.
+#! @input export_format: Optional - Specifies the export format.
+#!                                 This parameter can contain up to three export formats, separated with commas (example: "pdfSearchable,txt,xml").
+#!                      Valid: 'txt', 'pdfSearchable', 'xml'.
 #!                      Default: 'xml'.
-#! @input write_formatting: Optional - Specifies whether the paragraph and character styles should be written to an output file
-#!                                     in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
-#!                                     or 'xmlForCorrectedImage' value.
-#!                          Valid: 'true', 'false'.
-#!                          Default: 'false'.
-#! @input write_recognition_variants: Optional - Specifies whether the variants of characters recognition should be written to an output file
-#!                                               in XML format. This parameter can be used only if the 'exportFormat' parameter contains 'xml'
-#!                                               or xmlForCorrectedImage value.
-#!                                    Valid: 'true', 'false'.
-#!                                    Default: 'false'.
-#! @input write_tags: Optional - Specifies whether the result must be written as tagged PDF. This parameter can be
-#!                               used only if the exportFormat parameter contains one of the values for export to PDF.
-#!                    Valid: 'auto', 'write', 'dontWrite'.
-#!                    Default: 'auto'.
 #! @input description: Optional - Contains the description of the processing task. Cannot contain more than 255 characters.
 #!                                If the description contains more than 255 characters, then the text will be truncated.
 #!                     Default: ''.
@@ -122,36 +101,35 @@
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
 #!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'.
-#! @input destination_file: Optional - The absolute path of a directory on disk where to save the entities returned by the response.
+#! @input destination_folder: Optional - The absolute path of a directory on disk where to save the entities returned by the response.
 #!                                     For each export format selected a file will be created in the specified directory with name of
-#!                                     'sourceFile' and corresponding extension (e.g. for exportFormat=xml,txt and sourceFile=source.jpg
-#!                                     the files 'source.xml' and 'source.txt' will be created). Files already existing will be overwritten.
+#!                                     'sourceFile' and corresponding extension (e.g. for exportFormat='xml,txt' and sourceFile='source.jpg'
+#!                                     the files 'source.xml' and 'source.txt' will be created). If one of files already exists then an
+#!                                     exception will be thrown.
 #!                          Default: ''.
-#! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
-#!                     Default: 'false'.
+#! @input source_file: The absolute path of the image to be loaded and converted using the SDK.
 #!
-#! @output return_result: Contains the text returned in the response body, if the output source was TXT,
-#!                        otherwise if will contain a human readable message mentioning the success or failure of the task.
+#! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output txt_result: The result for 'txt' export format in clear text (empty if 'txt' was not provided in 'exportFormat' input).
 #! @output xml_result: The result for 'xml' export format in clear text (empty if 'xml' was not provided in 'exportFormat' input).
-#! @output pdfUrl: The URL at which the PDF result of the recognition process can be found.
+#! @output pdf_url: The URL at which the PDF result of the recognition process can be found.
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
 #! @output result_url: The URL at which the result of the recognition process can be found.
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output exception: The exception message and stack trace if the operation goes to failure.
-#! @output timedOut: True if the operation timed out before the document was processed, false otherwise.
+#! @output timed_out: True if the operation timed out before the document was processed, false otherwise.
 #!
 #! @result SUCCESS: Operation succeeded.
 #! @result FAILURE: Operation failed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.abby.cloud.v1
+namespace: io.cloudslang.abbyy.cloud.v1
 
 operation:
-  name: process_document
+  name: process_image
 
   inputs:
     - location_id
@@ -199,27 +177,6 @@ operation:
         default: 'xml'
     - exportFormat:
         default: ${get("export_format", "")}
-        required: false
-        private: true
-    - write_formatting:
-        default: 'false'
-        required: false
-    - writeFormatting:
-        default: ${get("write_formatting", "")}
-        required: false
-        private: true
-    - write_recognition_variants:
-        default: 'false'
-        required: false
-    - writeRecognitionVariants:
-        default: ${get("write_recognition_variants", "")}
-        required: false
-        private: true
-    - write_tags:
-        default: 'auto'
-        required: false
-    - writeTags:
-        default: ${get("write_tags", "")}
         required: false
         private: true
     - description:
@@ -321,10 +278,10 @@ operation:
     - responseCharacterSet:
         default: ${get("response_character_set", "")}
         private: true
-    - destination_file:
+    - destination_folder:
         required: false
-    - destinationFile:
-        default: ${get("destination_file", "")}
+    - destinationFolder:
+        default: ${get("destination_folder", "")}
         required: false
         private: true
     - source_file
@@ -333,8 +290,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.12-SNAPSHOT'
-    class_name: io.cloudslang.content.abby.actions.ProcessDocumentAction
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC1'
+    class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 
   outputs:
