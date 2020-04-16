@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Converts a text field from a given image to text in XML output format using the ABBYY Cloud OCR SDK.
+#! @description: Converts a text field from a given image to text in XML output format using the ABBYY Cloud OCR REST API v1.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -28,7 +28,8 @@
 #!                Default: '-1,-1,-1,-1'.
 #! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
 #!                             names separated with commas, for example "English,French,German".
-#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
+#!                             Currently, the only official language supported by this operation is 'English'.
+#!                  Valid: see the official ABBYY Cloud OCR SDK documentation.
 #!                  Default: 'English'.
 #! @input letter_set: Optional - Specifies the letter set, which should be used during recognition. Contains a string with
 #!                              the letter set characters. For example, "ABCDabcd'-.".
@@ -118,7 +119,7 @@
 #!                                     'returnResult' will no longer be populated with the entity if this is specified.
 #!                                     Example: 'C:\temp\destinationFile.txt'.
 #!                          Default: ''.
-#! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
+#! @input source_file: Optional - The absolute path of the image to be loaded and converted using the API.
 #!                     Default: 'false'.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
@@ -309,7 +310,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.36-SNAPSHOT'
     class_name: io.cloudslang.content.abbyy.actions.ProcessTextFieldAction
     method_name: execute
 

@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Converts a given image to text in the specified output format using the ABBYY Cloud OCR SDK.
+#! @description: Converts a given image to text in the specified output format using the ABBYY Cloud OCR REST API v1.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -23,7 +23,8 @@
 #! @input password: The password for the application
 #! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
 #!                             names separated with commas, for example "English,French,German".
-#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
+#!                             Currently, the only official language supported by this operation is 'English'.
+#!                  Valid: see the official ABBYY Cloud OCR SDK documentation.
 #!                  Default: 'English'.
 #! @input text_type: Optional - Specifies the type of the text on a page.
 #!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
@@ -107,7 +108,7 @@
 #!                                     the files 'source.xml' and 'source.txt' will be created). If one of files already exists then an
 #!                                     exception will be thrown.
 #!                          Default: ''.
-#! @input source_file: The absolute path of the image to be loaded and converted using the SDK.
+#! @input source_file: The absolute path of the image to be loaded and converted using the API.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output txt_result: The result for 'txt' export format in clear text (empty if 'txt' was not provided in 'exportFormat' input).
@@ -290,7 +291,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.36-SNAPSHOT'
     class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 
