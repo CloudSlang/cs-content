@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Converts a text field from a given image to text in XML output format using the ABBYY Cloud OCR SDK.
+#! @description: Converts a text field from a given image to text in XML output format using the ABBYY Cloud OCR REST API v1.
 #!
 #! @input location_id: The ID of the processing location to be used. Please note that the connection of your
 #!                     application to the processing location is specified manually during application creation,
@@ -28,8 +28,14 @@
 #!                Default: '-1,-1,-1,-1'.
 #! @input language: Optional - Specifies recognition language of the document. This parameter can contain several language
 #!                             names separated with commas, for example "English,French,German".
-#!                  Valid: see the official ABBYY CLoud OCR SDK documentation.
+#!                             Currently, the only official language supported by this operation is 'English'.
+#!                  Valid: see the official ABBYY Cloud OCR SDK documentation.
 #!                  Default: 'English'.
+#! @input source_file: The absolute path of the image to be loaded and converted using the API.
+#! @input destination_file: Optional - The absolute path of a file on disk where to save the entity returned by the response.
+#!                                     'returnResult' will no longer be populated with the entity if this is specified.
+#!                                     Example: 'C:\temp\destinationFile.txt'.
+#!                          Default: ''.
 #! @input letter_set: Optional - Specifies the letter set, which should be used during recognition. Contains a string with
 #!                              the letter set characters. For example, "ABCDabcd'-.".
 #!                              By default, the letter set of the language, specified in the language parameter, is used.
@@ -114,12 +120,6 @@
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
 #!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'.
-#! @input destination_file: Optional - The absolute path of a file on disk where to save the entity returned by the response.
-#!                                     'returnResult' will no longer be populated with the entity if this is specified.
-#!                                     Example: 'C:\temp\destinationFile.txt'.
-#!                          Default: ''.
-#! @input source_file: Optional - The absolute path of the image to be loaded and converted using the SDK.
-#!                     Default: 'false'.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output xml_result: The result for 'xml' export format in clear text.
@@ -157,6 +157,16 @@ operation:
     - language:
         default: 'English'
         required: false
+    - source_file
+    - sourceFile:
+        default: ${get("source_file", "")}
+        private: true
+    - destination_file:
+        required: false
+    - destinationFile:
+        default: ${get("destination_file", "")}
+        required: false
+        private: true
     - reg_exp:
         required: false
     - regExp:
@@ -297,19 +307,9 @@ operation:
     - responseCharacterSet:
         default: ${get("response_character_set", "")}
         private: true
-    - destination_file:
-        required: false
-    - destinationFile:
-        default: ${get("destination_file", "")}
-        required: false
-        private: true
-    - source_file
-    - sourceFile:
-        default: ${get("source_file", "")}
-        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.1-RC2'
     class_name: io.cloudslang.content.abbyy.actions.ProcessTextFieldAction
     method_name: execute
 
