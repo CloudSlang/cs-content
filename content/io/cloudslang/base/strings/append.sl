@@ -38,7 +38,7 @@ operation:
     - text:
         required: false
 
-  python_action: |
+  python_action:
     use_jython: false
     script: "def execute():
       origin_string+=text"
