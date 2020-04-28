@@ -38,9 +38,10 @@ operation:
     - text:
         required: false
 
-  python_action:
-    script: |
-      origin_string+=text
+  python_action: |
+    use_jython: false
+    script: "def execute():
+      origin_string+=text"
 
   outputs:
     - new_string: ${origin_string}
