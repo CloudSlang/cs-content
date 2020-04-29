@@ -40,8 +40,9 @@ operation:
 
   python_action:
     use_jython: false
-    script: "def execute():
-      origin_string+=text"
+    script: |-
+      def execute(origin_string, text):
+          origin_string+= text
 
   outputs:
     - new_string: ${origin_string}
