@@ -65,7 +65,7 @@
               error_message = "Invalid values"
 
            return {"new_string": new_string}
-           return {"error_message": Invalid values}
+           return {"error_message": error_message}
 
    outputs:
       - new_string
