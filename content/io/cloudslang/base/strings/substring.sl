@@ -43,24 +43,26 @@
          default: '0'
 
    python_action:
-     script: |
-        error_message = ""
-        try:
-           word_length = len(origin_string)
-           begin_index = int(begin_index)
-           end_index = int(end_index)
-           if end_index == 0:
-              new_string = origin_string[begin_index:]
-           elif end_index < 0 or begin_index < 0:
-              error_message = "Indexes must be positive integers"
-           elif begin_index >= word_length or end_index > word_length:
-              error_message = "Indexes must be - begin_index < " + str(word_length) + ", end_index <= " + str(word_length)
-           elif end_index < begin_index:
-              error_message = "Indexes must be - end_index > begin_index"
-           else:
-              new_string = origin_string[begin_index : end_index]
-        except (ValueError, TypeError, NameError):
-           error_message = "Invalid values"
+      use_jython: false
+      script: |-
+         def execute(origin_string, begin_index,end_index):
+           error_message = ""
+           try:
+              word_length = len(origin_string)
+              begin_index = int(begin_index)
+              end_index = int(end_index)
+              if end_index == 0:
+                 new_string = origin_string[begin_index:]
+              elif end_index < 0 or begin_index < 0:
+                 error_message = "Indexes must be positive integers"
+              elif begin_index >= word_length or end_index > word_length:
+                 error_message = "Indexes must be - begin_index < " + str(word_length) + ", end_index <= " + str(word_length)
+              elif end_index < begin_index:
+                 error_message = "Indexes must be - end_index > begin_index"
+              else:
+                 new_string = origin_string[begin_index : end_index]
+           except (ValueError, TypeError, NameError):
+              error_message = "Invalid values"
 
    outputs:
       - new_string

@@ -43,9 +43,9 @@ operation:
     script: |-
       def execute(origin_string, text):
           origin_string+= text
-
+          return {"new_string": origin_string}
   outputs:
-    - new_string: ${origin_string}
+    - new_string
 
   results:
     - SUCCESS
