@@ -64,6 +64,9 @@
            except (ValueError, TypeError, NameError):
               error_message = "Invalid values"
 
+           return {"new_string": new_string}
+           return {"error_message": Invalid values}
+
    outputs:
       - new_string
       - error_message
