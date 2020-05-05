@@ -292,7 +292,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-SNAPSHOT-18'
     class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 
