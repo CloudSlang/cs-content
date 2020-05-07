@@ -181,7 +181,7 @@ operation:
     - responseCharacterSet: 
         default: ${get('response_character_set', '')}  
         required: false 
-        private: true 
+        private: true
     
   java_action: 
     gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC3'
