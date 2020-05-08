@@ -4,7 +4,6 @@
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input workspace_id: The Id of the workspace
-#!                      Optional
 #! @input workspace_variables_json: List of workspace variables in json format.Examples :
 #!                                  [{\"propertyName\":\"test\",\"propertyValue\":\"1\",\"HCL\":false,\"Category\":\"env\"}]","[{\"propertyName\":\"test\",\"propertyValue\":\"1\",\"HCL\":false,\"Category\":\"terraform\"}]
 #!                                  Optional
@@ -78,15 +77,12 @@ operation:
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - workspace_id:  
-        required: false  
+    - workspace_id    
     - workspaceId: 
-        default: ${get('workspace_id', '')}  
-        required: false 
+        default: ${get('workspace_id', '')}
         private: true 
     - workspace_variables_json:  
         required: false  
