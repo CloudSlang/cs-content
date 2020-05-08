@@ -83,8 +83,7 @@ operation:
         private: true 
     - workspace_variable_id    
     - workspaceVariableId: 
-        default: ${get('workspace_variable_id', '')}  
-        required: false 
+        default: ${get('workspace_variable_id', '')}
         private: true 
     - request_body    
     - requestBody: 
@@ -181,7 +180,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC3'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC4'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.variables.UpdateWorkspaceVariable'
     method_name: 'execute'
   
