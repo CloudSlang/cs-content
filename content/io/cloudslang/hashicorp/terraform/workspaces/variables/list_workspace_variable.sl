@@ -4,7 +4,6 @@
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input workspace_id: The Id of the workspace
-#!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.Default: '8080'
@@ -73,15 +72,12 @@ operation:
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - workspace_id:  
-        required: false  
+    - workspace_id    
     - workspaceId: 
-        default: ${get('workspace_id', '')}  
-        required: false 
+        default: ${get('workspace_id', '')}
         private: true 
     - proxy_host:  
         required: false  

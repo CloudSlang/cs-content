@@ -16,7 +16,6 @@
 #!             variables.
 #!             Optional
 #! @input workspace_id: The Id of the workspace
-#!                      Optional
 #! @input request_body: Request Body for the Create Workspace Variable.
 #!                      Optional
 #! @input sensitive_request_body: Request Body for the Create Workspace Sensitive Variable.
@@ -90,8 +89,7 @@ operation:
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
     - workspace_variable_name:  
@@ -122,11 +120,9 @@ operation:
         private: true 
     - hcl:  
         required: false  
-    - workspace_id:  
-        required: false  
+    - workspace_id    
     - workspaceId: 
-        default: ${get('workspace_id', '')}  
-        required: false 
+        default: ${get('workspace_id', '')}
         private: true 
     - request_body:  
         required: false  
