@@ -131,7 +131,7 @@
 #! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.content.hashicorp.terraform
+namespace: io.cloudslang.hashicorp.terraform
 flow:
   name: DeployModuleV1
   inputs:
