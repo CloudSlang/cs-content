@@ -138,7 +138,7 @@ namespace: io.cloudslang.hashicorp.terraform.workspaces
 operation: 
   name: create_workspace
   
-  inputs: 
+  inputs:
     - auth_token:
         sensitive: true
     - authToken:
@@ -323,16 +323,16 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.2'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC5'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.CreateWorkspace'
     method_name: 'execute'
   
-  outputs: 
+  outputs:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
     - workspace_id: ${get('workspaceId', '')} 
   
-  results: 
+  results:
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
