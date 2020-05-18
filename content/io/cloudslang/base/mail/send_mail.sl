@@ -137,7 +137,6 @@ operation:
         required: false
     - headers:
         required: false
-        private: true
     - row_delimiter:
         required: false
     - rowDelimiter:
