@@ -246,7 +246,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC1'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
     method_name: 'execute'
   
