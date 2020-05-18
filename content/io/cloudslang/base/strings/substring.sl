@@ -45,8 +45,9 @@
    python_action:
       use_jython: false
       script: |-
-         def execute(origin_string, begin_index,end_index):
+         def execute(origin_string,begin_index,end_index):
            error_message = ""
+           new_string = ""
            try:
               word_length = len(origin_string)
               begin_index = int(begin_index)
@@ -54,7 +55,7 @@
               if end_index == 0:
                  new_string = origin_string[begin_index:]
               elif end_index < 0 or begin_index < 0:
-                 error_message = "Indexes must be positive integers"
+                 error_message = \"Indexes must be positive integers"
               elif begin_index >= word_length or end_index > word_length:
                  error_message = "Indexes must be - begin_index < " + str(word_length) + ", end_index <= " + str(word_length)
               elif end_index < begin_index:
@@ -72,5 +73,5 @@
       - error_message
 
    results:
-      - SUCCESS: ${error_message=='' and new_string != ''}
+      - SUCCESS: "${get(\"error_message\")=='' and get(\"new_string\") != '' }"
       - FAILURE
