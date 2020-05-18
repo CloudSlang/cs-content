@@ -55,7 +55,7 @@
               if end_index == 0:
                  new_string = origin_string[begin_index:]
               elif end_index < 0 or begin_index < 0:
-                 error_message = \"Indexes must be positive integers"
+                 error_message = "Indexes must be positive integers"
               elif begin_index >= word_length or end_index > word_length:
                  error_message = "Indexes must be - begin_index < " + str(word_length) + ", end_index <= " + str(word_length)
               elif end_index < begin_index:
