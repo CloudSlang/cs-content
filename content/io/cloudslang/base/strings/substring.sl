@@ -44,7 +44,7 @@
 
    python_action:
       use_jython: false
-      script: |-
+      script: |
          def execute(origin_string,begin_index,end_index):
            error_message = ""
            new_string = ""
