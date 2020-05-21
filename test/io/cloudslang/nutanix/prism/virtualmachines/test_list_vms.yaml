@@ -12,7 +12,7 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetVMDetailsSuccess:
+testListVMSuccess:
   testSuites: [prism-local]
   description: "Tests List VM  SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
@@ -49,9 +49,9 @@ testGetVMDetailsSuccess:
 
   result: SUCCESS
 
-testGetVMDetailsFailedWithInvalidUUID:
+testListVMSuccessusername:
   testSuites: [prism-local]
-  description: "Tests List VM  Failed with invalid Username."
+  description: "Tests List VM  Failed with invalid username."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
   inputs:
     - protocol: <protocol>
