@@ -44,7 +44,8 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.Default: 'false'
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -53,7 +54,8 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -246,7 +248,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC1'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC2'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
     method_name: 'execute'
   
