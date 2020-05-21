@@ -49,7 +49,7 @@ testListVMSuccess:
 
   result: SUCCESS
 
-testListVMSuccessusername:
+testListVMFailedWithInvalidusername:
   testSuites: [prism-local]
   description: "Tests List VM  Failed with invalid username."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
