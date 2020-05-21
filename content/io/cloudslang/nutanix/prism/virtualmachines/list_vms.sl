@@ -51,7 +51,8 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.Default: 'false'
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -60,7 +61,8 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -72,8 +74,8 @@
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)Default:
-#!                  <OO_Home>/java/lib/security/cacerts
+#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                  Default: <OO_Home>/java/lib/security/cacerts
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
@@ -119,7 +121,7 @@
 namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation:
-  name: list_vm
+  name: list_vms
 
   inputs:
     - protocol:
