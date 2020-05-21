@@ -51,7 +51,7 @@ testGetVMDetailsSuccess:
 
 testGetVMDetailsFailedWithInvalidUUID:
   testSuites: [prism-local]
-  description: "Tests List VM  Failed with invalid username."
+  description: "Tests List VM  Failed with invalid Username."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
   inputs:
     - protocol: <protocol>

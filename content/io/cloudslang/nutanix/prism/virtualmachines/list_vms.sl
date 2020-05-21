@@ -16,16 +16,16 @@
 #! @description: Get a list of Virtual Machines.
 #!
 #! @input protocol: The connection protocol of nutanix.
-#!                  Default: https
+#!                  Default: 'https'
 #!                  Optional
 #! @input hostname: The hostname for nutanix.
 #! @input port: The port to connect to nutanix.
-#!              Default: 9440
+#!              Default: '9440'
 #!              Optional
 #! @input username: The username for nutanix.
 #! @input password: The password for nutanix.
 #! @input api_version: The api version for nutanix.
-#!                     Default: v2.0
+#!                     Default: 'v2.0'
 #!                     Optional
 #! @input filter: Filter criteria - semicolon for AND, comma for OR.
 #!                Optional
@@ -75,11 +75,11 @@
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
+#!                  Default: '<OO_Home>/java/lib/security/cacerts'
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
+#!                           Default: 'changeit'
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
