@@ -13,27 +13,36 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get details of a specific Virtual Machines. Virtual Machine disk information and network information
+#! @description: Get a list of Virtual Machines. Virtual Machine disk information and network information
 #!               are not included by default as fetching these are expensive operations. These can be included by
-#!               setting the includeVMDiskConfig and includeVMNicConfig flags respectively.
+#!               setting the include_vmdisk_config and include_vmnic_config flags respectively.
 #!
 #! @input protocol: The connection protocol of nutanix.
-#!                  Default: https
+#!                  Default: 'https'
 #!                  Optional
 #! @input hostname: The hostname for nutanix.
 #! @input port: The port to connect to nutanix.
-#!              Default: 9440
+#!              Default: '9440'
 #!              Optional
 #! @input username: The username for nutanix.
 #! @input password: The password for nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
+#! @input api_version: The api version for nutanix.
+#!                     Default: 'v2.0'
+#!                     Optional
+#! @input filter: Filter criteria - semicolon for AND, comma for OR.
+#!                Optional
+#! @input offset: Offset.
+#!                Optional
+#! @input length: Number of VMs to retrieve.
+#!                Optional
+#! @input sortorder: Sort order.
+#!                   Optional
+#! @input sortattribute: Sort attribute.
+#!                       Optional
 #! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
 #!                                     Optional
 #! @input include_vm_nic_config_info: Whether to include network information.
 #!                                    Optional
-#! @input api_version: The api version for nutanix.
-#!                     Default: v2.0
-#!                     Optional
 #! @input proxy_host: Proxy server used to access the nutanix service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the nutanix service.
@@ -68,11 +77,11 @@
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
+#!                  Default: '<OO_Home>/java/lib/security/cacerts'
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
+#!                           Default: 'changeit'
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
@@ -103,8 +112,8 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
+#! @output vm_list: List of VM's.
 #! @output status_code: The HTTP status code for nutanix API request.
-#! @output vm_name: Name of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -113,151 +122,156 @@
 
 namespace: io.cloudslang.nutanix.prism.virtualmachines
 
-operation: 
-  name: get_vm_details
-  
-  inputs: 
-    - protocol:  
-        required: false  
-    - hostname    
-    - port:  
-        required: false  
-    - username    
-    - password:    
+operation:
+  name: list_vms
+
+  inputs:
+    - protocol:
+        required: false
+    - hostname
+    - port:
+        required: false
+    - username
+    - password:
         sensitive: true
-    - vm_uuid    
-    - vmUUID: 
-        default: ${get('vm_uuid', '')}  
-        required: false 
-        private: true 
-    - include_vm_disk_config_info:  
-        required: false  
-    - includeVMDiskConfigInfo: 
-        default: ${get('include_vm_disk_config_info', '')}  
-        required: false 
-        private: true 
-    - include_vm_nic_config_info:  
-        required: false  
-    - includeVMNicConfigInfo: 
-        default: ${get('include_vm_nic_config_info', '')}  
-        required: false 
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - api_version:
+        required: false
+    - apiVersion:
+        default: ${get('api_version', '')}
+        required: false
+        private: true
+    - filter:
+        required: false
+    - offset:
+        required: false
+    - length:
+        required: false
+    - sortorder:
+        required: false
+    - sortattribute:
+        required: false
+    - include_vm_disk_config_info:
+        required: false
+    - includeVMDiskConfigInfo:
+        default: ${get('include_vm_disk_config_info', '')}
+        required: false
+        private: true
+    - include_vm_nic_config_info:
+        required: false
+    - includeVMNicConfigInfo:
+        default: ${get('include_vm_nic_config_info', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
         sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
+    - keystorePassword:
+        default: ${get('keystore_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    - response_character_set:  
-        required: false  
-    - responseCharacterSet: 
-        default: ${get('response_character_set', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - socket_timeout:
+        required: false
+    - socketTimeout:
+        default: ${get('socket_timeout', '')}
+        required: false
+        private: true
+    - keep_alive:
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
+    - connections_max_per_route:
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
+    - connections_max_total:
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+    - response_character_set:
+        required: false
+    - responseCharacterSet:
+        default: ${get('response_character_set', '')}
+        required: false
+        private: true
+
+  java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC2'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.ListVMs'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - vm_name: ${get('vmName', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - vm_list: ${get('vmList', '')}
+    - status_code: ${get('statusCode', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
