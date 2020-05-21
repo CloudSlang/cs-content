@@ -13,7 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get a list of Virtual Machines.
+#! @description: GET Virtual Machine disk information and network information
+#!               are not included by default as fetching these are expensive operations. These can be included by
+#!               setting the include_vmdisk_config and include_vmnic_config flags respectively.
 #!
 #! @input protocol: The connection protocol of nutanix.
 #!                  Default: 'https'
