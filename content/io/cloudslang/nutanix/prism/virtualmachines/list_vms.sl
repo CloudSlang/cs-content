@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: GET Virtual Machine disk information and network information
+#! @description: Get a list of Virtual Machines. Virtual Machine disk information and network information
 #!               are not included by default as fetching these are expensive operations. These can be included by
 #!               setting the include_vmdisk_config and include_vmnic_config flags respectively.
 #!
