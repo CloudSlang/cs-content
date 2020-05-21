@@ -13,13 +13,64 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Undeploy's the module from the given organization.
+#! @description: deploy's the module in the given organization.
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input organization_name: The name of the organization
 #! @input workspace_name: The name of the workspace, which can only include letters, numbers, -, and _. This will be
 #!                        used as an identifier and must be unique in the organization.
 #!                        Optional
+#! @input vcs_repo_id: A reference to your VCS repository in the format :org/:repo where :org and :repo refer to the
+#!                     organization and repository in your VCS provider.
+#!                     Optional
+#! @input workspace_variables_json: List of variables in json format.
+#!                                  Optional
+#!                                  Example: '[{"data":{"attributes":{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"Category":"terraform"}}}]'
+#! @input sensitive_workspace_variables_json: List of sensitive variables in json format.
+#!                                            Optional
+#!                                            Example: '[{"data":{"attributes":{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
+#!                                            "Category":"terraform"}}}]'
+#! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
+#!                    Optional
+#! @input auto_apply: Whether to automatically apply changes when a Terraform plan is successful, with some
+#!                    exceptions.
+#!                    Default: 'false'
+#!                    Optional
+#! @input workspace_description: A description of the workspace to be created.
+#!                               Optional
+#! @input working_directory: A relative path that Terraform will execute within. This defaults to the root of your
+#!                           repository and is typically set to a subdirectory matching the environment when multiple
+#!                           environments exist within the same repository.
+#!                           Optional
+#! @input workspace_variable_category: Whether this is a Terraform or environment variable. Valid values are "terraform" or "env".
+#!                           Optional
+#! @input trigger_prefixes: List of repository-root-relative paths which should be tracked for changes, in addition to
+#!                          the working directory.
+#!                          Optional
+#! @input queue_all_runs: Whether runs should be queued immediately after workspace creation. When set to false, runs
+#!                        triggered by a VCS change will not be queued until at least one run is manually
+#!                        queued.
+#!                        Default: 'false'
+#!                        Optional
+#! @input speculative_enabled: Whether this workspace allows speculative plans. Setting this to false prevents Terraform
+#!                             Cloud from running plans on pull requests, which can improve security if the VCS
+#!                             repository is public or includes untrusted contributors.
+#!                             Default: 'true'
+#!                             Optional
+#! @input ingress_submodules: Whether submodules should be fetched when cloning the VCS repository.
+#!                            Default: 'false'
+#!                            Optional
+#! @input vcs_branch_name: The repository branch that Terraform will execute from. If omitted or submitted as an empty
+#!                         string, this defaults to the repository's default branch (e.g. master) .
+#!                         Optional
+#! @input terraform_version: The version of Terraform to use for this workspace. Upon creating a workspace, the latest
+#!                           version is selected unless otherwise specified (e.g. "0.11.1").
+#!                           Default: '0.12.1'
+#!                           Optional
+#! @input run_message: Specifies the message to be associated with this run
+#!                     Optional
+#! @input run_comment: Specifies the comment to be associated with this run
+#!                     Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -55,9 +106,6 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
-#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
-#!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: 'true'
@@ -76,18 +124,53 @@
 #!                                Default: 'UTF-8'
 #!                                Optional
 #!
+#! @output hosted_state_download_url: A url from which you can download the raw state.
+#! @output state_version_id: The ID of the desired state version.
+#!
 #! @result FAILURE: There was an error while executing the request.
 #! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform
 flow:
-  name: UndeployModuleV1
+  name: DeployModuleV2
   inputs:
     - auth_token:
         sensitive: true
     - organization_name
     - workspace_name
+    - vcs_repo_id
+    - workspace_variables_json:
+        required: true
+    - sensitive_workspace_variables_json:
+        required: true
+        sensitive: true
+    - is_destroy:
+        required: false
+    - auto_apply:
+        required: false
+    - workspace_description:
+        required: false
+    - working_directory:
+        required: false
+    - workspace_variable_category:
+        required: false
+    - trigger_prefixes:
+        required: false
+    - queue_all_runs:
+        required: false
+    - speculative_enabled:
+        required: false
+    - ingress_submodules:
+        required: false
+    - vcs_branch_name:
+        required: false
+    - terraform_version:
+        required: false
+    - run_message:
+        required: false
+    - run_comment:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -108,8 +191,6 @@ flow:
         sensitive: true
     - connect_timeout:
         required: false
-    - socket_timeout:
-        required: false
     - keep_alive:
         required: false
     - connections_max_per_route:
@@ -119,20 +200,64 @@ flow:
     - response_character_set:
         required: false
   workflow:
-    - get_workspace_details:
+    - list_o_auth_client:
         do:
-          io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
+          io.cloudslang.hashicorp.terraform.utils.list_o_auth_client:
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
             - organization_name: '${organization_name}'
-            - workspace_name: '${workspace_name}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+        publish:
+          - oauth_token_id
+        navigate:
+          - SUCCESS: create_workspace
+          - FAILURE: on_failure
+    - create_workspace:
+        do:
+          io.cloudslang.hashicorp.terraform.workspaces.create_workspace:
+            - auth_token:
+                value: '${auth_token}'
+                sensitive: true
+            - organization_name: '${organization_name}'
+            - workspace_name: '${workspace_name}'
+            - workspace_description: '${workspace_description}'
+            - auto_apply: '${auto_apply}'
+            - file_triggers_enabled: '${file_triggers_enabled}'
+            - working_directory: '${working_directory}'
+            - trigger_prefixes: '${trigger_prefixes}'
+            - queue_all_runs: '${queue_all_runs}'
+            - speculative_enabled: '${speculative_enabled}'
+            - ingress_submodules: '${ingress_submodules}'
+            - vcs_repo_id: '${vcs_repo_id}'
+            - vcs_branch_name: '${vcs_branch_name}'
+            - oauth_token_id: '${oauth_token_id}'
+            - terraform_version: '${terraform_version}'
+            - request_body: null
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - trust_keystore: '${trust_keystore}'
             - trust_password:
@@ -146,9 +271,8 @@ flow:
             - response_character_set: '${response_character_set}'
         publish:
           - workspace_id
-          - return_result
         navigate:
-          - SUCCESS: get_auto_apply_value
+          - SUCCESS: create_workspace_variables
           - FAILURE: on_failure
     - create_run:
         do:
@@ -158,7 +282,7 @@ flow:
                 sensitive: true
             - workspace_id: '${workspace_id}'
             - run_message: '${run_message}'
-            - is_destroy: 'true'
+            - is_destroy: '${is_destroy}'
             - request_body: null
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -190,13 +314,6 @@ flow:
         navigate:
           - 'TRUE': get_run_details_for_get_state_version_details
           - 'FALSE': get_run_details
-    - wait_for_apply_status:
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '20'
-        navigate:
-          - SUCCESS: get_run_details
-          - FAILURE: on_failure
     - get_run_details:
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details:
@@ -244,7 +361,25 @@ flow:
             - second_string: planned
         navigate:
           - SUCCESS: apply_run
-          - FAILURE: counter
+          - FAILURE: counter_for_run_status
+    - counter_for_run_status:
+        do:
+          io.cloudslang.hashicorp.terraform.utils.counter:
+            - from: '1'
+            - to: '100'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_for_plan_status
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_for_plan_status:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_run_details
+          - FAILURE: on_failure
     - apply_run:
         do:
           io.cloudslang.hashicorp.terraform.runs.apply_run:
@@ -276,14 +411,13 @@ flow:
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
-    - delete_workspace:
+    - get_current_state_version:
         do:
-          io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
+          io.cloudslang.hashicorp.terraform.stateversions.get_current_state_version:
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
-            - organization_name: '${organization_name}'
-            - workspace_name: '${workspace_name}'
+            - workspace_id: '${workspace_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -302,61 +436,11 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
-        publish: []
-        navigate:
-          - SUCCESS: check_workspace_is_present
-          - FAILURE: on_failure
-    - check_workspace_is_present:
-        do:
-          io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
-            - auth_token:
-                value: '${auth_token}'
-                sensitive: true
-            - organization_name: '${organization_name}'
-            - workspace_name: '${workspace_name}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
         publish:
-          - workspace_id
-          - return_result
+          - hosted_state_download_url
+          - state_version_id
         navigate:
-          - SUCCESS: on_failure
-          - FAILURE: SUCCESS
-    - get_auto_apply_value:
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: 'data,attributes,auto-apply'
-        publish:
-          - auto_apply: '${return_result}'
-        navigate:
-          - SUCCESS: create_workspace_variables
-          - FAILURE: on_failure
-    - counter:
-        do:
-          io.cloudslang.hashicorp.terraform.utils.counter:
-            - from: '1'
-            - to: '100'
-            - increment_by: '1'
-            - reset: 'false'
-        navigate:
-          - HAS_MORE: wait_for_apply_status
-          - NO_MORE: FAILURE
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_run_details_for_get_state_version_details:
         do:
@@ -404,7 +488,7 @@ flow:
             - first_string: '${plan_status}'
             - second_string: applied
         navigate:
-          - SUCCESS: delete_workspace
+          - SUCCESS: get_current_state_version
           - FAILURE: counter_for_get_state_version_details
     - counter_for_get_state_version_details:
         do:
@@ -431,7 +515,10 @@ flow:
                 value: '${auth_token}'
                 sensitive: true
             - workspace_id: '${workspace_id}'
-            - workspace_variables_json: '[{"data":{"attributes":{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}}}]'
+            - workspace_variables_json: '${workspace_variables_json}'
+            - sensitive_workspace_variables_json:
+                value: '${sensitive_workspace_variables_json}'
+                sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -453,6 +540,9 @@ flow:
         navigate:
           - SUCCESS: create_run
           - FAILURE: on_failure
+  outputs:
+    - hosted_state_download_url: '${hosted_state_download_url}'
+    - state_version_id: '${state_version_id}'
   results:
     - FAILURE
     - SUCCESS

@@ -98,7 +98,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform
 flow:
-  name: UpdateModuleV1
+  name: UpdateModuleV2
   inputs:
     - auth_token:
         sensitive: true
