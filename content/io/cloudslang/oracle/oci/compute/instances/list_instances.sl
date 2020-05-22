@@ -105,7 +105,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.instances
+namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation: 
   name: list_instances
