@@ -63,8 +63,7 @@
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!					Default:
-#!                  <OO_Home>/java/lib/security/cacerts
+#!					Default: <OO_Home>/java/lib/security/cacerts
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
