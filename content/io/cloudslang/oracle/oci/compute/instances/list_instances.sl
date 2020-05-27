@@ -113,31 +113,27 @@ operation:
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}  
-        required: false 
+        default: ${get('tenancy_ocid', '')}
         private: true 
     - user_ocid    
     - userOcid: 
-        default: ${get('user_ocid', '')}  
-        required: false 
+        default: ${get('user_ocid', '')}
         private: true 
     - finger_print:    
         sensitive: true
     - fingerPrint: 
-        default: ${get('finger_print', '')}  
-        required: false 
+        default: ${get('finger_print', '')}
         private: true 
         sensitive: true
     - private_key:
         sensitive: true
     - privateKey:
         default: ${get('private_key', '')}
-        required: false 
-        private: true 
+        private: true
+        sensitive: true
     - compartment_ocid    
     - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}  
-        required: false 
+        default: ${get('compartment_ocid', '')}
         private: true 
     - api_version:  
         required: false  
