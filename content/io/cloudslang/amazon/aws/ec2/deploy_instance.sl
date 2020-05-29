@@ -479,7 +479,7 @@ flow:
           do:
             instances.check_instance_state:
               - identity
-             -  endpoint
+              - endpoint
               - credential
               - proxy_host
               - proxy_port
@@ -502,7 +502,7 @@ flow:
         do:
           tags.create_tags:
             - identity
-            -  endpoint
+            - endpoint
             - credential
             - proxy_host
             - proxy_port
@@ -526,7 +526,7 @@ flow:
           do:
             instances.terminate_instances:
               - identity
-              -  endpoint
+              - endpoint
               - credential
               - proxy_host
               - proxy_port
