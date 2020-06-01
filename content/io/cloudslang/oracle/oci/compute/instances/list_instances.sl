@@ -32,7 +32,7 @@
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
-#!					  Default: '8080'
+#!				      Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
