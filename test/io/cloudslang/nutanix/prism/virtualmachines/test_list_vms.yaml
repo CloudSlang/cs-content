@@ -17,7 +17,6 @@ testListVMSuccess:
   description: "Tests List VM  SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
   inputs:
-    - protocol: <protocol>
     - hostname: <hostname>
     - port: <port>
     - username: <username>
@@ -38,14 +37,11 @@ testListVMSuccess:
     - x_509_hostname_verifier: <x_509_hostname_verifier>
     - trust_keystore: <trust_keystore>
     - trust_password: <trust_password>
-    - keystore: <keystore>
-    - keystore_password: <keystore_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-    - response_character_set: <response_character_set>
 
   result: SUCCESS
 
@@ -54,7 +50,6 @@ testListVMFailedWithInvalidusername:
   description: "Tests List VM  Failed with invalid username."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.list_vms
   inputs:
-    - protocol: <protocol>
     - hostname: <hostname>
     - port: <port>
     - username: <username>
@@ -75,14 +70,11 @@ testListVMFailedWithInvalidusername:
     - x_509_hostname_verifier: <x_509_hostname_verifier>
     - trust_keystore: <trust_keystore>
     - trust_password: <trust_password>
-    - keystore: <keystore>
-    - keystore_password: <keystore_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-    - response_character_set: <response_character_set>
 
   result: FAILURE
 

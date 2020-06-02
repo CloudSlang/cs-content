@@ -17,7 +17,6 @@ testGetVMDetailsSuccess:
   description: "Tests Get VM Details SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_vm_details
   inputs:
-    - protocol: <protocol>
     - hostname: <hostname>
     - port: <port>
     - vm_uuid: <vm_uuid>
@@ -34,14 +33,11 @@ testGetVMDetailsSuccess:
     - x_509_hostname_verifier: <x_509_hostname_verifier>
     - trust_keystore: <trust_keystore>
     - trust_password: <trust_password>
-    - keystore: <keystore>
-    - keystore_password: <keystore_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-    - response_character_set: <response_character_set>
 
   result: SUCCESS
 
@@ -50,7 +46,6 @@ testGetVMDetailsFailedWithInvalidUUID:
   description: "Tests Get VM Details Failed with invalid uuid."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_vm_details
   inputs:
-    - protocol: <protocol>
     - hostname: <hostname>
     - port: <port>
     - vm_uuid: <vm_uuid>
@@ -67,14 +62,11 @@ testGetVMDetailsFailedWithInvalidUUID:
     - x_509_hostname_verifier: <x_509_hostname_verifier>
     - trust_keystore: <trust_keystore>
     - trust_password: <trust_password>
-    - keystore: <keystore>
-    - keystore_password: <keystore_password>
     - connect_timeout: <connect_timeout>
     - socket_timeout: <socket_timeout>
     - keep_alive: <keep_alive>
     - connections_max_per_route: <connections_max_per_route>
     - connections_max_total: <connections_max_total>
-    - response_character_set: <response_character_set>
 
   result: FAILURE
 

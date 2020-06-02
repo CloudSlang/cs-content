@@ -17,26 +17,25 @@
 #!               are not included by default as fetching these are expensive operations. These can be included by
 #!               setting the includeVMDiskConfig and includeVMNicConfig flags respectively.
 #!
-#! @input protocol: The connection protocol of nutanix.
-#!                  Default: https
-#!                  Optional
-#! @input hostname: The hostname for nutanix.
-#! @input port: The port to connect to nutanix.
-#!              Default: 9440
+#! @input hostname: The hostname for Nutanix.
+#! @input port: The port to connect to Nutanix.
+#!              Default: '9440'
 #!              Optional
-#! @input username: The username for nutanix.
-#! @input password: The password for nutanix.
+#! @input username: The username for Nutanix.
+#! @input password: The password for Nutanix.
 #! @input vm_uuid: Id of the Virtual Machine.
 #! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
+#!                                     Default : 'true'
 #!                                     Optional
 #! @input include_vm_nic_config_info: Whether to include network information.
+#!                                    Default : 'true'
 #!                                    Optional
-#! @input api_version: The api version for nutanix.
-#!                     Default: v2.0
+#! @input api_version: The api version for Nutanix.
+#!                     Default: 'v2.0'
 #!                     Optional
-#! @input proxy_host: Proxy server used to access the nutanix service.
+#! @input proxy_host: Proxy server used to access the Nutanix service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the nutanix service.
+#! @input proxy_port: Proxy server port used to access the Nutanix service.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
@@ -65,15 +64,6 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
-#!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
-#!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
@@ -92,18 +82,11 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Default: '20'
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
-#!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for nutanix API request.
+#! @output status_code: The HTTP status code for Nutanix API request.
 #! @output vm_name: Name of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -116,9 +99,7 @@ namespace: io.cloudslang.nutanix.prism.virtualmachines
 operation: 
   name: get_vm_details
   
-  inputs: 
-    - protocol:  
-        required: false  
+  inputs:
     - hostname    
     - port:  
         required: false  
@@ -200,16 +181,6 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
-        sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
     - connect_timeout:  
         required: false  
     - connectTimeout: 
@@ -239,16 +210,10 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true 
-    - response_character_set:  
-        required: false  
-    - responseCharacterSet: 
-        default: ${get('response_character_set', '')}  
-        required: false 
-        private: true 
+        private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC2'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC3'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
     method_name: 'execute'
   
