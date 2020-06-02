@@ -36,11 +36,10 @@ operation:
 
   python_action:
     script: |
-      from java.math import BigDecimal,MathContext
       error_message = ""
       value1 = value1.replace("%", "")
       try:
-          rounded = BigDecimal(value1, MathContext.DECIMAL64).toBigInteger()
+          rounded = str(int(round(float(value1))))
       except:
           error_message = "input cannot be rounded"
 
