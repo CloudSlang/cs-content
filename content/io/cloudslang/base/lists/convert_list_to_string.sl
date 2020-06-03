@@ -25,8 +25,10 @@
 #!                             Default: False
 #!
 #! @output result: String that results from concatenation of list elements
+#! @output error_message: Error message if error occurred.
 #!
 #! @result SUCCESS: List converted to string successfully
+#! @result FAILURE: Otherwise
 #!!#
 ########################################################################################################################
 
@@ -49,17 +51,41 @@ operation:
 
   python_action:
     script: |
-      result = ''
-      list_length = len(list)
-      for item in list:
-        result += '\"' + str(item) + '\"' if bool(double_quotes) else str(item)
-        list_length -= 1
-        if (list_length > 0 and result_delimiter != ''):
-          result += str(result_delimiter)
-      result = result.lower() if bool(result_to_lowercase) else result
+      def validBool(element):
+          if(str(element).lower()=="false"): return ""
+          if(str(element).lower()=="true"): return "true"
+          return "error"
+
+      result=''
+      error_message=''
+      try:
+          if(list.startswith('[')==False or list.endswith(']')==False):
+              raise TypeError("Invalid list input!")
+          list = list.replace("\'","")
+          list = list[1:len(list)-1].split(',')
+          if(isinstance(list, type([]))== False):
+              raise TypeError("Invalid list input!")
+          result_to_lowercase = validBool(result_to_lowercase)
+          double_quotes = validBool(double_quotes)
+          if(double_quotes=="error" or result_to_lowercase=="error"):
+              raise TypeError("Invalid boolean input!")
+          else:
+              list_length = len(list)
+              for item in list:
+                  if bool(double_quotes): result += '\"' + str(item) + '\"'
+                  else: result += str(item)
+                  list_length -= 1
+                  if (list_length > 0 and result_delimiter != ''):
+                      result += str(result_delimiter)
+              if bool(result_to_lowercase):
+                  result = result.lower()
+      except BaseException as error:
+          error_message = str(error)
 
   outputs:
     - result
+    - error_message
 
   results:
-    - SUCCESS
+    - SUCCESS: ${error_message == ""}
+    - FAILURE
