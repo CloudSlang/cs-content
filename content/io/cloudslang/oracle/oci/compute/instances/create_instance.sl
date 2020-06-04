@@ -13,7 +13,7 @@
 #! @input api_version: Version of the API of OCI.Default: '20160918'
 #!                     Optional
 #! @input region: Region in OCI.
-#! @input availability_domain=: The availability domain of the instance.
+#! @input availability_domain: The availability domain of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
 #!               resources allocated to the instance.
 #! @input subnet_id: The OCID of the subnet to create the VNIC in.
@@ -48,7 +48,7 @@
 #!                  Optional
 #! @input extended_metadata: Additional metadata key/value pairs that you provide. They serve the same purpose and
 #!                           functionality as fields in the 'metadata' object.
-They are distinguished from 'metadata'
+#!                           They are distinguished from 'metadata'
 #!                           fields in that these can be nested JSON objects (whereas 'metadata' fields are
 #!                           string/string maps only).
 #!                           Optional
@@ -223,7 +223,7 @@ They are distinguished from 'metadata'
 namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation:
-  name: create_instances
+  name: create_instance
   
   inputs: 
     - tenancy_ocid    
@@ -262,9 +262,9 @@ operation:
         required: false 
         private: true 
     - region    
-    - availability_domain=    
-    - availabilityDomain=: 
-        default: ${get('availability_domain=', '')}  
+    - availability_domain
+    - availabilityDomain:
+        default: ${get('availability_domain', '')}
         required: false 
         private: true 
     - shape    
