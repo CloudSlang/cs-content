@@ -61,7 +61,6 @@ operation:
       try:
           if(list.startswith('[')==False or list.endswith(']')==False):
               raise TypeError("Invalid list input!")
-          list = list.replace("\'","")
           list = list[1:len(list)-1].split(',')
           if(isinstance(list, type([]))== False):
               raise TypeError("Invalid list input!")
