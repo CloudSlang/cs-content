@@ -16,11 +16,10 @@
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
 #! @input list: List of items that will be converted to string and concatenated
-#!              Example: [1,2,3,a,b,c] -> 123abc
-#!                       1,2,3,a,b,c -> 123abc
+#!              Example: 1,2,3,a,b,c -> 123abc
 #! @input delimiter: Optional - The list delimiter.
 #!                   Default: ','
-#! @input strip_white_spaces: Optional - Removes whitespace both leading and trailing an list item
+#! @input strip_whitespaces: Optional - Removes whitespace both leading and trailing an list item
 #!                            Default: True
 #! @input double_quotes: Optional - If true, list items will be double quoted
 #!                       Default: False
