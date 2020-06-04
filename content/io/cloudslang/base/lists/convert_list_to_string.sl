@@ -15,24 +15,25 @@
 #!!
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
-#! @input list: List of items that will be converted to string and concatenated
+#! @input list: List of items that will be converted to string and concatenated.
 #!              Example: 1,2,3,a,b,c -> 123abc
 #! @input delimiter: Optional - The list delimiter.
 #!                   Default: ','
-#! @input strip_whitespaces: Optional - Removes whitespace both leading and trailing an list item
-#!                            Default: True
-#! @input double_quotes: Optional - If true, list items will be double quoted
+#! @input strip_whitespaces: Optional - Removes whitespace both leading and trailing an list item.
+#!                           Default: True
+#! @input double_quotes: Optional - If true, list items will be double quoted.
 #!                       Default: False
-#! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one)
+#! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one).
 #!                          Default: ""
-#! @input result_to_lowercase: Optional - If true, list items will be lower cased
+#! @input result_to_lowercase: Optional - If true, list items will be lower cased.
 #!                             Default: False
 #!
-#! @output result: String that results from concatenation of list elements
+#! @output result: String that results from concatenation of list elements.
 #! @output error_message: Error message if error occurred.
+#! @output return_code: 0 if success, -1 if failure.
 #!
-#! @result SUCCESS: List converted to string successfully
-#! @result FAILURE: Otherwise
+#! @result SUCCESS: List converted to string successfully.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -68,6 +69,7 @@ operation:
 
       result = ''
       error_message = ''
+      return_code = '0'
       try:
           if list.startswith('[') is True and list.endswith(']') is True:
               list = list[1:len(list) - 1]
@@ -92,12 +94,14 @@ operation:
               if bool(result_to_lowercase):
                   result = result.lower()
       except BaseException as error:
+          return_code = '-1'
           result = str(error)
           error_message = str(error)
 
   outputs:
     - result
     - error_message
+    - return_code
 
   results:
     - SUCCESS: ${error_message == ""}
