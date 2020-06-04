@@ -52,33 +52,45 @@ operation:
   python_action:
     script: |
       def validBool(element):
-          if(str(element).lower()=="false"): return ""
-          if(str(element).lower()=="true"): return "true"
+          if (str(element).lower() == "false"): return ""
+          if (str(element).lower() == "true"): return "true"
           return "error"
 
-      result=''
-      error_message=''
+      result = ''
+      error_message = ''
       try:
-          if(list.startswith('[')==False or list.endswith(']')==False):
+          if list.startswith('[') is False or list.endswith(']') is False:
               raise TypeError("Invalid list input!")
-          list = list[1:len(list)-1].split(',')
-          if(isinstance(list, type([]))== False):
+          list = list[1:len(list) - 1].split(',')
+          if isinstance(list, type([])) is False:
               raise TypeError("Invalid list input!")
           result_to_lowercase = validBool(result_to_lowercase)
           double_quotes = validBool(double_quotes)
-          if(double_quotes=="error" or result_to_lowercase=="error"):
+          if double_quotes == "error" or result_to_lowercase == "error":
               raise TypeError("Invalid boolean input!")
           else:
               list_length = len(list)
               for item in list:
-                  if bool(double_quotes): result += '\"' + str(item) + '\"'
-                  else: result += str(item)
+                  if (item.startswith('\'') is True and item.endswith('\'') is True) or (
+                          item.startswith('\"') is True and item.endswith('\"') is True):
+                      item = item[1:len(item) - 1]
+                  else:
+                      try:
+                          float(item)
+                          int(item)
+                      except:
+                          raise ValueError("Invalid list item: "+item)
+                  if bool(double_quotes):
+                      result += '\"' + str(item) + '\"'
+                  else:
+                      result += item
                   list_length -= 1
-                  if (list_length > 0 and result_delimiter != ''):
-                      result += str(result_delimiter)
+                  if list_length > 0 and result_delimiter != '':
+                      result += result_delimiter
               if bool(result_to_lowercase):
                   result = result.lower()
       except BaseException as error:
+          result = str(error)
           error_message = str(error)
 
   outputs:
