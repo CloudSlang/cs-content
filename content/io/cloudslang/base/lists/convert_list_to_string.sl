@@ -15,18 +15,25 @@
 #!!
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
-#! @input list: List of items that will be converted to string and concatenated
-#!              Example: [123, 'xyz']
-#! @input double_quotes: Optional - If true, list items will be double quoted
+#! @input list: List of items that will be converted to string and concatenated.
+#!              Example: 1,2,3,a,b,c -> 123abc
+#! @input delimiter: Optional - The list delimiter.
+#!                   Default: ','
+#! @input strip_whitespaces: Optional - Removes whitespace both leading and trailing an list item.
+#!                           Default: True
+#! @input double_quotes: Optional - If true, list items will be double quoted.
 #!                       Default: False
-#! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one)
-#!                          Default: "'
-#! @input result_to_lowercase: Optional - If true, list items will be lower cased
+#! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one).
+#!                          Default: ""
+#! @input result_to_lowercase: Optional - If true, list items will be lower cased.
 #!                             Default: False
 #!
 #! @output result: String that results from concatenation of list elements
+#! @output error_message: Error message if error occurred
+#! @output return_code: 0 if success, -1 if failure
 #!
-#! @result SUCCESS: List converted to string successfully
+#! @result SUCCESS: List converted to string successfully.
+#! @result FAILURE: Otherwise.
 #!!#
 ########################################################################################################################
 
@@ -40,6 +47,12 @@ operation:
     - double_quotes:
         default: "False"
         required: false
+    - delimiter:
+        default: ','
+        required: false
+    - strip_whitespaces:
+        default: "True"
+        required: false
     - result_delimiter:
         default: ''
         required: false
@@ -49,17 +62,47 @@ operation:
 
   python_action:
     script: |
+      def validBool(element):
+          if str(element).lower() == "false": return ""
+          if str(element).lower() == "true": return "true"
+          return "error"
+
       result = ''
-      list_length = len(list)
-      for item in list:
-        result += '\"' + str(item) + '\"' if bool(double_quotes) else str(item)
-        list_length -= 1
-        if (list_length > 0 and result_delimiter != ''):
-          result += str(result_delimiter)
-      result = result.lower() if bool(result_to_lowercase) else result
+      error_message = ''
+      return_code = '0'
+      try:
+          if list.startswith('[') is True and list.endswith(']') is True:
+              list = list[1:len(list) - 1]
+          list = list.split(delimiter)
+          result_to_lowercase = validBool(result_to_lowercase)
+          double_quotes = validBool(double_quotes)
+          strip_whitespaces = validBool(strip_whitespaces)
+          if double_quotes == "error" or result_to_lowercase == "error" or strip_whitespaces == "error":
+              raise TypeError("Invalid boolean input!")
+          else:
+              list_length = len(list)
+              for item in list:
+                  if strip_whitespaces.lower() == "true":
+                      item = item.strip(' ')
+                  if bool(double_quotes):
+                      result += '\"' + item + '\"'
+                  else:
+                      result += item
+                  list_length -= 1
+                  if list_length > 0 and result_delimiter != '':
+                      result += result_delimiter
+              if bool(result_to_lowercase):
+                  result = result.lower()
+      except BaseException as error:
+          return_code = '-1'
+          result = str(error)
+          error_message = str(error)
 
   outputs:
     - result
+    - error_message
+    - return_code
 
   results:
-    - SUCCESS
+    - SUCCESS: ${error_message == ""}
+    - FAILURE
