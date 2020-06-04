@@ -71,13 +71,13 @@ operation:
           else:
               list_length = len(list)
               for item in list:
+                  item=item.strip(' ')
                   if (item.startswith('\'') is True and item.endswith('\'') is True) or (
                           item.startswith('\"') is True and item.endswith('\"') is True):
                       item = item[1:len(item) - 1]
                   else:
                       try:
                           float(item)
-                          int(item)
                       except:
                           raise ValueError("Invalid list item: "+item)
                   if bool(double_quotes):
