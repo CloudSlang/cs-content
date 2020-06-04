@@ -16,11 +16,16 @@
 #! @description: Converts each item in a list to a string and concatenates them.
 #!
 #! @input list: List of items that will be converted to string and concatenated
-#!              Example: [123, 'xyz']
+#!              Example: [1,2,3,a,b,c] -> 123abc
+#!                       1,2,3,a,b,c -> 123abc
+#! @input delimiter: Optional - The list delimiter.
+#!                   Default: ','
+#! @input strip_white_spaces: Optional - Removes whitespace both leading and trailing an list item
+#!                            Default: True
 #! @input double_quotes: Optional - If true, list items will be double quoted
 #!                       Default: False
 #! @input result_delimiter: Optional - If true, will be appended after every list item (except the last one)
-#!                          Default: "'
+#!                          Default: ""
 #! @input result_to_lowercase: Optional - If true, list items will be lower cased
 #!                             Default: False
 #!
@@ -42,6 +47,12 @@ operation:
     - double_quotes:
         default: "False"
         required: false
+    - delimiter:
+        default: ','
+        required: false
+    - strip_whitespaces:
+        default: "True"
+        required: false
     - result_delimiter:
         default: ''
         required: false
@@ -52,36 +63,28 @@ operation:
   python_action:
     script: |
       def validBool(element):
-          if (str(element).lower() == "false"): return ""
-          if (str(element).lower() == "true"): return "true"
+          if str(element).lower() == "false": return ""
+          if str(element).lower() == "true": return "true"
           return "error"
 
       result = ''
       error_message = ''
       try:
-          if list.startswith('[') is False or list.endswith(']') is False:
-              raise TypeError("Invalid list input!")
-          list = list[1:len(list) - 1].split(',')
-          if isinstance(list, type([])) is False:
-              raise TypeError("Invalid list input!")
+          if list.startswith('[') is True and list.endswith(']') is True:
+              list = list[1:len(list) - 1]
+          list = list.split(delimiter)
           result_to_lowercase = validBool(result_to_lowercase)
           double_quotes = validBool(double_quotes)
-          if double_quotes == "error" or result_to_lowercase == "error":
+          strip_whitespaces = validBool(strip_whitespaces)
+          if double_quotes == "error" or result_to_lowercase == "error" or strip_whitespaces == "error":
               raise TypeError("Invalid boolean input!")
           else:
               list_length = len(list)
               for item in list:
-                  item=item.strip(' ')
-                  if (item.startswith('\'') is True and item.endswith('\'') is True) or (
-                          item.startswith('\"') is True and item.endswith('\"') is True):
-                      item = item[1:len(item) - 1]
-                  else:
-                      try:
-                          float(item)
-                      except:
-                          raise ValueError("Invalid list item: "+item)
+                  if strip_whitespaces.lower() == "true":
+                      item = item.strip(' ')
                   if bool(double_quotes):
-                      result += '\"' + str(item) + '\"'
+                      result += '\"' + item + '\"'
                   else:
                       result += item
                   list_length -= 1
