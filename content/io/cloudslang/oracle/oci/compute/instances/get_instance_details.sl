@@ -1,8 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Gets information about the instance.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -15,6 +13,7 @@
 #! @input api_version: Version of the API of OCI.Default: '20160918'
 #!                     Optional
 #! @input region: Region in OCI.
+#! @input instance_id: The OCID of the instance.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
@@ -75,7 +74,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_list: List of all instances
+#! @output instance_state: The current state of the instance.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -86,7 +85,7 @@
 namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation: 
-  name: list_instances
+  name: get_instance_details
   
   inputs: 
     - tenancy_ocid    
@@ -125,6 +124,11 @@ operation:
         required: false 
         private: true 
     - region    
+    - instance_id    
+    - instanceId: 
+        default: ${get('instance_id', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -226,13 +230,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC3'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.GetInstanceDetails'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_list: ${get('instance_list', '')} 
+    - instance_state: ${get('instance_state', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 

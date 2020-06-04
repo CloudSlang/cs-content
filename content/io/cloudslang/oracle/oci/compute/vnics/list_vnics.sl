@@ -1,8 +1,8 @@
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Lists the VNIC attachments in the specified compartment. A VNIC attachment resides in the same
+#!               compartment as the attached instance.The list can be filtered by instance, VNIC, or availability
+#!               domain.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -15,6 +15,16 @@
 #! @input api_version: Version of the API of OCI.Default: '20160918'
 #!                     Optional
 #! @input region: Region in OCI.
+#! @input availability_domain: The availability domain of the instance.
+#! @input instance_id: The OCID of the instance.
+#!                     Optional
+#! @input vnic_id: The OCID of the vnic.
+#!                 Optional
+#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
+#!               call. 
+#!               Optional
+#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
+#!              Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
@@ -75,7 +85,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_list: List of all instances
+#! @output vnic_list: List of Vnics OCIDs.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -83,10 +93,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.instances
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
-  name: list_instances
+  name: list_vnics
   
   inputs: 
     - tenancy_ocid    
@@ -125,6 +135,27 @@ operation:
         required: false 
         private: true 
     - region    
+    - availability_domain    
+    - availabilityDomain: 
+        default: ${get('availability_domain', '')}  
+        required: false 
+        private: true 
+    - instance_id:  
+        required: false  
+    - instanceId: 
+        default: ${get('instance_id', '')}  
+        required: false 
+        private: true 
+    - vnic_id:  
+        required: false  
+    - vnicId: 
+        default: ${get('vnic_id', '')}  
+        required: false 
+        private: true 
+    - limit:  
+        required: false  
+    - page:  
+        required: false  
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -225,14 +256,14 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC3'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-SNAPSHOT'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.ListVnicAttachments'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_list: ${get('instance_list', '')} 
+    - vnic_list: ${get('vnic_list', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 
