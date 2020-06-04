@@ -28,9 +28,9 @@
 #! @input result_to_lowercase: Optional - If true, list items will be lower cased.
 #!                             Default: False
 #!
-#! @output result: String that results from concatenation of list elements.
-#! @output error_message: Error message if error occurred.
-#! @output return_code: 0 if success, -1 if failure.
+#! @output result: String that results from concatenation of list elements
+#! @output error_message: Error message if error occurred
+#! @output return_code: 0 if success, -1 if failure
 #!
 #! @result SUCCESS: List converted to string successfully.
 #! @result FAILURE: Otherwise.
