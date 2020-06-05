@@ -42,12 +42,12 @@ operation:
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC4'
     class_name: 'io.cloudslang.content.oracle.oci.actions.utils.Counter'
     method_name: 'execute'
-  
-  outputs: 
-    - result_string: ${get('resultString', '')} 
-    - result: ${get('result', '')} 
-  
-  results: 
-    - HAS_MORE: ${result=='has more'} 
-    - NO_MORE: ${result=='no more'} 
+
+  outputs:
+    - result_string: ${get('resultString', '')}
+    - result: ${get('result', '')}
+
+  results:
+    - HAS_MORE: ${result=='has more'}
+    - NO_MORE: ${result=='no more'}
     - FAILURE
