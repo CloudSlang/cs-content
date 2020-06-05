@@ -284,10 +284,10 @@ operation:
         default: ${get('image_id', '')}  
         required: false 
         private: true 
-    - boot_volume_size_in_g_bs:  
+    - boot_volume_size_in_gbs:
         required: false  
     - bootVolumeSizeInGBs: 
-        default: ${get('boot_volume_size_in_g_bs', '')}  
+        default: ${get('boot_volume_size_in_gbs', '')}
         required: false 
         private: true 
     - kms_key_id:  
@@ -554,7 +554,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC3'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC4'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.CreateInstance'
     method_name: 'execute'
   
