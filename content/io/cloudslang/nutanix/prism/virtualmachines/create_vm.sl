@@ -420,5 +420,5 @@ operation:
     - task_uuid: ${get('taskUUID', '')} 
   
   results: 
-    - SUCCESS: ${returnCode=='success'} 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
