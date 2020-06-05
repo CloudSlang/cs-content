@@ -273,7 +273,8 @@ operation:
         default: ${get('subnet_id', '')}  
         required: false 
         private: true 
-    - source_type    
+    - source_type:
+        required: false
     - sourceType: 
         default: ${get('source_type', '')}  
         required: false 
