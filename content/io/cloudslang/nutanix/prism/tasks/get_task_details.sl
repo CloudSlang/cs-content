@@ -10,12 +10,10 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-#
+
 ########################################################################################################################
 #!!
-#! @description: Get details of a specific Virtual Machines. Virtual Machine disk information and network information
-#!               are not included by default as fetching these are expensive operations. These can be included by
-#!               setting the includeVMDiskConfig and includeVMNicConfig flags respectively.
+#! @description: Get details of the specified task.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -23,14 +21,11 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
-#! @input api_version: The api version for Nutanix.
+#! @input task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
+#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
+#!                               Default: 'false'
+#!                               Optional
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -87,40 +82,35 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Nutanix API request.
-#! @output vm_name: Name of the Virtual Machine.
+#! @output vm_uuid: Id of the Virtual Machine.
+#! @output task_status: Status of the task.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.nutanix.prism.virtualmachines
+namespace: io.cloudslang.nutanix.prism.tasks
 
 operation: 
-  name: get_vm_details
+  name: get_task_details
   
-  inputs:
+  inputs: 
     - hostname    
     - port:  
         required: false  
     - username    
     - password:    
         sensitive: true
-    - vm_uuid    
-    - vmUUID: 
-        default: ${get('vm_uuid', '')}  
+    - task_uuid    
+    - taskUUID: 
+        default: ${get('task_uuid', '')}  
         required: false 
         private: true 
-    - include_vm_disk_config_info:  
+    - include_subtasks_info:  
         required: false  
-    - includeVMDiskConfigInfo: 
-        default: ${get('include_vm_disk_config_info', '')}  
-        required: false 
-        private: true 
-    - include_vm_nic_config_info:  
-        required: false  
-    - includeVMNicConfigInfo: 
-        default: ${get('include_vm_nic_config_info', '')}  
+    - includeSubtasksInfo: 
+        default: ${get('include_subtasks_info', '')}  
         required: false 
         private: true 
     - api_version:  
@@ -210,18 +200,19 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC3'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.tasks.GetTaskDetails'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - vm_name: ${get('vmName', '')} 
+    - vm_uuid: ${get('vmUUID', '')} 
+    - task_status: ${get('taskStatus', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

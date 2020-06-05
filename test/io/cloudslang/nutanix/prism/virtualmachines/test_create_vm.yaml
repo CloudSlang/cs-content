@@ -1,0 +1,121 @@
+#   (c) Copyright 2020 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testCreateVMSuccess:
+  testSuites: [prism-local]
+  description: "Tests Create VM SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.create_vm
+  inputs:
+    - hostname: <hostname>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - vm_name: <vm_name>
+    - vm_description: <vm_description>
+    - vm_memory_size: <vm_memory_size>
+    - num_vcpus: <num_vcpus>
+    - num_cores_per_vcpu: <num_cores_per_vcpu>
+    - time_zone: <time_zone>
+    - hypervisor_type: <hypervisor_type>
+    - flash_mode_enabled: <flash_mode_enabled>
+    - is_scsi_pass_through: <is_scsi_pass_through>
+    - is_thin_provisioned: <is_thin_provisioned>
+    - is_cdrom: <is_cdrom>
+    - is_empty: <is_empty>
+    - device_bus: <device_bus>
+    - disk_label: <disk_label>
+    - device_index: <device_index>
+    - ndfs_filepath: <ndfs_filepath>
+    - source_vm_disk_uuid: <source_vm_disk_uuid>
+    - vm_disk_minimum_size: <vm_disk_minimum_size>
+    - external_disk_url: <external_disk_url>
+    - external_disk_size: <external_disk_size>
+    - storage_container_uuid: <storage_container_uuid>
+    - vm_disk_size: <vm_disk_size>
+    - network_uuid: <network_uuid>
+    - requested_ip_address: <requested_ip_address>
+    - is_connected: <is_connected>
+    - host_uuids: <host_uuids>
+    - agent_vm: <agent_vm>
+    - api_version: <api_version>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+
+  result: SUCCESS
+
+testCreateVMFailedWithInvalidNetworkUUID:
+  testSuites: [prism-local]
+  description: "Tests Create VM Details Failed with invalid network_uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.create_vm
+  inputs:
+    - hostname: <hostname>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - vm_name: <vm_name>
+    - vm_description: <vm_description>
+    - vm_memory_size: <vm_memory_size>
+    - num_vcpus: <num_vcpus>
+    - num_cores_per_vcpu: <num_cores_per_vcpu>
+    - time_zone: <time_zone>
+    - hypervisor_type: <hypervisor_type>
+    - flash_mode_enabled: <flash_mode_enabled>
+    - is_scsi_pass_through: <is_scsi_pass_through>
+    - is_thin_provisioned: <is_thin_provisioned>
+    - is_cdrom: <is_cdrom>
+    - is_empty: <is_empty>
+    - device_bus: <device_bus>
+    - disk_label: <disk_label>
+    - device_index: <device_index>
+    - ndfs_filepath: <ndfs_filepath>
+    - source_vm_disk_uuid: <source_vm_disk_uuid>
+    - vm_disk_minimum_size: <vm_disk_minimum_size>
+    - external_disk_url: <external_disk_url>
+    - external_disk_size: <external_disk_size>
+    - storage_container_uuid: <storage_container_uuid>
+    - vm_disk_size: <vm_disk_size>
+    - network_uuid: <network_uuid>
+    - requested_ip_address: <requested_ip_address>
+    - is_connected: <is_connected>
+    - host_uuids: <host_uuids>
+    - agent_vm: <agent_vm>
+    - api_version: <api_version>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+
+  result: FAILURE
+
+
