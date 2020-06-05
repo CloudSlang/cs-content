@@ -16,7 +16,7 @@
 #! @description: Rounds a float by converting it to integer and saving it as a string.
 #!
 #! @input value1: String which represents a float, with or without a percentage.
-#!                Example: "58.44%"
+#!                Example: "58.44%","3.5"
 #!
 #! @output error_message: Error message if error occurred.
 #! @output rounded: Rounded value of the float as a string.
@@ -36,11 +36,10 @@ operation:
 
   python_action:
     script: |
-      from java.math import BigDecimal,MathContext
       error_message = ""
       value1 = value1.replace("%", "")
       try:
-          rounded = BigDecimal(value1, MathContext.DECIMAL64).toBigInteger()
+          rounded = str(int(round(float(value1))))
       except:
           error_message = "input cannot be rounded"
 
