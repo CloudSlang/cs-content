@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: deploy's a new instance in the specified compartment and the specified availability domain.
+#! @description: Deploy's a new instance in the specified compartment and the specified availability domain.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -72,8 +72,8 @@
 #!                  required.
 #!                  Optional
 #! @input boot_volume_size_in_gbs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
-#!                                  16384 GB (16TB).
-#!                                  Optional
+#!                                 16384 GB (16TB).
+#!                                 Optional
 #! @input kms_key_id: The OCID of the Key Management key to assign as the master encryption key for the boot volume.
 #!                    Optional
 #! @input boot_volume_id: The OCID of the boot volume used to boot the instance. If the sourceType is 'bootVolume', then
@@ -246,13 +246,10 @@
 #! @output vnic_id: The OCID of the vnic.
 #! @output vnic_state: The current state of the VNIC.
 #! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
-#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
-#!                     CIDR of the VNIC's subnet.
-#! @output public_ip: The public IP address of the VNIC.
 #! @output mac_address: The MAC address of the VNIC.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 
@@ -620,7 +617,6 @@ flow:
     - private_ip_address: '${private_ip}'
     - public_ip_address: '${public_ip}'
     - mac_address: '${mac_address}'
-
   results:
     - FAILURE
     - SUCCESS
