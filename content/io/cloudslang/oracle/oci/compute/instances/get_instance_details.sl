@@ -7,13 +7,14 @@
 #! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
 #! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key: public key for OCI account.
+#! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
+#!                          private key file.
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: Region in OCI.
+#! @input region: The region's name.
 #! @input instance_id: The OCID of the instance.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
@@ -113,10 +114,10 @@ operation:
         default: ${get('finger_print', '')}
         private: true 
         sensitive: true
-    - private_key:    
+    - private_key_data:
         sensitive: true
-    - privateKey: 
-        default: ${get('private_key', '')}
+    - privateKeyData:
+        default: ${get('private_key_data', '')}
         private: true 
         sensitive: true
     - compartment_ocid    
