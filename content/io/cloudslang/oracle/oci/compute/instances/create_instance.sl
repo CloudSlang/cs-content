@@ -229,6 +229,7 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output instance_id: The OCID of the instance.
+#!@output instance_name: The instance name.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -571,7 +572,8 @@ operation:
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_id: ${get('instance_id', '')} 
+    - instance_id: ${get('instance_id', '')}
+    - instance_name: ${get('instance_name', '')}
     - status_code: ${get('statusCode', '')} 
   
   results: 

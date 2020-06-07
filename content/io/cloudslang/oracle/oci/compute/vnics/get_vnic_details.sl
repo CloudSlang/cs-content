@@ -87,6 +87,11 @@
 #! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
 #!                     CIDR of the VNIC's subnet.
 #! @output public_ip: The public IP address of the VNIC.
+#! @output vnic_name: Name of the VNIC.
+#! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
+#! @output vnic_state: The current state of the VNIC.
+#! @output mac_address: The MAC address of the VNIC.
+#! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -238,13 +243,18 @@ operation:
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC5'
     class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.GetVnicDetails'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - private_ip: ${get('private_ip', '')} 
-    - public_ip: ${get('public_ip', '')} 
-  
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - private_ip: ${get('private_ip', '')}
+    - public_ip: ${get('public_ip', '')}
+    - vnic_name: ${get('vnic_name', '')}
+    - vnic_hostname: ${get('vnic_hostname', '')}
+    - vnic_state: ${get('vnic_state', '')}
+    - mac_address: ${get('mac_address', '')}
+    - status_code: ${get('statusCode', '')}
+
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE

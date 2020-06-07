@@ -85,6 +85,7 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output instance_state: The current state of the instance.
+#! @output instance_name: The instance name.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.

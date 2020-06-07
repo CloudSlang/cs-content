@@ -16,6 +16,24 @@
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: Region in OCI.
+#! @input availability_domain: The availability domain of the instance.
+#!                             Optional
+#! @input display_name: A filter to return only resources that match the given display name exactly.
+#!                      Optional
+#! @input lifecycle_state: A filter to only return resources that match the given lifecycle state. The state value is
+#!                         case-insensitive.
+#!                         Optional
+#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
+#!               call.
+#!               Optional
+#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
+#!              Optional
+#! @input sort_by: The field to sort by. You can provide one sort order (sortOrder). Default order for TIMECREATED is
+#!                 descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case
+#!                 sensitive.Allowed values are: TIMECREATED or DISPLAYNAME
+#!                 Optional
+#! @input sort_order: The sort order to use, either ascending (ASC) or descending (DESC). The DISPLAYNAME sort order is
+#!                    case sensitive. Allowed values are: ASC or DESC
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -85,7 +103,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_list: List of all instances
+#! @output instance_name_list: List of all instance names.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -129,7 +147,41 @@ operation:
         default: ${get('api_version', '')}
         required: false
         private: true 
-    - region    
+    - region
+    - availability_domain:
+        required: false
+    - availabilityDomain:
+        default: ${get('availability_domain', '')}
+        required: false
+        private: true
+    - display_name:
+        required: false
+    - displayName:
+        default: ${get('display_name', '')}
+        required: false
+        private: true
+    - lifecycle_state:
+        required: false
+    - lifecycleState:
+        default: ${get('lifecycle_state', '')}
+        required: false
+        private: true
+    - limit:
+        required: false
+    - page:
+        required: false
+    - sort_by:
+        required: false
+    - sortBy:
+        default: ${get('sort_by', '')}
+        required: false
+        private: true
+    - sort_order:
+        required: false
+    - sortOrder:
+        default: ${get('sort_order', '')}
+        required: false
+        private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -237,7 +289,7 @@ operation:
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_list: ${get('instance_list', '')} 
+    - instance_name_list: ${get('instance_name_list', '')}
     - status_code: ${get('statusCode', '')} 
   
   results: 
