@@ -190,8 +190,9 @@ operation:
     - numCoresPerVCPU: 
         default: ${get('num_cores_per_vcpu', '')}  
         required: false 
-        private: true 
-    - time_zone    
+        private: true
+    - time_zone:
+        required: false
     - timeZone: 
         default: ${get('time_zone', '')}  
         required: false 
@@ -408,8 +409,8 @@ operation:
         required: false 
         private: true 
     
-  java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC3'
+  java_action:
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC4'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.CreateVM'
     method_name: 'execute'
   
