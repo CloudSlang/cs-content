@@ -253,9 +253,9 @@
 #! @output vnic_id: The OCID of the vnic.
 #! @output vnic_state: The current state of the VNIC.
 #! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
-#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
+#! @output private_ip_address: The private IP address of the primary privateIp object on the VNIC. The address is within the
 #!                     CIDR of the VNIC's subnet.
-#! @output public_ip: The public IP address of the VNIC.
+#! @output public_ip_address: The public IP address of the VNIC.
 #! @output mac_address: The MAC address of the VNIC.
 #! @output default_username: Default username of the instance.
 #! @output default_password: Default password of the instance.
