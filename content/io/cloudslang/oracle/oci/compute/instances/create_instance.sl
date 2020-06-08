@@ -37,7 +37,7 @@
 #! @input image_id: The OCID of the image used to boot the instance. If the sourceType is 'image', then this value is
 #!                  required.
 #!                  Optional
-#! @input boot_volume_size_in_g_bs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
+#! @input boot_volume_size_in_gbs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
 #!                                  16384 GB (16TB).
 #!                                  Optional
 #! @input kms_key_id: The OCID of the Key Management key to assign as the master encryption key for the boot volume.
