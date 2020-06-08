@@ -12,7 +12,7 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-##!!
+#!!
 #! @description: Deploy a Virtual Machine with specified configuration.
 #!
 #! @input hostname: The hostname for Nutanix.
@@ -155,7 +155,7 @@
 #! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
 #! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
 #! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
-
+#!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!
