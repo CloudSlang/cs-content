@@ -238,9 +238,9 @@
 #!                                method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'
 #!                                Optional
-#! @input retry_count:  Number of checks if the instance was created successfully.
-#!                      Default: '30'
-#!                      Optional
+#! @input retry_count: Number of checks if the instance was created successfully.
+#!                     Default: '30'
+#!                     Optional
 #! @input get_default_Credentials: Gets the generated credentials for the instance. Only works for instances that
 #!                                 require a password to log in, such as Windows make the value as 'true'.
 #!                                 Default: 'false'
