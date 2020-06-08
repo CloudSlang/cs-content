@@ -238,6 +238,13 @@
 #!                                method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'
 #!                                Optional
+#! @input retry_count:  Number of checks if the instance was created successfully.
+#!                      Default: '30'
+#!                      Optional
+#! @input get_default_Credentials: Gets the generated credentials for the instance. Only works for instances that
+#!                                 require a password to log in, such as Windows make the value as 'true'.
+#!                                 Default: 'false'
+#!                                 Optional
 #!
 #! @output instance_name: The instance name.
 #! @output instance_id: The OCID of the instance.
@@ -246,7 +253,12 @@
 #! @output vnic_id: The OCID of the vnic.
 #! @output vnic_state: The current state of the VNIC.
 #! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
+#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
+#!                     CIDR of the VNIC's subnet.
+#! @output public_ip: The public IP address of the VNIC.
 #! @output mac_address: The MAC address of the VNIC.
+#! @output default_username: Default username of the instance.
+#! @output default_password: Default password of the instance.
 #!
 #! @result FAILURE: There was an error while executing the request.
 #! @result SUCCESS: The request was successfully executed.
@@ -268,7 +280,8 @@ flow:
     - subnet_id
     - shape
     - region
-    - api_version
+    - api_version:
+        required: false
     - display_name:
         required: false
     - hostname_label:
@@ -367,6 +380,12 @@ flow:
     - connections_max_total:
         required: false
     - response_character_set:
+        required: false
+    - retry_count:
+        default: '30'
+        required: false
+    - get_default_Credentials:
+        default: 'false'
         required: false
   workflow:
     - create_instance:
@@ -544,7 +563,7 @@ flow:
           - vnic_state
           - mac_address
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_default_credentials
           - FAILURE: FAILURE
     - list_vnics:
         do:
@@ -560,7 +579,6 @@ flow:
             - api_version: '${api_version}'
             - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
-            - availability_domain: '${availability_domain}'
             - instance_id: '${instance_id}'
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
@@ -593,7 +611,7 @@ flow:
         do:
           io.cloudslang.oracle.oci.utils.counter:
             - from: '1'
-            - to: '30'
+            - to: '${retry_count}'
             - increment_by: '1'
         navigate:
           - HAS_MORE: get_instance_details
@@ -606,6 +624,60 @@ flow:
         navigate:
           - SUCCESS: counter
           - FAILURE: on_failure
+    - get_default_credentials:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${get_default_Credentials}'
+            - second_string: 'true'
+        publish:
+          - default_username: ''
+          - default_password: ''
+        navigate:
+          - SUCCESS: get_instance_default_credentials
+          - FAILURE: SUCCESS
+    - get_instance_default_credentials:
+        do:
+          io.cloudslang.oracle.oci.compute.instances.get_instance_default_credentials:
+            - tenancy_ocid: '${tenancy_ocid}'
+            - user_ocid: '${user_ocid}'
+            - finger_print:
+                value: '${finger_print}'
+                sensitive: true
+            - private_key_data:
+                value: '${private_key_data}'
+                sensitive: true
+            - compartment_ocid: '${compartment_ocid}'
+            - api_version: '${api_version}'
+            - region: '${region}'
+            - instance_id: '${instance_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: '${keystore}'
+            - keystore_password:
+                value: '${keystore_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+        publish:
+          - default_username: '${instance_username}'
+          - default_password: '${instance_password}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
   outputs:
     - instance_name: '${instance_name}'
     - instance_id: '${instance_id}'
@@ -617,6 +689,8 @@ flow:
     - private_ip_address: '${private_ip}'
     - public_ip_address: '${public_ip}'
     - mac_address: '${mac_address}'
+    - default_username: '${default_username}'
+    - default_password: '${default_password}'
   results:
     - FAILURE
     - SUCCESS
