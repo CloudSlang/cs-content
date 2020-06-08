@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Gets the information for the specified virtual network interface card (VNIC).
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -30,24 +28,7 @@
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input availability_domain: The availability domain of the instance.
-#!                             Optional
-#! @input display_name: A filter to return only resources that match the given display name exactly.
-#!                      Optional
-#! @input lifecycle_state: A filter to only return resources that match the given lifecycle state. The state value is
-#!                         case-insensitive.
-#!                         Optional
-#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
-#!               call.
-#!               Optional
-#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
-#!              Optional
-#! @input sort_by: The field to sort by. You can provide one sort order (sortOrder). Default order for TIMECREATED is
-#!                 descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case
-#!                 sensitive.Allowed values are: TIMECREATED or DISPLAYNAME
-#!                 Optional
-#! @input sort_order: The sort order to use, either ascending (ASC) or descending (DESC). The DISPLAYNAME sort order is
-#!                    case sensitive. Allowed values are: ASC or DESC
+#! @input vnic_id: The OCID of the vnic.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -117,7 +98,13 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_name_list: List of all instance names.
+#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
+#!                     CIDR of the VNIC's subnet.
+#! @output public_ip: The public IP address of the VNIC.
+#! @output vnic_name: Name of the VNIC.
+#! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
+#! @output vnic_state: The current state of the VNIC.
+#! @output mac_address: The MAC address of the VNIC.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -125,10 +112,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.instances
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
-  name: list_instances
+  name: get_vnic_details
   
   inputs: 
     - tenancy_ocid    
@@ -158,49 +145,20 @@ operation:
     - api_version:  
         required: false  
     - apiVersion: 
-        default: ${get('api_version', '')}
-        required: false
+        default: ${get('api_version', '')}  
+        required: false 
         private: true 
-    - region
-    - availability_domain:
-        required: false
-    - availabilityDomain:
-        default: ${get('availability_domain', '')}
-        required: false
-        private: true
-    - display_name:
-        required: false
-    - displayName:
-        default: ${get('display_name', '')}
-        required: false
-        private: true
-    - lifecycle_state:
-        required: false
-    - lifecycleState:
-        default: ${get('lifecycle_state', '')}
-        required: false
-        private: true
-    - limit:
-        required: false
-    - page:
-        required: false
-    - sort_by:
-        required: false
-    - sortBy:
-        default: ${get('sort_by', '')}
-        required: false
-        private: true
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
+    - region    
+    - vnic_id    
+    - vnicId: 
+        default: ${get('vnic_id', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
-        default: ${get('proxy_host', '')}
-        required: false
+        default: ${get('proxy_host', '')}  
+        required: false 
         private: true 
     - proxy_port:  
         required: false  
@@ -297,15 +255,20 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC7'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.GetVnicDetails'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - instance_name_list: ${get('instance_name_list', '')}
-    - status_code: ${get('statusCode', '')} 
-  
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - private_ip: ${get('private_ip', '')}
+    - public_ip: ${get('public_ip', '')}
+    - vnic_name: ${get('vnic_name', '')}
+    - vnic_hostname: ${get('vnic_hostname', '')}
+    - vnic_state: ${get('vnic_state', '')}
+    - mac_address: ${get('mac_address', '')}
+    - status_code: ${get('statusCode', '')}
+
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
