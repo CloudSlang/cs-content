@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Create a Virtual Machine with specified configuration.This is an asynchronous operation that results in
-#!               the creation of a task object. The UUID of this task object is returned as the response of this
-#!               operation. This task can be monitored by using the /tasks/poll API.
+#! @description: Deploy a Virtual Machine with specified configuration.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -52,7 +50,7 @@
 #!                  Default : 'true'
 #!                  Optional
 #! @input device_bus: The type of Device disk.
-#!                    Allowed Values: SCSI, IDE, PCI, SATA, SPAPR.
+#!                    Allowed Values: 'SCSI, IDE, PCI, SATA, SPAPR'.
 #! @input disk_label: The Label for the disk that will be created
 #!                    Optional
 #! @input device_index: The Index of the disk device.
@@ -89,6 +87,15 @@
 #!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
 #!                  Default : 'false'
 #!                  Optional
+#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
+#!                               Default: 'false'
+#!                               Optional
+#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
+#!                                     Default : 'true'
+#!                                     Optional
+#! @input include_vm_nic_config_info: Whether to include network information.
+#!                                    Default : 'true'
+#!                                    Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -142,284 +149,253 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
-#! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for Nutanix API request.
-#! @output task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
+#! @output vm_uuid: UUID of the Virtual Machine.
+#! @output ip_address: IP Address of the Virtual Machine.
+#! @output power_state: Current Power state of the Virtual Machine.
+#! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
+#! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
+#! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#!
 #!!#
 ########################################################################################################################
-
-namespace: io.cloudslang.nutanix.prism.virtualmachines
-
-operation: 
-  name: create_vm
-  
-  inputs: 
-    - hostname    
-    - port:  
-        required: false  
-    - username    
-    - password:    
+namespace: io.cloudslang.nutanix.prism
+flow:
+  name: deploy_vm
+  inputs:
+    - hostname
+    - port:
+        required: false
+    - username
+    - password:
         sensitive: true
-    - vm_name    
-    - vmName: 
-        default: ${get('vm_name', '')}  
-        required: false 
-        private: true 
-    - vm_description:  
-        required: false  
-    - vmDescription: 
-        default: ${get('vm_description', '')}  
-        required: false 
-        private: true 
-    - vm_memory_size    
-    - vmMemorySize: 
-        default: ${get('vm_memory_size', '')}  
-        required: false 
-        private: true 
+    - vm_name
+    - vm_description:
+        required: false
+    - vm_memory_size
     - num_vcpus
-    - numVCPUs: 
-        default: ${get('num_vcpus', '')}
-        required: false 
-        private: true 
-    - num_cores_per_vcpu    
-    - numCoresPerVCPU: 
-        default: ${get('num_cores_per_vcpu', '')}  
-        required: false 
-        private: true
+    - num_cores_per_vcpu
     - time_zone:
         required: false
-    - timeZone: 
-        default: ${get('time_zone', '')}  
-        required: false 
-        private: true 
-    - hypervisor_type:  
-        required: false  
-    - hypervisorType: 
-        default: ${get('hypervisor_type', '')}  
-        required: false 
-        private: true 
-    - flash_mode_enabled:  
-        required: false  
-    - flashModeEnabled: 
-        default: ${get('flash_mode_enabled', '')}  
-        required: false 
-        private: true 
-    - is_scsi_pass_through:  
-        required: false  
-    - isSCSIPassThrough: 
-        default: ${get('is_scsi_pass_through', '')}  
-        required: false 
-        private: true 
-    - is_thin_provisioned:  
-        required: false  
-    - isThinProvisioned: 
-        default: ${get('is_thin_provisioned', '')}  
-        required: false 
-        private: true 
-    - is_cdrom    
-    - isCDROM: 
-        default: ${get('is_cdrom', '')}  
-        required: false 
-        private: true 
-    - is_empty:  
-        required: false  
-    - isEmpty: 
-        default: ${get('is_empty', '')}  
-        required: false 
-        private: true 
-    - device_bus    
-    - deviceBus: 
-        default: ${get('device_bus', '')}  
-        required: false 
-        private: true 
-    - disk_label:  
-        required: false  
-    - diskLabel: 
-        default: ${get('disk_label', '')}  
-        required: false 
-        private: true 
-    - device_index:  
-        required: false  
-    - deviceIndex: 
-        default: ${get('device_index', '')}  
-        required: false 
-        private: true 
-    - ndfs_filepath:  
-        required: false  
-    - ndfsFilepath: 
-        default: ${get('ndfs_filepath', '')}  
-        required: false 
-        private: true 
-    - source_vm_disk_uuid:  
-        required: false  
-    - sourceVMDiskUUID: 
-        default: ${get('source_vm_disk_uuid', '')}  
-        required: false 
-        private: true 
-    - vm_disk_minimum_size:  
-        required: false  
-    - vmDiskMinimumSize: 
-        default: ${get('vm_disk_minimum_size', '')}  
-        required: false 
-        private: true 
-    - external_disk_url:  
-        required: false  
-    - externalDiskUrl: 
-        default: ${get('external_disk_url', '')}  
-        required: false 
-        private: true 
-    - external_disk_size:  
-        required: false  
-    - externalDiskSize: 
-        default: ${get('external_disk_size', '')}  
-        required: false 
-        private: true 
-    - storage_container_uuid:  
-        required: false  
-    - storageContainerUUID: 
-        default: ${get('storage_container_uuid', '')}  
-        required: false 
-        private: true 
-    - vm_disk_size:  
-        required: false  
-    - vmDiskSize: 
-        default: ${get('vm_disk_size', '')}  
-        required: false 
-        private: true 
-    - network_uuid    
-    - networkUUID: 
-        default: ${get('network_uuid', '')}  
-        required: false 
-        private: true 
-    - requested_ip_address:  
-        required: false  
-    - requestedIPAddress: 
-        default: ${get('requested_ip_address', '')}  
-        required: false 
-        private: true 
-    - is_connected:  
-        required: false  
-    - isConnected: 
-        default: ${get('is_connected', '')}  
-        required: false 
-        private: true 
+    - hypervisor_type:
+        required: false
+    - flash_mode_enabled:
+        required: false
+    - is_scsi_pass_through:
+        required: false
+    - is_thin_provisioned:
+        required: false
+    - is_cdrom
+    - is_empty:
+        required: false
+    - device_bus
+    - disk_label:
+        required: false
+    - device_index:
+        required: false
+    - ndfs_filepath:
+        required: false
+    - source_vm_disk_uuid:
+        required: false
+    - vm_disk_minimum_size:
+        required: false
+    - external_disk_url:
+        required: false
+    - external_disk_size:
+        required: false
+    - storage_container_uuid:
+        required: false
+    - vm_disk_size:
+        required: false
+    - network_uuid
+    - requested_ip_address:
+        required: false
+    - is_connected:
+        required: false
     - host_uuids:
-        required: false  
-    - hostUUIDs: 
-        default: ${get('host_uuids', '')}
-        required: false 
-        private: true 
-    - agent_vm:  
-        required: false  
-    - agentVM: 
-        default: ${get('agent_vm', '')}  
-        required: false 
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        required: false
+    - agent_vm:
+        required: false
+    - include_subtasks_info:
+        required: false
+    - include_vm_disk_config_info:
+        required: false
+    - include_vm_nic_config_info:
+        required: false
+    - api_version:
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - trust_all_roots:
+        required: false
+    - x_509_hostname_verifier:
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
-        sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
-  java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC5'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.CreateVM'
-    method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - task_uuid: ${get('taskUUID', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+    - connect_timeout:
+        required: false
+    - socket_timeout:
+        required: false
+    - keep_alive:
+        required: false
+    - connections_max_per_route:
+        required: false
+    - connections_max_total:
+        required: false
+  workflow:
+    - create_vm:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.create_vm:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_name: '${vm_name}'
+            - vm_description: '${vm_description}'
+            - vm_memory_size: '${vm_memory_size}'
+            - num_vcpus: '${num_vcpus}'
+            - num_cores_per_vcpu: '${num_cores_per_vcpu}'
+            - time_zone: '${time_zone}'
+            - hypervisor_type: '${hypervisor_type}'
+            - flash_mode_enabled: '${flash_mode_enabled}'
+            - is_scsi_pass_through: '${is_scsi_pass_through}'
+            - is_thin_provisioned: '${is_thin_provisioned}'
+            - is_cdrom: '${is_cdrom}'
+            - is_empty: '${is_empty}'
+            - device_bus: '${device_bus}'
+            - disk_label: '${disk_label}'
+            - device_index: '${device_index}'
+            - ndfs_filepath: '${ndfs_filepath}'
+            - source_vm_disk_uuid: '${source_vm_disk_uuid}'
+            - vm_disk_minimum_size: '${vm_disk_minimum_size}'
+            - external_disk_url: '${external_disk_url}'
+            - external_disk_size: '${external_disk_size}'
+            - storage_container_uuid: '${storage_container_uuid}'
+            - vm_disk_size: '${vm_disk_size}'
+            - network_uuid: '${network_uuid}'
+            - requested_ip_address: '${requested_ip_address}'
+            - is_connected: '${is_connected}'
+            - host_uuids: '${host_uuids}'
+            - agent_vm: '${agent_vm}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_uuid
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: on_failure
+    - get_task_details:
+        do:
+          io.cloudslang.nutanix.prism.tasks.get_task_details:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - task_uuid: '${task_uuid}'
+            - include_subtasks_info: '${include_subtasks_info}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - vm_uuid
+          - task_status
+        navigate:
+          - SUCCESS: get_vm_details
+          - FAILURE: on_failure
+    - get_vm_details:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_uuid: '${vm_uuid}'
+            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
+            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - vm_name
+          - ip_address
+          - power_state
+          - vm_disk_uuid
+          - storage_container_uuid
+          - vm_logical_timestamp
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+  outputs:
+    - vm_uuid: '${vm_uuid}'
+    - ip_address: '${ip_address}'
+    - power_state: '${power_state}'
+    - vm_disk_uuid: '${vm_disk_uuid}'
+    - vm_storage_container_uuid: '${storage_container_uuid}'
+    - vm_logical_timestamp: '${vm_logical_timestamp}'
+  results:
     - FAILURE
+    - SUCCESS
