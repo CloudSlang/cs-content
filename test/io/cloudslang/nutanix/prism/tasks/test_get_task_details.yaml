@@ -12,18 +12,17 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetVMDetailsSuccess:
+testGetTaskDetailsSuccess:
   testSuites: [prism-local]
-  description: "Tests Get VM Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_vm_details
+  description: "Tests Get Task Details SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_task_details
   inputs:
     - hostname: <hostname>
     - port: <port>
-    - vm_uuid: <vm_uuid>
     - username: <username>
     - password: <password>
-    - include_vm_disk_config_info: <include_vm_disk_config_info>
-    - include_vm_nic_config_info: <include_vm_nic_config_info>
+    - task_uuid: <task_uuid>
+    - include_subtasks_info: <include_subtasks_info>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -41,18 +40,17 @@ testGetVMDetailsSuccess:
 
   result: SUCCESS
 
-testGetVMDetailsFailedWithInvalidUUID:
+testGetTaskDetailsFailedWithInvalidUUID:
   testSuites: [prism-local]
-  description: "Tests Get VM Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_vm_details
+  description: "Tests Get Task Details Failed with invalid uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.get_task_details
   inputs:
     - hostname: <hostname>
     - port: <port>
-    - vm_uuid: <vm_uuid>
     - username: <username>
     - password: <password>
-    - include_vm_disk_config_info: <include_vm_disk_config_info>
-    - include_vm_nic_config_info: <include_vm_nic_config_info>
+    - task_uuid: <task_uuid>
+    - include_subtasks_info: <include_subtasks_info>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
