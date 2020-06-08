@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Lists the VNIC attachments in the specified compartment. A VNIC attachment resides in the same
+#!               compartment as the attached instance.The list can be filtered by instance, VNIC, or availability
+#!               domain.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -31,23 +31,15 @@
 #!                     Optional
 #! @input region: The region's name.
 #! @input availability_domain: The availability domain of the instance.
-#!                             Optional
-#! @input display_name: A filter to return only resources that match the given display name exactly.
-#!                      Optional
-#! @input lifecycle_state: A filter to only return resources that match the given lifecycle state. The state value is
-#!                         case-insensitive.
-#!                         Optional
+#! @input instance_id: The OCID of the instance.
+#!                     Optional
+#! @input vnic_id: The OCID of the vnic.
+#!                 Optional
 #! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
-#!               call.
+#!               call. 
 #!               Optional
 #! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
 #!              Optional
-#! @input sort_by: The field to sort by. You can provide one sort order (sortOrder). Default order for TIMECREATED is
-#!                 descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case
-#!                 sensitive.Allowed values are: TIMECREATED or DISPLAYNAME
-#!                 Optional
-#! @input sort_order: The sort order to use, either ascending (ASC) or descending (DESC). The DISPLAYNAME sort order is
-#!                    case sensitive. Allowed values are: ASC or DESC
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -117,7 +109,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_name_list: List of all instance names.
+#! @output vnic_list: List of Vnics OCIDs.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -125,10 +117,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.instances
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
-  name: list_instances
+  name: list_vnics
   
   inputs: 
     - tenancy_ocid    
@@ -158,49 +150,37 @@ operation:
     - api_version:  
         required: false  
     - apiVersion: 
-        default: ${get('api_version', '')}
-        required: false
+        default: ${get('api_version', '')}  
+        required: false 
         private: true 
-    - region
+    - region    
     - availability_domain:
         required: false
-    - availabilityDomain:
-        default: ${get('availability_domain', '')}
-        required: false
-        private: true
-    - display_name:
-        required: false
-    - displayName:
-        default: ${get('display_name', '')}
-        required: false
-        private: true
-    - lifecycle_state:
-        required: false
-    - lifecycleState:
-        default: ${get('lifecycle_state', '')}
-        required: false
-        private: true
-    - limit:
-        required: false
-    - page:
-        required: false
-    - sort_by:
-        required: false
-    - sortBy:
-        default: ${get('sort_by', '')}
-        required: false
-        private: true
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
+    - availabilityDomain: 
+        default: ${get('availability_domain', '')}  
+        required: false 
+        private: true 
+    - instance_id:  
+        required: false  
+    - instanceId: 
+        default: ${get('instance_id', '')}  
+        required: false 
+        private: true 
+    - vnic_id:  
+        required: false  
+    - vnicId: 
+        default: ${get('vnic_id', '')}  
+        required: false 
+        private: true 
+    - limit:  
+        required: false  
+    - page:  
+        required: false  
     - proxy_host:  
         required: false  
     - proxyHost: 
-        default: ${get('proxy_host', '')}
-        required: false
+        default: ${get('proxy_host', '')}  
+        required: false 
         private: true 
     - proxy_port:  
         required: false  
@@ -297,13 +277,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC7'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.ListVnicAttachments'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_name_list: ${get('instance_name_list', '')}
+    - vnic_list: ${get('vnic_list', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 
