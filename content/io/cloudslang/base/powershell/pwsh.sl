@@ -65,9 +65,6 @@
 #!                  Optional
 #! @input password: The password used to connect to the remote machine.
 #!                  Optional
-#! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
-#!                   Default: 'basic'
 #! @input script: The PowerShell script that will be executed on the remote shell.
 #! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
 #!                            of PowerShell if the PSSessionConfiguration is properly configured on the target.
@@ -168,13 +165,6 @@ operation:
     - password:
         required: false
         sensitive: true
-    - auth_type:
-        default: 'basic'
-        required: false
-    - authType:
-        default: ${get("auth_type", "")}
-        required: false
-        private: true
     - script
     - configuration_name:
         required: false
