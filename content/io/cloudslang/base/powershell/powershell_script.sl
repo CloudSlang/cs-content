@@ -128,7 +128,7 @@
 #! @input password: The password used to connect to the remote machine.
 #!                  Optional
 #! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Valid: 'basic', 'kerberos'
 #!                   Default: 'basic'
 #! @input script: The PowerShell script that will be executed on the remote shell.
 #! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
@@ -369,7 +369,7 @@ operation:
          private: true
 
    java_action:
-      gav: 'io.cloudslang.content:cs-powershell:0.0.9'
+      gav: 'io.cloudslang.content:cs-powershell:0.0.10'
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
       method_name: execute
 

@@ -151,7 +151,7 @@
 namespace: io.cloudslang.base.powershell
 
 operation:
-  name: pwsh
+  name: pwsh_script
 
   inputs:
     - host
@@ -263,8 +263,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-powershell:0.0.9'
-    class_name: io.cloudslang.content.actions.PwshAction
+    gav: 'io.cloudslang.content:cs-powershell:0.0.10'
+    class_name: io.cloudslang.content.actions.PwshScriptAction
     method_name: execute
 
   outputs:
