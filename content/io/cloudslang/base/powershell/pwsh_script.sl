@@ -7,7 +7,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to execute PowerShell scripts towards PowerShell Core Windows hosts.
+#! @description: This operation can be used to execute PowerShell scripts towards PowerShell Core hosts.
 #!
 #!  Notes:
 #!  1. This operations uses the Windows Remote Management (WinRM) implementation for WS-Management standard to execute
@@ -65,9 +65,15 @@
 #!                  Optional
 #! @input password: The password used to connect to the remote machine.
 #!                  Optional
-#! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
-#!                   Default: 'basic'
+#! @input script: The PowerShell script that will be executed on the remote shell.
+#! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
+#!                            of PowerShell if the PSSessionConfiguration is properly configured on the target.
+#!                            By default, after PSRemoting is enabled on the target, the configuration name for
+#!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6',
+#!                            for PowerShell v7 is 'PowerShell.7'.
+#!                            Additional configurations can be created by the user on the target machines.
+#!                            Valid values: any PSConfiguration that exists on the host.
+#!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -124,15 +130,6 @@
 #! @input winrm_max_envelop_size: The maximum size of a SOAP packet in bytes for all stream content.
 #!                                Default: '153600'
 #!                                Optional
-#! @input script: The PowerShell script that will be executed on the remote shell.
-#! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
-#!                            of PowerShell if the PSSessionConfiguration is properly configured on the target.
-#!                            By default, after PSRemoting is enabled on the target, the configuration name for
-#!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6',
-#!                            for PowerShell v7 is 'PowerShell.7'.
-#!                            Additional configurations can be created by the user on the target machines.
-#!                            Valid values: any PSConfiguration that exists on the host.
-#!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #! @input winrm_locale: The WinRM locale to use.
 #!                      Default: 'en-US'
 #!                      Optional
@@ -154,7 +151,7 @@
 namespace: io.cloudslang.base.powershell
 
 operation:
-  name: pwsh
+  name: pwsh_script
 
   inputs:
     - host
@@ -168,11 +165,11 @@ operation:
     - password:
         required: false
         sensitive: true
-    - auth_type:
-        default: 'basic'
+    - script
+    - configuration_name:
         required: false
-    - authType:
-        default: ${get("auth_type", "")}
+    - configurationName:
+        default: ${get("configuration_name", "")}
         required: false
         private: true
     - proxy_host:
@@ -250,13 +247,6 @@ operation:
         default: ${get("winrm_max_envelop_size", "")}
         required: false
         private: true
-    - script
-    - configuration_name:
-        required: false
-    - configurationName:
-        default: ${get("configuration_name", "")}
-        required: false
-        private: true
     - winrm_locale:
         default: 'en-US'
         required: false
@@ -273,8 +263,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-powershell:0.0.9'
-    class_name: io.cloudslang.content.actions.PwshAction
+    gav: 'io.cloudslang.content:cs-powershell:0.0.10'
+    class_name: io.cloudslang.content.actions.PwshScriptAction
     method_name: execute
 
   outputs:
