@@ -25,6 +25,7 @@
 #! @input vm_disk_uuid_list: VM disk UUID list. If multiple disks need to be removed, add comma separated UUIDs.
 #! @input device_bus_list: Device Bus List. List the device buses in the same order that the disk UUIDs are listed,
 #!                         separated by commas.
+#!                         Valid values: 'sata,scsi,ide,pci'
 #! @input device_index_list: Device indices list. List the device index in the same order that the disk UUIDs are
 #!                           listed, separated by commas.
 #! @input api_version: The api version for Nutanix.
@@ -208,8 +209,8 @@ operation:
         required: false 
         private: true 
     
-  java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-SNAPSHOT'
+  java_action:
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC6'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.disks.DetachDisks'
     method_name: 'execute'
   
