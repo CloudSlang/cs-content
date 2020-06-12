@@ -12,17 +12,18 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetTaskDetailsSuccess:
+testDeleteVMSuccess:
   testSuites: [prism-local]
-  description: "Tests Get Task Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Delete VM SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.delete_vm
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - delete_snapshots: <delete_snapshots>
+    - logical_timestamp: <logical_timestamp>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -40,17 +41,18 @@ testGetTaskDetailsSuccess:
 
   result: SUCCESS
 
-testGetTaskDetailsFailedWithInvalidUUID:
+testDeleteVMFailedWithInvalidVMUUID:
   testSuites: [prism-local]
-  description: "Tests Get Task Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Delete VM Failed with invalid VM uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.delete_vm
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <invalid_vm_uuid>
+    - delete_snapshots: <delete_snapshots>
+    - logical_timestamp: <logical_timestamp>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>

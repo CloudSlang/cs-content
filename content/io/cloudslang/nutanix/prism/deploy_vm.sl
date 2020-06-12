@@ -29,6 +29,7 @@
 #! @input num_cores_per_vcpu: This is the number of cores per vCPU.
 #! @input time_zone: The timezone in which the Virtual Machine will be created.
 #!                   Example : 'Asia/Calcutta'
+#!                   Optional
 #! @input hypervisor_type: The type hypervisor.
 #!                         Example : 'ACROPOLIS'
 #!                         Optional
@@ -80,8 +81,9 @@
 #! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
 #!                      Machine.
 #!                      Optional
-#! @input host_uuids: The Host UUIDs for which Virtual Machine will be mapped.
-#!                     Optional
+#! @input host_uuids: UUIDs identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#!                    is powered off, then this field is empty.
+#!                    Optional
 #! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
 #!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
@@ -150,7 +152,8 @@
 #!                               Optional
 #!
 #! @output vm_uuid: UUID of the Virtual Machine.
-#! @output ip_address: IP Address of the Virtual Machine.
+#! @output ip_address: IP Address/es of the Virtual Machine.
+#! @output mac_address: MAC Address/es of the Virtual Machine.
 #! @output power_state: Current Power state of the Virtual Machine.
 #! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
 #! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
@@ -382,6 +385,7 @@ flow:
         publish:
           - vm_name
           - ip_address
+          - mac_address
           - power_state
           - vm_disk_uuid
           - storage_container_uuid
@@ -392,6 +396,7 @@ flow:
   outputs:
     - vm_uuid: '${vm_uuid}'
     - ip_address: '${ip_address}'
+    - mac_address: '${mac_address}'
     - power_state: '${power_state}'
     - vm_disk_uuid: '${vm_disk_uuid}'
     - vm_storage_container_uuid: '${storage_container_uuid}'

@@ -31,7 +31,8 @@
 #! @input num_cores_per_vcpu: This is the number of cores per vCPU.
 #! @input time_zone: The timezone in which the Virtual Machine will be created.
 #!                   Example : 'Asia/Calcutta'
-#! @input hypervisor_type: The type hypervisor.
+#!                   Optional
+#! @input hypervisor_type: The type of hypervisor.
 #!                         Example : 'ACROPOLIS'
 #!                         Optional
 #! @input flash_mode_enabled: State of the storage policy to pin virtual disks to the hot tier. When specified as a VM
@@ -48,7 +49,7 @@
 #!                             Optional
 #! @input is_cdrom: If the value is 'true' then Virtual Machine needs to create with CDROM otherwise Virtual Machine will
 #!                  be created with Empty Disk.
-#! @input is_empty: If the value is 'true' then Virtual Machine will created with EmptyDisk.
+#! @input is_empty_disk: If the value is 'true' then Virtual Machine will created with EmptyDisk.
 #!                  Default : 'true'
 #!                  Optional
 #! @input device_bus: The type of Device disk.
@@ -82,8 +83,9 @@
 #! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
 #!                      Machine.
 #!                      Optional
-#! @input host_uuids: The Host UUIDs for which Virtual Machine will be mapped.
-#!                     Optional
+#! @input host_uuids: UUIDs identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#!                    is powered off, then this field is empty.
+#!                    Optional
 #! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
 #!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
@@ -224,12 +226,12 @@ operation:
     - is_cdrom    
     - isCDROM: 
         default: ${get('is_cdrom', '')}  
-        required: false 
-        private: true 
-    - is_empty:  
-        required: false  
-    - isEmpty: 
-        default: ${get('is_empty', '')}  
+        required: false
+        private: true
+    - is_empty_disk:
+        required: false
+    - isEmptyDisk:
+        default: ${get('is_empty_disk', '')}
         required: false 
         private: true 
     - device_bus    
@@ -354,14 +356,14 @@ operation:
         sensitive: true
     - trust_all_roots:  
         required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
         required: false 
         private: true 
     - x_509_hostname_verifier:  
         required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
         required: false 
         private: true 
     - trust_keystore:  
@@ -410,7 +412,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC5'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC7'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.CreateVM'
     method_name: 'execute'
   

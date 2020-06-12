@@ -12,45 +12,49 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetTaskDetailsSuccess:
+testPowerOffVMSuccess:
   testSuites: [prism-local]
-  description: "Tests Get Task Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
-  inputs:
-    - hostname: <hostname>
-    - port: <port>
-    - username: <username>
-    - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
-    - api_version: <api_version>
-    - proxy_host: <proxy_host>
-    - proxy_port: <proxy_port>
-    - proxy_username: <proxy_username>
-    - proxy_password: <proxy_password>
-    - trust_all_roots: <trust_all_roots>
-    - x_509_hostname_verifier: <x_509_hostname_verifier>
-    - trust_keystore: <trust_keystore>
-    - trust_password: <trust_password>
-    - connect_timeout: <connect_timeout>
-    - socket_timeout: <socket_timeout>
-    - keep_alive: <keep_alive>
-    - connections_max_per_route: <connections_max_per_route>
-    - connections_max_total: <connections_max_total>
+  description: "Tests Power Off VM SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state
+inputs:
+  - hostname: <hostname>
+  - port: <port>
+  - username: <username>
+  - password: <password>
+  - vm_uuid: <invalid_vm_uuid>
+  - power_state: <power_state>
+  - host_uuid: <host_uuid>
+  - vm_logical_timestamp: <vm_logical_timestamp>
+  - api_version: <api_version>
+  - proxy_host: <proxy_host>
+  - proxy_port: <proxy_port>
+  - proxy_username: <proxy_username>
+  - proxy_password: <proxy_password>
+  - trust_all_roots: <trust_all_roots>
+  - x_509_hostname_verifier: <x_509_hostname_verifier>
+  - trust_keystore: <trust_keystore>
+  - trust_password: <trust_password>
+  - connect_timeout: <connect_timeout>
+  - socket_timeout: <socket_timeout>
+  - keep_alive: <keep_alive>
+  - connections_max_per_route: <connections_max_per_route>
+  - connections_max_total: <connections_max_total>
 
   result: SUCCESS
 
-testGetTaskDetailsFailedWithInvalidUUID:
+testPowerOffVMFailedWithInvalidVMUUID:
   testSuites: [prism-local]
-  description: "Tests Get Task Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Power Off VM Failed with invalid VM uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <invalid_vm_uuid>
+    - power_state: <power_state>
+    - host_uuid: <host_uuid>
+    - vm_logical_timestamp: <vm_logical_timestamp>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -67,5 +71,3 @@ testGetTaskDetailsFailedWithInvalidUUID:
     - connections_max_total: <connections_max_total>
 
   result: FAILURE
-
-

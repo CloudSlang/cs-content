@@ -10,12 +10,16 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-#
+
 ########################################################################################################################
 #!!
-#! @description: Get a list of Virtual Machines. Virtual Machine disk information and network information
-#!               are not included by default as fetching these are expensive operations. These can be included by
-#!               setting the include_vmdisk_config and include_vmnic_config flags respectively.
+#! @description: Delete a Virtual Machine.This is an idempotent operation. If the Virtual Machine is currently powered
+#!               on, it will be forcefully powered off.The logical timestamp can optionally be provided for consistency.
+#!               If a logical timestamp is specified, then this operation will be rejected if the logical timestamp
+#!               specified is not the value of the Virtual Machine logical timestamp. The logical timestamp can be
+#!               obtained from the Virtual Machine object.This is an asynchronous operation that results in the creation
+#!               of a task object. The UUID of this task object is returned as the response of this operation. This task
+#!               can be monitored by using the /tasks/poll API.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -23,23 +27,14 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input api_version: The api version for Nutanix.
+#! @input vm_uuid: UUID of the Virtual Machine.
+#! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
+#!                          Optional
+#! @input logical_timestamp: The Virtual logical timestamp.
+#!                           Optional
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
-#! @input filter: Filter criteria - semicolon for AND, comma for OR.
-#!                Optional
-#! @input offset: Offset.
-#!                Optional
-#! @input length: Number of VMs to retrieve.
-#!                Optional
-#! @input sort_order: Sort order.
-#!                   Optional
-#! @input sort_attribute: Sort attribute.
-#!                       Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Nutanix service.
@@ -93,8 +88,8 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output vm_list: List of VM's.
 #! @output status_code: The HTTP status code for Nutanix API request.
+#! @output task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -104,7 +99,7 @@
 namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation:
-  name: list_vms
+  name: delete_vm
 
   inputs:
     - hostname
@@ -113,40 +108,27 @@ operation:
     - username
     - password:
         sensitive: true
+    - vm_uuid
+    - vmUUID:
+        default: ${get('vm_uuid', '')}
+        required: false
+        private: true
+    - delete_snapshots:
+        required: false
+    - deleteSnapshots:
+        default: ${get('delete_snapshots', '')}
+        required: false
+        private: true
+    - logical_timestamp:
+        required: false
+    - logicalTimestamp:
+        default: ${get('logical_timestamp', '')}
+        required: false
+        private: true
     - api_version:
         required: false
     - apiVersion:
         default: ${get('api_version', '')}
-        required: false
-        private: true
-    - filter:
-        required: false
-    - offset:
-        required: false
-    - length:
-        required: false
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
-    - sort_attribute:
-        required: false
-    - sortAttribute:
-        default: ${get('sort_attribute', '')}
-        required: false
-        private: true
-    - include_vm_disk_config_info:
-        required: false
-    - includeVMDiskConfigInfo:
-        default: ${get('include_vm_disk_config_info', '')}
-        required: false
-        private: true
-    - include_vm_nic_config_info:
-        required: false
-    - includeVMNicConfigInfo:
-        default: ${get('include_vm_nic_config_info', '')}
         required: false
         private: true
     - proxy_host:
@@ -234,14 +216,14 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC7'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.ListVMs'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.DeleteVM'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - exception: ${get('exception', '')}
-    - vm_list: ${get('vmList', '')}
     - status_code: ${get('statusCode', '')}
+    - task_uuid: ${get('taskUUID', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
