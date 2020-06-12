@@ -16,29 +16,30 @@ testPowerOnVMSuccess:
   testSuites: [prism-local]
   description: "Tests Power On VM SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state
-inputs:
-  - hostname: <hostname>
-  - port: <port>
-  - username: <username>
-  - password: <password>
-  - vm_uuid: <invalid_vm_uuid>
-  - power_state: <power_state>
-  - host_uuid: <host_uuid>
-  - vm_logical_timestamp: <vm_logical_timestamp>
-  - api_version: <api_version>
-  - proxy_host: <proxy_host>
-  - proxy_port: <proxy_port>
-  - proxy_username: <proxy_username>
-  - proxy_password: <proxy_password>
-  - trust_all_roots: <trust_all_roots>
-  - x_509_hostname_verifier: <x_509_hostname_verifier>
-  - trust_keystore: <trust_keystore>
-  - trust_password: <trust_password>
-  - connect_timeout: <connect_timeout>
-  - socket_timeout: <socket_timeout>
-  - keep_alive: <keep_alive>
-  - connections_max_per_route: <connections_max_per_route>
-  - connections_max_total: <connections_max_total>
+  inputs:
+    - hostname: <hostname>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - vm_uuid: <vm_uuid>
+    - power_state: <power_state>
+    - host_uuid: <host_uuid>
+    - vm_logical_timestamp: <vm_logical_timestamp>
+    - api_version: <api_version>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+
 
   result: SUCCESS
 
