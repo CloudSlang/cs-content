@@ -12,7 +12,7 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testDeleteNICSuccess:
+testAddNICSuccess:
   testSuites: [prism-local]
   description: "Tests ADD NIC SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.add_nic
@@ -43,7 +43,7 @@ testDeleteNICSuccess:
 
   result: SUCCESS
 
-testDeleteNICFailedWithInvalidUUID:
+testAddNICFailedWithInvalidUUID:
   testSuites: [prism-local]
   description: "Tests Add NIC Failed with invalid uuid."
   testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.add_nic
