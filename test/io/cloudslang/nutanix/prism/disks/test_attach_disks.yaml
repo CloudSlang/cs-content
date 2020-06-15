@@ -1,0 +1,77 @@
+#   (c) Copyright 2020 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testDetachDisksSuccess:
+  testSuites: [prism-local]
+  description: "Tests Attach Disks SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
+  inputs:
+    - hostname: <hostname>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - vm_uuid: <vm_uuid>
+    - device_bus: <device_bus>
+    - device_index: <device_index>
+    - device_disksize: <device_disksize>
+    - storagecontainer_uuid_disk: <storagecontainer_uuid_disk>
+    - api_version: <api_version>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+
+  result: SUCCESS
+
+testDetachDisksFailedWithInvalidUUID:
+  testSuites: [prism-local]
+  description: "Tests Attach Disks Failed with invalid vm uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
+  inputs:
+    - hostname: <hostname>
+    - port: <port>
+    - username: <username>
+    - password: <password>
+    - vm_uuid: <vm_uuid>
+    - device_bus: <device_bus>
+    - device_index: <device_index>
+    - device_disksize: <device_disksize>
+    - storagecontainer_uuid_disk: <storagecontainer_uuid_disk>
+    - api_version: <api_version>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - trust_all_roots: <trust_all_roots>
+    - x_509_hostname_verifier: <x_509_hostname_verifier>
+    - trust_keystore: <trust_keystore>
+    - trust_password: <trust_password>
+    - connect_timeout: <connect_timeout>
+    - socket_timeout: <socket_timeout>
+    - keep_alive: <keep_alive>
+    - connections_max_per_route: <connections_max_per_route>
+    - connections_max_total: <connections_max_total>
+
+  result: FAILURE
+
+
