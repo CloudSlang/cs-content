@@ -22,7 +22,8 @@
 #!               timestamp can be obtained from the Virtual Machine object.
 #!
 #! @input hostname: The hostname for Nutanix.
-#! @input port: The port to connect to Nutanix. Default: '9440'
+#! @input port: The port to connect to Nutanix.
+#!              Default: '9440'
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
