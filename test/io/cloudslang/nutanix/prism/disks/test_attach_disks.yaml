@@ -22,10 +22,10 @@ testAttachDisksSuccess:
     - username: <username>
     - password: <password>
     - vm_uuid: <vm_uuid>
-    - device_bus: <device_bus>
-    - device_index: <device_index>
-    - device_disksize: <device_disksize>
-    - storagecontainer_uuid_disk: <storagecontainer_uuid_disk>
+    - device_bus_list: <device_bus_list>
+    - device_index_list: <device_index_list>
+    - device_disksize_list: <device_disksize_list>
+    - storagecontainer_uuid_disk_list: <storagecontainer_uuid_disk_list>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -53,10 +53,10 @@ testAttachDisksFailedWithInvalidUUID:
     - username: <username>
     - password: <password>
     - vm_uuid: <vm_uuid>
-    - device_bus: <device_bus>
-    - device_index: <device_index>
-    - device_disksize: <device_disksize>
-    - storagecontainer_uuid_disk: <storagecontainer_uuid_disk>
+    - device_bus_list: <device_bus_list>
+    - device_index_list: <device_index_list>
+    - device_disksize_list: <device_disksize_list>
+    - storagecontainer_uuid_disk_list: <storagecontainer_uuid_disk_list>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
