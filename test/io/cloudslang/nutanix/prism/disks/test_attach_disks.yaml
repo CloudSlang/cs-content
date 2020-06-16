@@ -12,7 +12,7 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testDetachDisksSuccess:
+testAttachDisksSuccess:
   testSuites: [prism-local]
   description: "Tests Attach Disks SUCCESS."
   testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
@@ -43,7 +43,7 @@ testDetachDisksSuccess:
 
   result: SUCCESS
 
-testDetachDisksFailedWithInvalidUUID:
+testAttachDisksFailedWithInvalidUUID:
   testSuites: [prism-local]
   description: "Tests Attach Disks Failed with invalid vm uuid."
   testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
