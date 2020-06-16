@@ -11,6 +11,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+
 ########################################################################################################################
 #!!
 #! @description: Nic successfully Added to the VM. A VM NIC must be associated with a virtual network.
@@ -96,146 +97,146 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.nutanix.prism.virtualmachines
+namespace: io.cloudslang.nutanix.prism.nics
 
-operation: 
+operation:
   name: add_nic
-  
-  inputs: 
-    - hostname    
-    - port:  
-        required: false  
-    - username    
-    - password:    
+
+  inputs:
+    - hostname
+    - port:
+        required: false
+    - username
+    - password:
         sensitive: true
-    - vm_uuid    
-    - vmUUID: 
-        default: ${get('vm_uuid', '')}  
-        required: false 
-        private: true 
-    - network_uuid    
-    - networkUUID: 
-        default: ${get('network_uuid', '')}  
-        required: false 
-        private: true 
-    - requested_ip_address:  
-        required: false  
-    - requestedIPAddress: 
-        default: ${get('requested_ip_address', '')}  
-        required: false 
-        private: true 
-    - vlan_id:  
-        required: false  
-    - vlanID: 
-        default: ${get('vlan_id', '')}  
-        required: false 
-        private: true 
-    - is_connected:  
-        required: false  
-    - isConnected: 
-        default: ${get('is_connected', '')}  
-        required: false 
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - vm_uuid
+    - vmUUID:
+        default: ${get('vm_uuid', '')}
+        required: false
+        private: true
+    - network_uuid
+    - networkUUID:
+        default: ${get('network_uuid', '')}
+        required: false
+        private: true
+    - requested_ip_address:
+        required: false
+    - requestedIPAddress:
+        default: ${get('requested_ip_address', '')}
+        required: false
+        private: true
+    - vlan_id:
+        required: false
+    - vlanId:
+        default: ${get('vlan_id', '')}
+        required: false
+        private: true
+    - is_connected:
+        required: false
+    - isConnected:
+        default: ${get('is_connected', '')}
+        required: false
+        private: true
+    - api_version:
+        required: false
+    - apiVersion:
+        default: ${get('api_version', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC8'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.AddNic'
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - socket_timeout:
+        required: false
+    - socketTimeout:
+        default: ${get('socket_timeout', '')}
+        required: false
+        private: true
+    - keep_alive:
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
+    - connections_max_per_route:
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
+    - connections_max_total:
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC9'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.AddNic'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - task_uuid: ${get('taskUUID', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - status_code: ${get('statusCode', '')}
+    - task_uuid: ${get('taskUUID', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
