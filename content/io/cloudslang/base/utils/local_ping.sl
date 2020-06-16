@@ -85,7 +85,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.145.132-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-utilities:0.145.133-SNAPSHOT'
     class_name: 'io.cloudslang.content.utilities.actions.LocalPing'
     method_name: 'execute'
   
