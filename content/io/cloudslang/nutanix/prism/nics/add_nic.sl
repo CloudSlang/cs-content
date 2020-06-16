@@ -14,7 +14,7 @@
 
 ########################################################################################################################
 #!!
-#! @description: Nic successfully Added to the VM. A VM NIC must be associated with a virtual network.
+#! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
 #!               It is not possible to change this association.
 #!               To connect a VM to a different virtual network, it is necessary to create a new NIC
 #!
