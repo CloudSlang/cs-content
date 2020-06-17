@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Un deploy or delete a Virtual Machine.
+#! @description: This workflow will Power ON the Virtual Machine. It will check the current power_state of Virtual
+#!               Machine and if it is already in Power ON state workflow will fail with error message.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -22,14 +23,24 @@
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
 #! @input vm_uuid: UUID of the Virtual Machine.
-#! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
-#!                          Optional
-#! @input logical_timestamp: The Virtual logical timestamp.
-#!                           Optional
+#! @input power_state: The desired power state of the Virtual Machine.
+#!                     Allowed Values: "'ON', 'OFF', 'POWERCYCLE', 'RESET', 'PAUSE', 'SUSPEND', 'RESUME', 'SAVE',
+#!                                      'ACPI_SHUTDOWN', 'ACPI_REBOOT'"
+#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#!                   is powered off, then this field is empty.
+#!                   Optional
+#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
+#!                              Optional
 #! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
 #!                               Default: 'false'
 #!                               Optional
-#! @input api_version: The api version for Nutanix.
+#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
+#!                                     Default : 'true'
+#!                                     Optional
+#! @input include_vm_nic_config_info: Whether to include network information.
+#!                                    Default : 'true'
+#!                                    Optional
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -92,7 +103,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: undeploy_vm
+  name: power_on_vm
   inputs:
     - hostname
     - port:
@@ -101,11 +112,15 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - delete_snapshots:
+    - host_uuid:
         required: false
-    - logical_timestamp:
+    - vm_logical_timestamp:
         required: false
     - include_subtasks_info:
+        required: false
+    - include_vm_disk_config_info:
+        required: false
+    - include_vm_nic_config_info:
         required: false
     - api_version:
         required: false
@@ -138,9 +153,9 @@ flow:
     - connections_max_total:
         required: false
   workflow:
-    - delete_vm:
+    - get_vm_details:
         do:
-          io.cloudslang.nutanix.prism.virtualmachines.delete_vm:
+          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
             - hostname: '${hostname}'
             - port: '${port}'
             - username: '${username}'
@@ -148,8 +163,8 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - delete_snapshots: '${delete_snapshots}'
-            - logical_timestamp: '${logical_timestamp}'
+            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
+            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -169,11 +184,11 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - task_uuid
+          - power_state
+          - vm_name
           - exception
-          - return_result
         navigate:
-          - SUCCESS: get_task_details
+          - SUCCESS: is_vm_powered_on
           - FAILURE: FAILURE
     - get_task_details:
         do:
@@ -206,7 +221,6 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - task_status
-          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
@@ -239,12 +253,72 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Deleted the VM :  '
-            - text: '${vm_uuid}'
+            - origin_string: 'Successfully Powered On the VM : '
+            - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
         navigate:
           - SUCCESS: SUCCESS
+    - set_vm_power_state:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_uuid: '${vm_uuid}'
+            - power_state: 'on'
+            - vm_logical_timestamp: '${logical_timestamp}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_uuid
+        navigate:
+          - SUCCESS: wait_for_task_status
+          - FAILURE: on_failure
+    - is_vm_powered_on:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: 'off'
+        publish: []
+        navigate:
+          - SUCCESS: failure_message
+          - FAILURE: set_vm_power_state
+    - failure_message:
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: '${vm_name}'
+            - text: ' is already in Power ON State.'
+        publish:
+          - return_result: '${new_string}'
+        navigate:
+          - SUCCESS: FAILURE
+    - wait_for_task_status:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '5'
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: on_failure
   outputs:
     - return_result
   results:
