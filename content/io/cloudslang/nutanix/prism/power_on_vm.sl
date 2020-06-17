@@ -23,9 +23,6 @@
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
 #! @input vm_uuid: UUID of the Virtual Machine.
-#! @input power_state: The desired power state of the Virtual Machine.
-#!                     Allowed Values: "'ON', 'OFF', 'POWERCYCLE', 'RESET', 'PAUSE', 'SUSPEND', 'RESUME', 'SAVE',
-#!                                      'ACPI_SHUTDOWN', 'ACPI_REBOOT'"
 #! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
 #!                   is powered off, then this field is empty.
 #!                   Optional
