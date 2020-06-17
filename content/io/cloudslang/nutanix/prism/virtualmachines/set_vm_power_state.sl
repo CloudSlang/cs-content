@@ -11,12 +11,15 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
 ########################################################################################################################
 #!!
-#! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
-#!               It is not possible to change this association.
-#!               To connect a VM to a different virtual network, it is necessary to create a new NIC
+#! @description: Set power state of a Virtual Machine.If the Virtual Machine is being powered on and no host is
+#!               specified, the scheduler will pick the one with the most available CPU and memory that can support the
+#!               Virtual Machine. Note that no such host may not be available.If the Virtual Machine is being power
+#!               cycled, a different host can be specified to start it on.The logical timestamp can optionally be
+#!               provided for consistency. If a logical timestamp is specified, then this operation will be rejected if
+#!               the logical timestamp specified is not the value of the Virtual Machine logical timestamp. The logical
+#!               timestamp can be obtained from the Virtual Machine object.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -24,16 +27,16 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
-#! @input network_uuid: The network UUID which will be attached to the Virtual Machine
-#! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
+#! @input vm_uuid: UUID of the Virtual Machine.
+#! @input power_state: The desired power state of the Virtual Machine.
+#!                     Allowed Values: "'ON', 'OFF', 'POWERCYCLE', 'RESET', 'PAUSE', 'SUSPEND', 'RESUME', 'SAVE',
+#!                                      'ACPI_SHUTDOWN', 'ACPI_REBOOT'"
+#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#!                   is powered off, then this field is empty.
+#!                   Optional
+#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
 #!                              Optional
-#! @input vlan_id: The each vlan in a network has an associated vlan ID
-#!                 Optional
-#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
-#!                      Machine.
-#!                      Optional
-#! @input api_version: The api version for Nutanix.
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -97,10 +100,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.nutanix.prism.nics
+namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation:
-  name: add_nic
+  name: set_vm_power_state
 
   inputs:
     - hostname
@@ -114,27 +117,21 @@ operation:
         default: ${get('vm_uuid', '')}
         required: false
         private: true
-    - network_uuid
-    - networkUUID:
-        default: ${get('network_uuid', '')}
+    - power_state
+    - powerState:
+        default: ${get('power_state', '')}
         required: false
         private: true
-    - requested_ip_address:
+    - host_uuid:
         required: false
-    - requestedIPAddress:
-        default: ${get('requested_ip_address', '')}
-        required: false
-        private: true
-    - vlan_id:
-        required: false
-    - vlanId:
-        default: ${get('vlan_id', '')}
+    - hostUUID:
+        default: ${get('host_uuid', '')}
         required: false
         private: true
-    - is_connected:
+    - vm_logical_timestamp:
         required: false
-    - isConnected:
-        default: ${get('is_connected', '')}
+    - vmLogicalTimestamp:
+        default: ${get('vm_logical_timestamp', '')}
         required: false
         private: true
     - api_version:
@@ -228,7 +225,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.AddNic'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.SetVMPowerState'
     method_name: 'execute'
 
   outputs:

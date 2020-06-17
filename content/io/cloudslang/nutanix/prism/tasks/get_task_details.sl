@@ -203,7 +203,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC11'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.tasks.GetTaskDetails'
     method_name: 'execute'
   

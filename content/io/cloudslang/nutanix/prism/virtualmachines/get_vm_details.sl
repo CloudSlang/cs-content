@@ -88,7 +88,8 @@
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Nutanix API request.
 #! @output vm_name: Name of the Virtual Machine.
-#! @output ip_address: IP Address of the Virtual Machine.
+#! @output ip_address: IP Address/es of the Virtual Machine.
+#! @output mac_address: MAC Address/es of the Virtual Machine.
 #! @output power_state: Current Power state of the Virtual Machine.
 #! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
 #! @output storage_container_uuid: UUID of the storage container of the Virtual Machine.
@@ -218,7 +219,7 @@ operation:
         private: true
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC11'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
     method_name: 'execute'
   
@@ -228,6 +229,7 @@ operation:
     - status_code: ${get('statusCode', '')}
     - vm_name: ${get('vmName', '')}
     - ip_address: ${get('ipAddress', '')}
+    - mac_address: ${get('macAddress', '')}
     - power_state: ${get('powerState', '')}
     - vm_disk_uuid: ${get('vmDiskUUID', '')}
     - storage_container_uuid: ${get('storageContainerUUID', '')}

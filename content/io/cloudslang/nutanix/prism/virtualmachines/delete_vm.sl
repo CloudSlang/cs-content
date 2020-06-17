@@ -10,13 +10,16 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-#
 
 ########################################################################################################################
 #!!
-#! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
-#!               It is not possible to change this association.
-#!               To connect a VM to a different virtual network, it is necessary to create a new NIC
+#! @description: Delete a Virtual Machine.This is an idempotent operation. If the Virtual Machine is currently powered
+#!               on, it will be forcefully powered off.The logical timestamp can optionally be provided for consistency.
+#!               If a logical timestamp is specified, then this operation will be rejected if the logical timestamp
+#!               specified is not the value of the Virtual Machine logical timestamp. The logical timestamp can be
+#!               obtained from the Virtual Machine object.This is an asynchronous operation that results in the creation
+#!               of a task object. The UUID of this task object is returned as the response of this operation. This task
+#!               can be monitored by using the /tasks/poll API.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -24,16 +27,12 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
-#! @input network_uuid: The network UUID which will be attached to the Virtual Machine
-#! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
-#!                              Optional
-#! @input vlan_id: The each vlan in a network has an associated vlan ID
-#!                 Optional
-#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
-#!                      Machine.
-#!                      Optional
-#! @input api_version: The api version for Nutanix.
+#! @input vm_uuid: UUID of the Virtual Machine.
+#! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
+#!                          Optional
+#! @input logical_timestamp: The Virtual logical timestamp.
+#!                           Optional
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -97,10 +96,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.nutanix.prism.nics
+namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation:
-  name: add_nic
+  name: delete_vm
 
   inputs:
     - hostname
@@ -114,27 +113,16 @@ operation:
         default: ${get('vm_uuid', '')}
         required: false
         private: true
-    - network_uuid
-    - networkUUID:
-        default: ${get('network_uuid', '')}
+    - delete_snapshots:
+        required: false
+    - deleteSnapshots:
+        default: ${get('delete_snapshots', '')}
         required: false
         private: true
-    - requested_ip_address:
+    - logical_timestamp:
         required: false
-    - requestedIPAddress:
-        default: ${get('requested_ip_address', '')}
-        required: false
-        private: true
-    - vlan_id:
-        required: false
-    - vlanId:
-        default: ${get('vlan_id', '')}
-        required: false
-        private: true
-    - is_connected:
-        required: false
-    - isConnected:
-        default: ${get('is_connected', '')}
+    - logicalTimestamp:
+        default: ${get('logical_timestamp', '')}
         required: false
         private: true
     - api_version:
@@ -228,7 +216,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.AddNic'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.DeleteVM'
     method_name: 'execute'
 
   outputs:
