@@ -89,7 +89,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: delete_vm
+  name: undeploy_vm
   inputs:
     - hostname
     - port:
