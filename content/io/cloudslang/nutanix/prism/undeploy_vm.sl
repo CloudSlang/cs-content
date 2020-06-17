@@ -215,7 +215,7 @@ flow:
         publish: []
         navigate:
           - SUCCESS: success_message
-          - FAILURE: is_task_status_failed
+          - FAILURE: iterate_for_task_status
     - iterate_for_task_status:
         do:
           io.cloudslang.nutanix.prism.utils.counter:
@@ -242,25 +242,6 @@ flow:
           - return_result: '${new_string}'
         navigate:
           - SUCCESS: SUCCESS
-    - is_task_status_failed:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${task_status}'
-            - second_string: Failed
-        publish: []
-        navigate:
-          - SUCCESS: error_message
-          - FAILURE: iterate_for_task_status
-    - error_message:
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: $.meta_response.error_detail
-        publish:
-          - return_result
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: FAILURE
   outputs:
     - return_result
   results:
