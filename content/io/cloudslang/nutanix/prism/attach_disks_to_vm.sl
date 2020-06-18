@@ -92,7 +92,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: attach_disk_to_vm
+  name: attach_disks_to_vm
   inputs:
     - hostname
     - port:
