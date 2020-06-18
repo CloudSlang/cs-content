@@ -84,11 +84,7 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
-#! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for Nutanix API request.
-#! @output task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
+#! @output vm_name: The name of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
