@@ -14,7 +14,7 @@
 ########################################################################################################################
 #!!
 #! @description: Attach disks to Virtual Machine.A disk drive may either be a regular disk drive, or a CD-ROM drive.
-#!               Only CD-ROM drives may be empty.
+#!               Only CD-ROM drives may be empty
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
