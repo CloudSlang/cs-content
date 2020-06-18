@@ -84,8 +84,7 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
+#! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -275,18 +274,13 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - vm_name
-          - ip_address
-          - mac_address
-          - power_state
           - vm_disk_uuid
           - storage_container_uuid
-          - vm_logical_timestamp
         navigate:
           - SUCCESS: success_message
           - FAILURE: FAILURE
   outputs:
-    - return_result: '${return_result}'
+    - vm_disk_uuid: '${vm_disk_uuid}'
   results:
     - FAILURE
     - SUCCESS
