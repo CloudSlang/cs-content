@@ -92,6 +92,7 @@
 #!
 #! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
 #!                        the error message.
+#! @output vm_power_state: The current power_state of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -182,6 +183,7 @@ flow:
           - power_state
           - vm_name
           - exception
+          - return_result
         navigate:
           - SUCCESS: is_vm_powered_off
           - FAILURE: FAILURE
@@ -224,6 +226,7 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${task_status}'
             - second_string: Succeeded
+            - ignore_case: 'true'
         publish: []
         navigate:
           - SUCCESS: success_message
@@ -264,7 +267,7 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - power_state: 'off'
+            - power_state: 'OFF'
             - vm_logical_timestamp: '${logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
@@ -288,12 +291,13 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: wait_for_task_status
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - is_vm_powered_off:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${power_state}'
-            - second_string: 'off'
+            - second_string: 'OFF'
+            - ignore_case: 'true'
         publish: []
         navigate:
           - SUCCESS: failure_message
@@ -313,9 +317,10 @@ flow:
             - seconds: '5'
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - return_result
+    - vm_power_state: '${power_state}'
   results:
     - FAILURE
     - SUCCESS

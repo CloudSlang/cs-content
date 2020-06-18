@@ -158,6 +158,8 @@
 #! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
 #! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
 #! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -316,7 +318,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -349,9 +351,36 @@ flow:
         publish:
           - vm_uuid
           - task_status
+          - return_result
+        navigate:
+          - SUCCESS: is_task_status_succeeded
+          - FAILURE: FAILURE
+    - is_task_status_succeeded:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${task_status}'
+            - second_string: Succeeded
+        publish: []
         navigate:
           - SUCCESS: get_vm_details
-          - FAILURE: on_failure
+          - FAILURE: iterate_for_task_status
+    - iterate_for_task_status:
+        do:
+          io.cloudslang.nutanix.prism.utils.counter:
+            - from: '1'
+            - to: '30'
+            - increment_by: '1'
+        navigate:
+          - HAS_MORE: wait_for_task_status_success
+          - NO_MORE: FAILURE
+          - FAILURE: FAILURE
+    - wait_for_task_status_success:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '10'
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
     - get_vm_details:
         do:
           io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
@@ -390,9 +419,10 @@ flow:
           - vm_disk_uuid
           - storage_container_uuid
           - vm_logical_timestamp
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - vm_uuid: '${vm_uuid}'
     - ip_address: '${ip_address}'
@@ -401,6 +431,7 @@ flow:
     - vm_disk_uuid: '${vm_disk_uuid}'
     - vm_storage_container_uuid: '${storage_container_uuid}'
     - vm_logical_timestamp: '${vm_logical_timestamp}'
+    - return_result: '${return_result}'
   results:
     - FAILURE
     - SUCCESS
