@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow will Power ON the Virtual Machine. It will check the current power_state of Virtual
-#!               Machine and if it is already in Power ON state workflow will fail with error message.
+#! @description: Detach disks from Virtual Machine.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -22,12 +21,13 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: UUID of the Virtual Machine.
-#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                   is powered off, then this field is empty.
-#!                   Optional
-#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
-#!                              Optional
+#! @input vm_uuid: Id of the Virtual Machine.
+#! @input vm_disk_uuid_list: VM disk UUID list. If multiple disks need to be removed, add comma separated UUIDs.
+#! @input device_bus_list: Device Bus List. List the device buses in the same order that the disk UUIDs are listed,
+#!                         separated by commas.
+#!                         Valid values: 'sata,scsi,ide,pci'
+#! @input device_index_list: Device indices list. List the device index in the same order that the disk UUIDs are
+#!                           listed, separated by commas.
 #! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
 #!                               Default: 'false'
 #!                               Optional
@@ -37,7 +37,7 @@
 #! @input include_vm_nic_config_info: Whether to include network information.
 #!                                    Default : 'true'
 #!                                    Optional
-#! @input api_version: The api version for nutanix.
+#! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -90,18 +90,17 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output vm_power_state: The current power_state of the Virtual Machine.
+#! @output vm_disk_uuid: Updated disk uuid/s of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: power_on_vm
+  name: detach_disks_from_vm
   inputs:
     - hostname
     - port:
@@ -110,10 +109,9 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - host_uuid:
-        required: false
-    - vm_logical_timestamp:
-        required: false
+    - vm_disk_uuid_list
+    - device_bus_list
+    - device_index_list
     - include_subtasks_info:
         required: false
     - include_vm_disk_config_info:
@@ -151,9 +149,9 @@ flow:
     - connections_max_total:
         required: false
   workflow:
-    - get_vm_details:
+    - detach_disks:
         do:
-          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
+          io.cloudslang.nutanix.prism.disks.detach_disks:
             - hostname: '${hostname}'
             - port: '${port}'
             - username: '${username}'
@@ -161,8 +159,9 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
+            - vm_disk_uuid_list: '${vm_disk_uuid_list}'
+            - device_bus_list: '${device_bus_list}'
+            - device_index_list: '${device_index_list}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -182,12 +181,11 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - power_state
-          - vm_name
-          - exception
+          - task_uuid
           - return_result
+          - exception
         navigate:
-          - SUCCESS: is_vm_powered_on
+          - SUCCESS: get_task_details
           - FAILURE: FAILURE
     - get_task_details:
         do:
@@ -220,6 +218,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - task_status
+          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
@@ -231,7 +230,7 @@ flow:
             - ignore_case: 'true'
         publish: []
         navigate:
-          - SUCCESS: success_message
+          - SUCCESS: get_vm_details
           - FAILURE: iterate_for_task_status
     - iterate_for_task_status:
         do:
@@ -253,15 +252,15 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Powered On the VM : '
+            - origin_string: 'Successfully detached disk/s from the VM :  '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
         navigate:
           - SUCCESS: SUCCESS
-    - set_vm_power_state:
+    - get_vm_details:
         do:
-          io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state:
+          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
             - hostname: '${hostname}'
             - port: '${port}'
             - username: '${username}'
@@ -269,8 +268,8 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - power_state: 'ON'
-            - vm_logical_timestamp: '${logical_timestamp}'
+            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
+            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -290,39 +289,16 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - task_uuid
+          - vm_name
+          - vm_disk_uuid
+          - return_result
+          - exception
         navigate:
-          - SUCCESS: wait_for_task_status
-          - FAILURE: on_failure
-    - is_vm_powered_on:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${power_state}'
-            - second_string: 'ON'
-            - ignore_case: 'true'
-        publish: []
-        navigate:
-          - SUCCESS: failure_message
-          - FAILURE: set_vm_power_state
-    - failure_message:
-        do:
-          io.cloudslang.base.strings.append:
-            - origin_string: '${vm_name}'
-            - text: ' is already in Power ON State.'
-        publish:
-          - return_result: '${new_string}'
-        navigate:
-          - SUCCESS: FAILURE
-    - wait_for_task_status:
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '5'
-        navigate:
-          - SUCCESS: get_task_details
-          - FAILURE: on_failure
+          - SUCCESS: success_message
+          - FAILURE: FAILURE
   outputs:
     - return_result: '${return_result}'
-    - vm_power_state: '${power_state}'
+    - vm_disk_uuid: '${vm_disk_uuid}'
   results:
     - FAILURE
     - SUCCESS

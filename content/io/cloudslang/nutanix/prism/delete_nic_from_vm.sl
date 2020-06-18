@@ -28,6 +28,12 @@
 #! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
 #!                               Default: 'false'
 #!                               Optional
+#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
+#!                                     Default : 'true'
+#!                                     Optional
+#! @input include_vm_nic_config_info: Whether to include network information.
+#!                                    Default : 'true'
+#!                                    Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -83,6 +89,8 @@
 #!
 #! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
 #!                        the error message.
+#! @output mac_address: Updated MAC Address/es of the Virtual Machine.
+#! @output ip_address: Updated IP Address/es of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -99,7 +107,7 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - nicMacAddress
+    - nic_mac_address
     - vm_logical_timestamp:
         required: false
     - include_subtasks_info:
@@ -214,7 +222,7 @@ flow:
             - second_string: Succeeded
         publish: []
         navigate:
-          - SUCCESS: success_message
+          - SUCCESS: get_vm_details
           - FAILURE: iterate_for_task_status
     - iterate_for_task_status:
         do:
@@ -237,13 +245,54 @@ flow:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: 'Successfully deleted NIC from the VM : '
-            - text: '${vm_uuid}'
+            - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
         navigate:
           - SUCCESS: SUCCESS
+    - get_vm_details:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_uuid: '${vm_uuid}'
+            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
+            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - vm_name
+          - mac_address
+          - ip_address
+          - return_result
+          - exception
+        navigate:
+          - SUCCESS: success_message
+          - FAILURE: FAILURE
   outputs:
-    - return_result
+    - return_result: '${return_result}'
+    - mac_address: '${mac_address}'
+    - ip_address: '${ip_address}'
   results:
     - FAILURE
     - SUCCESS

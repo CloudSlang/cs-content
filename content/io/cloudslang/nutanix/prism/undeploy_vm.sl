@@ -215,6 +215,7 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${task_status}'
             - second_string: Succeeded
+            - ignore_case: 'true'
         publish: []
         navigate:
           - SUCCESS: success_message
@@ -246,7 +247,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
   outputs:
-    - return_result
+    - return_result: '${return_result}'
   results:
     - FAILURE
     - SUCCESS

@@ -321,7 +321,7 @@ flow:
           - SUCCESS: get_task_details
           - FAILURE: FAILURE
   outputs:
-    - return_result
+    - return_result: '${return_result}'
     - vm_power_state: '${power_state}'
   results:
     - FAILURE
