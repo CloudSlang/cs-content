@@ -130,10 +130,8 @@ flow:
     - proxy_password:
         required: false
     - trust_all_roots:
-        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
         required: false
     - trust_keystore:
         required: false
