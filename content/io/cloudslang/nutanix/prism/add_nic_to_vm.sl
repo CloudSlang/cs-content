@@ -11,7 +11,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-
 ########################################################################################################################
 #!!
 #! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
@@ -88,7 +87,6 @@
 #!
 #! @output mac_address: MAC Address/es of the Virtual Machine.
 #! @output ip_address: IP Address/es of the Virtual Machine.
-#!
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
