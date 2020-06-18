@@ -275,6 +275,9 @@ flow:
         sensitive: true
     - private_key_data:
         sensitive: true
+        required: false
+    - private_key_file:
+        required: false
     - compartment_ocid
     - availability_domain
     - subnet_id
@@ -399,6 +402,8 @@ flow:
             - private_key_data:
                 value: '${private_key_data}'
                 sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
             - api_version: '${api_version}'
             - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'

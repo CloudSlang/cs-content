@@ -133,11 +133,19 @@ operation:
         private: true 
         sensitive: true
     - private_key_data:
+        required: false
         sensitive: true
     - privateKeyData:
         default: ${get('private_key_data', '')}
-        private: true 
+        required: false
+        private: true
         sensitive: true
+    - private_key_file:
+        required: false
+    - privateKeyFile:
+        default: ${get('private_key_file', '')}
+        required: false
+        private: true
     - compartment_ocid    
     - compartmentOcid: 
         default: ${get('compartment_ocid', '')}
