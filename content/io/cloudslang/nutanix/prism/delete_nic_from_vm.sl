@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow will Power ON the Virtual Machine. It will check the current power_state of Virtual
-#!               Machine and if it is already in Power ON state workflow will fail with error message.
+#! @description: Delete a NIC from a Virtual Machine.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -22,22 +21,14 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: UUID of the Virtual Machine.
-#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                   is powered off, then this field is empty.
-#!                   Optional
-#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
+#! @input vm_uuid: Id of the Virtual Machine.
+#! @input nic_mac_address: MAC address of Virtual Machine NIC identifier.
+#! @input vm_logical_timestamp: Virtual Machine Logical timestamp.
 #!                              Optional
 #! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
 #!                               Default: 'false'
 #!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
-#! @input api_version: The api version for nutanix.
+#! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -92,16 +83,14 @@
 #!
 #! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
 #!                        the error message.
-#! @output vm_power_state: The current power_state of the Virtual Machine.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: power_on_vm
+  name: delete_nic_from_vm
   inputs:
     - hostname
     - port:
@@ -110,15 +99,10 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - host_uuid:
-        required: false
+    - nicMacAddress
     - vm_logical_timestamp:
         required: false
     - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
         required: false
     - api_version:
         required: false
@@ -151,9 +135,9 @@ flow:
     - connections_max_total:
         required: false
   workflow:
-    - get_vm_details:
+    - delete_nic:
         do:
-          io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
+          io.cloudslang.nutanix.prism.nics.delete_nic:
             - hostname: '${hostname}'
             - port: '${port}'
             - username: '${username}'
@@ -161,8 +145,8 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
+            - nic_mac_address: '${nic_mac_address}'
+            - vm_logical_timestamp: '${vm_logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -182,12 +166,11 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - power_state
-          - vm_name
-          - exception
+          - task_uuid
           - return_result
+          - exception
         navigate:
-          - SUCCESS: is_vm_powered_on
+          - SUCCESS: get_task_details
           - FAILURE: FAILURE
     - get_task_details:
         do:
@@ -220,6 +203,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - task_status
+          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
@@ -228,7 +212,6 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${task_status}'
             - second_string: Succeeded
-            - ignore_case: 'true'
         publish: []
         navigate:
           - SUCCESS: success_message
@@ -253,76 +236,14 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Powered On the VM : '
-            - text: '${vm_name}'
+            - origin_string: 'Successfully deleted NIC from the VM : '
+            - text: '${vm_uuid}'
         publish:
           - return_result: '${new_string}'
         navigate:
           - SUCCESS: SUCCESS
-    - set_vm_power_state:
-        do:
-          io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state:
-            - hostname: '${hostname}'
-            - port: '${port}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
-            - vm_uuid: '${vm_uuid}'
-            - power_state: 'ON'
-            - vm_logical_timestamp: '${logical_timestamp}'
-            - api_version: '${api_version}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-        publish:
-          - task_uuid
-        navigate:
-          - SUCCESS: wait_for_task_status
-          - FAILURE: on_failure
-    - is_vm_powered_on:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${power_state}'
-            - second_string: 'ON'
-            - ignore_case: 'true'
-        publish: []
-        navigate:
-          - SUCCESS: failure_message
-          - FAILURE: set_vm_power_state
-    - failure_message:
-        do:
-          io.cloudslang.base.strings.append:
-            - origin_string: '${vm_name}'
-            - text: ' is already in Power ON State.'
-        publish:
-          - return_result: '${new_string}'
-        navigate:
-          - SUCCESS: FAILURE
-    - wait_for_task_status:
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '5'
-        navigate:
-          - SUCCESS: get_task_details
-          - FAILURE: on_failure
   outputs:
     - return_result
-    - vm_power_state: '${power_state}'
   results:
     - FAILURE
     - SUCCESS

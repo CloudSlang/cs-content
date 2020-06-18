@@ -117,6 +117,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         required: false
     - x_509_hostname_verifier:
@@ -125,6 +126,7 @@ flow:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:
