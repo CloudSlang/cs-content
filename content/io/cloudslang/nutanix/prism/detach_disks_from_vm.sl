@@ -28,15 +28,6 @@
 #!                         Valid values: 'sata,scsi,ide,pci'
 #! @input device_index_list: Device indices list. List the device index in the same order that the disk UUIDs are
 #!                           listed, separated by commas.
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -112,12 +103,6 @@ flow:
     - vm_disk_uuid_list
     - device_bus_list
     - device_index_list
-    - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
-        required: false
     - api_version:
         required: false
     - proxy_host:
@@ -197,7 +182,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -268,8 +252,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

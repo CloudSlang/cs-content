@@ -26,9 +26,6 @@
 #!                          Optional
 #! @input logical_timestamp: The Virtual logical timestamp.
 #!                           Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -104,8 +101,6 @@ flow:
     - delete_snapshots:
         required: false
     - logical_timestamp:
-        required: false
-    - include_subtasks_info:
         required: false
     - api_version:
         required: false
@@ -185,7 +180,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

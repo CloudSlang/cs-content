@@ -114,12 +114,6 @@ flow:
         required: false
     - vm_logical_timestamp:
         required: false
-    - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
-        required: false
     - api_version:
         required: false
     - proxy_host:
@@ -161,8 +155,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -199,7 +191,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
