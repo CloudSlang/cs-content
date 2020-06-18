@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow will Power ON the Virtual Machine. It will check the current power_state of Virtual
-#!               Machine and if it is already in Power ON state workflow will fail with error message.
+#! @description: This workflow will Power Off the Virtual Machine. It will check the current power_state of Virtual
+#!               Machine and if it is already in Power Off state workflow will fail with error message.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -100,7 +100,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: power_on_vm
+  name: power_off_vm
   inputs:
     - hostname
     - port:
@@ -183,7 +183,7 @@ flow:
           - vm_name
           - exception
         navigate:
-          - SUCCESS: is_vm_powered_on
+          - SUCCESS: is_vm_powered_off
           - FAILURE: FAILURE
     - get_task_details:
         do:
@@ -248,7 +248,7 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Powered On the VM : '
+            - origin_string: 'Successfully Powered Off the VM : '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
@@ -264,7 +264,7 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - power_state: 'on'
+            - power_state: 'off'
             - vm_logical_timestamp: '${logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
@@ -289,11 +289,11 @@ flow:
         navigate:
           - SUCCESS: wait_for_task_status
           - FAILURE: on_failure
-    - is_vm_powered_on:
+    - is_vm_powered_off:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${power_state}'
-            - second_string: 'on'
+            - second_string: 'off'
         publish: []
         navigate:
           - SUCCESS: failure_message
@@ -302,7 +302,7 @@ flow:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${vm_name}'
-            - text: ' is already in Power ON State.'
+            - text: ' is already in Power Off State.'
         publish:
           - return_result: '${new_string}'
         navigate:
