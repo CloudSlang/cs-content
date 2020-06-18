@@ -84,7 +84,8 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output vm_name: The name of the Virtual Machine.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -285,7 +286,7 @@ flow:
           - SUCCESS: success_message
           - FAILURE: FAILURE
   outputs:
-    - vm_name: '${vm_name}'
+    - return_result: '${return_result}'
   results:
     - FAILURE
     - SUCCESS
