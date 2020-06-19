@@ -201,6 +201,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - task_status
+          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
@@ -238,6 +239,7 @@ flow:
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
+          - power_state: 'on'
         navigate:
           - SUCCESS: SUCCESS
     - set_vm_power_state:
