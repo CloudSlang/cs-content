@@ -284,7 +284,6 @@ flow:
           io.cloudslang.base.strings.append:
             - origin_string: 'Successfully Added Nic to the VM : '
             - text: '${vm_name}'
-            - input_0: '${vm_name}'
         publish:
           - return_result: '${new_string}'
         navigate:

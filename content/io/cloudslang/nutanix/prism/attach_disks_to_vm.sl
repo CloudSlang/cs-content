@@ -276,6 +276,7 @@ flow:
         publish:
           - vm_disk_uuid
           - storage_container_uuid
+          - vm_name
         navigate:
           - SUCCESS: success_message
           - FAILURE: FAILURE
