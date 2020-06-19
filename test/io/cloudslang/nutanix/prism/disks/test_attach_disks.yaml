@@ -12,17 +12,20 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetTaskDetailsSuccess:
+testAttachDisksSuccess:
   testSuites: [prism-local]
-  description: "Tests Get Task Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Attach Disks SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - device_bus_list: <device_bus_list>
+    - device_index_list: <device_index_list>
+    - device_disksize_list: <device_disksize_list>
+    - storagecontainer_uuid_disk_list: <storagecontainer_uuid_disk_list>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -40,17 +43,20 @@ testGetTaskDetailsSuccess:
 
   result: SUCCESS
 
-testGetTaskDetailsFailedWithInvalidUUID:
+testAttachDisksFailedWithInvalidUUID:
   testSuites: [prism-local]
-  description: "Tests Get Task Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Attach Disks Failed with invalid vm uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.disks.attach_disks
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - device_bus_list: <device_bus_list>
+    - device_index_list: <device_index_list>
+    - device_disksize_list: <device_disksize_list>
+    - storagecontainer_uuid_disk_list: <storagecontainer_uuid_disk_list>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>

@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deploy a Virtual Machine with specified configuration.
+#! @description: Attach disks to Virtual Machine.A disk drive may either be a regular disk drive, or a CD-ROM drive.
+#!               Only CD-ROM drives may be empty
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -21,83 +22,15 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_name: Name of the Virtual Machine that will be created.
-#! @input vm_description: The description of the Virtual Machine that will be created.
-#!                        Optional
-#! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be created.
-#! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be created.
-#! @input num_cores_per_vcpu: This is the number of cores per vCPU.
-#! @input time_zone: The timezone in which the Virtual Machine will be created.
-#!                   Example : 'Asia/Calcutta'
-#!                   Optional
-#! @input hypervisor_type: The type hypervisor.
-#!                         Example : 'ACROPOLIS'
-#!                         Optional
-#! @input flash_mode_enabled: State of the storage policy to pin virtual disks to the hot tier. When specified as a VM
-#!                            attribute, the storage policy applies to all virtual disks of the VM unless overridden by
-#!                            the same attribute specified for a virtual disk.
-#!                            Default : 'false'
-#!                            Optional
-#! @input is_scsi_pass_through: If the value is 'true' Disks on the SCSI bus will be configured for passthrough on
-#!                              platforms that support iSCSI.
-#!                              Default : 'false'
-#!                              Optional
-#! @input is_thin_provisioned: If the value is 'true' then Virtual Machine will be created with thin provision.
-#!                             Default : 'true'
-#!                             Optional
-#! @input is_cdrom: If the value is 'true' then Virtual Machine needs to create with CDROM otherwise Virtual Machine will
-#!                  be created with Empty Disk.
-#! @input is_empty: If the value is 'true' then Virtual Machine will created with EmptyDisk.
-#!                  Default : 'true'
-#!                  Optional
-#! @input device_bus: The type of Device disk.
-#!                    Allowed Values: 'SCSI, IDE, PCI, SATA, SPAPR'.
-#! @input disk_label: The Label for the disk that will be created
-#!                    Optional
-#! @input device_index: The Index of the disk device.
-#!                      Default : '0'
+#! @input vm_uuid: Id of the Virtual Machine.
+#! @input device_bus_list: Device Bus List. List the device buses in the same order that the disk UUIDs are listed, separated
+#!                    by commas.
+#!                    Valid values: sata,scsi,ide,pci
+#! @input device_index_list: Device indices list. List the device index in the same order that the disk UUIDs are listed,
+#!                      separated by commas.
 #!                      Optional
-#! @input ndfs_filepath: The refernece ndfs file location from which the disk will be created.
-#!                       Optional
-#! @input source_vm_disk_uuid: The reference disk UUID from which new disk will be created.
-#!                             Optional
-#! @input vm_disk_minimum_size: The size of reference disk.
-#!                              Default : '0'
-#!                              Optional
-#! @input external_disk_url: The URL of the external reference disk which will be used to create a new disk.
-#!                           Optional
-#! @input external_disk_size: The size of the external disk to be created.
-#!                            Default : '0'
-#!                            Optional
-#! @input storage_container_uuid: The reference storage container UUID from which the new storage container will be
-#!                                created.
-#!                                Optional
-#! @input vm_disk_size: The size (in GiB) of the new storage container to be created.
-#!                      Default : '0'
-#!                      Optional
-#! @input network_uuid: The network UUID which will be attached to the Virtual Machine.
-#! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
-#!                              Optional
-#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
-#!                      Machine.
-#!                      Optional
-#! @input host_uuids: UUIDs identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                    is powered off, then this field is empty.
-#!                    Optional
-#! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
-#!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
-#!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
-#!                  Default : 'false'
-#!                  Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
+#! @input device_disksize_list: Size of the each disk to be attached to the VM.
+#! @input storagecontainer_uuid_disk_list: Storage container UUID for each disk to be to attached the VM.
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -151,24 +84,15 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output vm_uuid: UUID of the Virtual Machine.
-#! @output ip_address: IP Address/es of the Virtual Machine.
-#! @output mac_address: MAC Address/es of the Virtual Machine.
-#! @output power_state: Current Power state of the Virtual Machine.
 #! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
-#! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
-#! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
 flow:
-  name: deploy_vm
+  name: attach_disks_to_vm
   inputs:
     - hostname
     - port:
@@ -176,59 +100,12 @@ flow:
     - username
     - password:
         sensitive: true
-    - vm_name
-    - vm_description:
+    - vm_uuid
+    - device_bus_list
+    - device_index_list:
         required: false
-    - vm_memory_size
-    - num_vcpus
-    - num_cores_per_vcpu
-    - time_zone:
-        required: false
-    - hypervisor_type:
-        required: false
-    - flash_mode_enabled:
-        required: false
-    - is_scsi_pass_through:
-        required: false
-    - is_thin_provisioned:
-        required: false
-    - is_cdrom
-    - is_empty:
-        required: false
-    - device_bus
-    - disk_label:
-        required: false
-    - device_index:
-        required: false
-    - ndfs_filepath:
-        required: false
-    - source_vm_disk_uuid:
-        required: false
-    - vm_disk_minimum_size:
-        required: false
-    - external_disk_url:
-        required: false
-    - external_disk_size:
-        required: false
-    - storage_container_uuid:
-        required: false
-    - vm_disk_size:
-        required: false
-    - network_uuid
-    - requested_ip_address:
-        required: false
-    - is_connected:
-        required: false
-    - host_uuids:
-        required: false
-    - agent_vm:
-        required: false
-    - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
-        required: false
+    - device_disksize_list
+    - storagecontainer_uuid_disk_list
     - api_version:
         required: false
     - proxy_host:
@@ -260,42 +137,20 @@ flow:
     - connections_max_total:
         required: false
   workflow:
-    - create_vm:
+    - attach_disks:
         do:
-          io.cloudslang.nutanix.prism.virtualmachines.create_vm:
+          io.cloudslang.nutanix.prism.disks.attach_disks:
             - hostname: '${hostname}'
             - port: '${port}'
             - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
-            - vm_name: '${vm_name}'
-            - vm_description: '${vm_description}'
-            - vm_memory_size: '${vm_memory_size}'
-            - num_vcpus: '${num_vcpus}'
-            - num_cores_per_vcpu: '${num_cores_per_vcpu}'
-            - time_zone: '${time_zone}'
-            - hypervisor_type: '${hypervisor_type}'
-            - flash_mode_enabled: '${flash_mode_enabled}'
-            - is_scsi_pass_through: '${is_scsi_pass_through}'
-            - is_thin_provisioned: '${is_thin_provisioned}'
-            - is_cdrom: '${is_cdrom}'
-            - is_empty: '${is_empty}'
-            - device_bus: '${device_bus}'
-            - disk_label: '${disk_label}'
-            - device_index: '${device_index}'
-            - ndfs_filepath: '${ndfs_filepath}'
-            - source_vm_disk_uuid: '${source_vm_disk_uuid}'
-            - vm_disk_minimum_size: '${vm_disk_minimum_size}'
-            - external_disk_url: '${external_disk_url}'
-            - external_disk_size: '${external_disk_size}'
-            - storage_container_uuid: '${storage_container_uuid}'
-            - vm_disk_size: '${vm_disk_size}'
-            - network_uuid: '${network_uuid}'
-            - requested_ip_address: '${requested_ip_address}'
-            - is_connected: '${is_connected}'
-            - host_uuids: '${host_uuids}'
-            - agent_vm: '${agent_vm}'
+            - vm_uuid: '${vm_uuid}'
+            - device_bus_list: '${device_bus_list}'
+            - device_index_list: '${device_index_list}'
+            - device_disksize_list: '${device_disksize_list}'
+            - storagecontainer_uuid_disk_list: '${storagecontainer_uuid_disk_list}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -349,21 +204,17 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - vm_uuid
           - task_status
-          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
-    - is_task_status_succeeded:
+    - wait_for_task_status_success:
         do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${task_status}'
-            - second_string: Succeeded
-        publish: []
+          io.cloudslang.base.utils.sleep:
+            - seconds: '10'
         navigate:
-          - SUCCESS: get_vm_details
-          - FAILURE: iterate_for_task_status
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
     - iterate_for_task_status:
         do:
           io.cloudslang.nutanix.prism.utils.counter:
@@ -373,14 +224,25 @@ flow:
         navigate:
           - HAS_MORE: wait_for_task_status_success
           - NO_MORE: FAILURE
-          - FAILURE: FAILURE
-    - wait_for_task_status_success:
+          - FAILURE: on_failure
+    - is_task_status_succeeded:
         do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '10'
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${task_status}'
+            - second_string: Succeeded
+        publish: []
         navigate:
-          - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - SUCCESS: get_vm_details
+          - FAILURE: iterate_for_task_status
+    - success_message:
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: 'Successfully Attached disk to the VM : '
+            - text: '${vm_name}'
+        publish:
+          - return_result: '${new_string}'
+        navigate:
+          - SUCCESS: SUCCESS
     - get_vm_details:
         do:
           io.cloudslang.nutanix.prism.virtualmachines.get_vm_details:
@@ -412,26 +274,13 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - vm_name
-          - ip_address
-          - mac_address
-          - power_state
           - vm_disk_uuid
           - storage_container_uuid
-          - vm_logical_timestamp
-          - return_result
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: success_message
           - FAILURE: FAILURE
   outputs:
-    - vm_uuid: '${vm_uuid}'
-    - ip_address: '${ip_address}'
-    - mac_address: '${mac_address}'
-    - power_state: '${power_state}'
     - vm_disk_uuid: '${vm_disk_uuid}'
-    - vm_storage_container_uuid: '${storage_container_uuid}'
-    - vm_logical_timestamp: '${vm_logical_timestamp}'
-    - return_result: '${return_result}'
   results:
     - FAILURE
     - SUCCESS

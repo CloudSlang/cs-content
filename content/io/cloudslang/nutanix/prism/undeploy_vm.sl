@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get a list of Virtual Machines. Virtual Machine disk information and network information
-#!               are not included by default as fetching these are expensive operations. These can be included by
-#!               setting the include_vmdisk_config and include_vmnic_config flags respectively.
+#! @description: Un deploy or delete a Virtual Machine.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -23,23 +21,17 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
+#! @input vm_uuid: UUID of the Virtual Machine.
+#! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
+#!                          Optional
+#! @input logical_timestamp: The Virtual logical timestamp.
+#!                           Optional
+#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
+#!                               Default: 'false'
+#!                               Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
-#! @input filter: Filter criteria - semicolon for AND, comma for OR.
-#!                Optional
-#! @input offset: Offset.
-#!                Optional
-#! @input length: Number of VMs to retrieve.
-#!                Optional
-#! @input sort_order: Sort order.
-#!                   Optional
-#! @input sort_attribute: Sort attribute.
-#!                       Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Nutanix service.
@@ -90,22 +82,17 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
 #!                        the error message.
-#! @output exception: An error message in case there was an error while executing the request.
-#! @output vm_list: List of VM's.
-#! @output status_code: The HTTP status code for Nutanix API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#!
 #!!#
 ########################################################################################################################
-
-namespace: io.cloudslang.nutanix.prism.virtualmachines
-
-operation:
-  name: list_vms
-
+namespace: io.cloudslang.nutanix.prism
+flow:
+  name: undeploy_vm
   inputs:
     - hostname
     - port:
@@ -113,136 +100,154 @@ operation:
     - username
     - password:
         sensitive: true
+    - vm_uuid
+    - delete_snapshots:
+        required: false
+    - logical_timestamp:
+        required: false
+    - include_subtasks_info:
+        required: false
     - api_version:
         required: false
-    - apiVersion:
-        default: ${get('api_version', '')}
-        required: false
-        private: true
-    - filter:
-        required: false
-    - offset:
-        required: false
-    - length:
-        required: false
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
-    - sort_attribute:
-        required: false
-    - sortAttribute:
-        default: ${get('sort_attribute', '')}
-        required: false
-        private: true
-    - include_vm_disk_config_info:
-        required: false
-    - includeVMDiskConfigInfo:
-        default: ${get('include_vm_disk_config_info', '')}
-        required: false
-        private: true
-    - include_vm_nic_config_info:
-        required: false
-    - includeVMNicConfigInfo:
-        default: ${get('include_vm_nic_config_info', '')}
-        required: false
-        private: true
     - proxy_host:
         required: false
-    - proxyHost:
-        default: ${get('proxy_host', '')}
-        required: false
-        private: true
     - proxy_port:
         required: false
-    - proxyPort:
-        default: ${get('proxy_port', '')}
-        required: false
-        private: true
     - proxy_username:
         required: false
-    - proxyUsername:
-        default: ${get('proxy_username', '')}
-        required: false
-        private: true
     - proxy_password:
         required: false
         sensitive: true
-    - proxyPassword:
-        default: ${get('proxy_password', '')}
-        required: false
-        private: true
-        sensitive: true
     - trust_all_roots:
         required: false
-    - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
-        required: false
-        private: true
     - x_509_hostname_verifier:
         required: false
-    - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}
-        required: false
-        private: true
     - trust_keystore:
         required: false
-    - trustKeystore:
-        default: ${get('trust_keystore', '')}
-        required: false
-        private: true
     - trust_password:
         required: false
         sensitive: true
-    - trustPassword:
-        default: ${get('trust_password', '')}
-        required: false
-        private: true
-        sensitive: true
     - connect_timeout:
         required: false
-    - connectTimeout:
-        default: ${get('connect_timeout', '')}
-        required: false
-        private: true
     - socket_timeout:
         required: false
-    - socketTimeout:
-        default: ${get('socket_timeout', '')}
-        required: false
-        private: true
     - keep_alive:
         required: false
-    - keepAlive:
-        default: ${get('keep_alive', '')}
-        required: false
-        private: true
     - connections_max_per_route:
         required: false
-    - connectionsMaxPerRoute:
-        default: ${get('connections_max_per_route', '')}
-        required: false
-        private: true
     - connections_max_total:
         required: false
-    - connectionsMaxTotal:
-        default: ${get('connections_max_total', '')}
-        required: false
-        private: true
-
-  java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.ListVMs'
-    method_name: 'execute'
-
+  workflow:
+    - delete_vm:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.delete_vm:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_uuid: '${vm_uuid}'
+            - delete_snapshots: '${delete_snapshots}'
+            - logical_timestamp: '${logical_timestamp}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_uuid
+          - exception
+          - return_result
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
+    - get_task_details:
+        do:
+          io.cloudslang.nutanix.prism.tasks.get_task_details:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - task_uuid: '${task_uuid}'
+            - include_subtasks_info: '${include_subtasks_info}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_status
+          - return_result
+        navigate:
+          - SUCCESS: is_task_status_succeeded
+          - FAILURE: FAILURE
+    - is_task_status_succeeded:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${task_status}'
+            - second_string: Succeeded
+            - ignore_case: 'true'
+        publish: []
+        navigate:
+          - SUCCESS: success_message
+          - FAILURE: iterate_for_task_status
+    - iterate_for_task_status:
+        do:
+          io.cloudslang.nutanix.prism.utils.counter:
+            - from: '1'
+            - to: '30'
+            - increment_by: '1'
+        navigate:
+          - HAS_MORE: wait_for_task_status_success
+          - NO_MORE: FAILURE
+          - FAILURE: FAILURE
+    - wait_for_task_status_success:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '10'
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
+    - success_message:
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: 'Successfully Deleted the VM :  '
+            - text: '${vm_uuid}'
+        publish:
+          - return_result: '${new_string}'
+        navigate:
+          - SUCCESS: SUCCESS
   outputs:
-    - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')}
-    - vm_list: ${get('vmList', '')}
-    - status_code: ${get('statusCode', '')}
-
+    - return_result: '${return_result}'
   results:
-    - SUCCESS: ${returnCode=='0'}
     - FAILURE
+    - SUCCESS
