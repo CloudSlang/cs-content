@@ -15,7 +15,7 @@
 #!!
 #! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
 #!               It is not possible to change this association.
-#!               To connect a VM to a different virtual network, it is necessary to create a new NIC.
+#!               To connect a VM to a different virtual network, it is necessary to create a new NIC
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
