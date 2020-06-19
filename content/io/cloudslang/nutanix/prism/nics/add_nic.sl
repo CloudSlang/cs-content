@@ -11,9 +11,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+
 ########################################################################################################################
 #!!
-#! @description: Delete a NIC from a Virtual Machine.
+#! @description: Add a NIC to a Virtual Machine. A VM NIC must be associated with a virtual network.
+#!               It is not possible to change this association.
+#!               To connect a VM to a different virtual network, it is necessary to create a new NIC
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -22,9 +25,14 @@
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
 #! @input vm_uuid: Id of the Virtual Machine.
-#! @input nic_mac_address: MAC address of Virtual Machine NIC identifier.
-#! @input vm_logical_timestamp: Virtual Machine Logical timestamp.
+#! @input network_uuid: The network UUID which will be attached to the Virtual Machine
+#! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
 #!                              Optional
+#! @input vlan_id: The each vlan in a network has an associated vlan ID
+#!                 Optional
+#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
+#!                      Machine.
+#!                      Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -91,132 +99,144 @@
 
 namespace: io.cloudslang.nutanix.prism.nics
 
-operation: 
-  name: delete_nic
-  
-  inputs: 
-    - hostname    
-    - port:  
-        required: false  
-    - username    
-    - password:    
+operation:
+  name: add_nic
+
+  inputs:
+    - hostname
+    - port:
+        required: false
+    - username
+    - password:
         sensitive: true
-    - vm_uuid    
-    - vmUUID: 
-        default: ${get('vm_uuid', '')}  
-        required: false 
-        private: true 
-    - nic_mac_address    
-    - nicMacAddress: 
-        default: ${get('nic_mac_address', '')}  
-        required: false 
-        private: true 
-    - vm_logical_timestamp:  
-        required: false  
-    - vmLogicalTimestamp: 
-        default: ${get('vm_logical_timestamp', '')}  
-        required: false 
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - vm_uuid
+    - vmUUID:
+        default: ${get('vm_uuid', '')}
+        required: false
+        private: true
+    - network_uuid
+    - networkUUID:
+        default: ${get('network_uuid', '')}
+        required: false
+        private: true
+    - requested_ip_address:
+        required: false
+    - requestedIPAddress:
+        default: ${get('requested_ip_address', '')}
+        required: false
+        private: true
+    - vlan_id:
+        required: false
+    - vlanId:
+        default: ${get('vlan_id', '')}
+        required: false
+        private: true
+    - is_connected:
+        required: false
+    - isConnected:
+        default: ${get('is_connected', '')}
+        required: false
+        private: true
+    - api_version:
+        required: false
+    - apiVersion:
+        default: ${get('api_version', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - socket_timeout:
+        required: false
+    - socketTimeout:
+        default: ${get('socket_timeout', '')}
+        required: false
+        private: true
+    - keep_alive:
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
+    - connections_max_per_route:
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
+    - connections_max_total:
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+
   java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.DeleteNIC'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.AddNic'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - task_uuid: ${get('taskUUID', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - status_code: ${get('statusCode', '')}
+    - task_uuid: ${get('taskUUID', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

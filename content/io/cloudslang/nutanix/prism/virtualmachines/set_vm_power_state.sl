@@ -13,7 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a NIC from a Virtual Machine.
+#! @description: Set power state of a Virtual Machine.If the Virtual Machine is being powered on and no host is
+#!               specified, the scheduler will pick the one with the most available CPU and memory that can support the
+#!               Virtual Machine. Note that no such host may not be available.If the Virtual Machine is being power
+#!               cycled, a different host can be specified to start it on.The logical timestamp can optionally be
+#!               provided for consistency. If a logical timestamp is specified, then this operation will be rejected if
+#!               the logical timestamp specified is not the value of the Virtual Machine logical timestamp. The logical
+#!               timestamp can be obtained from the Virtual Machine object.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -21,11 +27,16 @@
 #!              Optional
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
-#! @input nic_mac_address: MAC address of Virtual Machine NIC identifier.
-#! @input vm_logical_timestamp: Virtual Machine Logical timestamp.
+#! @input vm_uuid: UUID of the Virtual Machine.
+#! @input power_state: The desired power state of the Virtual Machine.
+#!                     Allowed Values: "'ON', 'OFF', 'POWERCYCLE', 'RESET', 'PAUSE', 'SUSPEND', 'RESUME', 'SAVE',
+#!                                      'ACPI_SHUTDOWN', 'ACPI_REBOOT'"
+#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#!                   is powered off, then this field is empty.
+#!                   Optional
+#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
 #!                              Optional
-#! @input api_version: The api version for Nutanix.
+#! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -89,134 +100,140 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.nutanix.prism.nics
+namespace: io.cloudslang.nutanix.prism.virtualmachines
 
-operation: 
-  name: delete_nic
-  
-  inputs: 
-    - hostname    
-    - port:  
-        required: false  
-    - username    
-    - password:    
+operation:
+  name: set_vm_power_state
+
+  inputs:
+    - hostname
+    - port:
+        required: false
+    - username
+    - password:
         sensitive: true
-    - vm_uuid    
-    - vmUUID: 
-        default: ${get('vm_uuid', '')}  
-        required: false 
-        private: true 
-    - nic_mac_address    
-    - nicMacAddress: 
-        default: ${get('nic_mac_address', '')}  
-        required: false 
-        private: true 
-    - vm_logical_timestamp:  
-        required: false  
-    - vmLogicalTimestamp: 
-        default: ${get('vm_logical_timestamp', '')}  
-        required: false 
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - vm_uuid
+    - vmUUID:
+        default: ${get('vm_uuid', '')}
+        required: false
+        private: true
+    - power_state
+    - powerState:
+        default: ${get('power_state', '')}
+        required: false
+        private: true
+    - host_uuid:
+        required: false
+    - hostUUID:
+        default: ${get('host_uuid', '')}
+        required: false
+        private: true
+    - vm_logical_timestamp:
+        required: false
+    - vmLogicalTimestamp:
+        default: ${get('vm_logical_timestamp', '')}
+        required: false
+        private: true
+    - api_version:
+        required: false
+    - apiVersion:
+        default: ${get('api_version', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+    - trust_all_roots:
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - socket_timeout:
+        required: false
+    - socketTimeout:
+        default: ${get('socket_timeout', '')}
+        required: false
+        private: true
+    - keep_alive:
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
+    - connections_max_per_route:
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
+    - connections_max_total:
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+
   java_action:
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.DeleteNIC'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.SetVMPowerState'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - task_uuid: ${get('taskUUID', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
+    - status_code: ${get('statusCode', '')}
+    - task_uuid: ${get('taskUUID', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

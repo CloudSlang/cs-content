@@ -12,17 +12,20 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetTaskDetailsSuccess:
+testAddNICSuccess:
   testSuites: [prism-local]
-  description: "Tests Get Task Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests ADD NIC SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.nics.add_nic
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - network_uuid: <network_uuid>
+    - requested_ip_address: <requested_ip_address>
+    - vlan_id: <vlan_id>
+    - is_connected: <is_connected>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -40,17 +43,20 @@ testGetTaskDetailsSuccess:
 
   result: SUCCESS
 
-testGetTaskDetailsFailedWithInvalidUUID:
+testAddNICFailedWithInvalidUUID:
   testSuites: [prism-local]
-  description: "Tests Get Task Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Add NIC Failed with invalid uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.nics.add_nic
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - network_uuid: <network_uuid>
+    - requested_ip_address: <requested_ip_address>
+    - vlan_id: <vlan_id>
+    - is_connected: <is_connected>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -67,5 +73,3 @@ testGetTaskDetailsFailedWithInvalidUUID:
     - connections_max_total: <connections_max_total>
 
   result: FAILURE
-
-

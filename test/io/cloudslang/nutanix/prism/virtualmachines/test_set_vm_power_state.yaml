@@ -12,17 +12,19 @@
 #   limitations under the License.
 #
 ########################################################################################################################
-testGetTaskDetailsSuccess:
+testSetVMPowerStateVMSuccess:
   testSuites: [prism-local]
-  description: "Tests Get Task Details SUCCESS."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Set VM Power State VM SUCCESS."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <vm_uuid>
+    - power_state: <power_state>
+    - host_uuid: <host_uuid>
+    - vm_logical_timestamp: <vm_logical_timestamp>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -40,17 +42,19 @@ testGetTaskDetailsSuccess:
 
   result: SUCCESS
 
-testGetTaskDetailsFailedWithInvalidUUID:
+testSetVMPowerStateFailedWithInvalidVMUUID:
   testSuites: [prism-local]
-  description: "Tests Get Task Details Failed with invalid uuid."
-  testFlowPath: io.cloudslang.nutanix.prism.tasks.get_task_details
+  description: "Tests Set VM Power State VM Failed with invalid VM uuid."
+  testFlowPath: io.cloudslang.nutanix.prism.virtualmachines.set_vm_power_state
   inputs:
     - hostname: <hostname>
     - port: <port>
     - username: <username>
     - password: <password>
-    - task_uuid: <task_uuid>
-    - include_subtasks_info: <include_subtasks_info>
+    - vm_uuid: <invalid_vm_uuid>
+    - power_state: <power_state>
+    - host_uuid: <host_uuid>
+    - vm_logical_timestamp: <vm_logical_timestamp>
     - api_version: <api_version>
     - proxy_host: <proxy_host>
     - proxy_port: <proxy_port>
@@ -67,5 +71,3 @@ testGetTaskDetailsFailedWithInvalidUUID:
     - connections_max_total: <connections_max_total>
 
   result: FAILURE
-
-
