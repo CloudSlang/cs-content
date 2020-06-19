@@ -24,11 +24,8 @@
 #! @input vm_uuid: UUID of the Virtual Machine.
 #! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
 #!                          Optional
-#! @input logical_timestamp: The Virtual logical timestamp.
-#!                           Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
+#! @input vm_logical_timestamp: The Virtual logical timestamp.
+#!                              Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -82,12 +79,11 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -103,9 +99,7 @@ flow:
     - vm_uuid
     - delete_snapshots:
         required: false
-    - logical_timestamp:
-        required: false
-    - include_subtasks_info:
+    - vm_logical_timestamp:
         required: false
     - api_version:
         required: false
@@ -149,7 +143,7 @@ flow:
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
             - delete_snapshots: '${delete_snapshots}'
-            - logical_timestamp: '${logical_timestamp}'
+            - logical_timestamp: '${vm_logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -185,7 +179,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -240,7 +233,7 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Deleted the VM :  '
+            - origin_string: 'Successfully deleted the virtual machine :  '
             - text: '${vm_uuid}'
         publish:
           - return_result: '${new_string}'
