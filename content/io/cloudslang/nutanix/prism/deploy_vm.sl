@@ -27,6 +27,11 @@
 #! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be created.
 #! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be created.
 #! @input num_cores_per_vcpu: This is the number of cores per vCPU.
+#! @input is_cdrom: If the value is 'true' then Virtual Machine needs to create with CDROM otherwise Virtual Machine will
+#!                  be created with Empty Disk.
+#! @input device_bus: The type of Device disk.
+#!                    Allowed Values: 'SCSI, IDE, PCI, SATA, SPAPR'.
+#! @input network_uuid: The network UUID which will be attached to the Virtual Machine.
 #! @input time_zone: The timezone in which the Virtual Machine will be created.
 #!                   Example : 'Asia/Calcutta'
 #!                   Optional
@@ -45,13 +50,9 @@
 #! @input is_thin_provisioned: If the value is 'true' then Virtual Machine will be created with thin provision.
 #!                             Default : 'true'
 #!                             Optional
-#! @input is_cdrom: If the value is 'true' then Virtual Machine needs to create with CDROM otherwise Virtual Machine will
-#!                  be created with Empty Disk.
-#! @input is_empty: If the value is 'true' then Virtual Machine will created with EmptyDisk.
-#!                  Default : 'true'
-#!                  Optional
-#! @input device_bus: The type of Device disk.
-#!                    Allowed Values: 'SCSI, IDE, PCI, SATA, SPAPR'.
+#! @input is_empty_disk: If the value is 'true' then Virtual Machine will created with EmptyDisk.
+#!                       Default : 'true'
+#!                       Optional
 #! @input disk_label: The Label for the disk that will be created
 #!                    Optional
 #! @input device_index: The Index of the disk device.
@@ -75,7 +76,6 @@
 #! @input vm_disk_size: The size (in GiB) of the new storage container to be created.
 #!                      Default : '0'
 #!                      Optional
-#! @input network_uuid: The network UUID which will be attached to the Virtual Machine.
 #! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
 #!                              Optional
 #! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
@@ -89,15 +89,6 @@
 #!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
 #!                  Default : 'false'
 #!                  Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -161,9 +152,8 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -182,6 +172,9 @@ flow:
     - vm_memory_size
     - num_vcpus
     - num_cores_per_vcpu
+    - is_cdrom
+    - device_bus
+    - network_uuid
     - time_zone:
         required: false
     - hypervisor_type:
@@ -192,10 +185,8 @@ flow:
         required: false
     - is_thin_provisioned:
         required: false
-    - is_cdrom
-    - is_empty:
+    - is_empty_disk:
         required: false
-    - device_bus
     - disk_label:
         required: false
     - device_index:
@@ -214,7 +205,6 @@ flow:
         required: false
     - vm_disk_size:
         required: false
-    - network_uuid
     - requested_ip_address:
         required: false
     - is_connected:
@@ -222,12 +212,6 @@ flow:
     - host_uuids:
         required: false
     - agent_vm:
-        required: false
-    - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
         required: false
     - api_version:
         required: false
@@ -280,7 +264,7 @@ flow:
             - is_scsi_pass_through: '${is_scsi_pass_through}'
             - is_thin_provisioned: '${is_thin_provisioned}'
             - is_cdrom: '${is_cdrom}'
-            - is_empty: '${is_empty}'
+            - is_empty_disk: '${is_empty_disk}'
             - device_bus: '${device_bus}'
             - disk_label: '${disk_label}'
             - device_index: '${device_index}'
@@ -329,7 +313,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -391,8 +374,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
