@@ -28,15 +28,6 @@
 #!                   Optional
 #! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
 #!                              Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
 #! @input api_version: The api version for nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -90,13 +81,12 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
-#! @output vm_power_state: The current power_state of the Virtual Machine.
+#! @output vm_power_state: The power state of the virtual machine.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -113,12 +103,6 @@ flow:
     - host_uuid:
         required: false
     - vm_logical_timestamp:
-        required: false
-    - include_subtasks_info:
-        required: false
-    - include_vm_disk_config_info:
-        required: false
-    - include_vm_nic_config_info:
         required: false
     - api_version:
         required: false
@@ -161,8 +145,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -199,7 +181,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -220,6 +201,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - task_status
+          - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: FAILURE
@@ -253,10 +235,11 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Powered On the VM : '
+            - origin_string: 'Successfully Powered ON the virtual machine : '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
+          - power_state: 'on'
         navigate:
           - SUCCESS: SUCCESS
     - set_vm_power_state:
@@ -270,7 +253,8 @@ flow:
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
             - power_state: 'ON'
-            - vm_logical_timestamp: '${logical_timestamp}'
+            - host_uuid: '${host_uuid}'
+            - vm_logical_timestamp: '${vm_logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -293,7 +277,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: wait_for_task_status
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - is_vm_powered_on:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -302,9 +286,9 @@ flow:
             - ignore_case: 'true'
         publish: []
         navigate:
-          - SUCCESS: failure_message
+          - SUCCESS: power_success_message
           - FAILURE: set_vm_power_state
-    - failure_message:
+    - power_success_message:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${vm_name}'
@@ -312,14 +296,14 @@ flow:
         publish:
           - return_result: '${new_string}'
         navigate:
-          - SUCCESS: FAILURE
+          - SUCCESS: SUCCESS
     - wait_for_task_status:
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '5'
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
     - return_result: '${return_result}'
     - vm_power_state: '${power_state}'
