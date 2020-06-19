@@ -25,15 +25,6 @@
 #! @input nic_mac_address: MAC address of Virtual Machine NIC identifier.
 #! @input vm_logical_timestamp: Virtual Machine Logical timestamp.
 #!                              Optional
-#! @input include_subtasks_info: Whether to include a detailed information of the immediate subtasks.
-#!                               Default: 'false'
-#!                               Optional
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
 #! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -87,13 +78,13 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
 #! @output mac_address: Updated MAC Address/es of the Virtual Machine.
 #! @output ip_address: Updated IP Address/es of the Virtual Machine.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -109,8 +100,6 @@ flow:
     - vm_uuid
     - nic_mac_address
     - vm_logical_timestamp:
-        required: false
-    - include_subtasks_info:
         required: false
     - api_version:
         required: false
@@ -190,7 +179,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - task_uuid: '${task_uuid}'
-            - include_subtasks_info: '${include_subtasks_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -244,7 +232,7 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully deleted NIC from the VM : '
+            - origin_string: 'Successfully deleted NIC from the virtual machine: '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
@@ -260,8 +248,6 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
-            - include_vm_disk_config_info: '${include_vm_disk_config_info}'
-            - include_vm_nic_config_info: '${include_vm_nic_config_info}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
