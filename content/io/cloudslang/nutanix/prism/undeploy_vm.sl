@@ -86,7 +86,7 @@
 #! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.nutanix.prism.test_workflows
+namespace: io.cloudslang.nutanix.prism
 flow:
   name: undeploy_vm
   inputs:
