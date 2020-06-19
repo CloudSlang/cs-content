@@ -81,12 +81,12 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
 #! @output vm_disk_uuid: Updated disk uuid/s of the Virtual Machine.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism

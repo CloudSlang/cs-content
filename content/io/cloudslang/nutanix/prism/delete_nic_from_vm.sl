@@ -78,13 +78,13 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
 #! @output mac_address: Updated MAC Address/es of the Virtual Machine.
 #! @output ip_address: Updated IP Address/es of the Virtual Machine.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -232,7 +232,7 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully deleted NIC from the VM : '
+            - origin_string: 'Successfully deleted NIC from the virtual machine: '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'

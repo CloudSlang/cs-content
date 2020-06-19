@@ -23,9 +23,6 @@
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
 #! @input vm_uuid: UUID of the Virtual Machine.
-#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                   is powered off, then this field is empty.
-#!                   Optional
 #! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
 #!                              Optional
 #! @input api_version: The api version for nutanix.
@@ -81,13 +78,11 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the Success Message. In case of an error this output will contain
-#!                        the error message.
-#! @output vm_power_state: The current power_state of the Virtual Machine.
+#! @output return_result: If successful, returns the success message. In case of an error this output will containthe error message.
+#! @output vm_power_state: The current power state of the virtual machine.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
-#!
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.nutanix.prism
@@ -101,8 +96,6 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - host_uuid:
-        required: false
     - vm_logical_timestamp:
         required: false
     - api_version:
@@ -213,7 +206,7 @@ flow:
             - ignore_case: 'true'
         publish: []
         navigate:
-          - SUCCESS: success_message
+          - SUCCESS: power_off_success_message
           - FAILURE: iterate_for_task_status
     - iterate_for_task_status:
         do:
@@ -232,7 +225,7 @@ flow:
         navigate:
           - SUCCESS: get_task_details
           - FAILURE: FAILURE
-    - success_message:
+    - power_off_success_message:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: 'Successfully Powered Off the VM : '
@@ -252,7 +245,7 @@ flow:
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
             - power_state: 'OFF'
-            - vm_logical_timestamp: '${logical_timestamp}'
+            - vm_logical_timestamp: '${vm_logical_timestamp}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -284,9 +277,9 @@ flow:
             - ignore_case: 'true'
         publish: []
         navigate:
-          - SUCCESS: failure_message
+          - SUCCESS: power_state_success_message
           - FAILURE: set_vm_power_state
-    - failure_message:
+    - power_state_success_message:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${vm_name}'
@@ -294,7 +287,7 @@ flow:
         publish:
           - return_result: '${new_string}'
         navigate:
-          - SUCCESS: FAILURE
+          - SUCCESS: SUCCESS
     - wait_for_task_status:
         do:
           io.cloudslang.base.utils.sleep:
