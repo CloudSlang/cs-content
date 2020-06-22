@@ -33,6 +33,7 @@
 #!                                     the files 'source.xml' and 'source.txt' will be created). If one of files already exists then an
 #!                                     exception will be thrown.
 #!                            Default: ''.
+#!                            Note: This capability is provided “as is”, please see product documentation for further information.
 #! @input text_type: Optional - Specifies the type of the text on a page.
 #!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
 #!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
@@ -107,7 +108,7 @@
 #! @input response_character_set: Optional - The character encoding to be used for the HTTP response.
 #!                                           If responseCharacterSet is empty, the charset from the 'Content-Type' HTTP response header will be used.
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
-#!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
+#!                                           the default value will be used.
 #!                                Default: 'UTF-8'.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
@@ -292,7 +293,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-SNAPSHOT-18'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-RC1'
     class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 
