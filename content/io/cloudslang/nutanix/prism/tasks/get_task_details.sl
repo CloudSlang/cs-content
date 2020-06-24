@@ -82,7 +82,6 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Nutanix API request.
-#! @output vm_uuid: UUID of the Virtual Machine.
 #! @output task_status: Status of the task.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -203,15 +202,14 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.tasks.GetTaskDetails'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - vm_uuid: ${get('vmUUID', '')} 
+    - status_code: ${get('statusCode', '')}
     - task_status: ${get('taskStatus', '')} 
   
   results: 
