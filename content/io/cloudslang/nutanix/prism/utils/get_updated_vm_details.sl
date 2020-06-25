@@ -59,7 +59,7 @@ flow:
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vm_json_object}'
-            - json_path: '${timezone}'
+            - json_path: timezone
         publish:
           - timezone: '${return_result}'
         navigate:
@@ -89,7 +89,7 @@ flow:
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vm_json_object}'
-            - json_path: '${num_vcpus}'
+            - json_path: num_vcpus
         publish:
           - num_vcpus: '${return_result}'
         navigate:
