@@ -1,3 +1,16 @@
+#   (c) Copyright 2020 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Update a Virtual Machine with specified configuration.This is an asynchronous operation that results in
@@ -5,7 +18,7 @@
 #!               operation. This task can be monitored by using the /tasks/poll API.
 #!
 #! @input hostname: The hostname for Nutanix Prism.
-#! @input port: The port to connect to Nutanix.
+#! @input port: The port to connect to Nutanix Prism.
 #!              Default: '9440'
 #!              Optional
 #! @input username: The username for Nutanix Prism.
@@ -17,13 +30,13 @@
 #!                        Optional
 #! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
 #!                        Optional
-#! @input num_vcp_us: The number that indicates how many processors will have the virtual machine that will be updated.
+#! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be updated.
 #!                    Optional
 #! @input num_cores_per_vcpu: This is the number of cores per vCPU.
 #!                            Optional
 #! @input time_zone: The timezone in which the Virtual Machine will be updated.Example : 'Asia/Calcutta'
 #!                   Optional
-#! @input host_uui_ds: The Host UUIDs for which Virtual Machine will be mapped.
+#! @input host_uuids: The Host UUIDs for which Virtual Machine will be mapped.
 #!                     Optional
 #! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
@@ -32,7 +45,7 @@
 #!                  Optional
 #! @input api_version: The api version for Nutanix.
 #!                      Default: 'v2.0'
-#!                     Optional
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Nutanix service.
@@ -132,7 +145,7 @@ operation:
     - num_vcp_us:  
         required: false  
     - numVCPUs: 
-        default: ${get('num_vcp_us', '')}  
+        default: ${get('num_vcpus', '')}
         required: false 
         private: true 
     - num_cores_per_vcpu:  
@@ -147,10 +160,10 @@ operation:
         default: ${get('time_zone', '')}  
         required: false 
         private: true 
-    - host_uui_ds:  
+    - host_uuids:
         required: false  
     - hostUUIDs: 
-        default: ${get('host_uui_ds', '')}  
+        default: ${get('host_uuids', '')}
         required: false 
         private: true 
     - agent_vm:  
