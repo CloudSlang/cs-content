@@ -113,8 +113,13 @@
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output txt_result: The result for 'txt' export format in clear text (empty if 'txt' was not provided in 'exportFormat' input).
+#!                     Some characters will be escaped in order to avoid code injection.
+#!                     For the unescaped version of the result use the destination_file input.
 #! @output xml_result: The result for 'xml' export format in clear text (empty if 'xml' was not provided in 'exportFormat' input).
-#! @output pdf_url: The URL at which the PDF result of the recognition process can be found.
+#!                     Some characters will be escaped in order to avoid code injection.
+#!                     For the unescaped version of the result use the destination_folder input.
+#! @output pdf_url: The URL at which the PDF result of the recognition process can be found
+#!                  (empty if 'pdfSearchable' was not provided in 'exportFormat' input).
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
 #! @output result_url: The URL at which the result of the recognition process can be found.
@@ -293,7 +298,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-RC1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-RC2'
     class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 
