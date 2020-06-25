@@ -322,5 +322,5 @@ flow:
     - vm_memory: '${vm_memory}'
     - timezone: '${timezone}'
   results:
-    - SUCCESS: ${returnCode=='0'}
+    - SUCCESS
     - FAILURE
