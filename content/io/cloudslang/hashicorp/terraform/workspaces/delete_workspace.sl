@@ -91,7 +91,7 @@ namespace: io.cloudslang.hashicorp.terraform.workspaces
 operation: 
   name: delete_workspace
   
-  inputs: 
+  inputs:
     - auth_token:    
         sensitive: true
     - authToken: 
@@ -196,15 +196,15 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.2'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC5'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.DeleteWorkspace'
     method_name: 'execute'
   
-  outputs: 
+  outputs:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   
-  results: 
+  results:
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
