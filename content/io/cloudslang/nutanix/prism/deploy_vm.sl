@@ -411,8 +411,17 @@ flow:
         publish:
           - vm_uuid: '${return_result}'
         navigate:
-          - SUCCESS: get_vm_details
+          - SUCCESS: strip_characters_from_vm_uuid
           - FAILURE: on_failure
+    - strip_characters_from_vm_uuid:
+        do:
+          io.cloudslang.base.strings.remove:
+            - origin_string: '${vm_uuid}'
+            - text: '"'
+        publish:
+          - vm_uuid: '${new_string}'
+        navigate:
+          - SUCCESS: get_vm_details
   outputs:
     - vm_uuid: '${vm_uuid}'
     - ip_address: '${ip_address}'
