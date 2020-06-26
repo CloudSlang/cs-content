@@ -76,6 +76,14 @@
 #! @input winrm_max_envelop_size: The maximum size of a SOAP packet in bytes for all stream content.
 #!                                 Default value is '153600'.
 #! @input script: The PowerShell script that will be executed on the remote shell.
+#! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
+#!                            of PowerShell if the PSSessionConfiguration is properly configured on the target.
+#!                            By default, after PSRemoting is enabled on the target, the configuration name for
+#!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6',
+#!                            for PowerShell v7 is 'PowerShell.7'.
+#!                            Additional configurations can be created by the user on the target machines.
+#!                            Valid values: any PSConfiguration that exists on the host.
+#!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #! @input winrm_locale: The WinRM locale to use.
 #!                     Default value is 'en-US'.
 #! @input operation_timeout: Defines the OperationTimeout value in seconds to indicate that the clients expect a
@@ -152,6 +160,12 @@ flow:
            required: false
            default: '153600'
      -  script
+     -  configuration_name:
+          required: false
+     -  configurationName:
+          default: ${get("configuration_name", "")}
+          required: false
+          private: true
      -  winrm_locale:
            required: false
            default: 'en-US'
@@ -184,6 +198,7 @@ flow:
                -  keystore_password
                -  winrm_max_envelop_size
                -  script
+               -  configuration_name
                -  winrm_locale
                -  operation_timeout
           publish:
