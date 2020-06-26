@@ -142,7 +142,7 @@ operation:
         default: ${get('vm_memory_size', '')}  
         required: false 
         private: true 
-    - num_vcp_us:  
+    - num_vcpus:
         required: false  
     - numVCPUs: 
         default: ${get('num_vcpus', '')}

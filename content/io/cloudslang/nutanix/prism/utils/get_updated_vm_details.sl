@@ -118,10 +118,10 @@ flow:
   outputs:
     - vm_name: '${vm_name}'
     - host_uuids: '${host_uuids}'
-    - vm_memory: '${vm_memory}'
+    - vm_memory_size: '${vm_memory}'
     - num_vcpus: '${num_vcpus}'
     - num_cores_per_vcpu: '${num_cores_per_vcpu}'
-    - timezone: '${timezone}'
+    - time_zone: '${timezone}'
     - agent_vm: '${agent_vm}'
   results:
     - FAILURE

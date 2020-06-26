@@ -28,7 +28,7 @@
 #!                        Optional
 #! @input update_vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
 #!                        Optional
-#! @input update_num_vcp_us: The number that indicates how many processors will have the virtual machine that will be updated.
+#! @input update_num_vcpus: The number that indicates how many processors will have the virtual machine that will be updated.
 #!                    Optional
 #! @input update_num_cores_per_vcpu: This is the number of cores per vCPU.
 #!                            Optional
@@ -275,7 +275,7 @@ flow:
           - vm_memory
           - num_vcpus
           - num_cores_per_vcpu
-          - timezone
+          - time_zone
           - agent_vm
         navigate:
           - FAILURE: on_failure
@@ -319,8 +319,8 @@ flow:
     - agent_vm: '${agent_vm}'
     - num_cores_per_vcpu: '${num_cores_per_vcpu}'
     - num_vcpus: '${num_vcpus}'
-    - vm_memory: '${vm_memory}'
-    - timezone: '${timezone}'
+    - vm_memory_size: '${vm_memory}'
+    - time_zone: '${time_zone}'
   results:
     - SUCCESS
     - FAILURE
