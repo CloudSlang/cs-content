@@ -96,6 +96,7 @@ flow:
           - cartridge_str: ${result}
         navigate:
           - SUCCESS: create_app
+          - FAILURE: create_app
 
     - create_app:
         do:
