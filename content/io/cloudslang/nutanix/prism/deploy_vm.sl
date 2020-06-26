@@ -332,7 +332,6 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - vm_uuid
           - task_status
           - return_result
         navigate:
@@ -345,7 +344,7 @@ flow:
             - second_string: Succeeded
         publish: []
         navigate:
-          - SUCCESS: get_vm_details
+          - SUCCESS: get_vm_uuid
           - FAILURE: iterate_for_task_status
     - iterate_for_task_status:
         do:
@@ -404,6 +403,16 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+    - get_vm_uuid:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: 'entity_list[0].entity_id'
+        publish:
+          - vm_uuid: '${return_result}'
+        navigate:
+          - SUCCESS: get_vm_details
+          - FAILURE: on_failure
   outputs:
     - vm_uuid: '${vm_uuid}'
     - ip_address: '${ip_address}'
