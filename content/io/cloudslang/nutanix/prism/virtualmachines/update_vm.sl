@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Update a Virtual Machine with specified configuration.This is an asynchronous operation that results in
+#! @description: Update a virtual machine with specified configuration.This is an asynchronous operation that results in
 #!               the creation of a task object. The UUID of this task object is returned as the response of this
 #!               operation. This task can be monitored by using the /tasks/poll API.
 #!
@@ -23,10 +23,10 @@
 #!              Optional
 #! @input username: The username for Nutanix Prism.
 #! @input password: The password for Nutanix Prism.
-#! @input vm_uuid: Id of the Virtual Machine Prism.
-#! @input vm_name: Name of the Virtual Machine that will be updated.
+#! @input vm_uuid: Id of the virtual machine Prism.
+#! @input vm_name: Name of the virtual machine that will be updated.
 #!                 Optional
-#! @input vm_description: The description of the Virtual Machine that will be updated.
+#! @input vm_description: The description of the virtual machine that will be updated.
 #!                        Optional
 #! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
 #!                        Optional
@@ -34,9 +34,9 @@
 #!                    Optional
 #! @input num_cores_per_vcpu: This is the number of cores per vCPU.
 #!                            Optional
-#! @input time_zone: The timezone in which the Virtual Machine will be updated.Example : 'Asia/Calcutta'
+#! @input time_zone: The timezone in which the virtual machine will be updated.Example : 'Asia/Calcutta'
 #!                   Optional
-#! @input host_uuids: The Host UUIDs for which Virtual Machine will be mapped.
+#! @input host_uuids: The Host UUIDs for which virtual machine will be mapped.
 #!                     Optional
 #! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
@@ -99,8 +99,8 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for Nutanix API request.
-#! @output task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
+#! @output status_code: The HTTP status code for Nutanix Prism API request.
+#! @output task_uuid: The UUID of the Task that will be created in Nutanix Prism after submission of the API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.

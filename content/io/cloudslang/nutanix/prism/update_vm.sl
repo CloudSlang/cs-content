@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Update a Virtual Machine with specified configuration.
+#! @description: Update a virtual machine with specified configuration.
 #!
 #! @input hostname: The hostname for Nutanix Prism.
 #! @input port: The port to connect to Nutanix Prism.
@@ -21,10 +21,10 @@
 #!              Optional
 #! @input username: The username for Nutanix Prism.
 #! @input password: The password for Nutanix Prism.
-#! @input vm_uuid: Id of the Virtual Machine Prism.
-#! @input update_vm_name: Name of the Virtual Machine that will be updated.
+#! @input vm_uuid: Id of the virtual machine Prism.
+#! @input update_vm_name: Name of the virtual machine that will be updated.
 #!                 Optional
-#! @input update_vm_description: The description of the Virtual Machine that will be updated.
+#! @input update_vm_description: The description of the virtual machine that will be updated.
 #!                        Optional
 #! @input update_vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
 #!                        Optional
@@ -32,9 +32,9 @@
 #!                    Optional
 #! @input update_num_cores_per_vcpu: This is the number of cores per vCPU.
 #!                            Optional
-#! @input update_time_zone: The timezone in which the Virtual Machine will be updated.Example : 'Asia/Calcutta'
+#! @input update_time_zone: The timezone in which the virtual machine will be updated.Example : 'Asia/Calcutta'
 #!                   Optional
-#! @input update_host_uuids: The Host UUIDs for which Virtual Machine will be mapped.
+#! @input update_host_uuids: The Host UUIDs for which virtual machine will be mapped.
 #!                     Optional
 #! @input update_agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
@@ -94,12 +94,12 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output vm_name: Name of the Virtual Machine that will be created.
-#! @output host_uuids: UUIDs identifying the host on which the Virtual Machine is currently running.
+#! @output vm_name: Name of the virtual machine that will be updated.
+#! @output host_uuids: UUIDs identifying the host on which the virtual machine is currently running.
 #! @output vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be created.
 #! @output num_vcpus: The number that indicates how many processors will have the virtual machine that will be created.
 #! @output num_cores_per_vcpu: This is the number of cores per vCPU.
-#! @output time_zone: The timezone in which the Virtual Machine will be created.
+#! @output time_zone: The timezone in which the virtual machine will be created.
 #! @output agent_vm: Indicates whether the VM is an agent VM.
 #!
 #! @result SUCCESS: The request was successfully executed.
