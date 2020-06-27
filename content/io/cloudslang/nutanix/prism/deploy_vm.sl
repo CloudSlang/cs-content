@@ -56,10 +56,10 @@
 #!                       Optional
 #! @input disk_label: The Label for the disk.
 #!                    Optional
-#! @input device_index: The Index of the disk device.
+#! @input device_index: The index of the disk device.
 #!                      Default : '0'
 #!                      Optional
-#! @input ndfs_filepath: The refernece ndfs file location from which the disk creates.
+#! @input ndfs_filepath: The reference ndfs file location from which the disk creates.
 #!                       Optional
 #! @input source_vm_disk_uuid: The reference disk UUID from which new disk will be created.
 #!                             Optional
