@@ -484,6 +484,8 @@ flow:
             - private_key_data:
                 value: '${private_key_data}'
                 sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
             - api_version: '${api_version}'
             - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
@@ -534,6 +536,8 @@ flow:
             - private_key_data:
                 value: '${private_key_data}'
                 sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
             - api_version: '${api_version}'
             - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
@@ -581,6 +585,8 @@ flow:
             - private_key_data:
                 value: '${private_key_data}'
                 sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
             - api_version: '${api_version}'
             - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
@@ -651,6 +657,8 @@ flow:
             - private_key_data:
                 value: '${private_key_data}'
                 sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
             - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
