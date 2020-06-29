@@ -33,6 +33,7 @@
 #!                                     the files 'source.xml' and 'source.txt' will be created). If one of files already exists then an
 #!                                     exception will be thrown.
 #!                            Default: ''.
+#!                            Note: This capability is provided “as is”, please see product documentation for further information.
 #! @input text_type: Optional - Specifies the type of the text on a page.
 #!                              This parameter may also contain several text types separated with commas, for example "normal,matrix".
 #!                   Valid: 'normal', 'typewriter', 'matrix', 'index', 'ocrA', 'ocrB', 'e13b', 'cmc7', 'gothic'.
@@ -107,13 +108,18 @@
 #! @input response_character_set: Optional - The character encoding to be used for the HTTP response.
 #!                                           If responseCharacterSet is empty, the charset from the 'Content-Type' HTTP response header will be used.
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
-#!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
+#!                                           the default value will be used.
 #!                                Default: 'UTF-8'.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output txt_result: The result for 'txt' export format in clear text (empty if 'txt' was not provided in 'exportFormat' input).
+#!                     Some characters will be escaped in order to avoid code injection.
+#!                     For the unescaped version of the result use the destination_file input.
 #! @output xml_result: The result for 'xml' export format in clear text (empty if 'xml' was not provided in 'exportFormat' input).
-#! @output pdf_url: The URL at which the PDF result of the recognition process can be found.
+#!                     Some characters will be escaped in order to avoid code injection.
+#!                     For the unescaped version of the result use the destination_folder input.
+#! @output pdf_url: The URL at which the PDF result of the recognition process can be found
+#!                  (empty if 'pdfSearchable' was not provided in 'exportFormat' input).
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
 #! @output result_url: The URL at which the result of the recognition process can be found.
@@ -292,7 +298,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.2'
     class_name: io.cloudslang.content.abbyy.actions.ProcessImageAction
     method_name: execute
 

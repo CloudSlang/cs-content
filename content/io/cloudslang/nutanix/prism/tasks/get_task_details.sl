@@ -209,7 +209,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')}
-    - task_status: ${get('taskStatus', '')}
+    - task_status: ${get('taskStatus', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

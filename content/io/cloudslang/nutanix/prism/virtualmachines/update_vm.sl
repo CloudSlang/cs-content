@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 Micro Focus, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,46 +13,47 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to deploy a DCA template.
+#! @description: Update a virtual machine with specified configuration.This is an asynchronous operation that results in
+#!               the creation of a task object. The UUID of this task object is returned as the response of this
+#!               operation. This task can be monitored by using the /tasks/poll API.
 #!
-#! @input dca_host: The hostname or IP of the DCA environment.
-#! @input dca_port: The port on which the DCA environment is listening.
-#!                  Default: '443'
-#!                  Optional
-#! @input protocol: The protocol with which to connect to the DCA environment
-#!                  Valid: 'http' or 'https'
-#!                  Default: 'https'
-#!                  Optional
-#! @input auth_token: The authentication token from the Get Authentication Token operation.
-#! @input refresh_token: The refresh token from the Get Authentication Token operation. This can be used to extend the
-#!                       default lifetime of the authentication token.
-#!                       Optional
-#! @input deployment_name: The display name of the deployment.
-#! @input deployment_description: A description of the deployment.
-#!                                Optional
-#! @input deployment_template_id: The UUID of the DCA template to deploy.
-#! @input deployment_resources_json: The JSON array with resources resulted from the create_resource_json operation.
-#! @input async: Whether to run the operation is async mode. In async mode, the deployment will be started, and the
-#!               operation will exit. Otherwise the operation will wait for the result of the deployment.
-#!               Default: 'true'
-#!               Optional
-#! @input timeout: The timeout in seconds, in case the operation runs in sync mode.
-#!                 Default: '1200'
+#! @input hostname: The hostname for Nutanix Prism.
+#! @input port: The port to connect to Nutanix Prism.
+#!              Default: '9440'
+#!              Optional
+#! @input username: The username for Nutanix Prism.
+#! @input password: The password for Nutanix Prism.
+#! @input vm_uuid: Id of the virtual machine Prism.
+#! @input vm_name: Name of the virtual machine that will be updated.
 #!                 Optional
-#! @input polling_interval: The interval in seconds at which the deployment will be queried in sync mode.
-#!                          Default: '30'
-#!                          Optional
-#! @input proxy_host: The proxy server used to access the web site.
+#! @input vm_description: The description of the virtual machine that will be updated.
+#!                        Optional
+#! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
+#!                        Optional
+#! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be updated.
 #!                    Optional
-#! @input proxy_port: The proxy server port.
-#!                    Valid values: -1 and integer values greater than 0. The value '-1' indicates that the proxy
-#!                    port is not set and the protocol default port will be used. If the protocol is 'http' and the
-#!                    'proxy_port' is set to '-1' then port '80' will be used.
+#! @input num_cores_per_vcpu: This is the number of cores per vCPU.
+#!                            Optional
+#! @input time_zone: The timezone in which the virtual machine will be updated.Example : 'Asia/Calcutta'
+#!                   Optional
+#! @input host_uuids: The Host UUIDs for which virtual machine will be mapped.
+#!                     Optional
+#! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
+#!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
+#!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.Default :
+#!                  'false'
+#!                  Optional
+#! @input api_version: The api version for Nutanix.
+#!                      Default: 'v2.0'
+#!                      Optional
+#! @input proxy_host: Proxy server used to access the Nutanix service.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the Nutanix service.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: The user name used when connecting to the proxy.
+#! @input proxy_username: Proxy server user name.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
@@ -76,109 +77,105 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
-#! @input use_cookies: Specifies whether to enable cookie tracking or not. Cookies are stored between consecutive calls
-#!                     in a serializable session object therefore they will be available on a branch level. If you
-#!                     specify a non-boolean value, the default value is used.
-#!                     Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after execution it will close
+#!                    it.
+#!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: In case of success, a JSON representation of the deployment, otherwise an error message.
-#! @output return_code: The return code of the operation, 0 in case of success, -1 in case of failure
-#! @output exception: In case of failure, the error message, otherwise empty.
-#! @output status: The status of the deployment.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
+#! @output exception: An error message in case there was an error while executing the request.
+#! @output status_code: The HTTP status code for Nutanix Prism API request.
+#! @output task_uuid: The UUID of the Task that will be created in Nutanix Prism after submission of the API request.
 #!
-#! @result SUCCESS: Operation succeeded, returnCode is '0'.
-#! @result FAILURE: Operation failed, returnCode is '-1'.
+#! @result SUCCESS: The request was successfully executed.
+#! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus.dca.templates
+namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation: 
-  name: deploy_template
+  name: update_vm
   
   inputs: 
-    - dca_host    
-    - dcaHost: 
-        default: ${get('dca_host', '')}  
-        required: false 
-        private: true 
-    - dca_port:
-        default: '443'
+    - hostname    
+    - port:  
         required: false  
-    - dcaPort: 
-        default: ${get('dca_port', '')}  
-        required: false 
-        private: true 
-    - protocol:
-        default: 'https'
-        required: false  
-    - auth_token:
+    - username    
+    - password:    
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
-        private: true
-        sensitive: true
-    - refresh_token:  
-        required: false
-        sensitive: true
-    - refreshToken: 
-        default: ${get('refresh_token', '')}  
-        required: false 
-        private: true
-        sensitive: true
-    - deployment_name
-    - deploymentName:
-        default: ${get('deployment_name', '')}  
+    - vm_uuid    
+    - vmUUID: 
+        default: ${get('vm_uuid', '')}  
         required: false 
         private: true 
-    - deployment_description:  
+    - vm_name:  
         required: false  
-    - deploymentDescription: 
-        default: ${get('deployment_description', '')}  
+    - vmName: 
+        default: ${get('vm_name', '')}  
         required: false 
         private: true 
-    - deployment_template_id
-    - deploymentTemplateId:
-        default: ${get('deployment_template_id', '')}  
+    - vm_description:  
+        required: false  
+    - vmDescription: 
+        default: ${get('vm_description', '')}  
         required: false 
         private: true 
-    - deployment_resources_json
-    - deploymentResourcesJson:
-        default: ${get('deployment_resources_json', '')}  
+    - vm_memory_size:  
+        required: false  
+    - vmMemorySize: 
+        default: ${get('vm_memory_size', '')}  
         required: false 
         private: true 
-    - async:
-        default: 'true'
+    - num_vcpus:
         required: false  
-    - timeout:
-        default: '1200'
+    - numVCPUs: 
+        default: ${get('num_vcpus', '')}
+        required: false 
+        private: true 
+    - num_cores_per_vcpu:  
         required: false  
-    - polling_interval:
-        default: '30'
+    - numCoresPerVCPU: 
+        default: ${get('num_cores_per_vcpu', '')}  
+        required: false 
+        private: true 
+    - time_zone:  
         required: false  
-    - pollingInterval: 
-        default: ${get('polling_interval', '')}  
+    - timeZone: 
+        default: ${get('time_zone', '')}  
+        required: false 
+        private: true 
+    - host_uuids:
+        required: false  
+    - hostUUIDs: 
+        default: ${get('host_uuids', '')}
+        required: false 
+        private: true 
+    - agent_vm:  
+        required: false  
+    - agentVM: 
+        default: ${get('agent_vm', '')}  
+        required: false 
+        private: true 
+    - api_version:  
+        required: false  
+    - apiVersion: 
+        default: ${get('api_version', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -187,8 +184,7 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:
-        default: '8080'
+    - proxy_port:  
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -208,15 +204,13 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:
-        default: 'false'
+    - trust_all_roots:  
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:
-        default: 'strict'
+    - x_509_hostname_verifier:  
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -236,16 +230,6 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
-        sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
     - connect_timeout:  
         required: false  
     - connectTimeout: 
@@ -256,12 +240,6 @@ operation:
         required: false  
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - use_cookies:  
-        required: false  
-    - useCookies: 
-        default: ${get('use_cookies', '')}  
         required: false 
         private: true 
     - keep_alive:  
@@ -283,16 +261,16 @@ operation:
         required: false 
         private: true 
     
-  java_action:
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.5'
-    class_name: 'io.cloudslang.content.dca.actions.templates.DeployTemplate'
+  java_action: 
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.UpdateVM'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
-    - status: ${get('status', '')} 
+    - status_code: ${get('statusCode', '')} 
+    - task_uuid: ${get('taskUUID', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
