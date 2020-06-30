@@ -118,11 +118,13 @@
 #! @input response_character_set: Optional - The character encoding to be used for the HTTP response.
 #!                                           If responseCharacterSet is empty, the charset from the 'Content-Type' HTTP response header will be used.
 #!                                           If responseCharacterSet is empty and the charset from the HTTP response Content-Type header is empty,
-#!                                           the default value will be used. You should not use this for method=HEAD or OPTIONS.
+#!                                           the default value will be used.
 #!                                Default: 'UTF-8'.
 #!
 #! @output return_result: Contains a human readable message mentioning the success or failure of the task.
 #! @output xml_result: The result for 'xml' export format in clear text.
+#!                     Some characters will be escaped in order to avoid code injection.
+#!                     For the unescaped version of the result use the destination_file input.
 #! @output task_id: The ID of the task registered in the ABBYY server.
 #! @output credits: The amount of ABBYY credits spent on the action.
 #! @output status_code: The status_code returned by the server.
@@ -309,7 +311,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.1'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.3'
     class_name: io.cloudslang.content.abbyy.actions.ProcessTextFieldAction
     method_name: execute
 

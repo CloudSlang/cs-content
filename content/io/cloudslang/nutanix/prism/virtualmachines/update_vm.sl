@@ -13,26 +13,39 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get details of a specific Virtual Machines. Virtual Machine disk information and network information
-#!               are not included by default as fetching these are expensive operations. These can be included by
-#!               setting the includeVMDiskConfig and includeVMNicConfig flags respectively.
+#! @description: Update a virtual machine with specified configuration.This is an asynchronous operation that results in
+#!               the creation of a task object. The UUID of this task object is returned as the response of this
+#!               operation. This task can be monitored by using the /tasks/poll API.
 #!
-#! @input hostname: The hostname for Nutanix.
-#! @input port: The port to connect to Nutanix.
+#! @input hostname: The hostname for Nutanix Prism.
+#! @input port: The port to connect to Nutanix Prism.
 #!              Default: '9440'
 #!              Optional
-#! @input username: The username for Nutanix.
-#! @input password: The password for Nutanix.
-#! @input vm_uuid: Id of the Virtual Machine.
-#! @input include_vm_disk_config_info: Whether to include Virtual Machine disk information.
-#!                                     Default : 'true'
-#!                                     Optional
-#! @input include_vm_nic_config_info: Whether to include network information.
-#!                                    Default : 'true'
-#!                                    Optional
-#! @input api_version: The api version for Nutanix.
-#!                     Default: 'v2.0'
+#! @input username: The username for Nutanix Prism.
+#! @input password: The password for Nutanix Prism.
+#! @input vm_uuid: Id of the virtual machine Prism.
+#! @input vm_name: Name of the virtual machine that will be updated.
+#!                 Optional
+#! @input vm_description: The description of the virtual machine that will be updated.
+#!                        Optional
+#! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be updated.
+#!                        Optional
+#! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be updated.
+#!                    Optional
+#! @input num_cores_per_vcpu: This is the number of cores per vCPU.
+#!                            Optional
+#! @input time_zone: The timezone in which the virtual machine will be updated.Example : 'Asia/Calcutta'
+#!                   Optional
+#! @input host_uuids: The Host UUIDs for which virtual machine will be mapped.
 #!                     Optional
+#! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
+#!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
+#!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.Default :
+#!                  'false'
+#!                  Optional
+#! @input api_version: The api version for Nutanix.
+#!                      Default: 'v2.0'
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Nutanix service.
@@ -86,14 +99,8 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for Nutanix API request.
-#! @output vm_name: Name of the Virtual Machine.
-#! @output ip_address: IP Address/es of the Virtual Machine.
-#! @output mac_address: MAC Address/es of the Virtual Machine.
-#! @output power_state: Current Power state of the Virtual Machine.
-#! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
-#! @output storage_container_uuid: UUID of the storage container of the Virtual Machine.
-#! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
+#! @output status_code: The HTTP status code for Nutanix Prism API request.
+#! @output task_uuid: The UUID of the Task that will be created in Nutanix Prism after submission of the API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -103,9 +110,9 @@
 namespace: io.cloudslang.nutanix.prism.virtualmachines
 
 operation: 
-  name: get_vm_details
+  name: update_vm
   
-  inputs:
+  inputs: 
     - hostname    
     - port:  
         required: false  
@@ -117,16 +124,52 @@ operation:
         default: ${get('vm_uuid', '')}  
         required: false 
         private: true 
-    - include_vm_disk_config_info:  
+    - vm_name:  
         required: false  
-    - includeVMDiskConfigInfo: 
-        default: ${get('include_vm_disk_config_info', '')}  
+    - vmName: 
+        default: ${get('vm_name', '')}  
         required: false 
         private: true 
-    - include_vm_nic_config_info:  
+    - vm_description:  
         required: false  
-    - includeVMNicConfigInfo: 
-        default: ${get('include_vm_nic_config_info', '')}  
+    - vmDescription: 
+        default: ${get('vm_description', '')}  
+        required: false 
+        private: true 
+    - vm_memory_size:  
+        required: false  
+    - vmMemorySize: 
+        default: ${get('vm_memory_size', '')}  
+        required: false 
+        private: true 
+    - num_vcpus:
+        required: false  
+    - numVCPUs: 
+        default: ${get('num_vcpus', '')}
+        required: false 
+        private: true 
+    - num_cores_per_vcpu:  
+        required: false  
+    - numCoresPerVCPU: 
+        default: ${get('num_cores_per_vcpu', '')}  
+        required: false 
+        private: true 
+    - time_zone:  
+        required: false  
+    - timeZone: 
+        default: ${get('time_zone', '')}  
+        required: false 
+        private: true 
+    - host_uuids:
+        required: false  
+    - hostUUIDs: 
+        default: ${get('host_uuids', '')}
+        required: false 
+        private: true 
+    - agent_vm:  
+        required: false  
+    - agentVM: 
+        default: ${get('agent_vm', '')}  
         required: false 
         private: true 
     - api_version:  
@@ -216,25 +259,19 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
-  java_action:
+  java_action: 
     gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
+    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.UpdateVM'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')}
-    - vm_name: ${get('vmName', '')}
-    - ip_address: ${get('ipAddress', '')}
-    - mac_address: ${get('macAddress', '')}
-    - power_state: ${get('powerState', '')}
-    - vm_disk_uuid: ${get('vmDiskUUID', '')}
-    - storage_container_uuid: ${get('storageContainerUUID', '')}
-    - vm_logical_timestamp: ${get('vmLogicalTimestamp', '')}
-
+    - status_code: ${get('statusCode', '')} 
+    - task_uuid: ${get('taskUUID', '')} 
+  
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
