@@ -27,7 +27,7 @@
 #! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine.
 #! @input num_vcpus: The number of processors of the virtual machine.
 #! @input num_cores_per_vcpu: The number of cores per vCPU of the virtual machine.
-#! @input is_cdrom: If the value is 'true' then virtual machine creates with CDROM, if the value is 'false' virtual
+#! @input is_cdrom: If the value is 'true' then virtual machine creates with CD-ROM, if the value is 'false' virtual
 #!                  machine creates with empty disk.
 #! @input device_bus: The device bus for the virtual disk device.
 #!                    Valid values: 'sata, scsi, ide, pci, spapr'.

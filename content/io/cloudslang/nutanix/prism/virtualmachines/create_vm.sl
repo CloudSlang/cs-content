@@ -48,7 +48,7 @@
 #! @input is_thin_provisioned: If the value is 'true' then virtual machine creates with thin provision.
 #!                             Default : 'false'
 #!                             Optional
-#! @input is_cdrom: If the value is 'true' then virtual machine creates with CDROM, if the value is 'false' virtual
+#! @input is_cdrom: If the value is 'true' then virtual machine creates with CD-ROM, if the value is 'false' virtual
 #!                  machine creates with empty disk.
 #! @input is_empty_disk: If the value is 'true' then virtual machine creates with an empty disk.
 #!                       Default : 'true'
@@ -222,8 +222,8 @@ operation:
         default: ${get('is_thin_provisioned', '')}  
         required: false 
         private: true 
-    - is_cdrom    
-    - isCDROM: 
+    - is_cdrom
+    - isCDROM:
         default: ${get('is_cdrom', '')}  
         required: false
         private: true
@@ -411,7 +411,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC14'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.CreateVM'
     method_name: 'execute'
   

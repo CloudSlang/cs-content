@@ -23,14 +23,44 @@
 #! @input username: The username for Nutanix Prism.
 #! @input password: The password for Nutanix Prism.
 #! @input vm_uuid: The UUID of the virtual machine.
-#! @input device_bus_list: The device bus list for the virtual disk device. List the device buses in the same order
-#!                         that the disk UUIDs are listed, separated by commas.
+#! @input is_cdrom_list: Whether disk drive is CD-ROM drive or disk drive. If multiple disks needs to attach to the
+#!                       virtual machine, add comma separated boolean values.
+#!                       Example: To create 2 CD-ROM dives need to provide input value as 'true,true'.
+#! @input is_empty_disk_list: Whether the drive should be empty. This field only applies to CD-ROM drives, otherwise it
+#!                            is ignored. If multiple empty CD-ROM disks needs to attach to the virtual machine, add
+#!                            comma separated boolean values.
+#!                            Example: To create 2 empty CD-ROM dives need to provide input value as 'true,true'.
+#!                            Optional
+#! @input device_bus_list: The device bus List. List the device buses in the same  order that the disk UUIDs are listed,
+#!                         separated by commas.
 #!                         Valid values: 'sata, scsi, ide, pci, spapr'.
-#! @input device_index_list: Indices of the device on the adapter type. List the device indices in the same order that
-#!                           the disk UUIDs are listed, separated by commas.
+#!                         Optional
+#! @input device_index_list: The device indices list. List the device indices in the same order that the disk UUIDs are
+#!                           listed, separated by commas.
 #!                           Optional
-#! @input device_disk_size_list: The size of the each disk to be attached to the VM.
-#! @input storage_container_uuid_disk_list: The storage container UUID for each disk to be to attached the VM.
+#! @input source_vm_disk_uuid_list: The source VM disk UUID List. If multiple disks need to be attached to the virtual
+#!                                  machine, add comma separated UUIDs.
+#!                                  Optional
+#! @input vm_disk_minimum_size_list: The minimum size of the disk. If multiple disks need to be attached to the virtual
+#!                                   machine, add comma separated disk sizes in GiB.
+#!                                   Optional
+#! @input ndfs_filepath_list: NDFS path to existing virtual disk. List the path in the same order as of isCDROM is
+#!                            listed, separated by commas.
+#!                            Optional
+#! @input device_disk_size_list: The size of the each disk in GiB, to be attached to the VM.
+#!                               Optional
+#! @input storage_container_uuid_list: The storage container UUID in which each disk is created.
+#!                                     Optional
+#! @input is_scsi_pass_through_list: Whether the SCSI disk should be attached in passthrough mode to pass all SCSI
+#!                                   commands directly to Stargate via iSCSI. Provide a list of comma separated boolean
+#!                                   values.
+#!                                   Optional
+#! @input is_thin_provisioned_list: If the value is 'true' then virtual machine creates with thin provision. Provide a
+#!                                  list of comma separated boolean values.
+#!                                  Optional
+#! @input is_flash_mode_enabled_list: If the value is 'true' then flash mode will be enabled for the particular disk.
+#!                                    Provide a list of comma separated boolean values.
+#!                                    Optional
 #! @input api_version: The api version for Nutanix Prism.
 #!                     Default: 'v2.0'
 #!                     Optional
@@ -100,11 +130,29 @@ flow:
     - password:
         sensitive: true
     - vm_uuid
-    - device_bus_list
+    - is_cdrom_list
+    - is_empty_disk_list:
+        required: false
+    - device_bus_list:
+        required: false
     - device_index_list:
         required: false
-    - device_disk_size_list
-    - storage_container_uuid_disk_list
+    - source_vm_disk_uuid_list:
+        required: false
+    - vm_disk_minimum_size_list:
+        required: false
+    - ndfs_filepath_list:
+        required: false
+    - device_disk_size_list:
+        required: false
+    - storage_container_uuid_list:
+        required: false
+    - is_scsi_pass_through:
+        required: false
+    - is_thin_provisioned:
+        required: false
+    - is_flash_mode_enabled_list:
+        required: false
     - api_version:
         required: false
     - proxy_host:
@@ -146,10 +194,18 @@ flow:
                 value: '${password}'
                 sensitive: true
             - vm_uuid: '${vm_uuid}'
+            - is_cdrom_list: '${is_cdrom_list}'
+            - is_empty_disk_list: '${is_empty_disk_list}'
             - device_bus_list: '${device_bus_list}'
             - device_index_list: '${device_index_list}'
+            - source_vm_disk_uuid_list: '${source_vm_disk_uuid_list}'
+            - vm_disk_minimum_size_list: '${vm_disk_minimum_size_list}'
+            - ndfs_filepath_list: '${ndfs_filepath_list}'
             - device_disk_size_list: '${device_disk_size_list}'
             - storage_container_uuid_disk_list: '${storage_container_uuid_disk_list}'
+            - is_scsi_pass_through: '${is_scsi_pass_through}'
+            - is_thin_provisioned: '${is_thin_provisioned}'
+            - is_flash_mode_enabled_list: '${is_flash_mode_enabled_list}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

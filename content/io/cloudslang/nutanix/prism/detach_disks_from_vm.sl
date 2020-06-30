@@ -26,7 +26,7 @@
 #!                           comma-separated UUIDs.
 #! @input device_bus_list: The device bus list for the virtual disk device. List the device buses in the same order
 #!                         that the disk UUIDs are listed, separated by commas.
-#!                         Valid values: 'sata,scsi,ide,pci'.
+#!                         Valid values: 'sata, scsi, ide, pci, spapr'.
 #! @input device_index_list: The indices of the device on the adapter type. List the device indices in the same order
 #!                           that the disk UUIDs are listed, separated by commas.
 #! @input api_version: The api version for Nutanix Prism.
