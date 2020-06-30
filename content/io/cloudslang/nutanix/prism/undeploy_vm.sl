@@ -13,13 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Set power state of a Virtual Machine.If the Virtual Machine is being powered on and no host is
-#!               specified, the scheduler will pick the one with the most available CPU and memory that can support the
-#!               Virtual Machine. Note that no such host may not be available.If the Virtual Machine is being power
-#!               cycled, a different host can be specified to start it on.The logical timestamp can optionally be
-#!               provided for consistency. If a logical timestamp is specified, then this operation will be rejected if
-#!               the logical timestamp specified is not the value of the Virtual Machine logical timestamp. The logical
-#!               timestamp can be obtained from the Virtual Machine object.
+#! @description: Un deploy or delete a Virtual Machine.
 #!
 #! @input hostname: The hostname for Nutanix.
 #! @input port: The port to connect to Nutanix.
@@ -28,15 +22,11 @@
 #! @input username: The username for Nutanix.
 #! @input password: The password for Nutanix.
 #! @input vm_uuid: UUID of the Virtual Machine.
-#! @input power_state: The desired power state of the Virtual Machine.
-#!                     Allowed Values: "'ON', 'OFF', 'POWERCYCLE', 'RESET', 'PAUSE', 'SUSPEND', 'RESUME', 'SAVE',
-#!                                      'ACPI_SHUTDOWN', 'ACPI_REBOOT'"
-#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                   is powered off, then this field is empty.
-#!                   Optional
-#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
+#! @input delete_snapshots: If value is 'true' operation will delete Virtual Machine snapshots.
+#!                          Optional
+#! @input vm_logical_timestamp: The Virtual logical timestamp.
 #!                              Optional
-#! @input api_version: The api version for nutanix.
+#! @input api_version: The api version for Nutanix.
 #!                     Default: 'v2.0'
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Nutanix service.
@@ -89,22 +79,16 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#! @output return_result: If successful, returns the success message. In case of an error this output will contain
 #!                        the error message.
-#! @output exception: An error message in case there was an error while executing the request.
-#! @output status_code: The HTTP status code for Nutanix API request.
-#! @output task_uuid: The UUID of the Task that will be created in Nutanix after submission of the API request.
 #!
-#! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
-
-namespace: io.cloudslang.nutanix.prism.virtualmachines
-
-operation:
-  name: set_vm_power_state
-
+namespace: io.cloudslang.nutanix.prism
+flow:
+  name: undeploy_vm
   inputs:
     - hostname
     - port:
@@ -113,127 +97,150 @@ operation:
     - password:
         sensitive: true
     - vm_uuid
-    - vmUUID:
-        default: ${get('vm_uuid', '')}
+    - delete_snapshots:
         required: false
-        private: true
-    - power_state
-    - powerState:
-        default: ${get('power_state', '')}
-        required: false
-        private: true
-    - host_uuid:
-        required: false
-    - hostUUID:
-        default: ${get('host_uuid', '')}
-        required: false
-        private: true
     - vm_logical_timestamp:
         required: false
-    - vmLogicalTimestamp:
-        default: ${get('vm_logical_timestamp', '')}
-        required: false
-        private: true
     - api_version:
         required: false
-    - apiVersion:
-        default: ${get('api_version', '')}
-        required: false
-        private: true
     - proxy_host:
         required: false
-    - proxyHost:
-        default: ${get('proxy_host', '')}
-        required: false
-        private: true
     - proxy_port:
         required: false
-    - proxyPort:
-        default: ${get('proxy_port', '')}
-        required: false
-        private: true
     - proxy_username:
         required: false
-    - proxyUsername:
-        default: ${get('proxy_username', '')}
-        required: false
-        private: true
     - proxy_password:
         required: false
         sensitive: true
-    - proxyPassword:
-        default: ${get('proxy_password', '')}
-        required: false
-        private: true
-        sensitive: true
     - trust_all_roots:
         required: false
-    - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
-        required: false
-        private: true
     - x_509_hostname_verifier:
         required: false
-    - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}
-        required: false
-        private: true
     - trust_keystore:
         required: false
-    - trustKeystore:
-        default: ${get('trust_keystore', '')}
-        required: false
-        private: true
     - trust_password:
         required: false
         sensitive: true
-    - trustPassword:
-        default: ${get('trust_password', '')}
-        required: false
-        private: true
-        sensitive: true
     - connect_timeout:
         required: false
-    - connectTimeout:
-        default: ${get('connect_timeout', '')}
-        required: false
-        private: true
     - socket_timeout:
         required: false
-    - socketTimeout:
-        default: ${get('socket_timeout', '')}
-        required: false
-        private: true
     - keep_alive:
         required: false
-    - keepAlive:
-        default: ${get('keep_alive', '')}
-        required: false
-        private: true
     - connections_max_per_route:
         required: false
-    - connectionsMaxPerRoute:
-        default: ${get('connections_max_per_route', '')}
-        required: false
-        private: true
     - connections_max_total:
         required: false
-    - connectionsMaxTotal:
-        default: ${get('connections_max_total', '')}
-        required: false
-        private: true
-
-  java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
-    class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.SetVMPowerState'
-    method_name: 'execute'
-
+  workflow:
+    - delete_vm:
+        do:
+          io.cloudslang.nutanix.prism.virtualmachines.delete_vm:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - vm_uuid: '${vm_uuid}'
+            - delete_snapshots: '${delete_snapshots}'
+            - logical_timestamp: '${vm_logical_timestamp}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_uuid
+          - exception
+          - return_result
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
+    - get_task_details:
+        do:
+          io.cloudslang.nutanix.prism.tasks.get_task_details:
+            - hostname: '${hostname}'
+            - port: '${port}'
+            - username: '${username}'
+            - password:
+                value: '${password}'
+                sensitive: true
+            - task_uuid: '${task_uuid}'
+            - api_version: '${api_version}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+        publish:
+          - task_status
+          - return_result
+        navigate:
+          - SUCCESS: is_task_status_succeeded
+          - FAILURE: FAILURE
+    - is_task_status_succeeded:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${task_status}'
+            - second_string: Succeeded
+            - ignore_case: 'true'
+        publish: []
+        navigate:
+          - SUCCESS: success_message
+          - FAILURE: iterate_for_task_status
+    - iterate_for_task_status:
+        do:
+          io.cloudslang.nutanix.prism.utils.counter:
+            - from: '1'
+            - to: '30'
+            - increment_by: '1'
+        navigate:
+          - HAS_MORE: wait_for_task_status_success
+          - NO_MORE: FAILURE
+          - FAILURE: FAILURE
+    - wait_for_task_status_success:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '10'
+        navigate:
+          - SUCCESS: get_task_details
+          - FAILURE: FAILURE
+    - success_message:
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: 'Successfully deleted the virtual machine :  '
+            - text: '${vm_uuid}'
+        publish:
+          - return_result: '${new_string}'
+        navigate:
+          - SUCCESS: SUCCESS
   outputs:
-    - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')}
-    - status_code: ${get('statusCode', '')}
-    - task_uuid: ${get('taskUUID', '')}
-
+    - return_result: '${return_result}'
   results:
-    - SUCCESS: ${returnCode=='0'}
     - FAILURE
+    - SUCCESS

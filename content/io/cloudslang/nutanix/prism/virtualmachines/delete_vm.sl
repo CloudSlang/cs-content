@@ -215,7 +215,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC12'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.DeleteVM'
     method_name: 'execute'
 
