@@ -194,16 +194,16 @@ operation:
         default: ${get('storage_container_uuid_list', '')}
         required: false
         private: true
-    - is_scsi_pass_through:
+    - is_scsi_pass_through_list:
         required: false
-    - isSCSIPassThrough:
-        default: ${get('is_scsi_pass_through', '')}
+    - isSCSIPassThroughList:
+        default: ${get('is_scsi_pass_through_list', '')}
         required: false
         private: true
-    - is_thin_provisioned:
+    - is_thin_provisioned_list:
         required: false
-    - isThinProvisioned:
-        default: ${get('is_thin_provisioned', '')}
+    - isThinProvisionedList:
+        default: ${get('is_thin_provisioned_list', '')}
         required: false
         private: true
     - is_flash_mode_enabled_list:

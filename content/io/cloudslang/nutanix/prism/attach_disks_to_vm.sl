@@ -147,9 +147,9 @@ flow:
         required: false
     - storage_container_uuid_list:
         required: false
-    - is_scsi_pass_through:
+    - is_scsi_pass_through_list:
         required: false
-    - is_thin_provisioned:
+    - is_thin_provisioned_list:
         required: false
     - is_flash_mode_enabled_list:
         required: false
@@ -203,8 +203,8 @@ flow:
             - ndfs_filepath_list: '${ndfs_filepath_list}'
             - device_disk_size_list: '${device_disk_size_list}'
             - storage_container_uuid_disk_list: '${storage_container_uuid_disk_list}'
-            - is_scsi_pass_through: '${is_scsi_pass_through}'
-            - is_thin_provisioned: '${is_thin_provisioned}'
+            - is_scsi_pass_through_list: '${is_scsi_pass_through_list}'
+            - is_thin_provisioned_list: '${is_thin_provisioned_list}'
             - is_flash_mode_enabled_list: '${is_flash_mode_enabled_list}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
