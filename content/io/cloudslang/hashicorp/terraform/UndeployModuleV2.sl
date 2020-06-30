@@ -431,7 +431,7 @@ flow:
                 value: '${auth_token}'
                 sensitive: true
             - workspace_id: '${workspace_id}'
-            - workspace_variables_json: '[{"data":{"attributes":{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}}}]'
+            - workspace_variables_json: '[{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}]'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
