@@ -22,6 +22,9 @@
 #! @input finger_print: Finger print of the public key generated for OCI account.
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
+#!                          Optional
+#! @input privateKeyFile: The path to the private key file on the machine where is the worker.
+#!                        Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input availability_domain: The availability domain of the instance.
