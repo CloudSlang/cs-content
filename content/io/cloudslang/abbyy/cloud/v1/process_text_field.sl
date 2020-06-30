@@ -311,7 +311,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-abbyy:0.0.2-RC2'
+    gav: 'io.cloudslang.content:cs-abbyy:0.0.3'
     class_name: io.cloudslang.content.abbyy.actions.ProcessTextFieldAction
     method_name: execute
 
