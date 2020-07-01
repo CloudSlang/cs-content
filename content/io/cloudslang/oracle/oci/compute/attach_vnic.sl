@@ -257,8 +257,8 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - vnic_attachment_id: '${vnic_attachments_id}'
-          - vnic_attachment_state: '${vnic_attachments_state}'
+          - vnic_attachment_id: '${vnic_attachment_id}'
+          - vnic_attachment_state: '${vnic_attachment_state}'
         navigate:
           - SUCCESS: get_vnic_attachment_details
           - FAILURE: on_failure
