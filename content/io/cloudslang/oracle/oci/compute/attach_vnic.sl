@@ -118,12 +118,15 @@
 #!                                header is empty, the default value will be used. You should not use this for
 #!                                method=HEAD or OPTIONS.Default: 'UTF-8'
 #!                                Optional
+#! @input retry_count: Number of checks if the instance was created successfully.
+#!                     Default: '30'
+#!                     Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output vnic_attachments_id: The OCID of the VNIC attachment.
+#! @output vnic_attachment_id: The OCID of the VNIC attachment.
 #! @output vnic_id: The OCID of the VNIC.
-#! @output vnic_attachments_state: The current state of the VNIC attachment.
+#! @output vnic_attachment_state: The current state of the VNIC attachment.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
