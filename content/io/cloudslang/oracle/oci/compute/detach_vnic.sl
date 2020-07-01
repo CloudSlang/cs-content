@@ -217,7 +217,7 @@ flow:
             - ignore_case: 'true'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: wait_for_instance_to_terminate
+          - FAILURE: wait_for_vnic_to_detach
     - counter:
         do:
           io.cloudslang.oracle.oci.utils.counter:
@@ -228,7 +228,7 @@ flow:
           - HAS_MORE: get_vnic_attachment_details
           - NO_MORE: FAILURE
           - FAILURE: on_failure
-    - wait_for_instance_to_terminate:
+    - wait_for_vnic_to_detach:
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
