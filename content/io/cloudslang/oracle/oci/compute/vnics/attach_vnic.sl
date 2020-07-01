@@ -120,8 +120,8 @@
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output vnic_attachments_state: Life cycle state of the vnic attachment.
-#! @output vnic_attachments_id: The OCID of the vnic attachment.
+#! @output vnic_attachment_state: Life cycle state of the vnic attachment.
+#! @output vnic_attachment_id: The OCID of the vnic attachment.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
@@ -350,8 +350,8 @@ operation:
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - vnic_attachments_state: ${get('vnicAttachmentsState', '')} 
-    - vnic_attachments_id: ${get('vnicAttachmentsId', '')} 
+    - vnic_attachment_state: ${get('vnicAttachmentState', '')}
+    - vnic_attachment_id: ${get('vnicAttachmentId', '')}
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   

@@ -265,7 +265,7 @@ flow:
     - is_vnic_attached:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vnic_state}'
+            - first_string: '${vnic_attachment_state}'
             - second_string: ATTACHED
             - ignore_case: 'true'
         navigate:
@@ -328,16 +328,7 @@ flow:
         publish:
           - return_result
           - vnic_id
-        navigate:
-          - SUCCESS: get_vnic_attachment_state
-          - FAILURE: on_failure
-    - get_vnic_attachment_state:
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: lifecycleState
-        publish:
-          - vnic_state: '${return_result}'
+          - vnic_attachment_state
         navigate:
           - SUCCESS: is_vnic_attached
           - FAILURE: on_failure

@@ -206,13 +206,14 @@ flow:
             - response_character_set: '${response_character_set}'
         publish:
           - return_result
+          - vnic_attachment_state
         navigate:
           - SUCCESS: get_vnic_attachment_details
           - FAILURE: on_failure
     - is_vnic_detached:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vnic_state}'
+            - first_string: '${vnic_attachment_state}'
             - second_string: DETACHED
             - ignore_case: 'true'
         navigate:
@@ -274,16 +275,6 @@ flow:
             - response_character_set: '${response_character_set}'
         publish:
           - vnic_attachment_return_result: '${return_result}'
-        navigate:
-          - SUCCESS: get_vnic_attachment_state
-          - FAILURE: on_failure
-    - get_vnic_attachment_state:
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${vnic_attachment_return_result}'
-            - json_path: lifecycleState
-        publish:
-          - vnic_state: '${return_result}'
         navigate:
           - SUCCESS: is_vnic_detached
           - FAILURE: on_failure
