@@ -117,7 +117,7 @@
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
 #! @output volume_attachment_id: The OCID of the volume attachment.
-#! @output lifecycle_state: The current state of the volume attachment.
+#! @output volume_attachment_state: The current state of the volume attachment.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -321,7 +321,7 @@ operation:
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
     - volume_attachment_id: ${get('volumeAttachmentId', '')}
-    - lifecycle_state: ${get('lifecycleState', '')}
+    - volume_attachment_state: ${get('volumeAttachmentState', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
