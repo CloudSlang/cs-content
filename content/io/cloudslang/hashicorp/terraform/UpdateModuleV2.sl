@@ -22,11 +22,11 @@
 #!                        Optional
 #! @input workspace_variables_json: List of variables in json format.
 #!                                  Optional
-#!                                  Example: '[{"data":{"attributes":{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"sensitive":false}}}]'
+#!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"sensitive":false}]'
 #! @input sensitive_workspace_variables_json: List of sensitive variables in json format.
 #!                                            Optional
-#!                                            Example: '[{"data":{"attributes":{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
-#!                                            "sensitive":false}}}]'
+#!                                            Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
+#!                                            "sensitive":false}]'
 #! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
 #!                    Optional
 #! @input run_message: Specifies the message to be associated with this run
