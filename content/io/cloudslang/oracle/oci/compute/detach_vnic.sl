@@ -275,6 +275,7 @@ flow:
             - response_character_set: '${response_character_set}'
         publish:
           - vnic_attachment_return_result: '${return_result}'
+          - vnic_attachment_state: '${vnic_attachment_state}'
         navigate:
           - SUCCESS: is_vnic_detached
           - FAILURE: on_failure
