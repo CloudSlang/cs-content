@@ -17,8 +17,8 @@
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input workspace_id: The Id of the workspace
-#! @input workspace_variables_json: List of workspace variables in json format.Examples :
-#!                                  [{\"propertyName\":\"test\",\"propertyValue\":\"1\",\"HCL\":false,\"Category\":\"env\"}]","[{\"propertyName\":\"test\",\"propertyValue\":\"1\",\"HCL\":false,\"Category\":\"terraform\"}]
+#! @input workspace_variables_json: List of workspace variables in json format.
+#!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"Category":"terraform"}]'
 #!                                  Optional
 #! @input sensitive_workspace_variables_json: List of sensitive workspace variables in json format.
 #!                                            Optional
@@ -201,7 +201,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC5'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC6'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.variables.CreateWorkspaceVariables'
     method_name: 'execute'
   
