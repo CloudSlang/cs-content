@@ -265,7 +265,7 @@ flow:
     - is_vnic_attached:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${instance_state}'
+            - first_string: '${vnic_state}'
             - second_string: ATTACHED
             - ignore_case: 'true'
         navigate:
