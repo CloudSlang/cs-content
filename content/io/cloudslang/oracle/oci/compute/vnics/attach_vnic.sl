@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Creates a secondary VNIC and attaches it to the specified instance.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -25,44 +23,54 @@
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
 #!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
+#! @input private_key_file: The path to the private key file on the machine where is the worker. 
+#!                          Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
-#! @input api_version: Version of the API of OCI.
-#!                     Default: '20160918'
+#! @input api_version: Version of the API of OCI.Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input availability_domain: The availability domain of the instance.
-#!                             Optional
-#! @input display_name: A filter to return only resources that match the given display name exactly.
-#!                      Optional
-#! @input lifecycle_state: A filter to only return resources that match the given lifecycle state. The state value is
-#!                         case-insensitive.
-#!                         Optional
-#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
-#!               call.
-#!               Optional
-#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
-#!              Optional
-#! @input sort_by: The field to sort by. You can provide one sort order (sortOrder). Default order for TIMECREATED is
-#!                 descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case
-#!                 sensitive.Allowed values are: TIMECREATED or DISPLAYNAME
-#!                 Optional
-#! @input sort_order: The sort order to use, either ascending (ASC) or descending (DESC). The DISPLAYNAME sort order is
-#!                    case sensitive. Allowed values are: ASC or DESC
+#! @input instance_id: The OCID of the instance.
+#! @input subnet_id: The OCID of the subnet to create the VNIC in.
+#! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
+#!                          public or private.
+#!                          Optional
+#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
+#!                           Optional
+#! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
+#!                        portion of the primary private IP's fully qualified domain name.
+#!                        Optional
+#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.Ex: {"Operations":
+#!                           {"CostCenter": "42"}}
+#!                           Optional
+#! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
+#!                            type, or namespace.Ex: {"Department": "Finance"}
+#!                            Optional
+#! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
+#!                                    Maximum allowed security groups are 5Ex: [nsg1,nsg2]
+#!                                    Optional
+#! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
+#!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
+#!                    from the subnet. This is the VNIC's primary private IP address.
+#!                    Optional
+#! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.Default: 'false'
+#!                                Optional
+#! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
+#!                                      cannot be changed.
+#! @input nic_index: Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal
+#!                   instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of
+#!                   these instances, you can specify which NIC the VNIC will use.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the OCI.
-#!                    Default: '8080'
+#! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default: 'false'
+#!                         trusted certification authority issued it.Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -71,8 +79,7 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Default: 'strict'
+#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -84,43 +91,38 @@
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
+#!                  'true' this input is ignored. Format: Java KeyStore (JKS)Default:
+#!                  <OO_Home>/java/lib/security/cacerts
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
+#!                           empty, keystorePassword default will be supplied.Default: changeit
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.
-#!                         Default: '10000'
+#!                         represents an infinite timeout.Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
-#!                    Default: 'true'
+#!                    it.Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.
-#!                               Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
+#!                                method=HEAD or OPTIONS.Default: 'UTF-8'
 #!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
+#! @output vnic_attachments_state: Life cycle state of the vnic attachment.
+#! @output vnic_attachments_id: The OCID of the vnic attachment.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_name_list: List of all instance names.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -128,90 +130,125 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.instances
+namespace: io.cloudslang.oracle.oci.vnics
 
 operation: 
-  name: list_instances
+  name: attach_vnic
   
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}
+        default: ${get('tenancy_ocid', '')}  
+        required: false 
         private: true 
     - user_ocid    
     - userOcid: 
-        default: ${get('user_ocid', '')}
+        default: ${get('user_ocid', '')}  
+        required: false 
         private: true 
     - finger_print:    
         sensitive: true
     - fingerPrint: 
-        default: ${get('finger_print', '')}
+        default: ${get('finger_print', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - private_key_data:
-        required: false
+    - private_key_data:  
+        required: false  
         sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
+    - privateKeyData: 
+        default: ${get('private_key_data', '')}  
+        required: false 
+        private: true 
         sensitive: true
-    - private_key_file:
-        required: false
-    - privateKeyFile:
-        default: ${get('private_key_file', '')}
-        required: false
-        private: true
+    - private_key_file:  
+        required: false  
+    - privateKeyFile: 
+        default: ${get('private_key_file', '')}  
+        required: false 
+        private: true 
     - compartment_ocid    
     - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}
+        default: ${get('compartment_ocid', '')}  
+        required: false 
         private: true 
     - api_version:  
         required: false  
     - apiVersion: 
-        default: ${get('api_version', '')}
-        required: false
+        default: ${get('api_version', '')}  
+        required: false 
         private: true 
-    - region
-    - availability_domain:
-        required: false
-    - availabilityDomain:
-        default: ${get('availability_domain', '')}
-        required: false
-        private: true
-    - display_name:
-        required: false
-    - displayName:
-        default: ${get('display_name', '')}
-        required: false
-        private: true
-    - lifecycle_state:
-        required: false
-    - lifecycleState:
-        default: ${get('lifecycle_state', '')}
-        required: false
-        private: true
-    - limit:
-        required: false
-    - page:
-        required: false
-    - sort_by:
-        required: false
-    - sortBy:
-        default: ${get('sort_by', '')}
-        required: false
-        private: true
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
+    - region    
+    - instance_id    
+    - subnet_id    
+    - subnetId: 
+        default: ${get('subnet_id', '')}  
+        required: false 
+        private: true 
+    - assign_public_ip:  
+        required: false  
+    - assignPublicIP: 
+        default: ${get('assign_public_ip', '')}  
+        required: false 
+        private: true 
+    - vnic_display_name:  
+        required: false  
+    - vnicDisplayName: 
+        default: ${get('vnic_display_name', '')}  
+        required: false 
+        private: true 
+    - hostname_label:  
+        required: false  
+    - hostnameLabel: 
+        default: ${get('hostname_label', '')}  
+        required: false 
+        private: true 
+    - vnic_defined_tags:  
+        required: false  
+    - vnicDefinedTags: 
+        default: ${get('vnic_defined_tags', '')}  
+        required: false 
+        private: true 
+    - vnic_freeform_tags:  
+        required: false  
+    - vnicFreeformTags: 
+        default: ${get('vnic_freeform_tags', '')}  
+        required: false 
+        private: true 
+    - network_security_group_ids:  
+        required: false  
+    - networkSecurityGroupIds: 
+        default: ${get('network_security_group_ids', '')}  
+        required: false 
+        private: true 
+    - private_ip:  
+        required: false  
+    - privateIP: 
+        default: ${get('private_ip', '')}  
+        required: false 
+        private: true 
+    - skip_source_dest_check:  
+        required: false  
+    - skipSourceDestCheck: 
+        default: ${get('skip_source_dest_check', '')}  
+        required: false 
+        private: true 
+    - vnic_attachment_display_name    
+    - vnicAttachmentDisplayName: 
+        default: ${get('vnic_attachment_display_name', '')}  
+        required: false 
+        private: true 
+    - nic_index:  
+        required: false  
+    - nicIndex: 
+        default: ${get('nic_index', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
-        default: ${get('proxy_host', '')}
-        required: false
+        default: ${get('proxy_host', '')}  
+        required: false 
         private: true 
     - proxy_port:  
         required: false  
@@ -308,13 +345,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC14'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.AttachVnic'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - vnic_attachments_state: ${get('vnicAttachmentsState', '')} 
+    - vnic_attachments_id: ${get('vnicAttachmentsId', '')} 
     - exception: ${get('exception', '')} 
-    - instance_name_list: ${get('instance_name_list', '')}
     - status_code: ${get('statusCode', '')} 
   
   results: 
