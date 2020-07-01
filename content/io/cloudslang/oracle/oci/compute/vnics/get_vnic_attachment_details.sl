@@ -271,7 +271,7 @@ operation:
   outputs: 
     - return_result: ${get('returnResult', '')}
     - vnic_id: ${get('vnicId', '')}
-    - vnic_attachment_state: ${get('vnic_attachment_state', '')}
+    - vnic_attachment_state: ${get('vnicAttachmentState', '')}
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
   

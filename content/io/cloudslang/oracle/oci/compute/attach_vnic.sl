@@ -57,6 +57,7 @@
 #!                                Optional
 #! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
 #!                                      cannot be changed.
+#!                                      Optional
 #! @input nic_index: Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal
 #!                   instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of
 #!                   these instances, you can specify which NIC the VNIC will use.
@@ -166,7 +167,8 @@ flow:
         required: false
     - skip_source_dest_check:
         required: false
-    - vnic_attachment_display_name
+    - vnic_attachment_display_name:
+        required: false
     - nic_index:
         required: false
     - proxy_host:
