@@ -27,7 +27,8 @@
 #!                          Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
-#! @input api_version: Version of the API of OCI.Default: '20160918'
+#! @input api_version: Version of the API of OCI.
+#!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
 #! @input instance_id: The OCID of the instance.
