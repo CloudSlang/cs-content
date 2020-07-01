@@ -13,29 +13,30 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deploy a Virtual Machine with specified configuration.
+#! @description: This workflow deploys a virtual machine with specified configuration.
 #!
-#! @input hostname: The hostname for Nutanix.
-#! @input port: The port to connect to Nutanix.
+#! @input hostname: The hostname for Nutanix Prism.
+#! @input port: The port to connect to Nutanix Prism.
 #!              Default: '9440'
 #!              Optional
-#! @input username: The username for Nutanix.
-#! @input password: The password for Nutanix.
-#! @input vm_name: Name of the Virtual Machine that will be created.
-#! @input vm_description: The description of the Virtual Machine that will be created.
+#! @input username: The username for Nutanix Prism.
+#! @input password: The password for Nutanix Prism.
+#! @input vm_name: Name of the virtual machine.
+#! @input vm_description: The description of the virtual machine.
 #!                        Optional
-#! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be created.
-#! @input num_vcpus: The number that indicates how many processors will have the virtual machine that will be created.
-#! @input num_cores_per_vcpu: This is the number of cores per vCPU.
-#! @input is_cdrom: If the value is 'true' then Virtual Machine needs to create with CDROM otherwise Virtual Machine will
-#!                  be created with Empty Disk.
-#! @input device_bus: The type of Device disk.
-#!                    Allowed Values: 'SCSI, IDE, PCI, SATA, SPAPR'.
-#! @input network_uuid: The network UUID which will be attached to the Virtual Machine.
-#! @input time_zone: The timezone in which the Virtual Machine will be created.
-#!                   Example : 'Asia/Calcutta'
+#! @input vm_memory_size: The memory amount (in GiB) attached to the virtual machine.
+#! @input num_vcpus: The number of processors of the virtual machine.
+#! @input num_cores_per_vcpu: The number of cores per vCPU of the virtual machine.
+#! @input is_cdrom: If the value is 'true' then virtual machine creates with CD-ROM, if the value is 'false' virtual
+#!                  machine creates with empty disk.
+#! @input device_bus: The device bus for the virtual disk device.
+#!                    Valid values: 'sata, scsi, ide, pci, spapr'.
+#! @input network_uuid: The network UUID which will be attached to the virtual machine.
+#! @input time_zone: The timezone for the VM's hardware clock. Any updates to the timezone will be applied during the
+#!                   next VM power cycle
+#!                   Default : 'UTC'
 #!                   Optional
-#! @input hypervisor_type: The type hypervisor.
+#! @input hypervisor_type: The type of hypervisor.
 #!                         Example : 'ACROPOLIS'
 #!                         Optional
 #! @input flash_mode_enabled: State of the storage policy to pin virtual disks to the hot tier. When specified as a VM
@@ -43,22 +44,22 @@
 #!                            the same attribute specified for a virtual disk.
 #!                            Default : 'false'
 #!                            Optional
-#! @input is_scsi_pass_through: If the value is 'true' Disks on the SCSI bus will be configured for passthrough on
-#!                              platforms that support iSCSI.
-#!                              Default : 'false'
+#! @input is_scsi_pass_through: Whether the SCSI disk should be attached in passthrough mode to pass all SCSI commands
+#!                              directly to Stargate via iSCSI.
+#!                              Default : 'true'
 #!                              Optional
-#! @input is_thin_provisioned: If the value is 'true' then Virtual Machine will be created with thin provision.
-#!                             Default : 'true'
+#! @input is_thin_provisioned: If the value is 'true' then virtual machine will be created with thin provision.
+#!                             Default : 'false'
 #!                             Optional
-#! @input is_empty_disk: If the value is 'true' then Virtual Machine will created with EmptyDisk.
+#! @input is_empty_disk: If the value is 'true' then virtual machine creates with an empty disk.
 #!                       Default : 'true'
 #!                       Optional
-#! @input disk_label: The Label for the disk that will be created
+#! @input disk_label: The Label for the disk.
 #!                    Optional
-#! @input device_index: The Index of the disk device.
+#! @input device_index: The index of the disk device.
 #!                      Default : '0'
 #!                      Optional
-#! @input ndfs_filepath: The refernece ndfs file location from which the disk will be created.
+#! @input ndfs_filepath: The reference ndfs file location from which the disk creates.
 #!                       Optional
 #! @input source_vm_disk_uuid: The reference disk UUID from which new disk will be created.
 #!                             Optional
@@ -70,55 +71,55 @@
 #! @input external_disk_size: The size of the external disk to be created.
 #!                            Default : '0'
 #!                            Optional
-#! @input storage_container_uuid: The reference storage container UUID from which the new storage container will be
+#! @input storage_container_uuid: The reference storage container UUID on which disk will be created.
 #!                                created.
 #!                                Optional
-#! @input vm_disk_size: The size (in GiB) of the new storage container to be created.
+#! @input vm_disk_size: The size of disk in GiB.
 #!                      Default : '0'
 #!                      Optional
-#! @input requested_ip_address: The static IP address which will be assigned to the Virtual Machine.
+#! @input requested_ip_address: The static IP address which assigns to the virtual machine.
 #!                              Optional
-#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the Virtual
-#!                      Machine.
+#! @input is_connected: If the value of this property is 'true' the network will be connected while booting the virtual
+#!                      machine.
 #!                      Optional
-#! @input host_uuids: UUIDs identifying the host on which the Virtual Machine is currently running. If Virtual Machine
-#!                    is powered off, then this field is empty.
+#! @input host_uuids: The UUIDs identifying the host on which the virtual machine is currently running. If virtual
+#!                    machine is powered off, then this field is empty.
 #!                    Optional
 #! @input agent_vm: Indicates whether the VM is an agent VM. When their host enters maintenance mode, after normal VMs
 #!                  are evacuated, agent VMs are powered off. When the host is restored, agent VMs are powered on before
 #!                  normal VMs are restored. In other words, agent VMs cannot be HA-protected or live migrated.
 #!                  Default : 'false'
 #!                  Optional
-#! @input api_version: The api version for Nutanix.
+#! @input api_version: The api version for Nutanix Prism.
 #!                     Default: 'v2.0'
 #!                     Optional
-#! @input proxy_host: Proxy server used to access the Nutanix service.
+#! @input proxy_host: Proxy server used to access the Nutanix Prism service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Nutanix service.
+#! @input proxy_port: Proxy server port used to access the Nutanix Prism service.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: Proxy server user name.
+#! @input proxy_username: Proxy server username.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if it
+#!                         is not issued by a trusted certification authority.
 #!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible", the hostname
 #!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
 #!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
-#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        you expect to communicate with, or from certificate authorities that you trust to identify
+#!                        other parties. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true', this input is ignored. Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
@@ -127,12 +128,11 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -142,13 +142,13 @@
 #!                               Default: '20'
 #!                               Optional
 #!
-#! @output vm_uuid: UUID of the Virtual Machine.
-#! @output ip_address: IP Address/es of the Virtual Machine.
-#! @output mac_address: MAC Address/es of the Virtual Machine.
-#! @output power_state: Current Power state of the Virtual Machine.
-#! @output vm_disk_uuid: UUID of the disk attached to the Virtual Machine.
-#! @output vm_storage_container_uuid: UUID of the storage container of the Virtual Machine.
-#! @output vm_logical_timestamp: The logical timestamp of the Virtual Machine.
+#! @output vm_uuid: The UUID of the virtual machine.
+#! @output ip_address: An IP address/es of the virtual machine.
+#! @output mac_address: The MAC address/es of the virtual machine.
+#! @output power_state: The power state of the virtual machine.
+#! @output vm_disk_uuid: The UUID of the disk attached to the virtual machine.
+#! @output vm_storage_container_uuid: The UUID of the storage containers of the virtual machine.
+#! @output vm_logical_timestamp: The virtual logical timestamp of the virtual machine.
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #!

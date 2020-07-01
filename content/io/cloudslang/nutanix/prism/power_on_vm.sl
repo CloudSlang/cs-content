@@ -13,51 +13,52 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow will Power ON the Virtual Machine. It will check the current power_state of Virtual
-#!               Machine and if it is already in Power ON state workflow will fail with error message.
+#! @description: This workflow powers on the virtual machine. It checks the current power state of virtual
+#!               machine, If virtual machine is in powered on state, workflow succeeds without any operation execution
+#!               and returns the power state of the virtual machine.
 #!
-#! @input hostname: The hostname for Nutanix.
-#! @input port: The port to connect to Nutanix.
+#! @input hostname: The hostname for Nutanix Prism.
+#! @input port: The port to connect to Nutanix Prism.
 #!              Default: '9440'
 #!              Optional
-#! @input username: The username for Nutanix.
-#! @input password: The password for Nutanix.
-#! @input vm_uuid: UUID of the Virtual Machine.
-#! @input host_uuid: UUID identifying the host on which the Virtual Machine is currently running. If Virtual Machine
+#! @input username: The username for Nutanix Prism.
+#! @input password: The password for Nutanix Prism.
+#! @input vm_uuid: The UUID of the virtual machine.
+#! @input host_uuid: The UUID identifying the host on which the virtual machine is currently running. If virtual machine
 #!                   is powered off, then this field is empty.
 #!                   Optional
-#! @input vm_logical_timestamp: The value of the Virtual Machine logical timestamp.
+#! @input vm_logical_timestamp: The virtual logical timestamp of the virtual machine.
 #!                              Optional
-#! @input api_version: The api version for nutanix.
+#! @input api_version: The api version for Nutanix Prism.
 #!                     Default: 'v2.0'
 #!                     Optional
-#! @input proxy_host: Proxy server used to access the Nutanix service.
+#! @input proxy_host: Proxy server used to access the Nutanix Prism service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Nutanix service.
+#! @input proxy_port: Proxy server port used to access the Nutanix Prism service.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: Proxy server user name.
+#! @input proxy_username: Proxy server username.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if it
+#!                         is not issued by a trusted certification authority.
 #!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible", the hostname
 #!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
 #!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
-#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        you expect to communicate with, or from certificate authorities that you trust to identify
+#!                        other parties. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true', this input is ignored. Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
@@ -66,12 +67,11 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -235,7 +235,7 @@ flow:
     - success_message:
         do:
           io.cloudslang.base.strings.append:
-            - origin_string: 'Successfully Powered ON the virtual machine : '
+            - origin_string: 'Successfully powered on the virtual machine : '
             - text: '${vm_name}'
         publish:
           - return_result: '${new_string}'
@@ -292,7 +292,7 @@ flow:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${vm_name}'
-            - text: ' is already in Power ON State.'
+            - text: ' is in powered on state.'
         publish:
           - return_result: '${new_string}'
         navigate:
