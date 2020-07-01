@@ -109,7 +109,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.vnics
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
   name: detach_vnic

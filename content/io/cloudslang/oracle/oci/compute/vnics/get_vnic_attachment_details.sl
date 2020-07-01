@@ -99,7 +99,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.vnics
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
   name: get_vnic_attachment_details

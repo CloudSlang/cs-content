@@ -130,7 +130,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.vnics
+namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
   name: attach_vnic
