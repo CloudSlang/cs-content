@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Detaches and deletes the specified secondary VNIC. This operation cannot be used on the instance's
-#!               primary VNIC.
+#! @description: Detaches a storage volume from an instance. You must specify the OCID of the volume attachment.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -23,7 +22,6 @@
 #! @input finger_print: Finger print of the public key generated for OCI account.
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
-#!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
 #!                          Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
@@ -32,7 +30,7 @@
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input vnic_attachment_id: The OCID of the VNIC attachment.
+#! @input volume_attachment_id: The OCID of the volume attachment.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -64,14 +62,14 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
+#! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
+#!                  Default: '<OO_Home>/java/lib/security/cacerts'
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
+#!                           Default: 'changeit'
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
@@ -114,7 +112,7 @@
 
 namespace: io.cloudslang.oracle.oci.compute
 flow:
-  name: detach_vnic
+  name: detach_volume
   inputs:
     - tenancy_ocid
     - user_ocid
@@ -129,8 +127,7 @@ flow:
     - api_version:
         required: false
     - region
-    - vnic_attachment_id:
-        required: true
+    - volume_attachment_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -139,6 +136,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         required: false
     - x_509_hostname_verifier:
@@ -169,9 +167,9 @@ flow:
         default: '30'
         required: false
   workflow:
-    - detach_vnic:
+    - detach_volume:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.detach_vnic:
+          io.cloudslang.oracle.oci.compute.volumes.detach_volume:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -184,7 +182,7 @@ flow:
             - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
-            - vnic_attachment_id: '${vnic_attachment_id}'
+            - volume_attachment_id: '${volume_attachment_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -210,17 +208,17 @@ flow:
         publish:
           - return_result
         navigate:
-          - SUCCESS: get_vnic_attachment_details
+          - SUCCESS: get_volume_attachment_details
           - FAILURE: on_failure
-    - is_vnic_detached:
+    - is_volume_detached:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vnic_attachment_state}'
+            - first_string: '${volume_attachment_state}'
             - second_string: DETACHED
             - ignore_case: 'true'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: wait_for_vnic_to_detach
+          - FAILURE: wait_for_volume_to_detach
     - counter:
         do:
           io.cloudslang.oracle.oci.utils.counter:
@@ -228,19 +226,19 @@ flow:
             - to: '${retry_count}'
             - increment_by: '1'
         navigate:
-          - HAS_MORE: get_vnic_attachment_details
+          - HAS_MORE: get_volume_attachment_details
           - NO_MORE: FAILURE
           - FAILURE: on_failure
-    - wait_for_vnic_to_detach:
+    - wait_for_volume_to_detach:
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
         navigate:
           - SUCCESS: counter
           - FAILURE: on_failure
-    - get_vnic_attachment_details:
+    - get_volume_attachment_details:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.get_vnic_attachment_details:
+          io.cloudslang.oracle.oci.compute.volumes.get_volume_attachment_details:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -253,7 +251,7 @@ flow:
             - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
-            - vnic_attachment_id: '${vnic_attachment_id}'
+            - volume_attachment_id: '${volume_attachment_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -276,10 +274,10 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - vnic_attachment_return_result: '${return_result}'
-          - vnic_attachment_state: '${vnic_attachment_state}'
+          - return_result: '${return_result}'
+          - volume_attachment_state: '${volume_attachment_state}'
         navigate:
-          - SUCCESS: is_vnic_detached
+          - SUCCESS: is_volume_detached
           - FAILURE: on_failure
   outputs:
     - return_result: '${return_result}'
