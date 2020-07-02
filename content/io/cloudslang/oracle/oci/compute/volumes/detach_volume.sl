@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Attaches the specified storage volume to the specified instance.
+#! @description: Detaches a storage volume from an instance. You must specify the OCID of the volume attachment.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -30,22 +30,7 @@
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input instance_id: The OCID of the instance.
-#! @input volume_id: The OCID of the volume.
-#! @input volume_type: The type of volume.
-#!                     Allowed values: ''iscsi' and 'paravirtualized''.
-#! @input device_name: The device name.
-#!                     Optional
-#! @input display_name: A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering
-#!                      confidential information.
-#!                      Optional
-#! @input is_read_only: Whether the attachment was created in read-only mode.
-#!                      Optional
-#! @input is_shareable: Whether the attachment should be created in shareable mode. If an attachment is created in
-#!                      shareable mode, then other instances can attach the same volume, provided that they also create
-#!                      their attachments in shareable mode. Only certain volume types can be attached in shareable
-#!                      mode. Defaults to false if not specified.
-#!                      Optional
+#! @input volume_attachment_id: The OCID of the volume attachment.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -116,8 +101,6 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
-#! @output volume_attachment_id: The OCID of the volume attachment.
-#! @output volume_attachment_state: The current state of the volume attachment.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -127,7 +110,7 @@
 namespace: io.cloudslang.oracle.oci.compute.volumes
 
 operation:
-  name: attach_volume
+  name: detach_volume
 
   inputs:
     - tenancy_ocid
@@ -173,43 +156,9 @@ operation:
         required: false
         private: true
     - region
-    - instance_id
-    - instanceId:
-        default: ${get('instance_id', '')}
-        required: false
-        private: true
-    - volume_id
-    - volumeId:
-        default: ${get('volume_id', '')}
-        required: false
-        private: true
-    - volume_type
-    - volumeType:
-        default: ${get('volume_type', '')}
-        required: false
-        private: true
-    - device_name:
-        required: false
-    - deviceName:
-        default: ${get('device_name', '')}
-        required: false
-        private: true
-    - display_name:
-        required: false
-    - displayName:
-        default: ${get('display_name', '')}
-        required: false
-        private: true
-    - is_read_only:
-        required: false
-    - isReadOnly:
-        default: ${get('is_read_only', '')}
-        required: false
-        private: true
-    - is_shareable:
-        required: false
-    - isShareable:
-        default: ${get('is_shareable', '')}
+    - volume_attachment_id
+    - volumeAttachmentId:
+        default: ${get('volume_attachment_id', '')}
         required: false
         private: true
     - proxy_host:
@@ -313,15 +262,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC15'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.volumes.AttachVolume'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.volumes.DetachVolume'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
-    - volume_attachment_id: ${get('volumeAttachmentId', '')}
-    - volume_attachment_state: ${get('volumeAttachmentState', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}

@@ -209,7 +209,6 @@ flow:
             - response_character_set: '${response_character_set}'
         publish:
           - return_result
-          - vnic_attachment_state
         navigate:
           - SUCCESS: get_vnic_attachment_details
           - FAILURE: on_failure

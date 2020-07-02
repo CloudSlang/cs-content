@@ -300,8 +300,8 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - return_result
-          - volume_attachment_state
+          - return_result: '${return_result}'
+          - volume_attachment_state: '${volume_attachment_state}'
         navigate:
           - SUCCESS: is_volume_attached
           - FAILURE: on_failure
