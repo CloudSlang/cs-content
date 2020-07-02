@@ -24,6 +24,9 @@
 #! @input finger_print: Finger print of the public key generated for OCI account.
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
+#!                          Optional
+#! @input private_key_file: The path to the private key file on the machine where is the worker.
+#!                        Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
@@ -146,11 +149,19 @@ operation:
         private: true 
         sensitive: true
     - private_key_data:
+        required: false
         sensitive: true
     - privateKeyData:
         default: ${get('private_key_data', '')}
-        private: true 
+        required: false
+        private: true
         sensitive: true
+    - private_key_file:
+        required: false
+    - privateKeyFile:
+        default: ${get('private_key_file', '')}
+        required: false
+        private: true
     - compartment_ocid    
     - compartmentOcid: 
         default: ${get('compartment_ocid', '')}
@@ -296,7 +307,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC7'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC12'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
     method_name: 'execute'
   
