@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a secondary VNIC and attaches it to the specified instance.
+#! @description: Attaches the specified storage volume to the specified instance.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -32,37 +32,21 @@
 #!                     Optional
 #! @input region: The region's name.
 #! @input instance_id: The OCID of the instance.
-#! @input subnet_id: The OCID of the subnet to create the VNIC in.
-#! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
-#!                          public or private.
-#!                          Optional
-#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
-#!                           Optional
-#! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
-#!                        portion of the primary private IP's fully qualified domain name.
-#!                        Optional
-#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.Ex: {"Operations":
-#!                           {"CostCenter": "42"}}
-#!                           Optional
-#! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
-#!                            type, or namespace.Ex: {"Department": "Finance"}
-#!                            Optional
-#! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
-#!                                    Maximum allowed security groups are 5Ex: [nsg1,nsg2]
-#!                                    Optional
-#! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
-#!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
-#!                    from the subnet. This is the VNIC's primary private IP address.
-#!                    Optional
-#! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.Default: 'false'
-#!                                Optional
-#! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
-#!                                      cannot be changed.
-#!                                      Optional
-#! @input nic_index: Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal
-#!                   instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of
-#!                   these instances, you can specify which NIC the VNIC will use.
-#!                   Optional
+#! @input volume_id: The OCID of the volume.
+#! @input volume_type: The type of volume.
+#!                     Allowed values: ''iscsi' and 'paravirtualized''.
+#! @input device_name: The device name.
+#!                     Optional
+#! @input display_name: A user-friendly name. Does not have to be unique, and it cannot be changed. Avoid entering
+#!                      confidential information.
+#!                      Optional
+#! @input is_read_only: Whether the attachment was created in read-only mode.
+#!                      Optional
+#! @input is_shareable: Whether the attachment should be created in shareable mode. If an attachment is created in
+#!                      shareable mode, then other instances can attach the same volume, provided that they also create
+#!                      their attachments in shareable mode. Only certain volume types can be attached in shareable
+#!                      mode. Defaults to false if not specified.
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
@@ -125,9 +109,8 @@
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output vnic_attachment_id: The OCID of the VNIC attachment.
-#! @output vnic_id: The OCID of the VNIC.
-#! @output vnic_attachment_state: The current state of the VNIC attachment.
+#! @output volume_attachment_id: The OCID of the volume attachment.
+#! @output volume_attachment_state: The current state of the volume attachment.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
@@ -138,7 +121,7 @@
 
 namespace: io.cloudslang.oracle.oci.compute
 flow:
-  name: attach_vnic
+  name: attach_volume_to_instance
   inputs:
     - tenancy_ocid
     - user_ocid
@@ -154,26 +137,15 @@ flow:
         required: false
     - region
     - instance_id
-    - subnet_id
-    - assign_public_ip:
+    - volume_id
+    - volume_type
+    - device_name:
         required: false
-    - vnic_display_name:
+    - display_name:
         required: false
-    - hostname_label:
+    - is_read_only:
         required: false
-    - vnic_defined_tags:
-        required: false
-    - vnic_freeform_tags:
-        required: false
-    - network_security_group_ids:
-        required: false
-    - private_ip:
-        required: false
-    - skip_source_dest_check:
-        required: false
-    - vnic_attachment_display_name:
-        required: false
-    - nic_index:
+    - is_shareable:
         required: false
     - proxy_host:
         required: false
@@ -183,6 +155,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         required: false
     - x_509_hostname_verifier:
@@ -213,9 +186,9 @@ flow:
         default: '30'
         required: false
   workflow:
-    - attach_vnic:
+    - attach_volume:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.attach_vnic:
+          io.cloudslang.oracle.oci.compute.volumes.attach_volume:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -229,17 +202,12 @@ flow:
             - api_version: '${api_version}'
             - region: '${region}'
             - instance_id: '${instance_id}'
-            - subnet_id: '${subnet_id}'
-            - assign_public_ip: '${assign_public_ip}'
-            - vnic_display_name: '${vnic_display_name}'
-            - hostname_label: '${hostname_label}'
-            - vnic_defined_tags: '${vnic_defined_tags}'
-            - vnic_freeform_tags: '${vnic_freeform_tags}'
-            - network_security_group_ids: '${network_security_group_ids}'
-            - private_ip: '${private_ip}'
-            - skip_source_dest_check: '${skip_source_dest_check}'
-            - vnic_attachment_display_name: '${vnic_attachment_display_name}'
-            - nic_index: '${nic_index}'
+            - volume_id: '${volume_id}'
+            - volume_type: '${volume_type}'
+            - device_name: '${device_name}'
+            - display_name: '${display_name}'
+            - is_read_only: '${is_read_only}'
+            - is_shareable: '${is_shareable}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -263,20 +231,20 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - vnic_attachment_id: '${vnic_attachment_id}'
-          - vnic_attachment_state: '${vnic_attachment_state}'
+          - volume_attachment_id: '${volume_attachment_id}'
+          - volume_attachment_state: '${volume_attachment_state}'
         navigate:
-          - SUCCESS: get_vnic_attachment_details
+          - SUCCESS: get_volume_attachment_details
           - FAILURE: on_failure
-    - is_vnic_attached:
+    - is_volume_attached:
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vnic_attachment_state}'
+            - first_string: '${volume_attachment_state}'
             - second_string: ATTACHED
             - ignore_case: 'true'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: wait_for_vnic_to_attach
+          - FAILURE: wait_for_volume_to_attach
     - counter:
         do:
           io.cloudslang.oracle.oci.utils.counter:
@@ -284,19 +252,19 @@ flow:
             - to: '${retry_count}'
             - increment_by: '1'
         navigate:
-          - HAS_MORE: get_vnic_attachment_details
+          - HAS_MORE: get_volume_attachment_details
           - NO_MORE: FAILURE
           - FAILURE: on_failure
-    - wait_for_vnic_to_attach:
+    - wait_for_volume_to_attach:
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
         navigate:
           - SUCCESS: counter
           - FAILURE: on_failure
-    - get_vnic_attachment_details:
+    - get_volume_attachment_details:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.get_vnic_attachment_details:
+          io.cloudslang.oracle.oci.compute.volumes.get_volume_attachment_details:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -309,7 +277,7 @@ flow:
             - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
-            - vnic_attachment_id: '${vnic_attachment_id}'
+            - volume_attachment_id: '${volume_attachment_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -332,17 +300,15 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - return_result
-          - vnic_id
-          - vnic_attachment_state
+          - return_result: '${return_result}'
+          - volume_attachment_state: '${volume_attachment_state}'
         navigate:
-          - SUCCESS: is_vnic_attached
+          - SUCCESS: is_volume_attached
           - FAILURE: on_failure
   outputs:
     - return_result: '${return_result}'
-    - vnic_attachment_id: '${vnic_attachment_id}'
-    - vnic_id: '${vnic_id}'
-    - vnic_attachment_state: '${vnic_attachment_state}'
+    - volume_attachment_id: '${volume_attachment_id}'
+    - volume_attachment_state: '${volume_attachment_state}'
   results:
     - FAILURE
     - SUCCESS

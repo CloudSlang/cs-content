@@ -114,7 +114,7 @@
 
 namespace: io.cloudslang.oracle.oci.compute
 flow:
-  name: detach_vnic
+  name: detach_vnic_from_instance
   inputs:
     - tenancy_ocid
     - user_ocid
