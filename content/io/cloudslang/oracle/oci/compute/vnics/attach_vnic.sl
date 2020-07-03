@@ -28,7 +28,7 @@
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
-#!					   Default: '20160918'
+#!					           Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
 #! @input instance_id: The OCID of the instance.
@@ -55,7 +55,7 @@
 #!                    from the subnet. This is the VNIC's primary private IP address.
 #!                    Optional
 #! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.
-#!							      Default: 'false'
+#!							                  Default: 'false'
 #!                                Optional
 #! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
 #!                                      cannot be changed.
@@ -67,7 +67,7 @@
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
-#!				      Default: '8080'
+#!				            Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -75,7 +75,7 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
-#!						   Default: 'false'
+#!						             Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -118,7 +118,8 @@
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
