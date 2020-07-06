@@ -170,7 +170,7 @@ flow:
     - response_character_set:
         required: false
     - retry_count:
-        default: '60'
+        default: '30'
         required: false
   workflow:
     - update_instance:
@@ -189,6 +189,7 @@ flow:
             - api_version: '${api_version}'
             - region: '${region}'
             - instance_id: '${instance_id}'
+            - shape: '${shape}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
