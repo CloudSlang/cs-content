@@ -88,6 +88,11 @@
 #!                   Valid values: 'true', 'false'
 #!                   Default: 'false'
 #!                   Optional
+#! @input remove_escape_sequences: Specifies whether to remove ANSI escape sequences (e.g. "ESC[91m" etc.) from standard_out
+#!                                 and standard_err outputs.
+#!                                 Valid values: 'true', 'false'
+#!                                 Default: 'false'
+#!                                 Optional
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output return_code: Return code of the command
@@ -215,6 +220,13 @@ operation:
           required: false
       - useShell:
           default: ${get('use_shell', '')}
+          required: false
+          private: true
+      - remove_escape_sequences:
+          default: 'false'
+          required: false
+      - removeEscapeSequences:
+          default: ${get('remove_escape_sequences', '')}
           required: false
           private: true
 
