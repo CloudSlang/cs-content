@@ -212,6 +212,8 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
+        publish:
+          - return_result
         navigate:
           - SUCCESS: get_instance_details
           - FAILURE: on_failure
