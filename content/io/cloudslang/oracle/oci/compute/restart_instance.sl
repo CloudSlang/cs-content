@@ -97,6 +97,9 @@
 #!                                method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'
 #!                                Optional
+#! @input retry_count: Number of checks if the instance was created successfully.
+#!                     Default: '60'
+#!                     Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.

@@ -106,7 +106,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output shape: Updated shape of the instance.
+#! @output instance_shape: Updated shape of the instance.
 #! @output instance_state: The current state of the instance.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
