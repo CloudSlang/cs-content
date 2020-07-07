@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets the information for the specified virtual network interface card (VNIC).
+#! @description: Updates shape of the specified instance.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -24,14 +24,16 @@
 #!                          private key file.
 #!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
+#!                          Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input vnic_id: The OCID of the vnic.
+#! @input instance_id: The OCID of the instance.
+#! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
+#!               resources allocated to the instance.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -97,17 +99,15 @@
 #!                                method=HEAD or OPTIONS.
 #!                                Default: 'UTF-8'
 #!                                Optional
+#! @input retry_count: Number of checks if the instance was created successfully.
+#!                     Default: '60'
+#!                     Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
-#!                     CIDR of the VNIC's subnet.
-#! @output public_ip: The public IP address of the VNIC.
-#! @output vnic_name: Name of the VNIC.
-#! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
-#! @output vnic_state: The current state of the VNIC.
-#! @output mac_address: The MAC address of the VNIC.
+#! @output instance_shape: Updated shape of the instance.
+#! @output instance_state: The current state of the instance.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -115,171 +115,202 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.vnics
-
-operation: 
-  name: get_vnic_details
-  
-  inputs: 
-    - tenancy_ocid    
-    - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}
-        private: true 
-    - user_ocid    
-    - userOcid: 
-        default: ${get('user_ocid', '')}
-        private: true 
-    - finger_print:    
-        sensitive: true
-    - fingerPrint: 
-        default: ${get('finger_print', '')}
-        private: true 
+namespace: io.cloudslang.oracle.oci.compute
+flow:
+  name: update_instance
+  inputs:
+    - tenancy_ocid
+    - user_ocid
+    - finger_print:
         sensitive: true
     - private_key_data:
         required: false
         sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
-        sensitive: true
     - private_key_file:
         required: false
-    - privateKeyFile:
-        default: ${get('private_key_file', '')}
+    - compartment_ocid
+    - api_version:
         required: false
-        private: true
-    - compartment_ocid    
-    - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}
-        private: true 
-    - api_version:  
-        required: false  
-    - apiVersion: 
-        default: ${get('api_version', '')}  
-        required: false 
-        private: true 
-    - region    
-    - vnic_id    
-    - vnicId: 
-        default: ${get('vnic_id', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - region
+    - instance_id:
+        required: true
+    - shape
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+    - trust_all_roots:
+        required: false
+    - x_509_hostname_verifier:
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
-        sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
-        sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - socket_timeout:  
-        required: false  
-    - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
-        required: false 
-        private: true 
-    - keep_alive:  
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
-    - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    - response_character_set:  
-        required: false  
-    - responseCharacterSet: 
-        default: ${get('response_character_set', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC16'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.GetVnicDetails'
-    method_name: 'execute'
-
+    - connect_timeout:
+        required: false
+    - socket_timeout:
+        required: false
+    - keep_alive:
+        required: false
+    - connections_max_per_route:
+        required: false
+    - connections_max_total:
+        required: false
+    - response_character_set:
+        required: false
+    - retry_count:
+        default: '30'
+        required: false
+  workflow:
+    - update_instance:
+        do:
+          io.cloudslang.oracle.oci.compute.instances.update_instance:
+            - tenancy_ocid: '${tenancy_ocid}'
+            - user_ocid: '${user_ocid}'
+            - finger_print:
+                value: '${finger_print}'
+                sensitive: true
+            - private_key_data:
+                value: '${private_key_data}'
+                sensitive: true
+            - private_key_file: '${private_key_file}'
+            - compartment_ocid: '${compartment_ocid}'
+            - api_version: '${api_version}'
+            - region: '${region}'
+            - instance_id: '${instance_id}'
+            - shape: '${shape}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: '${keystore}'
+            - keystore_password:
+                value: '${keystore_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: get_instance_details
+          - FAILURE: on_failure
+    - get_instance_details:
+        do:
+          io.cloudslang.oracle.oci.compute.instances.get_instance_details:
+            - tenancy_ocid: '${tenancy_ocid}'
+            - user_ocid: '${user_ocid}'
+            - finger_print:
+                value: '${finger_print}'
+                sensitive: true
+            - private_key_data:
+                value: '${private_key_data}'
+                sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
+            - api_version: '${api_version}'
+            - compartment_ocid: '${compartment_ocid}'
+            - region: '${region}'
+            - instance_id: '${instance_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: '${keystore}'
+            - keystore_password:
+                value: '${keystore_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+            - proxy_port: '${proxy_port}'
+        publish:
+          - instance_state
+          - return_result
+        navigate:
+          - SUCCESS: get_instance_shape
+          - FAILURE: on_failure
+    - is_instance_shape_updated:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${instance_shape}'
+            - second_string: '${shape}'
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: wait_for_instance_to_update_shape
+    - counter:
+        do:
+          io.cloudslang.oracle.oci.utils.counter:
+            - from: '1'
+            - to: '${retry_count}'
+            - increment_by: '1'
+        navigate:
+          - HAS_MORE: get_instance_details
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_for_instance_to_update_shape:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: counter
+          - FAILURE: on_failure
+    - get_instance_shape:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: $.shape
+        publish:
+          - instance_shape: '${return_result}'
+        navigate:
+          - SUCCESS: remove
+          - FAILURE: on_failure
+    - remove:
+        do:
+          io.cloudslang.base.strings.remove:
+            - origin_string: '${instance_shape}'
+            - text: '"'
+        publish:
+          - instance_shape: '${new_string}'
+        navigate:
+          - SUCCESS: is_instance_shape_updated
   outputs:
-    - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')}
-    - private_ip: ${get('private_ip', '')}
-    - public_ip: ${get('public_ip', '')}
-    - vnic_name: ${get('vnic_name', '')}
-    - vnic_hostname: ${get('vnic_hostname', '')}
-    - vnic_state: ${get('vnic_state', '')}
-    - mac_address: ${get('mac_address', '')}
-    - status_code: ${get('statusCode', '')}
-
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+    - return_result: '${return_result}'
+    - instance_shape: '${instance_shape}'
+    - instance_state: '${instance_state}'
+  results:
     - FAILURE
+    - SUCCESS
