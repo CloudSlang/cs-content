@@ -31,7 +31,6 @@ testListInstancesSuccess:
 
   result: SUCCESS
 
-
 testListInstancesFailed:
   testSuites: [oci-local]
   description: "Tests List Instances Failed."
