@@ -287,7 +287,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC12'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC16'
     class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.ListVnicAttachments'
     method_name: 'execute'
   

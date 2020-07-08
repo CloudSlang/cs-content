@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets the information for the specified virtual network interface card (VNIC).
+#! @description: Detaches and deletes the specified secondary VNIC. This operation cannot be used on the instance's
+#!               primary VNIC.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -23,15 +24,15 @@
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
 #!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
+#! @input private_key_file: The path to the private key file on the machine where is the worker. 
+#!                          Optional
 #! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input vnic_id: The OCID of the vnic.
+#! @input vnic_attachment_id: The OCID of the VNIC attachment.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -101,13 +102,6 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output private_ip: The private IP address of the primary privateIp object on the VNIC. The address is within the
-#!                     CIDR of the VNIC's subnet.
-#! @output public_ip: The public IP address of the VNIC.
-#! @output vnic_name: Name of the VNIC.
-#! @output vnic_hostname: The hostname for the VNIC's primary private IP. Used for DNS.
-#! @output vnic_state: The current state of the VNIC.
-#! @output mac_address: The MAC address of the VNIC.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -118,40 +112,44 @@
 namespace: io.cloudslang.oracle.oci.compute.vnics
 
 operation: 
-  name: get_vnic_details
+  name: detach_vnic
   
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}
+        default: ${get('tenancy_ocid', '')}  
+        required: false 
         private: true 
     - user_ocid    
     - userOcid: 
-        default: ${get('user_ocid', '')}
+        default: ${get('user_ocid', '')}  
+        required: false 
         private: true 
     - finger_print:    
         sensitive: true
     - fingerPrint: 
-        default: ${get('finger_print', '')}
+        default: ${get('finger_print', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - private_key_data:
-        required: false
+    - private_key_data:  
+        required: false  
         sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
+    - privateKeyData: 
+        default: ${get('private_key_data', '')}  
+        required: false 
+        private: true 
         sensitive: true
-    - private_key_file:
-        required: false
-    - privateKeyFile:
-        default: ${get('private_key_file', '')}
-        required: false
-        private: true
+    - private_key_file:  
+        required: false  
+    - privateKeyFile: 
+        default: ${get('private_key_file', '')}  
+        required: false 
+        private: true 
     - compartment_ocid    
     - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}
+        default: ${get('compartment_ocid', '')}  
+        required: false 
         private: true 
     - api_version:  
         required: false  
@@ -160,9 +158,9 @@ operation:
         required: false 
         private: true 
     - region    
-    - vnic_id    
-    - vnicId: 
-        default: ${get('vnic_id', '')}  
+    - vnic_attachment_id    
+    - vnicAttachmentId: 
+        default: ${get('vnic_attachment_id', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -266,20 +264,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC16'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.GetVnicDetails'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.DetachVnic'
     method_name: 'execute'
-
-  outputs:
-    - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')}
-    - private_ip: ${get('private_ip', '')}
-    - public_ip: ${get('public_ip', '')}
-    - vnic_name: ${get('vnic_name', '')}
-    - vnic_hostname: ${get('vnic_hostname', '')}
-    - vnic_state: ${get('vnic_state', '')}
-    - mac_address: ${get('mac_address', '')}
-    - status_code: ${get('statusCode', '')}
-
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - exception: ${get('exception', '')} 
+    - status_code: ${get('statusCode', '')} 
+  
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE

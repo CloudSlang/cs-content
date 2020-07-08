@@ -261,8 +261,8 @@ operation:
         required: false 
         private: true 
     
-  java_action: 
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC13'
+  java_action:
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC14'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.UpdateVM'
     method_name: 'execute'
   
