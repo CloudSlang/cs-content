@@ -13,9 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the instances in the specified compartment and the specified availability domain. You can filter
-#!               the results by specifying an instance name (the list will include all the identically-named instances
-#!               in the compartment).
+#! @description: Updates certain fields on the specified instance. Fields that are not provided in the request will not
+#!               be updated.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -25,32 +24,34 @@
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
 #!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
+#! @input private_key_file: The path to the private key file on the machine where is the worker. 
+#!                          Optional
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input availability_domain: The availability domain of the instance.
-#!                             Optional
-#! @input display_name: A filter to return only resources that match the given display name exactly.
-#!                      Optional
-#! @input lifecycle_state: A filter to only return resources that match the given lifecycle state. The state value is
-#!                         case-insensitive.
-#!                         Optional
-#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
-#!               call.
+#! @input instance_id: The OCID of the instance.
+#! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
+#!               resources allocated to the instance.
 #!               Optional
-#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
-#!              Optional
-#! @input sort_by: The field to sort by. You can provide one sort order (sortOrder). Default order for TIMECREATED is
-#!                 descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case
-#!                 sensitive.Allowed values are: TIMECREATED or DISPLAYNAME
-#!                 Optional
-#! @input sort_order: The sort order to use, either ascending (ASC) or descending (DESC). The DISPLAYNAME sort order is
-#!                    case sensitive. Allowed values are: ASC or DESC
+#! @input display_name: A user-friendly name. Does not have to be unique, and it's changeableEx: My bare metal instance
+#!                      Optional
+#! @input defined_tags: Defined tags for this resource. Each key is predefined and scoped to a namespace.Ex:
+#!                      {"Operations": {"CostCenter": "42"}}
+#!                      Optional
+#! @input freeform_tags: Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name,
+#!                       type, or namespace.Ex: {"Department": "Finance"}
+#!                       Optional
+#! @input ocpus: The total number of OCPUs available to the instance.
+#!               Optional
+#! @input is_management_disabled: Whether the agent running on the instance can run all the available management
+#!                                plugins.
+#!                                Default: 'false'
+#!                                Optional
+#! @input is_monitoring_disabled: Whether the agent running on the instance can gather performance metrics and monitor
+#!                                the instance.required
+#!                                Default: 'false'
+#!                                Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -120,7 +121,7 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output instance_name_list: List of all instance names.
+#! @output instance_name: The instance name.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -131,87 +132,91 @@
 namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation: 
-  name: list_instances
+  name: update_instance
   
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}
+        default: ${get('tenancy_ocid', '')}  
+        required: false 
         private: true 
     - user_ocid    
     - userOcid: 
-        default: ${get('user_ocid', '')}
+        default: ${get('user_ocid', '')}  
+        required: false 
         private: true 
     - finger_print:    
         sensitive: true
     - fingerPrint: 
-        default: ${get('finger_print', '')}
+        default: ${get('finger_print', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - private_key_data:
-        required: false
+    - private_key_data:  
+        required: false  
         sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
-        sensitive: true
-    - private_key_file:
-        required: false
-    - privateKeyFile:
-        default: ${get('private_key_file', '')}
-        required: false
-        private: true
-    - compartment_ocid    
-    - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}
+    - privateKeyData: 
+        default: ${get('private_key_data', '')}  
+        required: false 
         private: true 
+        sensitive: true
+    - private_key_file:  
+        required: false  
+    - privateKeyFile: 
+        default: ${get('private_key_file', '')}  
+        required: false 
+        private: true
     - api_version:  
         required: false  
     - apiVersion: 
-        default: ${get('api_version', '')}
-        required: false
+        default: ${get('api_version', '')}  
+        required: false 
         private: true 
-    - region
-    - availability_domain:
-        required: false
-    - availabilityDomain:
-        default: ${get('availability_domain', '')}
-        required: false
-        private: true
-    - display_name:
-        required: false
-    - displayName:
-        default: ${get('display_name', '')}
-        required: false
-        private: true
-    - lifecycle_state:
-        required: false
-    - lifecycleState:
-        default: ${get('lifecycle_state', '')}
-        required: false
-        private: true
-    - limit:
-        required: false
-    - page:
-        required: false
-    - sort_by:
-        required: false
-    - sortBy:
-        default: ${get('sort_by', '')}
-        required: false
-        private: true
-    - sort_order:
-        required: false
-    - sortOrder:
-        default: ${get('sort_order', '')}
-        required: false
-        private: true
+    - region    
+    - instance_id    
+    - instanceId: 
+        default: ${get('instance_id', '')}  
+        required: false 
+        private: true 
+    - shape:  
+        required: false  
+    - display_name:  
+        required: false  
+    - displayName: 
+        default: ${get('display_name', '')}  
+        required: false 
+        private: true 
+    - defined_tags:  
+        required: false  
+    - definedTags: 
+        default: ${get('defined_tags', '')}  
+        required: false 
+        private: true 
+    - freeform_tags:  
+        required: false  
+    - freeformTags: 
+        default: ${get('freeform_tags', '')}  
+        required: false 
+        private: true 
+    - ocpus:  
+        required: false  
+    - is_management_disabled:  
+        required: false  
+    - isManagementDisabled: 
+        default: ${get('is_management_disabled', '')}  
+        required: false 
+        private: true 
+    - is_monitoring_disabled:  
+        required: false  
+    - isMonitoringDisabled: 
+        default: ${get('is_monitoring_disabled', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
-        default: ${get('proxy_host', '')}
-        required: false
+        default: ${get('proxy_host', '')}  
+        required: false 
         private: true 
     - proxy_port:  
         required: false  
@@ -308,13 +313,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.ListInstances'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.UpdateInstance'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - instance_name_list: ${get('instance_name_list', '')}
+    - instance_name: ${get('instance_name', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 

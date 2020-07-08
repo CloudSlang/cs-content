@@ -1,3 +1,16 @@
+#   (c) Copyright 2020 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Terminates the specified instance. Any attached VNICs and volumes are automatically detached when the
@@ -15,8 +28,6 @@
 #!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker. 
 #!                          Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -137,12 +148,7 @@ operation:
     - privateKeyFile: 
         default: ${get('private_key_file', '')}  
         required: false 
-        private: true 
-    - compartment_ocid    
-    - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}  
-        required: false 
-        private: true 
+        private: true
     - api_version:  
         required: false  
     - apiVersion: 
@@ -261,7 +267,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC15'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.TerminateInstance'
     method_name: 'execute'
   

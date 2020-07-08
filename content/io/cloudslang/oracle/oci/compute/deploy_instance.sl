@@ -490,7 +490,6 @@ flow:
             - private_key_file:
                 value: '${private_key_file}'
             - api_version: '${api_version}'
-            - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
             - instance_id: '${instance_id}'
             - proxy_host: '${proxy_host}'
@@ -526,7 +525,7 @@ flow:
             - first_string: '${instance_state}'
             - second_string: RUNNING
         navigate:
-          - SUCCESS: list_vnics
+          - SUCCESS: list_vnic_attachments
           - FAILURE: wait_for_instance_status
     - get_vnic_details:
         do:
@@ -542,7 +541,6 @@ flow:
             - private_key_file:
                 value: '${private_key_file}'
             - api_version: '${api_version}'
-            - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
             - vnic_id: '${vnic_id}'
             - proxy_host: '${proxy_host}'
@@ -577,9 +575,9 @@ flow:
         navigate:
           - SUCCESS: get_default_credentials
           - FAILURE: FAILURE
-    - list_vnics:
+    - list_vnic_attachments:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.list_vnics:
+          io.cloudslang.oracle.oci.compute.vnics.list_vnic_attachments:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -662,7 +660,6 @@ flow:
                 sensitive: true
             - private_key_file:
                 value: '${private_key_file}'
-            - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
             - instance_id: '${instance_id}'
