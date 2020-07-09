@@ -53,6 +53,8 @@
 #!    winrm get winrm/config
 #! 	winrm enumerate winrm/config/listener
 #!
+#! 3. For information on how to use PowerShell Core with Linux target machines please see release notes of
+#! io.cloudslang.base.ssh.ssh_command operation.
 #!
 #! @input host: The hostname or ip address of the remote host.
 #! @input port: The port to use when connecting to the remote WinRM server.
