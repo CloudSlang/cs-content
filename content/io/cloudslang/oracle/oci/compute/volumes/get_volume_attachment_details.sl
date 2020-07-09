@@ -87,13 +87,7 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Default: '20'
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
-#!                                Optional
+
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
@@ -247,8 +241,7 @@ operation:
         default: ${get('connections_max_total', '')}
         required: false
         private: true
-    - response_character_set:
-        required: false
+
     - responseCharacterSet:
         default: ${get('response_character_set', '')}
         required: false
