@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a secondary VNIC and attaches it to the specified instance.
+#! @description: This workflow starts the instance. It checks the current instance state of instance, If instance is in
+#!               running state, workflow succeeds without any operation execution and returns the instance state.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -30,47 +31,18 @@
 #!                     Optional
 #! @input region: The region's name.
 #! @input instance_id: The OCID of the instance.
-#! @input subnet_id: The OCID of the subnet to create the VNIC in.
-#! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
-#!                          public or private.
-#!                          Optional
-#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
-#!                           Optional
-#! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
-#!                        portion of the primary private IP's fully qualified domain name.
-#!                        Optional
-#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.Ex: {"Operations":
-#!                           {"CostCenter": "42"}}
-#!                           Optional
-#! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
-#!                            type, or namespace.Ex: {"Department": "Finance"}
-#!                            Optional
-#! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
-#!                                    Maximum allowed security groups are 5Ex: [nsg1,nsg2]
-#!                                    Optional
-#! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
-#!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
-#!                    from the subnet. This is the VNIC's primary private IP address.
-#!                    Optional
-#! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.Default: 'false'
-#!                                Optional
-#! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
-#!                                      cannot be changed.
-#!                                      Optional
-#! @input nic_index: Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal
-#!                   instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of
-#!                   these instances, you can specify which NIC the VNIC will use.
-#!                   Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the OCI.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.Default: 'false'
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -79,7 +51,8 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -91,41 +64,45 @@
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)Default:
-#!                  <OO_Home>/java/lib/security/cacerts
+#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                  Default: <OO_Home>/java/lib/security/cacerts
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.Default: changeit
+#!                           empty, keystorePassword default will be supplied.
+#!                           Default: changeit
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.Default: '10000'
+#!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.Default: 'true'
+#!                    it.
+#!                    Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.Default: 'UTF-8'
+#!                                method=HEAD or OPTIONS.
+#!                                Default: 'UTF-8'
 #!                                Optional
 #! @input retry_count: Number of checks if the instance was created successfully.
-#!                     Default: '30'
+#!                     Default: '60'
 #!                     Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output vnic_attachment_id: The OCID of the VNIC attachment.
-#! @output vnic_id: The OCID of the VNIC.
-#! @output vnic_attachment_state: The current state of the VNIC attachment.
+#! @output instance_state: The current state of the instance.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
@@ -136,7 +113,7 @@
 
 namespace: io.cloudslang.oracle.oci.compute
 flow:
-  name: attach_vnic_to_instance
+  name: start_instance
   inputs:
     - tenancy_ocid
     - user_ocid
@@ -150,28 +127,8 @@ flow:
     - api_version:
         required: false
     - region
-    - instance_id
-    - subnet_id
-    - assign_public_ip:
-        required: false
-    - vnic_display_name:
-        required: false
-    - hostname_label:
-        required: false
-    - vnic_defined_tags:
-        required: false
-    - vnic_freeform_tags:
-        required: false
-    - network_security_group_ids:
-        required: false
-    - private_ip:
-        required: false
-    - skip_source_dest_check:
-        required: false
-    - vnic_attachment_display_name:
-        required: false
-    - nic_index:
-        required: false
+    - instance_id:
+        required: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -210,9 +167,141 @@ flow:
         default: '30'
         required: false
   workflow:
-    - attach_vnic:
+    - get_instance_details:
         do:
-          io.cloudslang.oracle.oci.compute.vnics.attach_vnic:
+          io.cloudslang.oracle.oci.compute.instances.get_instance_details:
+            - tenancy_ocid: '${tenancy_ocid}'
+            - user_ocid: '${user_ocid}'
+            - finger_print:
+                value: '${finger_print}'
+                sensitive: true
+            - private_key_data:
+                value: '${private_key_data}'
+                sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
+            - api_version: '${api_version}'
+            - region: '${region}'
+            - instance_id: '${instance_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: '${keystore}'
+            - keystore_password:
+                value: '${keystore_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+            - proxy_port: '${proxy_port}'
+        publish:
+          - instance_state
+        navigate:
+          - SUCCESS: is_instance_in_running_state
+          - FAILURE: on_failure
+    - get_instance_details_for_instance_action:
+        do:
+          io.cloudslang.oracle.oci.compute.instances.get_instance_details:
+            - tenancy_ocid: '${tenancy_ocid}'
+            - user_ocid: '${user_ocid}'
+            - finger_print:
+                value: '${finger_print}'
+                sensitive: true
+            - private_key_data:
+                value: '${private_key_data}'
+                sensitive: true
+            - private_key_file:
+                value: '${private_key_file}'
+            - api_version: '${api_version}'
+            - region: '${region}'
+            - instance_id: '${instance_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: '${keystore}'
+            - keystore_password:
+                value: '${keystore_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: '${keep_alive}'
+            - connections_max_per_route: '${connections_max_per_route}'
+            - connections_max_total: '${connections_max_total}'
+            - response_character_set: '${response_character_set}'
+            - proxy_port: '${proxy_port}'
+        publish:
+          - instance_state
+        navigate:
+          - SUCCESS: is_instance_started
+          - FAILURE: on_failure
+    - is_instance_started:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${instance_state}'
+            - second_string: RUNNING
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: success_message
+          - FAILURE: wait_for_instance_to_start
+    - counter:
+        do:
+          io.cloudslang.oracle.oci.utils.counter:
+            - from: '1'
+            - to: '${retry_count}'
+            - increment_by: '1'
+        navigate:
+          - HAS_MORE: get_instance_details_for_instance_action
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_for_instance_to_start:
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: counter
+          - FAILURE: on_failure
+    - is_instance_in_running_state:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${instance_state}'
+            - second_string: RUNNING
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: instance_action_success_message
+          - FAILURE: instance_action
+    - instance_action_success_message:
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: '${instance_id}'
+            - text: ' is in running state.'
+            - input_0: '${instance_state}'
+        publish:
+          - return_result: '${new_string}'
+          - instance_state: '${input_0}'
+        navigate:
+          - SUCCESS: SUCCESS
+    - instance_action:
+        do:
+          io.cloudslang.oracle.oci.compute.instances.instance_action:
             - tenancy_ocid: '${tenancy_ocid}'
             - user_ocid: '${user_ocid}'
             - finger_print:
@@ -225,17 +314,7 @@ flow:
             - api_version: '${api_version}'
             - region: '${region}'
             - instance_id: '${instance_id}'
-            - subnet_id: '${subnet_id}'
-            - assign_public_ip: '${assign_public_ip}'
-            - vnic_display_name: '${vnic_display_name}'
-            - hostname_label: '${hostname_label}'
-            - vnic_defined_tags: '${vnic_defined_tags}'
-            - vnic_freeform_tags: '${vnic_freeform_tags}'
-            - network_security_group_ids: '${network_security_group_ids}'
-            - private_ip: '${private_ip}'
-            - skip_source_dest_check: '${skip_source_dest_check}'
-            - vnic_attachment_display_name: '${vnic_attachment_display_name}'
-            - nic_index: '${nic_index}'
+            - action_name: START
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -259,85 +338,23 @@ flow:
             - connections_max_total: '${connections_max_total}'
             - response_character_set: '${response_character_set}'
         publish:
-          - vnic_attachment_id: '${vnic_attachment_id}'
-          - vnic_attachment_state: '${vnic_attachment_state}'
+          - return_result
         navigate:
-          - SUCCESS: get_vnic_attachment_details
+          - SUCCESS: get_instance_details_for_instance_action
           - FAILURE: on_failure
-    - is_vnic_attached:
+    - success_message:
         do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${vnic_attachment_state}'
-            - second_string: ATTACHED
-            - ignore_case: 'true'
+          io.cloudslang.base.strings.append:
+            - origin_string: 'Successfully started the instance : '
+            - text: '${instance_id}'
+        publish:
+          - return_result: '${new_string}'
+          - instance_state: RUNNING
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: wait_for_vnic_to_attach
-    - counter:
-        do:
-          io.cloudslang.oracle.oci.utils.counter:
-            - from: '1'
-            - to: '${retry_count}'
-            - increment_by: '1'
-        navigate:
-          - HAS_MORE: get_vnic_attachment_details
-          - NO_MORE: FAILURE
-          - FAILURE: on_failure
-    - wait_for_vnic_to_attach:
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '20'
-        navigate:
-          - SUCCESS: counter
-          - FAILURE: on_failure
-    - get_vnic_attachment_details:
-        do:
-          io.cloudslang.oracle.oci.compute.vnics.get_vnic_attachment_details:
-            - tenancy_ocid: '${tenancy_ocid}'
-            - user_ocid: '${user_ocid}'
-            - finger_print:
-                value: '${finger_print}'
-                sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
-                sensitive: true
-            - private_key_file: '${private_key_file}'
-            - api_version: '${api_version}'
-            - region: '${region}'
-            - vnic_attachment_id: '${vnic_attachment_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
-        publish:
-          - return_result
-          - vnic_id
-          - vnic_attachment_state
-        navigate:
-          - SUCCESS: is_vnic_attached
-          - FAILURE: on_failure
   outputs:
+    - instance_state: '${instance_state}'
     - return_result: '${return_result}'
-    - vnic_attachment_id: '${vnic_attachment_id}'
-    - vnic_id: '${vnic_id}'
-    - vnic_attachment_state: '${vnic_attachment_state}'
   results:
     - FAILURE
     - SUCCESS

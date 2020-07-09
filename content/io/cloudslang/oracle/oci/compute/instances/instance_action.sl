@@ -13,9 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Lists the VNIC attachments in the specified compartment. A VNIC attachment resides in the same
-#!               compartment as the attached instance.The list can be filtered by instance, VNIC, or availability
-#!               domain.
+#! @description: Performs one of the following power actions on the specified instance: START or STOP or RESET.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
@@ -25,24 +23,14 @@
 #! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
 #!                          private key file.
 #!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
+#! @input private_key_file: The path to the private key file on the machine where is the worker. 
+#!                          Optional
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
-#! @input availability_domain: The availability domain of the instance.
 #! @input instance_id: The OCID of the instance.
-#!                     Optional
-#! @input vnic_id: The OCID of the vnic.
-#!                 Optional
-#! @input limit: For list pagination. The maximum number of results per page, or items to return in a paginated "List"
-#!               call. 
-#!               Optional
-#! @input page: For list pagination. The value of the opc-next-page response header from the previous "List" call.
-#!              Optional
+#! @input action_name: The action to perform on the instance. Allowed values are: STOP or START or RESET
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -112,7 +100,6 @@
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
-#! @output vnic_list: List of Vnics OCIDs.
 #! @output status_code: The HTTP status code for OCI API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -120,44 +107,43 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.oracle.oci.compute.vnics
+namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation: 
-  name: list_vnics
+  name: instance_action
   
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
-        default: ${get('tenancy_ocid', '')}
+        default: ${get('tenancy_ocid', '')}  
+        required: false 
         private: true 
     - user_ocid    
     - userOcid: 
-        default: ${get('user_ocid', '')}
+        default: ${get('user_ocid', '')}  
+        required: false 
         private: true 
     - finger_print:    
         sensitive: true
     - fingerPrint: 
-        default: ${get('finger_print', '')}
+        default: ${get('finger_print', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - private_key_data:
-        required: false
+    - private_key_data:  
+        required: false  
         sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
-        sensitive: true
-    - private_key_file:
-        required: false
-    - privateKeyFile:
-        default: ${get('private_key_file', '')}
-        required: false
-        private: true
-    - compartment_ocid    
-    - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}
+    - privateKeyData: 
+        default: ${get('private_key_data', '')}  
+        required: false 
         private: true 
+        sensitive: true
+    - private_key_file:  
+        required: false  
+    - privateKeyFile: 
+        default: ${get('private_key_file', '')}  
+        required: false 
+        private: true
     - api_version:  
         required: false  
     - apiVersion: 
@@ -165,28 +151,16 @@ operation:
         required: false 
         private: true 
     - region    
-    - availability_domain:
-        required: false
-    - availabilityDomain: 
-        default: ${get('availability_domain', '')}  
-        required: false 
-        private: true 
-    - instance_id:  
-        required: false  
+    - instance_id    
     - instanceId: 
         default: ${get('instance_id', '')}  
         required: false 
         private: true 
-    - vnic_id:  
-        required: false  
-    - vnicId: 
-        default: ${get('vnic_id', '')}  
+    - action_name    
+    - actionName: 
+        default: ${get('action_name', '')}  
         required: false 
         private: true 
-    - limit:  
-        required: false  
-    - page:  
-        required: false  
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -287,14 +261,13 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC15'
-    class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.ListVnicAttachments'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
+    class_name: 'io.cloudslang.content.oracle.oci.actions.instances.InstanceAction'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
-    - vnic_list: ${get('vnic_list', '')} 
     - status_code: ${get('statusCode', '')} 
   
   results: 

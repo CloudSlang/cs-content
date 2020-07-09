@@ -28,8 +28,6 @@
 #!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
 #!                        Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -129,7 +127,6 @@ flow:
         sensitive: true
     - private_key_file:
         required: false
-    - compartment_ocid
     - api_version:
         required: false
     - region
@@ -188,7 +185,6 @@ flow:
                 value: '${private_key_data}'
                 sensitive: true
             - private_key_file: '${private_key_file}'
-            - compartment_ocid: '${compartment_ocid}'
             - api_version: '${api_version}'
             - region: '${region}'
             - instance_id: '${instance_id}'
@@ -235,7 +231,6 @@ flow:
             - private_key_file:
                 value: '${private_key_file}'
             - api_version: '${api_version}'
-            - compartment_ocid: '${compartment_ocid}'
             - region: '${region}'
             - instance_id: '${instance_id}'
             - proxy_host: '${proxy_host}'

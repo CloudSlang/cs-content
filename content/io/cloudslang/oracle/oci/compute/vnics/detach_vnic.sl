@@ -26,8 +26,6 @@
 #!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker. 
 #!                          Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -145,12 +143,7 @@ operation:
     - privateKeyFile: 
         default: ${get('private_key_file', '')}  
         required: false 
-        private: true 
-    - compartment_ocid    
-    - compartmentOcid: 
-        default: ${get('compartment_ocid', '')}  
-        required: false 
-        private: true 
+        private: true
     - api_version:  
         required: false  
     - apiVersion: 
@@ -263,7 +256,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC15'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
     class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.DetachVnic'
     method_name: 'execute'
   
