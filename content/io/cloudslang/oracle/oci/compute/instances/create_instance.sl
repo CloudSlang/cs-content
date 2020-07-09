@@ -220,7 +220,7 @@ namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation:
   name: create_instance
-  
+
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
