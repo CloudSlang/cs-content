@@ -52,7 +52,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC16'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.1'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.utils.Counter'
     method_name: 'execute'
 
