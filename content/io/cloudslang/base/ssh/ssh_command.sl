@@ -15,6 +15,9 @@
 #!!
 #! @description: Runs an SSH command on the host.
 #!
+#! Notes:
+#! 1. For information on how to use PowerShell Core with Linux target machines please see release notes of this operation.
+#!
 #! @input host: Hostname or IP address.
 #! @input port: Port number for running the command.
 #!              Default: '22'
