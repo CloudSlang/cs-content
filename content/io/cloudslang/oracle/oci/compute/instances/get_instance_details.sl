@@ -20,9 +20,6 @@
 #! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
 #! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
-#!                          private key file.
-#!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
 #!                        Optional
 #! @input api_version: Version of the API of OCI.
@@ -89,14 +86,6 @@ operation:
     - fingerPrint: 
         default: ${get('finger_print', '')}
         private: true 
-        sensitive: true
-    - private_key_data:
-        required: false
-        sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true
         sensitive: true
     - private_key_file:
         required: false
@@ -173,7 +162,7 @@ operation:
         private: true
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC18'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.GetInstanceDetails'
     method_name: 'execute'
   
