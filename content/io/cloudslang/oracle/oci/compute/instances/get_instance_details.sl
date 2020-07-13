@@ -87,11 +87,9 @@ operation:
         default: ${get('finger_print', '')}
         private: true 
         sensitive: true
-    - private_key_file:
-        required: false
+    - private_key_file
     - privateKeyFile:
         default: ${get('private_key_file', '')}
-        required: false
         private: true
     - api_version:  
         required: false  
