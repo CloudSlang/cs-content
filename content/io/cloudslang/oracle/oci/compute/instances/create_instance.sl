@@ -13,24 +13,24 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a new instance in the specified compartment and the specified availability domain.
+#! @description: Creates a new instance in the specified compartment and availability domain.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
-#!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
-#! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
+#!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
+#! @input user_ocid: The ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
-#! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
+#! @input finger_print: The finger print of the public key generated for the OCI account.
+#! @input private_key_file: The path to the private key file on the machine where the worker is.
+#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing and
+#!                          isolating your cloud resources. This is the ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name.
+#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input availability_domain: The availability domain of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance.
-#! @input subnet_id: The OCID of the subnet to create the VNIC in.
+#!               resources allocated to the instance. Ex: Standard, Dense I/O, GPU, etc.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
 #! @input source_type: The source type for the instance. Use image when specifying the image OCID. Use bootVolume when
 #!                     specifying the boot volume OCID.
 #! @input image_id: The OCID of the image used to boot the instance. If the sourceType is 'image', then this value is
@@ -39,19 +39,19 @@
 #! @input boot_volume_size_in_gbs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
 #!                                  16384 GB (16TB).
 #!                                  Optional
-#! @input kms_key_id: The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+#! @input kms_key_id: The OCID of the Key Management Service key that is assigned as the master encryption key for the boot volume.
 #!                    Optional
 #! @input boot_volume_id: The OCID of the boot volume used to boot the instance. If the sourceType is 'bootVolume', then
 #!                        this value is required.
 #!                        Optional
 #! @input dedicated_vm_host_id: The OCID of the dedicated VM host.
 #!                              Optional
-#! @input display_name: A user-friendly name. Does not have to be unique, and it's changeable.Ex: My bare metal instance
+#! @input display_name: A user-friendly name that does not have to be unique and changeable. Ex: My bare metal instance
 #!                      Optional
-#! @input defined_tags: Defined tags for this resource. Each key is predefined and scoped to a namespace.
+#! @input defined_tags: Defined tags for a resource. Each key is predefined and scoped to a namespace.
 #!                      Ex: {"Operations": {"CostCenter": "42"}}
 #!                      Optional
-#! @input freeform_tags: Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name,
+#! @input freeform_tags: Free-form tags for a resource. Each tag is a simple key-value pair with no predefined name,
 #!                       type, or namespace.
 #!                       Ex: {"Department": "Finance"}
 #!                       Optional
@@ -94,9 +94,9 @@
 #!                     If you want more control over
 #!                     the boot process, you can provide your own custom iPXE script that will run when the instance
 #!                     boots; however, you should be aware that the same iPXE script will run every time an instance
-#!                     boots; not only after the initial LaunchInstance call.
+#!                     boots and not only after the initial LaunchInstance call.
 #!                     Optional
-#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
+#! @input vnic_display_name: A user-friendly name for the VNIC that does not have to be unique.
 #!                           Optional
 #! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 #!                        portion of the primary private IP's fully qualified domain name.
@@ -185,12 +185,11 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
