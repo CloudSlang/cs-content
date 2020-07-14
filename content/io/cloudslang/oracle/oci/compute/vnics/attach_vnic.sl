@@ -16,21 +16,21 @@
 #! @description: Creates a secondary VNIC and attaches it to the specified instance.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
-#!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
-#! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
+#!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
+#! @input user_ocid: The ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
-#! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
+#! @input finger_print: The finger print of the public key generated for the OCI account.
+#! @input private_key_file: The path to the private key file on the machine where the worker is.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name.
+#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
-#! @input subnet_id: The OCID of the subnet to create the VNIC in.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
 #! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
 #!                          public or private.
 #!                          Optional
-#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
+#! @input vnic_display_name: A user-friendly name for the VNIC that does not have to be unique.
 #!                           Optional
 #! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 #!                        portion of the primary private IP's fully qualified domain name.
@@ -71,12 +71,11 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.

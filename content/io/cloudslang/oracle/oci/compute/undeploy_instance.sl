@@ -19,15 +19,15 @@
 #!               do not specify a value for PreserveBootVolume.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
-#!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
-#! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
+#!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
+#! @input user_ocid: The ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
-#! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
+#! @input finger_print: The finger print of the public key generated for the OCI account.
+#! @input private_key_file: The path to the private key file on the machine where the worker is.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name.
+#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input preserve_boot_volume: Specifies whether to delete or preserve the boot volume when terminating an
 #!                              instance.
@@ -46,12 +46,11 @@
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
