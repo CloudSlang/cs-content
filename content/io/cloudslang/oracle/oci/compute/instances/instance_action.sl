@@ -166,7 +166,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC19'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC20'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.InstanceAction'
     method_name: 'execute'
   
