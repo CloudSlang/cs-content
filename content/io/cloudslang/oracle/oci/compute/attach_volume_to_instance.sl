@@ -24,7 +24,7 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1,etc.
 #! @input instance_id: The OCID of the instance.
 #! @input volume_id: The OCID of the volume.
 #! @input volume_type: The type of volume.

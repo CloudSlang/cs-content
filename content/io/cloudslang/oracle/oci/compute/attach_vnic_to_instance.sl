@@ -24,7 +24,7 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1,etc.
 #! @input instance_id: The OCID of the instance.
 #! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
 #! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
