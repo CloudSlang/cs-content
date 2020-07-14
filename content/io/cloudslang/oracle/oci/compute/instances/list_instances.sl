@@ -23,8 +23,8 @@
 #!                   Infrastructure resources.
 #! @input finger_print: The finger print of the public key generated for the OCI account.
 #! @input private_key_file: The path to the private key file on the machine where the worker is.
-#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is the ID of the compartment.
+#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing
+#!                          and isolating your cloud resources. This is the ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -64,7 +64,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.

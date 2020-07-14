@@ -21,8 +21,8 @@
 #!                   Infrastructure resources.
 #! @input finger_print: The finger print of the public key generated for the OCI account.
 #! @input private_key_file: The path to the private key file on the machine where the worker is.
-#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is the ID of the compartment.
+#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing
+#!                          and isolating your cloud resources. This is the ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -39,7 +39,8 @@
 #! @input boot_volume_size_in_gbs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
 #!                                  16384 GB (16TB).
 #!                                  Optional
-#! @input kms_key_id: The OCID of the Key Management Service key that is assigned as the master encryption key for the boot volume.
+#! @input kms_key_id: The OCID of the Key Management Service key that is assigned as the master encryption key for the
+#!                    boot volume.
 #!                    Optional
 #! @input boot_volume_id: The OCID of the boot volume used to boot the instance. If the sourceType is 'bootVolume', then
 #!                        this value is required.
@@ -87,7 +88,8 @@
 #!                      selects one for you. 
 #!                      Optional
 #! @input is_pv_encryption_in_transit_enabled: Whether to enable in-transit encryption for the data volume's
-#!                                             paravirtualized attachment.Default: 'false'
+#!                                             paravirtualized attachment.
+#!                                             Default: 'false'
 #!                                             Optional
 #! @input ipxe_script: When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance
 #!                     is configured to run an iPXE script to continue the boot process.
@@ -189,7 +191,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
