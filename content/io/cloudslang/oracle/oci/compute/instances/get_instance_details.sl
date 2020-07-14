@@ -21,7 +21,6 @@
 #!                   Infrastructure resources.
 #! @input finger_print: Finger print of the public key generated for OCI account.
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional

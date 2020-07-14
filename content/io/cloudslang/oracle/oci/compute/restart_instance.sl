@@ -20,11 +20,7 @@
 #! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
 #! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
-#!                          private key file.
-#!                          Optional
 #! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                          Optional
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
@@ -80,11 +76,7 @@ flow:
     - user_ocid
     - finger_print:
         sensitive: true
-    - private_key_data:
-        required: false
-        sensitive: true
-    - private_key_file:
-        required: false
+    - private_key_file
     - api_version:
         required: false
     - region
@@ -120,9 +112,6 @@ flow:
             - finger_print:
                 value: '${finger_print}'
                 sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
-                sensitive: true
             - private_key_file: '${private_key_file}'
             - api_version: '${api_version}'
             - region: '${region}'
@@ -151,9 +140,6 @@ flow:
             - user_ocid: '${user_ocid}'
             - finger_print:
                 value: '${finger_print}'
-                sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
                 sensitive: true
             - private_key_file:
                 value: '${private_key_file}'
