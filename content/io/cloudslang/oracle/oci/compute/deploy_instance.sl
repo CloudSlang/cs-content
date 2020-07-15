@@ -597,7 +597,7 @@ flow:
             - from: '${from_email}'
             - to: '${to_email}'
             - subject: "${'OCI Instance ' + \"'\"+instance_name+\"'\" + ' Credentials'}"
-            - body: "${'<p><b>OCI Instance ' +  \"'\"+instance_name+\"'\"  + ' Credentials</b></p><div><b>Instance OCID:</b> '+ instance_id +'</div><div><b>Instance Username:</b> '+ instance_username +'</div><div><b>Instance Password:</b> ' + instance_password + '</div>'}"
+            - body: "${'<p><b>OCI Instance ' +  \"'\"+instance_name+\"'\"  + ' Credentials</b></p><div><b>Instance OCID:</b> '+ instance_id +'</div><div><b>Instance Username:</b> '+ instance_username +'</div><div><b>Instance Password:</b> ' + instance_password + '</div><div><b>Instance Public IP Address:</b> ' + public_ip + '</div>'}"
             - html_email: 'true'
             - username: '${smtp_server_username}'
             - password:
