@@ -24,7 +24,8 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
@@ -35,11 +36,12 @@
 #! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 #!                        portion of the primary private IP's fully qualified domain name.
 #!                        Optional
-#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.Ex: {"Operations":
-#!                           {"CostCenter": "42"}}
+#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.
+#!                           Example: {"Operations": {"CostCenter": "42"}}
 #!                           Optional
 #! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
-#!                            type, or namespace.Ex: {"Department": "Finance"}
+#!                            type, or namespace.
+#!                            Example: {"Department": "Finance"}
 #!                            Optional
 #! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
 #!                                    Maximum allowed security groups are 5Ex: [nsg1,nsg2]
@@ -75,7 +77,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -255,7 +258,7 @@ operation:
         private: true
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC20'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC21'
     class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.AttachVnic'
     method_name: 'execute'
   

@@ -43,25 +43,30 @@
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the OCI.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.Default: '10000'
+#!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input retry_count: Number of checks if the instance was created successfully.
 #!                     Default: '30'

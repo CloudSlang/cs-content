@@ -35,20 +35,23 @@
 #! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 #!                        portion of the primary private IP's fully qualified domain name.
 #!                        Optional
-#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.Ex: {"Operations":
-#!                           {"CostCenter": "42"}}
+#! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.
+#!                           Example: {"Operations": {"CostCenter": "42"}}
 #!                           Optional
 #! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
-#!                            type, or namespace.Ex: {"Department": "Finance"}
+#!                            type, or namespace.
+#!                            Example: {"Department": "Finance"}
 #!                            Optional
 #! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
-#!                                    Maximum allowed security groups are 5Ex: [nsg1,nsg2]
+#!                                    Maximum allowed security groups are 5.
+#!                                    Example: [nsg1,nsg2]
 #!                                    Optional
 #! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
 #!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
 #!                    from the subnet. This is the VNIC's primary private IP address.
 #!                    Optional
-#! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.Default: 'false'
+#! @input skip_source_dest_check: Whether the source/destination check is disabled on the VNIC.
+#!                                Default: 'false'
 #!                                Optional
 #! @input vnic_attachment_display_name: A user-friendly name for the attachment. Does not have to be unique, and it
 #!                                      cannot be changed.
@@ -59,25 +62,30 @@
 #!                   Optional
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the OCI.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the OCI.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.Default: '10000'
+#!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input retry_count: Number of checks if the instance was created successfully.
 #!                     Default: '30'

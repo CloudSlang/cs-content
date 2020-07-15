@@ -26,10 +26,12 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input availability_domain: The availability domain of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance. Ex: VM.Standard2.1,VM.Standard2.2, etc.
+#!               resources allocated to the instance.
+#!               Example: VM.Standard2.1,VM.Standard2.2, etc.
 #! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input source_type: The source type for the instance. Use image when specifying the image OCID. Use bootVolume when
 #!                     specifying the boot volume OCID.
@@ -50,11 +52,11 @@
 #! @input display_name: A user-friendly name that does not have to be unique and changeable. Ex: My bare metal instance
 #!                      Optional
 #! @input defined_tags: Defined tags for a resource. Each key is predefined and scoped to a namespace.
-#!                      Ex: {"Operations": {"CostCenter": "42"}}
+#!                      Example: {"Operations": {"CostCenter": "42"}}
 #!                      Optional
 #! @input freeform_tags: Free-form tags for a resource. Each tag is a simple key-value pair with no predefined name,
 #!                       type, or namespace.
-#!                       Ex: {"Department": "Finance"}
+#!                       Example: {"Department": "Finance"}
 #!                       Optional
 #! @input ssh_authorized_keys: Provide one or more public SSH keys  for the default user on the instance. Use a newline
 #!                             character to separate multiple keys.
@@ -107,15 +109,15 @@
 #!                          public or private.
 #!                          Optional
 #! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.
-#!                           Ex: {"Operations": {"CostCenter": "42"}}
+#!                           Example: {"Operations": {"CostCenter": "42"}}
 #!                           Optional
 #! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
 #!                            type, or namespace.
-#!                            Ex: {"Department": "Finance"}
+#!                            Example: {"Department": "Finance"}
 #!                            Optional
 #! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
 #!                                    Maximum allowed security groups are 5
-#!                                    Ex: [nsg1,nsg2]
+#!                                    Example: [nsg1,nsg2]
 #!                                    Optional
 #! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
 #!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
@@ -191,7 +193,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -497,7 +500,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC20'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC21'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.CreateInstance'
     method_name: 'execute'
   

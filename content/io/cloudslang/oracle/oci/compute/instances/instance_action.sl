@@ -25,7 +25,8 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input action_name: The action to perform on the instance. Allowed values are: STOP or START or RESET or SOFTSTOP or
 #!                     SOFTRESET
@@ -46,7 +47,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -168,7 +170,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC20'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC21'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.InstanceAction'
     method_name: 'execute'
   

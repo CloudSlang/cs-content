@@ -24,10 +24,12 @@
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
-#! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
+#! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance. Ex: VM.Standard2.1,VM.Standard2.2, etc.
+#!               resources allocated to the instance.
+#!               Example: VM.Standard2.1,VM.Standard2.2, etc.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -45,7 +47,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
