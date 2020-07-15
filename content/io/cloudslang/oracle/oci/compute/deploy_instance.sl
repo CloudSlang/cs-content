@@ -201,10 +201,26 @@
 #! @input retry_count: Number of checks if the instance was created successfully.
 #!                     Default: '30'
 #!                     Optional
-#! @input get_default_Credentials: Gets the generated credentials for the instance. Only works for instances that
-#!                                 require a password to log in, such as Windows make the value as 'true'.
+#! @input get_default_Credentials: Gets the default credentials for the instance. Only works for instances that
+#!                                 require a password to log in, such as Windows. If the value is set as 'true', then
+#!                                 instance username and password will be sent through an email. Enter all the required
+#!                                 details in the email related properties.
 #!                                 Default: 'false'
 #!                                 Optional
+#! @input smtp_server_hostname: The hostname or ip address of the smtp server.
+#!                              Optional
+#! @input smtp_server_port: The port of the smtp service.
+#!                          Optional
+#! @input from_email: From email address.
+#!                    Optional
+#! @input to_email: A delimiter separated list of email address(es) or recipients where the email will be sent.
+#!                  Optional
+#! @input smtp_server_username: If SMTP authentication is needed, the username to use.
+#!                              Default: ''
+#!                              Optional
+#! @input smtp_server_password: If SMTP authentication is needed, the password to use.
+#!                              Default: ''
+#!                              Optional
 #!
 #! @output instance_name: The instance name.
 #! @output instance_id: The OCID of the instance.
@@ -217,8 +233,6 @@
 #!                     CIDR of the VNIC's subnet.
 #! @output public_ip_address: The public IP address of the VNIC.
 #! @output mac_address: The MAC address of the VNIC.
-#! @output default_username: Default username of the instance.
-#! @output default_password: Default password of the instance.
 #!
 #! @result FAILURE: There was an error while executing the request.
 #! @result SUCCESS: The request was successfully executed.
@@ -330,6 +344,19 @@ flow:
     - get_default_Credentials:
         default: 'false'
         required: false
+    - smtp_server_hostname:
+        required: false
+    - smtp_server_port:
+        required: false
+    - from_email:
+        required: false
+    - to_email:
+        required: false
+    - smtp_server_username:
+        required: false
+    - smtp_server_password:
+        required: false
+        sensitive: true
   workflow:
     - create_instance:
         do:
@@ -553,11 +580,36 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - default_username: '${instance_username}'
-          - default_password: '${instance_password}'
+          - instance_username
+          - instance_password
+        navigate:
+          - SUCCESS: send_instance_credentials_mail
+          - FAILURE: FAILURE
+    - send_instance_credentials_mail:
+        do:
+          io.cloudslang.base.mail.send_mail:
+            - hostname: '${smtp_server_hostname}'
+            - port: '${smtp_server_port}'
+            - from: '${from_email}'
+            - to: '${to_email}'
+            - subject: "${'OCI instance ' + \"'\"+instance_name+\"'\" + ' credentials'}"
+            - body: "${'<p><b>OCI Instance ' +  \"'\"+instance_name+\"'\"  + ' Credentials</b></p><div><b>Instance OCID:</b> '+ instance_id +'</div><div><b>Instance Username:</b> '+ instance_username +'</div><div><b>Instance Password:</b> ' + instance_password + '</div>'}"
+            - html_email: 'true'
+            - username: '${smtp_server_username}'
+            - password:
+                value: '${smtp_server_password}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+        publish:
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - instance_name: '${instance_name}'
     - instance_id: '${instance_id}'
@@ -569,8 +621,6 @@ flow:
     - private_ip_address: '${private_ip}'
     - public_ip_address: '${public_ip}'
     - mac_address: '${mac_address}'
-    - default_username: '${default_username}'
-    - default_password: '${default_password}'
   results:
     - FAILURE
     - SUCCESS

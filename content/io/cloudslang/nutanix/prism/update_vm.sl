@@ -181,7 +181,7 @@ flow:
             - num_vcp_us: '${update_num_vcpus}'
             - num_cores_per_vcpu: '${update_num_cores_per_vcpu}'
             - time_zone: '${update_time_zone}'
-            - host_uui_ds: '${update_host_uuids}'
+            - host_uuids: '${update_host_uuids}'
             - agent_vm: '${update_agent_vm}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
@@ -272,7 +272,7 @@ flow:
             - vm_json_object: '${vm_return_result}'
         publish:
           - vm_name: '${vm_name}'
-          - vm_memory: '${vm_memory}'
+          - vm_memory: '${vm_memory_size}'
           - num_vcpus: '${num_vcpus}'
           - num_cores_per_vcpu: '${num_cores_per_vcpu}'
           - time_zone: '${time_zone}'

@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs one of the following power actions on the specified instance: START or STOP or RESET.
+#! @description: Performs one of the following power actions on the specified instance: START or STOP or RESET or
+#!               SOFTSTOP or SOFTRESET.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
 #!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
@@ -26,7 +27,8 @@
 #!                     Optional
 #! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
-#! @input action_name: The action to perform on the instance. Allowed values are: STOP or START or RESET
+#! @input action_name: The action to perform on the instance. Allowed values are: STOP or START or RESET or SOFTSTOP or
+#!                     SOFTRESET
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.
@@ -44,7 +46,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after execution.
+#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
