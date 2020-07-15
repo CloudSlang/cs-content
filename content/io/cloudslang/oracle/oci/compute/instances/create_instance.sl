@@ -29,8 +29,8 @@
 #! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input availability_domain: The availability domain of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance. Ex: Standard, Dense I/O, GPU, etc.
-#! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
+#!               resources allocated to the instance. Ex: VM.Standard2.1,VM.Standard2.2, etc.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input source_type: The source type for the instance. Use image when specifying the image OCID. Use bootVolume when
 #!                     specifying the boot volume OCID.
 #! @input image_id: The OCID of the image used to boot the instance. If the sourceType is 'image', then this value is

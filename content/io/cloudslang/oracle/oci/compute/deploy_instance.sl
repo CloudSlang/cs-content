@@ -24,9 +24,9 @@
 #! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing and
 #!                          isolating your cloud resources. This is the ID of the compartment.
 #! @input availability_domain: The availability domain of the instance.
-#! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance. Ex: Standard, Dense I/O, GPU, etc.
+#!               resources allocated to the instance. Ex: VM.Standard2.1,VM.Standard2.2, etc.
 #! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'

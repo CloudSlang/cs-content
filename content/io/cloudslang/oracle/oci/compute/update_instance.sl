@@ -27,7 +27,7 @@
 #! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
-#!               resources allocated to the instance. Ex: Standard, Dense I/O, GPU, etc.
+#!               resources allocated to the instance. Ex: VM.Standard2.1,VM.Standard2.2, etc.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the OCI.

@@ -26,7 +26,7 @@
 #!                     Optional
 #! @input region: The region's name. Ex: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1,etc.
 #! @input instance_id: The OCID of the instance.
-#! @input subnet_id: The OCID of the subnet in which the VNIC will be created. Ex: 0.0.0.0/24, 10.0.1.0/24.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input assign_public_ip: Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is
 #!                          public or private.
 #!                          Optional
@@ -72,8 +72,8 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.Default: 'true'
+#!                    keepAlive is false,  an existing open connection is used and the connection will be closed after execution.
+#!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
 #!                                   Optional
