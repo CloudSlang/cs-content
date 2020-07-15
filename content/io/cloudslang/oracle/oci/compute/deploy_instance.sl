@@ -326,6 +326,7 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
