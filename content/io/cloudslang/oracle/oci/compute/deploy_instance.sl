@@ -201,8 +201,10 @@
 #! @input retry_count: Number of checks if the instance was created successfully.
 #!                     Default: '30'
 #!                     Optional
-#! @input get_default_Credentials: Gets the generated credentials for the instance. Only works for instances that
-#!                                 require a password to log in, such as Windows make the value as 'true'.
+#! @input get_default_Credentials: Gets the default credentials for the instance. Only works for instances that
+#!                                 require a password to log in, such as Windows. If the value is set as 'true', then
+#!                                 instance username and password will be sent through an email. Enter all the required
+#!                                 details in the email related properties.
 #!                                 Default: 'false'
 #!                                 Optional
 #! @input smtp_server_hostname: The hostname or ip address of the smtp server.
