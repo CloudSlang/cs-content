@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Update a virtual machine with specified configuration.
+#! @description: Updates a virtual machine with specified configuration.
 #!
 #! @input hostname: The hostname for Nutanix Prism.
 #! @input port: The port to connect to Nutanix Prism.
@@ -95,11 +95,12 @@
 #!                               Optional
 #!
 #! @output vm_name: Name of the virtual machine that will be updated.
-#! @output host_uuids: UUIDs identifying the host on which the virtual machine is currently running.
-#! @output vm_memory_size: The memory amount (in GiB) attached to the virtual machine that will will be created.
+#! @output host_uuids: The UUIDs identifying the host on which the virtual machine is currently running.
+#! @output vm_memory_size: The memory amount (in GiB) attached to the virtual machine.
 #! @output num_vcpus: The number that indicates how many processors will have the virtual machine that will be created.
-#! @output num_cores_per_vcpu: This is the number of cores per vCPU.
-#! @output time_zone: The timezone in which the virtual machine will be created.
+#! @output num_cores_per_vcpu: The number of cores per vCPU of the virtual machine.
+#! @output time_zone: The timezone for the VM's hardware clock. Any updates to the timezone will be applied during the
+#!                    next VM power cycle.
 #! @output agent_vm: Indicates whether the VM is an agent VM.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -180,7 +181,7 @@ flow:
             - num_vcp_us: '${update_num_vcpus}'
             - num_cores_per_vcpu: '${update_num_cores_per_vcpu}'
             - time_zone: '${update_time_zone}'
-            - host_uui_ds: '${update_host_uuids}'
+            - host_uuids: '${update_host_uuids}'
             - agent_vm: '${update_agent_vm}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
@@ -201,7 +202,7 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - task_uuid
+          - task_uuid: '${task_uuid}'
         navigate:
           - SUCCESS: get_task_details
           - FAILURE: on_failure
@@ -234,7 +235,7 @@ flow:
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
         publish:
-          - task_status
+          - task_status: '${task_status}'
         navigate:
           - SUCCESS: is_task_status_succeeded
           - FAILURE: on_failure
@@ -270,13 +271,12 @@ flow:
           io.cloudslang.nutanix.prism.utils.get_updated_vm_details:
             - vm_json_object: '${vm_return_result}'
         publish:
-          - vm_name
-          - host_uuids
-          - vm_memory
-          - num_vcpus
-          - num_cores_per_vcpu
-          - time_zone
-          - agent_vm
+          - vm_name: '${vm_name}'
+          - vm_memory: '${vm_memory_size}'
+          - num_vcpus: '${num_vcpus}'
+          - num_cores_per_vcpu: '${num_cores_per_vcpu}'
+          - time_zone: '${time_zone}'
+          - agent_vm: '${agent_vm}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
@@ -310,6 +310,7 @@ flow:
             - connections_max_total: '${connections_max_total}'
         publish:
           - vm_return_result: '${return_result}'
+          - host_uuids: '${host_uuids}'
         navigate:
           - SUCCESS: get_updated_vm_details
           - FAILURE: on_failure

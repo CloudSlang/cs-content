@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Update a virtual machine with specified configuration.This is an asynchronous operation that results in
-#!               the creation of a task object. The UUID of this task object is returned as the response of this
+#! @description: Updates a virtual machine with specified configuration.This is an asynchronous operation that results
+#!               in the creation of a task object. The UUID of this task object is returned as the response of this
 #!               operation. This task can be monitored by using the /tasks/poll API.
 #!
 #! @input hostname: The hostname for Nutanix Prism.
@@ -262,7 +262,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC14'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.1'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.UpdateVM'
     method_name: 'execute'
   

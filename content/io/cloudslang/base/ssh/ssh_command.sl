@@ -15,6 +15,9 @@
 #!!
 #! @description: Runs an SSH command on the host.
 #!
+#! Notes:
+#! 1. For information on how to use PowerShell Core with Linux target machines please see release notes of this operation.
+#!
 #! @input host: Hostname or IP address.
 #! @input port: Port number for running the command.
 #!              Default: '22'
@@ -231,7 +234,7 @@ operation:
           private: true
 
     java_action:
-      gav: 'io.cloudslang.content:cs-ssh:0.0.45-RC1'
+      gav: 'io.cloudslang.content:cs-ssh:0.0.45'
       class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       method_name: runSshShellCommand
 

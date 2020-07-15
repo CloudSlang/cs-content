@@ -93,6 +93,8 @@
 #! @output vm_disk_uuid: The UUID of the disk attached to the virtual machine.
 #! @output storage_container_uuid: The UUID of the storage containers of the virtual machine.
 #! @output vm_logical_timestamp: The virtual logical timestamp of the virtual machine.
+#! @output host_uuids: The host UUID on which to power on the VM. This parameter is only honored for kPowerOn or
+#!                     kPowerCycle when change host is also requested explicitly.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -218,7 +220,7 @@ operation:
         private: true
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.0-RC14'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.1'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.GetVMDetails'
     method_name: 'execute'
   
@@ -233,6 +235,7 @@ operation:
     - vm_disk_uuid: ${get('vmDiskUUID', '')}
     - storage_container_uuid: ${get('storageContainerUUID', '')}
     - vm_logical_timestamp: ${get('vmLogicalTimestamp', '')}
+    - host_uuids: ${get('hostUUIDs', '')}
 
   results: 
     - SUCCESS: ${returnCode=='0'} 
