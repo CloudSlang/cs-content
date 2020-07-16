@@ -132,7 +132,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -434,3 +434,61 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      create_vm:
+        x: 45
+        'y': 84
+        navigate:
+          2a6bff69-14fc-77fe-7fb9-049f86ebc546:
+            vertices:
+              - x: 129
+                'y': 113
+            targetId: get_task_details
+            port: SUCCESS
+      get_task_details:
+        x: 191
+        'y': 83
+      is_task_status_succeeded:
+        x: 390
+        'y': 68
+      iterate_for_task_status:
+        x: 520
+        'y': 250
+        navigate:
+          58813467-214a-55e4-1797-94d36bf55626:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: FAILURE
+          e29a5996-81b5-43bc-7a4a-a7c247f6d0d0:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 201
+        'y': 244
+        navigate:
+          23fab15a-236e-b2cd-d72e-ef004b75b23b:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: FAILURE
+      get_vm_details:
+        x: 798
+        'y': 88
+        navigate:
+          e91a841a-df29-f56e-f2b4-bae56c8765e3:
+            targetId: a75904d6-f6de-13c9-4949-04568d5813d3
+            port: SUCCESS
+      get_vm_uuid:
+        x: 509
+        'y': 83
+      strip_characters_from_vm_uuid:
+        x: 655
+        'y': 84
+    results:
+      FAILURE:
+        b4223651-2f25-808f-a7c7-92225676f7b5:
+          x: 193
+          'y': 416
+      SUCCESS:
+        a75904d6-f6de-13c9-4949-04568d5813d3:
+          x: 947
+          'y': 88

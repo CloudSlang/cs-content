@@ -68,7 +68,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -243,3 +243,48 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      delete_vm:
+        x: 42
+        'y': 74
+      get_task_details:
+        x: 186
+        'y': 76
+      is_task_status_succeeded:
+        x: 387
+        'y': 62
+      iterate_for_task_status:
+        x: 353
+        'y': 287
+        navigate:
+          91c4b84d-9fef-8e03-0b2d-be3674560eaf:
+            targetId: 9d59213a-e1cb-35c6-9ff8-45c4cfba2efa
+            port: FAILURE
+          6f18cbe7-bc70-5cfb-ef57-9cadcb11a57e:
+            targetId: 9d59213a-e1cb-35c6-9ff8-45c4cfba2efa
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 196
+        'y': 278
+        navigate:
+          2d295d34-e525-d739-fae0-7150b888f5c4:
+            targetId: 9d59213a-e1cb-35c6-9ff8-45c4cfba2efa
+            port: FAILURE
+      success_message:
+        x: 499
+        'y': 76
+        navigate:
+          d388b61f-4152-4aa5-39f0-850a23c14a5e:
+            targetId: 80795742-8b73-782e-f46b-918201a77b7e
+            port: SUCCESS
+    results:
+      FAILURE:
+        9d59213a-e1cb-35c6-9ff8-45c4cfba2efa:
+          x: 189
+          'y': 456
+      SUCCESS:
+        80795742-8b73-782e-f46b-918201a77b7e:
+          x: 646
+          'y': 82

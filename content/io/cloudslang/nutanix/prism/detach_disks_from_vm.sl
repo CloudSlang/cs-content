@@ -71,7 +71,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -284,3 +284,58 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      detach_disks:
+        x: 39
+        'y': 76
+        navigate:
+          d6dca7e1-5ab3-fe77-993f-73481649fa70:
+            vertices:
+              - x: 119
+                'y': 119
+            targetId: get_task_details
+            port: SUCCESS
+      get_task_details:
+        x: 185
+        'y': 78
+      is_task_status_succeeded:
+        x: 383
+        'y': 67
+      iterate_for_task_status:
+        x: 348
+        'y': 266
+        navigate:
+          f1ba6eea-aaf3-f5f2-cd28-5fe843347133:
+            targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
+            port: FAILURE
+          859b396d-2f7f-492c-c6c7-6577bed02e9b:
+            targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 192
+        'y': 264
+        navigate:
+          e412acca-22fa-1386-8b10-4b3e0da0049b:
+            targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
+            port: FAILURE
+      success_message:
+        x: 646
+        'y': 81
+        navigate:
+          795a04b4-12e3-7d4c-fe01-e13f2d25282e:
+            targetId: 33f1712a-3a6a-f91a-1ca6-78c73ddfa879
+            port: SUCCESS
+      get_vm_details:
+        x: 500
+        'y': 81
+    results:
+      FAILURE:
+        546dc45b-eb93-96c3-fbc7-99977d3aa8c2:
+          x: 186
+          'y': 422
+      SUCCESS:
+        33f1712a-3a6a-f91a-1ca6-78c73ddfa879:
+          x: 790
+          'y': 85
