@@ -302,7 +302,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -336,7 +336,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - is_task_status_succeeded:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -402,7 +402,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_vm_uuid:
         do:
           io.cloudslang.base.json.json_path_query:

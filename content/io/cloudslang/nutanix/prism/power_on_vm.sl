@@ -170,7 +170,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: is_vm_powered_on
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
