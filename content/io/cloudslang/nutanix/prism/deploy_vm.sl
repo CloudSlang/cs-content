@@ -434,3 +434,71 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      create_vm:
+        x: 45
+        'y': 84
+        navigate:
+          2a6bff69-14fc-77fe-7fb9-049f86ebc546:
+            vertices:
+              - x: 129
+                'y': 113
+            targetId: get_task_details
+            port: SUCCESS
+      get_task_details:
+        x: 283
+        'y': 74
+      is_task_status_succeeded:
+        x: 564
+        'y': 60
+        navigate:
+          d88cac0d-d321-5bfe-0a4a-32dec448ffd7:
+            vertices:
+              - x: 563
+                'y': 185
+            targetId: iterate_for_task_status
+            port: FAILURE
+      iterate_for_task_status:
+        x: 525
+        'y': 375
+        navigate:
+          58813467-214a-55e4-1797-94d36bf55626:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: FAILURE
+          e29a5996-81b5-43bc-7a4a-a7c247f6d0d0:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 290
+        'y': 367
+        navigate:
+          163e51f2-efc0-0a14-d62b-e46b68bd27d5:
+            targetId: b4223651-2f25-808f-a7c7-92225676f7b5
+            port: FAILURE
+            vertices:
+              - x: 523
+                'y': 590
+      get_vm_details:
+        x: 1112
+        'y': 80
+        navigate:
+          e91a841a-df29-f56e-f2b4-bae56c8765e3:
+            targetId: a75904d6-f6de-13c9-4949-04568d5813d3
+            port: SUCCESS
+      get_vm_uuid:
+        x: 743
+        'y': 74
+      strip_characters_from_vm_uuid:
+        x: 943
+        'y': 74
+    results:
+      FAILURE:
+        b4223651-2f25-808f-a7c7-92225676f7b5:
+          x: 1107
+          'y': 563
+      SUCCESS:
+        a75904d6-f6de-13c9-4949-04568d5813d3:
+          x: 1303
+          'y': 83

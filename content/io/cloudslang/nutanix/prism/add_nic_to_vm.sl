@@ -290,3 +290,51 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      add_nic:
+        x: 38
+        'y': 77
+      get_task_details:
+        x: 211
+        'y': 82
+      wait_for_task_status_success:
+        x: 219
+        'y': 501
+        navigate:
+          7e5e7472-6899-a958-701e-f1bde80d49d2:
+            targetId: 48dd0ca4-3c68-a7b0-e591-60f2169ef87a
+            port: FAILURE
+      iterate_for_task_status:
+        x: 888
+        'y': 516
+        navigate:
+          cbf9d7f6-0057-3259-4720-7916bd88cdc3:
+            targetId: 48dd0ca4-3c68-a7b0-e591-60f2169ef87a
+            port: NO_MORE
+          289892a1-4a93-759a-82a5-d6318ef6eb88:
+            targetId: 48dd0ca4-3c68-a7b0-e591-60f2169ef87a
+            port: FAILURE
+      is_task_status_succeeded:
+        x: 465
+        'y': 68
+      get_vm_details:
+        x: 682
+        'y': 82
+      success_message:
+        x: 869
+        'y': 86
+        navigate:
+          63b5de3a-fd76-f98d-1eb9-ae8e0066140c:
+            targetId: 10b92ae5-207c-384b-302e-efc6dd596c7e
+            port: SUCCESS
+    results:
+      FAILURE:
+        48dd0ca4-3c68-a7b0-e591-60f2169ef87a:
+          x: 429
+          'y': 266
+      SUCCESS:
+        10b92ae5-207c-384b-302e-efc6dd596c7e:
+          x: 1108
+          'y': 87
