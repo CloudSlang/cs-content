@@ -24,12 +24,12 @@
 #!                     organization and repository in your VCS provider.
 #!                     Optional
 #! @input workspace_variables_json: List of variables in json format.
-#!                                  Optional
 #!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"Category":"terraform"}]'
+#!                                  Optional
 #! @input sensitive_workspace_variables_json: List of sensitive variables in json format.
-#!                                            Optional
 #!                                            Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,
 #!                                            "Category":"terraform"}]'
+#!                                            Optional
 #! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
 #!                    Optional
 #! @input auto_apply: Whether to automatically apply changes when a Terraform plan is successful, with some
