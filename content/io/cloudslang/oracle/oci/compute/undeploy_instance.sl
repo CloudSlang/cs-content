@@ -203,3 +203,38 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      terminate_instance:
+        x: 40
+        'y': 107
+      get_instance_details:
+        x: 215
+        'y': 108
+      is_instance_terminated:
+        x: 469
+        'y': 86
+        navigate:
+          0e2a6d22-3932-7e7d-2a56-0bbfb29dd233:
+            targetId: 444ae86f-2527-9321-bc32-e1bc5246947e
+            port: SUCCESS
+      counter:
+        x: 222
+        'y': 317
+        navigate:
+          272ec37d-3bb9-78df-b66f-60b75fa1b961:
+            targetId: 80fb0719-b5c0-5ac0-af9b-84002cd83b04
+            port: NO_MORE
+      wait_for_instance_to_terminate:
+        x: 440
+        'y': 317
+    results:
+      FAILURE:
+        80fb0719-b5c0-5ac0-af9b-84002cd83b04:
+          x: 42
+          'y': 308
+      SUCCESS:
+        444ae86f-2527-9321-bc32-e1bc5246947e:
+          x: 628
+          'y': 107

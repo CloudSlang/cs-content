@@ -256,3 +256,54 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      instance_action:
+        x: 387
+        'y': 180
+      get_instance_details:
+        x: 38
+        'y': 76
+      wait_for_instance_to_start:
+        x: 755
+        'y': 347
+      success_message:
+        x: 905
+        'y': 176
+        navigate:
+          e1cdd487-f34c-7467-dac4-bccf818d5d3d:
+            targetId: 15d35135-3854-bafa-6b17-02018872bf96
+            port: SUCCESS
+      is_instance_in_running_state:
+        x: 265
+        'y': 64
+      is_instance_started:
+        x: 783
+        'y': 159
+      instance_action_success_message:
+        x: 385
+        'y': 36
+        navigate:
+          ccec6fc7-1568-730f-36c2-7ebabd6e978c:
+            targetId: 15d35135-3854-bafa-6b17-02018872bf96
+            port: SUCCESS
+      get_instance_details_for_instance_action:
+        x: 556
+        'y': 176
+      counter:
+        x: 558
+        'y': 355
+        navigate:
+          52df6aaf-550e-0080-0c7d-bdebe6a5eb98:
+            targetId: ae4aee99-9492-8f25-974a-bbba239f8d62
+            port: NO_MORE
+    results:
+      FAILURE:
+        ae4aee99-9492-8f25-974a-bbba239f8d62:
+          x: 393
+          'y': 355
+      SUCCESS:
+        15d35135-3854-bafa-6b17-02018872bf96:
+          x: 1007
+          'y': 39

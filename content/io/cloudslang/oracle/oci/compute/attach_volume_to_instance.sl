@@ -228,3 +228,38 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      attach_volume:
+        x: 36
+        'y': 108
+      is_volume_attached:
+        x: 447
+        'y': 88
+        navigate:
+          60c9802a-ced0-418f-7fbf-63e9b3be09e9:
+            targetId: a828ee9b-e886-e7ab-4950-a3052f96a0e4
+            port: SUCCESS
+      counter:
+        x: 213
+        'y': 314
+        navigate:
+          65ce4d51-01b7-5d54-1d02-16a09096ee5c:
+            targetId: 615d35d4-4129-f398-eaca-d7386256c53e
+            port: NO_MORE
+      wait_for_volume_to_attach:
+        x: 420
+        'y': 318
+      get_volume_attachment_details:
+        x: 217
+        'y': 103
+    results:
+      FAILURE:
+        615d35d4-4129-f398-eaca-d7386256c53e:
+          x: 36
+          'y': 320
+      SUCCESS:
+        a828ee9b-e886-e7ab-4950-a3052f96a0e4:
+          x: 605
+          'y': 111

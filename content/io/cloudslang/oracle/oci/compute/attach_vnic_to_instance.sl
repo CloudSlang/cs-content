@@ -265,3 +265,38 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      attach_vnic:
+        x: 38
+        'y': 108
+      is_vnic_attached:
+        x: 454
+        'y': 92
+        navigate:
+          70a65610-6d73-5800-2e2d-04c19861068c:
+            targetId: 753c2b7a-1e07-da70-0a56-30bfe6401783
+            port: SUCCESS
+      counter:
+        x: 224
+        'y': 320
+        navigate:
+          bb9e030e-591d-a559-f10f-198fcc8c176e:
+            targetId: 02a4790f-419a-007a-2404-fa554c95d5e2
+            port: NO_MORE
+      wait_for_vnic_to_attach:
+        x: 425
+        'y': 322
+      get_vnic_attachment_details:
+        x: 218
+        'y': 105
+    results:
+      FAILURE:
+        02a4790f-419a-007a-2404-fa554c95d5e2:
+          x: 40
+          'y': 322
+      SUCCESS:
+        753c2b7a-1e07-da70-0a56-30bfe6401783:
+          x: 609
+          'y': 113

@@ -500,7 +500,7 @@ flow:
           - mac_address
         navigate:
           - SUCCESS: get_default_credentials
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - list_vnic_attachments:
         do:
           io.cloudslang.oracle.oci.compute.vnics.list_vnic_attachments:
@@ -588,7 +588,7 @@ flow:
           - instance_password
         navigate:
           - SUCCESS: send_instance_credentials_mail
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - send_instance_credentials_mail:
         do:
           io.cloudslang.base.mail.send_mail:
@@ -628,3 +628,57 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      get_instance_details:
+        x: 181
+        'y': 94
+      list_vnic_attachments:
+        x: 510
+        'y': 85
+      send_instance_credentials_mail:
+        x: 1015
+        'y': 321
+        navigate:
+          6f2851fe-06f6-d9be-a7fb-7ac23243e6bf:
+            targetId: 37478502-260f-98fb-79f8-0775a71e980f
+            port: SUCCESS
+      get_default_credentials:
+        x: 852
+        'y': 77
+        navigate:
+          9fec3acb-aa9a-1a1e-2309-66fdce691752:
+            targetId: 37478502-260f-98fb-79f8-0775a71e980f
+            port: FAILURE
+      create_instance:
+        x: 38
+        'y': 98
+      wait_for_instance_status:
+        x: 375
+        'y': 320
+      counter:
+        x: 192
+        'y': 313
+        navigate:
+          0057bf63-6a22-5846-bea0-7ff1775a744a:
+            targetId: 3db735cf-df67-3be0-d343-68e02ac7fec9
+            port: NO_MORE
+      instance_status:
+        x: 401
+        'y': 68
+      get_instance_default_credentials:
+        x: 827
+        'y': 317
+      get_vnic_details:
+        x: 657
+        'y': 90
+    results:
+      SUCCESS:
+        37478502-260f-98fb-79f8-0775a71e980f:
+          x: 1009
+          'y': 98
+      FAILURE:
+        3db735cf-df67-3be0-d343-68e02ac7fec9:
+          x: 38
+          'y': 328

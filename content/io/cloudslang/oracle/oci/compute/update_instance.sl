@@ -222,3 +222,44 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      update_instance:
+        x: 41
+        'y': 102
+      get_instance_details:
+        x: 215
+        'y': 105
+      is_instance_shape_updated:
+        x: 750
+        'y': 90
+        navigate:
+          f207f009-6840-98a1-bf71-5ab6e67eb408:
+            targetId: a7721498-2f9b-01d6-d32f-73537aaf01dd
+            port: SUCCESS
+      counter:
+        x: 212
+        'y': 312
+        navigate:
+          d944913f-5c6c-4fec-594e-45d48384a868:
+            targetId: 18079688-1b34-92f5-f76b-6930afc511d7
+            port: NO_MORE
+      wait_for_instance_to_update_shape:
+        x: 722
+        'y': 320
+      get_instance_shape:
+        x: 379
+        'y': 104
+      remove:
+        x: 531
+        'y': 108
+    results:
+      FAILURE:
+        18079688-1b34-92f5-f76b-6930afc511d7:
+          x: 40
+          'y': 316
+      SUCCESS:
+        a7721498-2f9b-01d6-d32f-73537aaf01dd:
+          x: 891
+          'y': 110

@@ -194,3 +194,38 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      detach_vnic:
+        x: 36
+        'y': 104
+      is_vnic_detached:
+        x: 446
+        'y': 90
+        navigate:
+          ff8c8a6b-a3de-8bb6-7b85-110afc83bfd1:
+            targetId: 0dee5bd6-53a8-1c99-7ce0-3c0c55ec8e5a
+            port: SUCCESS
+      counter:
+        x: 216
+        'y': 313
+        navigate:
+          f1f06c02-df87-8b87-9dcf-c87f573275bd:
+            targetId: 880fc1c0-9726-2ba0-2693-f86b5a507356
+            port: NO_MORE
+      wait_for_vnic_to_detach:
+        x: 417
+        'y': 319
+      get_vnic_attachment_details:
+        x: 213
+        'y': 103
+    results:
+      FAILURE:
+        880fc1c0-9726-2ba0-2693-f86b5a507356:
+          x: 38
+          'y': 320
+      SUCCESS:
+        0dee5bd6-53a8-1c99-7ce0-3c0c55ec8e5a:
+          x: 607
+          'y': 109

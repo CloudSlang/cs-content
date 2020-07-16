@@ -193,3 +193,38 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      detach_volume:
+        x: 36
+        'y': 96
+      is_volume_detached:
+        x: 448
+        'y': 85
+        navigate:
+          ae1ca424-ab04-50de-4a75-b87b690cf1e8:
+            targetId: 968b3579-8022-7a82-11d6-5f747f04892c
+            port: SUCCESS
+      counter:
+        x: 211
+        'y': 316
+        navigate:
+          f9af32bc-d6b6-8ec2-deee-3b3d57ef3c00:
+            targetId: 4920d0cc-5ae8-2b26-5118-06b6e1547514
+            port: NO_MORE
+      wait_for_volume_to_detach:
+        x: 416
+        'y': 310
+      get_volume_attachment_details:
+        x: 211
+        'y': 96
+    results:
+      FAILURE:
+        4920d0cc-5ae8-2b26-5118-06b6e1547514:
+          x: 33
+          'y': 322
+      SUCCESS:
+        968b3579-8022-7a82-11d6-5f747f04892c:
+          x: 604
+          'y': 109

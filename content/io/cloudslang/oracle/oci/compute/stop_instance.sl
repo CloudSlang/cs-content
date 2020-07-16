@@ -256,3 +256,54 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      instance_action:
+        x: 386
+        'y': 178
+      get_instance_details:
+        x: 33
+        'y': 71
+      success_message:
+        x: 875
+        'y': 175
+        navigate:
+          c4bd9bbf-b73b-67a2-d832-006eb31301ef:
+            targetId: 6c493ff8-f7ad-3c4a-74ab-e29cccc2f866
+            port: SUCCESS
+      instance_action_success_message:
+        x: 422
+        'y': 41
+        navigate:
+          24ebb488-868f-0927-5e63-a9d86e1b452f:
+            targetId: 6c493ff8-f7ad-3c4a-74ab-e29cccc2f866
+            port: SUCCESS
+      get_instance_details_for_instance_action:
+        x: 530
+        'y': 175
+      is_instance_stopped:
+        x: 746
+        'y': 155
+      is_instance_in_stopped_state:
+        x: 251
+        'y': 59
+      counter:
+        x: 541
+        'y': 354
+        navigate:
+          c2d034b4-bd94-90c8-6d2b-4c3beaf1aa4b:
+            targetId: 32fcec6d-d2fb-5634-6ea4-61f4eefa2667
+            port: NO_MORE
+      wait_for_instance_to_stop:
+        x: 718
+        'y': 350
+    results:
+      FAILURE:
+        32fcec6d-d2fb-5634-6ea4-61f4eefa2667:
+          x: 384
+          'y': 358
+      SUCCESS:
+        6c493ff8-f7ad-3c4a-74ab-e29cccc2f866:
+          x: 1008
+          'y': 43

@@ -206,3 +206,41 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      instance_action:
+        x: 39
+        'y': 106
+      get_instance_details_for_instance_action:
+        x: 214
+        'y': 104
+      is_instance_restarted:
+        x: 442
+        'y': 88
+      counter:
+        x: 222
+        'y': 320
+        navigate:
+          10752c61-60aa-55bc-7b99-4198b16624c0:
+            targetId: a64e0e4a-cdb5-2e19-59d9-b37962eb040f
+            port: NO_MORE
+      wait_for_instance_to_restart:
+        x: 417
+        'y': 321
+      success_message:
+        x: 598
+        'y': 104
+        navigate:
+          b69b061a-b92b-e5ae-0047-77fbf6c4e1cc:
+            targetId: 96a13c94-2004-2dba-6d72-719fc0de856f
+            port: SUCCESS
+    results:
+      FAILURE:
+        a64e0e4a-cdb5-2e19-59d9-b37962eb040f:
+          x: 40
+          'y': 321
+      SUCCESS:
+        96a13c94-2004-2dba-6d72-719fc0de856f:
+          x: 783
+          'y': 110
