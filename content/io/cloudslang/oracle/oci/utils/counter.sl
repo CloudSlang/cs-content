@@ -52,7 +52,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC21'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0'
     class_name: 'io.cloudslang.content.oracle.oci.actions.utils.Counter'
     method_name: 'execute'
 
