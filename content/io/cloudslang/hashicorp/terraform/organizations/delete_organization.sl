@@ -19,14 +19,16 @@
 #! @input organization_name: The name of the organization.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Terraform service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.Default: 'false'
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -35,7 +37,8 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -46,24 +49,29 @@
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.Default: '10000'
+#!                         represents an infinite timeout.
+#!                         Default: '10000'
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.Default: 'true'
+#!                    it.
+#!                    Default: 'true'
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.Default: '2'
+#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: '2'
 #!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.Default: '20'
+#! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: '20'
 #!                               Optional
 #! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
 #!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.Default: 'UTF-8'
+#!                                method=HEAD or OPTIONS.
+#!                                Default: 'UTF-8'
 #!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
@@ -184,7 +192,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC6'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.organizations.DeleteOrganization'
     method_name: 'execute'
   

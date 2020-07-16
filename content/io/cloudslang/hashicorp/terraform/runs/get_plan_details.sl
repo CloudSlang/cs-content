@@ -183,7 +183,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC6'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.PlanDetails'
     method_name: 'execute'
   
