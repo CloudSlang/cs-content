@@ -546,4 +546,78 @@ flow:
   results:
     - FAILURE
     - SUCCESS
-
+extensions:
+  graph:
+    steps:
+      get_run_status_value:
+        x: 669
+        'y': 280
+      wait_for_get_state_version_details:
+        x: 1017
+        'y': 278
+      get_run_details:
+        x: 513
+        'y': 281
+      run_status:
+        x: 868
+        'y': 429
+      wait_for_plan_status:
+        x: 522
+        'y': 470
+      create_run:
+        x: 504
+        'y': 113
+      create_workspace_variables:
+        x: 346
+        'y': 106
+      counter_for_get_state_version_details:
+        x: 1018
+        'y': 471
+        navigate:
+          44a91456-5dde-6693-18b3-6a90f785ac5c:
+            targetId: fabb57bb-b303-6dcd-b4cf-e667fa2870cd
+            port: NO_MORE
+      get_run_status_value_state_version:
+        x: 1006
+        'y': 110
+      list_o_auth_client:
+        x: 38
+        'y': 105
+      create_workspace:
+        x: 181
+        'y': 110
+      get_run_details_for_get_state_version_details:
+        x: 835
+        'y': 109
+      run_status_for_get_state_version_details:
+        x: 1207
+        'y': 268
+      apply_run:
+        x: 837
+        'y': 282
+      is_auto_apply_true:
+        x: 713
+        'y': 98
+      get_current_state_version:
+        x: 1314
+        'y': 285
+        navigate:
+          7a5d402b-8582-098f-e314-545a43a70854:
+            targetId: 314e7f88-a400-c545-369a-d99c5cb2767c
+            port: SUCCESS
+      counter_for_run_status:
+        x: 671
+        'y': 472
+        navigate:
+          efd7be8d-6f09-a3ee-7405-de433178e78d:
+            targetId: fabb57bb-b303-6dcd-b4cf-e667fa2870cd
+            port: NO_MORE
+    results:
+      SUCCESS:
+        314e7f88-a400-c545-369a-d99c5cb2767c:
+          x: 1473
+          'y': 289
+      FAILURE:
+        fabb57bb-b303-6dcd-b4cf-e667fa2870cd:
+          x: 841
+          'y': 615

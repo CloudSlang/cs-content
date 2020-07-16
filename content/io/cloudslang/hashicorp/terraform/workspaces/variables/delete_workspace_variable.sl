@@ -195,7 +195,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC7'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.variables.DeleteWorkspaceVariable'
     method_name: 'execute'
   

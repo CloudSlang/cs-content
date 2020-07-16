@@ -460,4 +460,79 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      wait_for_apply_state:
+        x: 924
+        'y': 297
+      get_run_status_value:
+        x: 627
+        'y': 281
+      get_run_details:
+        x: 454
+        'y': 279
+      run_status:
+        x: 816
+        'y': 457
+      counter_for_apply_state:
+        x: 924
+        'y': 469
+        navigate:
+          f0006fdc-5a3f-d205-a06e-a37922490b8a:
+            targetId: d3e056e0-382d-820b-a4f0-98703bcb5211
+            port: NO_MORE
+      wait_for_plan_status:
+        x: 457
+        'y': 466
+      create_run:
+        x: 456
+        'y': 111
+      counter_for_plan_status:
+        x: 634
+        'y': 464
+        navigate:
+          7d3b629d-d511-ac3f-ba7b-2264321197d9:
+            targetId: d3e056e0-382d-820b-a4f0-98703bcb5211
+            port: NO_MORE
+      get_workspace_details:
+        x: 38
+        'y': 104
+      run_status_to_get_current_state_version_details:
+        x: 1119
+        'y': 282
+      get_run_details_to_get_current_state_version_details:
+        x: 765
+        'y': 106
+      update_workspace_variables:
+        x: 314
+        'y': 114
+      get_run_status_value_to_get_current_state_version_details:
+        x: 912
+        'y': 107
+      get_auto_apply_value:
+        x: 181
+        'y': 108
+      apply_run:
+        x: 765
+        'y': 283
+      is_auto_apply_true:
+        x: 671
+        'y': 93
+      get_current_state_version:
+        x: 1239
+        'y': 302
+        navigate:
+          4d557828-6b3c-b1e9-9f47-d6aefab8e4e7:
+            targetId: 2927d249-49fd-d519-a86e-5ec28268ee24
+            port: SUCCESS
+    results:
+      SUCCESS:
+        2927d249-49fd-d519-a86e-5ec28268ee24:
+          x: 1389
+          'y': 312
+      FAILURE:
+        d3e056e0-382d-820b-a4f0-98703bcb5211:
+          x: 798
+          'y': 623
 
