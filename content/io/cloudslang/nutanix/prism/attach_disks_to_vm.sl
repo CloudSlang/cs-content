@@ -228,7 +228,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -261,7 +261,7 @@ flow:
           - task_status
         navigate:
           - SUCCESS: is_task_status_succeeded
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - wait_for_task_status_success:
         do:
           io.cloudslang.base.utils.sleep:
@@ -278,7 +278,7 @@ flow:
         navigate:
           - HAS_MORE: wait_for_task_status_success
           - NO_MORE: FAILURE
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - is_task_status_succeeded:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -331,7 +331,7 @@ flow:
           - vm_name
         navigate:
           - SUCCESS: success_message
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - vm_disk_uuid: '${vm_disk_uuid}'
   results:

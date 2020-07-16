@@ -176,7 +176,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -209,7 +209,7 @@ flow:
           - task_status
         navigate:
           - SUCCESS: is_task_status_succeeded
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - wait_for_task_status_success:
         do:
           io.cloudslang.base.utils.sleep:
@@ -274,7 +274,7 @@ flow:
           - vm_logical_timestamp
         navigate:
           - SUCCESS: success_message
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - success_message:
         do:
           io.cloudslang.base.strings.append:
