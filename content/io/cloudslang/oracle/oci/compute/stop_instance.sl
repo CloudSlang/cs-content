@@ -305,5 +305,5 @@ extensions:
           'y': 358
       SUCCESS:
         6c493ff8-f7ad-3c4a-74ab-e29cccc2f866:
-          x: 1008
-          'y': 43
+          x: 870
+          'y': 41
