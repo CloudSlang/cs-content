@@ -13,28 +13,26 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a new instance in the specified compartment and the specified availability domain.
+#! @description: Creates a new instance in the specified compartment and availability domain.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
-#!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
-#! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
+#!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
+#! @input user_ocid: The ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
-#! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
-#!                          private key file.
-#!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                        Optional
-#! @input compartment_ocid: Compartments are a fundamental component of Oracle Cloud Infrastructure for organizing and
-#!                          isolating your cloud resources. This is ID of the compartment.
+#! @input finger_print: The finger print of the public key generated for the OCI account.
+#! @input private_key_file: The path to the private key file on the machine where the worker is.
+#! @input compartment_ocid: Compartments are a fundamental component of the Oracle Cloud Infrastructure for organizing
+#!                          and isolating your cloud resources. This is the ID of the compartment.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input availability_domain: The availability domain of the instance.
 #! @input shape: The shape of an instance. The shape determines the number of CPUs, amount of memory, and other
 #!               resources allocated to the instance.
-#! @input subnet_id: The OCID of the subnet to create the VNIC in.
+#!               Example: VM.Standard2.1,VM.Standard2.2, etc.
+#! @input subnet_id: The OCID of the subnet in which the VNIC will be created.
 #! @input source_type: The source type for the instance. Use image when specifying the image OCID. Use bootVolume when
 #!                     specifying the boot volume OCID.
 #! @input image_id: The OCID of the image used to boot the instance. If the sourceType is 'image', then this value is
@@ -43,21 +41,22 @@
 #! @input boot_volume_size_in_gbs: The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is
 #!                                  16384 GB (16TB).
 #!                                  Optional
-#! @input kms_key_id: The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+#! @input kms_key_id: The OCID of the Key Management Service key that is assigned as the master encryption key for the
+#!                    boot volume.
 #!                    Optional
 #! @input boot_volume_id: The OCID of the boot volume used to boot the instance. If the sourceType is 'bootVolume', then
 #!                        this value is required.
 #!                        Optional
 #! @input dedicated_vm_host_id: The OCID of the dedicated VM host.
 #!                              Optional
-#! @input display_name: A user-friendly name. Does not have to be unique, and it's changeable.Ex: My bare metal instance
+#! @input display_name: A user-friendly name that does not have to be unique and changeable. Ex: My bare metal instance
 #!                      Optional
-#! @input defined_tags: Defined tags for this resource. Each key is predefined and scoped to a namespace.
-#!                      Ex: {"Operations": {"CostCenter": "42"}}
+#! @input defined_tags: Defined tags for a resource. Each key is predefined and scoped to a namespace.
+#!                      Example: {"Operations": {"CostCenter": "42"}}
 #!                      Optional
-#! @input freeform_tags: Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name,
+#! @input freeform_tags: Free-form tags for a resource. Each tag is a simple key-value pair with no predefined name,
 #!                       type, or namespace.
-#!                       Ex: {"Department": "Finance"}
+#!                       Example: {"Department": "Finance"}
 #!                       Optional
 #! @input ssh_authorized_keys: Provide one or more public SSH keys  for the default user on the instance. Use a newline
 #!                             character to separate multiple keys.
@@ -91,16 +90,17 @@
 #!                      selects one for you. 
 #!                      Optional
 #! @input is_pv_encryption_in_transit_enabled: Whether to enable in-transit encryption for the data volume's
-#!                                             paravirtualized attachment.Default: 'false'
+#!                                             paravirtualized attachment.
+#!                                             Default: 'false'
 #!                                             Optional
 #! @input ipxe_script: When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance
 #!                     is configured to run an iPXE script to continue the boot process.
 #!                     If you want more control over
 #!                     the boot process, you can provide your own custom iPXE script that will run when the instance
 #!                     boots; however, you should be aware that the same iPXE script will run every time an instance
-#!                     boots; not only after the initial LaunchInstance call.
+#!                     boots and not only after the initial LaunchInstance call.
 #!                     Optional
-#! @input vnic_display_name: A user-friendly name for the VNIC. Does not have to be unique.
+#! @input vnic_display_name: A user-friendly name for the VNIC that does not have to be unique.
 #!                           Optional
 #! @input hostname_label: The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname
 #!                        portion of the primary private IP's fully qualified domain name.
@@ -109,15 +109,15 @@
 #!                          public or private.
 #!                          Optional
 #! @input vnic_defined_tags: Defined tags for VNIC. Each key is predefined and scoped to a namespace.
-#!                           Ex: {"Operations": {"CostCenter": "42"}}
+#!                           Example: {"Operations": {"CostCenter": "42"}}
 #!                           Optional
 #! @input vnic_freeform_tags: Free-form tags for VNIC. Each tag is a simple key-value pair with no predefined name,
 #!                            type, or namespace.
-#!                            Ex: {"Department": "Finance"}
+#!                            Example: {"Department": "Finance"}
 #!                            Optional
 #! @input network_security_group_ids: A list of the OCIDs of the network security groups (NSGs) to add the VNIC to.
 #!                                    Maximum allowed security groups are 5
-#!                                    Ex: [nsg1,nsg2]
+#!                                    Example: [nsg1,nsg2]
 #!                                    Optional
 #! @input private_ip: A private IP address of your choice to assign to the VNIC. Must be an available IP address within
 #!                    the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address
@@ -185,47 +185,16 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default: 'false'
-#!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
-#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
-#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Default: 'strict'
-#!                                 Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
-#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
-#!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
-#!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
-#!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -234,13 +203,6 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Default: '20'
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
-#!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
@@ -258,7 +220,7 @@ namespace: io.cloudslang.oracle.oci.compute.instances
 
 operation:
   name: create_instance
-  
+
   inputs: 
     - tenancy_ocid    
     - tenancyOcid: 
@@ -274,19 +236,9 @@ operation:
         default: ${get('finger_print', '')}
         private: true 
         sensitive: true
-    - private_key_data:
-        required: false
-        sensitive: true
-    - privateKeyData:
-        default: ${get('private_key_data', '')}
-        required: false
-        private: true 
-        sensitive: true
-    - private_key_file:
-        required: false
+    - private_key_file
     - privateKeyFile:
         default: ${get('private_key_file', '')}
-        required: false
         private: true
     - compartment_ocid    
     - compartmentOcid: 
@@ -516,42 +468,6 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
-        sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - keystore:  
-        required: false  
-    - keystore_password:  
-        required: false  
-        sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
     - connect_timeout:  
         required: false  
     - connectTimeout: 
@@ -582,15 +498,9 @@ operation:
         default: ${get('connections_max_total', '')}  
         required: false 
         private: true 
-    - response_character_set:  
-        required: false  
-    - responseCharacterSet: 
-        default: ${get('response_character_set', '')}  
-        required: false 
-        private: true 
-    
+
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0-RC17'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.0'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.CreateInstance'
     method_name: 'execute'
   
