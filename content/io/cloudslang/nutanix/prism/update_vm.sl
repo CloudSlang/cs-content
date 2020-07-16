@@ -332,37 +332,37 @@ extensions:
         x: 63
         'y': 71
       get_task_details:
-        x: 282
-        'y': 72
+        x: 199
+        'y': 80
       is_task_status_succeeded:
-        x: 556
-        'y': 416
+        x: 384
+        'y': 247
       iterate_for_task_status:
-        x: 786
-        'y': 86
+        x: 512
+        'y': 91
         navigate:
           092b7a41-9a40-9b51-ec66-c1e6096e2cf6:
             targetId: ce56d935-1237-f484-1308-8f072a396a38
             port: NO_MORE
       wait_for_task_status_success:
-        x: 528
-        'y': 81
+        x: 350
+        'y': 84
       get_updated_vm_details:
-        x: 960
-        'y': 423
+        x: 661
+        'y': 256
         navigate:
           af197c7c-3873-7f35-101e-b11b0cfdb4d4:
             targetId: e784b7be-88b0-6611-e047-c5a5d3e7d671
             port: SUCCESS
       get_vm_details:
-        x: 795
-        'y': 424
+        x: 513
+        'y': 258
     results:
       SUCCESS:
         e784b7be-88b0-6611-e047-c5a5d3e7d671:
-          x: 1135
-          'y': 433
+          x: 819
+          'y': 263
       FAILURE:
         ce56d935-1237-f484-1308-8f072a396a38:
-          x: 1103
-          'y': 79
+          x: 667
+          'y': 97

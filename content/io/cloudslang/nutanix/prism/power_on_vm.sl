@@ -314,72 +314,72 @@ extensions:
   graph:
     steps:
       get_vm_details:
-        x: 34
-        'y': 103
+        x: 37
+        'y': 72
       success_message:
-        x: 1070
-        'y': 80
+        x: 651
+        'y': 67
         navigate:
           8d7b17a3-8379-407b-9d9d-e77fa1b0db52:
             targetId: 37cc5d3c-be99-a362-4702-c01d32a365c5
             port: SUCCESS
       set_vm_power_state:
-        x: 248
-        'y': 339
+        x: 197
+        'y': 299
         navigate:
           e80ed494-f92c-3043-66c3-7865591375b4:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: FAILURE
       wait_for_task_status:
-        x: 464
-        'y': 338
+        x: 345
+        'y': 296
         navigate:
           cea201fb-5a92-dd29-2560-2055468d4921:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: FAILURE
       is_vm_powered_on:
-        x: 282
-        'y': 73
+        x: 229
+        'y': 57
       wait_for_task_status_success:
-        x: 1059
-        'y': 337
+        x: 646
+        'y': 303
         navigate:
           6cff6e8a-ce49-006c-986d-873fdc083a2e:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: FAILURE
       power_success_message:
-        x: 456
-        'y': 80
+        x: 344
+        'y': 76
         navigate:
           58fa9275-1dff-2769-a14c-c6dfeb2c21b9:
             targetId: 37cc5d3c-be99-a362-4702-c01d32a365c5
             port: SUCCESS
       iterate_for_task_status:
-        x: 1310
-        'y': 340
+        x: 825
+        'y': 307
         navigate:
           9e7f68b0-c8d4-87d8-074d-c0d38a4283b8:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: NO_MORE
-          e926b4c0-f93d-9783-5090-149cd38e9f3f:
+          04177c6c-251c-5bf1-0c4e-ba76ab18adf4:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: FAILURE
       get_task_details:
-        x: 769
-        'y': 339
+        x: 497
+        'y': 300
         navigate:
           37240950-0fd9-2b17-db7f-8afe1edbeb07:
             targetId: 39f96542-33ce-4888-f577-05b5dcb2e7dc
             port: FAILURE
       is_task_status_succeeded:
-        x: 1347
-        'y': 70
+        x: 854
+        'y': 58
     results:
-      SUCCESS:
-        37cc5d3c-be99-a362-4702-c01d32a365c5:
-          x: 773
-          'y': 85
       FAILURE:
         39f96542-33ce-4888-f577-05b5dcb2e7dc:
-          x: 342
-          'y': 626
+          x: 417
+          'y': 487
+      SUCCESS:
+        37cc5d3c-be99-a362-4702-c01d32a365c5:
+          x: 494
+          'y': 70

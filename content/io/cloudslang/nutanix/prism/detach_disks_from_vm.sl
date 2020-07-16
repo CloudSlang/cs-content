@@ -298,44 +298,44 @@ extensions:
             targetId: get_task_details
             port: SUCCESS
       get_task_details:
-        x: 237
-        'y': 83
+        x: 185
+        'y': 78
       is_task_status_succeeded:
-        x: 510
+        x: 383
         'y': 67
       iterate_for_task_status:
-        x: 1019
-        'y': 518
+        x: 348
+        'y': 266
         navigate:
-          75361473-5ffc-2f77-7a38-1482bad49df3:
-            targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
-            port: NO_MORE
           f1ba6eea-aaf3-f5f2-cd28-5fe843347133:
             targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
             port: FAILURE
+          859b396d-2f7f-492c-c6c7-6577bed02e9b:
+            targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
+            port: NO_MORE
       wait_for_task_status_success:
-        x: 243
-        'y': 510
+        x: 192
+        'y': 264
         navigate:
           e412acca-22fa-1386-8b10-4b3e0da0049b:
             targetId: 546dc45b-eb93-96c3-fbc7-99977d3aa8c2
             port: FAILURE
       success_message:
-        x: 987
+        x: 646
         'y': 81
         navigate:
           795a04b4-12e3-7d4c-fe01-e13f2d25282e:
             targetId: 33f1712a-3a6a-f91a-1ca6-78c73ddfa879
             port: SUCCESS
       get_vm_details:
-        x: 713
-        'y': 82
+        x: 500
+        'y': 81
     results:
       FAILURE:
         546dc45b-eb93-96c3-fbc7-99977d3aa8c2:
-          x: 540
-          'y': 295
+          x: 186
+          'y': 422
       SUCCESS:
         33f1712a-3a6a-f91a-1ca6-78c73ddfa879:
-          x: 1191
-          'y': 88
+          x: 790
+          'y': 85

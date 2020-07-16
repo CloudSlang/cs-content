@@ -308,72 +308,72 @@ extensions:
   graph:
     steps:
       is_vm_powered_off:
-        x: 245
-        'y': 83
+        x: 211
+        'y': 79
       power_off_success_message:
-        x: 1037
-        'y': 115
+        x: 613
+        'y': 95
         navigate:
           c1bf9429-2115-692a-14c6-d84b3aacba74:
             targetId: a9fb6b3a-6c69-b53e-89a2-61bb26c026b4
             port: SUCCESS
       power_state_success_message:
-        x: 413
-        'y': 102
+        x: 321
+        'y': 95
         navigate:
           f4940a8e-7b0e-3014-0916-f2353c1ea8e8:
             targetId: a9fb6b3a-6c69-b53e-89a2-61bb26c026b4
             port: SUCCESS
       get_vm_details:
-        x: 23
-        'y': 89
+        x: 17
+        'y': 95
       set_vm_power_state:
-        x: 210
-        'y': 360
+        x: 179
+        'y': 311
         navigate:
           1c42138b-aa55-4ee2-b257-1c6719c08fe9:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: FAILURE
       wait_for_task_status:
-        x: 445
-        'y': 351
+        x: 323
+        'y': 312
         navigate:
           5e207a1d-8bd5-a922-b272-359d8052d145:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: FAILURE
       wait_for_task_status_success:
-        x: 1052
-        'y': 354
+        x: 621
+        'y': 309
         navigate:
           2eb82e86-0727-5a58-ce03-3c603ecae1c0:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: FAILURE
       iterate_for_task_status:
-        x: 1305
-        'y': 579
+        x: 790
+        'y': 313
         navigate:
           af439474-d651-156c-71be-84d591df4765:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: NO_MORE
-          e1191311-7ba6-9fb2-f96e-6e194f22359f:
+          1537c287-e59b-36f0-031e-d1f9cb2a2cc8:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: FAILURE
       get_task_details:
-        x: 723
-        'y': 349
+        x: 463
+        'y': 309
         navigate:
           cf0e6770-f74d-3fd5-d24e-2ec0eccec3ff:
             targetId: 010fa1fe-5884-91ca-544e-02cbb17acea9
             port: FAILURE
       is_task_status_succeeded:
-        x: 1330
-        'y': 104
+        x: 815
+        'y': 82
     results:
-      SUCCESS:
-        a9fb6b3a-6c69-b53e-89a2-61bb26c026b4:
-          x: 715
-          'y': 107
       FAILURE:
         010fa1fe-5884-91ca-544e-02cbb17acea9:
-          x: 342
-          'y': 597
+          x: 464
+          'y': 526
+      SUCCESS:
+        a9fb6b3a-6c69-b53e-89a2-61bb26c026b4:
+          x: 468
+          'y': 102
