@@ -13,14 +13,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a new computer account in Active Directory.
+#! @description: Resets a computer account in Active Directory, by resetting the password to an initial password.
 #!
 #! @input host: The domain controller to connect to.
-#! @input OU: The Organizational Unit DN or Common Name DN to add the computer to.
-#!            (i.e. OU=OUTest1,DC=battleground,DC=ad)
-#! @input computer_common_name: The name of the computer (its CN).
-#! @input sam_account_name: Optional - Computer's sAMAccountName (ex. MYHYPNOS$). If not provided it will be assigned
-#!                                     from computerCommonName.
+#! @input computer_dn: The distinguished name of the computer account we want to move.
+#!                     Example: CN=computer_name,OU=OldContainer,DC=example,DC=com
 #! @input username: Optional - The user to connect to AD as.
 #! @input password: Optional - The password to connect to AD as.
 #! @input use_ssl: Optional - If true, the operation uses the Secure Sockets Layer (SSL) or Transport Layer Security (TLS)
@@ -38,10 +35,8 @@
 #! @input trust_keystore: Optional - The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts.
 #! @input trust_password: Optional - The password associated with the TrustStore file.
-#! @input escape_chars: Optional -Add this input and set to true if you want the operation to escape the special AD chars.
 #!
 #! @output return_result: The return result of the operation.
-#! @output computer_dn: The distinguished name of the newly created computer account.
 #! @output return_code: The return code of the operation. 0 if the operation goes to success, -1 if the operation goes to failure.
 #! @output exception: The exception message and stack trace if the operation goes to failure.
 #!
@@ -53,21 +48,14 @@
 namespace: io.cloudslang.base.ldap
 
 operation:
-  name: create_computer_account
+  name: reset_computer_account
 
   inputs:
   - host
-  - OU
-  - computer_common_name
-  - computerCommonName:
-      default: ${get("computer_common_name","")}
+  - computer_dn
+  - computerDN:
+      default: ${get("computer_dn","")}
       private: true
-  - sam_account_name:
-      required: false
-  - sAMAccountName:
-      default:  ${get("sam_account_name","")}
-      private: true
-      required: false
   - username:
       required: false
   - password:
@@ -115,21 +103,14 @@ operation:
       required: false
       private: true
       sensitive: true
-  - escape_chars:
-      required: false
-  - escapeChars:
-      default: ${get("escape_chars", "")}
-      required: false
-      private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-ldap:0.0.1-RC1'
-    class_name: io.cloudslang.content.ldap.actions.CreateComputerAccountAction
+    class_name: io.cloudslang.content.ldap.actions.ResetComputerAccountAction
     method_name: execute
 
   outputs:
     - return_result: ${returnResult}
-    - computer_dn: ${computerDN}
     - return_code: ${returnCode}
     - exception
 
