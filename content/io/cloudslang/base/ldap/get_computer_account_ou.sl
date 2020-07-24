@@ -26,27 +26,27 @@
 #! @input root_dn: The distinguished name of the root element whose subtree you want to search in.
 #!            Example: OU=OUTest1,DC=battleground,DC=ad
 #! @input computer_common_name: The name of the computer (its CN)..
-#! @input username - User to connect to Active Directory as.
-#! @input password - Password to connect to Active Directory as.
-#! @input use_ssl - If true, the operation uses the Secure Sockets Layer (SSL) or Transport Layer Security (TLS) protocol
+#! @input username: User to connect to Active Directory as.
+#! @input password: Password to connect to Active Directory as.
+#! @input use_ssl: If true, the operation uses the Secure Sockets Layer (SSL) or Transport Layer Security (TLS) protocol
 #!                  to establish a connection to the remote computer. By default, the operation tries to establish a
 #!                  secure connection over TLSv1.2. Default port for SSL/TLS is 636.
 #!                  Default value: false
 #!                  Valid values: true, false.
-#! @input trust_all_roots - Specifies whether to enable weak security over SSL. A SSL certificate is trusted even if no
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trusted even if no
 #!                          trusted certification authority issued it.
 #!                          Default value: true.
 #!                          Valid values: true, false.
-#! @input key_store - The location of the KeyStore file.
+#! @input key_store: The location of the KeyStore file.
 #!                   Example: %JAVA_HOME%/jre/lib/security/cacerts
-#! @input key_store_password - The password associated with the KeyStore file.
-#! @input trust_keystore - The location of the TrustStore file.
+#! @input key_store_password: The password associated with the KeyStore file.
+#! @input trust_keystore: The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts
-#! @input trust_password - The password associated with the TrustStore file.
+#! @input trust_password: The password associated with the TrustStore file.
 #!
 #! @output return_result: The return result of the operation.
 #! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
-#! @output OU - OU's distinguished name.
+#! @output OU: OU's distinguished name.
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result
 #!                    contains the java stack trace of the runtime exception.
 #!
