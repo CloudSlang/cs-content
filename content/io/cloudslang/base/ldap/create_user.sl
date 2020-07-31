@@ -72,12 +72,14 @@ operation:
         default: ${get('user_common_name', '')}
         required: false
         private: true
-    - sam_account_name
+    - sam_account_name:
+        required: false
     - sAMAccountName:
         default: ${get('sam_account_name', '')}
         required: false
         private: true
-    - user_password
+    - user_password:
+        sensitive: true
     - userPassword:
         default: ${get('user_password', '')}
         required: false
