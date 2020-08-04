@@ -53,7 +53,7 @@ operation:
         if encode_type != None:
           f.write(text.encode(encode_type))
         else:
-          f.write(text.encode('utf-8'))
+          f.write(text)
         f.close()
         message = 'writing done successfully'
         res = True
