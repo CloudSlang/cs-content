@@ -182,8 +182,10 @@ flow:
         sensitive: true
     - trust_all_roots:
         required: false
+        default: 'false'
     - x_509_hostname_verifier:
         required: false
+        default: 'strict'
     - trust_keystore:
         required: false
     - trust_password:
