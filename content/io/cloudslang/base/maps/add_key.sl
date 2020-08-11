@@ -15,14 +15,30 @@
 #!!
 #! @description: Adds a key to a map. If the given key already exists in the map then its value will be overwritten.
 #!
+#! Examples:
+#! 1. For an SQL like map ---
+#!    map=|A|1||B|2|, key=B, value=3, pair_delimiter=|, entry_delimiter=||, map_start=|, map_end=| => |A|1||B|3|
+#! 2. For a JSON like map ---
+#!    map={'A':'1','B':'2'}, key=B, value=3, pair_delimiter=':', entry_delimiter=',', map_start={', map_end='} => {'A':'1','B':'3'}
+#!
 #! @input map: The map to add a key to.
-#!             Example: {'a': 1, 'b': 2, 'c': 3, 'd': 4}
+#!             Example: {a:1,b:2,c:3,d:4}, <John|1||George|2>, Apples=3;Oranges=2
+#!             Valid values: Any string representing a valid map according to specified delimiters
+#!             (pair_delimiter, entry_delimiter, map_start, map_end)
 #! @input key: Optional - The key to add.
-#!             Valid values: Any string or null value.
+#!             Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
 #!             Default value: null
 #! @input value: Optional - The value to map to the added key.
-#!               Valid values: Any number, string, boolean, array, map or a value of None
+#!               Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
 #!               Default value: null
+#! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
+#!                        Valid values: Any value that does not contain or is equal to entry_delimiter.
+#! @input entry_delimiter: The separator to use for splitting the map into entries.
+#!                          Valid values: Any value.
+#! @input map_start: A sequence of 0 or more characters that marks the beginning of the map.
+#!                   Valid values: Any value.
+#! @input map_end: A sequence of 0 or more characters that marks the end of the map.
+#!                 Valid values: Any value.
 #!
 #! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
@@ -40,15 +56,33 @@ operation:
 
   inputs:
     - map
-    - key: 
-        default: None
+    - key:
         required: false
-    - value: 
-        default: None
+    - value:
         required: false
+    - pair_delimiter
+    - pairDelimiter:
+        default: ${pair_delimiter}
+        private: true
+    - entry_delimiter
+    - entryDelimiter:
+        default: ${entry_delimiter}
+        private: true
+    - map_start:
+        required: false
+    - mapStart:
+        default: ${map_start}
+        required: false
+        private: true
+    - map_end:
+        required: false
+    - mapEnd:
+        default: ${map_end}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-maps-2'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-maps-8'
     class_name: io.cloudslang.content.maps.actions.AddKeyAction
     method_name: execute
 
