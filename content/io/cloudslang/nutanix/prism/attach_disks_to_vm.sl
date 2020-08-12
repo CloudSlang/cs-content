@@ -103,7 +103,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -228,7 +228,7 @@ flow:
           - task_uuid
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -261,7 +261,7 @@ flow:
           - task_status
         navigate:
           - SUCCESS: is_task_status_succeeded
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - wait_for_task_status_success:
         do:
           io.cloudslang.base.utils.sleep:
@@ -278,7 +278,7 @@ flow:
         navigate:
           - HAS_MORE: wait_for_task_status_success
           - NO_MORE: FAILURE
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
     - is_task_status_succeeded:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -331,9 +331,57 @@ flow:
           - vm_name
         navigate:
           - SUCCESS: success_message
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - vm_disk_uuid: '${vm_disk_uuid}'
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      attach_disks:
+        x: 43
+        'y': 80
+      get_task_details:
+        x: 187
+        'y': 78
+      wait_for_task_status_success:
+        x: 195
+        'y': 257
+        navigate:
+          0400450c-58f6-fcb5-9d0b-ad0d36e72d5e:
+            targetId: acea61b3-cf17-d1be-aa55-7673d5c75307
+            port: FAILURE
+      iterate_for_task_status:
+        x: 355
+        'y': 259
+        navigate:
+          9c2cb58b-0075-3e16-0eda-1c55f97a99a0:
+            targetId: acea61b3-cf17-d1be-aa55-7673d5c75307
+            port: FAILURE
+          e8f1b8f7-c0af-35b0-b509-8af1fdbbd2fd:
+            targetId: acea61b3-cf17-d1be-aa55-7673d5c75307
+            port: NO_MORE
+      is_task_status_succeeded:
+        x: 386
+        'y': 67
+      success_message:
+        x: 659
+        'y': 89
+        navigate:
+          6d9e802b-ff3c-aa69-9485-1489a0c00853:
+            targetId: df46e48d-77ed-2303-f5ff-14ee55681bba
+            port: SUCCESS
+      get_vm_details:
+        x: 508
+        'y': 82
+    results:
+      FAILURE:
+        acea61b3-cf17-d1be-aa55-7673d5c75307:
+          x: 190
+          'y': 444
+      SUCCESS:
+        df46e48d-77ed-2303-f5ff-14ee55681bba:
+          x: 812
+          'y': 86

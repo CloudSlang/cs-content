@@ -99,8 +99,10 @@ flow:
         sensitive: true
     - trust_all_roots:
         required: false
+        default: 'false'
     - x_509_hostname_verifier:
         required: false
+        default: 'strict'
     - trust_keystore:
         required: false
     - trust_password:
@@ -456,4 +458,81 @@ flow:
   results:
     - FAILURE
     - SUCCESS
-
+extensions:
+  graph:
+    steps:
+      get_run_status_value:
+        x: 667
+        'y': 280
+      delete_workspace:
+        x: 1286
+        'y': 293
+      wait_for_apply_status:
+        x: 493
+        'y': 451
+      wait_for_get_state_version_details:
+        x: 974
+        'y': 279
+      get_run_details:
+        x: 493
+        'y': 279
+      run_status:
+        x: 847
+        'y': 433
+      check_workspace_is_present:
+        x: 1431
+        'y': 295
+        navigate:
+          37245234-d896-8513-2a44-c4ae6a309c0d:
+            targetId: 8fdcd666-d9ef-4f4f-6ed2-36400100824c
+            port: FAILURE
+      create_run:
+        x: 488
+        'y': 107
+      create_workspace_variables:
+        x: 354
+        'y': 108
+      counter_for_get_state_version_details:
+        x: 975
+        'y': 450
+        navigate:
+          090c0377-8eaa-436b-ab07-e6c19834ad4b:
+            targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
+            port: NO_MORE
+      get_run_status_value_state_version:
+        x: 975
+        'y': 105
+      get_workspace_details:
+        x: 39
+        'y': 107
+      get_run_details_for_get_state_version_details:
+        x: 808
+        'y': 108
+      run_status_for_get_state_version_details:
+        x: 1165
+        'y': 267
+      get_auto_apply_value:
+        x: 195
+        'y': 107
+      apply_run:
+        x: 808
+        'y': 278
+      is_auto_apply_true:
+        x: 707
+        'y': 95
+      counter:
+        x: 670
+        'y': 455
+        navigate:
+          b5902390-2619-3b22-c280-1d6c7ec9bdd4:
+            targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
+            port: NO_MORE
+    results:
+      SUCCESS:
+        8fdcd666-d9ef-4f4f-6ed2-36400100824c:
+          x: 1588
+          'y': 301
+      FAILURE:
+        cb4ded66-a2a7-9760-786d-84926d356dd9:
+          x: 815
+          'y': 606

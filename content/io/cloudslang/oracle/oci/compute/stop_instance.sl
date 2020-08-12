@@ -13,23 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow stops the instance. It checks the current instance state of instance, If instance is in
+#! @description: This workflow stops an instance. It checks the current state of the instance. If instance is in a
 #!               stopped state, workflow succeeds without any operation execution and returns the instance state.
 #!
 #! @input tenancy_ocid: Oracle creates a tenancy for your company, which is a secure and isolated partition where you
-#!                      can create, organize, and administer your cloud resources. This is ID of the tenancy.
-#! @input user_ocid: ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
+#!                      can create, organize, and administer your cloud resources. This is the ID of the tenancy.
+#! @input user_ocid: The ID of an individual employee or system that needs to manage or use your company’s Oracle Cloud
 #!                   Infrastructure resources.
-#! @input finger_print: Finger print of the public key generated for OCI account.
-#! @input private_key_data: A string representing the private key for the OCI. This string is usually the content of a
-#!                          private key file.
-#!                          Optional
-#! @input private_key_file: The path to the private key file on the machine where is the worker.
-#!                          Optional
+#! @input finger_print: The finger print of the public key generated for the OCI account.
+#! @input private_key_file: The path to the private key file on the machine where the worker is.
 #! @input api_version: Version of the API of OCI.
 #!                     Default: '20160918'
 #!                     Optional
 #! @input region: The region's name.
+#!                Example: ap-sydney-1, ap-melbourne-1, sa-saopaulo-1, etc.
 #! @input instance_id: The OCID of the instance.
 #! @input proxy_host: Proxy server used to access the OCI.
 #!                    Optional
@@ -40,47 +37,16 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default: 'false'
-#!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
-#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
-#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Default: 'strict'
-#!                                 Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
-#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
-#!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if theserver requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Default: <OO_Home>/java/lib/security/cacerts
-#!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Default: changeit
-#!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default: '10000'
 #!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#! @input socket_timeout: The timeout for waiting for data (a maximum period of inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false, an existing open connection is used and the connection will be closed after
+#!                    execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -89,13 +55,6 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Default: '20'
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
-#!                                Optional
 #! @input retry_count: Number of checks if the instance was created successfully.
 #!                     Default: '60'
 #!                     Optional
@@ -119,11 +78,7 @@ flow:
     - user_ocid
     - finger_print:
         sensitive: true
-    - private_key_data:
-        required: false
-        sensitive: true
-    - private_key_file:
-        required: false
+    - private_key_file
     - api_version:
         required: false
     - region
@@ -132,25 +87,12 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
+        default: '8080'
         required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
-    - trust_all_roots:
-        required: false
-    - x_509_hostname_verifier:
-        required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
-    - keystore:
-        required: false
-    - keystore_password:
-        required: false
-        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:
@@ -160,8 +102,6 @@ flow:
     - connections_max_per_route:
         required: false
     - connections_max_total:
-        required: false
-    - response_character_set:
         required: false
     - retry_count:
         default: '30'
@@ -175,9 +115,6 @@ flow:
             - finger_print:
                 value: '${finger_print}'
                 sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
-                sensitive: true
             - private_key_file:
                 value: '${private_key_file}'
             - api_version: '${api_version}'
@@ -188,22 +125,11 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
             - connect_timeout: '${connect_timeout}'
             - socket_timeout: '${socket_timeout}'
             - keep_alive: '${keep_alive}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
             - proxy_port: '${proxy_port}'
         publish:
           - instance_state
@@ -218,9 +144,6 @@ flow:
             - finger_print:
                 value: '${finger_print}'
                 sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
-                sensitive: true
             - private_key_file:
                 value: '${private_key_file}'
             - api_version: '${api_version}'
@@ -231,22 +154,11 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
             - connect_timeout: '${connect_timeout}'
             - socket_timeout: '${socket_timeout}'
             - keep_alive: '${keep_alive}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
             - proxy_port: '${proxy_port}'
         publish:
           - instance_state
@@ -307,9 +219,6 @@ flow:
             - finger_print:
                 value: '${finger_print}'
                 sensitive: true
-            - private_key_data:
-                value: '${private_key_data}'
-                sensitive: true
             - private_key_file: '${private_key_file}'
             - api_version: '${api_version}'
             - region: '${region}'
@@ -321,22 +230,11 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
             - connect_timeout: '${connect_timeout}'
             - socket_timeout: '${socket_timeout}'
             - keep_alive: '${keep_alive}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
         publish:
           - return_result
         navigate:
@@ -358,3 +256,54 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      instance_action:
+        x: 386
+        'y': 178
+      get_instance_details:
+        x: 33
+        'y': 71
+      success_message:
+        x: 875
+        'y': 175
+        navigate:
+          c4bd9bbf-b73b-67a2-d832-006eb31301ef:
+            targetId: 6c493ff8-f7ad-3c4a-74ab-e29cccc2f866
+            port: SUCCESS
+      instance_action_success_message:
+        x: 422
+        'y': 41
+        navigate:
+          24ebb488-868f-0927-5e63-a9d86e1b452f:
+            targetId: 6c493ff8-f7ad-3c4a-74ab-e29cccc2f866
+            port: SUCCESS
+      get_instance_details_for_instance_action:
+        x: 530
+        'y': 175
+      is_instance_stopped:
+        x: 746
+        'y': 155
+      is_instance_in_stopped_state:
+        x: 251
+        'y': 59
+      counter:
+        x: 541
+        'y': 354
+        navigate:
+          c2d034b4-bd94-90c8-6d2b-4c3beaf1aa4b:
+            targetId: 32fcec6d-d2fb-5634-6ea4-61f4eefa2667
+            port: NO_MORE
+      wait_for_instance_to_stop:
+        x: 718
+        'y': 350
+    results:
+      FAILURE:
+        32fcec6d-d2fb-5634-6ea4-61f4eefa2667:
+          x: 384
+          'y': 358
+      SUCCESS:
+        6c493ff8-f7ad-3c4a-74ab-e29cccc2f866:
+          x: 870
+          'y': 41

@@ -83,8 +83,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close
-#!                    it.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -181,7 +180,7 @@ flow:
             - num_vcp_us: '${update_num_vcpus}'
             - num_cores_per_vcpu: '${update_num_cores_per_vcpu}'
             - time_zone: '${update_time_zone}'
-            - host_uui_ds: '${update_host_uuids}'
+            - host_uuids: '${update_host_uuids}'
             - agent_vm: '${update_agent_vm}'
             - api_version: '${api_version}'
             - proxy_host: '${proxy_host}'
@@ -272,7 +271,7 @@ flow:
             - vm_json_object: '${vm_return_result}'
         publish:
           - vm_name: '${vm_name}'
-          - vm_memory: '${vm_memory}'
+          - vm_memory: '${vm_memory_size}'
           - num_vcpus: '${num_vcpus}'
           - num_cores_per_vcpu: '${num_cores_per_vcpu}'
           - time_zone: '${time_zone}'
@@ -325,3 +324,44 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      update_vm:
+        x: 63
+        'y': 71
+      get_task_details:
+        x: 199
+        'y': 80
+      is_task_status_succeeded:
+        x: 384
+        'y': 247
+      iterate_for_task_status:
+        x: 512
+        'y': 91
+        navigate:
+          092b7a41-9a40-9b51-ec66-c1e6096e2cf6:
+            targetId: ce56d935-1237-f484-1308-8f072a396a38
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 350
+        'y': 84
+      get_updated_vm_details:
+        x: 661
+        'y': 256
+        navigate:
+          af197c7c-3873-7f35-101e-b11b0cfdb4d4:
+            targetId: e784b7be-88b0-6611-e047-c5a5d3e7d671
+            port: SUCCESS
+      get_vm_details:
+        x: 513
+        'y': 258
+    results:
+      SUCCESS:
+        e784b7be-88b0-6611-e047-c5a5d3e7d671:
+          x: 819
+          'y': 263
+      FAILURE:
+        ce56d935-1237-f484-1308-8f072a396a38:
+          x: 667
+          'y': 97

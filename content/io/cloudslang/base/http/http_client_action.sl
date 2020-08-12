@@ -100,6 +100,7 @@
 #!                                     Default: 'false'
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request;
 #!                     should not be provided for method=GET, HEAD, TRACE.
+#!                     source_file input takes precedence over multipart_files input
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided,
 #!              the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the

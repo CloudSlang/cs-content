@@ -67,7 +67,7 @@
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, an existing open connection will be used and will be closed after execution.
+#!                    keepAlive is false,an existing open connection will be used and will be closed after execution.
 #!                    Default: 'true'
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -167,7 +167,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: get_task_details
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_task_details:
         do:
           io.cloudslang.nutanix.prism.tasks.get_task_details:
@@ -201,7 +201,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: is_task_status_succeeded
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - is_task_status_succeeded:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -273,7 +273,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: success_message
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - return_result: '${return_result}'
     - mac_address: '${mac_address}'
@@ -281,3 +281,51 @@ flow:
   results:
     - FAILURE
     - SUCCESS
+extensions:
+  graph:
+    steps:
+      delete_nic:
+        x: 31
+        'y': 71
+      get_task_details:
+        x: 174
+        'y': 71
+      is_task_status_succeeded:
+        x: 377
+        'y': 61
+      iterate_for_task_status:
+        x: 348
+        'y': 254
+        navigate:
+          b8c941a7-ad1f-d652-d186-fca16a57c8e1:
+            targetId: 0a787b7c-7eea-11a8-79e0-07685377875d
+            port: FAILURE
+          0cc46666-a4ef-6309-5e50-c6c07977577c:
+            targetId: 0a787b7c-7eea-11a8-79e0-07685377875d
+            port: NO_MORE
+      wait_for_task_status_success:
+        x: 182
+        'y': 251
+        navigate:
+          eba39598-e3af-87f7-c526-9ebbe637035a:
+            targetId: 0a787b7c-7eea-11a8-79e0-07685377875d
+            port: FAILURE
+      success_message:
+        x: 644
+        'y': 75
+        navigate:
+          cab692c6-40ef-21af-b0f0-f2063d270b44:
+            targetId: bc14a013-70cf-17b3-735d-ed42b973c915
+            port: SUCCESS
+      get_vm_details:
+        x: 500
+        'y': 75
+    results:
+      FAILURE:
+        0a787b7c-7eea-11a8-79e0-07685377875d:
+          x: 175
+          'y': 441
+      SUCCESS:
+        bc14a013-70cf-17b3-735d-ed42b973c915:
+          x: 793
+          'y': 79
