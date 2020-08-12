@@ -98,7 +98,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-maps-10'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC1'
     class_name: io.cloudslang.content.maps.actions.AddKeyAction
     method_name: execute
 
