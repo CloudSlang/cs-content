@@ -132,7 +132,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-merge-maps'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-mergemaps-2'
     class_name: io.cloudslang.content.maps.actions.MergeMapsAction
     method_name: execute
 
