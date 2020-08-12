@@ -31,9 +31,9 @@
 #! @input map1_pair_delimiter: Optional - The separator to use for splitting map1's key-value pairs into key, respectively value.
 #!                             Default value: ':'.
 #!                             Valid values: Any value that does not contain or is equal to map1_entry_delimiter.
-#! @input entry_delimiter: Optional - The separator to use for splitting map1 into entries.
-#!                         Default value: ','.
-#!                         Valid values: Any value.
+#! @input map1_entry_delimiter: Optional - The separator to use for splitting map1 into entries.
+#!                              Default value: ','.
+#!                              Valid values: Any value.
 #! @input map1_start: Optional - A sequence of 0 or more characters that marks the beginning of the map1.
 #!                    Default value: {'.
 #!                    Valid values: Any value.
