@@ -15,29 +15,37 @@
 #!!
 #! @description: Adds a key to a map. If the given key already exists in the map then its value will be overwritten.
 #!
+#! Notes: CRLF will be replaced with LF for proper handling.
+#!
 #! Examples:
 #! 1. For an SQL like map ---
 #!    map=|A|1||B|2|, key=B, value=3, pair_delimiter=|, entry_delimiter=||, map_start=|, map_end=| => |A|1||B|3|
 #! 2. For a JSON like map ---
-#!    map={'A':'1','B':'2'}, key=B, value=3, pair_delimiter=':', entry_delimiter=',', map_start={', map_end='} => {'A':'1','B':'3'}
+#!    map={'A':'1','B':'2'}, key=B, value=3, pair_delimiter=':', entry_delimiter=',', map_start={', map_end='} => {'A':'1','B':'3'}.
+#!    This is the default format.
 #!
-#! @input map: The map to add a key to.
+#! @input map: Optional - The map to add a key to.
 #!             Example: {a:1,b:2,c:3,d:4}, <John|1||George|2>, Apples=3;Oranges=2
+#!             Default: {''}.
 #!             Valid values: Any string representing a valid map according to specified delimiters
-#!             (pair_delimiter, entry_delimiter, map_start, map_end)
+#!             (pair_delimiter, entry_delimiter, map_start, map_end).
 #! @input key: Optional - The key to add.
+#!             Default value: NULL.
 #!             Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
-#!             Default value: null
 #! @input value: Optional - The value to map to the added key.
+#!               Default value: NULL
 #!               Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
-#!               Default value: null
-#! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
+#! @input pair_delimiter: Optional - The separator to use for splitting key-value pairs into key, respectively value.
+#!                        Default value: ':'.
 #!                        Valid values: Any value that does not contain or is equal to entry_delimiter.
-#! @input entry_delimiter: The separator to use for splitting the map into entries.
-#!                          Valid values: Any value.
-#! @input map_start: A sequence of 0 or more characters that marks the beginning of the map.
+#! @input entry_delimiter: Optional - The separator to use for splitting the map into entries.
+#!                         Default value: ','.
+#!                         Valid values: Any value.
+#! @input map_start: Optional - A sequence of 0 or more characters that marks the beginning of the map.
+#!                   Default value: {'.
 #!                   Valid values: Any value.
-#! @input map_end: A sequence of 0 or more characters that marks the end of the map.
+#! @input map_end: Optional - A sequence of 0 or more characters that marks the end of the map.
+#!                 Default value: '}.
 #!                 Valid values: Any value.
 #!
 #! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
@@ -55,34 +63,42 @@ operation:
   name: add_key
 
   inputs:
-    - map
+    - map:
+        default: "{''}"
+        required: false
     - key:
+        default: 'NULL'
         required: false
     - value:
+        default: 'NULL'
         required: false
-    - pair_delimiter
+    - pair_delimiter:
+        default: "':'"
+        required: false
     - pairDelimiter:
         default: ${pair_delimiter}
         private: true
-    - entry_delimiter
+    - entry_delimiter:
+        default: "','"
+        required: false
     - entryDelimiter:
         default: ${entry_delimiter}
         private: true
     - map_start:
+        default: "{'"
         required: false
     - mapStart:
         default: ${map_start}
-        required: false
         private: true
     - map_end:
+        default: "'}"
         required: false
     - mapEnd:
         default: ${map_end}
-        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-maps-8'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-SNAPSHOT-maps-10'
     class_name: io.cloudslang.content.maps.actions.AddKeyAction
     method_name: execute
 
