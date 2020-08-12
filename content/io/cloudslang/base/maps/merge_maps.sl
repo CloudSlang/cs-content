@@ -62,7 +62,7 @@
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The key was successfully added to the map.
+#! @result SUCCESS: The maps were successfully merged.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
