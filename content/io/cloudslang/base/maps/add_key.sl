@@ -15,42 +15,56 @@
 #!!
 #! @description: Adds a key to a map. If the given key already exists in the map then its value will be overwritten.
 #!
-#! Notes: CRLF will be replaced with LF for proper handling.
-#!
 #! Examples:
 #! 1. For an SQL like map ---
-#!    map=|A|1||B|2|, key=B, value=3, pair_delimiter=|, entry_delimiter=||, map_start=|, map_end=| => |A|1||B|3|
+#!    map = |A|1|\n|B|2|
+#!    key = B
+#!    value = 3
+#!    pair_delimiter = |
+#!    entry_delimiter = |\n|
+#!    map_start = |
+#!    map_end = |
+#!    return_result = |A|1|\n|B|3|
+#!
 #! 2. For a JSON like map ---
-#!    map={'A':'1','B':'2'}, key=B, value=3, pair_delimiter=':', entry_delimiter=',', map_start={', map_end='} => {'A':'1','B':'3'}.
-#!    This is the default format.
+#!    map = {"A":"1","B":"2"}
+#!    key = B
+#!    value = 3
+#!    pair_delimiter = :
+#!    entry_delimiter = ,
+#!    map_start = {
+#!    map_end = }
+#!    element_wrapper = "
+#!    return_result = {"A":"1","B":"3"}.
+#!
+#! Notes:
+#! 1. CRLF will be replaced with LF for proper handling.
+#! 2. Map keys and values must NOT contain any character from pair_delimiter, entry_delimiter, map_start, map_end or element_wrapper.
+#! 3. In some cases when value is empty the operation will add an RS (Record Separator) character to preserve the integrity of the map.
+#!    This is just a placeholder for empty string, so it will still show up as an empty string when retrieved using get_value.
 #!
 #! @input map: Optional - The map to add a key to.
-#!             Example: {a:1,b:2,c:3,d:4}, <John|1||George|2>, Apples=3;Oranges=2
-#!             Default: {''}.
+#!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
-#!             (pair_delimiter, entry_delimiter, map_start, map_end).
-#! @input key: Optional - The key to add.
-#!             Default value: NULL.
-#!             Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
+#!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
+#! @input key: The key to add.
 #! @input value: Optional - The value to map to the added key.
-#!               Default value: NULL
-#!               Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
-#! @input pair_delimiter: Optional - The separator to use for splitting key-value pairs into key, respectively value.
-#!                        Default value: ':'.
-#!                        Valid values: Any value that does not contain or is equal to entry_delimiter.
-#! @input entry_delimiter: Optional - The separator to use for splitting the map into entries.
-#!                         Default value: ','.
-#!                         Valid values: Any value.
+#!               Default value: empty string.
+#! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
+#!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
+#! @input entry_delimiter: The separator to use for splitting the map into entries.
+#!                         Valid values: Any value that does not have common characters with element_wrapper.
 #! @input map_start: Optional - A sequence of 0 or more characters that marks the beginning of the map.
-#!                   Default value: {'.
-#!                   Valid values: Any value.
 #! @input map_end: Optional - A sequence of 0 or more characters that marks the end of the map.
-#!                 Default value: '}.
-#!                 Valid values: Any value.
+#! @input element_wrapper: Optional - A sequence of 0 or more characters that marks the beginning and the end of a key or value.
+#!                         Valid values: Any value that does not have common characters with pair_delimiter or entry_delimiter.
+#! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
+#!                           Default: false.
+#!                           Valid values: true, false.
 #!
 #! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
-#! @output exception: The exception's stack trace if operation failed. Empty otherwise.
+#! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
 #! @result SUCCESS: The key was successfully added to the map.
 #! @result FAILURE: An error occurred.
@@ -64,50 +78,54 @@ operation:
 
   inputs:
     - map:
-        default: "{''}"
         required: false
-    - key:
-        default: 'NULL'
-        required: false
+    - key
     - value:
-        default: 'NULL'
         required: false
-    - pair_delimiter:
-        default: "':'"
-        required: false
+    - pair_delimiter
     - pairDelimiter:
-        default: ${pair_delimiter}
+        default: ${get("pair_delimiter", "")}
         private: true
-    - entry_delimiter:
-        default: "','"
-        required: false
+    - entry_delimiter
     - entryDelimiter:
-        default: ${entry_delimiter}
+        default: ${get("entry_delimiter", "")}
         private: true
     - map_start:
-        default: "{'"
         required: false
     - mapStart:
-        default: ${map_start}
+        default: ${get("map_start", "")}
+        required: false
         private: true
     - map_end:
-        default: "'}"
         required: false
     - mapEnd:
-        default: ${map_end}
+        default: ${get("map_end", "")}
+        required: false
+        private: true
+    - element_wrapper:
+        required: false
+    - elementWrapper:
+        default: ${get("element_wrapper", "")}
+        required: false
+        private: true
+    - strip_whitespaces:
+        default: "false"
+        required: false
+    - stripWhitespaces:
+        default: ${get("strip_whitespaces", "")}
+        required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC2'
+    gav: "io.cloudslang.content:cs-maps:0.0.1-RC3"
     class_name: io.cloudslang.content.maps.actions.AddKeyAction
     method_name: execute
-
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${get('exception', '')}
+    - exception: ${get("exception", "")}
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${returnCode == "0"}
     - FAILURE
