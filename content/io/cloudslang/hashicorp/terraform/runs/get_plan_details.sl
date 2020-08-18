@@ -122,13 +122,13 @@ operation:
     - trust_all_roots:  
         required: false  
     - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
+        default: ${get('trust_all_roots', 'false')}
         required: false 
         private: true 
     - x_509_hostname_verifier:  
         required: false
     - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
+        default: ${get('x_509_hostname_verifier', 'strict')}
         required: false 
         private: true 
     - trust_keystore:  
@@ -183,7 +183,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3-RC5'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.PlanDetails'
     method_name: 'execute'
   
