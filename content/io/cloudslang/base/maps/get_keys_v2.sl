@@ -64,7 +64,7 @@
 namespace: io.cloudslang.base.maps
 
 operation:
-  name: get_keys
+  name: get_keys_v2
 
   inputs:
     - map:
