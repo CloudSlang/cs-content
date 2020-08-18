@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Merges 2 maps into one map.
+#! @description: Merges two maps into one map.
 #!
 #! The maps can have different structures, but the resulted map will keep the map1's structure.
 #! If a key exists in both maps, the result map will contain it only once, with the value found in map2.
@@ -136,13 +136,7 @@ operation:
         default: ${get("strip_whitespaces", "")}
         required: false
         private: true
-    - handle_empty_value:
-        default: "false"
-        required: false
-    - handleEmptyValue:
-        default: ${get("handle_empty_value", "")}
-        required: false
-        private: true
+
 
   java_action:
     gav: 'io.cloudslang.content:cs-maps:0.0.1-RC4'
