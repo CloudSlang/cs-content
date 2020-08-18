@@ -136,10 +136,16 @@ operation:
         default: ${get("strip_whitespaces", "")}
         required: false
         private: true
-
+    - handle_empty_value:
+        default: "false"
+        required: false
+    - handleEmptyValue:
+        default: ${get("handle_empty_value", "")}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC4'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC5'
     class_name: io.cloudslang.content.maps.actions.MergeMapsAction
     method_name: execute
 
