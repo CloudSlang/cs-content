@@ -61,6 +61,9 @@
 #! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
 #!                           Default: false.
 #!                           Valid values: true, false.
+#! @input handle_empty_value: Optional - If the value is empty and this input is true it will fill the value with NULL.
+#!                            Default value: false.
+#!                            Valid values: true, false.
 #!
 #! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
@@ -115,9 +118,16 @@ operation:
         default: ${get("strip_whitespaces", "")}
         required: false
         private: true
+    - handle_empty_value:
+        default: "false"
+        required: false
+    - handleEmptyValue:
+        default: ${get("handle_empty_value", "")}
+        required: false
+        private: true
 
   java_action:
-    gav: "io.cloudslang.content:cs-maps:0.0.1-RC3"
+    gav: "io.cloudslang.content:cs-maps:0.0.1-RC4"
     class_name: io.cloudslang.content.maps.actions.AddKeyAction
     method_name: execute
 
