@@ -61,9 +61,6 @@
 #! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
 #!                           Default: false.
 #!                           Valid values: true, false.
-#! @input handle_empty_value: Optional - If the value is empty and this input is true it will fill the value with NULL.
-#!                            Default value: false.
-#!                            Valid values: true, false.
 #!
 #! @output return_result: The modified if operation succeeded. Otherwise it will contain the message of the exception.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
@@ -119,13 +116,6 @@ operation:
         required: false
     - stripWhitespaces:
         default: ${get("strip_whitespaces", "")}
-        required: false
-        private: true
-    - handle_empty_value:
-        default: "false"
-        required: false
-    - handleEmptyValue:
-        default: ${get("handle_empty_value", "")}
         required: false
         private: true
 
