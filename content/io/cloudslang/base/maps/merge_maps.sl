@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Merges 2 maps into one map.
+#! @description: Merges two maps into one map.
 #!
 #! The maps can have different structures, but the resulted map will keep the map1's structure.
 #! If a key exists in both maps, the result map will contain it only once, with the value found in map2.
@@ -145,7 +145,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC6'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC9'
     class_name: io.cloudslang.content.maps.actions.MergeMapsAction
     method_name: execute
 
