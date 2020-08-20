@@ -48,7 +48,7 @@
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
 #! @input key: The key to add.
-#! @input value: Optional - The value to map to the added key.
+#! @input value: Optional - The value that will be added to the provided key.
 #!               Default value: empty string.
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
