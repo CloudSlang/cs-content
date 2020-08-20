@@ -22,7 +22,7 @@
 #!    entry_delimiter = |\n|
 #!    map_start = |
 #!    map_end = |
-#!    return_result = [A,B]
+#!    return_result = A,B
 #!
 #! 2. For a JSON like map ---
 #!    map = {"A":"1","B":"2"}
@@ -31,7 +31,7 @@
 #!    map_start = {
 #!    map_end = }
 #!    element_wrapper = "
-#!    return_result = [A,B].
+#!    return_result = A,B.
 #!
 #! Notes:
 #! 1. CRLF will be replaced with LF for proper handling.
@@ -52,11 +52,11 @@
 #!                           Default: false.
 #!                           Valid values: true, false.
 #!
-#! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
+#! @output return_result: A list containing the keys from the map if the operation succeeded. Otherwise, it will contain the exception message.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The key was successfully added to the map.
+#! @result SUCCESS: The keys were successfully retrieved from the map.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
@@ -67,8 +67,7 @@ operation:
   name: get_keys_v2
 
   inputs:
-    - map:
-        required: false
+    - map
     - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
