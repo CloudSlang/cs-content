@@ -110,7 +110,7 @@ operation:
         private: true
 
   java_action:
-    gav: "io.cloudslang.content:cs-maps:0.0.1-RC9"
+    gav: "io.cloudslang.content:cs-maps:0.0.1-RC10"
     class_name: io.cloudslang.content.maps.actions.GetKeysAction
     method_name: execute
 
