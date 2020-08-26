@@ -13,31 +13,29 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets keys from a map.
+#! @description: Delete the keys with empty value from the given map.
 #!
 #! Examples:
-#! 1. For an SQL like map ---
-#!    map = |A|1|\n|B|2|
-#!    pair_delimiter = |
-#!    entry_delimiter = |\n|
-#!    map_start = |
-#!    map_end = |
-#!    return_result = A,B
-#!
-#! 2. For a JSON like map ---
-#!    map = {"A":"1","B":"2"}
+#! 1. For a JSON like map ---
+#!    map = {"A":"1","B":"","C":"3"}
 #!    pair_delimiter = :
 #!    entry_delimiter = ,
 #!    map_start = {
 #!    map_end = }
 #!    element_wrapper = "
-#!    return_result = A,B.
+#!    return_result = {"A":"1","C":"3"}
 #!
-#! Notes:
-#! 1. CRLF will be replaced with LF for proper handling.
+#! 2. For a JSON like map ---
+#!    map = {"A":"1","B":"2","C":"3"}
+#!    pair_delimiter = :
+#!    entry_delimiter = ,
+#!    map_start = {
+#!    map_end = }
+#!    element_wrapper = "
+#!    return_result = {"A":"1","B":"2","C":"3"}
 #!
-#! @input map: The map from where the keys will be retrieved.
-#!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
+#!
+#! @input map: The map from where the keys without a value will be removed.
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
@@ -59,7 +57,7 @@
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The keys were successfully retrieved from the map.
+#! @result SUCCESS: The empty keys were successfully removed from the map or there were no empty values.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
@@ -67,7 +65,7 @@
 namespace: io.cloudslang.base.maps
 
 operation:
-  name: get_keys_v2
+  name: remove_empty_keys
 
   inputs:
     - map
@@ -111,7 +109,7 @@ operation:
 
   java_action:
     gav: "io.cloudslang.content:cs-maps:0.0.1-RC11"
-    class_name: io.cloudslang.content.maps.actions.GetKeysAction
+    class_name: io.cloudslang.content.maps.actions.RemoveEmptyKeysAction
     method_name: execute
 
   outputs:
