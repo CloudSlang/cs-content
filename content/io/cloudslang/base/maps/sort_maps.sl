@@ -53,7 +53,7 @@ operation:
   inputs:
     - map
     - sort_by
-    - soryBy:
+    - sortBy:
         default: ${get("sort_by", "")}
         private: true
     - sort_order:
