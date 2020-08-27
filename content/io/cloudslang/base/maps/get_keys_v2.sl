@@ -46,9 +46,7 @@
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
 #!                         Valid values: Any value that does not have common characters with element_wrapper.
 #! @input map_start: Optional - A sequence of 0 or more characters that marks the beginning of the map.
-#!                   Default: "{"
 #! @input map_end: Optional - A sequence of 0 or more characters that marks the end of the map.
-#!                 Default: "}"
 #! @input element_wrapper: Optional - A sequence of 0 or more characters that marks the beginning and the end of a key or value.
 #!                         Valid values: Any value that does not have common characters with pair_delimiter or entry_delimiter.
 #! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
@@ -82,14 +80,12 @@ operation:
         default: ${get("entry_delimiter", "")}
         private: true
     - map_start:
-        default: "{"
         required: false
     - mapStart:
         default: ${get("map_start", "")}
         required: false
         private: true
     - map_end:
-        default: "}"
         required: false
     - mapEnd:
         default: ${get("map_end", "")}
