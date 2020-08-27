@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,37 +13,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get all values or a specific value from a map.
+#! @description: Sorts a map in ascending or descending order by keys or values.
 #!
-#! Examples:
-#! 1. map = |A|1|\n|B|2|
-#!    pair_delimiter = |
-#!    entry_delimiter = |\n|
-#!    map_start = |
-#!    map_end = |
-#!    return_result = 1,2
-#!
-#! 2. map = {"A":"1","B":"2"}
-#!    key = B
-#!    pair_delimiter = :
-#!    entry_delimiter = ,
-#!    map_start = {
-#!    map_end = }
-#!    element_wrapper = "
-#!    return_result = 2
-#!
-#! Notes:
-#! 1. CRLF will be replaced with LF for proper handling.
-#! 2. Map keys and values must NOT contain any character from pair_delimiter, entry_delimiter, map_start, map_end or element_wrapper.
-#!
-#! @input map: The map from where the values will be retrieved.
+#! @input map: The map that will be sorted.
 #!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
-#! @input key: Optional - The the key from which the value will be taken.
-#!             Default value: NULL.
-#!              Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
+#! @input sortBy: The map entries that will be sorted.
+#!                Valid values: key, value.
+#! @input sortOrder: Optional - The order in which the selected entries will be sorted.
+#!                   Valid values: asc (ascending), desc (descending).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
+#!                        Default: ":"
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
 #!                         Valid values: Any value that does not have common characters with element_wrapper.
@@ -55,12 +36,11 @@
 #!                           Default: false.
 #!                           Valid values: true, false.
 #!
-#! @output return_result: List of the values from the map or the value of the key in case of success or error message in case
-#!                        of failure.
+#! @output return_result: The sorted map, if the operation succeeded. Otherwise, it will contain the exception message.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: Operation run successfully.
+#! @result SUCCESS: The map has been successfully sorted.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
@@ -68,17 +48,27 @@
 namespace: io.cloudslang.base.maps
 
 operation:
-  name: get_values_v2
+  name: sort_maps
 
   inputs:
     - map
-    - key:
+    - sort_by
+    - soryBy:
+        default: ${get("sort_by", "")}
+        private: true
+    - sort_order:
         required: false
-    - pair_delimiter
+    - sortOrder:
+        default: ${get("sort_order", "")}
+        required: false
+        private: true
+    - pair_delimiter:
+        default: ":"
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
         private: true
-    - entry_delimiter
+    - entry_delimiter:
+        default: ","
     - entryDelimiter:
         default: ${get("entry_delimiter", "")}
         private: true
@@ -110,7 +100,7 @@ operation:
 
   java_action:
     gav: "io.cloudslang.content:cs-maps:0.0.1-RC12"
-    class_name: io.cloudslang.content.maps.actions.GetValuesAction
+    class_name: io.cloudslang.content.maps.actions.SortMapsAction
     method_name: execute
 
   outputs:
