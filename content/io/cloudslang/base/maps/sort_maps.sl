@@ -19,10 +19,10 @@
 #!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
-#! @input sortBy: The map entries that will be sorted.
-#!                Valid values: key, value.
-#! @input sortOrder: Optional - The order in which the selected entries will be sorted.
-#!                   Valid values: asc (ascending), desc (descending).
+#! @input sort_by: The map entries that will be sorted.
+#!                 Valid values: key, value.
+#! @input sort_order: Optional - The order in which the selected entries will be sorted.
+#!                    Valid values: asc (ascending), desc (descending).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
 #!                        Default: ":"
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
