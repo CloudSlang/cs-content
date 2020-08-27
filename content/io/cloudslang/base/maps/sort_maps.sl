@@ -24,7 +24,6 @@
 #! @input sort_order: Optional - The order in which the selected entries will be sorted.
 #!                    Valid values: asc (ascending), desc (descending).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
-#!                        Default: ":"
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
 #!                         Valid values: Any value that does not have common characters with element_wrapper.
@@ -62,13 +61,11 @@ operation:
         default: ${get("sort_order", "")}
         required: false
         private: true
-    - pair_delimiter:
-        default: ":"
+    - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
         private: true
-    - entry_delimiter:
-        default: ","
+    - entry_delimiter
     - entryDelimiter:
         default: ${get("entry_delimiter", "")}
         private: true
