@@ -41,7 +41,6 @@
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
-#!                        Default: ":"
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
 #!                         Valid values: Any value that does not have common characters with element_wrapper.
@@ -69,13 +68,11 @@ operation:
 
   inputs:
     - map
-    - pair_delimiter:
-        default: ":"
+    - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
         private: true
-    - entry_delimiter:
-        default: ","
+    - entry_delimiter
     - entryDelimiter:
         default: ${get("entry_delimiter", "")}
         private: true

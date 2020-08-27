@@ -39,14 +39,11 @@
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
-#!                        Default: ":"
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
 #!                         Valid values: Any value that does not have common characters with element_wrapper.
 #! @input map_start: Optional - A sequence of 0 or more characters that marks the beginning of the map.
-#!                   Default: "{"
 #! @input map_end: Optional - A sequence of 0 or more characters that marks the end of the map.
-#!                 Default: "}"
 #! @input element_wrapper: Optional - A sequence of 0 or more characters that marks the beginning and the end of a key or value.
 #!                         Valid values: Any value that does not have common characters with pair_delimiter or entry_delimiter.
 #! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
@@ -69,25 +66,21 @@ operation:
 
   inputs:
     - map
-    - pair_delimiter:
-        default: ":"
+    - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
         private: true
-    - entry_delimiter:
-        default: ","
+    - entry_delimiter
     - entryDelimiter:
         default: ${get("entry_delimiter", "")}
         private: true
     - map_start:
-        default: "{"
         required: false
     - mapStart:
         default: ${get("map_start", "")}
         required: false
         private: true
     - map_end:
-        default: "}"
         required: false
     - mapEnd:
         default: ${get("map_end", "")}
