@@ -13,33 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Gets keys from a map.
+#! @description: Sorts a map in ascending or descending order by keys or values.
 #!
-#! Examples:
-#! 1. For an SQL like map ---
-#!    map = |A|1|\n|B|2|
-#!    pair_delimiter = |
-#!    entry_delimiter = |\n|
-#!    map_start = |
-#!    map_end = |
-#!    return_result = A,B
-#!
-#! 2. For a JSON like map ---
-#!    map = {"A":"1","B":"2"}
-#!    pair_delimiter = :
-#!    entry_delimiter = ,
-#!    map_start = {
-#!    map_end = }
-#!    element_wrapper = "
-#!    return_result = A,B.
-#!
-#! Notes:
-#! 1. CRLF will be replaced with LF for proper handling.
-#!
-#! @input map: The map from where the keys will be retrieved.
+#! @input map: The map that will be sorted.
 #!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
+#! @input sort_by: The map entries that will be sorted.
+#!                 Valid values: key, value.
+#! @input sort_order: Optional - The order in which the selected entries will be sorted.
+#!                    Valid values: asc (ascending), desc (descending).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
@@ -52,11 +35,11 @@
 #!                           Default: false.
 #!                           Valid values: true, false.
 #!
-#! @output return_result: A list containing the keys from the map if the operation succeeded. Otherwise, it will contain the exception message.
+#! @output return_result: The sorted map, if the operation succeeded. Otherwise, it will contain the exception message.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The keys were successfully retrieved from the map.
+#! @result SUCCESS: The map has been successfully sorted.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
@@ -64,10 +47,20 @@
 namespace: io.cloudslang.base.maps
 
 operation:
-  name: get_keys_v2
+  name: sort_maps
 
   inputs:
     - map
+    - sort_by
+    - sortBy:
+        default: ${get("sort_by", "")}
+        private: true
+    - sort_order:
+        required: false
+    - sortOrder:
+        default: ${get("sort_order", "")}
+        required: false
+        private: true
     - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
@@ -104,7 +97,7 @@ operation:
 
   java_action:
     gav: "io.cloudslang.content:cs-maps:0.0.1-RC12"
-    class_name: io.cloudslang.content.maps.actions.GetKeysAction
+    class_name: io.cloudslang.content.maps.actions.SortMapsAction
     method_name: execute
 
   outputs:
