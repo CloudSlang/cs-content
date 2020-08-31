@@ -183,7 +183,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-maps:0.0.10-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-maps:0.0.1-RC13'
     class_name: io.cloudslang.content.maps.actions.MapComparatorAction
     method_name: execute
   
