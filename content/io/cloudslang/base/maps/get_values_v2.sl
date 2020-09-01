@@ -75,6 +75,14 @@ operation:
 
   inputs:
   - map
+  - key:
+      required: false
+  - key_delimiter:
+      required: false
+  - keyDelimiter:
+      default: ${get("key_delimiter", "")}
+      required: false
+      private: true
   - pair_delimiter
   - pairDelimiter:
       default: ${get("pair_delimiter", "")}
@@ -110,17 +118,9 @@ operation:
       default: ${get("strip_whitespaces", "")}
       required: false
       private: true
-  - key:
-      required: false
-  - key_delimiter:
-      required: false
-  - keyDelimiter:
-      default: ${get("key_delimiter", "")}
-      required: false
-      private: true
 
   java_action:
-    gav: "io.cloudslang.content:cs-maps:0.0.1-RC14"
+    gav: "io.cloudslang.content:cs-maps:0.0.1-RC15"
     class_name: io.cloudslang.content.maps.actions.GetValuesAction
     method_name: execute
 
