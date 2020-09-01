@@ -40,9 +40,11 @@
 #!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
-#! @input key: Optional - The the key from which the value will be taken.
+#! @input key: Optional - A key or a list of keys from which the value will be retrieved. If a list of keys is used
+#!                        the delimiter should be provided in the key_delimiter input.
 #!             Default value: NULL.
-#!              Valid values: Any string that does not contain or is equal to value of pair_delimiter or entry_delimiter.
+#! @input key_delimiter: Optional - A delimiter to separate the keys from the key input. Only populate this input when
+#!                                  a list of keys is provided in the key input.
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
@@ -51,7 +53,8 @@
 #! @input map_end: Optional - A sequence of 0 or more characters that marks the end of the map.
 #! @input element_wrapper: Optional - A sequence of 0 or more characters that marks the beginning and the end of a key or value.
 #!                         Valid values: Any value that does not have common characters with pair_delimiter or entry_delimiter.
-#! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
+#! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and
+#!                           values of the map, as well as from the key input.
 #!                           Default: false.
 #!                           Valid values: true, false.
 #!
@@ -71,53 +74,61 @@ operation:
   name: get_values_v2
 
   inputs:
-    - map
-    - key:
-        required: false
-    - pair_delimiter
-    - pairDelimiter:
-        default: ${get("pair_delimiter", "")}
-        private: true
-    - entry_delimiter
-    - entryDelimiter:
-        default: ${get("entry_delimiter", "")}
-        private: true
-    - map_start:
-        required: false
-    - mapStart:
-        default: ${get("map_start", "")}
-        required: false
-        private: true
-    - map_end:
-        required: false
-    - mapEnd:
-        default: ${get("map_end", "")}
-        required: false
-        private: true
-    - element_wrapper:
-        required: false
-    - elementWrapper:
-        default: ${get("element_wrapper", "")}
-        required: false
-        private: true
-    - strip_whitespaces:
-        default: "false"
-        required: false
-    - stripWhitespaces:
-        default: ${get("strip_whitespaces", "")}
-        required: false
-        private: true
+  - map
+  - pair_delimiter
+  - pairDelimiter:
+      default: ${get("pair_delimiter", "")}
+      required: false
+      private: true
+  - entry_delimiter
+  - entryDelimiter:
+      default: ${get("entry_delimiter", "")}
+      required: false
+      private: true
+  - map_start:
+      required: false
+  - mapStart:
+      default: ${get("map_start", "")}
+      required: false
+      private: true
+  - map_end:
+      required: false
+  - mapEnd:
+      default: ${get("map_end", "")}
+      required: false
+      private: true
+  - element_wrapper:
+      required: false
+  - elementWrapper:
+      default: ${get("element_wrapper", "")}
+      required: false
+      private: true
+  - strip_whitespaces:
+      default: "false"
+      required: false
+  - stripWhitespaces:
+      default: ${get("strip_whitespaces", "")}
+      required: false
+      private: true
+  - key:
+      required: false
+  - key_delimiter:
+      required: false
+  - keyDelimiter:
+      default: ${get("key_delimiter", "")}
+      required: false
+      private: true
 
   java_action:
-    gav: "io.cloudslang.content:cs-maps:0.0.1-RC12"
+    gav: "io.cloudslang.content:cs-maps:0.0.1-RC14"
     class_name: io.cloudslang.content.maps.actions.GetValuesAction
     method_name: execute
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception: ${get("exception", "")}
+  - return_result: ${get("returnResult", "")}
+  - return_code: ${get("returnCode", "")}
+  - exception: ${get("exception", "")}
 
   results:
-    - SUCCESS: ${returnCode == "0"}
-    - FAILURE
+  - SUCCESS: ${returnCode == "0"}
+  - FAILURE
