@@ -26,3 +26,7 @@ operation:
 
   python_action:
     script: pass
+
+  results:
+  - SUCCESS: ${returnCode == "0"}
+  - FAILURE
