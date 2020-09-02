@@ -62,7 +62,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.14-RC1'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.14'
     class_name: io.cloudslang.content.utilities.actions.StringEquals
     method_name: execute
 
