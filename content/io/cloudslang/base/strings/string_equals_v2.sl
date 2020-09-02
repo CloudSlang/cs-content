@@ -64,9 +64,9 @@ operation:
     method_name: execute
 
   outputs:
-  - return_code: ${get('returnCode', '')}
+   - return_code: ${get('returnCode', '')}
 
-    results:
-      - SUCCESS: ${ returnCode == '0'}
-      - FAILURE
+  results:
+   - SUCCESS: ${ returnCode == '0'}
+   - FAILURE
 
