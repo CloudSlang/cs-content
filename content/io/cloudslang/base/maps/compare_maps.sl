@@ -101,8 +101,7 @@ operation:
   
   inputs:
     - map1:
-        required: false 
-        private: true 
+        required: false
     - map1_pair_delimiter
     - map1PairDelimiter: 
         default: ${get('map1_pair_delimiter', '')}
@@ -132,8 +131,7 @@ operation:
         required: false 
         private: true
     - map2:
-        required: false 
-        private: true 
+        required: false
     - map2_pair_delimiter
     - map2PairDelimiter: 
         default: ${get('map2_pair_delimiter', '')}
@@ -167,7 +165,8 @@ operation:
         default: ${get('match_type', '')}  
         required: true
         private: true 
-    - strip_whitespaces:  
+    - strip_whitespaces:
+        default: "false"
         required: false  
     - stripWhitespaces: 
         default: ${get('strip_whitespaces', '')}  
