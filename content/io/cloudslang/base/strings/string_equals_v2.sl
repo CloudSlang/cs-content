@@ -42,12 +42,21 @@ operation:
     - first_string:
         default: ''
         required: false
+    - firstString:
+        default: ${get('first_string', '')}
+        private: true
     - second_string:
         default: ''
         required: false
+    - secondString:
+        default: ${get('second_string', '')}
+        private: true
     - ignore_case:
         default: 'false'
         required: false
+    - ignoreCase:
+        default: ${get('ignore_case', '')}
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-utilities:0.1.14-SNAPSHOT'
@@ -64,5 +73,5 @@ operation:
 
     results:
       - SUCCESS: ${ returnCode == '0'}
-      - FAILURE
+      - FAILURE: ${ returnCode == '-1'}
 
