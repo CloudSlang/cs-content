@@ -35,20 +35,40 @@
 
 namespace: io.cloudslang.base.strings
 
-decision:
+operation:
   name: string_equals
 
   inputs:
     - first_string:
-         default: ''
-         required: false
+        default: ''
+        required: false
+    - firstString:
+        default: ${get('first_string', '')}
+        required: false
+        private: true
     - second_string:
-         default: ''
-         required: false
+        default: ''
+        required: false
+    - secondString:
+        default: ${get('second_string', '')}
+        required: false
+        private: true
     - ignore_case:
-         default: 'false'
-         required: false
+        default: 'false'
+        required: false
+    - ignoreCase:
+        default: ${get('ignore_case', '')}
+        required: false
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-utilities:0.1.14-RC1'
+    class_name: io.cloudslang.content.utilities.actions.StringEquals
+    method_name: execute
+
+  outputs:
+    - return_code: ${get('returnCode', '')}
 
   results:
-    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case in [True, true, 'True', 'true'] and first_string.lower() == second_string.lower()) or (first_string == second_string))}
+    - SUCCESS: ${ returnCode == '0'}
     - FAILURE
