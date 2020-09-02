@@ -59,19 +59,14 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.14-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.15-SNAPSHOT'
     class_name: io.cloudslang.content.utilities.actions.StringEquals
     method_name: execute
 
   outputs:
-  - return_result: ${get('returnResult', '')}
-    private: true
   - return_code: ${get('returnCode', '')}
-    private: true
-  - exception: ${get('exception', '')}
-    private: true
 
     results:
       - SUCCESS: ${ returnCode == '0'}
-      - FAILURE: ${ returnCode == '-1'}
+      - FAILURE
 
