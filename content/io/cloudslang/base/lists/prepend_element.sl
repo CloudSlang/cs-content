@@ -44,7 +44,7 @@ operation:
         default: ','
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.8'
+    gav: 'io.cloudslang.content:cs-lists:0.0.9-RC2'
     class_name: io.cloudslang.content.actions.ListPrependerAction
     method_name: prependElement
 
