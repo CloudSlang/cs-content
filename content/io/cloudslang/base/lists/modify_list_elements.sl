@@ -32,6 +32,7 @@ operation:
     - list:
         required: true
     - delimiter:
+        required: false
         default: ","
     - method:
         required: true
