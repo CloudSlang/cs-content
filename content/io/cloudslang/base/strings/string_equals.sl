@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -28,6 +28,8 @@
 #!                     Default: 'false'
 #!                     Optional
 #!
+#! @output return_code: '0' if success, '-1' otherwise.
+#!
 #! @result SUCCESS: Strings are equal.
 #! @result FAILURE: Strings are not equal.
 #!!#
@@ -35,20 +37,41 @@
 
 namespace: io.cloudslang.base.strings
 
-decision:
+operation:
   name: string_equals
 
   inputs:
     - first_string:
-         default: ''
-         required: false
+        default: ''
+        required: false
+    - firstString:
+        default: ${get('first_string', '')}
+        required: false
+        private: true
     - second_string:
-         default: ''
-         required: false
+        default: ''
+        required: false
+    - secondString:
+        default: ${get('second_string', '')}
+        required: false
+        private: true
     - ignore_case:
-         default: 'false'
-         required: false
+        default: 'false'
+        required: false
+    - ignoreCase:
+        default: ${get('ignore_case', '')}
+        required: false
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-utilities:0.1.14'
+    class_name: io.cloudslang.content.utilities.actions.StringEquals
+    method_name: execute
+
+  outputs:
+    - return_code: ${get('returnCode', '')}
 
   results:
-    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case in [True, true, 'True', 'true'] and first_string.lower() == second_string.lower()) or (first_string == second_string))}
+    - SUCCESS: ${ returnCode == '0'}
     - FAILURE
+
