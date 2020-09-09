@@ -28,6 +28,8 @@
 #!                     Default: 'false'
 #!                     Optional
 #!
+#! @output return_code: '0' if success, '-1' otherwise.
+#!
 #! @result SUCCESS: Strings are equal.
 #! @result FAILURE: Strings are not equal.
 #!!#
