@@ -38,7 +38,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.15-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.15-RC1'
     class_name: io.cloudslang.content.utilities.actions.IsTrue
     method_name: execute
 
