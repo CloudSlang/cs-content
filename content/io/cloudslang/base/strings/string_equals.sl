@@ -28,8 +28,6 @@
 #!                     Default: 'false'
 #!                     Optional
 #!
-#! @output return_code: '0' if success, '-1' otherwise.
-#!
 #! @result SUCCESS: Strings are equal.
 #! @result FAILURE: Strings are not equal.
 #!!#
@@ -37,41 +35,21 @@
 
 namespace: io.cloudslang.base.strings
 
-operation:
+decision:
   name: string_equals
 
   inputs:
     - first_string:
         default: ''
         required: false
-    - firstString:
-        default: ${get('first_string', '')}
-        required: false
-        private: true
     - second_string:
         default: ''
         required: false
-    - secondString:
-        default: ${get('second_string', '')}
-        required: false
-        private: true
     - ignore_case:
         default: 'false'
         required: false
-    - ignoreCase:
-        default: ${get('ignore_case', '')}
-        required: false
-        private: true
-
-  java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.15-RC1'
-    class_name: io.cloudslang.content.utilities.actions.StringEquals
-    method_name: execute
-
-  outputs:
-    - return_code: ${get('returnCode', '')}
 
   results:
-    - SUCCESS: ${ returnCode == '0'}
+    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case.strip().lower()=='true' and first_string.lower() == second_string.lower()) or (first_string == second_string))}
     - FAILURE
 
