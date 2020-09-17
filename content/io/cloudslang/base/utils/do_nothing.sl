@@ -27,7 +27,7 @@ operation:
   name: do_nothing
 
   python_action:
-    script: pass
+    script: |
      return_code = '0'
 
   results:
