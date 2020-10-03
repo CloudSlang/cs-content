@@ -62,7 +62,6 @@ operation:
     - out_locale:
         required: false
   python_action:
-    use_jython: false
     script: "from datetime import datetime\nimport locale\nimport sys\n\ndef execute(date, date_format, date_locale, out_format, out_locale): \n    try:\n        locale.setlocale(locale.LC_ALL, date_locale)\n        date_time_obj_in = datetime.strptime(date, date_format)\n        locale.setlocale(locale.LC_ALL, out_locale)\n        date_time_obj_out = date_time_obj_in.strftime(out_format)\n        return_code = 0\n        return{\"return_result\": date_time_obj_out, \"return_code\": return_code}\n    except:\n        e = sys.exc_info()\n        return_code = -1\n        return{\"return_result\": e, \"return_code\": return_code}"
   outputs:
     - return_result
