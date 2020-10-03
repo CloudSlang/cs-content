@@ -1,0 +1,27 @@
+testGeneralConversion:
+  inputs:
+    - date: '1997-07-16 19:20:30 GMT+11:00'
+    - date_format: '%Y-%m-%d %H:%M:%S %Z%z'
+    - date_locale:
+    - out_format: '%a %b %d %Y %M:%S:%H %p %Z%z'
+    - out_locale: 'en-US'
+  description: Tests that converts from 'year-month-day hour:minutes:seconds timezone+offset' to 'weekday month day year minutes:seconds:hours PM timezone+offset'
+  testFlowPath: io.cloudslang.base.datetime.date_parser
+  outputs:
+    - return_result: 'Wed Jul 16 1997 20:30:19 PM GMT+1100'
+    - return_code: '0'
+  result: SUCCESS
+
+testConversionToChineseLocale:
+  inputs:
+    - date: '1997-07-16 19:20:30 GMT+11:00'
+    - date_format: '%Y-%m-%d %H:%M:%S %Z%z'
+    - date_locale:
+    - out_format: '%a %b %d %Y %M:%S:%H %p %Z%z'
+    - out_locale: 'zh-CN'
+  description: General test with conversion from en to zh-CN locale
+  testFlowPath: io.cloudslang.base.datetime.date_parser
+  outputs:
+    - return_result: '周三 7月 16 1997 20:30:19 下午 GMT+1100'
+    - return_code: '0'
+  result: SUCCESS
