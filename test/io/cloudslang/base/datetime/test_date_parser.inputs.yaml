@@ -1,4 +1,5 @@
 testGeneralConversion:
+  testSuites: [default]
   inputs:
     - date: '1997-07-16 19:20:30 GMT+11:00'
     - date_format: '%Y-%m-%d %H:%M:%S %Z%z'
@@ -13,6 +14,7 @@ testGeneralConversion:
   result: SUCCESS
 
 testConversionToChineseLocale:
+  testSuites: [default]
   inputs:
     - date: '1997-07-16 19:20:30 GMT+11:00'
     - date_format: '%Y-%m-%d %H:%M:%S %Z%z'
