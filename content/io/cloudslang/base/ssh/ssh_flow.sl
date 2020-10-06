@@ -143,6 +143,10 @@ flow:
       - proxy_password:
           sensitive: true
           required: false
+      - use_shell:
+          default: 'false'
+      - remove_escape_sequences:
+          default: 'false'
 
     workflow:
       - validate_ssh_access:
@@ -203,6 +207,8 @@ flow:
               - proxy_port
               - proxy_username
               - proxy_password
+              - use_shell
+              - remove_escape_sequences
           publish:
             - return_result
             - standard_out
