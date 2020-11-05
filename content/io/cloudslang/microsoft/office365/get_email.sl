@@ -41,7 +41,7 @@
 #!                               &filter=HasAttachments eq true
 #!                               &search="from:help@contoso.com"
 #!                               &search="subject:Test"
-#!                      Default value: $select=subject,bodyPreview,sender,from
+#!                               $select=subject,bodyPreview,sender,from
 #!                      Optional
 #! @input file_path: The file path under which the attachment will be downloaded. The attachment will not be downloaded
 #!                   if a path is not provided.
@@ -147,7 +147,6 @@ operation:
         required: false
     - o_data_query:
         required: false
-        default: '$select=subject,bodyPreview,sender,from'
     - oDataQuery:
         default: ${get('o_data_query', '')}
         required: false
