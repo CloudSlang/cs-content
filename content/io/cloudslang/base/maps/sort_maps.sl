@@ -13,43 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Adds a key to a map. If the given key already exists in the map then its value will be overwritten.
+#! @description: Sorts a map in ascending or descending order by keys or values.
 #!
-#! Examples:
-#! 1. For an SQL like map ---
-#!    map = |A|1|\n|B|2|
-#!    key = C
-#!    value = 3
-#!    pair_delimiter = |
-#!    entry_delimiter = |\n|
-#!    map_start = |
-#!    map_end = |
-#!    return_result = |A|1|\n|B|2|\n|C|3|
-#!
-#! 2. For a JSON like map ---
-#!    map = {"A":"1","B":"2"}
-#!    key = B
-#!    value = 3
-#!    pair_delimiter = :
-#!    entry_delimiter = ,
-#!    map_start = {
-#!    map_end = }
-#!    element_wrapper = "
-#!    return_result = {"A":"1","B":"3"}.
-#!
-#! Notes:
-#! 1. CRLF will be replaced with LF for proper handling.
-#! 2. Map keys and values must NOT contain any character from pair_delimiter, entry_delimiter, map_start, map_end or element_wrapper.
-#! 3. In some cases when value is empty the operation will add an RS (Record Separator) character to preserve the integrity of the map.
-#!    This is just a placeholder for empty string, so it will still show up as an empty string when retrieved using get_value.
-#!
-#! @input map: Optional - The map to add a key to.
+#! @input map: The map that will be sorted.
 #!             Example: {a:1,b:2,c:3,d:4}, {"a": "1","b": "2"}, Apples=3;Oranges=2
 #!             Valid values: Any string representing a valid map according to specified delimiters
 #!             (pair_delimiter, entry_delimiter, map_start, map_end, element_wrapper).
-#! @input key: The key to add.
-#! @input value: Optional - The value that will be added to the provided key.
-#!               Default value: empty string.
+#! @input sort_by: The map entries that will be sorted.
+#!                 Valid values: key, value.
+#! @input sort_order: Optional - The order in which the selected entries will be sorted.
+#!                    Valid values: asc (ascending), desc (descending).
 #! @input pair_delimiter: The separator to use for splitting key-value pairs into key, respectively value.
 #!                        Valid values: Any value that does not contain entry_delimiter and has no common characters with element_wrapper.
 #! @input entry_delimiter: The separator to use for splitting the map into entries.
@@ -61,15 +34,12 @@
 #! @input strip_whitespaces: Optional - True if leading and trailing whitespaces should be removed from the keys and values of the map.
 #!                           Default: false.
 #!                           Valid values: true, false.
-#! @input handle_empty_value: Optional - If the value is empty and this input is true it will fill the value with NULL.
-#!                            Default value: false.
-#!                            Valid values: true, false.
 #!
-#! @output return_result: The map with the added key if operation succeeded. Otherwise it will contain the message of the exception.
+#! @output return_result: The sorted map, if the operation succeeded. Otherwise, it will contain the exception message.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The key was successfully added to the map.
+#! @result SUCCESS: The map has been successfully sorted.
 #! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
@@ -77,14 +47,20 @@
 namespace: io.cloudslang.base.maps
 
 operation:
-  name: add_key
+  name: sort_maps
 
   inputs:
-    - map:
+    - map
+    - sort_by
+    - sortBy:
+        default: ${get("sort_by", "")}
+        private: true
+    - sort_order:
         required: false
-    - key
-    - value:
+    - sortOrder:
+        default: ${get("sort_order", "")}
         required: false
+        private: true
     - pair_delimiter
     - pairDelimiter:
         default: ${get("pair_delimiter", "")}
@@ -118,17 +94,10 @@ operation:
         default: ${get("strip_whitespaces", "")}
         required: false
         private: true
-    - handle_empty_value:
-        default: "false"
-        required: false
-    - handleEmptyValue:
-        default: ${get("handle_empty_value", "")}
-        required: false
-        private: true
 
   java_action:
     gav: "io.cloudslang.content:cs-maps:0.0.1-RC15"
-    class_name: io.cloudslang.content.maps.actions.AddKeyAction
+    class_name: io.cloudslang.content.maps.actions.SortMapsAction
     method_name: execute
 
   outputs:

@@ -13,24 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Checks if boolean is true or false. Used for flow control.
+#! @description: Do nothing should do "nothing". It can be used to set flow variables and execute expressions on inputs
+#!               or outputs.
 #!
-#! @input bool_value: Boolean value to check.
-#!
-#! @result TRUE: bool_value is true.
-#! @result FALSE: bool_value is false.
+#! @result SUCCESS: Do nothing should always end with success.
+#! @result FAILURE: An error occurred.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.utils
 
-decision:
-  name: is_true
+operation:
+  name: do_nothing
 
-  inputs:
-    - bool_value
+  python_action:
+    script: |
+     return_code = '0'
 
   results:
-    - 'TRUE': ${ bool_value.lower()=='true' }
-    - 'FALSE'
-
+  - SUCCESS: ${return_code == '0'}
+  - FAILURE
