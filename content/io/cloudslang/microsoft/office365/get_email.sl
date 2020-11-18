@@ -19,10 +19,14 @@
 #!                based on the date and time.
 #!
 #! @input tenant: Your application tenant.
-#! @input login_authority: The authority URL. Usually, the format for this input is:'https://login.windows.net/TENANT_NAME/oauth2/token'
-#!                         where TENANT_NAME is your application tenant.
+#! @input login_type: Login method according to Microsoft application type.
+#!                    Optional
+#!                    Default: API
+#!                    Valid values: API, Native
 #! @input username: The username to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
 #! @input password: The password to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
@@ -115,8 +119,9 @@ operation:
 
   inputs:
     - tenant
-    - login_authority
-    - loginAuthority:
+    - login_type:
+        required: false
+    - loginType:
         default: ${get('login_authority','')}
         required: false
         private: true
