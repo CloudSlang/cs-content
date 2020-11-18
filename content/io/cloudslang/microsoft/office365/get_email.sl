@@ -19,6 +19,10 @@
 #!                based on the date and time.
 #!
 #! @input tenant: Your application tenant.
+#! @input login_authority: The authority URL. Usually, the format for this input is:'https://login.windows.net/TENANT_NAME/oauth2/token'
+#!                         where TENANT_NAME is your application tenant.
+#! @input username: The username to be used to authenticate to the Office 365 Management Service.
+#! @input password: The password to be used to authenticate to the Office 365 Management Service.
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
@@ -111,6 +115,16 @@ operation:
 
   inputs:
     - tenant
+    - login_authority
+    - loginAuthority:
+        default: ${get('login_authority','')}
+        required: false
+        private: true
+    - username:
+        required: false
+    - password:
+       sensitive: true
+       required: false
     - client_id
     - clientId:
         default: ${get('client_id', '')}
@@ -247,7 +261,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC32'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.11-SNAPSHOT'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
