@@ -122,7 +122,7 @@ operation:
     - login_type:
         required: false
     - loginType:
-        default: ${get('login_authority','')}
+        default: ${get('login_type','')}
         required: false
         private: true
     - username:
