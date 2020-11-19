@@ -19,6 +19,14 @@
 #!                based on the date and time.
 #!
 #! @input tenant: Your application tenant.
+#! @input login_type: Login method according to Microsoft application type.
+#!                    Optional
+#!                    Default: API
+#!                    Valid values: API, Native
+#! @input username: The username to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
+#! @input password: The password to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
@@ -111,6 +119,17 @@ operation:
 
   inputs:
     - tenant
+    - login_type:
+        required: false
+    - loginType:
+        default: ${get('login_type','')}
+        required: false
+        private: true
+    - username:
+        required: false
+    - password:
+       sensitive: true
+       required: false
     - client_id
     - clientId:
         default: ${get('client_id', '')}
@@ -118,6 +137,7 @@ operation:
         private: true
     - client_secret:
         sensitive: true
+        required: false
     - clientSecret:
         default: ${get('client_secret', '')}
         required: false
@@ -247,7 +267,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC32'
+    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC34'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
