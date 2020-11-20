@@ -27,7 +27,6 @@
 #!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
 #!               2. For a list of supported well-known folder names, see:
 #!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
-#!               3. Parent folder Ids can be found in the List Message and Get Message operations responses.
 #!
 #! @input tenant: Your application tenant.
 #! @input login_type: Login method according to Microsoft application type.
