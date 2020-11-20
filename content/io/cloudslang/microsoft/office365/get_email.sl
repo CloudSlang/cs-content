@@ -14,9 +14,20 @@
 ########################################################################################################################
 #!!
 #! @description: This operation retrieves a message based on a message id.
-#!                If a messageId is not provided the operation retrieves the message list from the provided
-#!                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
-#!                based on the date and time.
+#!               If a messageId is not provided the operation retrieves the message list from the provided
+#!               user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
+#!               based on the date and time. This capability is provided "as is", please see product documentation for
+#!               further information.
+#!               Notes:
+#!               1. One of the below permissions is required to use this operation. To learn more, including how to choose
+#!               permissions, see: https://docs.microsoft.com/en-us/graph/permissions-reference
+#!               Application: Mail.ReadBasic.All, Mail.Read
+#!               Delegated (work or school account): Mail.ReadBasic, Mail.Read
+#!               Delegated (personal Microsoft account): Mail.ReadBasic, Mail.Read
+#!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
+#!               2. For a list of supported well-known folder names, see:
+#!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
+#!               3. Parent folder Ids can be found in the List Message and Get Message operations responses.
 #!
 #! @input tenant: Your application tenant.
 #! @input login_type: Login method according to Microsoft application type.
