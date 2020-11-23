@@ -23,7 +23,6 @@
 #!               permissions, see: https://docs.microsoft.com/en-us/graph/permissions-reference
 #!               Application: Mail.ReadBasic.All, Mail.Read
 #!               Delegated (work or school account): Mail.ReadBasic, Mail.Read
-#!               Delegated (personal Microsoft account): Mail.ReadBasic, Mail.Read
 #!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
 #!               2. For a list of supported well-known folder names, see:
 #!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
