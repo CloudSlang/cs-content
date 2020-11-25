@@ -47,10 +47,10 @@ operation:
     - size: ${size}
     - return_result: ${returnResult}
     - return_code: ${returnCode}
-    - exception: ${get("exception", "")}
+    - exception: ${get('exception', '')}
 
   results:
-    - FAILURE: ${returnCode == "-1"}
+    - FAILURE: ${returnCode == '-1'}
     - LESS_THAN: ${size < threshold}
     - EQUAL_TO: ${size = threshold}
     - GREATER_THAN
