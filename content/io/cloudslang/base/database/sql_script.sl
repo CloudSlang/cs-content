@@ -62,6 +62,8 @@
 #! @input result_set_concurrency: The result set concurrency. See JDBC folder description for more details.
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
+#! @input driver_url: URL pointing to the JDBC driver's jar file.
+#!                    Example: 'file:///C:/mysql-connector-java.jar', 'http://repo1.maven.org/maven2/path/to/jdbc/driver.jar'
 #!
 #! @output return_code: -1 if an error occurred while running the script, 0 otherwise.
 #! @output return_result: The result of the script.
@@ -188,9 +190,15 @@ operation:
         default: ${get('result_set_concurrency', '')}
         required: false
         private: true
+    - driver_url:
+        required: false
+    - driverUrl:
+        default: ${get('driver_url', '')}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-mysql-8'
+    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-mysql-21'
     class_name: io.cloudslang.content.database.actions.SQLScript
     method_name: execute
 

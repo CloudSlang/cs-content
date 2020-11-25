@@ -68,6 +68,8 @@
 #! @input ignore_case: If set to true the inputs' letters case will be ignored and converted to lowercase.
 #!                     Valid values: 'true', 'false'
 #!                     Default value: 'true'
+#! @input driver_url: URL pointing to the JDBC driver's jar file.
+#!                    Example: 'file:///C:/mysql-connector-java.jar', 'http://repo1.maven.org/maven2/path/to/jdbc/driver.jar'
 #!
 #! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred
 #! @output return_result: The result of the query
@@ -200,9 +202,15 @@ operation:
         default: ${get('ignore_case', '')}
         required: false
         private: true
+    - driver_url:
+        required: false
+    - driverUrl:
+        default: ${get('driver_url', '')}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-mysql-8'
+    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-mysql-21'
     class_name: io.cloudslang.content.database.actions.SQLQuery
     method_name: execute
 
