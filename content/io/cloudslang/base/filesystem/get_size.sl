@@ -40,7 +40,7 @@ operation:
 
   java_action:
     gav: "io.cloudslang.content:cs-filesystem:0.0.1-SNAPSHOT"
-    class_name: io.cloudslang.content.maps.actions.AddKeyAction
+    class_name: io.cloudslang.content.filesystem.actions.GetSizeAction
     method_name: execute
 
   outputs:
