@@ -51,6 +51,6 @@ operation:
 
   results:
     - FAILURE: ${returnCode == '-1'}
-    - LESS_THAN: ${size < threshold}
     - EQUAL_TO: ${size == threshold}
-    - GREATER_THAN
+    - GREATER_THAN: ${size > threshold}
+    - LESS_THAN
