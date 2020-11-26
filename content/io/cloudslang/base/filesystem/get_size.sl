@@ -23,6 +23,7 @@
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
 #!
+#! @result FAILURE: The operation failed.
 #! @result LESS_THAN: File's size is smaller than the threshold.
 #! @result EQUAL_TO: File's size is the same as the threshold.
 #! @result GREATER_THAN: File's size is the greater than the threshold.
