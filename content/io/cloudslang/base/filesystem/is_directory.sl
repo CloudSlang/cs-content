@@ -18,8 +18,8 @@
 #! @input source: Path of source file or folder to be checked.
 #!
 #! @output return_result: A success message if source is a directory. Otherwise, it will contain the exception message.
-#! @output return_code: 0 if operation succeeded, -1 otherwise.
-#! @output exception: The exception"s stack trace if operation failed. Empty otherwise.
+#! @output return_code: 0 if source is a directory, -1 otherwise.
+#! @output exception: The exception"s stack trace if source is not a directory or operation failed. Empty otherwise.
 #!
 #! @result SUCCESS: Source is a directory.
 #! @result FAILURE: Source is not a directory or does not exist.
@@ -35,7 +35,7 @@ operation:
     - source
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.1-SERGIU'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.1-RC1'
     class_name: io.cloudslang.content.filesystem.actions.IsDirectoryAction
     method_name: execute
 
