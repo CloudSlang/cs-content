@@ -20,7 +20,6 @@
 #!               choose permissions, see: https://docs.microsoft.com/en-us/graph/permissions-reference
 #!               Application: Mail.ReadWrite, Mail.Send
 #!               Delegated (work or school account): Mail.ReadWrite, Mail.Send
-#!               Delegated (personal Microsoft account): Mail.ReadWrite, Mail.Send
 #!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
 #!               2. For a list of supported well-known folder names, see:
 #!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
