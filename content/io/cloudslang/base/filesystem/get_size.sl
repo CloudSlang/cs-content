@@ -40,7 +40,7 @@ operation:
     - threshold
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.100'
+    gav: 'io.cloudslang.content:cs-filesystem:0.1.100'
     class_name: io.cloudslang.content.filesystem.actions.GetSizeAction
     method_name: execute
 
