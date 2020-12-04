@@ -40,7 +40,7 @@ operation:
     - threshold
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.1-RC3'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.1-RC4'
     class_name: io.cloudslang.content.filesystem.actions.GetSizeAction
     method_name: execute
 
@@ -52,6 +52,6 @@ operation:
 
   results:
     - FAILURE: ${returnCode == '-1'}
-    - GREATER_THAN: ${size > threshold}
+    - GREATER_THAN: ${long(size) > long(threshold)}
     - EQUAL_TO: ${size == threshold}
     - LESS_THAN
