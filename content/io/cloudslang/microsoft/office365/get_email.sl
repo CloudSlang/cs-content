@@ -30,7 +30,7 @@
 #! @input tenant: Your application tenant.
 #! @input login_type: Login method according to Microsoft application type.
 #!                    Optional
-#!                    Default: API
+#!                    Default: Native
 #!                    Valid values: API, Native
 #! @input username: The username to be used to authenticate to the Office 365 Management Service.
 #!                  Optional
@@ -276,7 +276,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC34'
+    gav: 'io.cloudslang.content:cs-office-365:1.1.1'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 
