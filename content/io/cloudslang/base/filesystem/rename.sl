@@ -26,10 +26,10 @@
 #! @output return_result: A message describing the success or failure of the operation.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
-#! @output renamedPath: The absolute path of the renamed file if operation succeeded. Empty otherwise.
+#! @output renamed_path: The absolute path of the renamed file if operation succeeded. Empty otherwise.
 #!
-#! @result SUCCESS: ${returnCode == '0'}
-#! @result FAILURE
+#! @result SUCCESS: Rename operation succeeded.
+#! @result FAILURE: The file or directory could not be renamed.
 #!!#
 ########################################################################################################################
 
