@@ -85,7 +85,7 @@
 namespace: io.cloudslang.hashicorp.terraform.runs
 
 operation:
-  name: get_tf_run_details_v2
+  name: get_run_details_v2
 
   inputs:
     - auth_token:
