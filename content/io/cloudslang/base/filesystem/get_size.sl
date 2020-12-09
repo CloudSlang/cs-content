@@ -19,14 +19,15 @@
 #! @input threshold: The threshold to compare the file size to (in bytes).
 #!
 #! @output size: The file's size in bytes.
-#! @output return_result: The file's size in bytes if operation succeeded. Otherwise it will contain the message of the exception.
+#! @output return_result: The result of the comparison between the file's size and the threshold. Otherwise it will contain
+#!                        the exception message.
 #! @output return_code: 0 if operation succeeded, -1 otherwise.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
 #!
 #! @result FAILURE: The operation failed.
-#! @result LESS_THAN: File's size is smaller than the threshold.
-#! @result EQUAL_TO: File's size is the same as the threshold.
-#! @result GREATER_THAN: File's size is the greater than the threshold.
+#! @result LESS_THAN: The file's size is smaller than the threshold.
+#! @result EQUAL_TO: The file's size is the same as the threshold.
+#! @result GREATER_THAN: The file's size is greater than the threshold.
 #!!#
 ########################################################################################################################
 
