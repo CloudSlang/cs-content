@@ -19,7 +19,8 @@
 #! @input compare_to: A checksum to compare the file's checksum to.
 #!
 #! @output checksum: The file's calculated checksum.
-#! @output return_result: The file's calculated checksum in case of success or an error message in case of failure.
+#! @output return_result: The result of the comparison between the file's size and the compare_to, if the operation succeeded.
+#!                        Otherwise it will contain the exception message.
 #! @output return_code: It is -1 for failure, 1 if the checksum matched the specified checksum
 #!                      and 0 if checksum did not match the specified checksum.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
