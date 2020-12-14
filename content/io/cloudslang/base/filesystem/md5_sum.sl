@@ -38,7 +38,8 @@ operation:
 
   inputs:
     - source
-    - compare_to
+    - compare_to:
+        required: false
     - compareTo:
         default: ${get("compare_to", "")}
         required: false

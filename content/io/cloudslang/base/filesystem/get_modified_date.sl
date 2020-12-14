@@ -44,12 +44,14 @@ operation:
   inputs:
     - source
     - threshold
-    - locale_lang
+    - locale_lang:
+        required: false
     - localeLang:
         default: ${get("locale_lang", "")}
         required: false
         private: true
-    - locale_country
+    - locale_country:
+        required: false
     - localeCountry:
         default: ${get("locale_country", "")}
         required: false
