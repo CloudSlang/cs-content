@@ -45,7 +45,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:1.12.11-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-filesystem:1.1.1-SNAPSHOT'
     class_name: io.cloudslang.content.filesystem.actions.MD5SumAction
     method_name: execute
 
