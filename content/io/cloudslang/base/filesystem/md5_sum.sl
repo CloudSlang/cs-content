@@ -13,46 +13,50 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Compares a file's size to a given threshold.
+#! @description: Calculates a checksum for a file and compares it to a given checksum.
 #!
-#! @input source: The file to read. It must be an absolute path.
-#! @input threshold: The threshold to compare the file size to (in bytes).
+#! @input source: The file for which to create the checksum.
+#! @input compare_to: A checksum to compare the file's checksum to.
 #!
-#! @output size: The file's size in bytes.
-#! @output return_result: The result of the comparison between the file's size and the threshold, if the operation succeeded.
+#! @output checksum: The file's calculated checksum.
+#! @output return_result: The result of the comparison between the file's size and the compare_to, if the operation succeeded.
 #!                        Otherwise it will contain the exception message.
-#! @output return_code: 0 if operation succeeded, -1 otherwise.
+#! @output return_code: It is -1 for failure, 1 if the checksum matched the specified checksum
+#!                      and 0 if checksum did not match the specified checksum.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
 #!
 #! @result FAILURE: The operation failed.
-#! @result LESS_THAN: The file's size is smaller than the threshold.
-#! @result EQUAL_TO: The file's size is the same as the threshold.
-#! @result GREATER_THAN: The file's size is greater than the threshold.
+#! @result NOT_EQUAL: The file's checksum was calculated, but did not match the specified checksum.
+#! @result EQUAL_TO: The files checksum matched the specified checksum.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: get_size
-  
+  name: md5_sum
+
   inputs:
     - source
-    - threshold
+    - compare_to:
+        required: false
+    - compareTo:
+        default: ${get("compare_to", "")}
+        required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-filesystem:0.0.1'
-    class_name: io.cloudslang.content.filesystem.actions.GetSizeAction
+    class_name: io.cloudslang.content.filesystem.actions.MD5SumAction
     method_name: execute
 
   outputs:
-    - size: ${size}
+    - checksum: ${checksum}
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get('exception', '')}
 
   results:
-    - FAILURE: ${returnCode == '-1'}
-    - GREATER_THAN: ${long(size) > long(threshold)}
-    - EQUAL_TO: ${size == threshold}
-    - LESS_THAN
+    - NOT_EQUAL: ${returnCode == '0'}
+    - EQUAL_TO: ${returnCode == '1'}
+    - FAILURE

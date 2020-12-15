@@ -13,46 +13,42 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Compares a file's size to a given threshold.
+#! @description: Gets a list of files and folders that reside in a directory.
 #!
-#! @input source: The file to read. It must be an absolute path.
-#! @input threshold: The threshold to compare the file size to (in bytes).
+#! @input source: The directory for which to get the children.
+#! @input delimiter: A delimiter to put in between each child of the provided directory in the response.
 #!
-#! @output size: The file's size in bytes.
-#! @output return_result: The result of the comparison between the file's size and the threshold, if the operation succeeded.
-#!                        Otherwise it will contain the exception message.
-#! @output return_code: 0 if operation succeeded, -1 otherwise.
+#! @output count: The total number of children of the provided directory.
+#! @output return_result: The list of paths to each child of the provided directory in case of success
+#!                        or an error message in case of failure.
+#! @output return_code: 0 for success and -1 for failure.
 #! @output exception: The exception's stack trace if operation failed. Empty otherwise.
 #!
 #! @result FAILURE: The operation failed.
-#! @result LESS_THAN: The file's size is smaller than the threshold.
-#! @result EQUAL_TO: The file's size is the same as the threshold.
-#! @result GREATER_THAN: The file's size is greater than the threshold.
+#! @result SUCCESS: The directory's children retrieved successfully.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: get_size
-  
+  name: get_children
+
   inputs:
     - source
-    - threshold
+    - delimiter
 
   java_action:
     gav: 'io.cloudslang.content:cs-filesystem:0.0.1'
-    class_name: io.cloudslang.content.filesystem.actions.GetSizeAction
+    class_name: io.cloudslang.content.filesystem.actions.GetChildrenAction
     method_name: execute
 
   outputs:
-    - size: ${size}
+    - count: ${count}
     - return_result: ${returnResult}
     - return_code: ${returnCode}
     - exception: ${get('exception', '')}
 
   results:
-    - FAILURE: ${returnCode == '-1'}
-    - GREATER_THAN: ${long(size) > long(threshold)}
-    - EQUAL_TO: ${size == threshold}
-    - LESS_THAN
+    - SUCCESS: ${returnCode == '0'}
+    - FAILURE
