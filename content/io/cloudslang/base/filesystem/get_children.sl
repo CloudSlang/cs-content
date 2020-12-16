@@ -39,7 +39,7 @@ operation:
     - delimiter
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.1'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.2'
     class_name: io.cloudslang.content.filesystem.actions.GetChildrenAction
     method_name: execute
 
