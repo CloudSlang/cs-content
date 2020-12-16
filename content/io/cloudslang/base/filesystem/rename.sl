@@ -49,7 +49,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.11.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:0.0.2'
     class_name: io.cloudslang.content.filesystem.actions.RenameAction
     method_name: execute
 
