@@ -34,7 +34,7 @@
 namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: md5_sum
+  name: check_md5_sum
 
   inputs:
     - source
