@@ -112,7 +112,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.2-RC2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.2-SNAPSHOT'
     class_name: 'io.cloudslang.content.excel.actions.GetCell'
     method_name: 'execute'
   
