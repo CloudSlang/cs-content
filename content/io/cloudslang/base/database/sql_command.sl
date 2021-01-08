@@ -174,7 +174,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-Marius'
+    gav: 'io.cloudslang.content:cs-database:0.0.16001'
     class_name: io.cloudslang.content.database.actions.SQLCommand
     method_name: execute
 
