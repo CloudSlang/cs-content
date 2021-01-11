@@ -178,7 +178,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16003'
+    gav: 'io.cloudslang.content:cs-database:0.0.16004'
     class_name: io.cloudslang.content.database.actions.SQLQueryTabular
     method_name: execute
 
