@@ -14,11 +14,28 @@
 ########################################################################################################################
 #!!
 #! @description: This operation retrieves a message based on a message id.
-#!                If a messageId is not provided the operation retrieves the message list from the provided
-#!                user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
-#!                based on the date and time.
+#!               If a messageId is not provided the operation retrieves the message list from the provided
+#!               user's mailbox (including the Deleted Items and Clutter folders) in a descendent order
+#!               based on the date and time. This capability is provided "as is", please see product documentation for
+#!               further information.
+#!               Notes:
+#!               1. One of the below permissions is required to use this operation. To learn more, including how to choose
+#!               permissions, see: https://docs.microsoft.com/en-us/graph/permissions-reference
+#!               Application: Mail.ReadBasic.All, Mail.Read
+#!               Delegated (work or school account): Mail.ReadBasic, Mail.Read
+#!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
+#!               2. For a list of supported well-known folder names, see:
+#!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
 #!
 #! @input tenant: Your application tenant.
+#! @input login_type: Login method according to Microsoft application type.
+#!                    Optional
+#!                    Default: Native
+#!                    Valid values: API, Native
+#! @input username: The username to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
+#! @input password: The password to be used to authenticate to the Office 365 Management Service.
+#!                  Optional
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
 #!                       Optional
@@ -41,7 +58,7 @@
 #!                               &filter=HasAttachments eq true
 #!                               &search="from:help@contoso.com"
 #!                               &search="subject:Test"
-#!                      Default value: $select=subject,bodyPreview,sender,from
+#!                               $select=subject,bodyPreview,sender,from
 #!                      Optional
 #! @input file_path: The file path under which the attachment will be downloaded. The attachment will not be downloaded
 #!                   if a path is not provided.
@@ -111,6 +128,17 @@ operation:
 
   inputs:
     - tenant
+    - login_type:
+        required: false
+    - loginType:
+        default: ${get('login_type','')}
+        required: false
+        private: true
+    - username:
+        required: false
+    - password:
+       sensitive: true
+       required: false
     - client_id
     - clientId:
         default: ${get('client_id', '')}
@@ -118,6 +146,7 @@ operation:
         private: true
     - client_secret:
         sensitive: true
+        required: false
     - clientSecret:
         default: ${get('client_secret', '')}
         required: false
@@ -147,7 +176,6 @@ operation:
         required: false
     - o_data_query:
         required: false
-        default: '$select=subject,bodyPreview,sender,from'
     - oDataQuery:
         default: ${get('o_data_query', '')}
         required: false
@@ -248,7 +276,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.0.0-RC29'
+    gav: 'io.cloudslang.content:cs-office-365:1.1.1'
     class_name: 'io.cloudslang.content.office365.actions.email.GetEmail'
     method_name: 'execute'
 

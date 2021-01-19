@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,48 +13,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Send email using Office 365. This capability is provided "as is", please see product documentation for
-#!               further information.
-#!               Notes:
-#!               1. The below permissions are required to use this operation. To learn more, including how to
-#!               choose permissions, see: https://docs.microsoft.com/en-us/graph/permissions-reference
-#!               Application: Mail.ReadWrite, Mail.Send
-#!               Delegated (work or school account): Mail.ReadWrite, Mail.Send
-#!               For information on how to provide the necessary rights for the Office365 API, please see the release notes.
-#!               2. For a list of supported well-known folder names, see:
-#!               https://docs.microsoft.com/en-us/graph/api/resources/mailfolder?view=graph-rest-1.0
+#! @description: Getting details about a run.
 #!
-#! @input tenant: Your application tenant.
-#! @input login_type: Login method according to Microsoft application type.
+#! @input auth_token: The authorization token for terraform
+#! @input tf_run_id: runIdDescription
+#! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
-#!                    Default: Native
-#!                    Valid values: API, Native
-#! @input username: The username to be used to authenticate to the Office 365 Management Service.
-#!                  Optional
-#! @input password: The password to be used to authenticate to the Office 365 Management Service.
-#!                  Optional
-#! @input client_id: Service Client ID
-#! @input client_secret: Service Client Secret
-#!                       Optional
-#! @input from_address: The mailbox owner and sender of the message. Updatable only if isDraft = true. Must correspond to the
-#!              actual mailbox used.
-#! @input to_recipients: The 'To recipients' for the message. Updatable only if 'isDraft' = true.
-#! @input cc_recipients: The Cc recipients for the message. Updatable only if 'isDraft' = true.
-#!                       Optional
-#! @input subject: The subject of the message. Updatable only if 'isDraft' = true.
-#!                 Optional
-#! @input body: The body of the message. Updatable only if 'isDraft' = true.
-#!              Optional
-#! @input proxy_host: Proxy server used to access the Office 365 service.
-#!                    Optional
-#! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
+#!                         trusted certification authority issued it.Default: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -63,7 +36,7 @@
 #!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
+#!                                 subdomains, including "a.b.foo.com".Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -75,85 +48,56 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default: 10000
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Default: true
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: 20
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is empty,
-#!                                the charset from the 'Content-Type' HTTP response header will be used. If responseCharacterSet
-#!                                is empty and the charset from the HTTP response Content-Type header is empty,
-#!                                the default value will be used. You should not use this for method=HEAD or OPTIONS.
-#!                                Default value: UTF-8
+#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
+#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
+#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
+#!                                header is empty, the default value will be used. You should not use this for
+#!                                method=HEAD or OPTIONS.
+#!                                Default: UTF-8
+#!                                Optional
 #!
-#! @output return_result: A message is returned in case of success, an error message is returned in case of failure.
-#! @output return_code: 0 if success, -1 otherwise.
-#! @output exception: An error message in case there was an error while sending the email.
-#! @output status_code: The HTTP status code for Office 365 API request.
-#! @output message_id: The ID of the sent mail.
+#! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
+#!                        the error message.
+#! @output exception:An error message in case there was an error while executing the request.
+#! @output status_code: The HTTP status code for Terraform API request.
 #!
-#! @result SUCCESS: The email was sent successfully.
-#! @result FAILURE: There was an error while sending the email.
+#! @result SUCCESS: The request was successfully executed.
+#! @result FAILURE: There was an error while executing the request.
+#!
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.office365
+namespace: io.cloudslang.hashicorp.terraform.runs
 
 operation:
-  name: send_email
+  name: get_run_details_v2
 
   inputs:
-    - tenant
-    - login_type:
-        required: false
-    - loginType:
-        default: ${get('login_type','')}
-        required: false
-        private: true
-    - username:
-        required: false
-    - password:
+    - auth_token:
         sensitive: true
-        required: false
-    - client_id
-    - clientId:
-        default: ${get('client_id', '')}
-        required: false
-        private: true
-    - client_secret:
-        sensitive: true
-        required: false
-    - clientSecret:
-        default: ${get('client_secret', '')}
-        required: false
+    - authToken:
+        default: ${get('auth_token', '')}
         private: true
         sensitive: true
-    - from_address
-    - fromAddress:
-        default: ${get('from_address', '')}
-        required: false
+    - tf_run_id
+    - runId:
+        default: ${get('tf_run_id', '')}
         private: true
-    - to_recipients
-    - toRecipients:
-        default: ${get('to_recipients', '')}
-        required: false
-        private: true
-    - cc_recipients:
-        required: false
-    - ccRecipients:
-        default: ${get('cc_recipients', '')}
-        required: false
-        private: true
-    - subject:
-        required: false
-    - body:
-        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -183,13 +127,13 @@ operation:
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
+        default: ${get('trust_all_roots', 'false')}
         required: false
         private: true
     - x_509_hostname_verifier:
         required: false
     - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}
+        default: ${get('x_509_hostname_verifier', 'strict')}
         required: false
         private: true
     - trust_keystore:
@@ -244,17 +188,15 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.1.1'
-    class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.3'
+    class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.GetRunDetails'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
-    - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
-    - message_id: ${get('messageId', '')}
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

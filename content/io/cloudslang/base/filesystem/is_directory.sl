@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,42 +13,37 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Adds an element to a list of strings
+#! @description: Checks to see if the file/folder a path points to is a directory.
 #!
-#! @input list: List in which to add the element
-#!              Example: '1,2,3,4,5,6'
-#! @input element: Element to add to the list
-#!                 Example: '7'
-#! @input delimiter: The list delimiter
+#! @input source: Path of source file or folder to be checked.
 #!
-#! @output response: 'success' or 'failure'
-#! @output return_result: The new list or an error message otherwise
-#! @output return_code: 0 if success, -1 if failure
+#! @output return_result: A success message if source is a directory. Otherwise, it will contain the exception message.
+#! @output return_code: 0 if source is a directory, -1 otherwise.
+#! @output exception: The exception"s stack trace if source is not a directory or operation failed. Empty otherwise.
 #!
-#! @result SUCCESS: The new list was retrieved with success
-#! @result FAILURE: Otherwise
+#! @result SUCCESS: Source is a directory.
+#! @result FAILURE: Source is not a directory or does not exist.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.lists
+namespace: io.cloudslang.base.filesystem
 
 operation:
-  name: add_element
+  name: is_directory
 
   inputs:
-    - list
-    - element
-    - delimiter
+    - source
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.9-RC3'
-    class_name: io.cloudslang.content.actions.ListAppenderAction
-    method_name: appendElement
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.3'
+    class_name: io.cloudslang.content.filesystem.actions.IsDirectoryAction
+    method_name: execute
 
   outputs:
     - return_result: ${returnResult}
     - return_code: ${returnCode}
+    - exception: ${get("exception", "")}
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${ returnCode == '0'}
     - FAILURE
