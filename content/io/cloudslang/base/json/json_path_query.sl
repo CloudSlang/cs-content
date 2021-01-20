@@ -18,7 +18,7 @@
 #!
 #! Notes:
 #!  1.Query syntax:
-#!  JSONPath              Description
+#!  JSONPath              Description 
 #!  ------------          -------------
 #!  '$'                   The root object/element
 #!  '@'                   The current object/element #!\s+@
