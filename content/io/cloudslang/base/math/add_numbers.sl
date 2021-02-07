@@ -36,6 +36,7 @@ operation:
     - value2
 
   python_action:
+    use_jython: true
     script: |
       try:
         from java.math import BigDecimal,MathContext
