@@ -30,32 +30,14 @@ namespace: io.cloudslang.base.math
 
 operation:
   name: add_numbers
-
   inputs:
-    - value1
-    - value2
-
+  - value
   python_action:
-    use_jython: true
-    script: |
-      try:
-        from java.math import BigDecimal,MathContext
-        from java.lang import Exception as JavaException
-        value1 = BigDecimal(value1, MathContext.DECIMAL64)
-        value2 = BigDecimal(value2, MathContext.DECIMAL64)
-        result = value1.add(value2, MathContext.DECIMAL64).stripTrailingZeros().toPlainString()
-        return_code = '0'
-      except JavaException as je:
-        return_code = '-1'
-        result = "Invalid number format"
-      except Exception as e:
-        return_code = '-1'
-        result = e
-
+    use_jython: false
+    script: "# do not remove the execute function \ndef execute(value): \n    x = int(value)\n    if x > 5:\n        return{\"return_code\":\"1\", \"exception\":'x should not exceed 5.'}\n    else:\n        return{\"return_code\":\"0\"}\n# you can add additional helper methods below."
   outputs:
-     - result
-     - return_code
-
+  - return_code
+  - exception
   results:
-    - SUCCESS: ${return_code == '0'}
-    - FAILURE
+  - SUCCESS: '${return_code==0}'
+  - FAILURE
