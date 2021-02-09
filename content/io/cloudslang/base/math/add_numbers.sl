@@ -15,10 +15,9 @@
 #!!
 #! @description: Adds two numbers as floating point values.
 #!
-#! @input value1: First value as number or string.
-#! @input value2: Second value as number or string.
+#! @input value: First value as number or string.
 #!
-#! @output result: Operation result or reason for failure.
+#! @output exception: Operation result or reason for failure.
 #! @output return_code: Operation return code ('0' or '-1').
 #!
 #! @result SUCCESS: The operation completed successfully.
@@ -26,7 +25,11 @@
 #!!#
 ########################################################################################################################
 
+
+
 namespace: io.cloudslang.base.math
+
+
 
 operation:
   name: add_numbers
