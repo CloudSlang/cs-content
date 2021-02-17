@@ -202,7 +202,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16006'
+    gav: 'io.cloudslang.content:cs-database:0.1.1-SNAPSHOT'
     class_name: io.cloudslang.content.database.actions.SQLQuery
     method_name: execute
 
