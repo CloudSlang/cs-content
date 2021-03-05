@@ -108,7 +108,7 @@ flow:
     - download_file:
         do:
           http.http_client_action:
-            - url: "${'https://www.googleapis.com/download/storage/v1/b/' + bucket_id + '/o/' + object_name + '?alt=media}"
+            - url: "${'https://www.googleapis.com/download/storage/v1/b/' + bucket_id + '/o/' + object_name + '?alt=media'}"
             - proxy_host
             - proxy_port
             - proxy_username
