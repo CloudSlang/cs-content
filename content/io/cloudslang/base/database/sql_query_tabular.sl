@@ -186,7 +186,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.16-SNAPSHOT-mysql-21'
+    gav: 'io.cloudslang.content:cs-database:0.0.160-SNAPSHOT'
     class_name: io.cloudslang.content.database.actions.SQLQueryTabular
     method_name: execute
 
