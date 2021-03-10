@@ -47,10 +47,6 @@
 #!              Optional
 #! @input file_path: The absolute path to the file that will be attached. This input is mutually exclusive with the "content_name" and "content_bytes" inputs.
 #!              Optional
-#! @input content_name: The name of the file that will be attached. This input is required if you provide a value for the "content_bytes" input.
-#!              Optional
-#! @input content_bytes: The representation in bytes of the file that will be attached.This input is required if you provide a value for the "content_name" input.
-#!              Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -167,18 +163,6 @@ operation:
         default: ${get('file_path', '')}
         required: false
         private: true
-    - content_name:
-        required: false
-    - contentName:
-        default: ${get('content_name', '')}
-        required: false
-        private: true
-    - content_bytes:
-        required: false
-    - contentBytes:
-        default: ${get('content_bytes', '')}
-        required: false
-        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -269,7 +253,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:3.1.3-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-office-365:1.1.2'
     class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
     method_name: 'execute'
 
