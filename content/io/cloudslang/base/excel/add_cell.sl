@@ -51,7 +51,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.excel.actions
+namespace: io.cloudslang.base.excel
 
 operation: 
   name: add_cell
