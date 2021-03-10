@@ -45,7 +45,7 @@
 #!                 Optional
 #! @input body: The body of the message. Updatable only if 'isDraft' = true.
 #!              Optional
-#! @input file_path: The absolute path to the file that will be attached. This input is mutually exclusive with the "content_name" and "content_bytes" inputs.
+#! @input file_path: The absolute path to the file that will be attached.
 #!              Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
