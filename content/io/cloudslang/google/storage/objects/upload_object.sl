@@ -139,8 +139,9 @@ flow:
           - FAILURE: on_failure
     - upload_file:
         do:
-          http.http_client_put:
-            - url: "${'https://www.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=resumable&upload_id=' + upload_id}"
+          http.http_client_post:
+            - url: "${'https://storage.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=media&name='
+            + file_name}"
             - proxy_host
             - proxy_port
             - proxy_username
