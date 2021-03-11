@@ -152,9 +152,9 @@ flow:
             - connect_timeout
             - socket_timeout
             - content_type: application/json
-            - headers: >
+            - headers:
                 "${'Content-Length: 0' + '\n' +
-                'Authorization: Bearer '+ access_token}"
+                'Authorization: Bearer ' + access_token}"
             - source_file
         publish:
           - return_result
