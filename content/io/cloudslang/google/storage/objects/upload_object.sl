@@ -140,8 +140,7 @@ flow:
     - upload_file:
         do:
           http.http_client_post:
-            - url: "${'https://storage.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=media&name='
-            + file_name}"
+            - url: "${'https://storage.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=media&name=' + file_name}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -153,7 +152,9 @@ flow:
             - connect_timeout
             - socket_timeout
             - content_type: application/json
-            - headers: "${'Authorization: Bearer ' + access_token\n + 'Content-length: 1564'}"
+            - headers: >
+                "${'Content-Length: 0' + '\n' +
+                'Authorization: Bearer '+ access_token}"
             - source_file
         publish:
           - return_result
