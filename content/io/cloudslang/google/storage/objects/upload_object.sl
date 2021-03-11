@@ -153,7 +153,7 @@ flow:
             - connect_timeout
             - socket_timeout
             - content_type: application/json
-            - headers: "${'Authorization: Bearer ' + access_token + \r\n + 'Content-Length: 1564'}"
+            - headers: "${'Authorization: Bearer ' + access_token + \\n \n + 'Content-Length: 1564'}"
             - source_file
         publish:
           - return_result
