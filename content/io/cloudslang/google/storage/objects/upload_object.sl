@@ -58,7 +58,7 @@
 #!                 Header name - value pair will be separated by ":"
 #!                 Format: According to HTTP standard for headers (RFC 2616)
 #!                 Example: 'Authorization: Bearer *access_token*
-#                            Content-Length: 0'
+#!                           Content-Length: 0'
 #!
 #! @output file_id: The file id of the newly uploaded file.
 #! @output file_link: The URL of the newly uploaded file.
