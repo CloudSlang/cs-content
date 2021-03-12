@@ -19,7 +19,8 @@
 #! @input bucket_id: The bucket id for which to initiate the session.
 #! @input source_file: The actual file to be uploaded.
 #! @input file_name: The file name to be displayed on the Google Storage Bucket.
-#!                   Default: taken from init_upload_session as "myName"
+#!                   Default: 'myName'
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -86,7 +87,9 @@ flow:
     - access_token
     - bucket_id
     - source_file
-    - file_name
+    - file_name:
+        default: 'myName'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -113,7 +116,6 @@ flow:
         default: '0'
         required: false
     - headers:
-        default: 'Content-Length: 0'
         required: false
 
   workflow:
