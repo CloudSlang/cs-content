@@ -18,8 +18,7 @@
 #! @input access_token: The access_token as string.
 #! @input bucket_id: The bucket id for which to initiate the session.
 #! @input source_file: The actual file to be uploaded.
-#! @input file_name: The file name to be displayed on the Google Storage Bucket
-#!                   Optional
+#! @input file_name: The file name to be displayed on the Google Storage Bucket.
 #!                   Default: taken from init_upload_session as "myName"
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -54,6 +53,12 @@
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0'
 #!                        Optional
+#! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF). It must
+#!                 contain the Authorization type and the Content-Length.
+#!                 Header name - value pair will be separated by ":"
+#!                 Format: According to HTTP standard for headers (RFC 2616)
+#!                 Example: 'Authorization: Bearer *access_token*
+#                            Content-Length: 0'
 #!
 #! @output file_id: The file id of the newly uploaded file.
 #! @output file_link: The URL of the newly uploaded file.
@@ -72,7 +77,6 @@ namespace: io.cloudslang.google.storage.objects
 
 imports:
   http: io.cloudslang.base.http
-  gcstorageutils: io.cloudslang.google.storage.utils
   json: io.cloudslang.base.json
 
 flow:
@@ -82,8 +86,7 @@ flow:
     - access_token
     - bucket_id
     - source_file
-    - file_name:
-        required: false
+    - file_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -109,34 +112,11 @@ flow:
     - socket_timeout:
         default: '0'
         required: false
+    - headers:
+        default: 'Content-Length: 0'
+        required: false
 
   workflow:
-    - get_upload_id:
-        do:
-          gcstorageutils.init_upload_session:
-            - access_token
-            - bucket_id
-            - file_name
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_keystore
-            - trust_password
-            - keystore
-            - keystore_password
-            - connect_timeout
-            - socket_timeout
-        publish:
-          - upload_id
-          - return_result
-          - return_code
-          - error_message
-          - status_code
-          - response_headers
-        navigate:
-          - SUCCESS: upload_file
-          - FAILURE: on_failure
     - upload_file:
         do:
           http.http_client_post:
@@ -152,9 +132,7 @@ flow:
             - connect_timeout
             - socket_timeout
             - content_type: application/json
-            - headers:
-                '${format(""""""Content-Length: 0%s\n
-                Authorization: Bearer """""") + access_token}'
+            - headers
             - source_file
         publish:
           - return_result
