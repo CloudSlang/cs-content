@@ -137,6 +137,7 @@ flow:
             - headers
             - source_file
             - form_params: "${'data-binary=' + source_file}"
+            - method: "POST"
         publish:
           - return_result
           - return_code
