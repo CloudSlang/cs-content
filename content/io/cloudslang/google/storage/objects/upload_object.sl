@@ -121,7 +121,7 @@ flow:
   workflow:
     - upload_file:
         do:
-          http.http_client_post:
+          http.http_client_action:
             - url: "${'https://storage.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=media&name=' + file_name}"
             - proxy_host
             - proxy_port
@@ -136,6 +136,7 @@ flow:
             - content_type: application/json
             - headers
             - source_file
+            - form_params: "${'data-binary=' + source_file}"
         publish:
           - return_result
           - return_code
