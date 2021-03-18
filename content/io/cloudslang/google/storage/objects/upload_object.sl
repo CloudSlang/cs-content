@@ -17,7 +17,6 @@
 #!
 #! @input access_token: The access_token as string.
 #! @input bucket_id: The bucket id for which to initiate the session.
-#! @input source_file: The actual file to be uploaded.
 #! @input file_name: The file name to be displayed on the Google Storage Bucket.
 #!                   Default: 'myName'
 #!                   Optional
@@ -60,6 +59,10 @@
 #!                 Format: According to HTTP standard for headers (RFC 2616)
 #!                 Example: 'Authorization: Bearer *access_token*
 #!                           Content-Length: 0'
+#! @input multipart_files: Optional - List of name=filePath pairs.
+#! @input multipart_files_content_type: Optional - Each entity from the multipart entity has a content-type header; only
+#!                                      specify once for all parts.
+#!                                      Examples: 'image/png', 'text/plain'
 #!
 #! @output file_id: The file id of the newly uploaded file.
 #! @output file_link: The URL of the newly uploaded file.
@@ -86,7 +89,6 @@ flow:
   inputs:
     - access_token
     - bucket_id
-    - source_file
     - file_name:
         default: 'myName'
         required: false
@@ -115,27 +117,33 @@ flow:
     - socket_timeout:
         default: '0'
         required: false
-    - headers:
+    - multipart_files:
+        required: false
+    - multipart_files_content_type:
         required: false
 
   workflow:
     - upload_file:
         do:
-          http.http_client_post:
+          http.http_client_action:
             - url: "${'https://storage.googleapis.com/upload/storage/v1/b/' + bucket_id + '/o?uploadType=media&name=' + file_name}"
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
+            - trust_all_roots: "true"
+            - x_509_hostname_verifier: "allow_all"
             - trust_keystore
             - trust_password
             - keystore
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - content_type: application/json
-            - headers
-            - source_file
+            - content_type: "multipart/form-data"
+            - headers: "${'Authorization: Bearer ' + access_token}"
+            - multipart_files
+            - multipart_files_content_type
+            - method: "POST"
         publish:
           - return_result
           - return_code
