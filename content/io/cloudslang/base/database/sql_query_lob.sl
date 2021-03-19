@@ -204,4 +204,3 @@ operation:
     - 'HAS_MORE': ${returnCode=='0'}
     - 'NO_MORE': ${returnCode=='1'}
     - FAILURE
-
