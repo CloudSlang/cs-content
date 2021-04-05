@@ -204,7 +204,7 @@ operation:
     - x_509_hostname_verifier:  
         required: false  
     - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
+        default: ${get('x_509_hostname_verifier', 'strict')}
         required: false 
         private: true 
     - trust_keystore:  
