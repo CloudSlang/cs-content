@@ -106,7 +106,6 @@
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                        'true' this input is ignored.
-#!                        Default value: <OO_Home>/java/lib/security/cacerts
 #!                        Format: Java
 #!                        KeyStore (JKS)
 #!                        Optional
@@ -117,13 +116,12 @@
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                  'true' this input is ignored.
-#!                  Default value: <OO_Home>/java/lib/security/cacerts
 #!                  Format: Java
 #!                  KeyStore (JKS)
 #!                  Optional
 #! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
 #!                           empty, keystorePassword default will be supplied.
-#!                           Default value: change it
+#!                           Default value: changeit
 #!                           Optional
 #! @input operation_timeout: Defines the OperationTimeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
@@ -131,19 +129,18 @@
 #!                           Optional
 #! @input tls_version: The version of TLS to use. By default, the operation tries to establish a secure connection over
 #!                     TLSv1.2.
-#!                     Valid values: SSLv3, TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
 #!                                     service principal name (SPN).
 #!                                     Valid values: true, false.
-#!                                     Default value: true
+#!                                     Default value: false
 #!                                     Optional
 #! @input working_directory: The path of the directory where to be executed the PowerShell script.
 #!                           Optional
 #!
-#! @output return_code: The result of the script execution written on the stdout stream of the opened shell in case of
-#!                      success or the error from stderr in case of failure.
+#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
 #!                        success or the error from stderr in case of failure.
 #! @output stderr: The error messages and other warnings written on the stderr stream.
@@ -177,10 +174,11 @@ operation:
     - password:  
         required: false  
         sensitive: true
-    - auth_type:  
+    - auth_type:
+        default: 'NTLM'
         required: false  
     - authType: 
-        default: ${get('auth_type', 'NTLM')}
+        default: ${get('auth_type', '')}
         required: false 
         private: true 
     - proxy_host:  
@@ -189,10 +187,11 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
-        default: ${get('proxy_port', '8080')}
+        default: ${get('proxy_port', '')}
         required: false 
         private: true 
     - proxy_username:  
@@ -209,56 +208,62 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
-        default: ${get('trust_all_roots', 'false')}
+        default: ${get('trust_all_roots', '')}
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', 'strict')}
+        default: ${get('x_509_hostname_verifier', '')}
         required: false 
         private: true 
     - trust_keystore:  
         required: false  
     - trustKeystore: 
-        default: ${get('trust_keystore', '<OO_Home>/java/lib/security/cacerts')}
+        default: ${get('trust_keystore', '')}
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
+        default: 'changeit'
         required: false  
         sensitive: true
     - trustPassword: 
-        default: ${get('trust_password', 'changeit')}
+        default: ${get('trust_password', '')}
         required: false 
         private: true 
         sensitive: true
     - keystore:
-        default: '<OO_Home>/java/lib/security/cacerts'
         required: false  
-    - keystore_password:  
+    - keystore_password:
+        default: 'changeit'
         required: false  
         sensitive: true
     - keystorePassword: 
-        default: ${get('keystore_password', 'changeit')}
+        default: ${get('keystore_password', '')}
         required: false 
         private: true 
         sensitive: true
-    - operation_timeout:  
+    - operation_timeout:
+        default: '60'
         required: false  
     - operationTimeout: 
-        default: ${get('operation_timeout', '60')}
+        default: ${get('operation_timeout', '')}
         required: false 
         private: true 
-    - tls_version:  
+    - tls_version:
+        default: 'TLSv1.2'
         required: false  
     - tlsVersion: 
-        default: ${get('tls_version', 'TLSv1.2')}
+        default: ${get('tls_version', '')}
         required: false 
         private: true 
-    - request_new_kerberos_ticket:  
+    - request_new_kerberos_ticket:
+        default: 'false'
         required: false  
     - requestNewKerberosTicket: 
         default: ${get('request_new_kerberos_ticket', '')}  
