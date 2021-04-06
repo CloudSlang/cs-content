@@ -158,7 +158,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.winrm
+namespace: io.cloudslang.base.winrm
 
 operation: 
   name: winrm_command
