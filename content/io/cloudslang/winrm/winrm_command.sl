@@ -272,7 +272,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC1'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
