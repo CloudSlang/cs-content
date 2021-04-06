@@ -70,6 +70,14 @@
 #!                   WinRM service. The supported authentication types are: Basic, NTLM and Kerberos.
 #!                   Default value: NTLM
 #!                   Optional
+#! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific
+#!                            versions of PowerShell if the PSSessionConfiguration is properly configured on the target.
+#!                            By default, after PSRemoting is enabled on the target, the configuration name for
+#!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6', for
+#!                            PowerShell v7 is 'PowerShell.7'. Additional configurations can be created by the user on
+#!                            the target machines.
+#!                            Valid values: any PSConfiguration that exists on the host.
+#!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -129,6 +137,10 @@
 #!                           Optional
 #! @input tls_version: The version of TLS to use. By default, the operation tries to establish a secure connection over
 #!                     TLSv1.2.
+#!                     This capability is provided “as is”, please see product documentation for further
+#!                     security considerations regarding TLS versions and ciphers. In order to connect successfully to
+#!                     the target host, it should accept the specified TLS version. If this is not the case, it is the
+#!                     user's responsibility to configure the host accordingly.
 #!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
 #!                     Default value: TLSv1.2
 #!                     Optional
@@ -180,7 +192,13 @@ operation:
     - authType: 
         default: ${get('auth_type', '')}
         required: false 
-        private: true 
+        private: true
+    - configuration_name:
+        required: false
+    - configurationName:
+        default: ${get('configuration_name', '')}
+        required: false
+        private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -277,7 +295,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC2'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
