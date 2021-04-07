@@ -13,10 +13,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation executes PowerShell scripts on a remote Windows server using WinRM.
+#! @description: This operation executes CMD or PowerShell commands, on a remote Windows server, using the  WinRM protocol.
 #!
 #! Notes:
-#! 1. This operations uses the Windows Remote Management (WinRM) implementation for WS-Management standard to execute PowerShell scripts. This operations is designed to run on remote hosts that have PowerShell installed and configured.
+#! 1. This operations uses the Windows Remote Management (WinRM) implementation for WS-Management standard to execute CMD or PowerShell commands. This operations is designed to run PowerShell on remote hosts that have PowerShell installed and configured.
 #! The Windows Remote Management (WS-Management) service on the remote host may not be started by default. Start the service and change its Startup type to Automatic (Delayed Start) before proceeding with the next steps.
 #! On the remote host, open a Command Prompt using the Run as Administrator option and paste in the following lines:
 #!     winrm quickconfig
@@ -28,7 +28,7 @@
 #!     winrm set winrm/config/service/Auth @{Basic="true"}
 #! Configure WinRM to allow unencrypted SOAP messages:
 #!     winrm set winrm/config/service @{AllowUnencrypted="true"}
-#! Kerberos authentication type should be enabled by default on the winrm service. If you are not going to use domain accounts to access the remoet host you can disable it:
+#! Kerberos authentication type should be enabled by default on the WinRM service. If you are not going to use domain accounts to access the remote host you can disable it:
 #!     winrm set winrm/config/service/Auth @{Kerberos="false"}
 #! Configure WinRM to provide enough memory to the commands that you are going to run, e.g. 1024 MB:
 #!     winrm set winrm/config/winrs @{MaxMemoryPerShellMB="1024"}
@@ -36,14 +36,16 @@
 #!     netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
 #! Run this command to check your configurations:
 #!     winrm get Winrm/config
-#! Use the following command to enumerate the winrm configured listeners. You should have one for http listening on 5985 and one for https listening on 5986:
+#! Use the following command to enumerate the WinRM configured listeners. You should have one for http listening on 5985 and one for https listening on 5986:
 #!     winrm enumerate winrm/config/listener
-#! The defult ports for WinRM connections are 5985 for HTTP and 5986 for HTTPS protocols. Use netstat -ano | findstr "5985" and netstat -ano | findstr "5986" to check if the ports are opened.
+#! The default ports for WinRM connections are 5985 for HTTP and 5986 for HTTPS protocols. Use netstat -ano | findstr "5985" and netstat -ano | findstr "5986" to check if the ports are opened.
 #!
 #! 2. For HTTPS connection do the following:
-#! Create a self signed certificate for the remote host. Import the certificate in the client keystore and copy the certificate thumbrpint.
-#! Create an HTTPS WinRM listener on the remote host with the thumbprint of the certificate you've just copied.
-#!     winrm create winrm/config/Listener?Address=*+Transport=HTTPS @{Hostname="HOSTNAME"; CertificateThumbprint="THUMBPRINT"}
+#! Create a self signed certificate for the remote host and copy the thumbprint of the certificate.
+#!     New-SelfSignedCertificate -DnsName "DnsName" -CertStoreLocation "cert:\LocalMachine\My"
+#! Create an HTTPS WinRM listener on the remote host with the thumbprint of certificate you've just copied.
+#!     winrm create winrm/config/Listener?Address=*+Transport=HTTPS @{Hostname="HOSTNAME"; CertificateThumbprint="THUMBPRINT"; Port="5986"}
+#! Export the certificate on the client and add it to the truststore.
 #! Do a quickconfig for WinRM with HTTPS:
 #!     winrm quickconfig -transport:https
 #! Check the complete WinRM configurations and that the listeners have been configured with:
@@ -51,11 +53,10 @@
 #!     winrm enumerate winrm/config/listener
 #!
 #! @input host: The hostname or IP address of the host.
-#! @input script: The PowerShell script that will be executed on the remote shell. Check the notes section for security
+#! @input script: The CMD command or PowerShell script that will be executed on the remote host. Check the notes section for security
 #!                implications of using this input.
 #! @input port: The port number used to connect to the host. The default value for this input dependents on the protocol
-#!              input.
-#!              Valid values: 5985 for Http and 5986 for Https.
+#!              input. The default values are 5985 for Http and 5986 for Https.
 #!              Default value: 5986
 #!              Optional
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
@@ -76,8 +77,14 @@
 #!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6', for
 #!                            PowerShell v7 is 'PowerShell.7'. Additional configurations can be created by the user on
 #!                            the target machines.
+#!                            If command_type input has as value 'cmd' then this input will be ignored.
 #!                            Valid values: any PSConfiguration that exists on the host.
 #!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
+#!                            Optional
+#! @input command_type: This input is used to select the type of command to be executed. Use 'cmd' to execute CMD
+#!                      commands and 'powershell' to execute PowerShell commands. Valid values: cmd, powershell.
+#!                      Default value: cmd
+#!                      Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -161,9 +168,8 @@
 #!                    fault details that the remote server generated throughout its communication with the client.
 #! @output stdout: The result of the script execution written on the stdout stream of the opened shell.
 #!
-#! @result SUCCESS: The PowerShell script was executed successfully and the 'scriptExitCode' value is 0.
-#! @result FAILURE: The PowerShell script could not be executed or the value of the 'scriptExitCode' is different than
-#!                  0.
+#! @result SUCCESS: The CMD or PowerShell command was executed successfully and the 'scriptExitCode' value is 0.
+#! @result FAILURE: The CMD or PowerShell command could not be executed or the value of the 'scriptExitCode' is different than 0.
 #!!#
 ########################################################################################################################
 
@@ -192,6 +198,13 @@ operation:
     - authType: 
         default: ${get('auth_type', '')}
         required: false 
+        private: true
+    - command_type:
+        default: 'cmd'
+        required: false
+    - commandType:
+        default: ${get('command_type', '')}
+        required: false
         private: true
     - configuration_name:
         required: false
@@ -226,6 +239,13 @@ operation:
         required: false 
         private: true 
         sensitive: true
+    - tls_version:
+        default: 'TLSv1.2'
+        required: false
+    - tlsVersion:
+        default: ${get('tls_version', '')}
+        required: false
+        private: true
     - trust_all_roots:
         default: 'false'
         required: false  
@@ -272,14 +292,7 @@ operation:
     - operationTimeout: 
         default: ${get('operation_timeout', '')}
         required: false 
-        private: true 
-    - tls_version:
-        default: 'TLSv1.2'
-        required: false  
-    - tlsVersion: 
-        default: ${get('tls_version', '')}
-        required: false 
-        private: true 
+        private: true
     - request_new_kerberos_ticket:
         default: 'false'
         required: false  
@@ -295,7 +308,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC2'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC3'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
