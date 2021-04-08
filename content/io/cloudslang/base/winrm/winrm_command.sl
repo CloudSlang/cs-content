@@ -154,7 +154,7 @@
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
-#!                                     service principal name (SPN).
+#!                                     service principal name (SPN). This input will be ignored if auth_type is not 'kerberos'.
 #!                                     Valid values: true, false.
 #!                                     Default value: true
 #!                                     Optional
