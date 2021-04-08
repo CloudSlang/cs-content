@@ -207,8 +207,8 @@ operation:
         private: true
     - script:
         private: true
+        default: ${get('command', '')}
     - command:
-        default: ${get('script', '')}
         required: true
     - configuration_name:
         required: false
