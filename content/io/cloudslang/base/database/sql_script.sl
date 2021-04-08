@@ -190,7 +190,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.18-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-database:0.0.17-RC5-Marius'
     class_name: io.cloudslang.content.database.actions.SQLScript
     method_name: execute
 
