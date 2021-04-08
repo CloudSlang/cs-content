@@ -205,11 +205,7 @@ operation:
         default: ${get('command_type', '')}
         required: false
         private: true
-    - script:
-        private: true
-        default: ${get('command', '')}
-    - command:
-        required: true
+    - command
     - configuration_name:
         required: false
     - configurationName:
@@ -320,7 +316,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - stderr: ${get('stderr', '')} 
-    - command_exit_code: ${get('scriptExitCode', '')}
+    - command_exit_code: ${get('commandExitCode', '')}
     - exception: ${get('exception', '')} 
     - stdout: ${get('stdout', '')} 
   
