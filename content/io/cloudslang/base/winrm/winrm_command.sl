@@ -52,6 +52,8 @@
 #!     winrm get winrm/config
 #!     winrm enumerate winrm/config/listener
 #!
+#! 3. Basic authentication requires valid certificates for Https connection even if trust_all_roots is set to true.
+#!
 #! @input host: The hostname or IP address of the host.
 #! @input command: The CMD command or PowerShell script that will be executed on the remote host. This capability is
 #!                 provided “as is”, please see product documentation for further information.
