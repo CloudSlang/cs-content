@@ -61,7 +61,7 @@
 #!              Optional
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
-#!                  Default value: 'https'
+#!                  Default value: https
 #!                  Optional
 #! @input username: The username to use when connecting to the host.
 #!                  Optional
