@@ -53,8 +53,8 @@
 #!     winrm enumerate winrm/config/listener
 #!
 #! @input host: The hostname or IP address of the host.
-#! @input script: The CMD command or PowerShell script that will be executed on the remote host. Check the notes section for security
-#!                implications of using this input.
+#! @input command: The CMD command or PowerShell script that will be executed on the remote host. This capability is
+#!                 provided “as is”, please see product documentation for further information.
 #! @input port: The port number used to connect to the host. The default value for this input dependents on the protocol
 #!              input. The default values are 5985 for Http and 5986 for Https.
 #!              Default value: 5986
@@ -76,7 +76,7 @@
 #!                            By default, after PSRemoting is enabled on the target, the configuration name for
 #!                            PowerShell v5 or lower is 'microsoft.powershell', for PowerShell v6 is 'PowerShell.6', for
 #!                            PowerShell v7 is 'PowerShell.7'. Additional configurations can be created by the user on
-#!                            the target machines.
+#!                            the target machines. By default the operation will work with PowerShell 5.
 #!                            If command_type input has as value 'cmd' then this input will be ignored.
 #!                            Valid values: any PSConfiguration that exists on the host.
 #!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
@@ -154,7 +154,7 @@
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
 #!                                     service principal name (SPN).
 #!                                     Valid values: true, false.
-#!                                     Default value: false
+#!                                     Default value: true
 #!                                     Optional
 #! @input working_directory: The path of the directory where to be executed the PowerShell script.
 #!                           Optional
@@ -163,13 +163,13 @@
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
 #!                        success or the error from stderr in case of failure.
 #! @output stderr: The error messages and other warnings written on the stderr stream.
-#! @output script_exit_code: The exit code returned by the powershell script execution.
+#! @output command_exit_code: The exit code returned by the powershell script execution.
 #! @output exception: In case of failure response, this result contains the java stack trace of the runtime exception or
 #!                    fault details that the remote server generated throughout its communication with the client.
 #! @output stdout: The result of the script execution written on the stdout stream of the opened shell.
 #!
-#! @result SUCCESS: The CMD or PowerShell command was executed successfully and the 'scriptExitCode' value is 0.
-#! @result FAILURE: The CMD or PowerShell command could not be executed or the value of the 'scriptExitCode' is different than 0.
+#! @result SUCCESS: The CMD or PowerShell command was executed successfully and the 'command_exit_code' value is 0.
+#! @result FAILURE: The CMD or PowerShell command could not be executed or the value of the 'command_exit_code' is different than 0.
 #!!#
 ########################################################################################################################
 
@@ -180,7 +180,6 @@ operation:
   
   inputs: 
     - host    
-    - script    
     - port:
         default: '5986'
         required: false  
@@ -206,6 +205,11 @@ operation:
         default: ${get('command_type', '')}
         required: false
         private: true
+    - script:
+        private: true
+    - command:
+        default: ${get('script', '')}
+        required: true
     - configuration_name:
         required: false
     - configurationName:
@@ -294,7 +298,7 @@ operation:
         required: false 
         private: true
     - request_new_kerberos_ticket:
-        default: 'false'
+        default: 'true'
         required: false  
     - requestNewKerberosTicket: 
         default: ${get('request_new_kerberos_ticket', '')}  
@@ -316,7 +320,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - return_result: ${get('returnResult', '')} 
     - stderr: ${get('stderr', '')} 
-    - script_exit_code: ${get('scriptExitCode', '')} 
+    - command_exit_code: ${get('scriptExitCode', '')}
     - exception: ${get('exception', '')} 
     - stdout: ${get('stdout', '')} 
   
