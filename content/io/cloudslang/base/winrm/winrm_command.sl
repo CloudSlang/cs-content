@@ -149,7 +149,7 @@
 #!                     security considerations regarding TLS versions and ciphers. In order to connect successfully to
 #!                     the target host, it should accept the specified TLS version. If this is not the case, it is the
 #!                     user's responsibility to configure the host accordingly.
-#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
