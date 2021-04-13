@@ -160,7 +160,7 @@
 #! @input working_directory: The path of the directory where to be executed the PowerShell script.
 #!                           Optional
 #!
-#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
+#! @output return_code: The return dode of the operation: 0 for success, -1 for failure.
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
 #!                        success or the error from stderr in case of failure.
 #! @output stderr: The error messages and other warnings written on the stderr stream.
