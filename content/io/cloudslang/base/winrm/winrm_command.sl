@@ -123,8 +123,7 @@
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
 #!                        'true' this input is ignored.
-#!                        Format: Java
-#!                        KeyStore (JKS)
+#!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
@@ -150,11 +149,11 @@
 #!                     security considerations regarding TLS versions and ciphers. In order to connect successfully to
 #!                     the target host, it should accept the specified TLS version. If this is not the case, it is the
 #!                     user's responsibility to configure the host accordingly.
-#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
-#!                                     service principal name (SPN).
+#!                                     service principal name (SPN). This input will be ignored if auth_type is not 'kerberos'.
 #!                                     Valid values: true, false.
 #!                                     Default value: true
 #!                                     Optional
@@ -310,7 +309,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.1-RC5'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.1'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
