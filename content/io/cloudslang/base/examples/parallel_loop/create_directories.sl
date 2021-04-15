@@ -55,7 +55,7 @@ flow:
             examples.parallel_loop.create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
         publish:
-          - errors:  ${filter(lambda x:'folder created' not in x, map(lambda x:str(x['error_msg']), branches_context))}
+          - errors:  'test dot cli'
 
     - on_failure:
       - print_errors:
