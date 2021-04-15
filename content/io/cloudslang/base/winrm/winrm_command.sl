@@ -157,7 +157,7 @@
 #!                                     Valid values: true, false.
 #!                                     Default value: true
 #!                                     Optional
-#! @input working_directory: The path of the directory where to be executed the PowerShell script.
+#! @input working_directory: The path of the directory where to be executed the CMD or PowerShell command.
 #!                           Optional
 #!
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
