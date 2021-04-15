@@ -59,9 +59,7 @@ flow:
 
     - on_failure:
       - print_errors:
-          loop:
-            for: error in errors
-            do:
-              print.print_text:
-                - text: ${error}
-            break: []
+          do:
+            print.print_text:
+            - text: ${error}
+
