@@ -55,8 +55,6 @@
 #! 3. Basic authentication requires valid certificates for Https connection even if trust_all_roots is set to true.
 #!
 #! @input host: The hostname or IP address of the host.
-#! @input command: The CMD command or PowerShell script that will be executed on the remote host. This capability is
-#!                 provided “as is”, please see product documentation for further information.
 #! @input port: The port number used to connect to the host. The default value for this input dependents on the protocol
 #!              input. The default values are 5985 for Http and 5986 for Https.
 #!              Default value: 5986
@@ -73,6 +71,12 @@
 #!                   WinRM service. The supported authentication types are: Basic, NTLM and Kerberos.
 #!                   Default value: NTLM
 #!                   Optional
+#! @input command_type: This input is used to select the type of command to be executed. Use 'cmd' to execute CMD
+#!                      commands and 'powershell' to execute PowerShell commands. Valid values: cmd, powershell.
+#!                      Default value: cmd
+#!                      Optional
+#! @input command: The CMD command or PowerShell script that will be executed on the remote host. This capability is
+#!                 provided “as is”, please see product documentation for further information.
 #! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific
 #!                            versions of PowerShell if the PSSessionConfiguration is properly configured on the target.
 #!                            By default, after PSRemoting is enabled on the target, the configuration name for
@@ -83,10 +87,6 @@
 #!                            Valid values: any PSConfiguration that exists on the host.
 #!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #!                            Optional
-#! @input command_type: This input is used to select the type of command to be executed. Use 'cmd' to execute CMD
-#!                      commands and 'powershell' to execute PowerShell commands. Valid values: cmd, powershell.
-#!                      Default value: cmd
-#!                      Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -96,6 +96,15 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxyUsername input value.
 #!                        Optional
+#! @input tls_version: The version of TLS to use. By default, the operation tries to establish a secure connection over
+#!                     TLSv1.2.
+#!                     This capability is provided “as is”, please see product documentation for further
+#!                     security considerations regarding TLS versions and ciphers. In order to connect successfully to
+#!                     the target host, it should accept the specified TLS version. If this is not the case, it is the
+#!                     user's responsibility to configure the host accordingly.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
+#!                     Default value: TLSv1.2
+#!                     Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Valid values: true, false
@@ -143,15 +152,6 @@
 #!                           response or a fault within the specified time.
 #!                           Default value: 60
 #!                           Optional
-#! @input tls_version: The version of TLS to use. By default, the operation tries to establish a secure connection over
-#!                     TLSv1.2.
-#!                     This capability is provided “as is”, please see product documentation for further
-#!                     security considerations regarding TLS versions and ciphers. In order to connect successfully to
-#!                     the target host, it should accept the specified TLS version. If this is not the case, it is the
-#!                     user's responsibility to configure the host accordingly.
-#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2, TLSv1.3
-#!                     Default value: TLSv1.2
-#!                     Optional
 #! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
 #!                                     service principal name (SPN). This input will be ignored if auth_type is not 'kerberos'.
 #!                                     Valid values: true, false.
@@ -160,14 +160,14 @@
 #! @input working_directory: The path of the directory where to be executed the PowerShell script.
 #!                           Optional
 #!
-#! @output return_code: The return code of the operation: 0 for success, -1 for failure.
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
 #!                        success or the error from stderr in case of failure.
+#! @output return_code: The return code of the operation: 0 for success, -1 for failure.
+#! @output stdout: The result of the script execution written on the stdout stream of the opened shell.
 #! @output stderr: The error messages and other warnings written on the stderr stream.
 #! @output command_exit_code: The exit code returned by the powershell script execution.
 #! @output exception: In case of failure response, this result contains the java stack trace of the runtime exception or
 #!                    fault details that the remote server generated throughout its communication with the client.
-#! @output stdout: The result of the script execution written on the stdout stream of the opened shell.
 #!
 #! @result SUCCESS: The CMD or PowerShell command was executed successfully and the 'command_exit_code' value is 0.
 #! @result FAILURE: The CMD or PowerShell command could not be executed or the value of the 'command_exit_code' is different than 0.
@@ -309,17 +309,17 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.1'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.2'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
-  outputs: 
-    - return_code: ${get('returnCode', '')} 
-    - return_result: ${get('returnResult', '')} 
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - stdout: ${get('stdout', '')}
     - stderr: ${get('stderr', '')} 
     - command_exit_code: ${get('commandExitCode', '')}
-    - exception: ${get('exception', '')} 
-    - stdout: ${get('stdout', '')} 
+    - exception: ${get('exception', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
