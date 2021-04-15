@@ -61,5 +61,5 @@ flow:
       - print_errors:
           do:
             print.print_text:
-            - text: ${error}
+            - text: ${errors}
 
