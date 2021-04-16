@@ -55,7 +55,7 @@ flow:
             examples.parallel_loop.create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
         publish:
-          - errors:  'test dot cli'
+          - errors:  'Error encountered when creating directories.'
 
     - on_failure:
       - print_errors:
