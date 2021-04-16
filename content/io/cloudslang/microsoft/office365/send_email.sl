@@ -45,6 +45,8 @@
 #!                 Optional
 #! @input body: The body of the message. Updatable only if 'isDraft' = true.
 #!              Optional
+#! @input file_path: The absolute path to the file that will be attached.
+#!              Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
@@ -97,6 +99,7 @@
 #! @output exception: An error message in case there was an error while sending the email.
 #! @output status_code: The HTTP status code for Office 365 API request.
 #! @output message_id: The ID of the sent mail.
+#! @output attachment_id: The ID of the added attachment, if an attachment was added.
 #!
 #! @result SUCCESS: The email was sent successfully.
 #! @result FAILURE: There was an error while sending the email.
@@ -154,6 +157,12 @@ operation:
         required: false
     - body:
         required: false
+    - file_path:
+        required: false
+    - filePath:
+        default: ${get('file_path', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -244,7 +253,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.1.1'
+    gav: 'io.cloudslang.content:cs-office-365:1.1.2'
     class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
     method_name: 'execute'
 
@@ -254,6 +263,7 @@ operation:
     - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
     - message_id: ${get('messageId', '')}
+    - attachment_id: ${get('attachmentId', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}

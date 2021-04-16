@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,30 +13,24 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Retrieves the cell data with specified row index and column index in an Excel document. 
+#! @description: Adds cell data at the specified row index and column index in an Excel document.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
-#!                         Example: c:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet.
-#!                        Default: Sheet1
+#!                         Example: C:\temp\test.xls
+#! @input worksheet_name: The name of Excel worksheet
 #!                        Optional
-#! @input has_header: If yes, then the first row of the document is expected to be the header row.
-#!                    Valid values: yes, no
-#!                    Default value: yes
-#!                    Optional
-#! @input first_row_index: The index of the first row in the Excel worksheet, including the header row.
-#!                         Default value: 0
-#!                         Optional
+#! @input header_data: A delimited list of column names. If left blank, the document will not have a header for the
+#!                     data.
+#!                     Optional
+#! @input row_data: A delimited list of data.
 #! @input row_index: A list of row indexes.
-#!                   Examples: 1:3, 10, 15:20, 25
-#!                   Default Value: from the index of the first row
-#!                                  to the index of the last row with content in the Excel worksheet.
+#!                   Example: 1:3, 10, 15:20,25
+#!                   Default value: from the index of the first row to the index of the last row in the Excel worksheet.
 #!                   Optional
 #! @input column_index: A list of column indexes.
-#!                      Examples: 1:3, 10, 15:20, 25
-#!                      Default value: from 0 to the index of the
-#!                                     last column with content in the Excel worksheet.
+#!                      Example: 1:3, 10, 15:20,25
+#!                      Default value: from 0 to the index of the last column in the Excel worksheet.
 #!                      Optional
 #! @input row_delimiter: The delimiter used to separate the rows of the returnResult.
 #!                       Default value: | (pipe)
@@ -44,23 +38,23 @@
 #! @input column_delimiter: The delimiter used to separate the columns of the returnResult.
 #!                          Default value: , (comma)
 #!                          Optional
+#! @input overwrite_data: True if existing data should be overwritten.
+#!                        Default value: false
+#!                        Optional
 #!
-#! @output return_result: This is the primary output. Returns the cell data retrieved from Excel document.
+#! @output return_result: This is the primary output. Returns the number of rows that were added.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output exception: An error message in case there was an error while retrieving the cell data.
-#! @output header: A delimited list of column names of data being returned if hasHeader is set to Yes. 
-#! @output rows_count: The number of the rows returned.
-#! @output columns_count: The number of the columns returned.
+#! @output exception: An error message in case there was an error adding excel data.
 #!
-#! @result SUCCESS: The cell data was retrieved successfully.
-#! @result FAILURE: Failed to retrieve the cell data.
+#! @result SUCCESS: One or more rows of data were added successfully.
+#! @result FAILURE: Failed to add rows of data to the Excel document.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.excel
 
 operation: 
-  name: get_cell
+  name: add_cell
   
   inputs: 
     - excel_file_name    
@@ -74,16 +68,15 @@ operation:
         default: ${get('worksheet_name', '')}  
         required: false 
         private: true 
-    - has_header:  
+    - header_data:  
         required: false  
-    - hasHeader: 
-        default: ${get('has_header', '')}  
+    - headerData: 
+        default: ${get('header_data', '')}  
         required: false 
         private: true 
-    - first_row_index:  
-        required: false  
-    - firstRowIndex: 
-        default: ${get('first_row_index', '')}  
+    - row_data    
+    - rowData: 
+        default: ${get('row_data', '')}  
         required: false 
         private: true 
     - row_index:  
@@ -110,19 +103,22 @@ operation:
         default: ${get('column_delimiter', '')}  
         required: false 
         private: true 
+    - overwrite_data:  
+        required: false  
+    - overwriteData: 
+        default: ${get('overwrite_data', '')}  
+        required: false 
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-excel:0.0.2'
-    class_name: 'io.cloudslang.content.excel.actions.GetCell'
+    class_name: 'io.cloudslang.content.excel.actions.AddCell'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
-    - header: ${get('header', '')} 
-    - rows_count: ${get('rowsCount', '')} 
-    - columns_count: ${get('columnsCount', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
