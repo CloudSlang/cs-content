@@ -55,13 +55,11 @@ flow:
             examples.parallel_loop.create_directory:
               - directory_name: ${base_dir_name + str(suffix)}
         publish:
-          - errors:  ${filter(lambda x:'folder created' not in x, map(lambda x:str(x['error_msg']), branches_context))}
+          - errors:  'Error encountered when creating directories.'
 
     - on_failure:
       - print_errors:
-          loop:
-            for: error in errors
-            do:
-              print.print_text:
-                - text: ${error}
-            break: []
+          do:
+            print.print_text:
+            - text: ${errors}
+
