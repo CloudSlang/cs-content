@@ -53,6 +53,6 @@ operation:
 
   results:
     - FAILURE: ${returnCode == '-1'}
-    - GREATER_THAN: ${size > threshold}
+    - GREATER_THAN: ${int(size) > int(threshold)}
     - EQUAL_TO: ${size == threshold}
     - LESS_THAN
