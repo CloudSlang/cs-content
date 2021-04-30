@@ -67,7 +67,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.utils
+namespace: io.cloudslang.microsoft.azure.authorization
 
 operation: 
   name: get_auth_token_using_web_api

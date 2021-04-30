@@ -102,7 +102,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.streamanalytics.streamingjobs
+namespace: io.cloudslang.microsoft.azure.streamanalytics.streamingjobs
 
 operation: 
   name: create_streaming_job
