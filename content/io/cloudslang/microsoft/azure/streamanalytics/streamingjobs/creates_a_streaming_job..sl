@@ -119,12 +119,10 @@ operation:
         default: ${get('subscription_id', '')}
         private: true 
     - location    
-    - resource_group_name:    
-        sensitive: true
+    - resource_group_name
     - resourceGroupName: 
         default: ${get('resource_group_name', '')}
-        private: true 
-        sensitive: true
+        private: true
     - job_name    
     - jobName: 
         default: ${get('job_name', '')}

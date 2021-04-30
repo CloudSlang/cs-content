@@ -75,19 +75,16 @@ operation:
   inputs: 
     - tenant_id    
     - tenantId: 
-        default: ${get('tenant_id', '')}  
-        required: false 
+        default: ${get('tenant_id', '')}
         private: true 
     - client_id    
     - clientId: 
-        default: ${get('client_id', '')}  
-        required: false 
+        default: ${get('client_id', '')}
         private: true 
     - client_secret:    
         sensitive: true
     - clientSecret: 
-        default: ${get('client_secret', '')}  
-        required: false 
+        default: ${get('client_secret', '')}
         private: true 
         sensitive: true
     - resource:  
