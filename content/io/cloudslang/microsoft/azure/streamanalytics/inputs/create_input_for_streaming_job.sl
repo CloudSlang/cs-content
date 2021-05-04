@@ -28,9 +28,9 @@
 #! @input api_version: Client Api Version.
 #!                     Default: 2016-03-01
 #!                     Optional
-#! @input proxy_host: Proxy server used to access the Terraform service.
+#! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Terraform service.
+#! @input proxy_port: Proxy server port used to access the Azure service.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
@@ -63,7 +63,7 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output input_name_output: The name of the input.
+#! @output input_name: The name of the input.
 #!
 #! @result SUCCESS: Generated description.
 #! @result FAILURE: Generated description.
@@ -180,7 +180,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - input_name_output: ${get('inputName', '')} 
+    - input_name: ${get('inputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
