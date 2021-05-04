@@ -63,7 +63,7 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output input_name: The name of the input.
+#! @output stream_job_input_name: The name of the input.
 #!
 #! @result SUCCESS: Generated description.
 #! @result FAILURE: Generated description.
@@ -180,7 +180,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - input_name: ${get('inputName', '')}
+    - stream_job_input_name: ${get('inputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
