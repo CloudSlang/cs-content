@@ -180,7 +180,9 @@ operation:
   name: winrm_command
   
   inputs: 
-    - host    
+    - host
+    - domain:
+       required: false
     - port:
         default: '5986'
         required: false  
@@ -300,16 +302,34 @@ operation:
     - requestNewKerberosTicket: 
         default: ${get('request_new_kerberos_ticket', '')}  
         required: false 
-        private: true 
-    - working_directory:  
+        private: true
+    - kerberos_conf_file:
+        - required: false
+    - kerberosConfFile:
+        default: ${get('kerberos_conf_file', '')}
+        required: false
+        private: true
+    - kerberos_login_conf_file:
+        - required: false
+    - kerberosLoginConfFile:
+        default: ${get('kerberos_login_conf_file', '')}
+        required: false
+        private: true
+    - use_subject_creds_only:
+        required: false
+    - useSubjectCredsOnly:
+        default: ${get('use_subject_creds_only', '')}
+        required: false
+        private: true
+    - working_directory:
         required: false  
     - workingDirectory: 
         default: ${get('working_directory', '')}  
         required: false 
-        private: true 
+        private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.2'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.2-DCA-test'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
