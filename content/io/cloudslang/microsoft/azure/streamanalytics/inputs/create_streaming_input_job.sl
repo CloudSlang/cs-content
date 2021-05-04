@@ -13,18 +13,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a Output for streaming job.
+#! @description: Creates a Input for streaming job.
 #!
 #! @input job_name: The name of the streaming job.
 #! @input auth_token: The authorization token for azure.
-#! @input stream_job_output_name: The name of the output.
+#! @input stream_job_input_name: The name of the input.
 #! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
 #!                             the Azure Resource Manager API or the portal.
 #! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
 #!                         the URI for every service call.
 #! @input account_name: Name of account to created for the blob Storage
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
-#! @input api_version: Client Api Version.Default: 2016-03-01
+#! @input source_type: Type of source . Excepted values are Reference and Stream. Default: Reference 
+#!                     Optional
+#! @input api_version: Client Api Version.
+#!                     Default: 2016-03-01
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
@@ -36,8 +39,7 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default: 'false'
+#!                         trusted certification authority issued it.Default: 'false'
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -62,17 +64,17 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output stream_job_output_name: The name of the output.
+#! @output stream_job_input_name: The name of the input.
 #!
 #! @result SUCCESS: Generated description.
 #! @result FAILURE: Generated description.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.streamanalytics.outputs
+namespace: io.cloudslang.azure.streamanalytics.inputs
 
 operation: 
-  name: create_output_for_streaming_job
+  name: create_streaming_input_job
   
   inputs: 
     - job_name    
@@ -85,9 +87,9 @@ operation:
         default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - output_name
-    - streamJobOutputName: 
-        default: ${get('stream_job_output_name', '')}
+    - input_name
+    - streamJobInputName: 
+        default: ${get('stream_job_input_name', '')}
         private: true 
     - resource_group_name    
     - resourceGroupName: 
@@ -95,8 +97,7 @@ operation:
         private: true 
     - subscription_id    
     - subscriptionId: 
-        default: ${get('subscription_id', '')}  
-        required: false 
+        default: ${get('subscription_id', '')}
         private: true 
     - account_name    
     - accountName: 
@@ -105,6 +106,12 @@ operation:
     - account_key    
     - accountKey: 
         default: ${get('account_key', '')}
+        private: true 
+    - source_type:  
+        required: false  
+    - sourceType: 
+        default: ${get('source_type', '')}  
+        required: false 
         private: true 
     - api_version:  
         required: false  
@@ -167,14 +174,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-azure:0.0.12-SNAPSHOT-RC5'
-    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.outputs.CreateStreamingOutputJob'
+    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingInputJob'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - stream_job_output_name: ${get('streamJobOutputName', '')}
+    - stream_job_input_name: ${get('streamJobInputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
