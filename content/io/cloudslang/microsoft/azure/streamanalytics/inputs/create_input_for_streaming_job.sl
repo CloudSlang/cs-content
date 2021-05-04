@@ -87,7 +87,7 @@ operation:
         default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - stream_job_input_name    
+    - input_name
     - streamJobInputName: 
         default: ${get('stream_job_input_name', '')}
         private: true 
