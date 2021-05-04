@@ -55,6 +55,7 @@
 #! 3. Basic authentication requires valid certificates for Https connection even if trust_all_roots is set to true.
 #!
 #! @input host: The hostname or IP address of the host.
+#! @input domain: The domain of the host.
 #! @input port: The port number used to connect to the host. The default value for this input dependents on the protocol
 #!              input. The default values are 5985 for Http and 5986 for Https.
 #!              Default value: 5986
@@ -157,6 +158,9 @@
 #!                                     Valid values: true, false.
 #!                                     Default value: true
 #!                                     Optional
+#! @input kerberos_conf_file: The path of the kerberos configuration file.
+#! @input kerberos_login_conf_file: The path of the kerberos login configuration file.
+#! @input use_subject_creds_only: valid values: true, false
 #! @input working_directory: The path of the directory where to be executed the CMD or PowerShell command.
 #!                           Optional
 #!
@@ -304,13 +308,13 @@ operation:
         required: false 
         private: true
     - kerberos_conf_file:
-        - required: false
+        required: false
     - kerberosConfFile:
         default: ${get('kerberos_conf_file', '')}
         required: false
         private: true
     - kerberos_login_conf_file:
-        - required: false
+        required: false
     - kerberosLoginConfFile:
         default: ${get('kerberos_login_conf_file', '')}
         required: false
