@@ -25,9 +25,9 @@
 #! @input source_type: Type of source . Excepted values are Reference and Stream.
 #!                     Default: Reference
 #!                     Optional
-#! @input /v_2: Client Api Version.
-#!              Default: 2016-03-01
-#!              Optional
+#! @input api_version: Client Api Version.
+#!                     Default: 2016-03-01
+#!                     Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -78,46 +78,45 @@ operation:
   inputs: 
     - job_name    
     - jobName: 
-        default: ${get('job_name', '')}  
-        required: false 
+        default: ${get('job_name', '')}
         private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
     - input_name    
     - inputName: 
-        default: ${get('input_name', '')}  
-        required: false 
+        default: ${get('input_name', '')}
         private: true 
     - resource_group_name    
     - resourceGroupName: 
-        default: ${get('resource_group_name', '')}  
-        required: false 
+        default: ${get('resource_group_name', '')}
         private: true 
     - subscription_id    
     - subscriptionId: 
-        default: ${get('subscription_id', '')}  
-        required: false 
+        default: ${get('subscription_id', '')}
         private: true 
     - account_name    
     - accountName: 
-        default: ${get('account_name', '')}  
-        required: false 
+        default: ${get('account_name', '')}
         private: true 
     - account_key    
     - accountKey: 
-        default: ${get('account_key', '')}  
-        required: false 
+        default: ${get('account_key', '')}
         private: true 
     - source_type:  
         required: false  
     - sourceType: 
         default: ${get('source_type', '')}  
         required: false 
+        private: true
+    - api_version:
+        required: false
+    - apiVersion:
+        default: ${get('api_version', '')}
+        required: false
         private: true
     - proxy_host:  
         required: false  

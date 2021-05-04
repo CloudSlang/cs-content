@@ -76,40 +76,33 @@ operation:
   inputs: 
     - job_name    
     - jobName: 
-        default: ${get('job_name', '')}  
-        required: false 
+        default: ${get('job_name', '')}
         private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
     - output_name    
     - outputName: 
-        default: ${get('output_name', '')}  
-        required: false 
+        default: ${get('output_name', '')}
         private: true 
     - resource_group_name    
     - resourceGroupName: 
-        default: ${get('resource_group_name', '')}  
-        required: false 
+        default: ${get('resource_group_name', '')}
         private: true 
     - subscription_id    
     - subscriptionId: 
-        default: ${get('subscription_id', '')}  
-        required: false 
+        default: ${get('subscription_id', '')}
         private: true 
     - account_name    
     - accountName: 
-        default: ${get('account_name', '')}  
-        required: false 
+        default: ${get('account_name', '')}
         private: true 
     - account_key    
     - accountKey: 
-        default: ${get('account_key', '')}  
-        required: false 
+        default: ${get('account_key', '')}
         private: true 
     - api_version:  
         required: false  
