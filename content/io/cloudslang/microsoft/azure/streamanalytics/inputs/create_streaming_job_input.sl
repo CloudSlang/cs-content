@@ -13,18 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a Output for streaming job.
+#! @description: Creates a Input for streaming job.
 #!
 #! @input job_name: The name of the streaming job.
 #! @input auth_token: The authorization token for azure.
-#! @input stream_job_output_name: The name of the output.
+#! @input stream_job_input_name: The name of the input.
 #! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
 #!                             the Azure Resource Manager API or the portal.
 #! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
 #!                         the URI for every service call.
 #! @input account_name: Name of account to created for the blob Storage
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
-#! @input api_version: Client Api Version.Default: 2016-03-01
+#! @input source_type: Type of source . Excepted values are Reference and Stream.
+#!                     Default: Reference
+#!                     Optional
+#! @input api_version: Client Api Version.
+#!                     Default: 2016-03-01
 #!                     Optional
 #! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
@@ -62,36 +66,40 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output stream_job_output_name: The name of the output.
+#! @output stream_job_input_name: The name of the input.
 #!
-#! @result SUCCESS: Generated description.
-#! @result FAILURE: Generated description.
+#! @result SUCCESS: The request was successfully executed.
+#! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.streamanalytics.outputs
+namespace: io.cloudslang.microsoft.azure.streamanalytics.inputs
 
 operation: 
-  name: create_streaming_output_job
+  name: create_streaming_job_input
   
   inputs: 
     - job_name    
     - jobName: 
-        default: ${get('job_name', '')}
+        default: ${get('job_name', '')}  
+        required: false 
         private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}
+        default: ${get('auth_token', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - output_name
-    - streamJobOutputName: 
-        default: ${get('stream_job_output_name', '')}
+    - stream_job_input_name    
+    - streamJobInputName: 
+        default: ${get('stream_job_input_name', '')}  
+        required: false 
         private: true 
     - resource_group_name    
     - resourceGroupName: 
-        default: ${get('resource_group_name', '')}
+        default: ${get('resource_group_name', '')}  
+        required: false 
         private: true 
     - subscription_id    
     - subscriptionId: 
@@ -100,11 +108,19 @@ operation:
         private: true 
     - account_name    
     - accountName: 
-        default: ${get('account_name', '')}
+        default: ${get('account_name', '')}  
+        required: false 
         private: true 
     - account_key    
     - accountKey: 
-        default: ${get('account_key', '')}
+        default: ${get('account_key', '')}  
+        required: false 
+        private: true 
+    - source_type:  
+        required: false  
+    - sourceType: 
+        default: ${get('source_type', '')}  
+        required: false 
         private: true 
     - api_version:  
         required: false  
@@ -166,15 +182,15 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-SNAPSHOT-RC5'
-    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.outputs.CreateStreamingOutputJob'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC6'
+    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingJobInput'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - stream_job_output_name: ${get('streamJobOutputName', '')}
+    - stream_job_input_name: ${get('streamJobInputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
