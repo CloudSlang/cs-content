@@ -66,7 +66,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.streamanalytics.streamingjobs
+namespace: io.cloudslang.microsoft.azure.streamanalytics.streamingjobs
 
 operation: 
   name: stop_streaming_job

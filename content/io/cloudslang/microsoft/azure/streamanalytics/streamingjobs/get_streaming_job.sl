@@ -74,7 +74,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.azure.streamanalytics.streamingjobs
+namespace: io.cloudslang.microsoft.azure.streamanalytics.streamingjobs
 
 operation: 
   name: get_streaming_job
