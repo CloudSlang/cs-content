@@ -63,7 +63,7 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output stream_job_output_name: The name of the output.
+#! @output output_name: The name of the output.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
@@ -78,40 +78,33 @@ operation:
   inputs: 
     - job_name    
     - jobName: 
-        default: ${get('job_name', '')}  
-        required: false 
+        default: ${get('job_name', '')}
         private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
     - stream_job_output_name    
     - streamJobOutputName: 
-        default: ${get('stream_job_output_name', '')}  
-        required: false 
+        default: ${get('stream_job_output_name', '')}
         private: true 
     - resource_group_name    
     - resourceGroupName: 
-        default: ${get('resource_group_name', '')}  
-        required: false 
+        default: ${get('resource_group_name', '')}
         private: true 
     - subscription_id    
     - subscriptionId: 
-        default: ${get('subscription_id', '')}  
-        required: false 
+        default: ${get('subscription_id', '')}
         private: true 
     - account_name    
     - accountName: 
-        default: ${get('account_name', '')}  
-        required: false 
+        default: ${get('account_name', '')}
         private: true 
     - account_key    
     - accountKey: 
-        default: ${get('account_key', '')}  
-        required: false 
+        default: ${get('account_key', '')}
         private: true 
     - api_version:  
         required: false  
@@ -181,7 +174,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - stream_job_output_name: ${get('streamJobOutputName', '')}
+    - output_name: ${get('streamJobOutputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
