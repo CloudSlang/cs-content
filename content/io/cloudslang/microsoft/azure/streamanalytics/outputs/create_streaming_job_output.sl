@@ -13,17 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get the authorization token for Azure using Web API.
+#! @description: Creates a Output for streaming job.
 #!
-#! @input tenant_id: The tenantId value used to control who can sign into the application.
-#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
-#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
-#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
-#!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
-#!                       ability to store the client_secret securely on the server side.
-#! @input resource: Resource URl for which the Authentication Token is intended.
-#!                  Default: 'https://management.azure.com/'
-#!                  Optional
+#! @input job_name: The name of the streaming job.
+#! @input auth_token: The authorization token for azure.
+#! @input stream_job_output_name: The name of the output.
+#! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
+#!                             the Azure Resource Manager API or the portal.
+#! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
+#!                         the URI for every service call.
+#! @input account_name: Name of account to created for the blob Storage
+#! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
+#! @input api_version: Client Api Version.
+#!                     Default: 2016-03-01
+#!                     Optional
 #! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure service.
@@ -60,35 +63,55 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output auth_token: The authorization token for azure.
+#! @output output_name: The name of the output.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.authorization
+namespace: io.cloudslang.microsoft.azure.streamanalytics.outputs
 
 operation: 
-  name: get_auth_token_using_web_api
+  name: create_streaming_job_output
   
   inputs: 
-    - tenant_id    
-    - tenantId: 
-        default: ${get('tenant_id', '')}
+    - job_name    
+    - jobName: 
+        default: ${get('job_name', '')}
         private: true 
-    - client_id    
-    - clientId: 
-        default: ${get('client_id', '')}
-        private: true 
-    - client_secret:    
+    - auth_token:    
         sensitive: true
-    - clientSecret: 
-        default: ${get('client_secret', '')}
+    - authToken: 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - resource:  
+    - stream_job_output_name    
+    - streamJobOutputName: 
+        default: ${get('stream_job_output_name', '')}
+        private: true 
+    - resource_group_name    
+    - resourceGroupName: 
+        default: ${get('resource_group_name', '')}
+        private: true 
+    - subscription_id    
+    - subscriptionId: 
+        default: ${get('subscription_id', '')}
+        private: true 
+    - account_name    
+    - accountName: 
+        default: ${get('account_name', '')}
+        private: true 
+    - account_key    
+    - accountKey: 
+        default: ${get('account_key', '')}
+        private: true 
+    - api_version:  
         required: false  
+    - apiVersion: 
+        default: ${get('api_version', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -144,14 +167,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-azure:0.0.12-RC6'
-    class_name: 'io.cloudslang.content.azure.actions.utils.GetAuthTokenUsingWebAPI'
+    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.outputs.CreateStreamingJobOutput'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - auth_token: ${get('authToken', '')} 
+    - output_name: ${get('streamJobOutputName', '')}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

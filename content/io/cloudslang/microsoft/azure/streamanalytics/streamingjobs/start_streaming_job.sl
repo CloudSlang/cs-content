@@ -13,17 +13,27 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get the authorization token for Azure using Web API.
+#! @description: Starts a streaming job. Once a job is started it will start processing input events and produce output.
 #!
-#! @input tenant_id: The tenantId value used to control who can sign into the application.
-#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
-#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
-#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
-#!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
-#!                       ability to store the client_secret securely on the server side.
-#! @input resource: Resource URl for which the Authentication Token is intended.
-#!                  Default: 'https://management.azure.com/'
-#!                  Optional
+#! @input auth_token: The authorization token for azure.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
+#!                             the Azure Resource Manager API or the portal.
+#! @input job_name: The name of the streaming job.
+#! @input api_version: Client Api Version.
+#!                     Default: 2016-03-01
+#!                     Optional
+#! @input output_start_mode: Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the
+#!                           starting point of the output event stream should start whenever the job is started, start
+#!                           at a custom user time stamp specified via the outputStartTime property, or start from the
+#!                           last event output time.Valid Values: CustomTime, JobStartTime, LastOutputEventTimeDefault:
+#!                           JobStartTime
+#!                           Optional
+#! @input output_start_time: Value is either an ISO-8601 formatted time stamp that indicates the starting point of the
+#!                           output event stream, or null to indicate that the output event stream will start whenever
+#!                           the streaming job is started. This property must have a value if outputStartMode is set to
+#!                           CustomTime.
+#!                           Optional
 #! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure service.
@@ -60,35 +70,54 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output auth_token: The authorization token for azure.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.authorization
+namespace: io.cloudslang.microsoft.azure.streamanalytics.streamingjobs
 
 operation: 
-  name: get_auth_token_using_web_api
+  name: start_streaming_job
   
   inputs: 
-    - tenant_id    
-    - tenantId: 
-        default: ${get('tenant_id', '')}
-        private: true 
-    - client_id    
-    - clientId: 
-        default: ${get('client_id', '')}
-        private: true 
-    - client_secret:    
+    - auth_token:    
         sensitive: true
-    - clientSecret: 
-        default: ${get('client_secret', '')}
+    - authToken: 
+        default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - resource:  
+    - subscription_id    
+    - subscriptionId: 
+        default: ${get('subscription_id', '')}
+        private: true 
+    - resource_group_name    
+    - resourceGroupName: 
+        default: ${get('resource_group_name', '')}
+        private: true 
+    - job_name    
+    - jobName: 
+        default: ${get('job_name', '')}
+        private: true 
+    - api_version:  
         required: false  
+    - apiVersion: 
+        default: ${get('api_version', '')}  
+        required: false 
+        private: true 
+    - output_start_mode:  
+        required: false  
+    - outputStartMode: 
+        default: ${get('output_start_mode', '')}  
+        required: false 
+        private: true 
+    - output_start_time:  
+        required: false  
+    - outputStartTime: 
+        default: ${get('output_start_time', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -144,14 +173,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-azure:0.0.12-RC6'
-    class_name: 'io.cloudslang.content.azure.actions.utils.GetAuthTokenUsingWebAPI'
+    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.streamingjobs.StartStreamingJob'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - auth_token: ${get('authToken', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

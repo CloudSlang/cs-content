@@ -56,9 +56,9 @@
 #! @input tags: Resource tags.
 #!              Example: {"key1": "value1"}
 #!              Optional
-#! @input proxy_host: Proxy server used to access the Terraform service.
+#! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Terraform service.
+#! @input proxy_port: Proxy server port used to access the Azure service.
 #!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
@@ -233,7 +233,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC3'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC6'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.streamingjobs.CreateStreamingJob'
     method_name: 'execute'
   
