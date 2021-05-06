@@ -13,20 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a Input for streaming job.
+#! @description: Creates a transformation or replaces an already existing transformation under an existing streaming
+#!               job.
 #!
-#! @input job_name: The name of the streaming job.
 #! @input auth_token: The authorization token for azure.
-#! @input stream_job_input_name: The name of the input.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input location: Resource location.
 #! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
 #!                             the Azure Resource Manager API or the portal.
-#! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
-#!                         the URI for every service call.
-#! @input account_name: Name of account to created for the blob Storage
-#! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
-#! @input source_type: Type of source . Excepted values are Reference and Stream.
-#!                     Default: Reference
-#!                     Optional
+#! @input job_name: The name of the streaming job.
+#! @input transformation_name: The name of the transformation.
+#! @input query: Specifies the query that will be run in the streaming job. You can learn more about the Stream
+#!               Analytics Query Language (SAQL) here:https://msdn.microsoft.com/library/azure/dn834998 . Required on
+#!               PUT (CreateOrReplace) requests.
+#! @input streaming_units: Specifies the number of streaming units that the streaming job uses.
+#!                         Default: 1
+#!                         Optional
 #! @input api_version: Client Api Version.
 #!                     Default: 2016-03-01
 #!                     Optional
@@ -66,53 +68,47 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output input_name: The name of the input.
+#! @output transformation_id: Transformation Resource Id.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.streamanalytics.inputs
+namespace: io.cloudslang.microsoft.azure.streamanalytics.transformations
 
 operation: 
-  name: create_streaming_job_input
+  name: create_transformation
   
   inputs: 
-    - job_name    
-    - jobName: 
-        default: ${get('job_name', '')}
-        private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}
         private: true 
         sensitive: true
-    - stream_job_input_name    
-    - streamJobInputName: 
-        default: ${get('stream_job_input_name', '')}
-        private: true 
-    - resource_group_name    
-    - resourceGroupName: 
-        default: ${get('resource_group_name', '')}
-        private: true 
     - subscription_id    
     - subscriptionId: 
         default: ${get('subscription_id', '')}
         private: true 
-    - account_name    
-    - accountName: 
-        default: ${get('account_name', '')}
+    - location    
+    - resource_group_name    
+    - resourceGroupName: 
+        default: ${get('resource_group_name', '')}
         private: true 
-    - account_key    
-    - accountKey: 
-        default: ${get('account_key', '')}
+    - job_name    
+    - jobName: 
+        default: ${get('job_name', '')}
         private: true 
-    - source_type:  
+    - transformation_name    
+    - transformationName: 
+        default: ${get('transformation_name', '')}
+        private: true 
+    - query    
+    - streaming_units:  
         required: false  
-    - sourceType: 
-        default: ${get('source_type', '')}  
+    - streamingUnits: 
+        default: ${get('streaming_units', '')}  
         required: false 
         private: true 
     - api_version:  
@@ -176,14 +172,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-azure:0.0.12-RC8'
-    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingJobInput'
+    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.transformations.CreateTransformation'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - input_name: ${get('streamJobInputName', '')}
+    - transformation_id: ${get('transformationId', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
