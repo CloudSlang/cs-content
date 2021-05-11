@@ -22,8 +22,9 @@
 #!                             the Azure Resource Manager API or the portal.
 #! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
 #!                         the URI for every service call.
-#! @input account_name: Name of account to created for the blob Storage
+#! @input account_name: Provide the existing storage account name.
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
+#! @input container_name: Provide a existing container name.
 #! @input source_type: Type of source . Excepted values are Reference and Stream.
 #!                     Default: Reference
 #!                     Optional
@@ -108,7 +109,11 @@ operation:
     - account_key    
     - accountKey: 
         default: ${get('account_key', '')}
-        private: true 
+        private: true
+    - container_name
+    - containerName:
+       default: ${get('container_name', '')}
+       private: true
     - source_type:  
         required: false  
     - sourceType: 
@@ -175,7 +180,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC8'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC12'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingJobInput'
     method_name: 'execute'
   
