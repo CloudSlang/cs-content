@@ -22,9 +22,9 @@
 #!                             the Azure Resource Manager API or the portal.
 #! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
 #!                         the URI for every service call.
-#! @input account_name: Provide the existing storage account name.
+#! @input account_name: Provide the existing storage account name
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
-#! @input container_name: Provide a existing container name.
+#! @input container_name: creates a new container under the specified account if not exists
 #! @input api_version: Client Api Version.
 #!                     Default: 2016-03-01
 #!                     Optional
