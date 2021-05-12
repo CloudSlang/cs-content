@@ -84,7 +84,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC11'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC12'
     class_name: io.cloudslang.content.azure.actions.storage.DeleteBlob
     method_name: execute
 
