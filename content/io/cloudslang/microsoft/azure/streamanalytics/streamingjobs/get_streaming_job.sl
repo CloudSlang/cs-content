@@ -98,8 +98,9 @@ operation:
     - jobName: 
         default: ${get('job_name', '')}
         private: true 
-    - expand    
-    - api_version:  
+    - expand:
+        required: false
+    - api_version:
         required: false  
     - apiVersion: 
         default: ${get('api_version', '')}  
@@ -159,7 +160,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC13'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC14'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.streamingjobs.GetStreamingJob'
     method_name: 'execute'
   
