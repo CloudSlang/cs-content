@@ -24,7 +24,7 @@
 #!                         the URI for every service call.
 #! @input account_name: Provide the existing storage account name
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
-#! @input container_name: creates a new container under the specified account if not exists
+#! @input container_name_stream_input: creates a new container under the specified account if not exists.
 #! @input source_type: Type of source . Excepted values are Reference and Stream.
 #!                     Default: Reference
 #!                     Optional
@@ -110,16 +110,10 @@ operation:
     - accountKey: 
         default: ${get('account_key', '')}
         private: true
-    - container_name
-    - containerName:
-       default: ${get('container_name', '')}
-       private: true
-    - source_type:  
-        required: false  
-    - sourceType: 
-        default: ${get('source_type', '')}  
-        required: false 
-        private: true 
+    - container_name_stream_input
+    - containerNameStreamInput:
+        default: ${get('container_name_stream_input', '')}
+        private: true
     - api_version:  
         required: false  
     - apiVersion: 
@@ -180,7 +174,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC14'
+    gav: 'io.cloudslang.content:cs-azure:0.0.12-RC15'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingJobInput'
     method_name: 'execute'
   
