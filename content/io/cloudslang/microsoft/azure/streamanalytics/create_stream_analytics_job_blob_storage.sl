@@ -102,6 +102,9 @@
 #!                        is 'true' this input is ignored. Format: Java KeyStore (JKS).
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
+#!
+#! @result SUCCESS: The request was successfully executed.
+#! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microsoft.azure.streamanalytics
