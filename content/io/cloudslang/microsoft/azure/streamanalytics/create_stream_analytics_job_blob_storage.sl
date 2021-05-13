@@ -182,7 +182,6 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ********
         required: false
         sensitive: true
   workflow:
