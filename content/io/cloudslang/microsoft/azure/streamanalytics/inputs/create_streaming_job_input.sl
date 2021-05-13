@@ -25,9 +25,6 @@
 #! @input account_name: Provide the existing storage account name
 #! @input account_key: Access keys to authenticate your applications when making requests to this Azure storage account.
 #! @input container_name_stream_input: creates a new container under the specified account if not exists.
-#! @input source_type: Type of source . Excepted values are Reference and Stream.
-#!                     Default: Reference
-#!                     Optional
 #! @input api_version: Client Api Version.
 #!                     Default: 2016-03-01
 #!                     Optional
