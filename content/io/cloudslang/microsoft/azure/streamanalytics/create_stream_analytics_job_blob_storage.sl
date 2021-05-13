@@ -103,6 +103,10 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!
+#! @output streaming_job_name: The name of the streaming job.
+#! @output streamjob_input_name: The name of the streaming job input.
+#! @output streamjob_output_name: The name of the streaming job output.
+#!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
@@ -250,6 +254,7 @@ flow:
         publish:
           - job_id
           - job_state
+          - job_name
         navigate:
           - SUCCESS: create_streaming_job_input
           - FAILURE: on_failure
@@ -430,6 +435,12 @@ flow:
           - HAS_MORE: wait_for_streaming_job_status
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+  outputs:
+    - streaming_job_name: '${job_name}'
+    - streamjob_input_name: '${stream_job_input_name}'
+    - streamjob_output_name: '${stream_job_output_name}'
   results:
     - SUCCESS
     - FAILURE
+
+
