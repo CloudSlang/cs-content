@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Get row index by condition from an Excel document.
+#! @description: Retrieves row indexes if the row satisfies the specified condition in an Excel document.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.

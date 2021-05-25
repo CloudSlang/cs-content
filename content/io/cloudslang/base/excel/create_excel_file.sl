@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates an excel document at a given path.
+#! @description: Creates a blank Excel spreadsheet document. The format of the document (XLS, XLSX or XLSM) depends on the extension used by the file.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.

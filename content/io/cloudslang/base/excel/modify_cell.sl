@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Modify cell data at the specified row index and column index in an Excel document. If the cell is empty
-#!               it will not be modified, only cells with value will be modified. If you want to add a value to an empty
-#!               cell use the add_cell operation.
+#! @description: Modify cell data at the specified row index and column index in an Excel document with the new value.
+#!               If the cell is empty it will not be modified, only cells with value will be modified.  If you want to
+#!               add a value to an empty cell use the add_cell operation.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
@@ -39,7 +39,7 @@
 #!
 #! @output return_result: This is the primary output. Returns the number of rows that were affected.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output exception: An error message in case there was an error adding excel data.
+#! @output exception: An error message in case there was an error modifying excel data.
 #!
 #! @result SUCCESS: The cell data was modified successfully.
 #! @result FAILURE: Failed to modify the cell data.

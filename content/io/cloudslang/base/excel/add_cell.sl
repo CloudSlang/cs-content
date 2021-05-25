@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Adds cell data at the specified row index and column index in an Excel document.
+#! @description: Adds rows of data to an Excel document. This operation can be used to add/insert/update data to worksheets and documents.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
