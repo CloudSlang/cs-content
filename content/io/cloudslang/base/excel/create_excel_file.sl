@@ -46,7 +46,7 @@ operation:
     - worksheet_names:
         required: false
     - worksheetNames:
-        default: ${get('worksheet_name', '')}
+        default: ${get('worksheet_names', '')}
         required: false
         private: true
     - delimiter:
