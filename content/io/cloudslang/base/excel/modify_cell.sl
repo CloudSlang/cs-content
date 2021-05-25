@@ -13,7 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Modify cell data at the specified row index and column index in an Excel document.
+#! @description: Modify cell data at the specified row index and column index in an Excel document. If the cell is empty
+#!               it will not be modified, only cells with value will be modified. If you want to add a value to an empty
+#!               cell use the add_cell operation.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
@@ -80,6 +82,7 @@ operation:
         private: true
     - column_delimiter:
         required: false
+        default: ','
     - columnDelimiter:
         default: ${get('column_delimiter', '')}
         required: false

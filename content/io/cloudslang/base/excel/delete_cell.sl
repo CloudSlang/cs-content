@@ -19,6 +19,7 @@
 #! @input excel_file_name: The absolute path to the Excel document.
 #!                         Example: C:\temp\test.xls
 #! @input worksheet_name: The name of Excel worksheet.
+#!                        Default value: Sheet1
 #!                        Optional
 #! @input row_index: A list of row indexes.
 #!                   Example: 1:3, 10, 15:20,25
@@ -50,6 +51,7 @@ operation:
         required: false
         private: true
     - worksheet_name:
+        default: 'Sheet1'
         required: false
     - worksheetName:
         default: ${get('worksheet_name', '')}

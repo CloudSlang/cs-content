@@ -19,6 +19,7 @@
 #! @input excel_file_name: The absolute path to the new Excel document.
 #!                         Example: C:\temp\test.xls
 #! @input worksheet_name: The name of Excel worksheet.
+#!                        Default value: Sheet1
 #!                        Optional
 #! @input has_header: If Yes, then the first row of the document is expected to be the header row.
 #!                    Valid values: yes, no
@@ -57,6 +58,7 @@ operation:
         required: false
         private: true
     - worksheet_name:
+        default: 'Sheet1'
         required: false
     - worksheetName:
         default: ${get('worksheet_name', '')}
