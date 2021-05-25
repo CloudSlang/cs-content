@@ -18,7 +18,7 @@
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
 #!                         Example: C:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet
+#! @input worksheet_name: The name of Excel worksheet.
 #!                        Optional
 #! @input row_index: A list of row indexes.
 #!                   Example: 1:3, 10, 15:20,25
@@ -86,7 +86,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.3-RC1'
     class_name: 'io.cloudslang.content.excel.actions.ModifyCell'
     method_name: 'execute'
 

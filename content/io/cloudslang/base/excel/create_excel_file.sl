@@ -18,7 +18,7 @@
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
 #!                         Example: C:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet
+#! @input worksheet_names: The name of Excel worksheet or the list with delimited worksheet names. If this value is empty it will create Sheet1, Sheet2 and Sheet3.
 #!                        Optional
 #! @input delimiter: The character used to delimit worksheet names.
 #!                   Default value: comma (,)
@@ -43,9 +43,9 @@ operation:
         default: ${get('excel_file_name', '')}
         required: false
         private: true
-    - worksheet_name:
+    - worksheet_names:
         required: false
-    - worksheetName:
+    - worksheetNames:
         default: ${get('worksheet_name', '')}
         required: false
         private: true
@@ -54,7 +54,7 @@ operation:
         default: ','
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.3-RC1'
     class_name: 'io.cloudslang.content.excel.actions.CreateExcelFile'
     method_name: 'execute'
 

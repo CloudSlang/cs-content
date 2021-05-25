@@ -18,7 +18,7 @@
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
 #!                         Example: C:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet
+#! @input worksheet_name: The name of Excel worksheet.
 #!                        Optional
 #! @input has_header: If Yes, then the first row of the document is expected to be the header row.
 #!                    Valid values: yes, no
@@ -90,7 +90,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.3-RC1'
     class_name: 'io.cloudslang.content.excel.actions.GetRowIndexByCondition'
     method_name: 'execute'
 
