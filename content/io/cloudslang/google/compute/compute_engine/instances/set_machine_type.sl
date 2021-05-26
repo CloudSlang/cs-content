@@ -152,7 +152,7 @@ operation:
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
     - status
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName','')}
     - instance_details: ${get('instanceDetails','')}
     - machine_type_out: ${get('machineType','')}

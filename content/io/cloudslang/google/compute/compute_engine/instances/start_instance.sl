@@ -150,7 +150,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName', '')}
     - instance_details: ${get('instanceDetails', '')}
     - status

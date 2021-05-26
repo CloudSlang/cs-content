@@ -446,7 +446,7 @@ operation:
     - internal_ips: ${get('internalIps', '')}
     - external_ips: ${get('externalIps', '')}
     - status
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
