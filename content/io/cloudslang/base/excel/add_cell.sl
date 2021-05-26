@@ -13,12 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Adds cell data at the specified row index and column index in an Excel document.
+#! @description: Adds rows of data to an Excel document. This operation can be used to add/insert/update data to worksheets and documents.
 #!               XLS, XLSX and XLSM formats are supported.
 #!
 #! @input excel_file_name: The absolute path to the new Excel document.
 #!                         Example: C:\temp\test.xls
-#! @input worksheet_name: The name of Excel worksheet
+#! @input worksheet_name: The name of Excel worksheet.
+#!                        Default value: Sheet1
 #!                        Optional
 #! @input header_data: A delimited list of column names. If left blank, the document will not have a header for the
 #!                     data.
@@ -63,7 +64,8 @@ operation:
         required: false 
         private: true 
     - worksheet_name:  
-        required: false  
+        required: false
+        default: 'Sheet1'
     - worksheetName: 
         default: ${get('worksheet_name', '')}  
         required: false 
@@ -92,13 +94,15 @@ operation:
         required: false 
         private: true 
     - row_delimiter:  
-        required: false  
+        required: false
+        default: '|'
     - rowDelimiter: 
         default: ${get('row_delimiter', '')}  
         required: false 
         private: true 
     - column_delimiter:  
-        required: false  
+        required: false
+        default: ','
     - columnDelimiter: 
         default: ${get('column_delimiter', '')}  
         required: false 
@@ -111,7 +115,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.4'
     class_name: 'io.cloudslang.content.excel.actions.AddCell'
     method_name: 'execute'
   

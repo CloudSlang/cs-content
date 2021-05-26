@@ -68,7 +68,8 @@ operation:
         default: ${get('excel_file_name', '')}  
         required: false 
         private: true 
-    - worksheet_name:  
+    - worksheet_name:
+        default: 'Sheet1'
         required: false  
     - worksheetName: 
         default: ${get('worksheet_name', '')}  
@@ -98,13 +99,15 @@ operation:
         default: ${get('column_index', '')}  
         required: false 
         private: true 
-    - row_delimiter:  
+    - row_delimiter:
+        default: '|'
         required: false  
     - rowDelimiter: 
         default: ${get('row_delimiter', '')}  
         required: false 
         private: true 
-    - column_delimiter:  
+    - column_delimiter:
+        default: ','
         required: false  
     - columnDelimiter: 
         default: ${get('column_delimiter', '')}  
@@ -112,7 +115,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.2'
+    gav: 'io.cloudslang.content:cs-excel:0.0.4'
     class_name: 'io.cloudslang.content.excel.actions.GetCell'
     method_name: 'execute'
   
