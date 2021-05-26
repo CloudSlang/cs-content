@@ -180,9 +180,9 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - global_operation_name: ${globalOperationName}
-    - network_name_out: ${networkName}
-    - network_id: ${networkId}
+    - global_operation_name: ${get('globalOperationName', '')}
+    - network_name_out: ${get('networkName', '')}
+    - network_id: ${get('networkId', '')}
     - status
 
   results:
