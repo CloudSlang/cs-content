@@ -15,11 +15,11 @@
 #!!
 #! @description: This operation can be used to retrieve the list of Disk resources, as JSON array.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input access_token: The access token from get_access_token.
 #! @input filter: Sets a filter expression for filtering listed resources, in the form filter={expression}.
 #!                Your {expression} must be in the format: field_name comparison_string literal_string.
 #!                The field_name is the name of the field you want to compare. Only atomic field types are
@@ -76,12 +76,6 @@ operation:
   name: list_disks
 
   inputs:
-    - project_id
-    - projectId:
-        default: ${get('project_id', '')}
-        required: false
-        private: true
-    - zone
     - access_token:
         sensitive: true
     - accessToken:
@@ -89,6 +83,12 @@ operation:
         required: false
         private: true
         sensitive: true
+    - project_id
+    - projectId:
+        default: ${get('project_id', '')}
+        required: false
+        private: true
+    - zone
     - filter:
         default: ''
         required: false
