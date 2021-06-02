@@ -118,7 +118,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - global_operation_name: ${globalOperationName}
+    - global_operation_name: ${get('globalOperationName', '')}
     - status
 
   results:
