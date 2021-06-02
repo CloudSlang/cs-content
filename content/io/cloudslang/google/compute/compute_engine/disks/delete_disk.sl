@@ -17,14 +17,14 @@
 #!               JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
 #!               ZoneOperationsGet operation.
 #!
+#! @input access_token: The access token returned by the GetAccessToken operation, with at least the
+#!                      following scope: 'https://www.googleapis.com/auth/compute'.
 #! @input project_id: Google Cloud project id.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone where the Disk resource is located.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input disk_name: Name of the Disk resource to delete.
 #!                   Example: 'disk-1'
-#! @input access_token: The access token returned by the GetAccessToken operation, with at least the
-#!                      following scope: 'https://www.googleapis.com/auth/compute'.
 #! @input async: Boolean specifying whether the operation to run sync or async.
 #!               Valid: 'true', 'false'
 #!               Default: 'true'
@@ -72,6 +72,13 @@ operation:
   name: delete_disk
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -83,13 +90,6 @@ operation:
         default: ${get('disk_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - async:
         default: 'true'
         required: false
@@ -150,7 +150,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - status
     - disk_name_out: ${get('disk_name', '')}
 

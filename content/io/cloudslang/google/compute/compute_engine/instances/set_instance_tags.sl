@@ -17,6 +17,7 @@
 #!               resource as a JSON object, that can be used to retrieve the status and progress of the ZoneOperation,
 #!               using the ZoneOperationsGet operation.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
@@ -26,7 +27,6 @@
 #! @input tags_list: List of tags to be set on the instance, separated by the <tags_delimiter> delimiter
 #! @input tags_delimiter: Delimiter used for the list of tags from <tags_list> param.
 #!                        Default: ','
-#! @input access_token: The access token from get_access_token.
 #! @input async: Boolean specifying whether the operation to run sync or async.
 #!               Valid: 'true', 'false'
 #!               Default: 'true'
@@ -76,6 +76,13 @@ operation:
   name: set_instance_tags
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -101,13 +108,6 @@ operation:
         default: ${get('tags_delimiter', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - async:
         default: 'true'
         required: false
@@ -168,7 +168,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName', '')}
     - instance_details: ${get('instanceDetails', '')}
     - status

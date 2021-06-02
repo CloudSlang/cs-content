@@ -15,11 +15,11 @@
 #!!
 #! @description: This operation can be used to retrieve a Network resource, as JSON object.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input network_name: Name of the Network resource to get.
 #!                      Example: 'default'
-#! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -50,6 +50,13 @@ operation:
   name: get_network
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -60,13 +67,6 @@ operation:
         default: ${get('network_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false

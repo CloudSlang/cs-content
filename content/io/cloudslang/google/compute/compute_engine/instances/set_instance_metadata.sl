@@ -16,13 +16,13 @@
 #! @description: Sets metadata for the specified instance to the data provided to the operation. Can be used as a delete
 #!               metadata as well.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input instance_name: Name of the Instance resource to set the metadata to.
 #!                       Example: 'operation-1234'
-#! @input access_token: The access token from get_access_token.
 #! @input items_keys_list: key for the metadata entry. Keys must conform to the following regexp: [a-zA-Z0-9-_]+,
 #!                         and be less than 128 bytes in length. This is reflected as part of a URL in the metadata
 #!                         server. Additionally, to avoid ambiguity, keys must not conflict with any other metadata
@@ -85,6 +85,13 @@ operation:
   name: set_instance_metadata
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -96,13 +103,6 @@ operation:
         default: ${get('instance_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - items_keys_list:
         default: ''
         required: false
@@ -184,7 +184,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName', '')}
     - instance_details: ${get('instanceDetails', '')}
     - status
