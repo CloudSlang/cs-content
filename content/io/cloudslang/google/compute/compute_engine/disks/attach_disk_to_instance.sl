@@ -15,11 +15,11 @@
 #!!
 #! @description: This operation creates a disk resource in the specified project using the data included as inputs.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input access_token: The access token from get_access_token.
 #! @input instance_name: The name that the new instance will have.
 #!                       Example: 'instance-1234'
 #! @input source: A valid partial or full URL to an existing Persistent Disk resource.
