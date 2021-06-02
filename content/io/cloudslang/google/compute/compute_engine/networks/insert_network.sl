@@ -15,9 +15,9 @@
 #!!
 #! @description: Creates a disk resource in the specified project using the data included as inputs.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input access_token: The access token from get_access_token.
 #! @input network_name: Name of the Network. Provided by the client when the Network is created. The name must be
 #!                      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
 #!                      long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first
@@ -82,11 +82,6 @@ operation:
   name: insert_network
 
   inputs:
-    - project_id
-    - projectId:
-        default: ${get('project_id', '')}
-        required: false
-        private: true
     - access_token:
         sensitive: true
     - accessToken:
@@ -94,6 +89,11 @@ operation:
         required: false
         private: true
         sensitive: true
+    - project_id
+    - projectId:
+        default: ${get('project_id', '')}
+        required: false
+        private: true
     - network_name
     - networkName:
         default: ${get('network_name', '')}

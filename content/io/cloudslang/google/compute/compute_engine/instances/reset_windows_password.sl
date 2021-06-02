@@ -9,13 +9,13 @@
 #!!
 #! @description: This operation can be used to reset the password of a windows machine.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input instance_name: Name of the Instance resource to delete.
 #!                       Example: 'operation-1234'
-#! @input access_token: The access token from get_access_token.
 #! @input username: Specify a username. If the the username does not exist, it will be created.
 #!                  Format: Must start with a lowercase letter, followed by 1-31 lowercase letters, numbers,
 #!                  or underscores
@@ -69,6 +69,13 @@ operation:
   name: reset_windows_password
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -80,13 +87,6 @@ operation:
         default: ${get('instance_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - username
     - email:
         required: false

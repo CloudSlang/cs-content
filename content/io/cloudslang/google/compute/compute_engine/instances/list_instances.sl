@@ -15,6 +15,7 @@
 #!!
 #! @description: This operation can be used to retrieve the list of instance resource, as JSON array.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
@@ -45,7 +46,6 @@
 #!                  operations so that the newest operation is returned first.
 #!                  Currently, only sorting by name or creationTimestamp desc is supported.
 #!                  Optional
-#! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -76,6 +76,13 @@ operation:
   name: list_instances
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -92,13 +99,6 @@ operation:
         default: ${get('order_by', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false

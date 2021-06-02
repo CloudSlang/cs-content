@@ -15,13 +15,13 @@
 #!!
 #! @description: This operation can be used to retrieve an instance resource, as JSON object.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input instance_name: Name of the Instance resource to get.
 #!                       Example: 'operation-1234'
-#! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -60,6 +60,13 @@ operation:
   name: get_instance
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -71,13 +78,6 @@ operation:
         default: ${get('instance_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false
