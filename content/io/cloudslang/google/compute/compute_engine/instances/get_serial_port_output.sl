@@ -9,6 +9,7 @@
 #!!
 #! @description: This operation can be used to retrieve data from a port.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
@@ -25,7 +26,6 @@
 #!                     returned in the previous call.
 #!                     Default: '0'
 #!                     Optional
-#! @input access_token: The access token from get_access_token.
 #! @input proxy_host: Proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -57,6 +57,13 @@ operation:
   name: get_serial_port_output
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -82,13 +89,6 @@ operation:
         default: ${get('start_index', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - proxy_host:
         default: ''
         required: false

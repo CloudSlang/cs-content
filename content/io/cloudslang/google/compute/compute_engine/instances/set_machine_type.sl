@@ -9,13 +9,13 @@
 #!!
 #! @description: This operation can be used to set the machine type of a stopped instance.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input instance_name: Name of the Instance resource to set the machine type.
 #!                       Example: 'operation-1234'
-#! @input access_token: The access token from get_access_token.
 #! @input machine_type: Full or partial URL of the machine type resource to use for this instance, in the format:
 #!                      "zones/zone/machineTypes/machine-type".
 #!                      Example: "zones/us-central1-f/machineTypes/n1-standard-1"
@@ -68,6 +68,13 @@ operation:
   name: set_machine_type
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -79,13 +86,6 @@ operation:
         default: ${get('instance_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - machine_type
     - machineType:
         default: ${get('machine_type', '')}
@@ -152,7 +152,7 @@ operation:
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
     - status
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName','')}
     - instance_details: ${get('instanceDetails','')}
     - machine_type_out: ${get('machineType','')}

@@ -17,13 +17,13 @@
 #!               as a JSON object, that can be used to retrieve the status and progress of the ZoneOperation, using the
 #!               ZoneOperationsGet operation.
 #!
+#! @input access_token: The access token from get_access_token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input instance_name: Name of the Instance resource to start.
 #!                      Example: 'operation-1234'
-#! @input access_token: The access token from get_access_token.
 #! @input async: Boolean specifying whether the operation to run sync or async.
 #!               Valid: 'true', 'false'
 #!               Default: 'true'
@@ -72,6 +72,13 @@ operation:
   name: start_instance
 
   inputs:
+    - access_token:
+        sensitive: true
+    - accessToken:
+        default: ${get('access_token', '')}
+        required: false
+        private: true
+        sensitive: true
     - project_id
     - projectId:
         default: ${get('project_id', '')}
@@ -83,13 +90,6 @@ operation:
         default: ${get('instance_name', '')}
         required: false
         private: true
-    - access_token:
-        sensitive: true
-    - accessToken:
-        default: ${get('access_token', '')}
-        required: false
-        private: true
-        sensitive: true
     - async:
         default: 'true'
         required: false
@@ -150,7 +150,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - zone_operation_name: ${zoneOperationName}
+    - zone_operation_name: ${get('zoneOperationName', '')}
     - instance_name_out: ${get('instanceName', '')}
     - instance_details: ${get('instanceDetails', '')}
     - status
