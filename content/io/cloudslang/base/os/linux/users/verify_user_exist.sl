@@ -53,6 +53,7 @@ flow:
 
   workflow:
     - verify_if_user_exist:
+        worker_group: 'FIRST_WORKER_GROUP'
         do:
           ssh.ssh_flow:
             - host
