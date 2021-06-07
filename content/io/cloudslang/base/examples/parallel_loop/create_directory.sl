@@ -16,6 +16,7 @@
 #! @description: Wrapper over the files/create_folder operation.
 #!
 #! @input directory_name: Name of directory to be created.
+#! @input worker_group: Some shit description.
 #!
 #! @output error_msg: An error message in case something went wrong.
 #!
