@@ -36,7 +36,8 @@ flow:
 
   inputs:
     - directory_name
-    - worker_group
+    - worker_group:
+       required: false
 
   workflow:
     - print_start:
