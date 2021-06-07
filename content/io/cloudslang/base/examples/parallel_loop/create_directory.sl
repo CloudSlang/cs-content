@@ -35,9 +35,11 @@ flow:
 
   inputs:
     - directory_name
+    - worker_group
 
   workflow:
     - print_start:
+       worker_group: ${get('worker_group', 'RAS_Operator_Path')}
        do:
           print.print_text:
             - text: ${'Creating directory ' + directory_name}
@@ -45,6 +47,7 @@ flow:
          - SUCCESS: create_directory
 
     - create_directory:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           files.create_folder:
             - folder_name : ${directory_name}
