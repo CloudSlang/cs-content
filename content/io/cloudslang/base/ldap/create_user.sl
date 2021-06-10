@@ -44,9 +44,9 @@ operation:
 
   inputs:
     - host
-    - ou
+    - dist_name
     - OU:
-        default: ${get('ou', '')}
+        default: ${get('dist_name', '')}
         required: false
         private: true
     - user_common_name
