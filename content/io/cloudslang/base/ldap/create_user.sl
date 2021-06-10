@@ -37,7 +37,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.ldap.users
+namespace: io.cloudslang.ldap
 
 operation:
   name: create_user
