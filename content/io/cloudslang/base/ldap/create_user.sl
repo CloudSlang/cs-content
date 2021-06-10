@@ -83,7 +83,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-ldap:0.0.52'
+    gav: 'io.cloudslang.content:cs-ldap:0.0.1-SNAPSHOT'
     class_name: io.cloudslang.content.ldap.actions.users.CreateUserAction
     method_name: execute
 
