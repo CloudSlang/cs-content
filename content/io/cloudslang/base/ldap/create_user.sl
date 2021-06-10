@@ -75,13 +75,13 @@ operation:
     - use_ssl:
         required: false
     - useSSL:
-        default: ${get('use_ssl', '')}
+        default: ${get('use_ssl', 'true')}
         required: false
         private: true
     - trust_all_roots:
         required: false
     - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
+        default: ${get('trust_all_roots', 'true')}
         required: false
         private: true
     - keystore:
@@ -111,7 +111,7 @@ operation:
     - escape_chars:
         required: false
     - escapeChars:
-        default: ${get('escape_chars', '')}
+        default: ${get('escape_chars', 'false')}
         required: false
         private: true
 
