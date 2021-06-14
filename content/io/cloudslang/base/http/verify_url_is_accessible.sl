@@ -40,6 +40,8 @@
 #!                           Default: ''
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output output_message: Timeout exceeded and url was not accessible
 #! @output return_code: '0' if success, '-1' otherwise
@@ -85,9 +87,12 @@ flow:
         required: false
     - proxy_port:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - http_get:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           rest.http_client_get:
             - url
@@ -108,6 +113,7 @@ flow:
           - FAILURE: check_if_timed_out
 
     - check_if_timed_out:
+         worker_group: ${get('worker_group', 'RAS_Operator_Path')}
          do:
             math.compare_numbers:
               - value1: ${attempts}
@@ -118,6 +124,7 @@ flow:
            - LESS_THAN: FAILURE
 
     - wait:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           utils.sleep:
               - seconds: ${time_to_sleep}

@@ -23,6 +23,8 @@
 #! @input recursively: Optional - if True the permissions changes will be applied recursively to the whole content of the
 #!                     targeted folder; if False the permissions changes will be applied ony to the folder itself
 #!                     Default: True
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -57,9 +59,12 @@ flow:
     - recursively:
         default: "True"
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - change_permissions:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -77,6 +82,7 @@ flow:
           - command_return_code
 
     - evaluate_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           utils.is_true:
             - bool_value: ${str(return_code == '0' and command_return_code == '0')}

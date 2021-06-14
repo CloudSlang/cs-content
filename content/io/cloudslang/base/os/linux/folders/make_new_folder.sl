@@ -21,6 +21,8 @@
 #! @input root_password: The root password
 #! @input folder_name: The folder name to be added
 #! @input folder_path: Optional - the absolute path under the folder will be created - Default: '/home'
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: output of the command
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -54,9 +56,12 @@ flow:
     - folder_path:
         default: '/home'
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - make_folder:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -74,6 +79,7 @@ flow:
           - command_return_code
 
     - evaluate_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           utils.is_true:
             - bool_value: ${str(return_code == '0' and command_return_code == '0')}

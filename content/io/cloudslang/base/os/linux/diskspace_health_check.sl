@@ -21,6 +21,8 @@
 #! @input private_key_file: Optional - path to the private key file
 #! @input percentage: Example: 50%
 #! @input timeout: Optional - time in milliseconds to wait for the command to complete
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @result SUCCESS: disk space less than percentage
 #! @result FAILURE: error occurred
@@ -47,9 +49,12 @@ flow:
     - percentage
     - timeout:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - validate_linux_machine_ssh_access:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           linux.validate_linux_machine_ssh_access:
             - host: ${ docker_host }
@@ -59,6 +64,7 @@ flow:
             - timeout
 
     - check_disk_space:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           linux.check_linux_disk_space:
             - host: ${ docker_host }
@@ -70,6 +76,7 @@ flow:
           - disk_space
 
     - check_availability:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           base_comparisons.less_than_percentage:
             - first_percentage: ${ disk_space.replace("\n", "") }

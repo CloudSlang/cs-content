@@ -19,6 +19,8 @@
 #! @input base_dir_name: Path of base name of created directories.
 #! @input num_of_directories: Number of directories to create
 #!                            Default: 10
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @result SUCCESS: Directories created successfully
 #! @result FAILURE: Something went wrong
@@ -39,9 +41,12 @@ flow:
     - base_dir_name
     - num_of_directories:
         default: '10'
+    - worker_group:
+        required: false
 
   workflow:
     - print_start:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           print.print_text:
             - text: ${'Starting creating directories with base name ' + base_dir_name}
@@ -49,6 +54,7 @@ flow:
           - SUCCESS: create_directories
 
     - create_directories:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         parallel_loop:
           for: suffix in range(1, int(num_of_directories) + 1)
           do:

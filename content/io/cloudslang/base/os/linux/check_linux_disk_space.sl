@@ -28,6 +28,8 @@
 #! @input timeout: Optional - time in milliseconds to wait for command to complete
 #! @input close_session: Optional - if 'false' SSH session will be cached for future calls during the life of the flow,
 #!                       if 'true' the SSH session used will be closed - Valid: true, false
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output disk_space: percentage - Example: 50%
 #! @output error_message: error message if error occurred
@@ -68,9 +70,12 @@ flow:
         required: false
     - close_session:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - check_linux_disk_space:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host

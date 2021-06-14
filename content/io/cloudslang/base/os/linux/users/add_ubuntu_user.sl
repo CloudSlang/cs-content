@@ -23,6 +23,8 @@
 #! @input create_home: Optional - if True then a <user_name> folder with be created in <home_path> path
 #!                     if False then no folder will be created - Default: True
 #! @input home_path: Optional - the path of the home folder - Default: '/home'
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -67,9 +69,12 @@ flow:
     - home_path:
         default: '/home'
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - add_user:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -94,6 +99,7 @@ flow:
           - command_return_code
 
     - evaluate_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           utils.is_true:
             - bool_value: ${str(return_code == '0' and command_return_code == '0')}

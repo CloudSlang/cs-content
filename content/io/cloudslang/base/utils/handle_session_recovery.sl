@@ -25,6 +25,8 @@
 #!                       Optional
 #! @input return_code: From SSH: '0' if SSH session , different than '0' otherwise.
 #! @input exit_status: From SSH: Return code of the remote command.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output updated_retries: Updated input value (decreased by 1).
 #!
@@ -57,9 +59,12 @@ flow:
     - return_code
     - exit_status:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - check_enabled:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           utils.is_true:
             - bool_value: ${ enabled }
@@ -68,6 +73,7 @@ flow:
           - 'FALSE': RECOVERY_DISABLED
 
     - check_retries:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           math.compare_numbers:
             - value1: ${ retries }
@@ -81,6 +87,7 @@ flow:
           - LESS_THAN: TIMEOUT
 
     - check_unstable_session:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.check_ssh_unstable_session:
             - return_result

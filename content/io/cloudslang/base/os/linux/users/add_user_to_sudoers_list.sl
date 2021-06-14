@@ -21,6 +21,8 @@
 #! @input password: password of user
 #! @input private_key_file: Optional - the path to the private key file
 #! @input user: The user to be added in sudoers group
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -58,9 +60,12 @@ flow:
     - private_key_file:
         required: false
     - user
+    - worker_group:
+        required: false
 
   workflow:
     - add_user:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -83,6 +88,7 @@ flow:
           - FAILURE: FAILURE
 
     - check_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ command_return_code }

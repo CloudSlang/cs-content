@@ -23,6 +23,8 @@
 #!                      NOTE: if Linux has several processes with the same name all of them will be restarted
 #! @input sudo_user: Optional - whether to use 'sudo' prefix before command - Default: false
 #! @input private_key_file: absolute path to the private key file
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -63,9 +65,12 @@ flow:
         required: False
     - private_key_file:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - process_restart:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
