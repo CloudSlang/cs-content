@@ -30,7 +30,7 @@
 #!                           Default value: 90000.
 #!                           Optional
 #!
-#! @output return_result: A suggestive message if the computer account it has been disabled successfully or not.
+#! @output return_result: A message if the computer account has been disabled successfully or not.
 #! @output computer_distinguished_name: The distinguished name of the computer account that was disabled.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
