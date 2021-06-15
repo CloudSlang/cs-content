@@ -40,8 +40,8 @@
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: Generated description.
-#! @result FAILURE: Generated description.
+#! @result SUCCESS: The computer account was deleted successfully.
+#! @result FAILURE: Failed to delete the computer account.
 #!!#
 ########################################################################################################################
 
