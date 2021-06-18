@@ -1,11 +1,12 @@
 ########################################################################################################################
 #!!
-#! @description: Disables a computer account in Active Directory.
+#! @description: Deletes a user from Active Directory.
 #!
 #! @input host: The domain controller to connect to.
 #! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
-#! @input computer_common_name: The name of the computer (its CN).
+#! @input user_common_name: The CN, generally the full name of user.
+#!                          Example: Bob Smith
 #! @input username: The user to connect to Active Directory as.
 #!                  Optional
 #! @input password: The password of the user to connect to Active Directory.
@@ -23,15 +24,29 @@
 #! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
-#!                     Valid values: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
+#!                     This capability is provided “as is”, please see product documentation for further information.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2.
+#!                         This capability is provided “as is”, please see product documentation for further security considerations.
+#!                         In order to connect successfully to the target host, it should accept at least one of the
+#!                         following ciphers. If this is not the case, it is the user's responsibility to configure the
+#!                         host accordingly or to update the list of allowed ciphers. This capability is provided “as is”,
+#!                         please see product documentation for further security considerations. In order to connect
+#!                         successfully to the target host, it should accept at least one of the following ciphers. If
+#!                         this is not the case, it is the user's responsibility to configure the host accordingly or to
+#!                         update the list of allowed ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
 #!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
+#!                         Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
+#!                         trusted certification authority issued it.
+#!                         Valid values: true, false.
+#!                         Default value: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
@@ -51,11 +66,6 @@
 #!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Default: strict
 #!                                 Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
-#!                         trusted certification authority issued it.
-#!                         Valid values: true, false.
-#!                         Default value: false
-#!                         Optional
 #! @input trust_keystore: The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts.
 #!                        Optional
@@ -65,20 +75,21 @@
 #!                 Default value: 60000.
 #!                 Optional
 #!
-#! @output return_result: A message if the computer account has been disabled successfully or not.
-#! @output computer_distinguished_name: The distinguished name of the computer account that was disabled.
+#! @output return_result: A message with the common name of the deleted user in case of success or the error message in
+#!                        case of failure.
+#! @output user_distinguished_name: The distinguished name of the deleted created user.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: The computer account was disabled successfully.
-#! @result FAILURE: Failed to disable the computer account.
+#! @result SUCCESS: The user was deleted successfully.
+#! @result FAILURE: Failed to delete the user.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.ldap.computers
+namespace: io.cloudslang.base.ldap.users
 
 operation: 
-  name: disable_computer_account
+  name: delete_user
   
   inputs: 
     - host    
@@ -87,12 +98,12 @@ operation:
         default: ${get('distinguished_name', '')}  
         required: false 
         private: true 
-    - computer_common_name    
-    - computerCommonName: 
-        default: ${get('computer_common_name', '')}  
+    - user_common_name    
+    - userCommonName: 
+        default: ${get('user_common_name', '')}  
         required: false 
         private: true 
-    - username:
+    - username:  
         required: false  
     - password:  
         required: false  
@@ -144,6 +155,13 @@ operation:
         default: ${get('allowed_ciphers', '')}
         required: false
         private: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
         required: false
@@ -151,14 +169,7 @@ operation:
         default: ${get('x_509_hostname_verifier', '')}
         required: false
         private: true
-    - trust_all_roots:
-        default: 'false'
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
+    - trust_keystore:
         required: false  
     - trustKeystore: 
         default: ${get('trust_keystore', '')}  
@@ -177,13 +188,13 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-ldap:0.0.1-RC6'
-    class_name: 'io.cloudslang.content.ldap.actions.computers.DisableComputerAccountAction'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC1'
+    class_name: 'io.cloudslang.content.ldap.actions.users.DeleteUserAction'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - computer_distinguished_name: ${get('computerDistinguishedName', '')} 
+    - user_distinguished_name: ${get('userDistinguishedName', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
   
