@@ -96,7 +96,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.ldap.users
+namespace: io.cloudslang.base.active_directory.users
 
 operation: 
   name: create_user
@@ -212,7 +212,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC1'
-    class_name: 'io.cloudslang.content.ldap.actions.users.CreateUserAction'
+    class_name: 'io.cloudslang.content.active_directory.actions.users.CreateUserAction'
     method_name: 'execute'
   
   outputs: 
