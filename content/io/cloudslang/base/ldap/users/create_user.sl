@@ -64,7 +64,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
 #!                         trusted certification authority issued it.
 #!                         Valid values: true, false.
-#!                         Default value: true
+#!                         Default value: false
 #!                         Optional
 #! @input trust_keystore: The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts.
@@ -181,7 +181,7 @@ operation:
         required: false
         private: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
