@@ -199,7 +199,7 @@ operation:
         required: false  
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-ldap:0.0.1-RC5'
+    gav: 'io.cloudslang.content:cs-ldap:0.0.1-RC6'
     class_name: 'io.cloudslang.content.ldap.actions.computers.CreateComputerAccountAction'
     method_name: 'execute'
   
