@@ -34,6 +34,11 @@
 #!                         TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
 #!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
 #!                         Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
+#!                         trusted certification authority issued it.
+#!                         Valid values: true, false.
+#!                         Default value: false
+#!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -52,21 +57,11 @@
 #!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Default: strict
 #!                                 Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
-#!                         trusted certification authority issued it.
-#!                         Valid values: true, false.
-#!                         Default value: false
-#!                         Optional
 #! @input trust_keystore: The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts.
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
-#! @input escape_chars: Specifies whether to escape the special Active Directory
-#!                      characters: '#','=','"','<','>',',','+',';','\','"''.
-#!                      Default value: false.
-#!                      Valid values: true, false.
-#!                      Optional
 #! @input timeout: Time in milliseconds to wait for the connection to complete.
 #!                 Default value: 60000.
 #!                 Optional
@@ -151,6 +146,13 @@ operation:
         default: ${get('allowed_ciphers', '')}
         required: false
         private: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
         required: false
@@ -158,14 +160,7 @@ operation:
         default: ${get('x_509_hostname_verifier', '')}
         required: false
         private: true
-    - trust_all_roots:
-        default: 'false'
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
+    - trust_keystore:
         required: false  
     - trustKeystore: 
         default: ${get('trust_keystore', '')}  
@@ -179,13 +174,6 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - escape_chars:
-        default: 'false'
-        required: false  
-    - escapeChars: 
-        default: ${get('escape_chars', '')}  
-        required: false 
-        private: true 
     - timeout:
         default: '60000'
         required: false

@@ -1,21 +1,12 @@
 ########################################################################################################################
 #!!
-#! @description: Creates a new user in Active Directory.
+#! @description: Enables a user from Active Directory.
 #!
 #! @input host: The domain controller to connect to.
 #! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
 #! @input user_common_name: The CN, generally the full name of user.
 #!                          Example: Bob Smith
-#! @input user_password: The password for the new user. It must meet the following requirements:
-#!                       - is at least six characters long
-#!                       - contains characters from at least three of the following five categories: English uppercase
-#!                       characters ('A' - 'Z'), English lowercase characters ('a' - 'z'), base 10
-#!                       digits ('0' - '9'), non-alphanumeric (For example: '!', '$', '#', or '%'), unicode characters
-#!                       - does not contain three or more characters from the user's account name
-#! @input s_am_account_name: Computer's sAMAccountName (ex. MYHYPNOS$). If not provided it will be assigned from
-#!                           computerCommonName.
-#!                           Optional
 #! @input username: The user to connect to Active Directory as.
 #!                  Optional
 #! @input password: The password of the user to connect to Active Directory.
@@ -43,6 +34,11 @@
 #!                         TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
 #!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
 #!                         Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
+#!                         trusted certification authority issued it.
+#!                         Valid values: true, false.
+#!                         Default value: false
+#!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. The hostname
 #!                                 verification system prevents communication with other hosts other than the ones you
@@ -61,40 +57,30 @@
 #!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Default: strict
 #!                                 Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
-#!                         trusted certification authority issued it.
-#!                         Valid values: true, false.
-#!                         Default value: false
-#!                         Optional
 #! @input trust_keystore: The location of the TrustStore file.
 #!                        Example: %JAVA_HOME%/jre/lib/security/cacerts.
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
-#! @input escape_chars: Specifies whether to escape the special Active Directory
-#!                      characters: '#','=','"','<','>',',','+',';','\','"''.
-#!                      Default value: false.
-#!                      Valid values: true, false.
-#!                      Optional
 #! @input timeout: Time in milliseconds to wait for the connection to complete.
 #!                 Default value: 60000.
 #!                 Optional
 #!
-#! @output return_result: A message with the common name of the newly created user in case of success or the error
-#!                        message in case of failure.
-#! @output user_distinguished_name: The distinguished name of the newly created user.
+#! @output return_result: A message with the common name of the enabled user in case of success or the error message in
+#!                        case of failure.
+#! @output user_distinguished_name: The distinguished name of the enabled user.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: The user was created successfully.
-#! @result FAILURE: Failed to create the user.
+#! @result SUCCESS: The user was enabled successfully.
+#! @result FAILURE: Failed to enable the user.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.ldap.users
 
 operation: 
-  name: create_user
+  name: enable_user
   
   inputs: 
     - host    
@@ -106,19 +92,6 @@ operation:
     - user_common_name    
     - userCommonName: 
         default: ${get('user_common_name', '')}  
-        required: false 
-        private: true 
-    - user_password:    
-        sensitive: true
-    - userPassword: 
-        default: ${get('user_password', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - s_am_account_name:  
-        required: false  
-    - sAMAccountName: 
-        default: ${get('s_am_account_name', '')}  
         required: false 
         private: true 
     - username:  
@@ -173,6 +146,13 @@ operation:
         default: ${get('allowed_ciphers', '')}
         required: false
         private: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
         required: false
@@ -180,14 +160,7 @@ operation:
         default: ${get('x_509_hostname_verifier', '')}
         required: false
         private: true
-    - trust_all_roots:
-        default: 'false'
-        required: false  
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
+    - trust_keystore:
         required: false  
     - trustKeystore: 
         default: ${get('trust_keystore', '')}  
@@ -201,20 +174,13 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - escape_chars:
-        default: 'false'
-        required: false  
-    - escapeChars: 
-        default: ${get('escape_chars', '')}  
-        required: false 
-        private: true 
     - timeout:
         default: '60000'
         required: false
     
   java_action: 
     gav: 'io.cloudslang.content:cs-ldap:0.0.1-RC6'
-    class_name: 'io.cloudslang.content.ldap.actions.users.CreateUserAction'
+    class_name: 'io.cloudslang.content.ldap.actions.users.EnableUserAction'
     method_name: 'execute'
   
   outputs: 
