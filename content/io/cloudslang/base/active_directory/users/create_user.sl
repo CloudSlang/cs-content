@@ -211,7 +211,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC2'
     class_name: 'io.cloudslang.content.active_directory.actions.users.CreateUserAction'
     method_name: 'execute'
   
