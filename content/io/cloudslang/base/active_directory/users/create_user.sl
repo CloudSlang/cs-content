@@ -3,7 +3,12 @@
 #! @description: Creates a new user in Active Directory.
 #!
 #! @input host: The domain controller to connect to.
-#! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
+#! @input protocol: The protocol to use when connecting to the Active Directory server.
+#!                  Valid values: 'HTTP' and 'HTTPS'.
+#!                  Optional
+#! @input username: The user to connect to Active Directory as.
+#! @input password: The password of the user to connect to Active Directory.
+#! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the user to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
 #! @input user_common_name: The CN, generally the full name of user.
 #!                          Example: Bob Smith
@@ -17,13 +22,6 @@
 #!                          computerCommonName. It can't contain any of the following characters: '"','\','/', '[',']',
 #!                          ':',';','|','=',',','+','*','?','<','>'.
 #!                          Optional
-#! @input username: The user to connect to Active Directory as.
-#!                  Optional
-#! @input password: The password of the user to connect to Active Directory.
-#!                  Optional
-#! @input protocol: The protocol to use when connecting to the Active Directory server.
-#!                  Valid values: 'HTTP' and 'HTTPS'.
-#!                  Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -102,7 +100,12 @@ operation:
   name: create_user
   
   inputs: 
-    - host    
+    - host
+    - protocol:
+        required: false
+    - username
+    - password:
+        sensitive: true
     - distinguished_name    
     - distinguishedName: 
         default: ${get('distinguished_name', '')}  
@@ -125,14 +128,7 @@ operation:
     - sAMAccountName: 
         default: ${get('sam_account_name', '')}
         required: false 
-        private: true 
-    - username:  
-        required: false  
-    - password:  
-        required: false  
-        sensitive: true
-    - protocol:  
-        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -211,7 +207,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC2'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC3'
     class_name: 'io.cloudslang.content.active_directory.actions.users.CreateUserAction'
     method_name: 'execute'
   
