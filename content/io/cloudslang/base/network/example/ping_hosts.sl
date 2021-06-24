@@ -30,6 +30,8 @@
 #!                 Default: "Ping Result"
 #! @input username: Optional - Username to connect to email host.
 #! @input password: Optional - Password for the username to connect to email host.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @result SUCCESS: Addressee will get an email with result.
 #! @result FAILURE: Addressee will get an email with exception of operation.
@@ -66,9 +68,12 @@ flow:
         default: ${get_sp('io.cloudslang.base.password')}
         required: false
         sensitive: true
+    - worker_group:
+        required: false
 
   workflow:
     - check_address:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         loop:
           for: address in ip_list
           do:
@@ -85,6 +90,7 @@ flow:
           - FAILURE: failure_mail_send
 
     - check_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_equals:
             - first_string: ${ all_nodes_are_up }
@@ -94,6 +100,7 @@ flow:
           - FAILURE: failure_mail_send
 
     - mail_send:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           mail.send_mail:
             - hostname
@@ -107,6 +114,7 @@ flow:
 
     - on_failure:
         - failure_mail_send:
+            worker_group: ${get('worker_group', 'RAS_Operator_Path')}
             do:
               mail.send_mail:
                 - hostname

@@ -67,6 +67,8 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - The user name used when connecting to the proxy.
 #! @input proxy_password: Optional - The proxy server password associated with the proxy_username input value.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -143,9 +145,12 @@ flow:
       - proxy_password:
           sensitive: true
           required: false
+      - worker_group:
+          required: false
 
     workflow:
       - validate_ssh_access:
+          worker_group: ${get('worker_group', 'RAS_Operator_Path')}
           do:
             linux.validate_linux_machine_ssh_access:
               - host
@@ -180,6 +185,7 @@ flow:
             - FAILURE: handle_ssh_session_recovery
 
       - ssh_command:
+          worker_group: ${get('worker_group', 'RAS_Operator_Path')}
           do:
             ssh.ssh_command:
               - host
@@ -215,6 +221,7 @@ flow:
             - FAILURE: handle_ssh_session_recovery
 
       - handle_ssh_session_recovery:
+          worker_group: ${get('worker_group', 'RAS_Operator_Path')}
           do:
             utils.handle_session_recovery:
               - enabled: ${ smart_recovery }

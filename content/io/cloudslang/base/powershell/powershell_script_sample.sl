@@ -89,6 +89,8 @@
 #! @input operation_timeout: Defines the OperationTimeout value in seconds to indicate that the clients expect a
 #!                           response or a fault within the specified time.
 #!                           Default value is '60'.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_code: '0' if the script succeeded or '-1' otherwise.
 #! @output return_result: The scripts result.
@@ -172,9 +174,12 @@ flow:
      -  operation_timeout:
            required: false
            default: '60'
+     - worker_group:
+         required: false
 
      workflow:
        - execute_powershell_command:
+          worker_group: ${get('worker_group', 'RAS_Operator_Path')}
           do:
             scripts.powershell_script:
                -  host

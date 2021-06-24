@@ -79,6 +79,8 @@
 #!                      Default: 'text/plain'
 #! @input method: HTTP method used.
 #!                Default: 'TRACE'
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output error_message: Return_result if status_code different than '200'.
@@ -165,9 +167,12 @@ flow:
     - method:
         default: 'TRACE'
         private: true
+    - worker_group:
+        required: false
 
   workflow:
     - http_client_action_trace:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           http.http_client_action:
             - url

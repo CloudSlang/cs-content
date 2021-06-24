@@ -32,6 +32,8 @@
 #! @input recursively: if True then the permissions will be granted for entire content of the targeted folder, if False
 #!                     the permissions will granted only to the folder itself - Default: True
 #! @input script_file_name: The name of the script file
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: STDOUT of the remote machine in case of success or the cause of the error in case of exception
 #! @output standard_out: STDOUT of the machine in case of successful request, null otherwise
@@ -100,10 +102,13 @@ flow:
     - permissions_code: '755'
     - recursively: "True"
     - script_file_name
+    - worker_group:
+        required: false
 
 
   workflow:
     - install_java:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           samples.install_java_on_ubuntu:
             - host
@@ -121,6 +126,7 @@ flow:
           - FAILURE: INSTALL_JAVA_FAILURE
 
     - verify_group_exist:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           groups.verify_group_exist:
             - host
@@ -138,6 +144,7 @@ flow:
           - FAILURE: SSH_VERIFY_GROUP_EXIST_FAILURE
 
     - check_group_not_exist_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${message}
@@ -147,6 +154,7 @@ flow:
           - FAILURE: check_group_exist_result
 
     - check_group_exist_result:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${message}
@@ -156,6 +164,7 @@ flow:
           - FAILURE: CHECK_GROUP_FAILURE
 
     - add_group:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           groups.add_ubuntu_group:
             - host
@@ -172,6 +181,7 @@ flow:
           - FAILURE: ADD_GROUP_FAILURE
 
     - add_user:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           users.add_ubuntu_user:
             - host
@@ -192,6 +202,7 @@ flow:
           - FAILURE: ADD_USER_FAILURE
 
     - prepare_for_download:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.make_new_folder:
             - host
@@ -209,6 +220,7 @@ flow:
           - FAILURE: CREATE_DOWNLOADING_FOLDER_FAILURE
 
     - download_tomcat:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.download_content:
             - host
@@ -226,6 +238,7 @@ flow:
           - FAILURE: DOWNLOAD_TOMCAT_APPLICATION_FAILURE
 
     - untar_tomcat:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -245,6 +258,7 @@ flow:
           - FAILURE: UNTAR_TOMCAT_APPLICATION_FAILURE
 
     - create_symlink:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.create_symlink:
             - host
@@ -262,6 +276,7 @@ flow:
           - FAILURE: CREATE_SYMLINK_FAILURE
 
     - install_tomcat:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host
@@ -280,6 +295,7 @@ flow:
           - FAILURE: INSTALL_TOMCAT_APPLICATION_FAILURE
 
     - change_tomcat_folder_ownership:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.change_ownership:
             - host
@@ -299,6 +315,7 @@ flow:
           - FAILURE: CHANGE_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - change_download_tomcat_folder_ownership:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.change_ownership:
             - host
@@ -318,6 +335,7 @@ flow:
           - FAILURE: CHANGE_DOWNLOAD_TOMCAT_FOLDER_OWNERSHIP_FAILURE
 
     - create_init_tomcat_folder:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.make_new_folder:
             - host
@@ -335,6 +353,7 @@ flow:
           - FAILURE: CREATE_INITIALIZATION_FOLDER_FAILURE
 
     - upload_init_config_file:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           remote.remote_secure_copy:
             - source_path
@@ -351,6 +370,7 @@ flow:
           - FAILURE: UPLOAD_INIT_CONFIG_FILE_FAILURE
 
     - change_tomcat_initialization_folder_permissions:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           folders.change_permissions:
             - host
@@ -369,6 +389,7 @@ flow:
           - FAILURE: CHANGE_PERMISSIONS_FAILURE
 
     - start_tomcat:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           ssh.ssh_flow:
             - host

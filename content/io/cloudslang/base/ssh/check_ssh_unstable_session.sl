@@ -23,6 +23,8 @@
 #!                       of the error in case of exception.
 #! @input return_code: From SSH: Return code of SSH operation.
 #! @input exit_status: From SSH: Return code of remote command.
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @result SESSION_IS_DOWN: Pattern detected.
 #! @result FAILURE_WITH_NO_MESSAGE: Pattern detected.
@@ -45,9 +47,12 @@ flow:
     - return_code
     - exit_status:
         required: false
+    - worker_group:
+        required: false
 
   workflow:
     - check_return_code:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_equals:
             - first_string: '0'
@@ -57,6 +62,7 @@ flow:
           - FAILURE: check_session_is_down
 
     - check_session_is_down:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ return_result }
@@ -66,6 +72,7 @@ flow:
           - FAILURE: check_failure_with_no_message
 
     - check_failure_with_no_message:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_equals:
             - first_string: '-1'
@@ -75,6 +82,7 @@ flow:
           - FAILURE: check_socket_is_not_established
 
     - check_socket_is_not_established:
+        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: ${ return_result }
