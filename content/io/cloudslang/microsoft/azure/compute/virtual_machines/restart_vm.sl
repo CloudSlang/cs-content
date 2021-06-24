@@ -46,6 +46,7 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
+#! @worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Json response with the information about the restarted VM.
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
@@ -102,9 +103,14 @@ flow:
         default: ''
         required: false
         sensitive: true
+    - worker_group: RAS_Operator_Path
+        required: false
 
   workflow:
     - restart_vm:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_post:
             - url: >
@@ -136,6 +142,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
