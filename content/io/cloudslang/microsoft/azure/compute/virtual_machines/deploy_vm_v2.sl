@@ -15,30 +15,23 @@
 #!!
 #! @description: VM provision flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be deployed.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to deploy the VM.
-#! @input tenant_id: The username to be used to authenticate to the Azure Management Service.
-#! @input client_secret: The password to be used to authenticate to the Azure Management Service.
-#! @input provider_sap: Optional - URL of the login authority that should be used when
-#!                      retrieving the Authentication Token.
-#!                      Default: 'https://management.azure.com'
+#! @input tenant_id: The tenantId value used to control who can sign into the application.
+#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot be used in a native app (public client), because client_secrets cannot be reliably stored on devices. It is required for web apps and web APIs (all confidential clients), which have the ability to store the client_secret securely on the server side.
+#! @input provider_sap: The providerSAP(Service Access Point) to which requests will be sent.
+#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be deployed. Virtual machine name cannot contain non-ASCII or special
-#!                 characters.
-#!                 Default: ''
-#!                 Optional
-#! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
-#!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
-#!                 Default: 'Standard_DS1_v2'
+#! @input dns_name:  Specifies the domain name of the VM.
+#! @input vm_name:  Name of the VM Instance provided by the user.
+#! @input vm_size: Size of the VM to be created. Options include A0 standard , A1 standard, D1 standard, D2 standard etc.
 #! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
 #! @input availability_set_name: Specifies information about the availability set that the virtual machine
 #!                               should be assigned to. Virtual machines specified in the same availability set
 #!                               are allocated to different nodes to maximize availability.
 #! @input storage_account: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input subnet_name: The name of the Subnet in which the created VM should be added.
-#! @input os_platform: Name of the operating system that will be installed
-#!                     Valid values: 'Windows,'Linux'
 #! @input vm_username: Specifies the name of the administrator account.
 #!                     The username can't contain the \/'[]":\<>+=;,?*@ characters or end with "."
 #!                     Windows-only restriction: Cannot end in "."
@@ -62,11 +55,10 @@
 #!                       Default: ''
 #! @input tag_value_list: Optional - Value of the tag to be added to the virtual machine
 #!                        Default: ''
-#! @input disk_size: The size of the storage disk to be attach to the virtual machine.
-#!                   Note: The value must be greater than '0'
-#!                   Example: '1'
+#! @input disk_size: The size of the storage disk to be attach to the virtual machine.Note: The value must be greater than '0'Default:10 '1'
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
+#! @input image: This is a custom property that contains the operating system and application configuration name that is used to create the virtual machine.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -86,6 +78,14 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input disk_type: Type of disk. Example: Managed
+#! @input ssh_publicKey_name: The name of the SSH public key.
+#! @input private_image_name: Name of the private Image.
+#! @input storage_account_type: Type of Storage used for VM deployment.
+#! @input data_disk_name: This is the name for the data disk which is a VHD that’s attached to a virtual machine to store application data, or other data you need to keep.
+#! @input os_disk_name: Name of the VM disk used as a place to store operating system, applications and data.
+#! @input enable_public_ip: Create public ip of the VM if the value is true.
+#! @input worker_group: worker group name
 #!
 #! @output output: This output returns a JSON that contains the details of the created VM.
 #! @output ip_address: The IP address of the virtual machine
