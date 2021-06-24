@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,23 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to create a network interface card
+#! @description: This operation can be used to create a public IP address
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the network interface card should be created.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the network interface card.
+#! @input subscription_id: The ID of the Azure Subscription on which the public IP address should be created.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the public IP address.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-06-15'
-#! @input nic_name: network interface card name
-#! @input location: Specifies the supported Azure location where the network interface card should be created.
-#!                  This can be different from the location of the resource group.
-#! @input public_ip_address_name: Virtual machine public IP address
-#! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
-#! @input subnet_name: The name of the Subnet in which the created VM should be added.
+#!                     Default: '2016-03-30'
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
+#! @input location: Specifies the supported Azure location where public IP address should be created.
+#!                  This can be different from the location of the resource group.
+#! @input public_ip_address_name: Virtual machine public IP address
+#! @input public_ip_address_version: Public IP address version
+#!                                   Default: 'Ipv4'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -44,55 +43,51 @@
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response about the network card interface created
+#! @output update_public_ip_json: json response about the public IP address created
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If a network interface card could not be created the error message will be populated with
-#!                        a response, empty otherwise
+#! @output error_message: If a public IP address could not be created the error message will be populated with a response,
+#!                        empty otherwise
 #!
-#! @result SUCCESS: Network interface card created successfully.
-#! @result FAILURE: There was an error while trying to create the network interface card.
+#! @result SUCCESS: Public IP address created successfully.
+#! @result FAILURE: There was an error while trying to create the public IP address.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.network.network_interface_card
-
+namespace: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-
-flow: 
-  name: create_nic
-  
+flow:
+  name: update_public_ip_address
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
-        required: false
-        default: '2015-06-15'
-    - nic_name
-    - public_ip_address_name
-    - virtual_network_name
-    - subnet_name
-    - location
-    - dns_json:
+        default: '2016-03-30'
         required: false
     - connect_timeout:
-        default: "0"
+        default: '0'
         required: false
     - socket_timeout:
-        default: "0"
+        default: '0'
         required: false
+    - location
+    - public_ip_address_name
+    - public_ip_address_version:
+        default: Ipv4
+        required: false
+    - dns_name
     - proxy_host:
         required: false
     - proxy_port:
-        default: "8080"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -100,37 +95,29 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: strict
         required: false
     - trust_keystore:
         required: false
     - trust_password:
         required: false
         sensitive: true
-    
-  workflow: 
-    - create_network_interface_card:
+    - worker_group:
+        required: false
+  workflow:
+    - update_public_ip_address:
         do:
           http.http_client_put:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name +
-                '?api-version=' + api_version}
-            - body: >
-                ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name +
-                '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
-                '/subnets/' + subnet_name + '"},"privateIPAllocationMethod":"Dynamic","publicIPAddress":{"id":"/subscriptions/' +
-                subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' +
-                public_ip_address_name + '"}}}],"dnsSettings":{"dnsServers":['+dns_json+'],"internalDnsNameLabel":"dns'+nic_name+'"}}}'}
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id +'/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '?api-version=' + api_version}"
+            - body: "${'{\"location\":\"' + location + '\",\"properties\":{\"publicIPAllocationMethod\":\"Dynamic\",\"idleTimeoutInMinutes\":4,\"dnsSettings\":{\"domainNameLabel\":\"' + dns_name +'\"}}}'}"
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
+            - content_type: application/json
+            - request_character_set: UTF-8
             - connect_timeout
             - socket_timeout
             - proxy_host
@@ -142,29 +129,54 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - output: ${return_result}
+          - public_ip_json: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
-  outputs: 
-    - output
-    - status_code
-    - error_message
-  
-  results: 
-      - SUCCESS
-      - FAILURE
-
+  outputs:
+    - status_code: '${status_code}'
+    - error_message: '${error_message}'
+    - public_ip_json: '${public_ip_json}'
+  results:
+    - SUCCESS
+    - FAILURE
+extensions:
+  graph:
+    steps:
+      update_public_ip_address:
+        x: 101
+        'y': 250
+        navigate:
+          77c0a036-ecec-62c8-d2fe-c3d7b6dfdb3d:
+            targetId: 6ae81ed1-6144-8588-2b48-7ed8f049bdb7
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          2ec7b821-603e-f5b9-4cd6-df5cb547b480:
+            targetId: a16ae609-8617-d37a-7116-2dbafbec39ab
+            port: SUCCESS
+          44ae8219-cdf7-48a6-7cb7-3c0f1d32351a:
+            targetId: a16ae609-8617-d37a-7116-2dbafbec39ab
+            port: FAILURE
+    results:
+      SUCCESS:
+        6ae81ed1-6144-8588-2b48-7ed8f049bdb7:
+          x: 400
+          'y': 125
+      FAILURE:
+        a16ae609-8617-d37a-7116-2dbafbec39ab:
+          x: 700
+          'y': 250
