@@ -51,7 +51,7 @@
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
-#! @worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Information about the virtual machine that has been started
 #! @output status_code: 200 if request completed successfully, others in case something went wrong

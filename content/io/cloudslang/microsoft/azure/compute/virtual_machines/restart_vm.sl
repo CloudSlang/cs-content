@@ -46,7 +46,7 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Json response with the information about the restarted VM.
 #! @output status_code: 202 if request completed successfully, others in case something went wrong
