@@ -46,6 +46,7 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: json response with information about the virtual machine's instance power state as a JSON array.
 #! @output power_state: Power state json response.
@@ -103,9 +104,14 @@ flow:
         default: ''
         required: false
         sensitive: true
+    - worker_group: RAS_Operator_Path
+        required: false
 
   workflow:
     - get_power_state:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -135,6 +141,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
@@ -146,6 +153,7 @@ flow:
           - FAILURE: FAILURE
 
     - get_power_status:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
