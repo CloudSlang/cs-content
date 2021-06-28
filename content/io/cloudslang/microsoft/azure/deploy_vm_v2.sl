@@ -107,7 +107,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: compute.checkins
+namespace: io.cloudslang.microsoft.azure
 imports:
   strings: io.cloudslang.base.strings
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
