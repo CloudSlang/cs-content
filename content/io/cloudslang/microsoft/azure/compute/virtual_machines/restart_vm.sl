@@ -102,14 +102,9 @@ flow:
         default: ''
         required: false
         sensitive: true
-    - worker_group: RAS_Operator_Path
-        required: false
 
   workflow:
     - restart_vm:
-        worker_group:
-          value: '${worker_group}'
-          override: true
         do:
           http.http_client_post:
             - url: >
@@ -141,7 +136,6 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
-        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
