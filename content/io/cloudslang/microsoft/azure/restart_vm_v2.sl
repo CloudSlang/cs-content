@@ -114,8 +114,7 @@ flow:
     - client_secret:
         required: true
         sensitive: true
-    - worker_group: RAS_Operator_Path
-        required: false
+    - worker_group
 
   workflow:
     - get_auth_token_using_web_api:
