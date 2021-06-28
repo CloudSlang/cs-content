@@ -15,12 +15,17 @@
 #!!
 #! @description: Stop virtual machine flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be stopped.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to stop the VM.
-#! @input location: Specifies the supported Azure location where the virtual machine should be stopped.
-#!                  This can be different from the location of the resource group.
-#! @input vm_name: The name of the virtual machine to be stopped.
+#! @input vm_name: The name of the virtual machine to be restarted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be restarted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to restart the VM.
+#! @input tenant_id: The tenantId value used to control who can sign into the application.
+#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
+#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
+#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
+#!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
+#!                       ability to store the client_secret securely on the server side.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

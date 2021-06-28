@@ -15,12 +15,17 @@
 #!!
 #! @description: Start virtual machine flow.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be start.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to start the VM.
-#! @input vm_name: The name of the virtual machine to be started.
+#! @input vm_name: The name of the virtual machine to be restarted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
-#! @input location: Specifies the supported Azure location where the virtual machine should be started.
-#!                  This can be different from the location of the resource group.
+#! @input subscription_id: The ID of the Azure Subscription on which the VM should be restarted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to restart the VM.
+#! @input tenant_id: The tenantId value used to control who can sign into the application.
+#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
+#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
+#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
+#!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
+#!                       ability to store the client_secret securely on the server side.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
@@ -45,13 +50,6 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input tenant_id: The tenantId value used to control who can sign into the application.
-#! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
-#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
-#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
-#!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
-#!                       ability to store the client_secret securely on the server side.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Information about the virtual machine that has been started
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
