@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -143,6 +143,8 @@ flow:
                 sensitive: true
         publish:
           - auth_token
+          - return_code
+          - error_message: ${exception}
         navigate:
           - SUCCESS: restart_vm
           - FAILURE: on_failure
