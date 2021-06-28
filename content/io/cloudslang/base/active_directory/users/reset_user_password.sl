@@ -1,0 +1,154 @@
+########################################################################################################################
+#!!
+#! @description: This operation resets a user's password in Active Directory.
+#!
+#! @input host: The IP or host name of the domain controller. The port number can be mentioned as well, along with the host (hostNameOrIP:PortNumber).
+Examples: test.example.com,  test.example.com:636, <IPv4Address>, <IPv6Address>, [<IPv6Address>]:<PortNumber> etc.
+Value format: The format of an IPv4 address is: [0-225].[0-225].[0-225].[0-225]. The format of an IPv6 address is ####:####:####:####:####:####:####:####/### (with a prefix), where each #### is a hexadecimal value between 0 to FFFF and the prefix /### is a decimal value between 0 to 128. The prefix length is optional.
+#! @input protocol: The protocol to use when connecting to the Active Directory server. Valid values: HTTP and HTTPS.
+#!                  Optional
+#! @input username: The user to connect to Active Directory as.
+#! @input password: The password of the user to connect to Active Directory.
+#! @input user_distinguished_name: Distinguished name of the user whose password you want to change.
+Example: CN=User, OU=OUTest1, DC=battleground, DC=ad).
+#! @input user_password: The new password (must meet complexity requirements specified in notes section).
+#! @input proxy_host: The proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: The proxy server port.Default value: 8080.
+#!                    Optional
+#! @input proxy_username: The username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
+#!                        Optional
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'. This capability is provided “as is”, please see product documentation for further information.Valid values: TLSv1, TLSv1.1, TLSv1.2.Default value: TLSv1.2.
+#!                     Optional
+#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does
+not contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is
+the user's responsibility to configure the host accordingly or to update the list of allowed ciphers.
+Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
+TLS_RSA_WITH_AES_128_CBC_SHA256.
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's CommonName (CN) or subjectAltName field of the X.509 certificate. Set this to 'allow_all' to skip any checking, but you become vulnerable to attacks. For the value 'browser_compatible' the hostname verifier works the same way as Curland Firefox. The hostname must match either the first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of the subject-alts. The only difference between 'browser_compatible' and 'strict' is that a wildcard (such as '*.foo.com') with 'browser_compatible' matches all subdomains, including 'a.b.foo.com'. From thesecurity perspective, to provide protection against possible Man-In-The-Middle attacks, we strongly recommend to use 'strict' option. Default value: strict.Valid values: strict, browser_compatible, allow_all.
+#!                                 Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no trusted certification authority issued it.Valid values: true, falseDefault value: true
+#!                         Optional
+#! @input trust_keystore: The location of the TrustStore file.Example: %JAVA_HOME%/jre/lib/security/cacerts.
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file.
+#!                        Optional
+#! @input timeout: Time in milliseconds to wait for the connection to complete.Default value: 60000.
+#!                 Optional
+#!
+#! @output return_result: It contains the "Password Changed" message if the operations successfully completes, or an error message otherwise.
+#! @output return_code: This is the primary output. It contains the value 0 if the operation successfully completes and -1 otherwise.
+#! @output exception: The exception message if the operation fails.
+#!
+#! @result SUCCESS: The password has been reset successfully.
+#! @result FAILURE: Failed to reset the password.
+#!!#
+########################################################################################################################
+
+namespace: io.cloudslang.active_directory.users
+
+operation: 
+  name: reset_user_password
+  
+  inputs: 
+    - host    
+    - protocol:  
+        required: false  
+    - username    
+    - password:    
+        sensitive: true
+    - user_distinguished_name    
+    - userDistinguishedName: 
+        default: ${get('user_distinguished_name', '')}  
+        required: false 
+        private: true 
+    - user_password:    
+        sensitive: true
+    - userPassword: 
+        default: ${get('user_password', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - proxy_host:  
+        required: false  
+    - proxyHost: 
+        default: ${get('proxy_host', '')}  
+        required: false 
+        private: true 
+    - proxy_port:  
+        required: false  
+    - proxyPort: 
+        default: ${get('proxy_port', '')}  
+        required: false 
+        private: true 
+    - proxy_username:  
+        required: false  
+    - proxyUsername: 
+        default: ${get('proxy_username', '')}  
+        required: false 
+        private: true 
+    - proxy_password:  
+        required: false  
+    - proxyPassword: 
+        default: ${get('proxy_password', '')}  
+        required: false 
+        private: true 
+    - tls_version:  
+        required: false  
+    - tlsVersion: 
+        default: ${get('tls_version', '')}  
+        required: false 
+        private: true 
+    - allowed_ciphers:  
+        required: false  
+    - allowedCiphers: 
+        default: ${get('allowed_ciphers', '')}  
+        required: false 
+        private: true 
+    - x_509_hostname_verifier:  
+        required: false  
+    - x509HostnameVerifier: 
+        default: ${get('x_509_hostname_verifier', '')}  
+        required: false 
+        private: true 
+    - trust_all_roots:  
+        required: false  
+    - trustAllRoots: 
+        default: ${get('trust_all_roots', '')}  
+        required: false 
+        private: true 
+    - trust_keystore:  
+        required: false  
+    - trustKeystore: 
+        default: ${get('trust_keystore', '')}  
+        required: false 
+        private: true 
+    - trust_password:  
+        required: false  
+        sensitive: true
+    - trustPassword: 
+        default: ${get('trust_password', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - timeout:  
+        required: false  
+    
+  java_action: 
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.2-SNAPSHOT'
+    class_name: 'io.cloudslang.content.active_directory.actions.users.ResetUserPasswordAction'
+    method_name: 'execute'
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - return_code: ${get('returnCode', '')} 
+    - exception: ${get('exception', '')} 
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
+    - FAILURE
