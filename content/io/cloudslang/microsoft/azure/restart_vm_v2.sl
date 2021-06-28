@@ -51,7 +51,7 @@
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Information about the virtual machine that has been restarted
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -120,6 +120,7 @@ flow:
 
   workflow:
     - get_auth_token_using_web_api:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.authorization.get_auth_token_using_web_api:
             - tenant_id: '${tenant_id}'
@@ -147,6 +148,9 @@ flow:
           - FAILURE: on_failure
 
     - restart_vm:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           vm.restart_vm:
             - vm_name
@@ -172,6 +176,9 @@ flow:
           - FAILURE: on_failure
 
     - get_power_state:
+         worker_group:
+           value: '${worker_group}'
+           override: true
          do:
            vm.get_power_state:
             - vm_name
@@ -197,6 +204,7 @@ flow:
            - FAILURE: on_failure
 
     - check_power_state:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${power_state}
@@ -208,6 +216,7 @@ flow:
           - FAILURE: on_failure
 
     - compare_power_state:
+        worker_group: '${worker_group}'
         do:
           strings.string_equals:
             - first_string: ${expected_power_state}
@@ -217,6 +226,7 @@ flow:
           - FAILURE: sleep
 
     - sleep:
+        worker_group: '${worker_group}'
         do:
           flow.sleep:
             - seconds: ${polling_interval}
