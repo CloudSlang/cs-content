@@ -845,6 +845,9 @@ flow:
                 sensitive: true
             - worker_group: '${worker_group}'
             - dns_json: ''
+        publish:
+          - nic_state: '${output}'
+          - nic_name
         navigate:
           - SUCCESS: create_vm
           - FAILURE: on_failure
