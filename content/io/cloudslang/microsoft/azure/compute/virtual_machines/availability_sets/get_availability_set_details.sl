@@ -67,7 +67,7 @@ flow:
     - auth_token
     - api_version:
         required: false
-        default: '2016-09-01'
+        default: '2019-07-01'
     - availability_set_name
     - proxy_host:
         required: false
