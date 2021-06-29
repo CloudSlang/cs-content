@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -66,9 +66,9 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
-flow: 
+flow:
   name: create_nic
-  
+
   inputs:
     - subscription_id
     - resource_group_name
@@ -110,8 +110,8 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    
-  workflow: 
+
+  workflow:
     - create_network_interface_card:
         do:
           http.http_client_put:
@@ -159,12 +159,12 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
 
-  outputs: 
+  outputs:
     - output
     - status_code
     - error_message
-  
-  results: 
+
+  results:
       - SUCCESS
       - FAILURE
 

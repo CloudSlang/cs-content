@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to create a public IP address
+#! @description: This operation can be used to update a public IP address
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the public IP address should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the public IP address.
@@ -80,10 +80,8 @@ flow:
         required: false
     - location
     - public_ip_address_name
-    - public_ip_address_version:
-        default: Ipv4
-        required: false
-    - dns_name
+    - dns_name:
+        required: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -105,8 +103,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - worker_group:
-        required: false
   workflow:
     - update_public_ip_address:
         do:
@@ -129,7 +125,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - public_ip_json: '${return_result}'
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
@@ -145,9 +141,9 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
   outputs:
-    - status_code: '${status_code}'
-    - error_message: '${error_message}'
-    - public_ip_json: '${public_ip_json}'
+    - update_public_ip_json: '${output}'
+    - status_code
+    - error_message
   results:
     - SUCCESS
     - FAILURE
@@ -155,8 +151,8 @@ extensions:
   graph:
     steps:
       update_public_ip_address:
-        x: 101
-        'y': 250
+        x: 102
+        'y': 249
         navigate:
           77c0a036-ecec-62c8-d2fe-c3d7b6dfdb3d:
             targetId: 6ae81ed1-6144-8588-2b48-7ed8f049bdb7
@@ -179,4 +175,3 @@ extensions:
       FAILURE:
         a16ae609-8617-d37a-7116-2dbafbec39ab:
           x: 700
-          'y': 250
