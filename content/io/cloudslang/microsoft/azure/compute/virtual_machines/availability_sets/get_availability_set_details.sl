@@ -95,15 +95,12 @@ flow:
     - get_information_about_availability_set:
         do:
           http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +
-                '?api-version=' + api_version}
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +'?api-version=' + api_version}"
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
+            - content_type: application/json
+            - request_character_set: UTF-8
             - proxy_host
             - proxy_port
             - proxy_username
@@ -113,29 +110,56 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      get_information_about_availability_set:
+        x: 100
+        'y': 250
+        navigate:
+          cdee64f0-f453-18fc-5a6e-0d0f65dbe30b:
+            targetId: cdb7c897-4524-40ac-9560-874b8940f662
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          17e5613e-0478-bc55-0936-c38725027e39:
+            targetId: 430d7508-642a-e521-f94c-97b9a596de97
+            port: SUCCESS
+          0284fad2-b9e9-0ac8-e7cb-cd55ff9d88ed:
+            targetId: 430d7508-642a-e521-f94c-97b9a596de97
+            port: FAILURE
+    results:
+      SUCCESS:
+        cdb7c897-4524-40ac-9560-874b8940f662:
+          x: 400
+          'y': 125
+      FAILURE:
+        430d7508-642a-e521-f94c-97b9a596de97:
+          x: 700
+          'y': 250
+
 

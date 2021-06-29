@@ -124,6 +124,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
+  avset: io.cloudslang.microsoft.azure.compute.virtual_machines.availability_sets
 
 flow:
   name: deploy_vm_v2
@@ -576,7 +577,7 @@ flow:
           - FAILURE: get_nic_name_info
     - update_public_ip_address:
         do:
-          compute.update_public_ip_address:
+          ip.update_public_ip_address:
             - subscription_id: '${subscription_id}'
             - resource_group_name: '${resource_group_name}'
             - auth_token: '${auth_token}'
@@ -675,7 +676,7 @@ flow:
           - FAILURE: check_azure_availability_type
     - get_availability_set_details:
         do:
-          compute.test.get_availability_set_details:
+          avset.get_availability_set_details:
             - subscription_id: '${subscription_id}'
             - resource_group_name: '${resource_group_name}'
             - auth_token: '${auth_token}'
