@@ -115,7 +115,7 @@ operation:
         private: true
     - sam_account_name
     - sAMAccountName:
-        default: ${get('s_am_account_name', '')}
+        default: ${get('sam_account_name', '')}
         required: false
         private: true
     - group_type:  
