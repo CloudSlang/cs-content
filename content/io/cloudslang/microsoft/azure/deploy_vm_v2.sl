@@ -530,7 +530,7 @@ flow:
             - json_input: '${vm_info}'
             - json_path: id
         publish:
-          - resource_id: '${return_result}'
+          - vm_resource_id: '${return_result}'
         navigate:
           - SUCCESS: check_enable_public_ip_1
           - FAILURE: on_failure
@@ -607,7 +607,7 @@ flow:
             - json_input: '${public_ip_json}'
             - json_path: 'properties,dnsSettings,fqdn'
         publish:
-          - dns_name: '${return_result}'
+          - primary_dns_name: '${return_result}'
         navigate:
           - SUCCESS: get_nic_name_info
           - FAILURE: on_failure
@@ -902,18 +902,18 @@ flow:
   outputs:
     - vm_final_name: '${vm_name}'
     - error_message: '${error_message}'
-    - disk_name: '${disk_name}'
-    - primary_dns_name: '${dns_name}'
-    - internal_fqdn: '${internal_fqdn}'
-    - public_ip_address: '${public_ip_address}'
-    - mac_address: '${mac_address}'
-    - nic_name: '${nic_name}'
-    - os_type: '${os_type}'
-    - power_state: '${power_state}'
-    - private_ip_address: '${private_ip_address}'
-    - public_ip_address_name: '${public_ip_address_name}'
-    - vm_id: '${vm_id}'
-    - vm_resource_id: '${resource_id}'
+    - disk_name
+    - primary_dns_name
+    - internal_fqdn
+    - public_ip_address
+    - mac_address
+    - nic_name
+    - os_type
+    - power_state
+    - private_ip_address
+    - public_ip_address_name
+    - vm_id
+    - vm_resource_id
   results:
     - SUCCESS
     - FAILURE
