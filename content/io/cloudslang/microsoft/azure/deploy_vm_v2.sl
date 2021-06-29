@@ -902,7 +902,7 @@ flow:
   outputs:
     - vm_final_name: '${vm_name}'
     - error_message: '${error_message}'
-    - disk_name: '${data_disk_name}'
+    - disk_name: '${disk_name}'
     - primary_dns_name: '${dns_name}'
     - internal_fqdn: '${internal_fqdn}'
     - public_ip_address: '${public_ip_address}'
