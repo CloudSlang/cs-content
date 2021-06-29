@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Start virtual machine flow.
+#! @description: Stop and deallocate virtual machine flow.
 #!
 #! @input vm_name: The name of the virtual machine to be restarted.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
@@ -51,7 +51,7 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!
-#! @output output: Information about the virtual machine that has been started
+#! @output output: Information about the virtual machine that has been stopped and de-allocated
 #! @output power_state: Power state of the Virtual Machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
@@ -73,9 +73,10 @@ imports:
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
 
 flow:
-  name: start_vm_v2
+  name: stop_and_deallocate_vm
 
   inputs:
+
     - vm_name
     - subscription_id
     - resource_group_name
@@ -88,11 +89,16 @@ flow:
     - client_secret:
         required: true
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - connect_timeout:
         default: "0"
         required: false
-    - polling_interval:
+    - socket_timeout:
+        default: "0"
         required: false
+    - polling_interval:
         default: '30'
     - proxy_host:
         required: false
@@ -113,9 +119,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
 
   workflow:
     - get_auth_token_using_web_api:
@@ -145,27 +148,29 @@ flow:
           - return_code
           - error_message: ${exception}
         navigate:
-          - SUCCESS: start_vm
+          - SUCCESS: stop_and_deallocate_vm
           - FAILURE: on_failure
 
-    - start_vm:
+    - stop_and_deallocate_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          vm.start_vm:
+          vm.stop_and_deallocate_vm:
             - vm_name
             - subscription_id
             - resource_group_name
             - auth_token
             - connect_timeout
-            - socket_timeout: '0'
+            - socket_timeout
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
+            - keystore
+            - keystore_password
             - trust_keystore
             - trust_password
         publish:
@@ -186,14 +191,14 @@ flow:
             - subscription_id
             - resource_group_name
             - auth_token
-            - connect_timeout
-            - socket_timeout: '0'
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
+            - keystore
+            - keystore_password
             - trust_keystore
             - trust_password
          publish:
@@ -222,7 +227,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${expected_power_state}
-            - second_string: 'PowerState/running'
+            - second_string: 'PowerState/stopped'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: sleep
@@ -246,3 +251,4 @@ flow:
   results:
     - SUCCESS
     - FAILURE
+

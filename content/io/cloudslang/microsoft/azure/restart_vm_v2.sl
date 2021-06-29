@@ -52,6 +52,7 @@
 #!                                 Default: 'strict'
 #!
 #! @output output: Information about the virtual machine that has been restarted
+#! @output power_state: Power state of the Virtual Machine.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -87,9 +88,6 @@ flow:
     - client_secret:
         required: true
         sensitive: true
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
     - connect_timeout:
         default: "0"
         required: false
@@ -115,6 +113,9 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
 
   workflow:
     - get_auth_token_using_web_api:
@@ -236,7 +237,8 @@ flow:
           - FAILURE: on_failure
 
   outputs:
-    - output: '${power_state}'
+    - output
+    - power_state: ${power_state}
     - status_code
     - return_code
     - error_message

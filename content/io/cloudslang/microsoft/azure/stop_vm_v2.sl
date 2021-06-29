@@ -59,6 +59,7 @@
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #!
 #! @output output: Information about the virtual machine that has been stopped
+#! @output power_state: Power state of the Virtual Machine
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -85,6 +86,15 @@ flow:
     - vm_name
     - subscription_id
     - resource_group_name
+    - tenant_id:
+        required: true
+        sensitive: false
+    - client_id:
+        required: true
+        sensitive: false
+    - client_secret:
+        required: true
+        sensitive: true
     - connect_timeout:
         default: "0"
         required: false
@@ -112,15 +122,6 @@ flow:
         required: false
     - trust_password:
         required: false
-        sensitive: true
-    - tenant_id:
-        required: true
-        sensitive: false
-    - client_id:
-        required: true
-        sensitive: false
-    - client_secret:
-        required: true
         sensitive: true
     - worker_group:
         default: RAS_Operator_Path
@@ -206,7 +207,8 @@ flow:
             - trust_keystore
             - trust_password
          publish:
-           - power_state: ${output}
+           - power_state: ${power_state}
+           - power_status: ${output}
            - status_code
            - error_message
          navigate:
@@ -217,7 +219,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: ${power_state}
+            - json_input: ${power_status}
             - json_path: 'statuses,1,code'
         publish:
           - expected_power_state: ${return_result}
@@ -246,6 +248,7 @@ flow:
 
   outputs:
     - output
+    - power_state: ${power_state}
     - status_code
     - return_code
     - error_message
