@@ -382,7 +382,7 @@ flow:
             - publisher: '${publisher}'
             - offer: '${offer}'
             - sku: '${sku}'
-            - image_version: '${version}'
+            - image_version: "${get('version', '')}"
             - plan: '${plan}'
             - private_image_name: '${private_image_name}'
             - data_disk_name: '${data_disk_name}'
@@ -897,7 +897,7 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - private_image_name: '${image}'
         publish:
-          - output_0: '${private_image_name}'
+          - private_image_name
         navigate:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
@@ -923,208 +923,199 @@ extensions:
   graph:
     steps:
       get_auth_token_using_web_api:
-        x: 21
-        'y': 347
+        x: 100
+        'y': 450
       string_occurrence_counter_for_image:
-        x: 29
-        'y': 134
-        navigate:
-          0063a787-429e-2fa3-aafc-f513e4a94b37:
-            vertices:
-              - x: 267
-                'y': 72
-            targetId: set_private_image_name
-            port: FAILURE
+        x: 400
+        'y': 450
       get_nic_name_info:
-        x: 4009.2578125
-        'y': 480.5
+        x: 7000
+        'y': 675
       get_azure_image_details:
-        x: 206
-        'y': 355
+        x: 1000
+        'y': 225
       create_network_interface:
-        x: 1830
-        'y': 411
+        x: 4000
+        'y': 225
       set_vm_id:
-        x: 3526
-        'y': 49
+        x: 5500
+        'y': 225
       set_mac_address:
-        x: 3996.2578125
-        'y': 272.6171875
+        x: 7300
+        'y': 675
       set_av_type:
-        x: 440
-        'y': 585
+        x: 2200
+        'y': 150
       set_ramdom_number:
-        x: 750
-        'y': 368
-        navigate:
-          876d11f0-9c17-5a7d-24ae-2e90d4f49863:
-            vertices:
-              - x: 202
-                'y': 569
-            targetId: check_azure_infra_type
-            port: SUCCESS
+        x: 1300
+        'y': 450
       set_private_image_name:
-        x: 426.7578125
-        'y': 135.5
+        x: 700
+        'y': 675
       check_enable_public_ip_1:
-        x: 3449
-        'y': 431
+        x: 6700
+        'y': 450
       get_availability_set_details:
-        x: 236.7578125
-        'y': 578.5
+        x: 1900
+        'y': 225
       create_nic_without_public_ip:
-        x: 1832
-        'y': 626.1875
+        x: 3700
+        'y': 450
       set_storage_type_1:
-        x: 714
-        'y': 492
+        x: 2800
+        'y': 337.5
       set_storage_account_type:
-        x: 742
-        'y': 635
+        x: 2495
+        'y': 411
       get_vm_info:
-        x: 2604
-        'y': 82
+        x: 4300
+        'y': 450
       string_equals:
-        x: 219
-        'y': 138
+        x: 700
+        'y': 225
       get_power_state:
-        x: 4143.26171875
-        'y': 423
+        x: 8200
+        'y': 450
         navigate:
-          2de956c0-2ebc-b121-47e6-e83a62b19d5e:
-            targetId: 9f545f21-e07c-ac50-3b6f-d0fbd0c39e83
+          d94e7007-27f0-efd5-326e-39456a688257:
+            targetId: 82c1913f-cdac-2e76-7f3e-2101ef8159b2
             port: SUCCESS
       compare_power_state_1:
-        x: 3085
-        'y': 133
+        x: 4900
+        'y': 450
       same_name_error_msg:
-        x: 2190
-        'y': 168
+        x: 3400
+        'y': 750
         navigate:
-          d4cbcaa3-e77e-ad75-6955-92b0a6425e9c:
-            targetId: 6c84f1c7-298c-cde4-c621-674d21335b86
+          093c9e4c-4235-da76-0dc5-e9916e55281a:
+            targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: SUCCESS
       set_resource_id:
-        x: 3784
-        'y': 314
+        x: 6400
+        'y': 675
       check_azure_infra_type:
-        x: 61.75782012939453
-        'y': 655.5
+        x: 1600
+        'y': 450
       check_vm_state_1:
-        x: 2988
-        'y': 17
+        x: 4600
+        'y': 450
       wait_before_check:
-        x: 2754
-        'y': 188
+        x: 5110
+        'y': 651
       get_vm_public_ip_address:
-        x: 3380
-        'y': 658
+        x: 7000
+        'y': 225
       check_if_vm_name_alerady_exists:
-        x: 1299
-        'y': 16
-      set_private_ip_address:
-        x: 4244
-        'y': 176
-      get_vm_details_1:
-        x: 1000
-        'y': 350
-      set_public_ip_address:
-        x: 3877
-        'y': 711
-      set_data_disk_name:
-        x: 3238
-        'y': 43
-      check_azure_availability_type:
-        x: 234.7578125
-        'y': 784.5
-      check_dns_name:
-        x: 1284
-        'y': 308
-      check_enable_public_ip:
-        x: 1554
-        'y': 547
-      set_os_type:
-        x: 3569
-        'y': 230
-      set_av_type_1:
-        x: 585
-        'y': 589
-      random_number_generator:
-        x: 400
-        'y': 350
-      check_if_same_name:
-        x: 1901
-        'y': 175
-      create_vm:
-        x: 2365
-        'y': 108
+        x: 2800
+        'y': 787.5
         navigate:
-          996601b1-4e09-3f24-6a07-1c6482907e57:
-            targetId: 1b6ae514-478c-4191-827c-e1cda268cd24
+          d7019e11-e1aa-bcd6-a917-2851dab9be9e:
+            vertices:
+              - x: 2051
+                'y': 915
+            targetId: random_number_generator
+            port: FAILURE
+      set_private_ip_address:
+        x: 7900
+        'y': 675
+      get_vm_details_1:
+        x: 2500
+        'y': 675
+      set_public_ip_address:
+        x: 7600
+        'y': 225
+      set_data_disk_name:
+        x: 5200
+        'y': 225
+      check_azure_availability_type:
+        x: 1900
+        'y': 675
+      check_dns_name:
+        x: 3100
+        'y': 225
+      check_enable_public_ip:
+        x: 3400
+        'y': 450
+      set_os_type:
+        x: 5800
+        'y': 225
+      set_av_type_1:
+        x: 2500
+        'y': 225
+      random_number_generator:
+        x: 1000
+        'y': 675
+      check_if_same_name:
+        x: 3100
+        'y': 675
+      create_vm:
+        x: 4000
+        'y': 675
+        navigate:
+          08656d34-125d-be06-5c89-d0cdd60a0349:
+            targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: FAILURE
       set_internal_fqdn:
-        x: 4110.2578125
-        'y': 178.6171875
+        x: 7600
+        'y': 675
       create_public_ip:
-        x: 1559
-        'y': 207
+        x: 3700
+        'y': 150
       set_unix_os_type:
-        x: 3881.2578125
-        'y': 78.5
+        x: 6400
+        'y': 225
       set_storage_type:
-        x: 909
-        'y': 854
+        x: 2200
+        'y': 750
       string_occurrence_counter:
-        x: 1280
-        'y': 507
+        x: 2800
+        'y': 562.5
         navigate:
-          dc71ab97-b555-703e-2833-55c59a4ea1d7:
-            targetId: 3d3fa1b4-8779-d68b-1ac4-1e4d50f29ce4
+          825bb77f-26cd-30cb-5eba-48ab9e265502:
+            targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: FAILURE
       counter:
-        x: 3005
-        'y': 443
+        x: 5500
+        'y': 675
         navigate:
-          7a280867-369a-5ae0-17cf-b2e47605dbc4:
-            targetId: ce5e0e5a-2ae1-1138-2524-2de4fa9dd750
+          dbdb6dd7-3dbd-3ec6-ee40-90403d424da5:
+            targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: NO_MORE
+            vertices:
+              - x: 4948
+                'y': 918
       set_default_dns_name:
-        x: 1430
-        'y': 333.1875
+        x: 3400
+        'y': 150
       update_public_ip_address:
-        x: 3702
-        'y': 701
+        x: 7300
+        'y': 225
       compare_power_state:
-        x: 2889
-        'y': 167
+        x: 5375
+        'y': 452
         navigate:
-          ffc760a4-e499-e21e-254c-0ee4acdd9808:
-            targetId: ce5e0e5a-2ae1-1138-2524-2de4fa9dd750
+          17b65d54-4023-629b-2827-03b42ffc6e87:
+            targetId: 54bcc09c-453d-b40c-63ed-411a76b73542
             port: SUCCESS
       check_os_type:
-        x: 3656
-        'y': 86
+        x: 6100
+        'y': 450
       set_dns_name:
-        x: 4044
-        'y': 674
+        x: 7900
+        'y': 225
       set_storage_account_type_1:
-        x: 731
-        'y': 772.1875
+        x: 2200
+        'y': 450
     results:
-      SUCCESS:
-        9f545f21-e07c-ac50-3b6f-d0fbd0c39e83:
-          x: 4244
-          'y': 725
       FAILURE:
-        3d3fa1b4-8779-d68b-1ac4-1e4d50f29ce4:
-          x: 1285
-          'y': 730
-        1b6ae514-478c-4191-827c-e1cda268cd24:
-          x: 2657
-          'y': 306
-        ce5e0e5a-2ae1-1138-2524-2de4fa9dd750:
-          x: 3308.7578125
-          'y': 242.5
-        6c84f1c7-298c-cde4-c621-674d21335b86:
-          x: 1950.0078125
-          'y': 28.500003814697266
+        71542ed1-a12e-a78a-93dc-0ab395ab81dd:
+          x: 3700
+          'y': 750
+        54bcc09c-453d-b40c-63ed-411a76b73542:
+          x: 5649
+          'y': 450
+      SUCCESS:
+        82c1913f-cdac-2e76-7f3e-2101ef8159b2:
+          x: 8500
+          'y': 450
+
