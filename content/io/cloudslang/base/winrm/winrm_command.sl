@@ -333,7 +333,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.2-DCA-TEST-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.25-TEST-DCA'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
