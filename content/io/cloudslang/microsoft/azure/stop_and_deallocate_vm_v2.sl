@@ -227,7 +227,7 @@ flow:
         do:
           strings.string_equals:
             - first_string: ${expected_power_state}
-            - second_string: 'PowerState/stopped'
+            - second_string: 'PowerState/deallocated'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: sleep
