@@ -143,7 +143,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.13-RC1'
+    gav: 'io.cloudslang.content:cs-azure:0.0.13-RC3'
     class_name: 'io.cloudslang.content.azure.actions.utils.GetAuthTokenUsingWebAPI'
     method_name: 'execute'
   
