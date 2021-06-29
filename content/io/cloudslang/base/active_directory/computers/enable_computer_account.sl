@@ -8,7 +8,7 @@
 #!                  Optional
 #! @input username: The user to connect to Active Directory as.
 #! @input password: The password of the user to connect to Active Directory.
-#! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
+#! @input distinguished_name: The Organizational Unit DN or Common Name DN on which to enable the computer.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
 #! @input computer_common_name: The name of the computer (its CN).
 #! @input proxy_host: The proxy server used to access the web site.
