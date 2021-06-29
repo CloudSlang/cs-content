@@ -121,11 +121,10 @@ imports:
   auth: io.cloudslang.microsoft.azure.authorization
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
   math: io.cloudslang.base.math
+  avset: io.cloudslang.microsoft.azure.compute.virtual_machines.availability_sets
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
-  avset: io.cloudslang.microsoft.azure.compute.virtual_machines.availability_sets
-
 flow:
   name: deploy_vm_v2
   inputs:
@@ -227,7 +226,7 @@ flow:
         publish:
           - auth_token
         navigate:
-          - SUCCESS: string_occurrence_counter_1
+          - SUCCESS: string_occurrence_counter_for_image
           - FAILURE: on_failure
     - create_public_ip:
         do:
@@ -296,7 +295,7 @@ flow:
           - random_number
         navigate:
           - FAILURE: random_number_generator
-          - SUCCESS: do_nothing
+          - SUCCESS: set_ramdom_number
     - get_vm_details_1:
         do:
           vm.get_vm_details:
@@ -771,7 +770,7 @@ flow:
         navigate:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
-    - do_nothing:
+    - set_ramdom_number:
         do:
           io.cloudslang.base.utils.do_nothing:
             - vm_name: '${vm_name+random_number}'
@@ -875,7 +874,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - string_occurrence_counter_1:
+    - string_occurrence_counter_for_image:
         do:
           io.cloudslang.base.strings.string_occurrence_counter:
             - string_in_which_to_search: '${image}'
@@ -884,7 +883,7 @@ flow:
           - image_count: '${return_result}'
         navigate:
           - SUCCESS: string_equals
-          - FAILURE: on_failure
+          - FAILURE: set_private_image_name
     - string_equals:
         do:
           io.cloudslang.base.strings.string_equals:
@@ -926,6 +925,16 @@ extensions:
       get_auth_token_using_web_api:
         x: 21
         'y': 347
+      string_occurrence_counter_for_image:
+        x: 29
+        'y': 134
+        navigate:
+          0063a787-429e-2fa3-aafc-f513e4a94b37:
+            vertices:
+              - x: 267
+                'y': 72
+            targetId: set_private_image_name
+            port: FAILURE
       get_nic_name_info:
         x: 4009.2578125
         'y': 480.5
@@ -944,6 +953,16 @@ extensions:
       set_av_type:
         x: 440
         'y': 585
+      set_ramdom_number:
+        x: 750
+        'y': 368
+        navigate:
+          876d11f0-9c17-5a7d-24ae-2e90d4f49863:
+            vertices:
+              - x: 202
+                'y': 569
+            targetId: check_azure_infra_type
+            port: SUCCESS
       set_private_image_name:
         x: 426.7578125
         'y': 135.5
@@ -968,9 +987,6 @@ extensions:
       string_equals:
         x: 219
         'y': 138
-      string_occurrence_counter_1:
-        x: 29
-        'y': 134
       get_power_state:
         x: 4143.26171875
         'y': 423
@@ -1033,16 +1049,6 @@ extensions:
       set_av_type_1:
         x: 585
         'y': 589
-      do_nothing:
-        x: 750
-        'y': 368
-        navigate:
-          876d11f0-9c17-5a7d-24ae-2e90d4f49863:
-            vertices:
-              - x: 202
-                'y': 569
-            targetId: check_azure_infra_type
-            port: SUCCESS
       random_number_generator:
         x: 400
         'y': 350
