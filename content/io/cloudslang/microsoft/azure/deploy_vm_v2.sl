@@ -68,32 +68,45 @@
 #! @input os_disk_name: Name of the VM disk used as a place to store operating system, applications and data.
 #! @input data_disk_name: This is the name for the data disk which is a VHD that’s attached to a virtual machine to
 #!                        store application data, or other data you need to keep.
-#! @input tag_name_list: Optional - Name of the tag to be added to the virtual machine
+#! @input tag_name_list: Name of the tag to be added to the virtual machine
 #!                       Default: ''
-#! @input tag_value_list: Optional - Value of the tag to be added to the virtual machine
+#!                       Optional
+#! @input tag_value_list: Value of the tag to be added to the virtual machine
 #!                        Default: ''
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#!                        Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input worker_group: worker group
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#!                         Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Username used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
 #! @output vm_final_name: The final virtual machine name.
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise

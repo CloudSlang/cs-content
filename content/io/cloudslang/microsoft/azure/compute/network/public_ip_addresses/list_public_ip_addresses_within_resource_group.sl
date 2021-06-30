@@ -29,6 +29,9 @@
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -91,6 +94,7 @@ flow:
         default: "0"
         required: false
     - worker_group:
+        default: RAS_Operator_Path
         required: false
     - proxy_host:
         required: false

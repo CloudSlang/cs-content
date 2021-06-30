@@ -22,6 +22,9 @@
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-09-01'
 #! @input availability_set_name: availability set name
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -70,6 +73,7 @@ flow:
         default: '2019-07-01'
     - availability_set_name
     - worker_group:
+        default: RAS_Operator_Path
         required: false
     - proxy_host:
         required: false
