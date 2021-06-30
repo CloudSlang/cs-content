@@ -91,6 +91,8 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - worker_group:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -115,6 +117,9 @@ flow:
 
   workflow: 
     - get_nic_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -144,6 +149,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}

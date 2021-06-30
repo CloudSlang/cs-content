@@ -81,6 +81,8 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - worker_group:
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -106,6 +108,9 @@ flow:
 
   workflow:
     - get_power_state:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -135,6 +140,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
@@ -146,6 +152,7 @@ flow:
           - FAILURE: FAILURE
 
     - get_power_status:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}

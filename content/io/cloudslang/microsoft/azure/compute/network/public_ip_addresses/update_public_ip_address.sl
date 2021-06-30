@@ -82,6 +82,8 @@ flow:
     - public_ip_address_name
     - dns_name:
         required: true
+    - worker_group:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -105,6 +107,9 @@ flow:
         sensitive: true
   workflow:
     - update_public_ip_address:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_put:
             - url: "${'https://management.azure.com/subscriptions/' + subscription_id +'/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name + '?api-version=' + api_version}"
@@ -131,6 +136,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: '${output}'

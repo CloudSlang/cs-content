@@ -69,6 +69,8 @@ flow:
         required: false
         default: '2019-07-01'
     - availability_set_name
+    - worker_group:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -93,6 +95,9 @@ flow:
 
   workflow:
     - get_information_about_availability_set:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +'?api-version=' + api_version}"
@@ -116,6 +121,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: '${output}'

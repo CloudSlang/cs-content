@@ -40,9 +40,12 @@
 #!                     "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console",
 #!                     "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
 #!                     "sys", "test2", "test3", "user4", "user5".
-#! @input image: This is a custom property that contains the operating system and application configuration name that is used to create the virtual machine.
+#! @input image: This is a custom property that contains the operating system and application configuration name that
+#!               is used to create the virtual machine.
 #! @input enable_public_ip: Create public ip of the VM if the value is true.
-#! @input type_of_storage: Type of Storage used for VM deployment. If aligned availability set or Managed infra is selected, it lists available  storage account type. If classic availability set or Unmanaged infra is selected, it lists available storage account.
+#! @input type_of_storage: Type of Storage used for VM deployment. If aligned availability set or Managed infra is
+#!                         selected, it lists available  storage account type. If classic availability set or Unmanaged
+#!                         infra is selected, it lists available storage account.
 #! @input dns_name: Specifies the domain name of the VM.
 #! @input os_platform: Name of the operating system that will be installed
 #!                     Valid values: 'Windows,'Linux'
@@ -63,7 +66,8 @@
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
 #! @input os_disk_name: Name of the VM disk used as a place to store operating system, applications and data.
-#! @input data_disk_name: This is the name for the data disk which is a VHD that’s attached to a virtual machine to store application data, or other data you need to keep.
+#! @input data_disk_name: This is the name for the data disk which is a VHD that’s attached to a virtual machine to
+#!                        store application data, or other data you need to keep.
 #! @input tag_name_list: Optional - Name of the tag to be added to the virtual machine
 #!                       Default: ''
 #! @input tag_value_list: Optional - Value of the tag to be added to the virtual machine
@@ -203,6 +207,7 @@ flow:
         sensitive: true
   workflow:
     - get_auth_token_using_web_api:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.authorization.get_auth_token_using_web_api:
             - tenant_id: '${tenant_id}'
@@ -229,6 +234,9 @@ flow:
           - SUCCESS: string_occurrence_counter_for_image
           - FAILURE: on_failure
     - create_public_ip:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           ip.create_public_ip_address:
             - vm_name: '${vm_name}'
@@ -256,6 +264,9 @@ flow:
           - SUCCESS: create_network_interface
           - FAILURE: on_failure
     - create_network_interface:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           nic.create_nic:
             - vm_name: '${vm_name}'
@@ -287,6 +298,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: create_vm
     - random_number_generator:
+        worker_group: '${worker_group}'
         do:
           math.random_number_generator:
             - min: '10000'
@@ -297,6 +309,9 @@ flow:
           - FAILURE: random_number_generator
           - SUCCESS: set_ramdom_number
     - get_vm_details_1:
+        worker_group:
+          value: RAS_Operator_Path
+          override: true
         do:
           vm.get_vm_details:
             - subscription_id: '${subscription_id}'
@@ -318,6 +333,7 @@ flow:
           - FAILURE: string_occurrence_counter
           - SUCCESS: check_if_vm_name_alerady_exists
     - string_occurrence_counter:
+        worker_group: '${worker_group}'
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: '${vm_details}'
@@ -327,6 +343,7 @@ flow:
           - FAILURE: FAILURE
           - SUCCESS: check_dns_name
     - check_if_vm_name_alerady_exists:
+        worker_group: '${worker_group}'
         do:
           json.json_path_query:
             - json_object: '${vm_details}'
@@ -337,6 +354,7 @@ flow:
           - SUCCESS: check_if_same_name
           - FAILURE: random_number_generator
     - check_if_same_name:
+        worker_group: '${worker_group}'
         do:
           strings.string_equals:
             - string_in_which_to_search: '${vm_to_check}'
@@ -347,6 +365,7 @@ flow:
           - SUCCESS: same_name_error_msg
           - FAILURE: same_name_error_msg
     - same_name_error_msg:
+        worker_group: '${worker_group}'
         do:
           strings.append:
             - origin_string: "${'A virtual machine with the name \"' + vm_name + '\" already exists.'}"
@@ -356,6 +375,7 @@ flow:
         navigate:
           - SUCCESS: FAILURE
     - create_vm:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.azure.compute.virtualmachines.create_vm:
             - subscription_id: '${subscription_id}'
@@ -408,6 +428,7 @@ flow:
           - SUCCESS: get_vm_info
           - FAILURE: FAILURE
     - counter:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.utils.counter:
             - from: '1'
@@ -419,6 +440,7 @@ flow:
           - NO_MORE: FAILURE
           - FAILURE: on_failure
     - wait_before_check:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
@@ -426,6 +448,9 @@ flow:
           - SUCCESS: get_vm_info
           - FAILURE: on_failure
     - get_vm_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.compute.virtual_machines.get_vm_details:
             - subscription_id
@@ -450,6 +475,7 @@ flow:
           - SUCCESS: check_vm_state_1
           - FAILURE: on_failure
     - check_vm_state_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vm_info}'
@@ -460,6 +486,7 @@ flow:
           - SUCCESS: compare_power_state_1
           - FAILURE: on_failure
     - compare_power_state_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${expected_vm_state}'
@@ -468,6 +495,7 @@ flow:
           - SUCCESS: set_data_disk_name
           - FAILURE: compare_power_state
     - compare_power_state:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${expected_vm_state}'
@@ -476,6 +504,7 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: counter
     - set_data_disk_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vm_info}'
@@ -486,6 +515,7 @@ flow:
           - SUCCESS: set_vm_id
           - FAILURE: on_failure
     - set_vm_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vm_info}'
@@ -496,6 +526,7 @@ flow:
           - SUCCESS: set_os_type
           - FAILURE: on_failure
     - set_os_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vm_info}'
@@ -506,6 +537,7 @@ flow:
           - SUCCESS: check_os_type
           - FAILURE: on_failure
     - check_os_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${os_type}'
@@ -515,6 +547,7 @@ flow:
           - SUCCESS: set_unix_os_type
           - FAILURE: set_resource_id
     - set_unix_os_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - os_type: Unix
@@ -524,6 +557,7 @@ flow:
           - SUCCESS: set_resource_id
           - FAILURE: on_failure
     - set_resource_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vm_info}'
@@ -534,6 +568,7 @@ flow:
           - SUCCESS: check_enable_public_ip_1
           - FAILURE: on_failure
     - check_enable_public_ip:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${enable_public_ip}'
@@ -543,6 +578,9 @@ flow:
           - SUCCESS: create_public_ip
           - FAILURE: create_nic_without_public_ip
     - get_vm_public_ip_address:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.compute.network.public_ip_addresses.list_public_ip_addresses_within_resource_group:
             - subscription_id
@@ -566,6 +604,7 @@ flow:
           - SUCCESS: update_public_ip_address
           - FAILURE: on_failure
     - check_enable_public_ip_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${enable_public_ip}'
@@ -575,6 +614,9 @@ flow:
           - SUCCESS: get_vm_public_ip_address
           - FAILURE: get_nic_name_info
     - update_public_ip_address:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           ip.update_public_ip_address:
             - subscription_id: '${subscription_id}'
@@ -601,6 +643,7 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
     - set_dns_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${public_ip_json}'
@@ -611,6 +654,9 @@ flow:
           - SUCCESS: get_nic_name_info
           - FAILURE: on_failure
     - get_nic_name_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.get_nic_name_info:
             - subscription_id: '${subscription_id}'
@@ -635,6 +681,7 @@ flow:
           - SUCCESS: set_mac_address
           - FAILURE: on_failure
     - set_mac_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${nic_info_json}'
@@ -645,6 +692,7 @@ flow:
           - SUCCESS: set_internal_fqdn
           - FAILURE: on_failure
     - set_internal_fqdn:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${nic_info_json}'
@@ -655,6 +703,7 @@ flow:
           - SUCCESS: set_private_ip_address
           - FAILURE: on_failure
     - set_private_ip_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${nic_info_json}'
@@ -665,6 +714,7 @@ flow:
           - SUCCESS: get_power_state
           - FAILURE: on_failure
     - check_azure_infra_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${infrastructure_options}'
@@ -674,6 +724,9 @@ flow:
           - SUCCESS: get_availability_set_details
           - FAILURE: check_azure_availability_type
     - get_availability_set_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           avset.get_availability_set_details:
             - subscription_id: '${subscription_id}'
@@ -698,6 +751,7 @@ flow:
           - SUCCESS: set_av_type
           - FAILURE: on_failure
     - check_azure_availability_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${availability_options}'
@@ -707,6 +761,7 @@ flow:
           - SUCCESS: set_storage_account_type_1
           - FAILURE: set_storage_type
     - set_av_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${av_json_info}'
@@ -717,6 +772,7 @@ flow:
           - SUCCESS: set_av_type_1
           - FAILURE: on_failure
     - set_av_type_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${av_json_info}'
@@ -727,6 +783,7 @@ flow:
           - SUCCESS: set_storage_account_type
           - FAILURE: set_storage_type_1
     - set_storage_account_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - storage_account_type: '${type_of_storage}'
@@ -738,6 +795,7 @@ flow:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
     - set_storage_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - storage_account: '${type_of_storage}'
@@ -749,6 +807,7 @@ flow:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
     - set_storage_type_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - storage_account: '${type_of_storage}'
@@ -760,6 +819,7 @@ flow:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
     - set_storage_account_type_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - storage_account_type: '${type_of_storage}'
@@ -771,6 +831,7 @@ flow:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
     - set_ramdom_number:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vm_name: '${vm_name+random_number}'
@@ -780,6 +841,7 @@ flow:
           - SUCCESS: check_azure_infra_type
           - FAILURE: on_failure
     - get_azure_image_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - image: '${image}'
@@ -793,6 +855,7 @@ flow:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
     - check_dns_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${dns_name}'
@@ -800,6 +863,7 @@ flow:
           - SUCCESS: set_default_dns_name
           - FAILURE: check_enable_public_ip
     - set_default_dns_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - dns_name: '${vm_name}'
@@ -809,6 +873,7 @@ flow:
           - SUCCESS: check_enable_public_ip
           - FAILURE: on_failure
     - set_public_ip_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${public_ip_json}'
@@ -819,6 +884,9 @@ flow:
           - SUCCESS: set_dns_name
           - FAILURE: on_failure
     - create_nic_without_public_ip:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.create_nic_without_public_ip:
             - subscription_id: '${subscription_id}'
@@ -851,6 +919,9 @@ flow:
           - SUCCESS: create_vm
           - FAILURE: on_failure
     - get_power_state:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.compute.virtual_machines.get_power_state:
             - subscription_id: '${subscription_id}'
@@ -875,6 +946,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - string_occurrence_counter_for_image:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_occurrence_counter:
             - string_in_which_to_search: '${image}'
@@ -885,6 +957,7 @@ flow:
           - SUCCESS: string_equals
           - FAILURE: set_private_image_name
     - string_equals:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${image_count}'
@@ -893,6 +966,7 @@ flow:
           - SUCCESS: get_azure_image_details
           - FAILURE: set_private_image_name
     - set_private_image_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - private_image_name: '${image}'
@@ -971,7 +1045,7 @@ extensions:
         x: 4300
         'y': 450
       string_equals:
-        x: 700
+        x: 702
         'y': 225
       get_power_state:
         x: 8200
