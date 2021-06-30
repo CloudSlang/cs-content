@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -29,6 +29,9 @@
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -90,6 +93,9 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -114,6 +120,9 @@ flow:
 
   workflow:
     - list_public_ip_addresses:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -142,6 +151,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}

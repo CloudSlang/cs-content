@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -26,6 +26,9 @@
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -79,6 +82,8 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
+    - worker_group:
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -104,6 +109,9 @@ flow:
 
   workflow:
     - get_vm_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -133,6 +141,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}

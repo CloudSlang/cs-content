@@ -13,49 +13,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a streaming job.
+#! @description: The operation delete a virtual machine.
 #!
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input azure_protocol: Specifies a connection protocol.
+#!                        Valid values: https, http
+#!                        Default: https
+#! @input azure_host: Specifies the Portal to which requests will be sent.
+#!                    Default: management.azure.com
 #! @input auth_token: The authorization token for azure.
-#! @input subscription_id: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of
-#!                         the URI for every service call.
-#! @input location: Resource location.
+#! @input api_version: Client Api Version.
+#!                     Default: 2019-07-01
+#!                     Optional
 #! @input resource_group_name: The name of the resource group that contains the resource. You can obtain this value from
 #!                             the Azure Resource Manager API or the portal.
-#! @input job_name: The name of the streaming job.
-#! @input api_version: Client Api Version.
-#!                     Default: 2016-03-01
-#!                     Optional
-#! @input sku_name: The name of the SKU. Describes the SKU of the streaming job.
-#!                  Default: Standard
-#!                  Optional
-#! @input events_out_of_order_policy: Indicates the policy to apply to events that arrive out of order in the input
-#!                                    event stream.Valid Values: Drop,Adjust
-#!                                    Default: Adjust
-#!                                    Optional
-#! @input output_error_policy: Indicates the policy to apply to events that arrive at the output and cannot be written
-#!                             to the external storage due to being malformed (missing column values, column values of
-#!                             wrong type or size).Valid Values: Drop, Stop
-#!                             Default: Stop
-#!                             Optional
-#! @input events_out_of_order_max_delay_in_seconds: The maximum tolerable delay in seconds where out-of-order events can
-#!                                                  be adjusted to be back in order.
-#!                                                  Default: 0
-#!                                                  Optional
-#! @input events_late_arrival_max_delay_in_seconds: The maximum tolerable delay in seconds where events arriving late
-#!                                                  could be included. Supported range is -1 to 1814399 (20.23:59:59
-#!                                                  days) and -1 is used to specify wait indefinitely. If the property
-#!                                                  is absent, it is interpreted to have a value of -1.
-#!                                                  Default: 5
-#!                                                  Optional
-#! @input data_locale: The data locale of the stream analytics job. Value should be the name of a supported.
-#!                     Default: en-US
-#!                     Optional
-#! @input compatibility_level: Controls certain runtime behaviors of the streaming job.
-#!                             Default: 1.0
-#!                             Optional
-#! @input tags: Resource tags.
-#!              Example: {"key1": "value1"}
-#!              Optional
+#! @input vm_name: Name of the VM Instance provided by the user.
 #! @input proxy_host: Proxy server used to access the Azure service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure service.
@@ -92,93 +64,56 @@
 #!                        the error message.
 #! @output exception: An error message in case there was an error while executing the request.
 #! @output status_code: The HTTP status code for Azure API request.
-#! @output provisioning_state: Describes the provisioning status of the streaming job.
-#! @output job_id: A GUID uniquely identifying the streaming job. This GUID is generated upon creation of the streaming
-#!                 job.
-#! @output job_state: Describes the state of the streaming job.
 #!
 #! @result SUCCESS: The request was successfully executed.
 #! @result FAILURE: There was an error while executing the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.streamanalytics.streamingjobs
+namespace: io.cloudslang.azure.compute.virtualmachines
 
 operation: 
-  name: create_streaming_job
+  name: delete_vm_v2
   
   inputs: 
+    - subscription_id    
+    - subscriptionId: 
+        default: ${get('subscription_id', '')}  
+        required: false 
+        private: true 
+    - azure_protocol    
+    - azureProtocol: 
+        default: ${get('azure_protocol', '')}  
+        required: false 
+        private: true 
+    - azure_host    
+    - azureHost: 
+        default: ${get('azure_host', '')}  
+        required: false 
+        private: true 
     - auth_token:    
         sensitive: true
     - authToken: 
-        default: ${get('auth_token', '')}
+        default: ${get('auth_token', '')}  
+        required: false 
         private: true 
         sensitive: true
-    - subscription_id    
-    - subscriptionId: 
-        default: ${get('subscription_id', '')}
-        private: true 
-    - location    
-    - resource_group_name
-    - resourceGroupName: 
-        default: ${get('resource_group_name', '')}
-        private: true
-    - job_name    
-    - jobName: 
-        default: ${get('job_name', '')}
-        private: true 
     - api_version:  
         required: false  
     - apiVersion: 
         default: ${get('api_version', '')}  
         required: false 
         private: true 
-    - sku_name:  
-        required: false  
-    - skuName: 
-        default: ${get('sku_name', '')}  
+    - resource_group_name    
+    - resourceGroupName: 
+        default: ${get('resource_group_name', '')}  
         required: false 
         private: true 
-    - events_out_of_order_policy:  
-        required: false  
-    - eventsOutOfOrderPolicy: 
-        default: ${get('events_out_of_order_policy', '')}  
+    - vm_name    
+    - vmName: 
+        default: ${get('vm_name', '')}  
         required: false 
         private: true 
-    - output_error_policy:  
-        required: false  
-    - outputErrorPolicy: 
-        default: ${get('output_error_policy', '')}  
-        required: false 
-        private: true 
-    - events_out_of_order_max_delay_in_seconds:  
-        required: false  
-    - eventsOutOfOrderMaxDelayInSeconds: 
-        default: ${get('events_out_of_order_max_delay_in_seconds', '')}  
-        required: false 
-        private: true 
-    - events_late_arrival_max_delay_in_seconds:  
-        required: false  
-    - eventsLateArrivalMaxDelayInSeconds: 
-        default: ${get('events_late_arrival_max_delay_in_seconds', '')}  
-        required: false 
-        private: true 
-    - data_locale:  
-        required: false  
-    - dataLocale: 
-        default: ${get('data_locale', '')}  
-        required: false 
-        private: true 
-    - compatibility_level:  
-        required: false  
-        sensitive: true
-    - compatibilityLevel: 
-        default: ${get('compatibility_level', '')}  
-        required: false 
-        private: true 
-        sensitive: true
-    - tags:  
-        required: false  
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -234,16 +169,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-azure:0.0.13-RC3'
-    class_name: 'io.cloudslang.content.azure.actions.streamanalytics.streamingjobs.CreateStreamingJob'
+    class_name: 'io.cloudslang.content.azure.actions.compute.virtualmachines.DeleteVM'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - exception: ${get('exception', '')} 
     - status_code: ${get('statusCode', '')} 
-    - provisioning_state: ${get('provisioningState', '')} 
-    - job_id: ${get('jobId', '')} 
-    - job_state: ${get('jobState', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
