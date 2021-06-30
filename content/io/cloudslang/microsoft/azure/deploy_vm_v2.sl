@@ -28,11 +28,15 @@
 #! @input vm_size: The name of the standard Azure VM size to be applied to the VM.
 #!                 Example: 'Standard_DS1_v2','Standard_D2_v2','Standard_D3_v2'
 #! @input virtual_network_name: The name of the virtual network to which the created VM should be attached.
-#! @input availability_options: Specifies information about the availability set that the virtual machine
-#!                              should be assigned to. Virtual machines specified in the same availability set
-#!                              are allocated to different nodes to maximize availability.
-#! @input infrastructure_options: The name of the storage account in which the OS and Storage disks of the VM should be created.
 #! @input subnet_name: The name of the Subnet in which the created VM should be added.
+#! @input infrastructure_options: Type of the infrastructure.
+#!                                Allowed Values: noInfrastructure, availabilitySet
+#! @input availability_options: If "noInfrastructure" is specified for infrastructure_options, then enter either Managed
+#!                              or Unmanaged options. If "availabilitySet" is specified for infrastructure_options, then
+#!                              enter availability set name.
+#! @input type_of_storage: Type of Storage used for VM deployment. If aligned availability set or Managed option is
+#!                         entered for availability_options, then specify storage account types. If classic availability
+#!                         set or Unmanaged option is entered for availability_options, then enter storage accounts name.
 #! @input vm_username: Specifies the name of the administrator account.
 #!                     The username can't contain the \/'[]":\<>+=;,?*@ characters or end with "."
 #!                     Windows-only restriction: Cannot end in "."
@@ -41,11 +45,8 @@
 #!                     "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0",
 #!                     "sys", "test2", "test3", "user4", "user5".
 #! @input image: This is a custom property that contains the operating system and application configuration name that
-#!               is used to create the virtual machine.
-#! @input enable_public_ip: Create public ip of the VM if the value is true.
-#! @input type_of_storage: Type of Storage used for VM deployment. If aligned availability set or Managed infra is
-#!                         selected, it lists available  storage account type. If classic availability set or Unmanaged
-#!                         infra is selected, it lists available storage account.
+#!               is used to create the virtual machine. You can enter either public image or private image name.
+#! @input enable_public_ip: Create public ip for the VM if the value is true.
 #! @input dns_name: Specifies the domain name of the VM.
 #! @input os_platform: Name of the operating system that will be installed
 #!                     Valid values: 'Windows,'Linux'
@@ -159,17 +160,13 @@ flow:
         required: true
     - vm_size
     - virtual_network_name
-    - availability_options:
-        required: true
-    - infrastructure_options:
-        required: true
     - subnet_name
+    - infrastructure_options
+    - availability_options
+    - type_of_storage
     - vm_username
-    - image:
-        required: true
+    - image
     - enable_public_ip: 'true'
-    - type_of_storage:
-        required: true
     - dns_name:
         required: false
     - os_platform:
