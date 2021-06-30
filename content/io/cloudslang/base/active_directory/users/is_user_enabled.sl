@@ -83,7 +83,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.users
+namespace: io.cloudslang.base.active_directory.users
 
 operation: 
   name: is_user_enabled

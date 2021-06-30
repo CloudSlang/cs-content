@@ -82,7 +82,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.computers
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
   name: enable_computer_account

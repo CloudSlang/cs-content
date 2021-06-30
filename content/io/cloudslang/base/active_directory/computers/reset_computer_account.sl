@@ -79,7 +79,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.computers
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
   name: reset_computer_account
