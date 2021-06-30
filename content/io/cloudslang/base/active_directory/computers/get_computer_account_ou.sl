@@ -81,7 +81,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.computers
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
   name: get_computer_account_ou

@@ -91,7 +91,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.groups
+namespace: io.cloudslang.base.active_directory.groups
 
 operation: 
   name: create_group

@@ -80,7 +80,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.computers
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
   name: move_computer_account_to_ou

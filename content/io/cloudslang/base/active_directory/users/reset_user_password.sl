@@ -10,7 +10,12 @@
 #! @input password: The password of the user to connect to Active Directory.
 #! @input user_distinguished_name: Distinguished name of the user whose password you want to change.
 #!                                 Example: CN=User, OU=OUTest1, DC=battleground, DC=ad.
-#! @input user_password: The new password (must meet complexity requirements specified in notes section).
+#! @input user_password: The password for the new user. It must meet the following requirements:
+#!                       - is at least six characters long
+#!                       - contains characters from at least three of the following five categories: English uppercase
+#!                       characters ('A' - 'Z'), English lowercase characters ('a' - 'z'), base 10
+#!                       digits ('0' - '9'), non-alphanumeric (For example: '!', '$', '#', or '%'), unicode characters
+#!                       - does not contain three or more characters from the user's account name
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -81,7 +86,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.users
+namespace: io.cloudslang.base.active_directory.users
 
 operation: 
   name: reset_user_password

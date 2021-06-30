@@ -109,7 +109,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.active_directory.users
+namespace: io.cloudslang.base.active_directory.users
 
 operation: 
   name: update_user_details
