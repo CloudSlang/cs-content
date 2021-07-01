@@ -85,8 +85,6 @@ flow:
     - socket_timeout:
         default: "0"
         required: false
-    - worker_group:
-        required: false
     - proxy_username:
         required: false
     - proxy_password:
