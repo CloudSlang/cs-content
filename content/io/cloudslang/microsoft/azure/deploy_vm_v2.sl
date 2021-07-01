@@ -15,10 +15,14 @@
 #!!
 #! @description: VM provision flow.
 #!
-#! @input provider_sap: The providerSAP(Service Access Point) to which requests will be sent.
+#! @input provider_sap: Optional - The providerSAP(Service Access Point) to which requests will be sent.
+#!                      Default: 'https://management.azure.com'
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be deployed.
-#! @input tenant_id: The username to be used to authenticate to the Azure Management Service.
-#! @input client_secret: The password to be used to authenticate to the Azure Management Service.
+#! @input tenant_id: The tenantId value used to control who can sign into the application.
+#! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
+#!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
+#!                       devices. It is required for web apps and web APIs (all confidential clients),
+#!                       which have the ability to store the client_secret securely on the server side.
 #! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
 #! @input location: Specifies the supported Azure location where the virtual machine should be deployed.
 #!                  This can be different from the location of the resource group.
@@ -111,7 +115,7 @@
 #!
 #! @output vm_final_name: The final virtual machine name.
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
-#! @output disk_name: Name of the datadisk.
+#! @output disk_name: Name of the data disk.
 #! @output primary_dns_name: Specifies the domain name of the VM.
 #! @output internal_fqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
 #! @output public_ip_address: This is the primary IP Address of the newly created VM
