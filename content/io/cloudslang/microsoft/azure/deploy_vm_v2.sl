@@ -321,7 +321,7 @@ flow:
           - random_number
         navigate:
           - FAILURE: random_number_generator
-          - SUCCESS: set_ramdom_number
+          - SUCCESS: set_random_number
     - get_vm_details_1:
         worker_group:
           value: RAS_Operator_Path
@@ -781,21 +781,10 @@ flow:
             - json_input: '${av_json_info}'
             - json_path: 'sku,name'
         publish:
-          - sku: av_type
+          - av_sku_type: '${return_result}'
         navigate:
-          - SUCCESS: set_av_type_1
+          - SUCCESS: check_azure_availability_type_1
           - FAILURE: on_failure
-    - set_av_type_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${av_json_info}'
-            - json_path: 'sku,name'
-        publish:
-          - sku: av_type
-        navigate:
-          - SUCCESS: set_storage_account_type
-          - FAILURE: set_storage_type_1
     - set_storage_account_type:
         worker_group: '${worker_group}'
         do:
@@ -844,7 +833,7 @@ flow:
         navigate:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
-    - set_ramdom_number:
+    - set_random_number:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -989,6 +978,16 @@ flow:
         navigate:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
+    - check_azure_availability_type_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${av_sku_type}'
+            - second_string: Aligned
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_storage_account_type
+          - FAILURE: set_storage_type_1
   outputs:
     - vm_final_name: '${vm_name}'
     - error_message: '${error_message}'
@@ -1034,12 +1033,15 @@ extensions:
       set_av_type:
         x: 2200
         'y': 150
-      set_ramdom_number:
+      set_random_number:
         x: 1300
         'y': 450
       set_private_image_name:
         x: 700
         'y': 675
+      check_azure_availability_type_1:
+        x: 2499.19873046875
+        'y': 237.18466186523438
       check_enable_public_ip_1:
         x: 6700
         'y': 450
@@ -1127,9 +1129,6 @@ extensions:
       set_os_type:
         x: 5800
         'y': 225
-      set_av_type_1:
-        x: 2500
-        'y': 225
       random_number_generator:
         x: 1000
         'y': 675
@@ -1195,15 +1194,15 @@ extensions:
         x: 2200
         'y': 450
     results:
+      SUCCESS:
+        82c1913f-cdac-2e76-7f3e-2101ef8159b2:
+          x: 8500
+          'y': 450
       FAILURE:
         71542ed1-a12e-a78a-93dc-0ab395ab81dd:
           x: 3700
           'y': 750
         54bcc09c-453d-b40c-63ed-411a76b73542:
           x: 5649
-          'y': 450
-      SUCCESS:
-        82c1913f-cdac-2e76-7f3e-2101ef8159b2:
-          x: 8500
           'y': 450
 
