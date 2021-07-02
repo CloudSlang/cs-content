@@ -817,7 +817,7 @@ flow:
             - availability_set_name: '${availability_options}'
         publish:
           - storage_account
-          - output_0: '${availability_set_name}'
+          - availability_set_name
         navigate:
           - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
@@ -1205,4 +1205,3 @@ extensions:
         54bcc09c-453d-b40c-63ed-411a76b73542:
           x: 5649
           'y': 450
-
