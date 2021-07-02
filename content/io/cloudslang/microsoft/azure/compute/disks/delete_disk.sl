@@ -13,22 +13,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve information about the power state of a virtual machine
+#! @description: This operation can be used to delete a disk.
 #!
-#! @input subscription_id: The ID of the Azure Subscription used to get the VM information.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to retrieve the VM power state.
+#! @input subscription_id: The ID of the Azure Subscription on which the disk should be deleted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the disk.
 #! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2015-06-15'
-#! @input vm_name: The name of the virtual machine to get the power state from.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
+#! @input api_version: The API version used to create calls to AzureDefault: '2020-12-01'
+#! @input disk_name: disk name
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Optional
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -36,40 +32,37 @@
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
-#!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Default: ''
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #!
-#! @output output: json response with information about the virtual machine's instance power state as a JSON array.
-#! @output power_state: Power state json response.
-#! @output status_code: If a VM is not found the error message will be populated with a response, empty otherwise.
-#! @output error_message: If an error occurs while running the flow it will be populated in this output,
-#!                        otherwise the output will be empty.
+#! @output output: json response with information of the deleted disk
+#! @output status_code: 202 if request completed successfully, 204 if resource does not exist,
+#!                      others in case something went wrong
+#! @output error_message: If a disk is not found the error message will be populated with a response,empty otherwise
 #!
-#! @result SUCCESS: Virtual machine power state retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve the power state of the virtual machine.
+#! @result SUCCESS: The disk deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the disk.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
+namespace: io.cloudslang.microsoft.azure.compute.disks
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 
 flow:
-  name: get_power_state
+  name: delete_disk
 
   inputs:
     - subscription_id
@@ -77,24 +70,27 @@ flow:
     - auth_token
     - api_version:
         required: false
-        default: '2015-06-15'
-    - vm_name
+        default: '2020-12-01'
+    - disk_name
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - connect_timeout:
         default: "0"
         required: false
     - socket_timeout:
         default: "0"
         required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: "8080"
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
         default: "false"
         required: false
@@ -104,24 +100,17 @@ flow:
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
         required: false
         sensitive: true
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
 
   workflow:
-    - get_power_state:
+    - delete_disk:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' + vm_name +
-                '/InstanceView?api-version=' + api_version}
+          http.http_client_delete:
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Compute/disks/' + disk_name + '?api-version=' + api_version}"
             - headers: "${'Authorization: ' + auth_token}"
             - auth_type: 'anonymous'
             - preemptive_auth: 'true'
@@ -141,7 +130,7 @@ flow:
           - output: ${return_result}
           - status_code
         navigate:
-          - SUCCESS: get_power_status
+          - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
 
     - retrieve_error:
@@ -156,24 +145,12 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
 
-    - get_power_status:
-        worker_group: '${worker_group}'
-        do:
-          json.get_value:
-            - json_input: ${output}
-            - json_path: 'statuses,1,displayStatus'
-        publish:
-          - power_state: ${return_result}
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
-
   outputs:
     - output
-    - power_state
     - status_code
     - error_message
 
   results:
     - SUCCESS
     - FAILURE
+
