@@ -243,7 +243,9 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - auth_token
+          - auth_token:
+              value: '${auth_token}'
+              sensitive: true
         navigate:
           - SUCCESS: string_occurrence_counter_for_image
           - FAILURE: on_failure
@@ -324,7 +326,7 @@ flow:
           - SUCCESS: set_random_number
     - get_vm_details_1:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           vm.get_vm_details:
@@ -869,7 +871,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - dns_name: '${vm_name}'
+            - dns_name: '${vm_name.lower()}'
         publish:
           - dns_name
         navigate:
@@ -1146,8 +1148,8 @@ extensions:
         x: 7600
         'y': 675
       create_public_ip:
-        x: 3700
-        'y': 150
+        x: 3699
+        'y': 148
       set_unix_os_type:
         x: 6400
         'y': 225
