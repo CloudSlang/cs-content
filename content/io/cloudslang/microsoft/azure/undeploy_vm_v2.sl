@@ -139,7 +139,9 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - auth_token
+          - auth_token:
+              value: '${auth_token}'
+              sensitive: true
         navigate:
           - SUCCESS: get_vm_details
           - FAILURE: on_failure
