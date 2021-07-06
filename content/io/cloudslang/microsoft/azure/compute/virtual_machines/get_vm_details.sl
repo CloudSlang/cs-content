@@ -83,6 +83,7 @@ flow:
         default: "0"
         required: false
     - worker_group:
+        default: RAS_Operator_Path
         required: false
     - proxy_username:
         required: false

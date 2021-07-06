@@ -151,7 +151,9 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - auth_token
+          - auth_token:
+              value: '${auth_token}'
+              sensitive: true
           - return_code
           - error_message: ${exception}
         navigate:
