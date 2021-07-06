@@ -1,3 +1,15 @@
+#   (c) Copyright 2021 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 ########################################################################################################################
 #!!
 #! @description: Checks to see if a computer account is enabled in Active Directory.
@@ -182,7 +194,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.1-RC3'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.1'
     class_name: 'io.cloudslang.content.active_directory.actions.computers.IsComputerAccountEnabledAction'
     method_name: 'execute'
   
