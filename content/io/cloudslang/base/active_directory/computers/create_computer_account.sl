@@ -84,8 +84,8 @@
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
-#! @input timeout: Time in milliseconds to wait for the connection to complete.
-#!                 Default value: 60000.
+#! @input timeout: Time in seconds to wait for the connection to complete.
+#!                 Default value: 60.
 #!                 Optional
 #!
 #! @output return_result: A message with the common name of the created computer account in case of success or the error
@@ -201,7 +201,7 @@ operation:
         private: true 
         sensitive: true
     - timeout:
-        default: '60000'
+        default: '60'
         required: false  
 
   java_action: 

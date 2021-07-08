@@ -85,8 +85,8 @@
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
-#! @input timeout: Time in milliseconds to wait for the connection to complete.
-#!                 Default value: 60000.
+#! @input timeout: Time in seconds to wait for the connection to complete.
+#!                 Default value: 60.
 #!                 Optional
 #!
 #! @output return_result: It contains the "Password Changed" message if the operations successfully completes, or an error message otherwise.
@@ -196,7 +196,7 @@ operation:
         private: true
         sensitive: true
     - timeout:
-        default: '60000'
+        default: '60'
         required: false  
     
   java_action: 
