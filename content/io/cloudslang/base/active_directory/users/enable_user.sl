@@ -81,8 +81,8 @@
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
-#! @input timeout: Time in milliseconds to wait for the connection to complete.
-#!                 Default value: 60000.
+#! @input timeout: Time in seconds to wait for the connection to complete.
+#!                 Default value: 60.
 #!                 Optional
 #!
 #! @output return_result: A message with the common name of the enabled user in case of success or the error message in
@@ -192,11 +192,11 @@ operation:
         private: true 
         sensitive: true
     - timeout:
-        default: '60000'
+        default: '60'
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.1'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.2'
     class_name: 'io.cloudslang.content.active_directory.actions.users.EnableUserAction'
     method_name: 'execute'
   
