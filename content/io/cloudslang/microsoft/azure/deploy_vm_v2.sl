@@ -229,7 +229,7 @@ flow:
             - client_secret:
                 value: '${client_secret}'
                 sensitive: true
-            - resource: '${provider_sap}'
+            - resource: 'https://management.azure.com'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
