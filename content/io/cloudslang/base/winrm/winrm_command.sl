@@ -54,8 +54,58 @@
 #!
 #! 3. Basic authentication requires valid certificates for Https connection even if trust_all_roots is set to true.
 #!
-#! @input host: The hostname or IP address of the host.
-#! @input domain: The domain of the host.
+#! 4. Authenticating with domain accounts is possible through kerberos authentication type.
+#! The bellow configurations are not needed if a krb5.conf is given to the input kerberos_conf_file and request_new_kerberos_ticket is "true".
+#!
+#! Kerberos configurations need to be made both on the client(OO), server(WSMAN) and on the Domain Controller if you are going to use Windows domain accounts to access the remote host.
+#! For the execution of the operation with kerberos authentication you will need to create two configuration files: "login.conf" which contains the principal name of the user and the location of the keytab file associated to that user and "krb5.conf" file which contains the domain name and the kdc hostname.
+#! First you need to create the keytab file for the user on the Domain Controller. Open a command prompt and type the following command:
+#!   ktpass /princ username@CONTOSO.COM /pass password /ptype KRB5_NT_PRINCIPAL /out username.keytab
+#!(OPTIONAL) Now in order to test the keytab, you'll need a copy of kinit. You can use the one from <OO_HOME>\java\bin\kinit.exe. You also need to setup your krb5.ini file and copy it under c:\windows\krb5.ini (on Windows) and /etc/krb5.conf (on Linux).
+#!The krb5.ini file content looks like:
+#!    [libdefaults]
+#!	       default_realm = CONTOSO.COM
+#!    [realms]
+#!	       CONTOSO.COM = {
+#!	            kdc = ad.contoso.com
+#!	            admin_server = ad.contoso.com
+#!         }
+#!    where CONTOSO.COM is your domain name and ad.contoso.com is the fully qualified name of your KDC server(usually the domain controller).
+#!Once you've got your Kerberos file setup, you can use kinit to test the keytab.  First, try to logon with your user account without using the keytab:
+#!    kinit username@CONTOSO.COM
+#!    - enter the password -
+#!If that doesn't work, your krb5 file is wrong.  If it does work, now try the keytab file:
+#!    kinit username@CONTOSO.COM -k -t username.keytab
+#!Now you should successfully authenticate without being prompted for a password.  Success!
+#!For the operation inputs kerberosConfFile and kerberosLoginConfFile we need to create the krb5.conf file and login.conf respectively. The content of the krb5.conf file is exactly the same as the krb5.ini file mentioned above.
+#!The login.conf file content looks like this:
+#!    com.sun.security.jgss.initiate {
+#!		com.sun.security.auth.module.Krb5LoginModule required principal=Administrator
+#!		doNotPrompt=true
+#!		useKeyTab=true
+#!		keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";
+#!	};
+#!   where Administrator is the principal name of the domain account used to authenticate and the keytab property contains the path to the keytab file created on the server with the ktpass command mentioned above.
+#!
+#!The username and password inputs no longer need to be provided when the kerberos configuration files are provided.
+#!
+#!    The operation will request access to a Kerberos service principal name of the form WSMAN/HOST, for which an SPN should be configured automatically when you configure WinRM for a remote host.
+#!If that was not configured correctly, you will have configure the service principal names manually. This can be achieved by invoking the setspn command, as an Administrator, on any host in the domain, as follows:
+#!setspn -A PROTOCOL/ADDRESS:PORT WINDOWS-HOST
+#!where:
+#!PROTOCOL is either WSMAN (default) or HTTP.
+#!ADDRESS is the address used to connect to the remote host,
+#!PORT (optional) is the port used to connect to the remote host
+#!WINDOWS-HOST is the short Windows hostname of the remote host.
+#!Some other useful commands:
+#!List all service principal names configured for a domain user: setspn -L <user>
+#!List all service principal names configured for a specific host in the domain: setspn -L <hostname>
+#!
+#!5. In case the remote host on which the powershell script is being executed is running WinRM v3.0 (Windows Server 2008 SP2, Windows 7 SP1, Windows Server 2008R2 SP1, Windows 8 or Windows Server 2012) you might run into this issue: https://support.microsoft.com/en-us/kb/2842230
+#!The issue occurs because the Windows Remote Management (WinRM) service does not use the customized value of the MaxMemoryPerShellMB quota. Instead, the WinRM service uses the default value, which is 150 MB. There's a hotfix available in the mentioned link.
+#!
+#! @input host: The hostname or IP address of the target host.
+#! @input domain: The domain of the target host.
 #! @input port: The port number used to connect to the host. The default value for this input dependents on the protocol
 #!              input. The default values are 5985 for Http and 5986 for Https.
 #!              Default value: 5986
@@ -88,6 +138,27 @@
 #!                            Valid values: any PSConfiguration that exists on the host.
 #!                            Examples: 'microsoft.powershell', 'PowerShell.6', 'PowerShell.7'
 #!                            Optional
+#! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
+#!                                     service principal name (SPN). This input will be ignored if auth_type is not 'kerberos'.
+#!                                     Valid values: true, false
+#!                                     Default value: true
+#!                                     Optional
+#! @input kerberos_conf_file: A krb5.conf file with content similar to the one in the examples (where you replace
+#!                            CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN). This configures
+#!                            the Kerberos mechanism required by the Java GSS-API methods. This input will be ignored if
+#!                            auth_type is not 'kerberos'.
+#!                            Format: http://web.mit.edu/kerberos/krb5-1.4/krb5-1.4.4/doc/krb5-admin/krb5.conf.html
+#!                            Optional
+#! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples.
+#!                                  This input will be ignored if auth_type is not 'kerberos'
+#!                                  Format: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html
+#!                                  Optional
+#! @input use_subject_creds_only: True by default. Set to false to enable JAAS Kerberos login when JGSS cannot get credentials from the current Subject.
+#!                                This input will be ignored if auth_type is not 'kerberos'
+#!                                Valid values: true, false
+#!                                Optional
+#! @input working_directory: The path of the directory where to be executed the CMD or PowerShell command.
+#!                           Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -153,16 +224,6 @@
 #!                           response or a fault within the specified time.
 #!                           Default value: 60
 #!                           Optional
-#! @input request_new_kerberos_ticket: Allows you to request a new ticket to the target computer specified by the
-#!                                     service principal name (SPN). This input will be ignored if auth_type is not 'kerberos'.
-#!                                     Valid values: true, false.
-#!                                     Default value: true
-#!                                     Optional
-#! @input kerberos_conf_file: The path of the kerberos configuration file.
-#! @input kerberos_login_conf_file: The path of the kerberos login configuration file.
-#! @input use_subject_creds_only: valid values: true, false
-#! @input working_directory: The path of the directory where to be executed the CMD or PowerShell command.
-#!                           Optional
 #!
 #! @output return_result: The result of the script execution written on the stdout stream of the opened shell in case of
 #!                        success or the error from stderr in case of failure.
@@ -217,6 +278,37 @@ operation:
         required: false
     - configurationName:
         default: ${get('configuration_name', '')}
+        required: false
+        private: true
+    - request_new_kerberos_ticket:
+        default: 'true'
+        required: false
+    - requestNewKerberosTicket:
+        default: ${get('request_new_kerberos_ticket', '')}
+        required: false
+        private: true
+    - kerberos_conf_file:
+        required: false
+    - kerberosConfFile:
+        default: ${get('kerberos_conf_file', '')}
+        required: false
+        private: true
+    - kerberos_login_conf_file:
+        required: false
+    - kerberosLoginConfFile:
+        default: ${get('kerberos_login_conf_file', '')}
+        required: false
+        private: true
+    - use_subject_creds_only:
+        required: false
+    - useSubjectCredsOnly:
+        default: ${get('use_subject_creds_only', '')}
+        required: false
+        private: true
+    - working_directory:
+        required: false
+    - workingDirectory:
+        default: ${get('working_directory', '')}
         required: false
         private: true
     - proxy_host:  
@@ -300,40 +392,9 @@ operation:
         default: ${get('operation_timeout', '')}
         required: false 
         private: true
-    - request_new_kerberos_ticket:
-        default: 'true'
-        required: false  
-    - requestNewKerberosTicket: 
-        default: ${get('request_new_kerberos_ticket', '')}  
-        required: false 
-        private: true
-    - kerberos_conf_file:
-        required: false
-    - kerberosConfFile:
-        default: ${get('kerberos_conf_file', '')}
-        required: false
-        private: true
-    - kerberos_login_conf_file:
-        required: false
-    - kerberosLoginConfFile:
-        default: ${get('kerberos_login_conf_file', '')}
-        required: false
-        private: true
-    - use_subject_creds_only:
-        required: false
-    - useSubjectCredsOnly:
-        default: ${get('use_subject_creds_only', '')}
-        required: false
-        private: true
-    - working_directory:
-        required: false  
-    - workingDirectory: 
-        default: ${get('working_directory', '')}  
-        required: false 
-        private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:1.1.0-DCA'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.2'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
