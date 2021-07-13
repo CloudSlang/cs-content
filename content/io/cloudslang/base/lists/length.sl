@@ -41,7 +41,7 @@ operation:
         default: ','
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.9-RC3'
+    gav: 'io.cloudslang.content:cs-lists:0.0.9'
     class_name: io.cloudslang.content.actions.ListSizeAction
     method_name: getListSize
 
