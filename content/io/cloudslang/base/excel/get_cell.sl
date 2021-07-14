@@ -44,6 +44,10 @@
 #! @input column_delimiter: The delimiter used to separate the columns of the returnResult.
 #!                          Default value: , (comma)
 #!                          Optional
+#! @input enabling_rounding_function: If the value is set to true, then the selected cells containing decimal numbers
+#!                                    will be rounded to 2 decimals digits.
+#!                                    Valid values: true, false
+#!                                    Default value: false
 #!
 #! @output return_result: This is the primary output. Returns the cell data retrieved from Excel document.
 #! @output return_code: 0 if success, -1 otherwise.
@@ -112,10 +116,17 @@ operation:
     - columnDelimiter: 
         default: ${get('column_delimiter', '')}  
         required: false 
-        private: true 
-    
+        private: true
+    - enabling_rounding_function:
+        default: 'false'
+        required: false
+    - enablingRoundingFunction:
+        default: ${get('enabling_rounding_function', '')}
+        required: false
+        private: true
+
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.4'
+    gav: 'io.cloudslang.content:cs-excel:0.0.5'
     class_name: 'io.cloudslang.content.excel.actions.GetCell'
     method_name: 'execute'
   
