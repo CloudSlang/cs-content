@@ -147,11 +147,9 @@
 #!                            CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN). This configures
 #!                            the Kerberos mechanism required by the Java GSS-API methods. This input will be ignored if
 #!                            auth_type is not 'kerberos'.
-#!                            Format: http://web.mit.edu/kerberos/krb5-1.4/krb5-1.4.4/doc/krb5-admin/krb5.conf.html
 #!                            Optional
 #! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples.
 #!                                  This input will be ignored if auth_type is not 'kerberos'
-#!                                  Format: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html
 #!                                  Optional
 #! @input use_subject_creds_only: True by default. Set to false to enable JAAS Kerberos login when JGSS cannot get credentials from the current Subject.
 #!                                This input will be ignored if auth_type is not 'kerberos'
@@ -394,7 +392,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.25-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.3-RC1'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
