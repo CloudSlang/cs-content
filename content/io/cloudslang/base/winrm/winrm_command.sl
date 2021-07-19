@@ -143,12 +143,12 @@
 #!                                     Valid values: true, false
 #!                                     Default value: true
 #!                                     Optional
-#! @input kerberos_conf_file: A krb5.conf file with content similar to the one in the examples (where you replace
+#! @input kerberos_conf_file: A krb5.conf file path or a text with content similar to the one in the examples (where you replace
 #!                            CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN). This configures
 #!                            the Kerberos mechanism required by the Java GSS-API methods. This input will be ignored if
 #!                            auth_type is not 'kerberos'.
 #!                            Optional
-#! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples.
+#! @input kerberos_login_conf_file: A login.conf file path or a text needed by the JAAS framework with the content similar to the one in examples.
 #!                                  This input will be ignored if auth_type is not 'kerberos'
 #!                                  Optional
 #! @input use_subject_creds_only: True by default. Set to false to enable JAAS Kerberos login when JGSS cannot get credentials from the current Subject.
