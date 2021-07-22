@@ -309,7 +309,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.23-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.26-SNAPSHOT'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
