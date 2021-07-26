@@ -143,12 +143,12 @@
 #!                                     Valid values: true, false
 #!                                     Default value: true
 #!                                     Optional
-#! @input kerberos_conf_file: A krb5.conf file path or a text with content similar to the one in the examples (where you replace
+#! @input kerberos_conf_file: A krb5.conf file path or a text (with \n used as new line) with content similar to the one in the examples (where you replace
 #!                            CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN). This configures
 #!                            the Kerberos mechanism required by the Java GSS-API methods. This input will be ignored if
 #!                            auth_type is not 'kerberos'.
 #!                            Optional
-#! @input kerberos_login_conf_file: A login.conf file path or a text needed by the JAAS framework with the content similar to the one in examples.
+#! @input kerberos_login_conf_file: A login.conf file path or a text (with \n used as new line) needed by the JAAS framework with the content similar to the one in examples.
 #!                                  This input will be ignored if auth_type is not 'kerberos'
 #!                                  Optional
 #! @input use_subject_creds_only: True by default. Set to false to enable JAAS Kerberos login when JGSS cannot get credentials from the current Subject.
@@ -164,7 +164,7 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. By default, the operation tries to establish a secure connection over
 #!                     TLSv1.2.
@@ -392,7 +392,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.26-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.3'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
