@@ -194,7 +194,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.3'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.4'
     class_name: 'io.cloudslang.content.active_directory.actions.computers.DisableComputerAccountAction'
     method_name: 'execute'
   
