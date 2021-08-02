@@ -196,7 +196,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.2'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.3'
     class_name: 'io.cloudslang.content.active_directory.actions.users.DeleteUserAction'
     method_name: 'execute'
   

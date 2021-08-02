@@ -226,7 +226,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.5'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.7'
     class_name: 'io.cloudslang.content.dca.actions.credentials.GetCredentialFromManager'
     method_name: 'execute'
 

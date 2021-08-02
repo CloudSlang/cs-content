@@ -106,7 +106,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.4'
+    gav: 'io.cloudslang.content:cs-google:0.4.5'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.networks.NetworksGet
     method_name: execute
 
