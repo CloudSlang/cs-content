@@ -105,7 +105,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.12'
+    gav: 'io.cloudslang.content:cs-xml:0.0.16'
     class_name: io.cloudslang.content.xml.actions.ConvertJsonToXml
     method_name: execute
 

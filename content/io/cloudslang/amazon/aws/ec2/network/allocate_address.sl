@@ -116,7 +116,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.36'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.38'
     class_name: io.cloudslang.content.amazon.actions.network.AllocateAddressAction
     method_name: execute
 
