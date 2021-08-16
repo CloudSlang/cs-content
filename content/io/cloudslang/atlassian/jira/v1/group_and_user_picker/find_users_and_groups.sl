@@ -167,7 +167,7 @@ flow:
           - FAILURE: test_for_http_error
     - find_users_and_groups_account_ids_group_names:
         do:
-          io.cloudslang.atlassian.jira.utils.find_users_and_groups_account_ids_group_names:
+          io.cloudslang.atlassian.jira.v1.utils.find_users_and_groups_account_ids_group_names:
             - return_result: '${return_result}'
         publish:
           - group_names
