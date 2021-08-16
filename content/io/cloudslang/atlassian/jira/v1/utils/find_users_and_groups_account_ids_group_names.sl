@@ -15,7 +15,7 @@ operation:
           for user in json_obj["users"]["users"]:
               account_ids = account_ids + user["accountId"] + ","
           account_ids = account_ids[:-1]
-          for goup in json_obj["groups"]["groups"]:
+          for group in json_obj["groups"]["groups"]:
               group_names = group_names + group["name"] + ","
           group_names = group_names[:-1]
           return{"account_ids":account_ids,"group_names":group_names}
