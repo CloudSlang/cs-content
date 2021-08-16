@@ -61,7 +61,7 @@ flow:
     - password:
         required: true
         sensitive: true
-    - body: '{"entitiesIds":[],"properties":{}}'
+    - body
     - proxy_host:
         required: false
     - proxy_port:
