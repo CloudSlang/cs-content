@@ -6,14 +6,14 @@
 #! @input username: Username for the API authenticator
 #! @input password: Password for the API authenticator
 #! @input project_id_or_key: The project ID or project key (case sensitive).
-#! @input expand: Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that the project description, issue types, and project lead are included in all responses by default. Expand options include:
+#! @input expand: Use expand to include additional information in the response. This parameter accepts a comma-separated list. Expand options include:
 #!                 
-#!                description The project description.
-#!                issueTypes The issue types associated with the project.
-#!                lead The project lead.
-#!                projectKeys All project keys associated with the project.
-#!                issueTypeHierarchy The project issue type hierarchy.
-#! @input properties: A list of project properties to return for the project. This parameter accepts a comma-separated list.
+#!                all Returns all expandable information.
+#!                field Returns information about any custom fields assigned to receive an event.
+#!                group Returns information about any groups assigned to receive an event.
+#!                notificationSchemeEvents Returns a list of event associations. This list is returned for all expandable information.
+#!                projectRole Returns information about any project roles assigned to receive an event.
+#!                user Returns information about any users assigned to receive an event.
 #! @input update_history: Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira. This also populates the JQL issues search lastViewed field.
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxy_host', will be used.
@@ -50,15 +50,16 @@
 #! @output return_result: The entire HTTP result as JSON.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 204 - Returned if the request is successful.
+#!                      400 - Returned if the request is not valid.
 #!                      401 - Returned if the authentication credentials are incorrect or missing.
-#!                      404 - Returned if the project is not found or the user does not have permission to view it.
+#!                      404 - Returned if the project is not found or the user is not an administrator.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output error_message: The API call error or the retrieved entity error as JSON.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.project
+namespace: io.cloudslang.atlassian.jira.v1.projects
 flow:
-  name: get_project
+  name: get_project_notification_scheme
   inputs:
     - url
     - username:
@@ -68,8 +69,6 @@ flow:
         sensitive: true
     - project_id_or_key
     - expand:
-        required: false
-    - properties:
         required: false
     - update_history:
         default: 'false'
@@ -113,7 +112,7 @@ flow:
     - http_client_get:
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/rest/api/3/project/' + project_id_or_key}"
+            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/notificationscheme'}"
             - auth_type: null
             - username: '${username}'
             - password:
@@ -131,7 +130,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Accept: application/json'
-            - query_params: '${(""if bool(expand) == False else "expand=" + expand) + ("" if bool(properties) == False else "&properties=" + properties)}'
+            - query_params: '${(""if bool(expand) == False else "expand=" + expand)}'
             - content_type: application/json
         publish:
           - error_message

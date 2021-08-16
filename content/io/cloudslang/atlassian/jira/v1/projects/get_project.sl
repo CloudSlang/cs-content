@@ -6,6 +6,15 @@
 #! @input username: Username for the API authenticator
 #! @input password: Password for the API authenticator
 #! @input project_id_or_key: The project ID or project key (case sensitive).
+#! @input expand: Use expand to include additional information in the response. This parameter accepts a comma-separated list. Note that the project description, issue types, and project lead are included in all responses by default. Expand options include:
+#!                 
+#!                description The project description.
+#!                issueTypes The issue types associated with the project.
+#!                lead The project lead.
+#!                projectKeys All project keys associated with the project.
+#!                issueTypeHierarchy The project issue type hierarchy.
+#! @input properties: A list of project properties to return for the project. This parameter accepts a comma-separated list.
+#! @input update_history: Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira. This also populates the JQL issues search lastViewed field.
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxy_host', will be used.
 #! @input proxy_username: The user name used when connecting to the proxy. The 'auth_type' input will be used to choose authentication type. The 'Basic' and 'Digest' proxy authentication type are supported.
@@ -47,9 +56,9 @@
 #! @output error_message: The API call error or the retrieved entity error as JSON.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.project
+namespace: io.cloudslang.atlassian.jira.v1.projects
 flow:
-  name: get_all_statuses_for_project
+  name: get_project
   inputs:
     - url
     - username:
@@ -58,6 +67,13 @@ flow:
         required: false
         sensitive: true
     - project_id_or_key
+    - expand:
+        required: false
+    - properties:
+        required: false
+    - update_history:
+        default: 'false'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -97,7 +113,7 @@ flow:
     - http_client_get:
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/statuses'}"
+            - url: "${url + '/rest/api/3/project/' + project_id_or_key}"
             - auth_type: null
             - username: '${username}'
             - password:
@@ -115,6 +131,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Accept: application/json'
+            - query_params: '${(""if bool(expand) == False else "expand=" + expand) + ("" if bool(properties) == False else "&properties=" + properties)}'
             - content_type: application/json
         publish:
           - error_message
@@ -147,17 +164,17 @@ extensions:
   graph:
     steps:
       http_client_get:
-        x: 200
+        x: 480
         'y': 160
         navigate:
           bec4ed71-1157-e49f-61ce-451deb912d54:
             targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
             port: SUCCESS
       test_for_http_error:
-        x: 200
+        x: 480
         'y': 320
     results:
       SUCCESS:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
-          x: 360
+          x: 640
           'y': 160

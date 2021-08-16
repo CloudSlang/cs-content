@@ -1,20 +1,11 @@
 ########################################################################################################################
 #!!
-#! @description: Returns the project details for a project.
+#! @description: Archives a project. You can't delete a project if it's archived. To delete an archived project, restore the project and then delete it. To restore a project, use the Jira UI.
 #!
 #! @input url: Jira url
 #! @input username: Username for the API authenticator
 #! @input password: Password for the API authenticator
 #! @input project_id_or_key: The project ID or project key (case sensitive).
-#! @input expand: Use expand to include additional information in the response. This parameter accepts a comma-separated list. Expand options include:
-#!                 
-#!                all Returns all expandable information.
-#!                field Returns information about any custom fields assigned to receive an event.
-#!                group Returns information about any groups assigned to receive an event.
-#!                notificationSchemeEvents Returns a list of event associations. This list is returned for all expandable information.
-#!                projectRole Returns information about any project roles assigned to receive an event.
-#!                user Returns information about any users assigned to receive an event.
-#! @input update_history: Whether the project in which the issue is created is added to the user's Recently viewed project list, as shown under Projects in Jira. This also populates the JQL issues search lastViewed field.
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxy_host', will be used.
 #! @input proxy_username: The user name used when connecting to the proxy. The 'auth_type' input will be used to choose authentication type. The 'Basic' and 'Digest' proxy authentication type are supported.
@@ -37,8 +28,8 @@
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Format: Java KeyStore (JKS)
 #!                        Default value: ''
+#!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0' represents an infinite timeout. Default value: 0 Format: an integer representing seconds Examples: 10, 20
@@ -52,14 +43,15 @@
 #! @output status_code: Status code of the HTTP call. 204 - Returned if the request is successful.
 #!                      400 - Returned if the request is not valid.
 #!                      401 - Returned if the authentication credentials are incorrect or missing.
-#!                      404 - Returned if the project is not found or the user is not an administrator.
+#!                      403 - Returned if the user does not have the necessary permissions.
+#!                      404 - Returned if the project is not found.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output error_message: The API call error or the retrieved entity error as JSON.
+#! @output error_message: The API call error or the retrieved entity error as JSON. Code 400 returned if the request is invalid or the number of licensed users is exceeded. Code 401 returned if the authentication credentials are incorrect or missing. Code 403 returned if the user does not have the necessary permission.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.project
+namespace: io.cloudslang.atlassian.jira.v1.projects
 flow:
-  name: get_project_notification_scheme
+  name: archive_project
   inputs:
     - url
     - username:
@@ -68,11 +60,6 @@ flow:
         required: false
         sensitive: true
     - project_id_or_key
-    - expand:
-        required: false
-    - update_history:
-        default: 'false'
-        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -109,11 +96,11 @@ flow:
     - worker_group:
         required: false
   workflow:
-    - http_client_get:
+    - http_client_post:
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/notificationscheme'}"
-            - auth_type: null
+          io.cloudslang.base.http.http_client_post:
+            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/archive'}"
+            - auth_type: basic
             - username: '${username}'
             - password:
                 value: '${password}'
@@ -125,19 +112,23 @@ flow:
                 sensitive: true
             - tls_version: '${tls_version}'
             - allowed_cyphers: '${allowed_cyphers}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x509_hostname_verifier}'
             - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+            - request_character_set: utf-8
+            - connect_timeout: '${connect_timeout}'
             - headers: 'Accept: application/json'
-            - query_params: '${(""if bool(expand) == False else "expand=" + expand)}'
             - content_type: application/json
+            - worker_group: '${worker_group}'
         publish:
-          - error_message
           - return_result
-          - return_code: '${return_code}'
-          - status_code: '${status_code}'
-          - response_headers: '${response_headers}'
+          - error_message
+          - return_code
+          - status_code
+          - response_headers
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: test_for_http_error
@@ -162,18 +153,18 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_get:
-        x: 480
+      http_client_post:
+        x: 360
         'y': 160
         navigate:
-          bec4ed71-1157-e49f-61ce-451deb912d54:
-            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
+          ba48af00-36db-a3b3-2714-5c16cd0411ba:
+            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
             port: SUCCESS
       test_for_http_error:
-        x: 480
+        x: 360
         'y': 320
     results:
       SUCCESS:
-        38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
-          x: 640
+        e5c48d0e-fb6d-f5ff-fd5f-056087745105:
+          x: 520
           'y': 160

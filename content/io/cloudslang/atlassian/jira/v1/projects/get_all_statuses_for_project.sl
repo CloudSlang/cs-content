@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Archives a project. You can't delete a project if it's archived. To delete an archived project, restore the project and then delete it. To restore a project, use the Jira UI.
+#! @description: Returns the project details for a project.
 #!
 #! @input url: Jira url
 #! @input username: Username for the API authenticator
@@ -28,8 +28,8 @@
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ''
 #!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0' represents an infinite timeout. Default value: 0 Format: an integer representing seconds Examples: 10, 20
@@ -41,17 +41,15 @@
 #! @output return_result: The entire HTTP result as JSON.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 204 - Returned if the request is successful.
-#!                      400 - Returned if the request is not valid.
 #!                      401 - Returned if the authentication credentials are incorrect or missing.
-#!                      403 - Returned if the user does not have the necessary permissions.
-#!                      404 - Returned if the project is not found.
+#!                      404 - Returned if the project is not found or the user does not have permission to view it.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output error_message: The API call error or the retrieved entity error as JSON. Code 400 returned if the request is invalid or the number of licensed users is exceeded. Code 401 returned if the authentication credentials are incorrect or missing. Code 403 returned if the user does not have the necessary permission.
+#! @output error_message: The API call error or the retrieved entity error as JSON.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.project
+namespace: io.cloudslang.atlassian.jira.v1.projects
 flow:
-  name: archive_project
+  name: get_all_statuses_for_project
   inputs:
     - url
     - username:
@@ -96,11 +94,11 @@ flow:
     - worker_group:
         required: false
   workflow:
-    - http_client_post:
+    - http_client_get:
         do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/archive'}"
-            - auth_type: basic
+          io.cloudslang.base.http.http_client_get:
+            - url: "${url + '/rest/api/3/project/' + project_id_or_key + '/statuses'}"
+            - auth_type: null
             - username: '${username}'
             - password:
                 value: '${password}'
@@ -112,23 +110,18 @@ flow:
                 sensitive: true
             - tls_version: '${tls_version}'
             - allowed_cyphers: '${allowed_cyphers}'
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x509_hostname_verifier}'
             - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - request_character_set: utf-8
-            - connect_timeout: '${connect_timeout}'
             - headers: 'Accept: application/json'
             - content_type: application/json
-            - worker_group: '${worker_group}'
         publish:
-          - return_result
           - error_message
-          - return_code
-          - status_code
-          - response_headers
+          - return_result
+          - return_code: '${return_code}'
+          - status_code: '${status_code}'
+          - response_headers: '${response_headers}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: test_for_http_error
@@ -153,18 +146,18 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_post:
-        x: 360
+      http_client_get:
+        x: 200
         'y': 160
         navigate:
-          ba48af00-36db-a3b3-2714-5c16cd0411ba:
-            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
+          bec4ed71-1157-e49f-61ce-451deb912d54:
+            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
             port: SUCCESS
       test_for_http_error:
-        x: 360
+        x: 200
         'y': 320
     results:
       SUCCESS:
-        e5c48d0e-fb6d-f5ff-fd5f-056087745105:
-          x: 520
+        38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
+          x: 360
           'y': 160

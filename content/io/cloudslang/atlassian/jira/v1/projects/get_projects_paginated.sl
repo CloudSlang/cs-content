@@ -84,7 +84,7 @@
 #! @output error_message: The API call error or the retrieved entity error as JSON.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.project
+namespace: io.cloudslang.atlassian.jira.v1.projects
 flow:
   name: get_projects_paginated
   inputs:
