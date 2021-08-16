@@ -41,7 +41,8 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output retrun_result: The result as JSON.
+#! @output groups_list: A comma seperated list of the retrieved groups names.
+#! @output return_result: The result as JSON.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 200 - Returned if the request is successful.400 - Returned if the request is not valid.401 - Returned if the authentication credentials are incorrect or missing.403 - Returned if the user does not have the necessary permission.
 #! @output response_headers: Response headers string from the HTTP Client REST call
@@ -78,14 +79,19 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - tls_version
-    - allowed_cyphers
+    - tls_version:
+        required: false
+    - allowed_cyphers:
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
-    - trust_keystore: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
+    - trust_keystore:
+        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
+        required: false
     - trust_password:
         default: "${get_sp('io.cloudslang.base.http.trust_password')}"
+        required: false
         sensitive: true
     - x509_hostname_verifier:
         default: strict
@@ -129,7 +135,7 @@ flow:
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_groups_names
           - FAILURE: test_for_http_error
     - test_for_http_error:
         do:
@@ -140,8 +146,18 @@ flow:
           - return_result: '${return_result}'
         navigate:
           - FAILURE: on_failure
+    - get_groups_names:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_groups_names:
+            - return_result: '${return_result}'
+        publish:
+          - groups_list
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
-    - retrun_result: '${return_result}'
+    - groups_list: '${groups_list}'
+    - return_result: '${return_result}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
@@ -155,13 +171,16 @@ extensions:
       http_client_get:
         x: 200
         'y': 120
-        navigate:
-          60e4dc2a-2e6f-11fb-aa85-46e15dea3b0d:
-            targetId: 5b7be3b7-4029-10da-277d-f13d1099b684
-            port: SUCCESS
       test_for_http_error:
         x: 200
         'y': 320
+      get_groups_names:
+        x: 400
+        'y': 120
+        navigate:
+          450eb312-ac52-8e39-d1b7-90db64a23203:
+            targetId: 5b7be3b7-4029-10da-277d-f13d1099b684
+            port: SUCCESS
     results:
       SUCCESS:
         5b7be3b7-4029-10da-277d-f13d1099b684:
