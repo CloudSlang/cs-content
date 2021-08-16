@@ -75,10 +75,8 @@ flow:
         default: '8080'
         required: false
     - proxy_username:
-        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
         required: false
     - proxy_password:
-        default: "${get_sp('io.cloudslang.base.http.trust_password')}"
         required: false
         sensitive: true
     - trust_all_roots:
@@ -100,10 +98,10 @@ flow:
     - allowed_cyphers:
         required: false
     - trust_keystore:
-        default: '${trust_keystore}'
+        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
         required: false
     - trust_password:
-        default: '${trust_password}'
+        default: "${get_sp('io.cloudslang.base.http.trust_password')}"
         required: false
         sensitive: true
   workflow:
