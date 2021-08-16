@@ -85,6 +85,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output retrun_result: The entire HTTP result as JSON.
+#! @output issues_list: A comma separated list of issues identified by their ids..
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 200 - Returned if the request is successful.
 #!                      400 - Returned if the JQL query is invalid.
@@ -189,10 +190,20 @@ flow:
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
+          - SUCCESS: get_issue_id_from_search
+          - FAILURE: on_failure
+    - get_issue_id_from_search:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_issue_id_from_search:
+            - return_result: '${return_result}'
+        publish:
+          - issues_list
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - retrun_result: '${return_result}'
+    - issues_list: '${issues_list}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
@@ -206,12 +217,15 @@ extensions:
       http_client_get:
         x: 200
         'y': 240
+      get_issue_id_from_search:
+        x: 360
+        'y': 240
         navigate:
-          bec4ed71-1157-e49f-61ce-451deb912d54:
+          cc2823d8-0add-76dc-2145-1c9ebc8ed054:
             targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
             port: SUCCESS
     results:
       SUCCESS:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
-          x: 360
+          x: 560
           'y': 240

@@ -39,6 +39,8 @@
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
 #!
 #! @output return_result: Returned JSON
+#! @output ids_list: A comma separated list of permitted project ids.
+#! @output keys_list: A comma  separated list of permitted project keys.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 204 - Returned if the request is successful.
 #!                      400 - Returned if a project permission is not found.
@@ -68,10 +70,14 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - tls_version
-    - trust_keystore: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
+    - tls_version:
+        required: false
+    - trust_keystore:
+        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
+        required: false
     - trust_password:
         default: "${get_sp('io.cloudslang.base.http.trust_password')}"
+        required: false
         sensitive: true
     - trust_all_roots:
         default: 'false'
@@ -87,7 +93,8 @@ flow:
         required: false
     - worker_group:
         required: false
-    - allowed_cyphers
+    - allowed_cyphers:
+        required: false
   workflow:
     - http_client_post:
         do:
@@ -124,7 +131,7 @@ flow:
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_keys_and_ids_for_permitted_projects
           - FAILURE: test_for_http_error
     - test_for_http_error:
         do:
@@ -135,8 +142,20 @@ flow:
           - return_result: '${return_result}'
         navigate:
           - FAILURE: on_failure
+    - get_keys_and_ids_for_permitted_projects:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_keys_and_ids_for_permitted_projects:
+            - return_result: '${return_result}'
+        publish:
+          - ids_list
+          - keys_list
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - return_result: '${return_result}'
+    - ids_list: '${ids_list}'
+    - keys_list: '${keys_list}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
@@ -150,15 +169,18 @@ extensions:
       http_client_post:
         x: 440
         'y': 160
-        navigate:
-          4330d1c6-89ed-cddc-03d3-8ae1247ea78a:
-            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
-            port: SUCCESS
       test_for_http_error:
         x: 440
         'y': 320
+      get_keys_and_ids_for_permitted_projects:
+        x: 600
+        'y': 160
+        navigate:
+          61d32e4d-5bf3-2a67-3808-871568d412ad:
+            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
+            port: SUCCESS
     results:
       SUCCESS:
         e5c48d0e-fb6d-f5ff-fd5f-056087745105:
-          x: 680
+          x: 760
           'y': 160

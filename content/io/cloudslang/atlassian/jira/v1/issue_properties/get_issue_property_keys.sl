@@ -39,6 +39,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output retrun_result: The entire HTTP result as JSON.
+#! @output keys_list: A comma separated list of returned keys.
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 200 - Returned if the request is successful.
 #!                      404 - Returned if the issue or property is not found or the user does not have permission to see the issue.
@@ -122,7 +123,7 @@ flow:
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_key_from_property_keys
           - FAILURE: test_for_http_error
     - test_for_http_error:
         do:
@@ -133,8 +134,18 @@ flow:
           - return_result: '${return_result}'
         navigate:
           - FAILURE: on_failure
+    - get_key_from_property_keys:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_key_from_property_keys:
+            - return_result: '${return_result}'
+        publish:
+          - keys_list
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - retrun_result: '${return_result}'
+    - keys_list: '${keys_list}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
@@ -148,15 +159,18 @@ extensions:
       http_client_get:
         x: 200
         'y': 240
-        navigate:
-          bec4ed71-1157-e49f-61ce-451deb912d54:
-            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
-            port: SUCCESS
       test_for_http_error:
         x: 200
         'y': 400
+      get_key_from_property_keys:
+        x: 400
+        'y': 240
+        navigate:
+          aa6b280c-c25a-f9de-c7aa-8deada5590b4:
+            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
+            port: SUCCESS
     results:
       SUCCESS:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
-          x: 360
+          x: 600
           'y': 240

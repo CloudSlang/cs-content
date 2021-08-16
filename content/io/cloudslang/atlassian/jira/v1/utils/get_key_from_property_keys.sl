@@ -1,0 +1,20 @@
+########################################################################################################################
+#!!
+#! @description: Gets a comma separated list of isse ids
+#!!#
+########################################################################################################################
+namespace: io.cloudslang.atlassian.jira.v1.utils
+operation:
+  name: get_key_from_property_keys
+  inputs:
+    - return_result:
+        required: false
+  python_action:
+    use_jython: false
+    script: "# do not remove the execute function\nimport json\ndef execute(return_result):\n    return_code = 0\n    keys_list = \"\"\n    try:\n        response = json.loads(return_result)\n        total_keys = response[\"keys\"]\n        for key in total_keys:\n            keys_list = keys_list + key[\"key\"] + ','\n        keys_list = keys_list[:-1]\n    except:   \n        return_code = -1\n    \n    return {\"keys_list\" : keys_list, \"return_code\" : return_code}"
+  outputs:
+    - keys_list
+    - return_code
+  results:
+    - SUCCESS: "${return_code == '0'}"
+    - FAILURE

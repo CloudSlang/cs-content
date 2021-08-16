@@ -137,15 +137,8 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - SUCCESS: get_id
+          - SUCCESS: get_created_user_id
           - FAILURE: test_for_http_error
-    - get_id:
-        do:
-          io.cloudslang.atlassian.jira.v1.utils.get_id:
-            - json_obj: '${return_result}'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
     - test_for_http_error:
         do:
           io.cloudslang.atlassian.jira.v1.utils.test_for_http_error:
@@ -155,8 +148,17 @@ flow:
           - return_result: '${return_result}'
         navigate:
           - FAILURE: on_failure
+    - get_created_user_id:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_created_user_id:
+            - json_obj: '${return_result}'
+        publish:
+          - created_id: '${account_id}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
-    - created_id: '${account_id}'
+    - created_id: '${created_id}'
     - return_result: '${return_result}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
@@ -171,16 +173,16 @@ extensions:
       http_client_post:
         x: 80
         'y': 160
-      get_id:
-        x: 400
-        'y': 160
-        navigate:
-          bf452312-1888-ae39-230f-63afed27ea93:
-            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
-            port: SUCCESS
       test_for_http_error:
         x: 80
         'y': 360
+      get_created_user_id:
+        x: 400
+        'y': 160
+        navigate:
+          71a4bab0-d4bd-d40f-f77b-786bce94d985:
+            targetId: e5c48d0e-fb6d-f5ff-fd5f-056087745105
+            port: SUCCESS
     results:
       SUCCESS:
         e5c48d0e-fb6d-f5ff-fd5f-056087745105:
