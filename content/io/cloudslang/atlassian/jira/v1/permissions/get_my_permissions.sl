@@ -87,7 +87,8 @@ flow:
         required: false
     - issue_id:
         required: false
-    - permissions
+    - permissions:
+        required: true
     - project_uuid:
         required: false
     - project_configuration_uuid:
