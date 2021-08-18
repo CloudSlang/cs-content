@@ -50,6 +50,9 @@
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
+#!
+#! @result SUCCESS: User groups retrieved successfully.
+#! @result FAILURE: Failed to retrieve user groups.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.users
