@@ -56,6 +56,7 @@
 #! @output project_ids_list: List of project ids delimited by ,
 #!
 #! @result SUCCESS: status_code == 200
+#! @result FAILURE: Execution failed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.issues
@@ -198,6 +199,9 @@ extensions:
       http_client_get:
         x: 120
         'y': 200
+      test_for_http_error:
+        x: 120
+        'y': 360
       get_ids_from_json_array_1:
         x: 280
         'y': 200
@@ -205,9 +209,6 @@ extensions:
           eb83d23f-9a52-647b-2727-8a71e72246cd:
             targetId: 70f668aa-93d0-2a16-254a-384531eef6e7
             port: SUCCESS
-      test_for_http_error:
-        x: 120
-        'y': 360
     results:
       SUCCESS:
         70f668aa-93d0-2a16-254a-384531eef6e7:
