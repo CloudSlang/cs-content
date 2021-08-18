@@ -48,6 +48,9 @@
 #!                      404 - Returned if the user does not have the necessary permission.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output error_message: The API call error or the retrieved entity error as JSON. Code 400 returned if the request is invalid or the number of licensed users is exceeded. Code 401 returned if the authentication credentials are incorrect or missing. Code 403 returned if the user does not have the necessary permission.
+#!
+#! @result FAILURE: Operation failed
+#! @result SUCCESS: User created
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.users

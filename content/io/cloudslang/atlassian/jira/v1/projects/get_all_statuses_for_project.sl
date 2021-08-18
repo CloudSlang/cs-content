@@ -46,8 +46,8 @@
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output error_message: The API call error or the retrieved entity error as JSON.
 #!
-#! @result SUCCESS: status_code == 204
-#! @result FAILURE: test
+#! @result FAILURE: Operation failed
+#! @result SUCCESS: Statuses gotten successfully
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.projects

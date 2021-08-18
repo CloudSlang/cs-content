@@ -92,6 +92,9 @@
 #!                      401 - Returned if the authentication credentials are incorrect or missing.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output error_message: The API call error or the retrieved entity error as JSON.
+#!
+#! @result FAILURE: Operation failed
+#! @result SUCCESS: Search successful
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.issue_search

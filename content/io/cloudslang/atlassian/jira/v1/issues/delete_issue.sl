@@ -48,6 +48,9 @@
 #!                      404 - Returned if the issue is not found or the user does not have permission to view the issue.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
 #! @output error_message: The API call error or the retrieved entity error as JSON.
+#!
+#! @result SUCCESS: Issue deleted
+#! @result FAILURE: Operation failed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.issues
