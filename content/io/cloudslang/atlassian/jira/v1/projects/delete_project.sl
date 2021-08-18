@@ -54,6 +54,7 @@
 #! @output return_result: Does not return anything on success.
 #! @output return_code: 0 - success, -1 - failure
 #!
+#! @result FAILURE: Execution failed
 #! @result SUCCESS: status_code == 204
 #!!#
 ########################################################################################################################

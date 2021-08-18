@@ -56,6 +56,7 @@
 #! @output permissions: List of permissions
 #!
 #! @result SUCCESS: status_code == 200
+#! @result FAILURE: Execution failed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.permissions

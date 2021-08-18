@@ -100,6 +100,7 @@
 #! @output return_result: Json containing data regarding the permissions
 #! @output return_code: 0 - success, -1 - failure
 #!
+#! @result FAILURE: Execution failed
 #! @result SUCCESS: status_code == 200
 #!!#
 ########################################################################################################################
@@ -223,9 +224,9 @@ flow:
 extensions:
   graph:
     steps:
-      test_for_http_error:
-        x: 200
-        'y': 360
+      get_bulk_permissions_body:
+        x: 80
+        'y': 200
       http_client_post:
         x: 200
         'y': 200
@@ -233,9 +234,9 @@ extensions:
           8a8e90da-6ad5-f468-0fd5-59b00970ddff:
             targetId: 70f668aa-93d0-2a16-254a-384531eef6e7
             port: SUCCESS
-      get_bulk_permissions_body:
-        x: 80
-        'y': 200
+      test_for_http_error:
+        x: 200
+        'y': 360
     results:
       SUCCESS:
         70f668aa-93d0-2a16-254a-384531eef6e7:

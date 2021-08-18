@@ -52,6 +52,7 @@
 #! @output return_result: Json data regarding the restored project
 #! @output return_code: 0 - success, -1 - failure
 #!
+#! @result FAILURE: Execution failed
 #! @result SUCCESS: status_code == 200
 #!!#
 ########################################################################################################################

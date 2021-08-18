@@ -57,6 +57,7 @@
 #! @output return_code: 0 - success, -1 - failure
 #!
 #! @result SUCCESS: status_code == 204
+#! @result FAILURE: Execution failed
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.issues

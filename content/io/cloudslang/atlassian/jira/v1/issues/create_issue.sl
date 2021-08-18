@@ -195,6 +195,7 @@
 #! @output issue_id: Created issue's id
 #! @output issue_key: Created issue's key
 #!
+#! @result FAILURE: Execution failed
 #! @result SUCCESS: status_code == 201
 #!!#
 ########################################################################################################################
