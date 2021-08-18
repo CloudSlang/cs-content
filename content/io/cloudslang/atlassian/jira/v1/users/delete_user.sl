@@ -8,7 +8,7 @@
 #! @input account_id: Account id to be delete
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy port used to access the web site.
-#! @input proxy_username: Optional - Proxy usernameused to access the web site.
+#! @input proxy_username: Optional - Proxy username used to access the web site.
 #! @input proxy_password: Optional - Proxy password used to access the web site.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
@@ -54,6 +54,7 @@
 #! @output return_code: 0 - success, -1 - failure
 #!
 #! @result SUCCESS: status_code == 204
+#! @result FAILURE: test
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.atlassian.jira.v1.users
