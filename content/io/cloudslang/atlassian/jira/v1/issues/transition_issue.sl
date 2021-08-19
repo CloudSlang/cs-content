@@ -67,8 +67,7 @@ flow:
         sensitive: true
     - issue_id_or_key:
         sensitive: false
-    - body:
-        required: true
+    - body
     - proxy_host:
         required: false
     - proxy_port:
