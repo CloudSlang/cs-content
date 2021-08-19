@@ -8,48 +8,27 @@ operation:
   name: entity_body_updater
   inputs:
     - entity:
-        prompt:
-          type: text
+        required: false
     - name:
-        prompt:
-          type: text
         required: false
     - parent_type:
         required: false
-        prompt:
-          type: text
     - parent_id:
         required: false
-        prompt:
-          type: text
     - release_type:
         required: false
-        prompt:
-          type: text
     - release_id:
         required: false
-        prompt:
-          type: text
     - description:
         required: false
-        prompt:
-          type: text
     - severity_type:
         required: false
-        prompt:
-          type: text
     - severity_id:
         required: false
-        prompt:
-          type: text
     - phase_type:
         required: false
-        prompt:
-          type: text
     - phase_id:
         required: false
-        prompt:
-          type: text
   python_action:
     use_jython: false
     script: "# do not remove the execute function\ndef execute(parent_type, parent_id, release_type, release_id, description, name, severity_type, severity_id, phase_type, phase_id, entity):\n    # code goes here\n    wrong_option = False\n    json_body = \"\"\n    if entity == \"defects\":\n        json_body = createDefectBody(parent_type, parent_id, release_type, release_id, description, name, severity_type, severity_id, phase_type, phase_id, entity)\n    elif entity == \"features\":\n        json_body = createFeatureBody(parent_type, parent_id, release_type, release_id, description, name, entity)\n    elif entity == \"stories\":\n        json_body = createFeatureBody(parent_type, parent_id, release_type, release_id, description, name, entity)\n    elif entity == \"epics\":\n        json_body = createEpicBody(parent_type, parent_id, description, name, entity)\n    else:\n        wrong_option = True\n    my_entity = entity\n    return locals()\n    \n# you can add additional helper methods below.\n    \n    \n    \n    \n\ndef createDefectBody(parent_type, parent_id, release_type, release_id, description, name, severity_type, severity_id, phase_type, phase_id, entity):\n    json_body = '''{'''\n    if parent_type!= \"\" and parent_id != \"\":\n        json_body = json_body + '''\n             \"parent\":{\n                \"type\":\"''' + parent_type + '''\\\",\n                \"id\":\"''' + parent_id + '''\\\"\n            },'''\n    if release_type!= \"\" and release_id != \"\":\n        json_body = json_body +  '''\"release\":{\n                \"type\":\"''' + release_type + '''\\\",\n                \"id\":\"''' + release_id + '''\\\"\n            },'''\n    if description!= \"\":\n        json_body = json_body + '''\"description\":\"''' + description + '''\\\",'''\n    if severity_type!= \"\" and severity_id != \"\":\n         json_body = json_body + '''\"severity\":{\n                \"type\":\"''' + severity_type + '''\\\",\n                \"id\":\"''' + severity_id + '''\\\"\n            },'''\n    if phase_type!= \"\" and phase_id != \"\":\n         json_body = json_body + '''\"phase\":{\n                \"type\":\"''' + phase_type + '''\\\",\n                \"id\":\"''' + phase_id + '''\\\"\n            },'''\n    if name!=\"\":\n        json_body = json_body + '''\"name\":\"''' + name + '''\\\"'''\n    json_body = json_body.rstrip(\",\")\n    json_body = json_body +  '''}'''\n    \n    return json_body\n\n\n\n\n\ndef createFeatureBody(parent_type, parent_id, release_type, release_id, description, name, entity):\n    json_body = '''\n    {\n    '''\n    if parent_type!= \"\" and parent_id != \"\":\n        json_body = json_body + '''\n             \"parent\":{\n                \"type\":\"''' + parent_type + '''\\\",\n                \"id\":\"''' + parent_id + '''\\\"\n            },'''\n    if release_type!= \"\" and release_id != \"\":\n        json_body = json_body +  '''\"release\":{\n                \"type\":\"''' + release_type + '''\\\",\n                \"id\":\"''' + release_id + '''\\\"\n            },'''\n    if description!= \"\":\n        json_body = json_body + '''\"description\":\"''' + description + '''\\\",'''\n\n    if name!=\"\":\n        json_body = json_body + '''\"name\":\"''' + name + '''\\\"'''\n    json_body = json_body.rstrip(\",\")\n    json_body = json_body +  '''}'''\n    return json_body\n    \n    \ndef createEpicBody(parent_type, parent_id, description, name, entity):\n    json_body = '''\n    {\n    {'''\n    if parent_type!= \"\" and parent_id != \"\":\n        json_body = json_body + '''\n             \"parent\":{\n                \"type\":\"''' + parent_type + '''\\\",\n                \"id\":\"''' + parent_id + '''\\\"\n            },'''\n    if description!= \"\":\n        json_body = json_body + '''\"description\":\"''' + description + '''\\\",'''\n\n    if name!=\"\":\n        json_body = json_body + '''\"name\":\"''' + name + '''\\\"'''\n    json_body = json_body.rstrip(\",\")\n    json_body = json_body +  '''}'''\n    return json_body"

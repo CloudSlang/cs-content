@@ -4,43 +4,23 @@ operation:
   inputs:
     - parent_type:
         required: false
-        prompt:
-          type: text
     - parent_id:
         required: false
-        prompt:
-          type: text
     - release_type:
         required: false
-        prompt:
-          type: text
     - release_id:
         required: false
-        prompt:
-          type: text
     - description:
         required: false
-        prompt:
-          type: text
     - severity_type:
         required: false
-        prompt:
-          type: text
     - severity_id:
         required: false
-        prompt:
-          type: text
     - phase_type:
         required: false
-        prompt:
-          type: text
     - phase_id:
         required: false
-        prompt:
-          type: text
     - name:
-        prompt:
-          type: text
         required: false
   python_action:
     use_jython: false
