@@ -19,6 +19,10 @@
 #! @input workspace_name: The name of the new workspace
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.workspaces
@@ -28,10 +32,8 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
-        default: anonymous
         required: false
     - proxy_host:
         required: false
@@ -57,11 +59,12 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1001'
+    - shared_space_id:
+        prompt:
+          type: text
     - workspace_name:
         prompt:
           type: text
-        default: testWorkspace
     - content_type: application/json
   workflow:
     - workspace_body_creator:
@@ -88,11 +91,21 @@ flow:
             - headers: '${cookie}'
             - body: '${jsonBody}'
             - content_type: '${content_type}'
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+          - response_headers
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
   results:
     - SUCCESS
     - FAILURE
@@ -101,16 +114,16 @@ extensions:
     steps:
       workspace_body_creator:
         x: 100
-        'y': 151
+        'y': 150
       http_client_post:
-        x: 387
-        'y': 136
+        x: 400
+        'y': 150
         navigate:
-          c713d0fb-409b-6865-f3fb-1e7080e400a4:
-            targetId: 34f58b7e-9ff1-fc93-bd6e-b42a544a54b2
+          f2c748b9-0627-a633-da4f-053d993bcc21:
+            targetId: 2eeaca16-c50d-9815-2220-93ba9c14fff3
             port: SUCCESS
     results:
       SUCCESS:
-        34f58b7e-9ff1-fc93-bd6e-b42a544a54b2:
+        2eeaca16-c50d-9815-2220-93ba9c14fff3:
           x: 700
           'y': 150

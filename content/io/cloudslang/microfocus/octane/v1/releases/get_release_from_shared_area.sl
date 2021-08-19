@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow reads all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON the specified release.
+#! @description: This flow reads all the releases found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON the specified release.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -19,6 +19,10 @@
 #! @input release_id: The unique id associated with a shared release
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.releases
@@ -28,10 +32,8 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
-        default: anonymous
         required: false
     - proxy_host:
         required: false
@@ -57,11 +59,12 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1002'
+    - shared_space_id:
+        prompt:
+          type: text
     - release_id:
         prompt:
           type: text
-        default: '1001'
   workflow:
     - read_a_shared_release:
         do:
@@ -79,11 +82,19 @@ flow:
             - headers: '${cookie}'
         publish:
           - response_headers
+          - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS

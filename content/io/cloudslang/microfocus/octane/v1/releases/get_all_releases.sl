@@ -19,6 +19,10 @@
 #! @input workspace_id: The id of the workspace found in the shared space
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output status_code: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output return_code: The message given by the flow in case an error occured.
+#! @output error_message: The code specifying 0 for success or -1 for failure.
+#! @output return_result: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.releases
@@ -28,10 +32,8 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
-        default: anonymous
         required: false
     - proxy_host:
         required: false
@@ -57,8 +59,12 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1001'
-    - workspace_id: '1003'
+    - shared_space_id:
+        prompt:
+          type: text
+    - workspace_id:
+        prompt:
+          type: text
   workflow:
     - read_all_releases:
         do:
@@ -76,11 +82,19 @@ flow:
             - headers: '${cookie}'
         publish:
           - response_headers
+          - return_result
+          - error_message
+          - return_code
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - status_code: '${status_code}'
+    - return_code: '${return_code}'
+    - error_message: '${error_message}'
+    - return_result: '${return_result}'
   results:
     - FAILURE
     - SUCCESS

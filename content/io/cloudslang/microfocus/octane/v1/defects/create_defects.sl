@@ -19,7 +19,12 @@
 #! @input workspace_id: The id of the workspace found in the shared space
 #! @input content_type: The type of the body content.
 #!
+#! @output entity_id: The id of the entity that's been modified in the current flow
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.defects
@@ -29,10 +34,9 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER:c2FAbmdh; LWSSO_COOKIE_KEY=_WnteoY8vxRbODAmrRRJ-3zWSrDbMoxH97pj0T4j1SAJPOFSThTAY6kNVctXpj_BcN4zexLkVGa_Tavlmp-kLb-LNwoDIYy51j57qWYUNrjk6nNsZXKdL6YvTrlNZja3ge5s5l_kY1lfRbkuS8vNQdq_emyO67MIn-kQTfpmMaf_9twgQ0r2VNacfUwEXewvfH4d_sfwmEf5tQYjlUkv4qjNreXKoIScJXdAJqe1Jfj3S6LCrVJMJJHWXRkPvOcxDFITfG6Lid6iDiUf3i_pfQ..'
+    - cookie
     - auth_type:
-        default: anonymous
+        default: basic
         required: false
     - proxy_host:
         required: false
@@ -58,15 +62,22 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1002'
-    - workspace_id: '1002'
+    - shared_space_id:
+        prompt:
+          type: text
+    - workspace_id:
+        prompt:
+          type: text
     - content_type:
         default: application/json
         required: false
   workflow:
-    - create_input_defect_json:
+    - defect_body_creator:
         do:
-          io.octane.internship.entities.defects.utils.create_input_defect_json: []
+          io.cloudslang.microfocus.octane.v1.utils.defect_body_creator:
+            - name:
+                prompt:
+                  type: text
         publish:
           - json_body
         navigate:
@@ -75,7 +86,7 @@ flow:
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/defects'}"
-            - auth_type: anonymous
+            - auth_type: '${auth_type}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -89,29 +100,49 @@ flow:
             - content_type: '${content_type}'
         publish:
           - response_headers
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+        navigate:
+          - SUCCESS: id_extractor
+          - FAILURE: on_failure
+    - id_extractor:
+        do:
+          io.cloudslang.microfocus.octane.v1.utils.id_extractor:
+            - return_result: '${return_result}'
+        publish:
+          - entity_id
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
+    - entity_id: '${entity_id}'
     - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      create_input_defect_json:
-        x: 100
+      defect_body_creator:
+        x: 101
         'y': 150
       http_client_post:
         x: 400
         'y': 150
+      id_extractor:
+        x: 700
+        'y': 150
         navigate:
-          39217ecf-c70d-22b0-e482-1c4de17ce4f6:
-            targetId: 4b7c6146-2e9b-2bc2-30cd-fbd9fa064249
+          d0ce6450-99ea-1e81-c5f0-4be3c65ab900:
+            targetId: d5bf418a-bf57-48c7-0ee2-cb04a3fc70c2
             port: SUCCESS
     results:
       SUCCESS:
-        4b7c6146-2e9b-2bc2-30cd-fbd9fa064249:
-          x: 700
+        d5bf418a-bf57-48c7-0ee2-cb04a3fc70c2:
+          x: 1000
           'y': 150

@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow reads all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON containing the specified release.
+#! @description: This flow creates an entity inside a workspace within a shared space given as input parameters by the user. The user also has to specify the type of entity used, from this list: defects, features, stories, epics.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -17,7 +17,6 @@
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
 #! @input shared_space_id: The id of the shared space in the site
 #! @input workspace_id: The id of the workspace found in the shared space
-#! @input release_id: The unique id associated with a release
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
 #! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
@@ -26,9 +25,9 @@
 #! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microfocus.octane.v1.releases
+namespace: io.cloudslang.microfocus.octane.v1.entity
 flow:
-  name: get_release_by_workspace
+  name: create_entity
   inputs:
     - url:
         prompt:
@@ -66,33 +65,42 @@ flow:
     - workspace_id:
         prompt:
           type: text
-    - release_id:
-        prompt:
-          type: text
   workflow:
-    - read_a_release:
+    - entity_body_creator:
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/releases/' + release_id}"
-            - auth_type: '${auth_type}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - headers: '${cookie}'
+          io.cloudslang.microfocus.octane.v1.utils.entity_body_creator: []
         publish:
-          - response_headers
+          - json_body
+          - my_entity
+        navigate:
+          - WRONG_OPTION: entity_body_creator
+          - SUCCESS: http_client_action
+    - http_client_action:
+        do:
+          io.cloudslang.base.http.http_client_action:
+            - url: "${'http://mydtbld0220.swinfra.net:11127/api/shared_spaces/' + shared_space_id  + '/workspaces/' + workspace_id + '/' + my_entity}"
+            - auth_type: anonymous
+            - headers: '${cookie}'
+            - body: '${json_body}'
+            - content_type: application/json
+            - method: POST
+        publish:
           - return_result
           - error_message
-          - return_code
           - status_code
+          - return_code
+          - response_headers
+        navigate:
+          - SUCCESS: id_extractor
+          - FAILURE: on_failure
+    - id_extractor:
+        do:
+          io.cloudslang.microfocus.octane.v1.utils.id_extractor:
+            - return_result: '${return_result}'
+        publish:
+          - entity_id
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
     - return_result: '${return_result}'
@@ -100,20 +108,26 @@ flow:
     - return_code: '${return_code}'
     - status_code: '${status_code}'
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
-      read_a_release:
-        x: 290
-        'y': 157
+      entity_body_creator:
+        x: 100
+        'y': 150
+      http_client_action:
+        x: 400
+        'y': 150
+      id_extractor:
+        x: 700
+        'y': 150
         navigate:
-          1eaaf3be-1467-54a9-d492-3232f457317c:
-            targetId: fd507bbe-c2c1-f99a-3b24-8397f5c20d95
+          db89581c-b8c2-4e0e-9501-c5c3482049c0:
+            targetId: a48bf2f6-61ad-029e-ed85-f2c517c6c31f
             port: SUCCESS
     results:
       SUCCESS:
-        fd507bbe-c2c1-f99a-3b24-8397f5c20d95:
-          x: 518
-          'y': 156
+        a48bf2f6-61ad-029e-ed85-f2c517c6c31f:
+          x: 1000
+          'y': 150

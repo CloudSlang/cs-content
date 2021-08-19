@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow creates a new defect inside a workspace specified by the user. The defect has attributes that need to be completed by the user if required, but there are optional attributes, also given as input parameters.
+#! @description: This flow updates a defect inside a workspace specified by the user by it's id. The defect has attributes that need to be completed by the user if required, but there are optional attributes, also given as input parameters.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -15,11 +15,15 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
+#! @input content_type: The type of the body content.
 #! @input shared_space_id: The id of the shared space in the site
 #! @input workspace_id: The id of the workspace found in the shared space
-#! @input content_type: The type of the body content.
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.defects
@@ -29,10 +33,9 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
-        default: anonymous
+        default: basic
         required: false
     - proxy_host:
         required: false
@@ -58,22 +61,26 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1002'
-    - workspace_id: '1002'
     - content_type:
         default: application/json
         required: false
+    - shared_space_id:
+        prompt:
+          type: text
+    - workspace_id:
+        prompt:
+          type: text
     - defect_id:
         prompt:
           type: text
-        default: '1042'
   workflow:
-    - create_input_defect_json:
+    - defect_body_updater:
         do:
-          io.octane.internship.entities.defects.utils.create_input_defect_json: []
+          io.cloudslang.microfocus.octane.v1.utils.defect_body_updater: []
         publish:
           - json_body
         navigate:
+          - INVALID_BODY: defect_body_updater
           - SUCCESS: http_client_put
     - http_client_put:
         do:
@@ -95,29 +102,39 @@ flow:
             - headers: '${cookie}'
             - body: '${json_body}'
             - content_type: '${content_type}'
+        publish:
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+          - response_headers
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      create_input_defect_json:
-        x: 100
-        'y': 150
+      defect_body_updater:
+        x: 221
+        'y': 156
       http_client_put:
-        x: 400
-        'y': 150
+        x: 473
+        'y': 157
         navigate:
-          0c679964-375e-6c7e-2179-04fc8269a5b8:
-            targetId: 376fba7c-b15e-15fa-682a-54917a0b4ca0
+          4a7d6da4-ba6c-3811-426a-b524474844ef:
+            targetId: 6a13d1ed-ebc4-c629-1751-91592e2a2855
             port: SUCCESS
     results:
       SUCCESS:
-        376fba7c-b15e-15fa-682a-54917a0b4ca0:
-          x: 700
-          'y': 150
+        6a13d1ed-ebc4-c629-1751-91592e2a2855:
+          x: 709
+          'y': 157

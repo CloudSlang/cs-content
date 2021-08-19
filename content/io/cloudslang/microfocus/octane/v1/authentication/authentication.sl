@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow authenticates a user based on the credentials given as input parameters.
+#! @description: This flow authenticates a user based on the credentials given as input parameters.  The output of this flow is the LWSSO cookie that has to be set as header in the following flows.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input auth_type: The authentication type. The defauld it 'basic'
@@ -16,6 +16,13 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
+#!
+#! @output cookie: The cookie used as header in all following requests.
+#! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.authentication
@@ -25,18 +32,15 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
     - auth_type:
         default: Basic
         required: false
     - username:
         prompt:
           type: text
-        default: sa@nga
     - password:
         prompt:
           type: text
-        default: Welcome1
         sensitive: true
     - proxy_host:
         required: false
@@ -92,6 +96,8 @@ flow:
           - response_headers
           - return_code
           - return_result
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: create_cookie
           - FAILURE: on_failure
@@ -105,6 +111,11 @@ flow:
           - SUCCESS: SUCCESS
   outputs:
     - cookie: '${cookie}'
+    - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
+    - return_code: '${return_code}'
   results:
     - FAILURE
     - SUCCESS
@@ -112,17 +123,17 @@ extensions:
   graph:
     steps:
       http_client_post:
-        x: 103
-        'y': 165
+        x: 100
+        'y': 150
       create_cookie:
         x: 400
         'y': 150
         navigate:
-          fb5b8930-f402-4db6-6e15-671c35191664:
-            targetId: d3cae9ef-1d60-1e3e-83f7-88cde414ebdc
+          b5120e7b-c6db-3a1f-9797-a795ff8245d1:
+            targetId: 230f9649-359c-76de-e6f2-f2ee817df0d8
             port: SUCCESS
     results:
       SUCCESS:
-        d3cae9ef-1d60-1e3e-83f7-88cde414ebdc:
+        230f9649-359c-76de-e6f2-f2ee817df0d8:
           x: 700
           'y': 150

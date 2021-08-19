@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow reads all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON the specified defect.
+#! @description: This flow reads a defect specified by it's id found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON the specified defect.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -20,6 +20,10 @@
 #! @input defect_id: The unique id associated with a defect
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.defects
@@ -29,8 +33,7 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
         default: anonymous
         required: false
@@ -58,12 +61,15 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1001'
-    - workspace_id: '1003'
+    - shared_space_id:
+        prompt:
+          type: text
+    - workspace_id:
+        prompt:
+          type: text
     - defect_id:
         prompt:
           type: text
-        default: '1443'
   workflow:
     - read_a_defect:
         do:
@@ -81,11 +87,27 @@ flow:
             - headers: '${cookie}'
         publish:
           - response_headers
+          - return_result
+          - error_message
+          - return_code
+          - status_code
+        navigate:
+          - SUCCESS: id_extractor
+          - FAILURE: on_failure
+    - id_extractor:
+        do:
+          io.cloudslang.microfocus.octane.v1.utils.id_extractor:
+            - return_result: '${return_result}'
+        publish:
+          - entity_id
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
@@ -93,14 +115,17 @@ extensions:
   graph:
     steps:
       read_a_defect:
-        x: 290
-        'y': 157
+        x: 280
+        'y': 160
+      id_extractor:
+        x: 531
+        'y': 155
         navigate:
-          1eaaf3be-1467-54a9-d492-3232f457317c:
+          76ee50ca-9dc5-3286-1330-7eab8d6c0140:
             targetId: fd507bbe-c2c1-f99a-3b24-8397f5c20d95
             port: SUCCESS
     results:
       SUCCESS:
         fd507bbe-c2c1-f99a-3b24-8397f5c20d95:
-          x: 518
-          'y': 156
+          x: 807
+          'y': 148

@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow reads all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON containing the specified release.
+#! @description: This flow creates a new defect inside a workspace specified by the user. The defect has attributes that need to be completed by the user if required, but there are optional attributes, also given as input parameters.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -15,9 +15,9 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
+#! @input content_type: The type of the body content.
 #! @input shared_space_id: The id of the shared space in the site
 #! @input workspace_id: The id of the workspace found in the shared space
-#! @input release_id: The unique id associated with a release
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
 #! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
@@ -28,7 +28,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.releases
 flow:
-  name: get_release_by_workspace
+  name: update_release
   inputs:
     - url:
         prompt:
@@ -60,20 +60,29 @@ flow:
         required: false
     - socket_timeout:
         required: false
+    - content_type:
+        default: application/json
+        required: false
     - shared_space_id:
         prompt:
           type: text
     - workspace_id:
         prompt:
           type: text
-    - release_id:
+    - defect_id:
         prompt:
           type: text
   workflow:
-    - read_a_release:
+    - release_body_updater:
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/releases/' + release_id}"
+          io.cloudslang.microfocus.octane.v1.utils.release_body_updater: []
+        navigate:
+          - INVALID_BODY: release_body_updater
+          - SUCCESS: http_client_put
+    - http_client_put:
+        do:
+          io.cloudslang.base.http.http_client_put:
+            - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/releases/' + defect_id}"
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
@@ -81,15 +90,21 @@ flow:
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - headers: '${cookie}'
+            - body: '${json_body}'
+            - content_type: '${content_type}'
         publish:
-          - response_headers
           - return_result
           - error_message
           - return_code
           - status_code
+          - response_headers
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -100,20 +115,23 @@ flow:
     - return_code: '${return_code}'
     - status_code: '${status_code}'
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
-      read_a_release:
-        x: 290
-        'y': 157
+      release_body_updater:
+        x: 100
+        'y': 150
+      http_client_put:
+        x: 400
+        'y': 150
         navigate:
-          1eaaf3be-1467-54a9-d492-3232f457317c:
-            targetId: fd507bbe-c2c1-f99a-3b24-8397f5c20d95
+          48a1da1f-e2ef-6e1a-10f6-01f766db1e14:
+            targetId: 87399da9-ad5e-c2ff-1dd1-0344df69d1ba
             port: SUCCESS
     results:
       SUCCESS:
-        fd507bbe-c2c1-f99a-3b24-8397f5c20d95:
-          x: 518
-          'y': 156
+        87399da9-ad5e-c2ff-1dd1-0344df69d1ba:
+          x: 700
+          'y': 150

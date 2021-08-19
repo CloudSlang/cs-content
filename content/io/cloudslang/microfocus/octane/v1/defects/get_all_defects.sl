@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This flow reads all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON containing all existing defects.
+#! @description: This flow deletes all the defects found in a workspace identified by it's id within a shared space also identified by it's id, both of the given as input parameters. The output of this flow is a JSON the specified defect.
 #!
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
@@ -15,10 +15,13 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
-#! @input shared_space_id: The id of the shared space in the site
-#! @input workspace_id: The id of the workspace found in the shared space
 #!
 #! @output response_headers: The header in JSON format containing the list of defects
+#! @output return_code: The code specifying 0 for success or -1 for failure.
+#! @output status_code: The code that indicates whether a specific HTTP request has been successfully completed.
+#! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
+#! @output error_message: The message given by the flow in case an error occured.
+#! @output id_list: The list of all the entity id's that appeared in the current flow
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.octane.v1.defects
@@ -28,10 +31,9 @@ flow:
     - url:
         prompt:
           type: text
-        default: 'http://mydtbld0220.swinfra.net:11127'
-    - cookie: 'cookie: OCTANE_USER=c2FAbmdh; LWSSO_COOKIE_KEY=SDcCvYTUIddFtd8UJAG152vORNA4YX9mj5KiztbxH-qAlI9H9maN4go3X5assJOv7OYyeLBKKcPIcm6nl1qRf9pYPVGiOMICdRpuKkB3oiI0RY4wHmbU6BZOg_L-rF2ZAI6pcUmOl0QY3rVEz1sjp2F8BZTvXrV1389B87H6yfy38wS87vf_6HvFF8o3h16wYG6LbpmRxelMCctKwLN2uCFRzcvnFRjJqDqkjbGMEbj5tm2R5uR9PV7EswqNzoyGDdmCFzoy1DBhbP-z77S9zA..'
+    - cookie
     - auth_type:
-        default: anonymous
+        default: basic
         required: false
     - proxy_host:
         required: false
@@ -57,8 +59,12 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id: '1001'
-    - workspace_id: '1003'
+    - shared_space_id:
+        prompt:
+          type: text
+    - workspace_id:
+        prompt:
+          type: text
   workflow:
     - read_all_defects:
         do:
@@ -76,11 +82,28 @@ flow:
             - headers: '${cookie}'
         publish:
           - response_headers
+          - error_message
+          - return_result
+          - status_code
+          - return_code
+        navigate:
+          - SUCCESS: id_extractor
+          - FAILURE: on_failure
+    - id_extractor:
+        do:
+          io.cloudslang.microfocus.octane.v1.utils.id_extractor:
+            - return_result: '${return_result}'
+        publish:
+          - id_list
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
     - response_headers: '${response_headers}'
+    - return_code: '${return_code}'
+    - status_code: '${status_code}'
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - id_list: '${id_list}'
   results:
     - FAILURE
     - SUCCESS
@@ -88,10 +111,13 @@ extensions:
   graph:
     steps:
       read_all_defects:
-        x: 290
-        'y': 157
+        x: 84
+        'y': 159
+      id_extractor:
+        x: 311
+        'y': 160
         navigate:
-          1eaaf3be-1467-54a9-d492-3232f457317c:
+          67a74cf2-8a3b-0796-4c98-a28362b77fcd:
             targetId: fd507bbe-c2c1-f99a-3b24-8397f5c20d95
             port: SUCCESS
     results:
