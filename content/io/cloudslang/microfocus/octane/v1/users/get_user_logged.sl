@@ -35,7 +35,6 @@ flow:
   inputs:
     - url
     - auth_type:
-        default: anonymous
         required: false
     - shared_spaces:
         required: true
@@ -50,6 +49,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -60,6 +60,7 @@ flow:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:

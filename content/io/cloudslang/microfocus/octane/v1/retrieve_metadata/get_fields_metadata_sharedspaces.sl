@@ -4,6 +4,10 @@
 #!
 #! @input url: The URL of the host running Octane. The format should be <protocol>://host:port.
 #! @input auth_type: Type of authentication used to execute the request on the target server.Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)Default: 'basic'
+#! @input header: List containing the headers to use for the request separated by new line (CRLF).
+#!                Header name - value pair will be separated by ":"
+#!                Format: According to HTTP standard for headers (RFC 2616)
+#!                Example: 'Accept:text/plain'
 #! @input shared_spaces: Shared space Id
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxyHost', will be used.
@@ -15,10 +19,6 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
-#! @input header: List containing the headers to use for the request separated by new line (CRLF).
-#!                Header name - value pair will be separated by ":"
-#!                Format: According to HTTP standard for headers (RFC 2616)
-#!                Example: 'Accept:text/plain'
 #! @input query_params: List containing query parameters to append to the URL.
 #!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #!
@@ -37,7 +37,8 @@ flow:
   inputs:
     - url
     - auth_type:
-        default: anonymous
+        required: false
+    - header:
         required: false
     - shared_spaces:
         required: true
@@ -61,11 +62,10 @@ flow:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - connect_timeout:
         required: false
     - socket_timeout:
-        required: false
-    - header:
         required: false
     - query_params:
         required: false

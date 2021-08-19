@@ -31,7 +31,6 @@ flow:
   inputs:
     - url
     - auth_type:
-        default: anonymous
         required: false
     - id
     - shared_spaces:

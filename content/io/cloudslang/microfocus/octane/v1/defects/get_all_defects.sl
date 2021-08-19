@@ -28,13 +28,13 @@ namespace: io.cloudslang.microfocus.octane.v1.defects
 flow:
   name: get_all_defects
   inputs:
-    - url:
-        prompt:
-          type: text
+    - url
     - cookie
     - auth_type:
         default: basic
         required: false
+    - workspace_id
+    - shared_space_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -44,6 +44,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -59,12 +60,6 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id:
-        prompt:
-          type: text
-    - workspace_id:
-        prompt:
-          type: text
   workflow:
     - read_all_defects:
         do:

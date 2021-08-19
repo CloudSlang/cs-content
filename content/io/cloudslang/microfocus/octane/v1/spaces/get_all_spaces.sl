@@ -27,9 +27,7 @@ namespace: io.cloudslang.microfocus.octane.v1.spaces
 flow:
   name: get_all_spaces
   inputs:
-    - url:
-        prompt:
-          type: text
+    - url
     - cookie
     - auth_type:
         required: true
@@ -42,7 +40,7 @@ flow:
         required: false
     - proxy_password:
         required: false
-        sensitive: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false

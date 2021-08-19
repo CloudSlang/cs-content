@@ -29,18 +29,12 @@ namespace: io.cloudslang.microfocus.octane.v1.authentication
 flow:
   name: authentication
   inputs:
-    - url:
-        prompt:
-          type: text
+    - url
     - auth_type:
         default: Basic
         required: false
-    - username:
-        prompt:
-          type: text
+    - username
     - password:
-        prompt:
-          type: text
         sensitive: true
     - proxy_host:
         required: false
@@ -51,6 +45,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false

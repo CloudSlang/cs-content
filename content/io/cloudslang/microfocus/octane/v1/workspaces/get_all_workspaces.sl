@@ -5,6 +5,7 @@
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
 #! @input auth_type: The authentication type. The defauld it 'basic'
+#! @input shared_space_id: The id of the shared space where the flow reads the workspaces
 #! @input proxy_host: The user name used for Octane server connection.
 #! @input proxy_port: The user name used for Octane server connection.
 #! @input proxy_username: The proxy server username used to access the web site
@@ -15,7 +16,6 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
-#! @input shared_space_id: The id of the shared space where the flow reads the workspaces
 #!
 #! @output response_headers: The JSON body containing information about all workspaces inside the shared space
 #! @output return_result: The returned JSON containing information about the modified entities, which could be empty in case of deleting items.
@@ -28,12 +28,11 @@ namespace: io.cloudslang.microfocus.octane.v1.workspaces
 flow:
   name: get_all_workspaces
   inputs:
-    - url:
-        prompt:
-          type: text
+    - url
     - cookie
     - auth_type:
         required: true
+    - shared_space_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -43,7 +42,7 @@ flow:
         required: false
     - proxy_password:
         required: false
-        sensitive: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -59,9 +58,6 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - shared_space_id:
-        prompt:
-          type: text
   workflow:
     - http_client_get:
         do:

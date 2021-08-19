@@ -31,13 +31,11 @@ namespace: io.cloudslang.microfocus.octane.v1.users
 flow:
   name: update_user_role
   inputs:
-    - url: 'http://mydtbld0220.swinfra.net:11127'
+    - url
     - auth_type:
-        default: anonymous
         required: false
-    - user_id: '1047'
+    - user_id
     - shared_spaces:
-        default: '1001'
         required: false
     - proxy_host:
         required: false
@@ -65,7 +63,6 @@ flow:
     - socket_timeout:
         required: false
     - header:
-        default: 'cookie: OCTANE_USER:c2FAbmdh; LWSSO_COOKIE_KEY=-9YhyCmD95yp1D42iYSc9sGcihbiwye_tcnkODgyQdcikGVPZ7I7xznHojSRoNJ5fw6ujrtxfTbiKDH4vYa6BD4SYne7K1ojOvcwm4IsCj9hgPR4UWJAXaLGwXzOg2uU1EYVmm4GMyw2oKeLOw7WeOcm3eVtvZmE-RSlx3Bv8Gs6mdQkaGdfCJnlQwDZI-XWZouKJyiUYiYZpKNdP5U8m4BiRcIsPPan75iWf-K1L0wxqBfeJdhjhQyCV7VYXKEzbjk4oE61ABDIERuzw7kptw..'
         required: false
     - id_actual_user_role
     - id_new_user_role
