@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Gets a comma separated list of isse ids
+#! @description: Gets a comma separated list of issue ids
 #!
 #! @result FAILURE: Operation failed
 #!!#
