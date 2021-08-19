@@ -29,9 +29,7 @@ namespace: io.cloudslang.microfocus.octane.v1.defects
 flow:
   name: delete_all_defects
   inputs:
-    - url:
-        prompt:
-          type: text
+    - url
     - cookie
     - auth_type:
         default: basic

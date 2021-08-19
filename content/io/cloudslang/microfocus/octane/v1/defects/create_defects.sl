@@ -70,9 +70,7 @@ flow:
     - defect_body_creator:
         do:
           io.cloudslang.microfocus.octane.v1.utils.defect_body_creator:
-            - name:
-                prompt:
-                  type: text
+            - name
         publish:
           - json_body
         navigate:

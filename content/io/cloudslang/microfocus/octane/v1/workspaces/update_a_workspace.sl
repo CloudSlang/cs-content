@@ -64,9 +64,7 @@ flow:
     - update_input_workspace_json:
         do:
           io.cloudslang.microfocus.octane.v1.utils.update_input_workspace_json:
-            - name:
-                prompt:
-                  type: text
+            - name
         publish:
           - json
         navigate:
