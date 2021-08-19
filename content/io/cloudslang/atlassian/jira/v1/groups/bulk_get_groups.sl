@@ -146,7 +146,7 @@ flow:
             - status_code: '${status_code}'
             - return_result: '${return_result}'
         publish:
-          - return_result: '${return_result}'
+          - error_message: '${error_message}'
         navigate:
           - FAILURE: on_failure
     - get_groups_names:

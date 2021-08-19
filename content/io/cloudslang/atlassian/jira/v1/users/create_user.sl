@@ -148,7 +148,7 @@ flow:
             - status_code: '${status_code}'
             - return_result: '${return_result}'
         publish:
-          - error_message: '${return_result}'
+          - error_message
         navigate:
           - FAILURE: on_failure
     - get_created_user_id:

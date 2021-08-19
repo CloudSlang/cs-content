@@ -9,7 +9,7 @@
 #! @input fields: A list of fields to return for the issue. This parameter accepts a comma-separated list. Use it to retrieve a subset of fields. Allowed values:*all Returns all fields.*navigable Returns navigable fields.Any issue field, prefixed with a minus to exclude.Examples:summary,comment Returns only the summary and comments fields.-description Returns all (default) fields except description.*navigable,-comment Returns all navigable fields except comment. For example, fields=field1,field2
 #! @input fields_by_keys: Whether fields in fields are referenced by keys rather than IDs. This parameter is useful where fields have been added by a connect app and a field's key may differ from its ID. Values: true/false
 #! @input expand: Use expand to include additional information about the issues in the response. This parameter accepts a comma-separated list. Expand options include:
-#!
+#!                 
 #!                renderedFields Returns field values rendered in HTML format.
 #!                names Returns the display name of each field.
 #!                schema Returns the schema describing a field type.
@@ -160,7 +160,7 @@ flow:
             - status_code: '${status_code}'
             - return_result: '${return_result}'
         publish:
-          - error_message: '${return_result}'
+          - error_message
         navigate:
           - FAILURE: on_failure
     - get_issue_id_from_issue:
@@ -203,4 +203,3 @@ extensions:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
           x: 800
           'y': 160
-
