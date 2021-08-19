@@ -69,10 +69,6 @@ flow:
           io.cloudslang.base.http.http_client_delete:
             - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/defects?query=\"id GT 1\"'}"
             - auth_type: '${auth_type}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -103,8 +99,8 @@ extensions:
   graph:
     steps:
       http_client_delete:
-        x: 101
-        'y': 150
+        x: 99
+        'y': 151
         navigate:
           753c8e43-886d-592c-4e88-f4ec1c121393:
             targetId: e24c390b-4e09-8d27-abc4-58e9d2e7dc32

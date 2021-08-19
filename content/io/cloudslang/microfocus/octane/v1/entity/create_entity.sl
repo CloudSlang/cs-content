@@ -74,7 +74,7 @@ flow:
     - http_client_action:
         do:
           io.cloudslang.base.http.http_client_action:
-            - url: "${'http://mydtbld0220.swinfra.net:11127/api/shared_spaces/' + shared_space_id  + '/workspaces/' + workspace_id + '/' + my_entity}"
+            - url: '${url}'
             - auth_type: anonymous
             - headers: '${cookie}'
             - body: '${json_body}'

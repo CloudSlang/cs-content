@@ -2,7 +2,8 @@ namespace: io.cloudslang.microfocus.octane.v1.utils
 operation:
   name: defect_body_creator
   inputs:
-    - name
+    - name:
+        required: false
     - parent_type:
         required: false
     - parent_id:

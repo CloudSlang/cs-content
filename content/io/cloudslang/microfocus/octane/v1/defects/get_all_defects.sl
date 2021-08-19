@@ -5,6 +5,8 @@
 #! @input url: The URL of the host running Octane. This should look like this: protocol>://host:port.
 #! @input cookie: The LSSWO cookie generated for a user after the authentication step which allows to access data using the REST API.
 #! @input auth_type: The authentication type. The defauld it 'basic'
+#! @input workspace_id: Workspace id.
+#! @input shared_space_id: Shared space id.
 #! @input proxy_host: The user name used for Octane server connection.
 #! @input proxy_port: The user name used for Octane server connection.
 #! @input proxy_username: The proxy server username used to access the web site
@@ -66,10 +68,6 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/defects'}"
             - auth_type: '${auth_type}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - trust_all_roots: '${trust_all_roots}'

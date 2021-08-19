@@ -81,10 +81,6 @@ flow:
           io.cloudslang.base.http.http_client_put:
             - url: "${url + '/api/shared_spaces/' + shared_space_id + '/workspaces/' + workspace_id + '/defects/' + defect_id}"
             - auth_type: '${auth_type}'
-            - username: '${username}'
-            - password:
-                value: '${password}'
-                sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'

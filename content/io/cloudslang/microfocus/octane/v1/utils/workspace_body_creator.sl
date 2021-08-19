@@ -2,7 +2,8 @@ namespace: io.cloudslang.microfocus.octane.v1.utils
 operation:
   name: workspace_body_creator
   inputs:
-    - name
+    - name:
+        required: false
   python_action:
     use_jython: false
     script: |-
