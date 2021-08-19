@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Gets a comma separated list of isse ids
+#! @description: Gets the issue id
 #!
 #! @result FAILURE: Operation failed
 #!!#
@@ -20,3 +20,4 @@ operation:
   results:
     - SUCCESS: "${return_code == '0'}"
     - FAILURE
+
