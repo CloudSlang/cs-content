@@ -194,7 +194,7 @@ flow:
           - response_headers: '${response_headers}'
         navigate:
           - SUCCESS: get_issue_id_from_search
-          - FAILURE: on_failure
+          - FAILURE: test_for_http_error
     - get_issue_id_from_search:
         do:
           io.cloudslang.atlassian.jira.v1.utils.get_issue_id_from_search:
@@ -203,6 +203,15 @@ flow:
           - issues_list
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - test_for_http_error:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.test_for_http_error:
+            - status_code: '${status_code}'
+            - return_result: '${return_result}'
+        publish:
+          - error_message: '${return_result}'
+        navigate:
           - FAILURE: on_failure
   outputs:
     - retrun_result: '${return_result}'
@@ -227,6 +236,9 @@ extensions:
           cc2823d8-0add-76dc-2145-1c9ebc8ed054:
             targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
             port: SUCCESS
+      test_for_http_error:
+        x: 200
+        'y': 400
     results:
       SUCCESS:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:

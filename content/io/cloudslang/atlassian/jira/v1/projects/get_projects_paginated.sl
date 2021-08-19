@@ -169,9 +169,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${url + '/rest/api/3/project/search'}"
             - auth_type: null
-            - username: '${auth_username}'
+            - username: '${username}'
             - password:
-                value: '${auth_password}'
+                value: '${password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
@@ -214,7 +214,7 @@ flow:
             - status_code: '${status_code}'
             - return_result: '${return_result}'
         publish:
-          - return_result: '${return_result}'
+          - error_message: '${return_result}'
         navigate:
           - FAILURE: on_failure
   outputs:
