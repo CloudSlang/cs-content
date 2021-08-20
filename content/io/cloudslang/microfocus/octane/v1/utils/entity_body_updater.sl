@@ -7,7 +7,8 @@ namespace: io.cloudslang.microfocus.octane.v1.utils
 operation:
   name: entity_body_updater
   inputs:
-    - entity: epics
+    - entity:
+        required: false
     - name:
         required: false
     - parent_type:
