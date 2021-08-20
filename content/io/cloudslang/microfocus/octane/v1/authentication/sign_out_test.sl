@@ -1,11 +1,8 @@
 ########################################################################################################################
 #!!
-#! @description: This flow retrieves a list of fields metadata on workspace level
+#! @description: This flow performs sign out
 #!
 #! @input url: The URL of the host running Octane. The format should be <protocol>://host:port.
-#! @input auth_type: Type of authentication used to execute the request on the target server.Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)Default: 'basic'
-#! @input shared_spaces: Shared space Id
-#! @input workspaces: Workspace Id
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxyHost', will be used.
 #! @input proxy_username: The user name used when connecting to the proxy. The "authType" input will be used to choose authentication type. The "Basic" and "Digest" proxy auth type are supported.
@@ -16,34 +13,18 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore is empty, trustPassword default will be supplied
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of 0 represents an infinite timeout.
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data packets), in seconds. A socketTimeout value of 0 represents an infinite timeout.
-#! @input header: List containing the headers to use for the request separated by new line (CRLF).
-#!                Header name - value pair will be separated by ":"
-#!                Format: According to HTTP standard for headers (RFC 2616)
-#!                Example: 'Accept:text/plain'
-#! @input query_params: List containing query parameters to append to the URL.
-#!                      Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #!
 #! @output return_code: The returnCode of the operation: 0 for success, -1 for failure.
 #! @output status_code: The HTTP status code.
 #! @output response_headers: The list containing the headers of the response message, separated by newline.
 #! @output error_message: In case of success response, this result is empty. In case of failure response, this result contains the stack trace of the runtime exception.
-#! @output total_count: Total number of fields
-#! @output data: The list containing the fields
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microfocus.octane.v1.retrieve_metadata
+namespace: io.cloudslang.microfocus.octane.v1.authentication
 flow:
-  name: get_fields_metadata_workspaces
+  name: sign_out_test
   inputs:
-    - url
-    - auth_type:
-        required: false
-    - shared_spaces:
-        required: true
-    - workspaces:
-        required: true
-    - entity:
-        required: false
+    - url: 'http://mydtbld0220.swinfra.net:11127'
     - proxy_host:
         required: false
     - proxy_port:
@@ -69,17 +50,11 @@ flow:
         required: false
     - socket_timeout:
         required: false
-    - header:
-        required: false
-    - query_params:
-        required: false
   workflow:
-    - http_client_get:
+    - sign_out:
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${url+'/api/shared_spaces/'+shared_spaces+'/workspaces/'+workspaces+'/metadata/fields'}"
-            - auth_type: '${auth_type}'
-            - headers: '${header}'
+          io.cloudslang.base.http.http_client_post:
+            - url: 'http://mydtbld0220.swinfra.net:11127/authentication/sign_out'
         publish:
           - return_result
           - error_message
@@ -87,43 +62,28 @@ flow:
           - status_code
           - response_headers
         navigate:
-          - SUCCESS: parse_return_result
-          - FAILURE: on_failure
-    - parse_return_result:
-        do:
-          io.cloudslang.microfocus.octane.v1.utils.parse_return_result:
-            - text: '${return_result}'
-        publish:
-          - data
-          - total_count
-        navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
-    - return_result: '${return_result}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
     - error_message: '${error_message}'
-    - total_count: '${total_count}'
-    - data: '${data}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      http_client_get:
+      sign_out:
         x: 100
         'y': 150
-      parse_return_result:
-        x: 400
-        'y': 150
         navigate:
-          7e68edf3-a0f9-081a-b27e-e81cd0286e85:
-            targetId: a5618f49-b24f-0ac9-a6dc-ed6593951229
+          366e6665-58ea-a8aa-cbf0-85e21b32dca8:
+            targetId: aa599073-fa1a-d804-c52f-4615dfd7bb52
             port: SUCCESS
     results:
       SUCCESS:
-        a5618f49-b24f-0ac9-a6dc-ed6593951229:
-          x: 700
+        aa599073-fa1a-d804-c52f-4615dfd7bb52:
+          x: 400
           'y': 150
