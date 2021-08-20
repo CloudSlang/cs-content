@@ -1,11 +1,57 @@
 ########################################################################################################################
 #!!
-#! @description: Returns the URLs and keys of an issue's properties.
+#! @description: Searches for issues using JQL. If the JQL query expression is too large to be encoded as a query parameter, use the POST version of this resource.
 #!
 #! @input url: Jira url
 #! @input username: Username for the API authenticator
 #! @input password: Password for the API authenticator
-#! @input issue_id_or_key: The ID or key of the issue.
+#! @input jql: The JQL that defines the search. Note:
+#!              
+#!             If no JQL expression is provided, all issues are returned.
+#!             username and userkey cannot be used as search terms due to privacy reasons. Use accountId instead.
+#!             If a user has hidden their email address in their user profile, partial matches of the email address will not find the user. An exact match is required.
+#! @input start_at: The index of the first item to return in a page of results (page offset).
+#!                   
+#!                  Default: 0
+#! @input max_results: The maximum number of items to return per page. To manage page size, Jira may return fewer items per page where a large number of fields are requested. The greatest number of items returned per page is achieved when requesting id or key only. Default: 50.
+#! @input validate_query: Determines how to validate the JQL query and treat the validation results. Supported values are:
+#!                         
+#!                        strict Returns a 400 response code if any errors are found, along with a list of all errors (and warnings).
+#!                        warn Returns all errors as warnings.
+#!                        none No validation is performed.
+#!                        true Deprecated A legacy synonym for strict.
+#!                        false Deprecated A legacy synonym for warn.
+#!                        Note: If the JQL is not correctly formed a 400 response code is returned, regardless of the validateQuery value.
+#!                         
+#!                        Default: strict
+#!                        Valid values: strict, warn, none, true, false
+#! @input fields: A list of fields to return for each issue, use it to retrieve a subset of fields. This parameter accepts a comma-separated list. Expand options include:
+#!                 
+#!                *all Returns all fields.
+#!                *navigable Returns navigable fields.
+#!                Any issue field, prefixed with a minus to exclude.
+#!                Examples:
+#!                 
+#!                summary,comment Returns only the summary and comments fields.
+#!                -description Returns all navigable (default) fields except description.
+#!                *all,-comment Returns all fields except comments.
+#!                This parameter may be specified multiple times. For example, fields=field1,field2&fields=field3.
+#!                 
+#!                Note: All navigable fields are returned by default. This differs from GET issue where the default is all fields.
+#! @input expand: Use expand to include additional information about issues in the response. This parameter accepts a comma-separated list. Expand options include:
+#!                 
+#!                renderedFields Returns field values rendered in HTML format.
+#!                names Returns the display name of each field.
+#!                schema Returns the schema describing a field type.
+#!                transitions Returns all possible transitions for the issue.
+#!                operations Returns all possible operations for the issue.
+#!                editmeta Returns information about how each field can be edited.
+#!                changelog Returns a list of recent updates to an issue, sorted by date, starting from the most recent.
+#!                versionedRepresentations Instead of fields, returns versionedRepresentations a JSON array containing each version of a field's value, with the highest numbered item representing the most recent version.
+#! @input properties: A list of issue property keys for issue properties to include in the results. This parameter accepts a comma-separated list. A maximum of 5 issue property keys can be specified.
+#! @input fields_by_keys: Reference fields by their key (rather than ID).
+#!                         
+#!                        Default: false
 #! @input proxy_host: The proxy server used to access the web site.
 #! @input proxy_port: The proxy server port. Default value: 8080. Valid values: -1, and positive integer values. When the value is '-1' the default port of the scheme, specified in the 'proxy_host', will be used.
 #! @input proxy_username: The user name used when connecting to the proxy. The 'auth_type' input will be used to choose authentication type. The 'Basic' and 'Digest' proxy authentication type are supported.
@@ -39,20 +85,21 @@
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output retrun_result: The entire HTTP result as JSON.
-#! @output keys_list: A comma separated list of returned keys.
+#! @output issues_list: A comma separated list of issues identified by their ids..
 #! @output return_code: '0' if success, '-1' otherwise.
 #! @output status_code: Status code of the HTTP call. 200 - Returned if the request is successful.
-#!                      404 - Returned if the issue or property is not found or the user does not have permission to see the issue.
+#!                      400 - Returned if the JQL query is invalid.
+#!                      401 - Returned if the authentication credentials are incorrect or missing.
 #! @output response_headers: Response headers string from the HTTP Client REST call.
-#! @output error_message: The API call error or the retrieved entity error as JSON.  Code 401 is returned if the authentication credentials are incorrect or missing.Code 404 returned if the is is not found.
+#! @output error_message: The API call error or the retrieved entity error as JSON.
 #!
 #! @result FAILURE: Operation failed
-#! @result SUCCESS: Issue property key gotten successfully
+#! @result SUCCESS: Search successful
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.issue_properties
+namespace: io.cloudslang.atlassian.jira.v1.issues.issue_search
 flow:
-  name: get_issue_property_keys
+  name: search_for_issue_using_jql_get
   inputs:
     - url
     - username:
@@ -60,7 +107,26 @@ flow:
     - password:
         required: false
         sensitive: true
-    - issue_id_or_key
+    - jql:
+        required: false
+    - start_at:
+        default: '0'
+        required: false
+    - max_results:
+        default: '50'
+        required: false
+    - validate_query:
+        default: strict
+        required: false
+    - fields:
+        required: false
+    - expand:
+        required: false
+    - properties:
+        required: false
+    - fields_by_keys:
+        default: 'false'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -100,7 +166,7 @@ flow:
     - http_client_get:
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${url + '/rest/api/3/issue/'+ issue_id_or_key +'/properties/'}"
+            - url: "${url + '/rest/api/3/search'}"
             - auth_type: null
             - username: '${username}'
             - password:
@@ -118,6 +184,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Accept: application/json'
+            - query_params: '${("" if bool(jql) == False else "jql=" + jql) + ("" if bool(start_at) == False else "&startAt=" + start_at) + ("" if bool(max_results) == False else "&maxResults=" + max_results) + ("" if bool(validate_query) == False else "&validateQuery=" + validate_query) + ("" if bool(fields) == False else "&fields=" + fields) + ("" if bool(expand) == False else "&expand=" + expand) + ("" if bool(properties) == False else "&properties=" + properties) + ("" if bool(fields_by_keys) == False else "&fieldsByKeys=" + fields_by_keys)}'
             - content_type: application/json
         publish:
           - error_message
@@ -126,8 +193,17 @@ flow:
           - status_code: '${status_code}'
           - response_headers: '${response_headers}'
         navigate:
-          - SUCCESS: get_key_from_property_keys
+          - SUCCESS: get_issue_id_from_search
           - FAILURE: test_for_http_error
+    - get_issue_id_from_search:
+        do:
+          io.cloudslang.atlassian.jira.v1.utils.get_issue_id_from_search:
+            - return_result: '${return_result}'
+        publish:
+          - issues_list
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
     - test_for_http_error:
         do:
           io.cloudslang.atlassian.jira.v1.utils.test_for_http_error:
@@ -137,18 +213,9 @@ flow:
           - error_message
         navigate:
           - FAILURE: on_failure
-    - get_key_from_property_keys:
-        do:
-          io.cloudslang.atlassian.jira.v1.utils.get_key_from_property_keys:
-            - return_result: '${return_result}'
-        publish:
-          - keys_list
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
     - retrun_result: '${return_result}'
-    - keys_list: '${keys_list}'
+    - issues_list: '${issues_list}'
     - return_code: '${return_code}'
     - status_code: '${status_code}'
     - response_headers: '${response_headers}'
@@ -162,18 +229,18 @@ extensions:
       http_client_get:
         x: 200
         'y': 240
+      get_issue_id_from_search:
+        x: 360
+        'y': 240
+        navigate:
+          cc2823d8-0add-76dc-2145-1c9ebc8ed054:
+            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
+            port: SUCCESS
       test_for_http_error:
         x: 200
         'y': 400
-      get_key_from_property_keys:
-        x: 400
-        'y': 240
-        navigate:
-          aa6b280c-c25a-f9de-c7aa-8deada5590b4:
-            targetId: 38c5fa27-1519-6cef-b53e-2bd67c8bf05d
-            port: SUCCESS
     results:
       SUCCESS:
         38c5fa27-1519-6cef-b53e-2bd67c8bf05d:
-          x: 600
+          x: 560
           'y': 240

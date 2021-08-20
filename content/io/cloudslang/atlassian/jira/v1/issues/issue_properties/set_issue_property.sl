@@ -1,28 +1,18 @@
 ########################################################################################################################
 #!!
-#! @description: Deletes an issue's property.
+#! @description: Sets the value of an issue's property. Use this resource to store custom data against an issue.
 #!
 #! @input url: URL to which the call is made.
-#! @input username: Username used for URL authentication
-#! @input password: Password used for URL authentication
-#! @input issue_id_or_key: The key or ID of the issue.
-#! @input property_key: The key of the property.
+#! @input username: Username used for URL authentication; for NTLM authentication.Format: 'domain\user'
+#! @input password: Password used for URL authentication.
+#! @input issue_id_or_key: The ID or key of the issue.
+#! @input property_key: The key of the issue property. The maximum length is 255 characters.
+#! @input body: String to include in body for HTTP PUT operation. This input should contain the JSON body as accepted by Jira.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy port used to access the web site.
-#! @input proxy_username: Optional - Proxy usernameused to access the web site.
-#! @input proxy_password: Optional - Proxy password used to access the web site.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
-#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
-#!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
-#!                        Default: '0' (infinite)
-#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
-#!                      Default: 'RAS_Operator_Path'
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_password: Optional - Password used for URL authentication.
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
 #!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default: 'TLSv1.2'
@@ -35,32 +25,40 @@
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
+#!                        Default: '0' (infinite)
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
-#! @output response_headers: Jira delete response headers
-#! @output status_code: 204 - Returned if the request is successful.
-#!                      400 - Returned if the user cannot be removed.
-#!                      401 - Returned if the authentication credentials are incorrect or missing.
-#!                      403 - Returned if the user does not have the necessary permission.
-#!                      404 - Returned if account id is missing or the user is not found.
-#! @output error_message: Error message
-#! @output return_result: Does not return anything on success.
-#! @output return_code: 0 - success, -1 - failure
+#! @output return_result: The response of the operation in case of success or the error message otherwise.
+#! @output error_message: Return_result if status_code different than '200'(if updated) or '201'(if created).
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output status_code: Status code of the HTTP call.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
 #!
-#! @result FAILURE: Execution failed
-#! @result SUCCESS: status_code == 204
+#! @result SUCCESS: Issue property set successfully.
+#! @result FAILURE: Failed to set issue property.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.issue_properties
+namespace: io.cloudslang.atlassian.jira.v1.issues.issue_properties
 flow:
-  name: delete_issue_property
+  name: set_issue_property
   inputs:
     - url
     - username:
@@ -68,26 +66,38 @@ flow:
     - password:
         required: true
         sensitive: true
-    - issue_id_or_key
-    - property_key
+    - issue_id_or_key:
+        sensitive: false
+    - property_key:
+        required: true
+    - body:
+        default: '{}'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
         default: '8080'
         required: false
     - proxy_username:
-        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
         required: false
     - proxy_password:
-        default: "${get_sp('io.cloudslang.base.http.trust_password')}"
         required: false
         sensitive: true
+    - tls_version:
+        required: false
+    - allowed_cyphers:
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
         default: strict
         required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -96,22 +106,11 @@ flow:
         required: false
     - worker_group:
         required: false
-    - tls_version:
-        required: false
-    - allowed_cyphers:
-        required: false
-    - trust_keystore:
-        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
-        required: false
-    - trust_password:
-        default: "${get_sp('io.cloudslang.base.http.trust_password')}"
-        required: false
-        sensitive: true
   workflow:
-    - http_client_delete:
+    - http_client_put:
         do:
-          io.cloudslang.base.http.http_client_delete:
-            - url: "${url + '/rest/api/3/issue/' + issue_id_or_key + '/properties/' + property_key}"
+          io.cloudslang.base.http.http_client_put:
+            - url: '${url+"/rest/api/3/issue/"+issue_id_or_key+"/properties/"+property_key}'
             - auth_type: basic
             - username: '${username}'
             - password:
@@ -131,21 +130,17 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
             - connect_timeout: '${connect_timeout}'
             - socket_timeout: '${socket_timeout}'
-            - request_character_set: utf-8
+            - body: '${body}'
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - response_headers
-          - status_code
           - return_result
-          - return_code
           - error_message
+          - return_code
+          - status_code
+          - response_headers
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: test_for_http_error
@@ -156,31 +151,39 @@ flow:
         publish:
           - error_message
         navigate:
-          - FAILURE: on_failure
+          - FAILURE: FAILURE
   outputs:
-    - response_headers: '${response_headers}'
-    - status_code: '${status_code}'
-    - error_message: '${error_message}'
     - return_result: '${return_result}'
+    - error_message: '${error_message}'
     - return_code: '${return_code}'
+    - status_code: '${status_code}'
+    - response_headers: '${response_headers}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      http_client_delete:
-        x: 240
-        'y': 200
+      http_client_put:
+        x: 100
+        'y': 250
         navigate:
-          58893edf-68e0-7c58-5a98-de6a1d7782c2:
-            targetId: 70f668aa-93d0-2a16-254a-384531eef6e7
+          24a64b54-8d91-7b99-8524-6a0913f145b3:
+            targetId: c048e6af-66ce-e393-e9db-8b67ffe98a95
             port: SUCCESS
       test_for_http_error:
-        x: 240
-        'y': 360
+        x: 400
+        'y': 375
+        navigate:
+          3b6b22ca-ad4b-94d7-8b38-1d65ab6aad81:
+            targetId: 51e92f5e-0566-6854-9796-548976cbf3ec
+            port: FAILURE
     results:
       SUCCESS:
-        70f668aa-93d0-2a16-254a-384531eef6e7:
+        c048e6af-66ce-e393-e9db-8b67ffe98a95:
           x: 400
-          'y': 200
+          'y': 125
+      FAILURE:
+        51e92f5e-0566-6854-9796-548976cbf3ec:
+          x: 700
+          'y': 250

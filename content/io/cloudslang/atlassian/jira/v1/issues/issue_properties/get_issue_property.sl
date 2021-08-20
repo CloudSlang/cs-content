@@ -51,7 +51,7 @@
 #! @result SUCCESS: Issue property gotten successfully
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.issue_properties
+namespace: io.cloudslang.atlassian.jira.v1.issues.issue_properties
 flow:
   name: get_issue_property
   inputs:

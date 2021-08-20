@@ -23,18 +23,6 @@
 #! @input proxy_port: Optional - Proxy port used to access the web site.
 #! @input proxy_username: Optional - Proxy usernameused to access the web site.
 #! @input proxy_password: Optional - Proxy password used to access the web site.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
-#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
-#!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
-#!                        Default: '0' (infinite)
-#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
-#!                      Default: 'RAS_Operator_Path'
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
 #!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default: 'TLSv1.2'
@@ -47,6 +35,12 @@
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -55,6 +49,12 @@
 #!                        Default value: ''
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
+#!                        Default: '0' (infinite)
+#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output response_headers: Jira get my permissions response headers
 #! @output status_code: 200 - Returned if the request is successful.
@@ -104,23 +104,15 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - tls_version:
+        required: false
+    - allowed_cyphers:
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
         default: strict
-        required: false
-    - connect_timeout:
-        default: '0'
-        required: false
-    - socket_timeout:
-        default: '0'
-        required: false
-    - worker_group:
-        required: false
-    - tls_version:
-        required: false
-    - allowed_cyphers:
         required: false
     - trust_keystore:
         default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
@@ -129,6 +121,14 @@ flow:
         default: "${get_sp('io.cloudslang.base.http.trust_password')}"
         required: false
         sensitive: true
+    - connect_timeout:
+        default: '0'
+        required: false
+    - socket_timeout:
+        default: '0'
+        required: false
+    - worker_group:
+        required: false
   workflow:
     - http_client_get:
         do:

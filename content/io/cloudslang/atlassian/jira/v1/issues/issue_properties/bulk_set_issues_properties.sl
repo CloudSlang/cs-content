@@ -54,7 +54,7 @@
 #! @result FAILURE: Failed to set issues properties.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.atlassian.jira.v1.issue_properties
+namespace: io.cloudslang.atlassian.jira.v1.issues.issue_properties
 flow:
   name: bulk_set_issues_properties
   inputs:
