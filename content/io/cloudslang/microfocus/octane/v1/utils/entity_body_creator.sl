@@ -7,8 +7,8 @@ namespace: io.cloudslang.microfocus.octane.v1.utils
 operation:
   name: entity_body_creator
   inputs:
-    - entity
-    - name
+    - entity: features
+    - name: myFeature
     - parent_type:
         required: false
     - parent_id:

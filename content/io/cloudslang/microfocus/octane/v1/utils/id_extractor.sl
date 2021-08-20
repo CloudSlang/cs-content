@@ -10,7 +10,8 @@ namespace: io.cloudslang.microfocus.octane.v1.utils
 operation:
   name: id_extractor
   inputs:
-    - return_result
+    - return_result:
+        required: false
   python_action:
     use_jython: false
     script: |-
