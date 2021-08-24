@@ -13,6 +13,15 @@
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
 #!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
 #!                     Default: 'TLSv1.2'
+#! @input allowed_cyphers: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
+#!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
+#!                         documentation for further security considerations. In order to connect successfully to the target
+#!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the
+#!                         user's responsibility to configure the host accordingly or to update the list of allowed cyphers.
+#!                         Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -28,15 +37,6 @@
 #!                        Default: '0' (infinite)
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
-#! @input allowed_cyphers: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
-#!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
-#!                         documentation for further security considerations. In order to connect successfully to the target
-#!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the
-#!                         user's responsibility to configure the host accordingly or to update the list of allowed cyphers.
-#!                         Default: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-#!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-#!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-#!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
 #!
 #! @output return_result: Returned JSON
 #! @output ids_list: A comma separated list of permitted project ids.
@@ -75,6 +75,8 @@ flow:
         sensitive: true
     - tls_version:
         required: false
+    - allowed_cyphers:
+        required: false
     - trust_keystore:
         default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
         required: false
@@ -95,8 +97,6 @@ flow:
         default: '0'
         required: false
     - worker_group:
-        required: false
-    - allowed_cyphers:
         required: false
   workflow:
     - http_client_post:
@@ -187,3 +187,4 @@ extensions:
         e5c48d0e-fb6d-f5ff-fd5f-056087745105:
           x: 760
           'y': 160
+
