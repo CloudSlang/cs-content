@@ -1,16 +1,13 @@
 ########################################################################################################################
 #!!
-#! @description: Generated description.
+#! @description: Uses Secure FTP (SFTP) to send a file from local file system to a remote host.
 #!
 #! @input host: IP address/host name.
-#!              Optional
 #! @input port: The port to connect to on host.
 #!              Optional
 #! @input username: Remote username.
-#!                  Optional
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#!                  Optional
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -22,21 +19,23 @@
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
 #! @input remote_location: The remote location where the file is to be placed.
-#!                         Optional
-#! @input local_file: The path to the file on the RAS to be copied remotely using SFTP.
-#!                    Optional
+#! @input local_file: The local file path to be copied remotely using SFTP.
 #! @input global_session_object: The sessionObject that holds the connection if the close session is false.
-#! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
+#! @input character_set: The name of the control encoding to use.
+#!                       Examples: UTF-8, EUC-JP, SJIS.
+#!                       Default: UTF-8.
 #!                       Optional
-#! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
-#!                       session can be reused by other SFTP commands in the same flow.  Valid values: true, false.
+#! @input close_session: Close the SSH session at completion of operation. If false the SSH
+#!                       session can be reused by other SFTP commands in the same flow.
+#!                       Default value: true.
+#!                       Valid values: true, false.
 #!                       Optional
 #! @input connect_timeout: Time in seconds to wait for the connection to complete.
 #!                         Optional
 #! @input execution_timeout: Time in seconds to wait for the operation to complete.
 #!                           Optional
 #!
-#! @output return_result: Remote file will be copied to local system.
+#! @output return_result: A suggestive message saying whether the operation was successful or an error message.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
@@ -52,13 +51,13 @@ operation:
   
   inputs: 
     - host:  
-        required: false  
+        required: true
     - port:  
         required: false  
     - username:  
-        required: false  
+        required: true
     - password:  
-        required: false  
+        required: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -91,13 +90,13 @@ operation:
         required: false 
         private: true 
     - remote_location:  
-        required: false  
+        required: true
     - remoteLocation: 
         default: ${get('remote_location', '')}  
         required: false 
         private: true 
     - local_file:  
-        required: false  
+        required: true
     - localFile: 
         default: ${get('local_file', '')}  
         required: false 
@@ -134,8 +133,8 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-SNAPSHOT'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPPut'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC2'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   
   outputs: 
