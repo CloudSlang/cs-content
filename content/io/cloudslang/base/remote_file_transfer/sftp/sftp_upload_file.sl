@@ -11,6 +11,7 @@
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
+#!                    Default value: 8080.
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -31,8 +32,10 @@
 #!                       Valid values: true, false.
 #!                       Optional
 #! @input connect_timeout: Time in seconds to wait for the connection to complete.
+#!                         Default value: 60.
 #!                         Optional
 #! @input execution_timeout: Time in seconds to wait for the operation to complete.
+#!                           Default value: 60.
 #!                           Optional
 #!
 #! @output return_result: A suggestive message saying whether the operation was successful or an error message.
@@ -120,12 +123,14 @@ operation:
         required: false 
         private: true
     - connect_timeout:
+        default: '60'
         required: false
     - connectTimeout:
         default: ${get('connect_timeout', '')}
         required: false
         private: true
     - execution_timeout:
+        default: '60'
         required: false
     - executionTimeout:
         default: ${get('execution_timeout', '')}
