@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow stops and deallocates the virtual machine.
+#! @description: This workflow stops the virtual machine and deallocates the public IP address from the virtual machine.
 #!
 #! @input vm_name: The name of the virtual machine which needs to stop.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
