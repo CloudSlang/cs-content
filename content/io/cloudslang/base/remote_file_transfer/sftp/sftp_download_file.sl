@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Uses Secure FTP (SFTP) to retrieve a single file from a remote host to a RAS.
+#! @description: Uses Secure FTP (SFTP) to retrieve a single file from a remote host.
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -20,7 +20,7 @@
 #!                     Optional
 #! @input remote_file: The remote file.
 #!                     Optional
-#! @input local_location: The location where file is to be placed on the RAS.
+#! @input local_location: The location where file is to be placed.
 #!                        Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
@@ -50,7 +50,7 @@
 namespace: io.cloudslang.rft.sftp
 
 operation:
-  name: sftp_download
+  name: sftp_download_file
 
   inputs:
     - host
@@ -133,7 +133,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-rft:0.0.9-SNAPSHOT'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPGet'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 
   outputs:
