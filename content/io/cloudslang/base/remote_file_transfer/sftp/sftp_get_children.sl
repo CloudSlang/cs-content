@@ -47,7 +47,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rft.sftp
+namespace: io.cloudslang.base.remote_file_transfer.sftp
 
 operation:
   name: sftp_get_children
@@ -98,6 +98,7 @@ operation:
         required: false
         private: true
     - delimiter:
+        default: ','
         required: false
     - character_set:
         default: 'UTF-8'
@@ -129,7 +130,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.10-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPGetChildren'
     method_name: 'execute'
 

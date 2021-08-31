@@ -47,7 +47,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rft.sftp
+namespace: io.cloudslang.base.remote_file_transfer.sftp
 
 operation:
   name: sftp_download_file
@@ -132,7 +132,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.10-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 
