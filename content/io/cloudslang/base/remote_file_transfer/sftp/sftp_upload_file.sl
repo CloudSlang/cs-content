@@ -32,9 +32,9 @@
 #!                       Valid values: true, false.
 #!                       Default value: true
 #!                       Optional
-#! @input connect_timeout: Time in seconds to wait for the connection to complete.
-#!                         Default value: 60
-#!                         Optional
+#! @input connection_timeout: Time in seconds to wait for the connection to complete.
+#!                            Default value: 60
+#!                            Optional
 #! @input execution_timeout: Time in seconds to wait for the operation to complete.
 #!                           Default value: 60
 #!                           Optional
