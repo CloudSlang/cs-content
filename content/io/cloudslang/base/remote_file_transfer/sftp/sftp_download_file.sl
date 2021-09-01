@@ -123,7 +123,7 @@ operation:
         required: false
         default: '60'
     - connectionTimeout:
-        default: ${get('connect_timeout', '')}
+        default: ${get('connection_timeout', '')}
         required: false
         private: true
     - execution_timeout:
