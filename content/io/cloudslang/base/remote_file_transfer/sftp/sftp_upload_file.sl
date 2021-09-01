@@ -4,6 +4,7 @@
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
+#!              Default value: 22
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
@@ -11,7 +12,7 @@
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value: 8080.
+#!                    Default value: 8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -24,18 +25,18 @@
 #! @input global_session_object: The sessionObject that holds the connection if the close session is false.
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default value: UTF-8.
+#!                       Default value: UTF-8
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation. If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
 #!                       Valid values: true, false.
-#!                       Default value: true.
+#!                       Default value: true
 #!                       Optional
 #! @input connect_timeout: Time in seconds to wait for the connection to complete.
-#!                         Default value: 60.
+#!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: Time in seconds to wait for the operation to complete.
-#!                           Default value: 60.
+#!                           Default value: 60
 #!                           Optional
 #!
 #! @output return_result: A suggestive message saying whether the operation was successful or an error message.
@@ -55,6 +56,7 @@ operation:
   inputs: 
     - host
     - port:
+        default: '22'
         required: false  
     - username
     - password:
@@ -139,7 +141,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.10-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.11-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   
