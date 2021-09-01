@@ -116,16 +116,17 @@ operation:
         default: ${get('character_set', '')}  
         required: false 
         private: true 
-    - close_session:  
+    - close_session:
+        default: 'true'
         required: false  
     - closeSession: 
         default: ${get('close_session', '')}  
         required: false 
         private: true
-    - connect_timeout:
+    - connection_timeout:
         default: '60'
         required: false
-    - connectTimeout:
+    - connectionTimeout:
         default: ${get('connect_timeout', '')}
         required: false
         private: true

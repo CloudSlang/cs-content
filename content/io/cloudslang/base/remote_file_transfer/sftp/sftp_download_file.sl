@@ -116,10 +116,10 @@ operation:
         default: ${get('close_session', '')}
         required: false
         private: true
-    - connect_timeout:
+    - connection_timeout:
         required: false
         default: '60'
-    - connectTimeout:
+    - connectionTimeout:
         default: ${get('connect_timeout', '')}
         required: false
         private: true
