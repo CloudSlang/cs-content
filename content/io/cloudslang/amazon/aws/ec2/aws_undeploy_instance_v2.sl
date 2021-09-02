@@ -28,7 +28,6 @@
 #!                      Default: RAS_Operator_Path
 #! @input proxy_host: Proxy server used to access the provider services.
 #! @input proxy_port: Proxy server port used to access the provider services.
-#!                    Default: '8080'
 #! @input proxy_username: Proxy server user name.
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
