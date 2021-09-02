@@ -21,9 +21,7 @@
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
 #! @input remote_file: The remote file.
-#!                     Optional
 #! @input local_location: The location where file is to be placed.
-#!                        Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default: UTF-8
