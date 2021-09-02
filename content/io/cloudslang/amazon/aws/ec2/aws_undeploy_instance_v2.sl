@@ -17,12 +17,15 @@
 #!               attribute delete_on_termination = true, they would be deleted when the instance is terminated,
 #!               otherwise they would be only detached.
 #!
-#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.htmlDefault: 'https://ec2.amazonaws.com'
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input region: The name of the region.
 #! @input instance_id: The ID of the instance to be terminated.
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously. Default: RAS_Operator_Path
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: RAS_Operator_Path
 #! @input proxy_host: Proxy server used to access the provider services.
 #! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Default: '8080'
