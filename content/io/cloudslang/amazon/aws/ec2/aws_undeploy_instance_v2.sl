@@ -50,7 +50,7 @@ imports:
   network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
 flow:
-  name: undeploy_instance_v2
+  name: aws_undeploy_instance_v2
   inputs:
     - provider_sap: 'https://ec2.amazonaws.com'
     - access_key_id
