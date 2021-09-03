@@ -26,17 +26,25 @@
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: RAS_Operator_Path
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
+#!                    Optional
 #! @input proxy_username: Proxy server user name.
+#!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
+#!                        Optional
 #! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
 #!                 name-value pair will be separated by ":". Format: Conforming with HTTP standard for headers (RFC 2616).
 #!                 Examples: "Accept:text/plain"
+#!                 Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
+#!                          Optional
 #! @input polling_retries: The number of retries to check if the instance is stopped.
-#!                         Default: 50
+#!                         Default: 60
+#!                         Optional
 #!
 #! @output return_result: contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
