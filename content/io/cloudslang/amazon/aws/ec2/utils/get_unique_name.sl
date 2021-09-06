@@ -15,28 +15,33 @@
 #!!
 #! @description: This flow generates a unique instance name from a prefix.
 #!
-#! @input instance_name_prefix: Optional - The name prefix of the instance.
+#! @input instance_name_prefix: The name prefix of the instance.
 #!                              Default: ''
-#! @input delimiter: Optional - The delimiter used to split instance_tags_key and instance_tags_value.
+#!                              Optional
+#! @input delimiter: The delimiter used to split instance_tags_key and instance_tags_value.
 #!                   Default: ','
-#! @input instance_tags_key: Optional - String that contains one or more key tags separated by delimiter.
-#!                           Constraints: Tag keys arecase-sensitive and accept a maximum of 127 Unicode characters.
-#!                           May not begin with "aws:";Each resource can have a maximum of 50 tags.
-#!                           Note: if you want to overwrite the existing tagand replace it with empty value then specify
+#!                   Optional
+#! @input instance_tags_key: String that contains one or more key tags separated by delimiter.
+#!                           Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters.
+#!                           May not begin with "aws:"; Each resource can have a maximum of 50 tags.
+#!                           Note: if you want to overwrite the existing tag and replace it with empty value then specify
 #!                           the parameter with "Not relevant" string.
 #!                           Example: 'Name,webserver,stack,scope'
 #!                           Default: ''
-#! @input instance_tags_value: Optional - String that contains one or more tag values separated by delimiter.
-#!                             The value parameter isrequired, but if you don't want the tag to have a value,
-#!                             specify the parameter with"Not relevant" string, and we set the value to an empty string.
-#!                             Constraints: Tag values arecase-sensitive and accept a maximum of 255 Unicode characters;
-#!                             Each resource can have amaximum of 50 tags.Example of values string for tagging resources
+#!                           Optional
+#! @input instance_tags_value: String that contains one or more tag values separated by delimiter.
+#!                             The value parameter is required, but if you don't want the tag to have a value,
+#!                             specify the parameter with "Not relevant" string, and we set the value to an empty string.
+#!                             Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters;
+#!                             Each resource can have a maximum of 50 tags.Example of values string for tagging resources
 #!                             with values corresponding to the keys from above
 #!                             example: "Tagged from API call,Not relevant,Testing,For testing purposes"
 #!                             Default: ''
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                             Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #!
 #! @output return_code: "0" if flow was successfully executed, "-1" otherwise
 #! @output return_result: Contains the flow result message.
@@ -310,9 +315,10 @@ flow:
           io.cloudslang.base.strings.substring:
             - origin_string: '${new_uuid}'
             - begin_index: '0'
-            - end_index: '4'
+            - end_index: '5'
+            - instance_name_prefix: '${instance_name_prefix}'
         publish:
-          - random_name: '${new_string}'
+          - random_name: '${instance_name_prefix +"_"+ new_string}'
         navigate:
           - SUCCESS: is_list_empty
           - FAILURE: on_failure

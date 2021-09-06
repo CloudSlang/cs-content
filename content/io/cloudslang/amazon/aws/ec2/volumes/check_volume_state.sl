@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: The operation checks if an instance has a specific state.
+#! @description: This workflow checks whether the volume is in the desired state or not.
 #!
 #! @input provider_sap: The endpoint to which requests are sent.
 #!                      Default: https://ec2.amazonaws.com
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS or IAM account.
 #! @input access_key: The secret access key associated with your Amazon AWS or IAM account.
-#! @input instance_id: The ID of the server (instance) you want to check.
-#! @input instance_state: The state that you would like the instance to have.
+#! @input volume_id: The id of volume whose state needs to be checked.
+#! @input volume_state: The desired state of volume.
 #! @input proxy_host: The proxy server used to access the provider services
 #!                    Optional
 #! @input proxy_port: The proxy server port used to access the provider services.
@@ -36,31 +36,31 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output output: Contains the success message or the exception in case of failure
+#! @output return_result: Contains the success message or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: The server (instance) has the expected state
-#! @result FAILURE: Error checking the instance state, or the actual state is not the expected one
+#! @result FAILURE: Error checking the volume state, or the actual state is not the expected one
+#! @result SUCCESS: The volume has the expected state.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.instances
+namespace: io.cloudslang.amazon.aws.ec2.volumes
 
 imports:
-  instances: io.cloudslang.amazon.aws.ec2.instances
+  volumes: io.cloudslang.amazon.aws.ec2.volumes
   strings: io.cloudslang.base.strings
   utils: io.cloudslang.base.utils
 
 flow:
-  name: check_instance_state_v2
+  name: check_volume_state
   inputs:
     - provider_sap: 'https://ec2.amazonaws.com'
     - access_key_id
     - access_key:
         sensitive: true
-    - instance_id
-    - instance_state
+    - volume_id
+    - volume_state
     - proxy_host:
         required: false
     - proxy_port:
@@ -77,22 +77,22 @@ flow:
         required: false
 
   workflow:
-    - describe_instances:
+    - describe_volume:
         worker_group: '${worker_group}'
         do:
-          instances.describe_instances:
+          volumes.describe_volumes:
             - endpoint: '${provider_sap}'
             - identity: '${access_key_id}'
             - credential:
                 value: '${access_key}'
                 sensitive: true
-            - proxy_host
-            - proxy_port
-            - proxy_username
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - instance_ids_string: '${instance_id}'
+            - volume_ids_string: '${volume_id}'
         publish:
           - return_result
           - return_code
@@ -106,7 +106,7 @@ flow:
         do:
           strings.string_occurrence_counter:
             - string_in_which_to_search: '${return_result}'
-            - string_to_find: '${instance_state}'
+            - string_to_find: '${volume_state}'
         publish: []
         navigate:
           - SUCCESS: SUCCESS
@@ -122,46 +122,46 @@ flow:
           - FAILURE: on_failure
 
   outputs:
-    - output: '${return_result}'
+    - return_result
     - return_code
     - exception
 
   results:
-    - SUCCESS
     - FAILURE
+    - SUCCESS
 
 extensions:
   graph:
     steps:
-      describe_instances:
-        x: 39
-        'y': 76
+      describe_volume:
+        x: 93.02890014648438
+        'y': 85.56676483154297
       string_occurrence_counter:
-        x: 211
-        'y': 71
+        x: 259
+        'y': 87
         navigate:
-          097c51fc-07b5-1036-3c2c-0813bbf9c783:
-            targetId: 80e46c3f-a021-d108-278e-02e6b98aeeeb
+          142db514-d01c-a100-a4c5-8797fe623bb7:
+            targetId: b9df608e-e997-67d3-1059-944677ce597d
             port: SUCCESS
-          bf3692c6-7d50-3f5a-c663-180545667baf:
+          f75a7e66-88c0-28dd-2fc8-f3b539ab4f77:
             vertices:
-              - x: 353
-                'y': 196
+              - x: 385
+                'y': 209
             targetId: sleep
             port: FAILURE
       sleep:
-        x: 215
-        'y': 248
+        x: 255
+        'y': 268
         navigate:
-          b7ebf2ec-c424-ac47-5afa-81ffa4b4153e:
-            targetId: 2c232bdd-fd5c-ab65-a8a4-388870ce487c
+          f72c9058-a2c9-5f0d-cb2a-d8fcadf1e59a:
+            targetId: 9786a567-5ef3-fa53-5ae0-51de5d24f0e1
             port: SUCCESS
     results:
-      SUCCESS:
-        80e46c3f-a021-d108-278e-02e6b98aeeeb:
-          x: 398
-          'y': 78
       FAILURE:
-        2c232bdd-fd5c-ab65-a8a4-388870ce487c:
-          x: 399
-          'y': 246
+        9786a567-5ef3-fa53-5ae0-51de5d24f0e1:
+          x: 420
+          'y': 261
+      SUCCESS:
+        b9df608e-e997-67d3-1059-944677ce597d:
+          x: 412
+          'y': 92
