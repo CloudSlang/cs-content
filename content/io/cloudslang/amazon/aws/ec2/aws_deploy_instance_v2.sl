@@ -120,11 +120,11 @@
 #!                                                   Default: ''
 #!                                                   Optional
 #! @input delete_on_terminations_string: String that contains one or more values that indicates whether a specific EBS
-#!                                       volume will be deleted on instance termination. 
-#!                                       Example: For a second EBS device (from existing 4 devices), that should be deleted,
-#!                                       the string will be: "false,true,false,false". 
-#!                                       Valid values: 'true', 'false'. 
-#!                                       Default: ''
+#!                                       volume will be deleted on instance termination.
+#!                                       Example:For a second EBS device (from existing 4 devices), that should be deleted,
+#!                                       the string will be:"false,true,false,false".
+#!                                       Valid values:'true','false'.
+#!                                       Default:''
 #!                                       Optional
 #! @input ebs_optimized: Indicates whether the instance is optimized for EBS I/O.This optimization provides dedicated
 #!                       throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance.
@@ -299,6 +299,7 @@
 #! @output instance_state: The current state of the instance.
 #! @output mac_address: The MAC address of the newly created instance.
 #! @output vpc_id: The ID of virtual private cloud in which instance is deployed.
+#! @output volume_id_list: The list of volumes attached to the instance.
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
@@ -436,7 +437,7 @@ flow:
     - set_endpoint:
         worker_group: '${worker_group}'
         do:
-          utils.do_nothing:
+          io.cloudslang.base.utils.do_nothing:
             - region: '${region}'
         publish:
           - provider_sap: '${".".join(("https://ec2",region, "amazonaws.com"))}'
@@ -795,7 +796,7 @@ flow:
     - set_os_type_linux:
         worker_group: '${worker_group}'
         do:
-          utils.do_nothing: []
+          io.cloudslang.base.utils.do_nothing: []
         publish:
           - os_type: Linux
         navigate:
@@ -805,7 +806,7 @@ flow:
     - is_volume_size_null:
         worker_group: '${worker_group}'
         do:
-          utils.is_null:
+          io.cloudslang.base.utils.is_null:
             - variable: '${volume_sizes_string}'
             - volume_id_list: '${volume_id_list}'
             - device_name_list: '${device_name_list}'
@@ -897,7 +898,7 @@ flow:
     - append_volume_id:
         worker_group: '${worker_group}'
         do:
-          utils.do_nothing:
+          io.cloudslang.base.utils.do_nothing:
             - volume_id_list: '${volume_id_list}'
             - volume_id: '${volume_id}'
             - device_name: '${device_name}'
@@ -950,10 +951,10 @@ flow:
     - instance_state
     - mac_address
     - vpc_id
+    - volume_id_list
     - return_result
     - return_code
     - exception
-    - volume_id_list
 
   results:
     - SUCCESS
