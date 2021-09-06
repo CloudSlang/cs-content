@@ -310,7 +310,6 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2
-
 imports:
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
@@ -319,7 +318,6 @@ imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   volumes: io.cloudslang.amazon.aws.ec2.volumes
   utils: io.cloudslang.amazon.aws.ec2.utils
-
 flow:
   name: aws_deploy_instance_v2
   inputs:
@@ -432,7 +430,6 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
-
   workflow:
     - set_endpoint:
         worker_group: '${worker_group}'
@@ -444,7 +441,6 @@ flow:
         navigate:
           - SUCCESS: run_instances
           - FAILURE: on_failure
-
     - describe_instances:
         worker_group: '${worker_group}'
         do:
@@ -467,7 +463,6 @@ flow:
         navigate:
           - SUCCESS: search_and_replace
           - FAILURE: on_failure
-
     - search_and_replace:
         worker_group: '${worker_group}'
         do:
@@ -480,7 +475,6 @@ flow:
         navigate:
           - SUCCESS: parse_os_type
           - FAILURE: on_failure
-
     - set_ip_address:
         worker_group: '${worker_group}'
         do:
@@ -496,7 +490,6 @@ flow:
         navigate:
           - SUCCESS: set_private_ip_address
           - FAILURE: on_failure
-
     - check_instance_state_v2:
         worker_group:
           value: '${worker_group}'
@@ -529,7 +522,6 @@ flow:
         navigate:
           - SUCCESS: generate_unique_name
           - FAILURE: terminate_instances
-
     - set_private_ip_address:
         worker_group: '${worker_group}'
         do:
@@ -545,7 +537,6 @@ flow:
         navigate:
           - SUCCESS: set_private_dns_name
           - FAILURE: on_failure
-
     - set_public_dns_name:
         worker_group: '${worker_group}'
         do:
@@ -561,7 +552,6 @@ flow:
         navigate:
           - SUCCESS: set_mac_address
           - FAILURE: on_failure
-
     - set_instance_state:
         worker_group: '${worker_group}'
         do:
@@ -577,7 +567,6 @@ flow:
         navigate:
           - SUCCESS: set_vpc_id
           - FAILURE: on_failure
-
     - set_mac_address:
         worker_group: '${worker_group}'
         do:
@@ -593,7 +582,6 @@ flow:
         navigate:
           - SUCCESS: set_instance_state
           - FAILURE: on_failure
-
     - set_vpc_id:
         worker_group: '${worker_group}'
         do:
@@ -609,7 +597,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE:
-
     - set_private_dns_name:
         worker_group: '${worker_group}'
         do:
@@ -625,7 +612,6 @@ flow:
         navigate:
           - SUCCESS: set_public_dns_name
           - FAILURE: on_failure
-
     - run_instances:
         worker_group: '${worker_group}'
         do:
@@ -686,7 +672,6 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: check_instance_state_v2
-
     - create_tags:
         worker_group: '${worker_group}'
         do:
@@ -711,7 +696,6 @@ flow:
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: describe_instances
-
     - terminate_instances:
         worker_group: '${worker_group}'
         loop:
@@ -738,7 +722,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-
     - generate_unique_name:
         worker_group:
           value: '${worker_group}'
@@ -755,7 +738,6 @@ flow:
         navigate:
           - FAILURE: terminate_instances
           - SUCCESS: is_instance_name_empty
-
     - is_instance_name_empty:
         worker_group: '${worker_group}'
         do:
@@ -765,7 +747,6 @@ flow:
         navigate:
           - FAILURE: create_tags
           - SUCCESS: describe_instances
-
     - parse_os_type:
         worker_group: '${worker_group}'
         do:
@@ -781,7 +762,6 @@ flow:
         navigate:
           - SUCCESS: parse_availability_zone
           - FAILURE: on_failure
-
     - is_os_type_windows:
         worker_group: '${worker_group}'
         do:
@@ -792,7 +772,6 @@ flow:
         navigate:
           - SUCCESS: is_volume_size_null
           - FAILURE: set_os_type_linux
-
     - set_os_type_linux:
         worker_group: '${worker_group}'
         do:
@@ -802,7 +781,6 @@ flow:
         navigate:
           - SUCCESS: is_volume_size_null
           - FAILURE: on_failure
-
     - is_volume_size_null:
         worker_group: '${worker_group}'
         do:
@@ -815,7 +793,6 @@ flow:
         navigate:
           - IS_NULL: set_ip_address
           - IS_NOT_NULL: is_volume_size_0
-
     - is_volume_size_0:
         worker_group: '${worker_group}'
         do:
@@ -826,7 +803,6 @@ flow:
         navigate:
           - SUCCESS: set_ip_address
           - FAILURE: iterate_volume_size
-
     - create_and_attach_single_volume:
         worker_group:
           value: '${worker_group}'
@@ -864,7 +840,6 @@ flow:
         navigate:
           - SUCCESS: append_volume_id
           - FAILURE: terminate_instances
-
     - iterate_volume_size:
         worker_group: '${worker_group}'
         do:
@@ -878,7 +853,6 @@ flow:
           - HAS_MORE: create_and_attach_single_volume
           - NO_MORE: set_ip_address
           - FAILURE: on_failure
-
     - parse_availability_zone:
         worker_group: '${worker_group}'
         do:
@@ -894,7 +868,6 @@ flow:
         navigate:
           - SUCCESS: parse_device_name
           - FAILURE: on_failure
-
     - append_volume_id:
         worker_group: '${worker_group}'
         do:
@@ -907,7 +880,6 @@ flow:
         navigate:
           - SUCCESS: iterate_volume_size
           - FAILURE: on_failure
-
     - parse_device_name:
         worker_group: '${worker_group}'
         do:
@@ -923,7 +895,6 @@ flow:
         navigate:
           - SUCCESS: parse_volume_id
           - FAILURE: on_failure
-
     - parse_volume_id:
         worker_group: '${worker_group}'
         do:
@@ -939,7 +910,6 @@ flow:
         navigate:
           - SUCCESS: is_os_type_windows
           - FAILURE: on_failure
-
   outputs:
     - instance_id
     - availability_zone_out
@@ -955,11 +925,9 @@ flow:
     - return_result
     - return_code
     - exception
-
   results:
     - SUCCESS
     - FAILURE
-
 extensions:
   graph:
     steps:
