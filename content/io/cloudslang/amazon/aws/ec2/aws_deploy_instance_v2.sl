@@ -42,17 +42,17 @@
 #! @input instance_type: Instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud
 #!                       User Guide.
 #!                       Valid values: t1.micro | t2.nano | t2.micro | t2.small | t2.medium | t2.large | m1.small |
-#!                                    m1.medium | m1.large | m1.xlarge | m3.medium | m3.large | m3.xlarge | m3.2xlarge |
-#!                                    m4.large | m4.xlarge | m4.2xlarge | m4.4xlarge | m4.10xlarge | m2.xlarge |
-#!                                    m2.2xlarge | m2.4xlarge | cr1.8xlarge | r3.large | r3.xlarge | r3.2xlarge |
-#!                                    r3.4xlarge | r3.8xlarge | x1.4xlarge | x1.8xlarge | x1.16xlarge | x1.32xlarge |
-#!                                    i2.xlarge | i2.2xlarge | i2.4xlarge | i2.8xlarge | hi1.4xlarge | hs1.8xlarge |
-#!                                    c1.medium | c1.xlarge | c3.large | c3.xlarge | c3.2xlarge | c3.4xlarge | c3.8xlarge |
-#!                                    c4.large | c4.xlarge | c4.2xlarge | c4.4xlarge | c4.8xlarge | cc1.4xlarge |
-#!                                    cc2.8xlarge | g2.2xlarge | g2.8xlarge | cg1.4xlarge | d2.xlarge | d2.2xlarge |
-#!                                    d2.4xlarge | d2.8xlarge
-#!                        Default: 't2.micro'
-#!                        Optional
+#!                       m1.medium | m1.large | m1.xlarge | m3.medium | m3.large | m3.xlarge | m3.2xlarge |
+#!                       m4.large | m4.xlarge | m4.2xlarge | m4.4xlarge | m4.10xlarge | m2.xlarge |
+#!                       m2.2xlarge | m2.4xlarge | cr1.8xlarge | r3.large | r3.xlarge | r3.2xlarge |
+#!                       r3.4xlarge | r3.8xlarge | x1.4xlarge | x1.8xlarge | x1.16xlarge | x1.32xlarge |
+#!                       i2.xlarge | i2.2xlarge | i2.4xlarge | i2.8xlarge | hi1.4xlarge | hs1.8xlarge |
+#!                       c1.medium | c1.xlarge | c3.large | c3.xlarge | c3.2xlarge | c3.4xlarge | c3.8xlarge |
+#!                       c4.large | c4.xlarge | c4.2xlarge | c4.4xlarge | c4.8xlarge | cc1.4xlarge |
+#!                       cc2.8xlarge | g2.2xlarge | g2.8xlarge | cg1.4xlarge | d2.xlarge | d2.2xlarge |
+#!                       d2.4xlarge | d2.8xlarge
+#!                       Default: 't2.micro'
+#!                       Optional
 #! @input volume_sizes_string: String that contains one or more values of the sizes (in GiB) for EBS devices.
 #!                             Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),
 #!                             500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 for
@@ -488,7 +488,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: set_private_ip_address
+          - SUCCESS: is_ip_address_not_found
           - FAILURE: on_failure
     - check_instance_state_v2:
         worker_group:
@@ -550,7 +550,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: set_mac_address
+          - SUCCESS: is_public_dns_name_not_present
           - FAILURE: on_failure
     - set_instance_state:
         worker_group: '${worker_group}'
@@ -910,6 +910,44 @@ flow:
         navigate:
           - SUCCESS: is_os_type_windows
           - FAILURE: on_failure
+    - is_ip_address_not_found:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${ip_address}'
+            - second_string: No match found
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_ip_address_empty
+          - FAILURE: set_private_ip_address
+    - set_ip_address_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - ip_address: '-'
+        navigate:
+          - SUCCESS: set_private_ip_address
+          - FAILURE: on_failure
+    - is_public_dns_name_not_present:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${public_dns_name}'
+            - second_string: No match found
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_public_dns_name_empty
+          - FAILURE: set_mac_address
+    - set_public_dns_name_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - public_dns_name: '-'
+        navigate:
+          - SUCCESS: set_mac_address
+          - FAILURE: on_failure
   outputs:
     - instance_id
     - availability_zone_out
@@ -951,17 +989,26 @@ extensions:
         x: 910
         'y': 405
       set_instance_state:
-        x: 2017
-        'y': 237
+        x: 2378
+        'y': 240
       is_os_type_windows:
         x: 1055
         'y': 43
       set_mac_address:
-        x: 2017
-        'y': 54
+        x: 2374
+        'y': 52
+      set_ip_address_empty:
+        x: 1543
+        'y': 241
       parse_device_name:
         x: 908
         'y': 220
+      is_ip_address_not_found:
+        x: 1558
+        'y': 52
+      set_public_dns_name_empty:
+        x: 2208
+        'y': 246
       parse_os_type:
         x: 764
         'y': 407
@@ -978,8 +1025,8 @@ extensions:
         x: 583
         'y': 41
       set_vpc_id:
-        x: 2019
-        'y': 401
+        x: 2381
+        'y': 397
         navigate:
           577cce5c-12d7-40c5-d04b-15ed0b6e8120:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
@@ -990,12 +1037,15 @@ extensions:
       set_endpoint:
         x: 28
         'y': 222
+      is_public_dns_name_not_present:
+        x: 2206
+        'y': 53
       parse_volume_id:
         x: 903
         'y': 28
       set_private_ip_address:
-        x: 1551
-        'y': 48
+        x: 1729
+        'y': 50
       search_and_replace:
         x: 761
         'y': 220
@@ -1006,11 +1056,11 @@ extensions:
         x: 1399
         'y': 46
       set_private_dns_name:
-        x: 1709
-        'y': 51
+        x: 1890
+        'y': 50
       set_public_dns_name:
-        x: 1859
-        'y': 51
+        x: 2044
+        'y': 56
       append_volume_id:
         x: 1401
         'y': 544
@@ -1023,8 +1073,8 @@ extensions:
     results:
       SUCCESS:
         576dec96-8f7c-fa7a-5ec4-69f50e183dff:
-          x: 2016
-          'y': 579
+          x: 2381
+          'y': 558
       FAILURE:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 322

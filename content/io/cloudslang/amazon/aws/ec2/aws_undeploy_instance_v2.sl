@@ -57,7 +57,6 @@
 
 namespace: io.cloudslang.amazon.aws.ec2
 imports:
-  network: io.cloudslang.amazon.aws.ec2.network
   instances: io.cloudslang.amazon.aws.ec2.instances
 flow:
   name: aws_undeploy_instance_v2
@@ -170,7 +169,7 @@ flow:
           break:
             - SUCCESS
           publish:
-            - return_result: '${output}'
+            - return_result
             - return_code
             - exception
         navigate:
