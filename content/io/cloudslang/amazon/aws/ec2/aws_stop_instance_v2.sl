@@ -13,57 +13,70 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to reboot a server (instance).
-#!               Requests to reboot terminated instances are ignored.
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
+#!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
-#! @input region: The name of the region.
-#! @input instance_id: The ID of the server (instance) you want to reboot.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group
+#! @input instance_id: The ID of the server (instance) you want to stop.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: RAS_Operator_Path
-#! @input proxy_host: Optional - Proxy server used to access the provider services
-#! @input proxy_port: Optional - Proxy server port used to access the provider services.
-#! @input proxy_username: Optional - Proxy server user name.
-#! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
-#! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
+#!                      Optional
+#! @input region: The name of the region.
+#! @input force_stop: Forces the instances to stop. The instances do not have an opportunity to flush file system caches
+#!                    or file system metadata. If you use this option, you must perform file system check and repair
+#!                    procedures. This option is not recommended for Windows instances.
+#!                    Default: ""
+#! @input proxy_host: Proxy server used to access the provider services
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxyUsername input value.
+#!                        Optional
+#! @input headers: String containing the headers to use for the request separated by new line (CRLF).
 #!                 The headername-value pair will be separated by ":".
 #!                 Format: Conforming with HTTP standard for headers (RFC 2616).
-#!                 Examples: "Accept:text/plain"
-#! @input query_params: Optional - String containing query parameters that will be appended to the URL.
+#!                 Examples: "Accept:text/plain".
+#!                 Optional
+#! @input query_params: String containing query parameters that will be appended to the URL.
 #!                      The separatorbetween name-value pairs is "&" symbol.
 #!                      The query name will be separated from query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2".
+#!                      Optional
 #! @input polling_interval: Optional - The number of seconds to wait until performing another check.
 #!                          Default: 10
-#! @input polling_retries: Optional - The number of retries to check if the instance is stopped.
+#! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 60
+#!                         Optional
 #!
-#! @output output: Contains the state of the instance or the exception in case of failure
-#! @output ip_address: The public IP address of the instance
-#! @output instance_state: The state of a instance.
+#! @output output: contains the state of the instance or the exception in case of failure
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: Exception if there was an error when executing, empty otherwise
+#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output instance_state: The state of a instance.
+#! @output ip_address: The public IP address of the instance
 #!
-#! @result SUCCESS: The server (instance) was successfully rebooted
-#! @result FAILURE: error rebooting instance
+#! @result SUCCESS: The server (instance) was successfully stopped
+#! @result FAILURE: error stopping instance
 #!!#
 ########################################################################################################################
 
-namespace: checkin
+namespace: io.cloudslang.amazon.aws.ec2
 imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
 flow:
-  name: reboot_instance_v2
+  name: aws_stop_instance_v2
   inputs:
     - access_key_id
     - access_key:
         sensitive: true
-    - region
     - instance_id
+    - region
+    - force_stop: ' '
     - proxy_host:
         required: false
     - proxy_port:
@@ -95,30 +108,30 @@ flow:
         publish:
           - provider_sap: '${".".join(("https://ec2",region, "amazonaws.com"))}'
         navigate:
-          - SUCCESS: reboot_instances
+          - SUCCESS: stop_instances
           - FAILURE: on_failure
-    - reboot_instances:
-        worker_group: '${worker_group}'
+    - stop_instances:
         do:
-          instances.reboot_instances:
+          instances.stop_instances:
             - endpoint: '${provider_sap}'
             - identity: '${access_key_id}'
             - credential:
                 value: '${access_key}'
                 sensitive: true
-            - instance_ids_string: '${instance_id}'
             - proxy_host
             - proxy_port
             - proxy_username
             - proxy_password
             - headers
             - query_params
+            - instance_ids_string: '${instance_id}'
+            - force_stop
         publish:
           - output: '${return_result}'
           - return_code
           - exception
         navigate:
-          - FAILURE: check_if_instace_is_in_stopped_state
+          - FAILURE: on_failure
           - SUCCESS: check_instance_state_v2
     - check_instance_state_v2:
         worker_group:
@@ -134,7 +147,7 @@ flow:
                   value: '${access_key}'
                   sensitive: true
               - instance_id: '${instance_id}'
-              - instance_state: running
+              - instance_state: stopped
               - proxy_host: '${proxy_host}'
               - proxy_port: '${proxy_port}'
               - proxy_username: '${proxy_username}'
@@ -175,50 +188,14 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: parse_ip_address
-          - FAILURE: on_failure
-    - parse_ip_address:
-        do:
-          io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${replaced_string}'
-            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
-            - query_type: value
-        publish:
-          - ip_address: '${selected_value}'
-          - return_result
-          - error_message
-          - return_code
-        navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - check_if_instace_is_in_stopped_state:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${return_code}'
-            - second_string: '-1'
-        navigate:
-          - SUCCESS: parse_failure_message
-          - FAILURE: on_failure
-    - parse_failure_message:
-        do:
-          io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${output}'
-            - xpath_query: "/*[local-name()='Response']/*[local-name()='Errors']/*[local-name()='Error']/*[local-name()='Message']"
-            - query_type: value
-        publish:
-          - output: '${selected_value}'
-          - return_result
-          - error_message
-          - return_code
-        navigate:
-          - SUCCESS: FAILURE
           - FAILURE: on_failure
   outputs:
     - output
-    - ip_address
-    - instance_state
     - return_code
     - exception
+    - instance_state
+    - ip_address
   results:
     - SUCCESS
     - FAILURE
@@ -226,43 +203,26 @@ extensions:
   graph:
     steps:
       set_endpoint:
-        x: 5
+        x: 142
         'y': 83
-      reboot_instances:
-        x: 113
+      stop_instances:
+        x: 290
         'y': 82
       check_instance_state_v2:
-        x: 220
-        'y': 80
+        x: 423
+        'y': 85
       search_and_replace:
-        x: 375
-        'y': 80
+        x: 564
+        'y': 90
       parse_state:
-        x: 528
-        'y': 88
-      parse_ip_address:
-        x: 678
-        'y': 91
+        x: 705
+        'y': 94
         navigate:
-          eacd4405-0136-6257-3102-4e1e14085e5b:
-            targetId: 19717164-3739-f1dd-5e35-b13b3541f103
-            port: SUCCESS
-      check_if_instace_is_in_stopped_state:
-        x: 109
-        'y': 246
-      parse_failure_message:
-        x: 245
-        'y': 248
-        navigate:
-          3edf1540-2fe9-a8bf-5041-f875b074c5b7:
-            targetId: 82a03499-9235-5958-aace-7f41fbc36899
+          2d4634b4-2ce3-28d1-0573-abde7d1a26c8:
+            targetId: f0530fe9-e322-d35c-f88d-e642234d57bd
             port: SUCCESS
     results:
       SUCCESS:
-        19717164-3739-f1dd-5e35-b13b3541f103:
-          x: 866
-          'y': 92
-      FAILURE:
-        82a03499-9235-5958-aace-7f41fbc36899:
-          x: 380
-          'y': 252
+        f0530fe9-e322-d35c-f88d-e642234d57bd:
+          x: 874
+          'y': 94
