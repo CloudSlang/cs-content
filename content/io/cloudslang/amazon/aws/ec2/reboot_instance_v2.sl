@@ -25,7 +25,6 @@
 #!                      Default: RAS_Operator_Path
 #! @input proxy_host: Optional - Proxy server used to access the provider services
 #! @input proxy_port: Optional - Proxy server port used to access the provider services.
-#!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
 #! @input headers: Optional - String containing the headers to use for the request separated by new line (CRLF).
@@ -68,7 +67,6 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false
