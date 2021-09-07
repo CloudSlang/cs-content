@@ -80,10 +80,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoft.azure.active-directory
 
 operation: 
-  name: create_a_new_user._the_request_body_contains_the_user_to_create._at_a_minimum,_you_must_specify_the_required_properties_for_the_user._you_can_optionally_specify_any_other_writable_properties.
+  name: create_user
   
   inputs: 
     - auth_token    
