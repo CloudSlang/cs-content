@@ -17,7 +17,6 @@
 #!
 #! @input source_host: The host where the source file is located.
 #! @input source_port: The port for connecting to the source host.
-#!                     Default: 22
 #!                     Optional
 #! @input source_username: The username for connecting to the host of the source file.
 #!                         Optional
@@ -36,7 +35,6 @@
 #!                              Optional
 #! @input destination_host: The destination host of the file to be transferred.
 #! @input destination_port: The port for connecting to the destination host.
-#!                          Default: 22
 #!                          Optional
 #! @input destination_username: The username for connecting to the destination host.
 #!                              Optional
@@ -93,7 +91,8 @@ operation:
     - source_port:
         required: false
     - sourcePort:
-        default: ${get('source_port', '22')}
+        default: ${get('source_port', '')}
+        required: false
         private: true
     - source_username:
         required: false
@@ -133,7 +132,8 @@ operation:
     - destination_port:
         required: false
     - destinationPort:
-        default: ${get('destination_port', '22')}
+        default: ${get('destination_port', '')}
+        required: false
         private: true
     - destination_username:
         required: false
@@ -208,7 +208,7 @@ operation:
         private: true
         
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC4'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC5'
     class_name: io.cloudslang.content.rft.actions.RemoteCopyAction
     method_name: execute
 
