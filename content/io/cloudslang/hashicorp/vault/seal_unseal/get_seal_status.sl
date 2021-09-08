@@ -64,9 +64,11 @@
 #! @output exception: The error's stacktrace in case Vault's response parsing cannot complete.
 #!
 #! @result SUCCESS: Everything completed successfully and Vault's sealed status was retrieved.
-#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved or Vault's response could not be properly parsed.
+#! @result FAILURE: Something went wrong. Either Vault's sealed status was not retrieved
+#!                  or Vault's response could not be properly parsed.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
@@ -77,10 +79,10 @@ flow:
   name: get_seal_status
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
     - proxy_host:
         required: false
     - proxy_port:
@@ -89,14 +91,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -119,7 +124,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - return_code

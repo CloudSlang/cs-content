@@ -1,4 +1,4 @@
-#   (c) Copyright 2020 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -40,16 +40,15 @@ decision:
 
   inputs:
     - first_string:
-        default: ''
-        required: false
+         default: ''
+         required: false
     - second_string:
-        default: ''
-        required: false
+         default: ''
+         required: false
     - ignore_case:
-        default: 'false'
-        required: false
+         default: 'false'
+         required: false
 
   results:
-    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case.strip().lower()=='true' and first_string.lower() == second_string.lower()) or (first_string == second_string))}
+    - SUCCESS: ${first_string is not None and second_string is not None and ((ignore_case in [True, true, 'True', 'true'] and first_string.lower() == second_string.lower()) or (first_string == second_string))}
     - FAILURE
-

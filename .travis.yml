@@ -24,13 +24,6 @@ env:
  global:
    - JAVA_OPTS="-XX:MaxPermSize=512m"
 
- matrix:
-   - SUITE=containers
-   - SUITE=images
-   - SUITE=docker-misc,docker_examples
-   - SUITE=git,remote-copy
-   - SUITE=http,rest,zip
-
 before_install:
   - docker run -d -e SWAGGER_HOST=http://localhost -e SWAGGER_BASE_PATH=/v2 -p 3000:8080 swaggerapi/petstore;
 
@@ -44,6 +37,9 @@ script:
   - unzip -q cslang-builder.zip
   - chmod +x cslang-builder/bin/cslang-builder
   - ./cslang-builder/bin/cslang-builder -ts ${SUITE},\!default -cov -des -cs
+  
+jdk:
+  - openjdk8
 
 jdk:
   - openjdk8

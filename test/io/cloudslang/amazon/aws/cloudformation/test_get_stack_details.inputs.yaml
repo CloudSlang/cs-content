@@ -1,0 +1,20 @@
+testAmazonCloudFormationGetStackDetailsLocal:
+  testSuites: [amazon]
+  description: "Test that successfully get details on AWS CloudFormation stack"
+  testFlowPath: io.cloudslang.amazon.aws.cloudformation.create_stack
+  inputs:
+    - identity:   <identity>
+    - credential: <credential>
+    - region: <aws region>
+    # AWS cloud formation region as described here:
+    # https://docs.aws.amazon.com/general/latest/gr/rande.html#cfn_region
+    - stack_name: <stack name>
+    #The stack name is an identifier that helps you find a particular stack from a list of stacks.
+    #A stack name can contain only alphanumeric characters (case-sensitive) and hyphens.
+    #It must start with an alphabetic character and can't be longer than 128 characters.
+    - proxy_host: <proxy fqdn or ip>
+    - proxy_port: <proxy port>
+  outputs:
+    - expected_return_code: "0"
+    - expected_return_result: <stack name>
+  result: SUCCESS

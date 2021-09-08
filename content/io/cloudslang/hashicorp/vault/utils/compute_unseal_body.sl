@@ -19,20 +19,23 @@
 #!
 #! @input unseal_key: A single master share key from Vault.
 #!                    Optional
-#! @input unseal_reset: Key used by Vault so that if true, the previously-provided unseal keys are discarded from memory and the unseal process is reset.
+#! @input unseal_reset: Key used by Vault so that if true, the previously-provided
+#!                      unseal keys are discarded from memory and the unseal process is reset.
 #!                      Format: Boolean.
 #!                      Optional
-#! @input computed_json: Private - Input used to define a default value of the computed json body as '{"reset":false}'.
+#! @input computed_json: Input used to define a default value of the computed json body as '{"reset":false}'.
 #!                       Default: '{"reset":false}'
 #!
-#! @output return_result: response of operation in case of success, error message otherwise (a JSON based output similar to '{"key":"value","reset":false}')
-#! @output error_message: return_result if status_code is not '200'
+#! @output return_result: Response of operation in case of success,
+#!                        error message otherwise (a JSON based output similar to '{"key":"value","reset":false}')
+#! @output error_message: Return_result if status_code is not '200'
 #! @output return_code: '0' if success, '-1' otherwise
 #!
 #! @result SUCCESS: Flow completed successfully and return_result was computed as expected.
 #! @result FAILURE: Failure occurred during the execution.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.utils
 
 imports:
@@ -51,7 +54,6 @@ flow:
     - computed_json:
         default: '{"reset":false}'
         private: true
-        required: true
 
   workflow:
     - check_key_if_null:

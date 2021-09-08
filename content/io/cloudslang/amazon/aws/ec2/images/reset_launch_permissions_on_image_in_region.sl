@@ -106,7 +106,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.38'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.18'
     class_name: io.cloudslang.content.amazon.actions.images.ResetLaunchPermissionsOnImageAction
     method_name: execute
 

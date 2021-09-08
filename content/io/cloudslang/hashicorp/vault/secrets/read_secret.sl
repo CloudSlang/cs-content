@@ -67,6 +67,7 @@
 #! @result FAILURE: Something went wrong. Most likely Vault's return_result was not as expected.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.secrets
 
 imports:
@@ -77,13 +78,13 @@ flow:
   name: read_secret
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
+    - secret
     - x_vault_token:
         sensitive: true
-    - secret
     - proxy_host:
         required: false
     - proxy_port:
@@ -92,14 +93,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -108,10 +112,11 @@ flow:
         required: false
 
   workflow:
-    - interogate_vault_server:
+    - read_vault_secret:
         do:
           http.http_client_get:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/secret/' + secret}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -122,8 +127,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - return_code

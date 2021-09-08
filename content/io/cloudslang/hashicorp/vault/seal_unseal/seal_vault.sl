@@ -65,6 +65,7 @@
 #! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
@@ -75,10 +76,10 @@ flow:
   name: seal_vault
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
     - x_vault_token:
         sensitive: true
     - proxy_host:
@@ -89,14 +90,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -109,6 +113,7 @@ flow:
         do:
           http.http_client_put:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/seal'}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
             - proxy_host
             - proxy_port
             - proxy_username
@@ -119,8 +124,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message

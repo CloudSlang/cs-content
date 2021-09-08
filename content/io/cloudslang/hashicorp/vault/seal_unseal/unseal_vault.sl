@@ -23,7 +23,8 @@
 #! @input x_vault_token: Vault's X-VAULT-Token.
 #! @input key: A single master share key needed to unseal Vault.
 #!             Optional
-#! @input reset: True or False reset value. If true, the previously-provided unseal keys are discarded from memory and the unseal process is reset.
+#! @input reset: True or False reset value. If true, the previously-provided unseal
+#!               keys are discarded from memory and the unseal process is reset.
 #!               Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -74,6 +75,7 @@
 #! @result FAILURE: Something went wrong. Most likely the return_result was not as expected.
 #!!#
 ########################################################################################################################
+
 namespace: io.cloudslang.hashicorp.vault.seal_unseal
 
 imports:
@@ -85,10 +87,10 @@ flow:
   name: unseal_vault
 
   inputs:
-    - hostname
-    - port
     - protocol:
         default: 'https'
+    - hostname
+    - port
     - x_vault_token:
         sensitive: true
     - key:
@@ -104,14 +106,17 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - trust_keystore:
         required: false
     - trust_password:
         required: false
+        sensitive: true
     - keystore:
         required: false
     - keystore_password:
         required: false
+        sensitive: true
     - connect_timeout:
         default: '0'
         required: false
@@ -137,6 +142,8 @@ flow:
         do:
           http.http_client_put:
             - url: "${protocol + '://' + hostname + ':' + port + '/v1/sys/unseal'}"
+            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
+            - body: '${json_body}'
             - proxy_host
             - proxy_port
             - proxy_username
@@ -147,9 +154,7 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
-            - headers: "${'X-VAULT-Token: ' + x_vault_token}"
-            - body: '${json_body}'
-            - content_type: application/json
+            - content_type: 'application/json'
         publish:
           - return_result
           - error_message
