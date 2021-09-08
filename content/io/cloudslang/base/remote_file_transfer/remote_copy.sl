@@ -17,7 +17,7 @@
 #!
 #! @input source_host: The host where the source file is located.
 #! @input source_port: The port for connecting to the source host.
-#!                     Default: '22'
+#!                     Default: 22
 #!                     Optional
 #! @input source_username: The username for connecting to the host of the source file.
 #!                         Optional
@@ -32,11 +32,11 @@
 #!                         Valid values: local, SCP, SFTP, SMB3.
 #! @input source_character_set: The name of the control encoding to use with source host for SFTP protocol.
 #                               Valid values: UTF-8, EUC-JP, SJIS.
-#!                              Default: UTF-8.
+#!                              Default: UTF-8
 #!                              Optional
 #! @input destination_host: The destination host of the file to be transferred.
 #! @input destination_port: The port for connecting to the destination host.
-#!                          Default: '22'
+#!                          Default: 22
 #!                          Optional
 #! @input destination_username: The username for connecting to the destination host.
 #!                              Optional
