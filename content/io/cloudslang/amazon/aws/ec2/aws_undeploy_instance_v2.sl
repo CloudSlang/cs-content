@@ -35,10 +35,6 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #!                        Optional
-#! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
-#!                 name-value pair will be separated by ":". Format: Conforming with HTTP standard for headers (RFC 2616).
-#!                 Examples: "Accept:text/plain"
-#!                 Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: 10
 #!                          Optional
@@ -78,8 +74,6 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - headers:
-        required: false
     - polling_interval:
         default: '10'
         required: false
@@ -112,7 +106,6 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - headers: '${headers}'
             - instance_ids_string: '${instance_id}'
         publish:
           - return_result
@@ -134,7 +127,6 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers
             - instance_ids_string: '${instance_id}'
         publish:
           - return_result

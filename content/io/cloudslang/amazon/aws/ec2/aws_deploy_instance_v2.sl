@@ -78,17 +78,6 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input headers: String containing the headers to use for the request separated by new line (CRLF). The header
-#!                 name-value pair will be separated by ":".
-#!                 Format: Conforming with HTTP standard for headers (RFC 2616).
-#!                 Examples: 'Accept:text/plain'
-#!                 Optional
-#! @input query_params: String containing query parameters regarding the instance. These parameters will be
-#!                      appended to the URL, but the names and the values must not be URL encoded because if
-#!                      they are encoded then a double encoded will occur. The separator between name-value
-#!                      pairs is "&" symbol. The query name will be separated from query value by "=".
-#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
-#!                      Optional
 #! @input host_id: ID of the dedicated host on which the instance resides (as part of Placement). This parameter is not
 #!                 supported for the <ImportInstance> command.
 #!                 Optional
@@ -350,10 +339,6 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - headers:
-        required: false
-    - query_params:
-        required: false
     - host_id:
         required: false
     - kernel_id:
@@ -625,8 +610,6 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers
-            - query_params
             - delimiter: ','
             - image_id
             - availability_zone
@@ -686,7 +669,6 @@ flow:
             - proxy_username
             - proxy_password
             - resource_ids_string: '${instance_id}'
-            - headers
             - key_tags_string
             - value_tags_string
         publish:
@@ -711,7 +693,6 @@ flow:
               - proxy_port
               - proxy_username
               - proxy_password
-              - headers
               - instance_ids_string: '${instance_id}'
           break:
             - SUCCESS
@@ -1016,7 +997,7 @@ extensions:
         x: 172
         'y': 222
       describe_instances:
-        x: 756
+        x: 755
         'y': 34
       set_os_type_linux:
         x: 1052
