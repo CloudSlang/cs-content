@@ -3,17 +3,17 @@
 #! @description: Delete a user from Azure Active Directory
 #!
 #! @input auth_token: Authentication token
-#! @input user_principal_name: Required if body not set -The user principal name (someuser@contoso.com).
+#! @input user_principal_name: The user principal name (someuser@contoso.com).
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
-#! @input proxy_host: 
+#! @input proxy_host:
 #!                    Optional
-#! @input proxy_port: 
+#! @input proxy_port:
 #!                    Optional
-#! @input proxy_username: 
+#! @input proxy_username:
 #!                        Optional
-#! @input proxy_password: 
+#! @input proxy_password:
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
@@ -54,7 +54,7 @@
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
 #!                        in the response body.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
+#! @output status_code: The HTTP status code for Azure API request.
 #!
 #! @result SUCCESS: Token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve token.
