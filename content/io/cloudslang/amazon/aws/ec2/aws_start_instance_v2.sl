@@ -18,7 +18,7 @@
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input region: The name of the region.
-#! @input instance_id: The ID of the server (instance) you want to reboot.
+#! @input instance_id: The ID of the server (instance) you want to start.
 #! @input proxy_host: Proxy server used to access the provider services
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -45,8 +45,8 @@
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise
 #! @output exception: Exception if there was an error when executing, empty otherwise
 #!
-#! @result FAILURE: error rebooting instance
-#! @result SUCCESS: The server (instance) was successfully rebooted
+#! @result FAILURE: error starting instance
+#! @result SUCCESS: The server (instance) was successfully started
 #!!#
 ########################################################################################################################
 
