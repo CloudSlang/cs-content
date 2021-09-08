@@ -41,7 +41,7 @@ Default: 'https://graph.microsoft.com'
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.utils
+namespace: io.cloudslang.microsoft.azure.active_directory
 
 operation: 
   name: get_the_authorization_token_for_office_365

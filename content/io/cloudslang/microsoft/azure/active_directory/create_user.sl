@@ -81,7 +81,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.userManagement
+namespace: io.cloudslang.microsoft.azure.active_directory
 
 operation: 
   name: create_user
