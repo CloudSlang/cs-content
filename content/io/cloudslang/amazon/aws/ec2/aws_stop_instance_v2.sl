@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to stop an ACTIVE server (instance)
-#!               and changes its status to STOPPED. SUSPENDED servers (instances) cannot be stopped.
+#! @description: Stops an Amazon instance.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
@@ -36,27 +35,17 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxyUsername input value.
 #!                        Optional
-#! @input headers: String containing the headers to use for the request separated by new line (CRLF).
-#!                 The headername-value pair will be separated by ":".
-#!                 Format: Conforming with HTTP standard for headers (RFC 2616).
-#!                 Examples: "Accept:text/plain".
-#!                 Optional
-#! @input query_params: String containing query parameters that will be appended to the URL.
-#!                      The separatorbetween name-value pairs is "&" symbol.
-#!                      The query name will be separated from query value by "=".
-#!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2".
-#!                      Optional
 #! @input polling_interval: Optional - The number of seconds to wait until performing another check.
 #!                          Default: 10
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 60
 #!                         Optional
 #!
-#! @output output: contains the state of the instance or the exception in case of failure
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: exception if there was an error when executing, empty otherwise
+#! @output output: contains the state of the instance or the exception in case of failure.
+#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
+#! @output exception: exception if there was an error when executing, empty otherwise.
 #! @output instance_state: The state of a instance.
-#! @output ip_address: The public IP address of the instance
+#! @output ip_address: The public IP address of the instance.
 #!
 #! @result SUCCESS: The server (instance) was successfully stopped
 #! @result FAILURE: error stopping instance
@@ -76,7 +65,9 @@ flow:
         sensitive: true
     - instance_id
     - region
-    - force_stop: ' '
+    - force_stop:
+        default: ' '
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -86,10 +77,6 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - headers:
-        required: false
-    - query_params:
-        required: false
     - polling_interval:
         default: '10'
         required: false
@@ -108,7 +95,7 @@ flow:
         publish:
           - provider_sap: '${".".join(("https://ec2",region, "amazonaws.com"))}'
         navigate:
-          - SUCCESS: stop_instances
+          - SUCCESS: describe_instances
           - FAILURE: on_failure
     - stop_instances:
         do:
@@ -122,10 +109,8 @@ flow:
             - proxy_port
             - proxy_username
             - proxy_password
-            - headers
-            - query_params
             - instance_ids_string: '${instance_id}'
-            - force_stop
+            - force_stop: '${force_stop}'
         publish:
           - output: '${return_result}'
           - return_code
@@ -188,6 +173,91 @@ flow:
           - error_message
           - return_code
         navigate:
+          - SUCCESS: parse_ip_address
+          - FAILURE: on_failure
+    - describe_instances:
+        do:
+          io.cloudslang.amazon.aws.ec2.instances.describe_instances:
+            - endpoint: '${provider_sap}'
+            - identity: '${access_key_id}'
+            - credential:
+                value: '${access_key}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - instance_ids_string: '${instance_id}'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: parse_state_to_get_instance_status
+          - FAILURE: on_failure
+    - parse_state_to_get_instance_status:
+        do:
+          io.cloudslang.base.xml.xpath_query:
+            - xml_document: '${return_result}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
+            - query_type: value
+        publish:
+          - instance_state: '${selected_value}'
+          - return_result
+          - error_message
+          - return_code
+        navigate:
+          - SUCCESS: check_if_instace_is_in_stopped_state
+          - FAILURE: on_failure
+    - check_if_instace_is_in_stopped_state:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${instance_state}'
+            - second_string: stopped
+        navigate:
+          - SUCCESS: set_failure_message_for_instance
+          - FAILURE: stop_instances
+    - set_failure_message_for_instance:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - instance_id: '${instance_id}'
+        publish:
+          - output: "${\"Cannot the stop instance \\\"\"+instance_id+\"\\\" that is currently in stopped state.\"}"
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: on_failure
+    - parse_ip_address:
+        do:
+          io.cloudslang.base.xml.xpath_query:
+            - xml_document: '${replaced_string}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='ipAddress']"
+            - query_type: value
+        publish:
+          - ip_address: '${selected_value}'
+          - return_result
+          - error_message
+          - return_code
+        navigate:
+          - SUCCESS: is_ip_address_not_found
+          - FAILURE: on_failure
+    - is_ip_address_not_found:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${ip_address}'
+            - second_string: No match found
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_ip_address_empty
+          - FAILURE: SUCCESS
+    - set_ip_address_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - ip_address: ''
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
@@ -202,27 +272,61 @@ flow:
 extensions:
   graph:
     steps:
-      set_endpoint:
-        x: 142
-        'y': 83
       stop_instances:
-        x: 290
-        'y': 82
-      check_instance_state_v2:
-        x: 423
-        'y': 85
-      search_and_replace:
-        x: 564
+        x: 308
         'y': 90
       parse_state:
-        x: 705
-        'y': 94
+        x: 762
+        'y': 93
+      set_ip_address_empty:
+        x: 763
+        'y': 267
         navigate:
-          2d4634b4-2ce3-28d1-0573-abde7d1a26c8:
-            targetId: f0530fe9-e322-d35c-f88d-e642234d57bd
+          b8e37e2e-33e1-f7de-410d-375b34699c24:
+            targetId: 215a6711-9252-d04a-ab86-88ab028e3ac2
             port: SUCCESS
+      parse_ip_address:
+        x: 928
+        'y': 95
+      is_ip_address_not_found:
+        x: 930
+        'y': 269
+        navigate:
+          9427188f-a3c1-8796-e8a1-124a3e1d800b:
+            targetId: 215a6711-9252-d04a-ab86-88ab028e3ac2
+            port: FAILURE
+      parse_state_to_get_instance_status:
+        x: 162
+        'y': 258
+      describe_instances:
+        x: 161
+        'y': 84
+      check_if_instace_is_in_stopped_state:
+        x: 303
+        'y': 259
+      set_endpoint:
+        x: 17
+        'y': 86
+      search_and_replace:
+        x: 607
+        'y': 92
+      set_failure_message_for_instance:
+        x: 303
+        'y': 431
+        navigate:
+          7ec0c7f1-142a-1708-989e-2e69631e2d41:
+            targetId: aeeb5d6a-8b41-5a45-7832-aa9cd8d27096
+            port: SUCCESS
+      check_instance_state_v2:
+        x: 455
+        'y': 92
     results:
       SUCCESS:
-        f0530fe9-e322-d35c-f88d-e642234d57bd:
-          x: 874
-          'y': 94
+        215a6711-9252-d04a-ab86-88ab028e3ac2:
+          x: 926
+          'y': 443
+      FAILURE:
+        aeeb5d6a-8b41-5a45-7832-aa9cd8d27096:
+          x: 459
+          'y': 433
+
