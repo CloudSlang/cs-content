@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2019 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -43,10 +43,10 @@
 #!
 #! @output return_result: Confirmation message.
 #! @output return_code: '0' if operation finished with SUCCESS, different than '0' otherwise.
-#! @output exception: Exception description.
+#! @output exception: An exception which displays the stacktrace in case of failure, otherwise empty.
 #!
 #! @result SUCCESS: File copied successfully.
-#! @result FAILURE: Copy failed.
+#! @result FAILURE: An error has occurred while tyring to transfer the file.
 #!!#
 ########################################################################################################################
 
@@ -158,14 +158,14 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.6'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC4'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
 
   outputs:
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception
+    - return_code: ${get('returnCode', '')}
+    - return_result: ${get('returnResult', '')}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode == '0'}
