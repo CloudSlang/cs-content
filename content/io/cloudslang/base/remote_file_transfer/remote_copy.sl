@@ -31,7 +31,7 @@
 #! @input source_protocol: The protocol used to copy from the source file.
 #!                         Valid values: local, SCP, SFTP, SMB3.
 #! @input source_character_set: The name of the control encoding to use with source host for SFTP protocol.
-#!                              Valid values: UTF-8, EUC-JP, SJIS.
+#!                              Valid value: UTF-8, EUC-JP, SJIS.
 #!                              Default: UTF-8
 #!                              Optional
 #! @input destination_host: The destination host of the file to be transferred.
@@ -47,9 +47,9 @@
 #!                                      Optional
 #! @input destination_path: The absolute path to the destination file.
 #!                          When using the protocol SMB33 the destination path should start with the samba shared folder.
-#!                          Example: sambaSharedFolder\\folder1\\folder2\\file.
+#!                          Example: sambaSharedFolder\folder1\folder2\file.
 #! @input destination_protocol: The protocol used to copy to the destination file.
-#!                              Valid values: local, SCP, SFTP, SMB3.
+#!                              Valid value: local, SCP, SFTP, SMB3.
 #! @input destination_character_set: The name of the control encoding to use with destination host for SFTP protocol.
 #!                                   Valid values: UTF-8, EUC-JP, SJIS.
 #!                                   Default: UTF-8.
