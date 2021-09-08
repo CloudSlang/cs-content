@@ -146,6 +146,7 @@ flow:
           - SUCCESS: search_and_replace
           - FAILURE: on_failure
     - search_and_replace:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${instance_details}'
@@ -157,6 +158,7 @@ flow:
           - SUCCESS: parse_state
           - FAILURE: on_failure
     - parse_state:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${instance_details}'
@@ -171,6 +173,7 @@ flow:
           - SUCCESS: parse_ip_address
           - FAILURE: on_failure
     - parse_ip_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${replaced_string}'
@@ -185,6 +188,7 @@ flow:
           - SUCCESS: is_ip_address_not_found
           - FAILURE: on_failure
     - describe_instances:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.instances.describe_instances:
             - endpoint: '${provider_sap}'
@@ -205,6 +209,7 @@ flow:
           - SUCCESS: parse_state_to_get_instance_status
           - FAILURE: on_failure
     - parse_state_to_get_instance_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${return_result}'
@@ -219,6 +224,7 @@ flow:
           - SUCCESS: check_if_instace_is_in_stopped_state_1
           - FAILURE: on_failure
     - check_if_instace_is_in_stopped_state_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${instance_state}'
@@ -309,7 +315,7 @@ extensions:
         x: 784
         'y': 86
       set_ip_address_empty:
-        x: 790
+        x: 791
         'y': 289
       parse_ip_address:
         x: 938
@@ -319,14 +325,14 @@ extensions:
         'y': 96
       set_public_dns_name_empty:
         x: 1114
-        'y': 467
+        'y': 466
         navigate:
           7d7758af-fd16-13ba-4d75-66b697ece980:
             targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
             port: SUCCESS
       parse_state_to_get_instance_status:
         x: 148
-        'y': 233
+        'y': 232
       describe_instances:
         x: 146
         'y': 90
