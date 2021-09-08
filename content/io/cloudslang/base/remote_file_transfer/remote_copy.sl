@@ -31,7 +31,7 @@
 #! @input source_protocol: The protocol used to copy from the source file.
 #!                         Valid values: local, SCP, SFTP, SMB3.
 #! @input source_character_set: The name of the control encoding to use with source host for SFTP protocol.
-#                               Valid values: UTF-8, EUC-JP, SJIS.
+#!                              Valid values: UTF-8, EUC-JP, SJIS.
 #!                              Default: UTF-8
 #!                              Optional
 #! @input destination_host: The destination host of the file to be transferred.
