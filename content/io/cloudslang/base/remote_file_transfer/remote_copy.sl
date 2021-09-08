@@ -92,6 +92,7 @@ operation:
         required: false
     - sourcePort:
         default: ${get('source_port', '')}
+        required: false
         private: true
     - source_username:
         required: false
@@ -132,6 +133,7 @@ operation:
         required: false
     - destinationPort:
         default: ${get('destination_port', '')}
+        required: false
         private: true
     - destination_username:
         required: false
