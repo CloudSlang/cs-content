@@ -125,7 +125,7 @@ operation:
         default: ${get('source_protocol', '')}
         required: false
         private: true
-    - destination_host:
+    - destination_host
     - destinationHost:
         default: ${get('destination_host', '')}
         required: false
