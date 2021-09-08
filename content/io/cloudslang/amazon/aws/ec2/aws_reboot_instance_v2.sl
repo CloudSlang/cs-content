@@ -19,10 +19,6 @@
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input region: The name of the region.
 #! @input instance_id: The ID of the server (instance) you want to reboot.
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: RAS_Operator_Path
-#!                      Optional
 #! @input proxy_host: Proxy server used to access the provider services
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
@@ -37,6 +33,10 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 60
 #!                         Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: RAS_Operator_Path
+#!                      Optional
 #!
 #! @output output: Contains the state of the instance or the exception in case of failure
 #! @output instance_state: The state of a instance.

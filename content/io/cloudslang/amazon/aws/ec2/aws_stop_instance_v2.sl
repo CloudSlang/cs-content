@@ -18,10 +18,6 @@
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input instance_id: The ID of the server (instance) you want to stop.
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: RAS_Operator_Path
-#!                      Optional
 #! @input region: The name of the region.
 #! @input force_stop: Forces the instances to stop. The instances do not have an opportunity to flush file system caches
 #!                    or file system metadata. If you use this option, you must perform file system check and repair
@@ -40,6 +36,10 @@
 #! @input polling_retries: The number of retries to check if the instance is stopped.
 #!                         Default: 60
 #!                         Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: RAS_Operator_Path
+#!                      Optional
 #!
 #! @output output: contains the state of the instance or the exception in case of failure.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
