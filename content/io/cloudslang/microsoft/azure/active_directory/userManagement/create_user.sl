@@ -1,6 +1,7 @@
 ########################################################################################################################
 #!!
-#! @description: Generated description.
+#! @description: Create a new user. The request body contains the user to create. At a minimum, you must specify the
+#!               required properties for the user. You can optionally specify any other writable properties.
 #!
 #! @input auth_token: Authentication token
 #! @input account_enabled: true if the account is enabled; otherwise, false.
@@ -27,9 +28,9 @@
 #! @input body: Full json body if the user wants to set additional properties. All the other inputs are ignored if the
 #!              body is given.
 #!              Optional
-#! @input proxy_host: Proxy server used to access the Office 365 service.
+#! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -73,14 +74,14 @@
 #!
 #! @output return_result: If successful, returns the complete API response.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output status_code: Successful if between 200 and 300.
+#! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #!
 #! @result SUCCESS: SUCCESS_DESC
 #! @result FAILURE: FAILURE_DESC
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active-directory
+namespace: io.cloudslang.microsoft.azure.active_directory.userManagement
 
 operation: 
   name: create_user
