@@ -57,8 +57,8 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #!
-#! @result SUCCESS: Token generated successfully.
-#! @result FAILURE: There was an error while trying to retrieve token.
+#! @result SUCCESS: User deleted successfully.
+#! @result FAILURE: There was an error while trying to delete user.
 #!!#
 ########################################################################################################################
 
