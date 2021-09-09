@@ -52,15 +52,6 @@
 #!                                   Valid values: UTF-8, EUC-JP, SJIS.
 #!                                   Default: UTF-8.
 #!                                   Optional
-#! @input proxy_host: The proxy server used to access the remote host.
-#!                    Optional
-#! @input proxy_port: The proxy server port.
-#!                    Default: 8080
-#!                    Optional
-#! @input proxy_username: The username used when connecting to the proxy.
-#!                        Optional
-#! @input proxy_password: The password used when connecting to the proxy.
-#!                        Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
 #!                            Default: 60
 #!                            Optional
@@ -124,6 +115,13 @@ operation:
         default: ${get('source_protocol', '')}
         required: false
         private: true
+    - source_character_set:
+        default: 'UTF-8'
+        required: false
+    - sourceCharacterSet:
+        default: ${get('source_character_set', '')}
+        required: false
+        private: true
     - destination_host
     - destinationHost:
         default: ${get('destination_host', '')}
@@ -165,33 +163,13 @@ operation:
         default: ${get('destination_protocol', '')}
         required: false
         private: true
-    - proxy_host:
+    - destination_character_set:
+        default: 'UTF-8'
         required: false
-    - proxyHost:
-        default: ${get('proxy_host', '')}
-        required: false
-        private: true
-    - proxy_port:
-        default: '8080'
-        required: false
-    - proxyPort:
-        default: ${get('proxy_port', '8080')}
+    - destinationCharacterSet:
+        default: ${get('destination_character_set', '')}
         required: false
         private: true
-    - proxy_username:
-        required: false
-    - proxyUsername:
-        default: ${get('proxy_username', '')}
-        required: false
-        private: true
-    - proxy_password:
-        required: false
-        sensitive: true
-    - proxyPassword:
-        default: ${get('proxy_password', '')}
-        required: false
-        private: true
-        sensitive: true
     - connection_timeout:
         default: '60'
         required: false
@@ -208,7 +186,7 @@ operation:
         private: true
         
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC5'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC6'
     class_name: io.cloudslang.content.rft.actions.RemoteCopyAction
     method_name: execute
 
