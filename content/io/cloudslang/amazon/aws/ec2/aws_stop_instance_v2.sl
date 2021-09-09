@@ -15,6 +15,8 @@
 #!!
 #! @description: Stops an Amazon instance.
 #!
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'.
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input instance_id: The ID of the server (instance) you want to stop.
@@ -41,11 +43,10 @@
 #!                      Default: RAS_Operator_Path
 #!                      Optional
 #!
-#! @output output: contains the state of the instance or the exception in case of failure.
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
-#! @output exception: exception if there was an error when executing, empty otherwise.
+#! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output instance_state: The state of a instance.
-#! @output ip_address: The public IP address of the instance.
+#! @output ip_address: The public IP address of the instance
+#! @output public_dns_name: The fully qualified public domain name of the instance.
 #!
 #! @result SUCCESS: The server (instance) was successfully stopped
 #! @result FAILURE: error stopping instance
@@ -60,6 +61,7 @@ imports:
 flow:
   name: aws_stop_instance_v2
   inputs:
+    - provider_sap: 'https://ec2.amazonaws.com'
     - access_key_id
     - access_key:
         sensitive: true
@@ -113,7 +115,7 @@ flow:
             - instance_ids_string: '${instance_id}'
             - force_stop: '${force_stop}'
         publish:
-          - output: '${return_result}'
+          - return_result
           - return_code
           - exception
         navigate:
@@ -172,7 +174,6 @@ flow:
             - query_type: value
         publish:
           - instance_state: '${selected_value}'
-          - return_result
           - error_message
           - return_code
         navigate:
@@ -195,7 +196,7 @@ flow:
                 sensitive: true
             - instance_ids_string: '${instance_id}'
         publish:
-          - return_result
+          - instance_details: '${return_result}'
         navigate:
           - SUCCESS: parse_state_to_get_instance_status
           - FAILURE: on_failure
@@ -203,7 +204,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${return_result}'
+            - xml_document: '${instance_details}'
             - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
             - query_type: value
         publish:
@@ -229,9 +230,9 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - instance_id: '${instance_id}'
         publish:
-          - output: "${\"Cannot the stop instance \\\"\"+instance_id+\"\\\" that is currently in stopped state.\"}"
+          - return_result: "${\"Cannot stop the instance \\\"\"+instance_id+\"\\\" that is currently in stopped state.\"}"
         navigate:
-          - SUCCESS: FAILURE
+          - SUCCESS: search_and_replace
           - FAILURE: on_failure
     - parse_ip_address:
         worker_group: '${worker_group}'
@@ -242,7 +243,6 @@ flow:
             - query_type: value
         publish:
           - ip_address: '${selected_value}'
-          - return_result
           - error_message
           - return_code
         navigate:
@@ -257,22 +257,54 @@ flow:
             - ignore_case: 'true'
         navigate:
           - SUCCESS: set_ip_address_empty
-          - FAILURE: SUCCESS
+          - FAILURE: set_public_dns_name
     - set_ip_address_empty:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing: []
         publish:
-          - ip_address: ''
+          - ip_address: '-'
+        navigate:
+          - SUCCESS: set_public_dns_name
+          - FAILURE: on_failure
+    - set_public_dns_name:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.xml.xpath_query:
+            - xml_document: '${replaced_string}'
+            - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='dnsName']"
+            - query_type: value
+        publish:
+          - public_dns_name: '${selected_value}'
+          - error_message
+          - return_code
+        navigate:
+          - SUCCESS: is_public_dns_name_not_present
+          - FAILURE: on_failure
+    - is_public_dns_name_not_present:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${public_dns_name}'
+            - second_string: No match found
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_public_dns_name_empty
+          - FAILURE: SUCCESS
+    - set_public_dns_name_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - public_dns_name: '-'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - output
-    - return_code
-    - exception
+    - return_result
     - instance_state
     - ip_address
+    - public_dns_name
   results:
     - SUCCESS
     - FAILURE
@@ -288,20 +320,19 @@ extensions:
       set_ip_address_empty:
         x: 763
         'y': 267
-        navigate:
-          b8e37e2e-33e1-f7de-410d-375b34699c24:
-            targetId: 215a6711-9252-d04a-ab86-88ab028e3ac2
-            port: SUCCESS
       parse_ip_address:
         x: 928
         'y': 95
       is_ip_address_not_found:
         x: 930
         'y': 269
+      set_public_dns_name_empty:
+        x: 935
+        'y': 604
         navigate:
-          9427188f-a3c1-8796-e8a1-124a3e1d800b:
-            targetId: 215a6711-9252-d04a-ab86-88ab028e3ac2
-            port: FAILURE
+          346e0e5b-216f-deca-021c-94f189b4c3bf:
+            targetId: 518d97ad-29b7-d950-189b-c1bc43e7c82a
+            port: SUCCESS
       parse_state_to_get_instance_status:
         x: 162
         'y': 258
@@ -314,26 +345,27 @@ extensions:
       set_endpoint:
         x: 17
         'y': 85
+      is_public_dns_name_not_present:
+        x: 930
+        'y': 432
+        navigate:
+          77773ce2-83cf-166a-ef80-bfc58ddf76af:
+            targetId: 518d97ad-29b7-d950-189b-c1bc43e7c82a
+            port: FAILURE
       search_and_replace:
         x: 607
         'y': 92
       set_failure_message_for_instance:
         x: 303
         'y': 431
-        navigate:
-          7ec0c7f1-142a-1708-989e-2e69631e2d41:
-            targetId: aeeb5d6a-8b41-5a45-7832-aa9cd8d27096
-            port: SUCCESS
+      set_public_dns_name:
+        x: 765
+        'y': 426
       check_instance_state_v2:
         x: 455
         'y': 92
     results:
       SUCCESS:
-        215a6711-9252-d04a-ab86-88ab028e3ac2:
-          x: 926
-          'y': 443
-      FAILURE:
-        aeeb5d6a-8b41-5a45-7832-aa9cd8d27096:
-          x: 459
-          'y': 433
-
+        518d97ad-29b7-d950-189b-c1bc43e7c82a:
+          x: 767
+          'y': 605
