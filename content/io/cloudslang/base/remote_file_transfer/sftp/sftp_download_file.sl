@@ -9,6 +9,8 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file
+#! @input remote_file: The remote file.
+#! @input local_location: The location where file is to be placed.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -20,8 +22,6 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_file: The remote file.
-#! @input local_location: The location where file is to be placed.
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default: UTF-8
@@ -60,6 +60,16 @@ operation:
     - username
     - password:
         sensitive: true
+    - remote_file
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
+    - local_location
+    - localLocation:
+        default: ${get('local_location', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -93,16 +103,6 @@ operation:
         default: ${get('private_key', '')}
         required: false
         private: true
-    - remote_file
-    - remoteFile:
-        default: ${get('remote_file', '')}
-        required: false
-        private: true
-    - local_location
-    - localLocation:
-        default: ${get('local_location', '')}
-        required: false
-        private: true
     - character_set:
         default: 'UTF-8'
         required: false
@@ -133,7 +133,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC3'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC5'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 
