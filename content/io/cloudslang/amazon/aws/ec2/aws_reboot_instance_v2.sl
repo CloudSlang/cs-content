@@ -15,6 +15,8 @@
 #!!
 #! @description: Requests a reboot of the specified instances.
 #!
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'.
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input region: The name of the region.
@@ -38,12 +40,10 @@
 #!                      Default: RAS_Operator_Path
 #!                      Optional
 #!
-#! @output output: Contains the state of the instance or the exception in case of failure
+#! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output instance_state: The state of a instance.
 #! @output ip_address: The public IP address of the instance
 #! @output public_dns_name: The fully qualified public domain name of the instance.
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
 #! @result SUCCESS: The server (instance) was successfully rebooted
 #! @result FAILURE: error rebooting instance
@@ -58,6 +58,7 @@ imports:
 flow:
   name: aws_reboot_instance_v2
   inputs:
+    - provider_sap: 'https://ec2.amazonaws.com'
     - access_key_id
     - access_key:
         sensitive: true
@@ -107,7 +108,7 @@ flow:
             - proxy_username
             - proxy_password
         publish:
-          - output: '${return_result}'
+          - return_result
           - return_code
           - exception
         navigate:
@@ -146,6 +147,7 @@ flow:
           - SUCCESS: search_and_replace
           - FAILURE: on_failure
     - search_and_replace:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${instance_details}'
@@ -157,6 +159,7 @@ flow:
           - SUCCESS: parse_state
           - FAILURE: on_failure
     - parse_state:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${instance_details}'
@@ -164,13 +167,13 @@ flow:
             - query_type: value
         publish:
           - instance_state: '${selected_value}'
-          - return_result
           - error_message
           - return_code
         navigate:
           - SUCCESS: parse_ip_address
           - FAILURE: on_failure
     - parse_ip_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${replaced_string}'
@@ -178,13 +181,13 @@ flow:
             - query_type: value
         publish:
           - ip_address: '${selected_value}'
-          - return_result
           - error_message
           - return_code
         navigate:
           - SUCCESS: is_ip_address_not_found
           - FAILURE: on_failure
     - describe_instances:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.instances.describe_instances:
             - endpoint: '${provider_sap}'
@@ -205,6 +208,7 @@ flow:
           - SUCCESS: parse_state_to_get_instance_status
           - FAILURE: on_failure
     - parse_state_to_get_instance_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
             - xml_document: '${return_result}'
@@ -216,9 +220,10 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_if_instace_is_in_stopped_state_1
+          - SUCCESS: check_if_instace_is_in_stopped_state
           - FAILURE: on_failure
-    - check_if_instace_is_in_stopped_state_1:
+    - check_if_instace_is_in_stopped_state:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${instance_state}'
@@ -232,7 +237,7 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - instance_id: '${instance_id}'
         publish:
-          - output: "${\"Cannot reboot instance \\\"\"+instance_id+\"\\\" that is currently in stopped state.\"}"
+          - return_result: "${\"Cannot reboot instance \\\"\"+instance_id+\"\\\" that is currently in stopped state.\"}"
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
@@ -264,7 +269,6 @@ flow:
             - query_type: value
         publish:
           - public_dns_name: '${selected_value}'
-          - return_result
           - error_message
           - return_code
         navigate:
@@ -290,12 +294,10 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - output
+    - return_result
     - instance_state
     - ip_address
     - public_dns_name
-    - return_code
-    - exception
   results:
     - FAILURE
     - SUCCESS
@@ -309,7 +311,7 @@ extensions:
         x: 784
         'y': 86
       set_ip_address_empty:
-        x: 790
+        x: 791
         'y': 289
       parse_ip_address:
         x: 938
@@ -319,17 +321,20 @@ extensions:
         'y': 96
       set_public_dns_name_empty:
         x: 1114
-        'y': 467
+        'y': 466
         navigate:
           7d7758af-fd16-13ba-4d75-66b697ece980:
             targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
             port: SUCCESS
       parse_state_to_get_instance_status:
         x: 148
-        'y': 233
+        'y': 232
       describe_instances:
         x: 146
         'y': 90
+      check_if_instace_is_in_stopped_state:
+        x: 320
+        'y': 242
       set_endpoint:
         x: 5
         'y': 83
@@ -356,9 +361,6 @@ extensions:
       check_instance_state_v2:
         x: 480
         'y': 85
-      check_if_instace_is_in_stopped_state_1:
-        x: 320
-        'y': 242
     results:
       FAILURE:
         82a03499-9235-5958-aace-7f41fbc36899:
