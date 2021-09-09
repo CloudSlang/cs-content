@@ -22,6 +22,8 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file
+#! @input remote_path: The remote file or directory name.
+#!                     Optional
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -32,8 +34,6 @@
 #! @input proxy_password: The password used when connecting to the proxy.
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
-#!                     Optional
-#! @input remote_path: The remote file or directory name.
 #!                     Optional
 #! @input delimiter: A delimiter to use for the result lists (returnResult, files, folders).
 #!                   Optional
@@ -77,6 +77,11 @@ operation:
     - username
     - password:
         sensitive: true
+    - remote_path
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -108,11 +113,6 @@ operation:
         required: false
     - privateKey:
         default: ${get('private_key', '')}
-        required: false
-        private: true
-    - remote_path
-    - remotePath:
-        default: ${get('remote_path', '')}
         required: false
         private: true
     - delimiter:

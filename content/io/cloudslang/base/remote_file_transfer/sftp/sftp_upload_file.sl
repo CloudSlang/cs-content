@@ -22,6 +22,8 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
+#! @input remote_location: The remote location where the file is to be placed.
+#! @input local_file: The local file path to be copied remotely using SFTP.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -33,8 +35,6 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_location: The remote location where the file is to be placed.
-#! @input local_file: The local file path to be copied remotely using SFTP.
 #! @input global_session_object: The sessionObject that holds the connection if the close session is false.
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
@@ -74,6 +74,16 @@ operation:
     - username
     - password:
         sensitive: true
+    - remote_location
+    - remoteLocation:
+        default: ${get('remote_location', '')}
+        required: false
+        private: true
+    - local_file
+    - localFile:
+        default: ${get('local_file', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false  
     - proxyHost: 
@@ -105,18 +115,6 @@ operation:
         required: false  
     - privateKey: 
         default: ${get('private_key', '')}  
-        required: false 
-        private: true 
-    - remote_location:  
-        required: true
-    - remoteLocation: 
-        default: ${get('remote_location', '')}  
-        required: false 
-        private: true 
-    - local_file:  
-        required: true
-    - localFile: 
-        default: ${get('local_file', '')}  
         required: false 
         private: true
     - global_session_object:
