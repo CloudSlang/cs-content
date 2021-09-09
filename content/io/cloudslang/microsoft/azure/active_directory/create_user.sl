@@ -1,13 +1,33 @@
 ########################################################################################################################
 #!!
-#! @description: Delete user. When deleted, user resources are moved to a temporary container and can be restored within
-#!               30 days. After that time, they are permanently deleted.
+#! @description: Create a new user. The request body contains the user to create. At a minimum, you must specify the
+#!               required properties for the user. You can optionally specify any other writable properties.
 #!
 #! @input auth_token: Authentication token
+#! @input account_enabled: true if the account is enabled; otherwise, false.
+#!                         Optional
+#! @input display_name: Required if body not set - The name to display in the address book for the user.
+#!                      Optional
+#! @input on_premises_immutable_id: Only needs to be specified when creating a new user account if you are using a
+#!                                  federated domain for the user's userPrincipalName (UPN) property.
+#!                                  Optional
+#! @input mail_nickname: Required if body not set -The mail alias for the user.
+#!                       Optional
+#! @input force_change_password_next_sign_in: true if the user must change her password on the next login; otherwise
+#!                                            false. If not set, default is false. NOTE: For Azure B2C tenants, set to
+#!                                            false and instead use custom policies and user flows to force password
+#!                                            reset at first sign in.
+#!                                            Optional
+#! @input password: Required if body not set -The password for the user. This property is required when a user is
+#!                  created. It can be updated, but the user will be required to change the password on the next login.
+#!                  The password must satisfy minimum requirements as specified by the user’s passwordPolicies property.
+#!                  By default, a strong password is required.
+#!                  Optional
 #! @input user_principal_name: Required if body not set -The user principal name (someuser@contoso.com).
 #!                             Optional
-#! @input user_id: The ID of the user to perform the action on.
-#!                 Optional
+#! @input body: Full json body if the user wants to set additional properties. All the other inputs are ignored if the
+#!              body is given.
+#!              Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
@@ -52,20 +72,19 @@
 #! @input response_character_set: The maximum limit of connections in total.
 #!                                Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
-#!                        in the response body.
+#! @output return_result: If successful, returns the complete API response.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #!
-#! @result SUCCESS: Token generated successfully.
-#! @result FAILURE: There was an error while trying to retrieve token.
+#! @result SUCCESS: SUCCESS_DESC
+#! @result FAILURE: FAILURE_DESC
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.userManagement
+namespace: io.cloudslang.microsoft.azure.active_directory
 
 operation: 
-  name: delete_user
+  name: create_user
   
   inputs: 
     - auth_token    
@@ -73,18 +92,47 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
+    - account_enabled:  
+        required: false  
+    - accountEnabled: 
+        default: ${get('account_enabled', '')}  
+        required: false 
+        private: true 
+    - display_name:  
+        required: false  
+    - displayName: 
+        default: ${get('display_name', '')}  
+        required: false 
+        private: true 
+    - on_premises_immutable_id:  
+        required: false  
+    - onPremisesImmutableId: 
+        default: ${get('on_premises_immutable_id', '')}  
+        required: false 
+        private: true 
+    - mail_nickname:  
+        required: false  
+    - mailNickname: 
+        default: ${get('mail_nickname', '')}  
+        required: false 
+        private: true 
+    - force_change_password_next_sign_in:  
+        required: false  
+    - forceChangePasswordNextSignIn: 
+        default: ${get('force_change_password_next_sign_in', '')}  
+        required: false 
+        private: true 
+    - password:  
+        required: false  
+        sensitive: true
     - user_principal_name:  
         required: false  
     - userPrincipalName: 
         default: ${get('user_principal_name', '')}  
         required: false 
         private: true 
-    - user_id:  
+    - body:  
         required: false  
-    - userId: 
-        default: ${get('user_id', '')}  
-        required: false 
-        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -176,7 +224,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-SNAPSHOT'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
   outputs: 
