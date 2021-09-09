@@ -15,6 +15,8 @@
 #!!
 #! @description: Starts an Amazon instance.
 #!
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input region: The name of the region.
@@ -38,12 +40,10 @@
 #!                      Default: RAS_Operator_Path
 #!                      Optional
 #!
-#! @output output: Contains the state of the instance or the exception in case of failure
+#! @output return_result: Contains the state of the instance or the exception in case of failure
 #! @output instance_state: The state of a instance.
 #! @output ip_address: The public IP address of the instance
 #! @output public_dns_name: The fully qualified public domain name of the instance.
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise
-#! @output exception: Exception if there was an error when executing, empty otherwise
 #!
 #! @result FAILURE: error starting instance
 #! @result SUCCESS: The server (instance) was successfully started
@@ -58,6 +58,7 @@ imports:
 flow:
   name: aws_start_instance_v2
   inputs:
+    - provider_sap: 'https://ec2.amazonaws.com'
     - access_key_id
     - access_key:
         sensitive: true
@@ -76,7 +77,7 @@ flow:
         default: '10'
         required: false
     - polling_retries:
-        default: '50'
+        default: '60'
         required: false
     - worker_group:
         default: RAS_Operator_Path
@@ -183,7 +184,7 @@ flow:
                 sensitive: true
             - instance_ids_string: '${instance_id}'
         publish:
-          - return_result
+          - instance_details: '${return_result}'
         navigate:
           - SUCCESS: parse_state_to_get_instance_status
           - FAILURE: on_failure
@@ -191,7 +192,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.xpath_query:
-            - xml_document: '${return_result}'
+            - xml_document: '${instance_details}'
             - xpath_query: "/*[local-name()='DescribeInstancesResponse']/*[local-name()='reservationSet']/*[local-name()='item']/*[local-name()='instancesSet']/*[local-name()='item']/*[local-name()='instanceState']/*[local-name()='name']"
             - query_type: value
         publish:
@@ -217,9 +218,9 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - instance_id: '${instance_id}'
         publish:
-          - output: "${\"Cannot start instance \\\"\"+instance_id+\"\\\" that is currently in running state.\"}"
+          - output: "${\"Cannot start the instance \\\"\"+instance_id+\"\\\" that is currently in running state.\"}"
         navigate:
-          - SUCCESS: FAILURE
+          - SUCCESS: search_and_replace
           - FAILURE: on_failure
     - is_ip_address_not_found:
         worker_group: '${worker_group}'
@@ -298,21 +299,19 @@ flow:
           - SUCCESS: check_instance_state_v2
           - FAILURE: on_failure
   outputs:
-    - output
+    - return_result
     - instance_state
     - ip_address
     - public_dns_name
-    - return_code
-    - exception
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
       start_instances:
         x: 302
-        'y': 88.046875
+        'y': 88
       parse_state:
         x: 784
         'y': 86
@@ -329,7 +328,7 @@ extensions:
         x: 1114
         'y': 467
         navigate:
-          7d7758af-fd16-13ba-4d75-66b697ece980:
+          2ac9a7ad-4568-a2c3-6237-d3c71a1a66ae:
             targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
             port: SUCCESS
       parse_state_to_get_instance_status:
@@ -345,7 +344,7 @@ extensions:
         x: 1114
         'y': 295
         navigate:
-          e50bc50d-78b4-ea83-a9bf-2a3d9cb76f05:
+          384502a8-5846-0b74-4a05-1ce3e6f7a514:
             targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
             port: FAILURE
       search_and_replace:
@@ -354,26 +353,18 @@ extensions:
       set_failure_message_for_instance:
         x: 322
         'y': 437
-        navigate:
-          5591bc89-f850-88fe-5f0b-1a96b379e1de:
-            targetId: 82a03499-9235-5958-aace-7f41fbc36899
-            port: SUCCESS
       set_public_dns_name:
         x: 950
         'y': 287
       check_instance_state_v2:
-        x: 481
+        x: 482
         'y': 86
       check_if_instace_is_in_stopped_state_1:
         x: 311
         'y': 251
     results:
-      FAILURE:
-        82a03499-9235-5958-aace-7f41fbc36899:
-          x: 488
-          'y': 442
       SUCCESS:
         d2ef709d-2cef-d264-0a6b-105705aa8c53:
-          x: 956
-          'y': 463
+          x: 856
+          'y': 493
 
