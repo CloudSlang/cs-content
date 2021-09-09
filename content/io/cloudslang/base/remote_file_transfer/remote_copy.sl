@@ -167,6 +167,7 @@ operation:
         private: true
     - proxy_host:
         required: false
+        private: true
     - proxyHost:
         default: ${get('proxy_host', '')}
         required: false
@@ -174,18 +175,21 @@ operation:
     - proxy_port:
         default: '8080'
         required: false
+        private: true
     - proxyPort:
         default: ${get('proxy_port', '8080')}
         required: false
         private: true
     - proxy_username:
         required: false
+        private: true
     - proxyUsername:
         default: ${get('proxy_username', '')}
         required: false
         private: true
     - proxy_password:
         required: false
+        private: true
         sensitive: true
     - proxyPassword:
         default: ${get('proxy_password', '')}
