@@ -125,7 +125,8 @@ operation:
         default: ${get('global_session_object', '')}
         required: false
         private: true
-    - character_set:  
+    - character_set:
+        default: 'UTF-8'
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  
@@ -154,7 +155,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.90-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC6'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   

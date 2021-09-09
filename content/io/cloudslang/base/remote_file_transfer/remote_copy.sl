@@ -115,6 +115,13 @@ operation:
         default: ${get('source_protocol', '')}
         required: false
         private: true
+    - source_character_set:
+        default: 'UTF-8'
+        required: false
+    - sourceCharacterSet:
+        default: ${get('source_character_set', '')}
+        required: false
+        private: true
     - destination_host
     - destinationHost:
         default: ${get('destination_host', '')}
@@ -156,6 +163,13 @@ operation:
         default: ${get('destination_protocol', '')}
         required: false
         private: true
+    - destination_character_set:
+        default: 'UTF-8'
+        required: false
+    - destinationCharacterSet:
+        default: ${get('destination_character_set', '')}
+        required: false
+        private: true
     - connection_timeout:
         default: '60'
         required: false
@@ -172,7 +186,7 @@ operation:
         private: true
         
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.90-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC6'
     class_name: io.cloudslang.content.rft.actions.RemoteCopyAction
     method_name: execute
 
