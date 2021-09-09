@@ -1,19 +1,20 @@
 ########################################################################################################################
 #!!
-#! @description: Delete a user from Azure Active Directory
+#! @description: Delete user. When deleted, user resources are moved to a temporary container and can be restored within
+#!               30 days. After that time, they are permanently deleted.
 #!
 #! @input auth_token: Authentication token
-#! @input user_principal_name: The user principal name (someuser@contoso.com).
+#! @input user_principal_name: Required if body not set -The user principal name (someuser@contoso.com).
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
-#! @input proxy_host:
+#! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
-#! @input proxy_port:
+#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
 #!                    Optional
-#! @input proxy_username:
+#! @input proxy_username: Proxy server user name.
 #!                        Optional
-#! @input proxy_password:
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
@@ -54,7 +55,7 @@
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
 #!                        in the response body.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output status_code: The HTTP status code for Azure API request.
+#! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #!
 #! @result SUCCESS: Token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve token.
