@@ -40,7 +40,7 @@
 #!                      Default: RAS_Operator_Path
 #!                      Optional
 #!
-#! @output return_result: Contains the state of the instance or the exception in case of failure
+#! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output instance_state: The state of a instance.
 #! @output ip_address: The public IP address of the instance
 #! @output public_dns_name: The fully qualified public domain name of the instance.
