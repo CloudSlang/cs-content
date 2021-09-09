@@ -52,15 +52,6 @@
 #!                                   Valid values: UTF-8, EUC-JP, SJIS.
 #!                                   Default: UTF-8.
 #!                                   Optional
-#! @input proxy_host: The proxy server used to access the remote host.
-#!                    Optional
-#! @input proxy_port: The proxy server port.
-#!                    Default: 8080
-#!                    Optional
-#! @input proxy_username: The username used when connecting to the proxy.
-#!                        Optional
-#! @input proxy_password: The password used when connecting to the proxy.
-#!                        Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
 #!                            Default: 60
 #!                            Optional
