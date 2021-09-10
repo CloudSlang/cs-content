@@ -42,7 +42,7 @@
 namespace: io.cloudslang.microsoft.azure.active_directory
 
 operation: 
-  name: get_the_authorization_token_for_office_365
+  name: get_the_authorization_token_for_active_directory
   
   inputs: 
     - login_type:  
