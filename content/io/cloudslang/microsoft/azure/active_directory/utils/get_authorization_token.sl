@@ -3,8 +3,8 @@
 #! @description: Return the authorization token for Microsoft Azure Active Directory
 #!
 #! @input login_type: Login method according to application type
-Valid values: 'API', 'Native'
-Default: 'API'
+#!Valid values: 'API', 'Native'
+#!Default: 'API'
 #!                    Optional
 #! @input client_id: Service Client ID
 #! @input client_secret: Service Client Secret
@@ -15,11 +15,11 @@ Default: 'API'
 #!                  Optional
 #! @input login_authority: The authority URL. Usually, the format for this input
 #!                         is:
-'https://login.windows.net/TENANT_NAME/oauth2/token' where TENANT_NAME is your
+#!'https://login.windows.net/TENANT_NAME/oauth2/token' where TENANT_NAME is your
 #!                         application
-tenant.
+#!tenant.
 #! @input resource: The resource URL
-Default: 'https://graph.microsoft.com'
+#!Default: 'https://graph.microsoft.com'
 #!                  Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
