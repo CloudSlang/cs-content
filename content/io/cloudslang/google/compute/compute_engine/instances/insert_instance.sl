@@ -441,7 +441,7 @@ operation:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - instance_id: ${get('INSTANCE_ID', '')}
+    - instance_id: ${get('instanceId', '')}
     - instance_name_out: ${get('instanceName', '')}
     - internal_ips: ${get('internalIps', '')}
     - external_ips: ${get('externalIps', '')}
