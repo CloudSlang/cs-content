@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to get machine type resource to use for an instance, as JSON object.
+#! @description: This operation is used to get the machine type that can be used to create an instance.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: Google Cloud project id.
@@ -28,7 +28,7 @@
 #!                Note: It is recommended to use the minimum necessary scope in order to perform the requests.
 #!                Example: 'https://www.googleapis.com/auth/compute.readonly'
 #! @input auth_type: The authentication type.
-#!                   Example : 'basic'
+#!                   Example : "basic".
 #!                   Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
@@ -38,37 +38,14 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input worker_group: A worker group is a logical collection of workers.
-#!                      A worker may belong to more than one group simultaneously.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
-#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
-#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Default: 'strict'
-#!                                 Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default: '0'
 #!                         Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other
-#!                        parties that you expect to communicate with, or from Certificate Authorities that you trust to
-#!                        identify other parties.  If the protocol (specified by the 'url') is not 'https' or if
-#!                        trustAllRoots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
-#!                        Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the TrustStore file.
-#!                        If trust_all_roots is false and trustKeystore is empty, trust_password default will be supplied.
-#!                        Default value: ''
-#!                        Optional
 #!
 #! @output self_link: The URI of this resource.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -77,16 +54,17 @@
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.compute_engine.instances
-flow:
-  name: get_machine_type
+name: get_machine_type
   inputs:
     - json_token:
         sensitive: true
     - project_id:
-        sensitive: false
+        sensitive: true
     - zone
     - machine_type
-    - scopes: 'https://www.googleapis.com/auth/compute'
+    - scopes:
+        default: 'https://www.googleapis.com/auth/compute'
+        required: true
     - auth_type:
         required: false
     - proxy_host:
@@ -101,20 +79,9 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
-    - trust_all_roots:
-        default: 'false'
-        required: false
-    - x_509_hostname_verifier:
-        default: strict
-        required: false
     - connect_timeout:
         default: '0'
         required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
   workflow:
     - get_access_token:
         worker_group: '${worker_group}'
@@ -150,12 +117,6 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
             - connect_timeout: '${connect_timeout}'
             - headers: '${return_result}'
         publish:
@@ -190,13 +151,13 @@ extensions:
   graph:
     steps:
       get_access_token:
-        x: 45
-        'y': 158
+        x: 44
+        'y': 157
       http_client_get_Machine_Type:
-        x: 192
-        'y': 159
+        x: 194
+        'y': 158
       get_self_Link_of_the_Machine_Type:
-        x: 337
+        x: 338
         'y': 166
         navigate:
           f6e15fd4-1151-c4db-b618-2bbb40f552e0:
