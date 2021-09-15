@@ -13,17 +13,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete user. When deleted, user resources are moved to a temporary container and can be restored within
-#!               30 days. After that time, they are permanently deleted.
+#! @description: Delete a user from Active Directory. When deleted, user resources are moved to a temporary container
+#!               and can be restored within 30 days. After that time, they are permanently deleted.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: Required if body not set -The user principal name (someuser@contoso.com).
+#! @input user_principal_name: The user principal name. 
+#!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -67,15 +69,16 @@
 #!
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
 #!                        in the response body.
-#! @output return_code: 0 if success, -1 otherwise.
+#! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
+#! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: User deleted successfully.
+#! @result SUCCESS: The user was successfully deleted.
 #! @result FAILURE: There was an error while trying to delete user.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.user_management
+namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
   name: delete_user
@@ -104,8 +107,9 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
-        required: false  
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
@@ -130,7 +134,8 @@ operation:
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -162,7 +167,8 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
@@ -196,6 +202,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
+    - exception: ${get('exception', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

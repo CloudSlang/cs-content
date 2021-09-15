@@ -16,8 +16,8 @@
 #! @description: Get the authorization token for Azure Active Directory.
 #!
 #! @input login_type: Login method according to application type.
-#!Valid values: 'API', 'Native'
-#!Default: 'API'
+#!                    Valid values: 'API', 'Native'
+#!                    Default: 'API'
 #!                    Optional
 #! @input client_id: Service Client ID.
 #! @input client_secret: Service Client Secret.
@@ -44,8 +44,8 @@
 #!                        Optional
 #!
 #! @output return_result: The authorization token for Azure Active Directory.
-#! @output return_code: 0 if success, -1 otherwise.
-#! @output auth_token: The authentication token.
+#! @output return_code: 0 if success, -1 if failure.
+#! @output auth_token: Generated authentication token.
 #! @output auth_token_type: The authentication token type.
 #! @output exception: An error message in case there was an error while generating the token.
 #!
@@ -54,7 +54,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.utils
+namespace: io.cloudslang.microsoftAD.utils
 
 operation: 
   name: get_authorization_token

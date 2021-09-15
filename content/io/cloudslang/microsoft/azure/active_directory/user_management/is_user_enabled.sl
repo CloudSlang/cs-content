@@ -16,13 +16,15 @@
 #! @description: Checks if a user is enabled.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name (someuser@contoso.com).
+#! @input user_principal_name: The user principal name. 
+#!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -65,16 +67,18 @@
 #!                                Optional
 #!
 #! @output return_result: If successful, this method returns 200 response code.
-#! @output return_code: 0 if success, -1 otherwise.
+#! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output account_enabled: true if the account is enabled; otherwise, false.
+#! @output account_enabled: Must be true if the user wants to enable the account. 
+#!                          Default value: false.
+#! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: Request went successfully.
 #! @result FAILURE: There was an error while trying to do the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.user_management
+namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
   name: is_user_enabled
@@ -103,7 +107,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -129,7 +134,8 @@ operation:
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -161,7 +167,8 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
@@ -196,6 +203,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
     - account_enabled: ${get('accountEnabled', '')} 
+    - exception: ${get('exception', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

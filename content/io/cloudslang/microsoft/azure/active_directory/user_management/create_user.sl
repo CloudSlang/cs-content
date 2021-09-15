@@ -16,8 +16,12 @@
 #! @description: Create a new user. The request body contains the user to create. At a minimum, you must specify the
 #!               required properties for the user. You can optionally specify any other writable properties.
 #!
-#! @input auth_token: The authentication token.
-#! @input account_enabled: true if the account is enabled; otherwise, false.
+#! @input auth_token: Generated authentication token.
+#! @input body: Full json body if the user wants to set additional properties. All the other inputs are ignored if the
+#!              body is given.
+#!              Optional
+#! @input account_enabled: Must be true if the user wants to enable the account. 
+#!                         Default value: false.
 #!                         Optional
 #! @input display_name: Required if body not set - The name to display in the address book for the user.
 #!                      Optional
@@ -26,24 +30,23 @@
 #!                                  Optional
 #! @input mail_nickname: Required if body not set -The mail alias for the user.
 #!                       Optional
-#! @input force_change_password_next_sign_in: true if the user must change her password on the next login; otherwise
-#!                                            false. If not set, default is false. NOTE: For Azure B2C tenants, set to
-#!                                            false and instead use custom policies and user flows to force password
-#!                                            reset at first sign in.
-#!                                            Optional
+#! @input force_change_password: In case the value for the input is true, the user must change the password on the next
+#!                               login. 
+#!                               Default value: false.
+#!                               NOTE: For Azure B2C tenants, set to false and instead
+#!                               use custom policies and user flows to force password reset at first sign in.
+#!                               Optional
 #! @input password: Required if body not set -The password for the user. This property is required when a user is
-#!                  created. It can be updated, but the user will be required to change the password on the next login.
-#!                  The password must satisfy minimum requirements as specified by the user’s passwordPolicies property.
-#!                  By default, a strong password is required.
+#!                  created. The password must satisfy minimum requirements as specified by the user’s passwordPolicies
+#!                  property. By default, a strong password is required.
 #!                  Optional
-#! @input user_principal_name: Required if body not set -The user principal name (someuser@contoso.com).
+#! @input user_principal_name: Required if body not set -The user principal name.
+#!                             Example: someuser@contoso.com
 #!                             Optional
-#! @input body: Full json body if the user wants to set additional properties. All the other inputs are ignored if the
-#!              body is given.
-#!              Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -87,20 +90,21 @@
 #!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
 #!                                header is empty, the default value will be used. You should not use this for
 #!                                method=HEAD or OPTIONS.
-#!Default value: UTF-8
+#!                                Default value: UTF-8
 #!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response.
-#! @output return_code: 0 if success, -1 otherwise.
+#! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output user_id: The ID of the newly created user.
+#! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: Token generated successfully.
 #! @result FAILURE: There was an error while trying to retrieve token.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.user_management
+namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
   name: create_user
@@ -111,7 +115,10 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - account_enabled:  
+    - body:  
+        required: false  
+    - account_enabled:
+        default: 'true'
         required: false  
     - accountEnabled: 
         default: ${get('account_enabled', '')}  
@@ -135,10 +142,11 @@ operation:
         default: ${get('mail_nickname', '')}  
         required: false 
         private: true 
-    - force_change_password_next_sign_in:  
+    - force_change_password:
+        default: 'false'
         required: false  
-    - forceChangePasswordNextSignIn: 
-        default: ${get('force_change_password_next_sign_in', '')}  
+    - forceChangePassword: 
+        default: ${get('force_change_password', '')}  
         required: false 
         private: true 
     - password:  
@@ -150,18 +158,17 @@ operation:
         default: ${get('user_principal_name', '')}  
         required: false 
         private: true 
-    - body:  
-        required: false  
     - proxy_host:  
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
-        default: ${get('proxy_port', '')}  
+        default: ${get('proxy_port', '')}
         required: false 
         private: true 
     - proxy_username:  
@@ -178,13 +185,15 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -204,7 +213,7 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - connect_timeout:  
+    - connect_timeout:
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
@@ -216,7 +225,8 @@ operation:
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
@@ -251,6 +261,7 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
     - user_id: ${get('userId', '')} 
+    - exception: ${get('exception', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
