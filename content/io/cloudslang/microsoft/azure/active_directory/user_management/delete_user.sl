@@ -197,7 +197,7 @@ operation:
         required: false 
         private: true 
     - response_character_set:
-        default: UTF-8
+        default: 'UTF-8'
         required: false  
     - responseCharacterSet: 
         default: ${get('response_character_set', '')}  

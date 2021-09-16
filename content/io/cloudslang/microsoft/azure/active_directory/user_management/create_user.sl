@@ -21,7 +21,7 @@
 #!              body is given.
 #!              Optional
 #! @input account_enabled: Must be true if the user wants to enable the account. 
-#!                         Default value: false.
+#!                         Default value: true.
 #!                         Optional
 #! @input display_name: Required if body not set - The name to display in the address book for the user.
 #!                      Optional
@@ -250,7 +250,7 @@ operation:
         required: false 
         private: true 
     - response_character_set:
-        default: UTF-8
+        default: 'UTF-8'
         required: false  
     - responseCharacterSet: 
         default: ${get('response_character_set', '')}  
