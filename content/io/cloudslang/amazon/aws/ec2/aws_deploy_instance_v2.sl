@@ -53,7 +53,7 @@
 #!                       d2.4xlarge | d2.8xlarge
 #!                       Default: 't2.micro'
 #!                       Optional
-#! @input volume_type:  Type of Volume
+#! @input volume_type:  Type of Volume.
 #!                      Valid Values: "gp2", "gb3" "io1", "io2", "st1", "sc1", or "standard".
 #!                      Default: 'Standard'
 #! @input volume_size: Volume size in GB.
@@ -327,7 +327,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: is_linux_vm
           - FAILURE: on_failure
     - set_private_dns_name:
         worker_group: '${worker_group}'
@@ -646,6 +646,23 @@ flow:
         navigate:
           - SUCCESS: set_mac_address
           - FAILURE: on_failure
+    - is_linux_vm:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${os_type}'
+            - second_string: Linux
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_os_type_unix
+          - FAILURE: on_failure
+    - set_os_type_unix:
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - os_type: unix
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - instance_id
     - availability_zone_out
@@ -725,13 +742,16 @@ extensions:
       set_vpc_id:
         x: 2381
         'y': 397
-        navigate:
-          577cce5c-12d7-40c5-d04b-15ed0b6e8120:
-            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
-            port: SUCCESS
       generate_unique_name:
         x: 478
         'y': 228
+      set_os_type_unix:
+        x: 2680
+        'y': 404
+        navigate:
+          3491ebeb-bf40-677d-045a-54ddfc67438d:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
       set_endpoint:
         x: 28
         'y': 222
@@ -750,6 +770,9 @@ extensions:
       is_volume_size_null:
         x: 1232
         'y': 43
+      is_linux_vm:
+        x: 2536
+        'y': 410
       set_ip_address:
         x: 1399
         'y': 46
@@ -771,10 +794,9 @@ extensions:
     results:
       SUCCESS:
         576dec96-8f7c-fa7a-5ec4-69f50e183dff:
-          x: 2381
-          'y': 558
+          x: 2834
+          'y': 403
       FAILURE:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 322
           'y': 552
-
