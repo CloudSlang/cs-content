@@ -100,7 +100,7 @@
 #! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: User created successfully.
-#! @result FAILURE: There was an error while trying to retrieve token.
+#! @result FAILURE: Failed to create user.
 #!!#
 ########################################################################################################################
 
