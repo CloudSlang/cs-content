@@ -52,12 +52,15 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
+#!                        Default: 0
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Optional
@@ -74,8 +77,7 @@
 #! @output return_result: If successful, this method returns 200 response code.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output account_enabled: Must be true if the user wants to enable the account. 
-#!                          Default value: false.
+#! @output account_enabled: True if the account is enabled, false otherwise.
 #! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: Request went successfully.
@@ -160,13 +162,15 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - connect_timeout:  
+    - connect_timeout:
+        default: '0'
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - socket_timeout:  
+    - socket_timeout:
+        default: '0'
         required: false  
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
@@ -191,7 +195,8 @@ operation:
         default: ${get('connections_max_total', '')}  
         required: false 
         private: true 
-    - response_character_set:  
+    - response_character_set:
+        default: UTF-8
         required: false  
     - responseCharacterSet: 
         default: ${get('response_character_set', '')}  
