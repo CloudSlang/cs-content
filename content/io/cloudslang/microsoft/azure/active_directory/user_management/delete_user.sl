@@ -64,7 +64,12 @@
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
-#! @input response_character_set: The maximum limit of connections in total.
+#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
+#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
+#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
+#!                                header is empty, the default value will be used. You should not use this for
+#!                                method=HEAD or OPTIONS.
+#!                                Default value: UTF-8
 #!                                Optional
 #!
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
