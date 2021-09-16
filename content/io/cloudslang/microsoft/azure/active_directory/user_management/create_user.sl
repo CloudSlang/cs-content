@@ -99,7 +99,7 @@
 #! @output user_id: The ID of the newly created user.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: Token generated successfully.
+#! @result SUCCESS: User created successfully.
 #! @result FAILURE: There was an error while trying to retrieve token.
 #!!#
 ########################################################################################################################
