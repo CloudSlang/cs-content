@@ -93,7 +93,6 @@
 #! @output public_dns_name: The fully qualified public domain name of the instance.
 #! @output os_type: The type of platform the deployed instance is.
 #! @output instance_state: The current state of the instance.
-#! @output instance_name: Name of the instance.
 #! @output mac_address: The MAC address of the newly created instance.
 #! @output vpc_id: The ID of virtual private cloud in which instance is deployed.
 #! @output volume_id_list: The list of volumes attached to the instance.
@@ -603,11 +602,9 @@ flow:
           - FAILURE: on_failure
     - set_os_type_unix:
         do:
-          io.cloudslang.base.utils.do_nothing:
-            - instance_name: '${value_tags_string}'
+          io.cloudslang.base.utils.do_nothing: []
         publish:
           - os_type: unix
-          - instance_name
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -666,7 +663,6 @@ flow:
     - public_dns_name
     - os_type
     - instance_state
-    - instance_name
     - mac_address
     - vpc_id
     - volume_id_list
@@ -795,4 +791,3 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 322
           'y': 552
-
