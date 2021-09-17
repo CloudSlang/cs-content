@@ -93,6 +93,7 @@
 #! @output public_dns_name: The fully qualified public domain name of the instance.
 #! @output os_type: The type of platform the deployed instance is.
 #! @output instance_state: The current state of the instance.
+#! @output instance_name: Name of the instance.
 #! @output mac_address: The MAC address of the newly created instance.
 #! @output vpc_id: The ID of virtual private cloud in which instance is deployed.
 #! @output volume_id_list: The list of volumes attached to the instance.
@@ -247,8 +248,8 @@ flow:
             - return_code
             - exception
         navigate:
-          - SUCCESS: generate_unique_name
           - FAILURE: terminate_instances
+          - SUCCESS: generate_unique_name
     - set_private_ip_address:
         worker_group: '${worker_group}'
         do:
@@ -356,7 +357,6 @@ flow:
             - image_id
             - instance_type
             - subnet_id
-            - delete_on_terminations_string: 'true'
             - volume_sizes_string: '${volume_size}'
             - volume_types_string: '${volume_type}'
             - key_pair_name
@@ -369,29 +369,6 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: check_instance_state_v2
-    - create_tags:
-        worker_group: '${worker_group}'
-        do:
-          tags.create_tags:
-            - endpoint: '${provider_sap}'
-            - identity: '${access_key_id}'
-            - credential:
-                value: '${access_key}'
-                sensitive: true
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - resource_ids_string: '${instance_id}'
-            - key_tags_string
-            - value_tags_string
-        publish:
-          - return_result
-          - return_code
-          - exception
-        navigate:
-          - FAILURE: terminate_instances
-          - SUCCESS: describe_instances
     - terminate_instances:
         worker_group: '${worker_group}'
         loop:
@@ -417,31 +394,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-    - generate_unique_name:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          utils.get_unique_name:
-            - instance_name_prefix
-            - instance_tags_key: '${key_tags_string}'
-            - instance_tags_value: '${value_tags_string}'
-            - worker_group: '${worker_group}'
-        publish:
-          - key_tags_string
-          - value_tags_string
-        navigate:
-          - FAILURE: terminate_instances
-          - SUCCESS: is_instance_name_empty
-    - is_instance_name_empty:
-        worker_group: '${worker_group}'
-        do:
-          strings.string_equals:
-            - first_string: '${key_tags_string}'
-            - second_string: ''
-        navigate:
-          - FAILURE: create_tags
-          - SUCCESS: describe_instances
     - parse_os_type:
         worker_group: '${worker_group}'
         do:
@@ -480,7 +432,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
-            - variable: '${volume_sizes_string}'
+            - variable: '${volume_size}'
             - volume_id_list: '${volume_id_list}'
             - device_name_list: '${device_name_list}'
         publish:
@@ -492,7 +444,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${volume_sizes_string}'
+            - first_string: '${volume_size}'
             - second_string: '0'
         publish: []
         navigate:
@@ -536,7 +488,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${volume_sizes_string}'
+            - list: '${volume_size}'
         publish:
           - volume_size: '${result_string}'
           - return_result
@@ -651,12 +603,60 @@ flow:
           - FAILURE: on_failure
     - set_os_type_unix:
         do:
-          io.cloudslang.base.utils.do_nothing: []
+          io.cloudslang.base.utils.do_nothing:
+            - instance_name: '${value_tags_string}'
         publish:
           - os_type: unix
+          - instance_name
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - create_tags:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.ec2.tags.create_tags:
+            - endpoint: '${provider_sap}'
+            - identity: '${access_key_id}'
+            - credential:
+                value: '${access_key}'
+                sensitive: true
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - resource_ids_string: '${instance_id}'
+            - key_tags_string
+            - value_tags_string
+        publish:
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: describe_instances
+          - FAILURE: terminate_instances
+    - is_instance_name_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${key_tags_string}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: describe_instances
+          - FAILURE: create_tags
+    - generate_unique_name:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.amazon.aws.ec2.utils.get_unique_name:
+            - instance_name_prefix
+            - worker_group: '${worker_group}'
+        publish:
+          - key_tags_string
+          - value_tags_string
+        navigate:
+          - SUCCESS: is_instance_name_empty
+          - FAILURE: terminate_instances
   outputs:
     - instance_id
     - availability_zone_out
@@ -666,6 +666,7 @@ flow:
     - public_dns_name
     - os_type
     - instance_state
+    - instance_name
     - mac_address
     - vpc_id
     - volume_id_list
@@ -731,13 +732,13 @@ extensions:
         x: 1052
         'y': 227
       is_instance_name_empty:
-        x: 583
-        'y': 41
+        x: 601
+        'y': 51
       set_vpc_id:
         x: 2381
         'y': 397
       generate_unique_name:
-        x: 478
+        x: 469
         'y': 228
       set_os_type_unix:
         x: 2680
@@ -780,8 +781,8 @@ extensions:
         x: 1401
         'y': 544
       create_tags:
-        x: 592
-        'y': 231
+        x: 606
+        'y': 224
       check_instance_state_v2:
         x: 325
         'y': 223
@@ -794,3 +795,4 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 322
           'y': 552
+
