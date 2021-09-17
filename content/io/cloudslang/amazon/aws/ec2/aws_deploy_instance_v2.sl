@@ -356,7 +356,7 @@ flow:
             - image_id
             - instance_type
             - subnet_id
-            - delete_on_terminations_string: '${true}'
+            - delete_on_terminations_string: 'true'
             - volume_sizes_string: '${volume_size}'
             - volume_types_string: '${volume_type}'
             - key_pair_name
