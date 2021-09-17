@@ -36,9 +36,6 @@
 #!                   this input and don't supply values for Private IP Addresses string. [EC2-VPC] The ID of the subnet
 #!                   to launch the instance into.
 #! @input instance_name_prefix: The name prefix of the instance.
-#! @input availability_zone: Specifies the placement constraints for launching instance. Amazon automatically selects
-#!                           an availability zone by default.
-#!                           Optional
 #! @input instance_type: Instance type. For more information, see Instance Types in the Amazon Elastic Compute Cloud
 #!                       User Guide.
 #!                       Valid values: t1.micro | t2.nano | t2.micro | t2.small | t2.medium | t2.large | m1.small |
@@ -130,8 +127,6 @@ flow:
     - subnet_id:
         required: true
     - instance_name_prefix:
-        required: true
-    - availability_zone:
         required: true
     - instance_type:
         default: t2.micro
@@ -359,7 +354,6 @@ flow:
             - proxy_password
             - delimiter: ','
             - image_id
-            - availability_zone
             - instance_type
             - subnet_id
             - delete_on_terminations_string: '${true}'
