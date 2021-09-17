@@ -30,7 +30,7 @@
 #!                                  Optional
 #! @input mail_nickname: Required if body not set -The mail alias for the user.
 #!                       Optional
-#! @input force_change_password: In case the value for the input is true, the user must change the password on the next
+#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password on the next
 #!                               login. 
 #!                               Default value: false.
 #!                               NOTE: For Azure B2C tenants, set to false and instead
@@ -149,11 +149,11 @@ operation:
         default: ${get('mail_nickname', '')}  
         required: false 
         private: true 
-    - force_change_password:
+    - force_change_password_next_sign_in:
         default: 'false'
         required: false  
-    - forceChangePassword: 
-        default: ${get('force_change_password', '')}  
+    - forceChangePasswordNextSignIn:
+        default: ${get('forceChangePasswordNextSignIn', '')}
         required: false 
         private: true 
     - password:  
