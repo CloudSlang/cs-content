@@ -606,7 +606,7 @@ flow:
         publish:
           - os_type: unix
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: set_success_message
           - FAILURE: on_failure
     - create_tags:
         worker_group: '${worker_group}'
@@ -654,6 +654,15 @@ flow:
         navigate:
           - SUCCESS: is_instance_name_empty
           - FAILURE: terminate_instances
+    - set_success_message:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: "${'Instance '+instance_id+' created successfully'}"
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - instance_id
     - availability_zone_out
@@ -727,6 +736,13 @@ extensions:
       set_os_type_linux:
         x: 1052
         'y': 227
+      set_success_message:
+        x: 2683
+        'y': 599.171875
+        navigate:
+          b21b24e3-c820-3bb5-5f3a-3cffe567db88:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
       is_instance_name_empty:
         x: 601
         'y': 51
@@ -739,10 +755,6 @@ extensions:
       set_os_type_unix:
         x: 2680
         'y': 404
-        navigate:
-          3491ebeb-bf40-677d-045a-54ddfc67438d:
-            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
-            port: SUCCESS
       set_endpoint:
         x: 28
         'y': 222
@@ -791,3 +803,4 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 322
           'y': 552
+
