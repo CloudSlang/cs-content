@@ -59,7 +59,6 @@
 #!                     Magnetic ("standard") volumes. If you specify a snapshot, the volume size must be equal to or
 #!                     larger than the snapshot size. If you are creating the volume from a snapshot and don't specify
 #!                     a volume size, the default is the snapshot size.
-#!                     Examples: "Not relevant,Not relevant,100"
 #!                     Default: '10'
 #! @input key_pair_name: The name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
 #!                       Important: If you do not specify a key pair, you can't connect to the instance unless you choose
