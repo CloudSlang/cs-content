@@ -178,15 +178,15 @@
 #!                      Default: 'true'
 #!                      Optional
 #!
-#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
-#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
-#! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output instance_id: The id of the instance if async is false.
 #! @output instance_name_out: The name of the instance.
+#! @output instance_id: The id of the instance if async is false.
 #! @output internal_ips: The internal IPs of the instance if async is false.
 #! @output external_ips: The external IPs of the instance if async is false.
 #! @output status: The status of the instance if async is false, otherwise the status of the ZoneOperation.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
+#! @output return_result: Contains the ZoneOperation resource, as a JSON object.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The request for the Instance to be inserted was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -438,15 +438,15 @@ operation:
     method_name: execute
 
   outputs:
-    - return_code: ${returnCode}
-    - return_result: ${returnResult}
-    - exception: ${get('exception', '')}
-    - instance_id: ${get('instanceId', '')}
     - instance_name_out: ${get('instanceName', '')}
+    - instance_id: ${get('instanceId', '')}
     - internal_ips: ${get('internalIps', '')}
     - external_ips: ${get('externalIps', '')}
     - status
     - zone_operation_name: ${get('zoneOperationName', '')}
+    - return_code: ${returnCode}
+    - return_result: ${returnResult}
+    - exception: ${get('exception', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
