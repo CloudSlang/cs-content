@@ -111,7 +111,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC7'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC8'
     class_name: 'io.cloudslang.content.rft.actions.scp.SCPCopyFile'
     method_name: 'execute'
   
