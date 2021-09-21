@@ -13,9 +13,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow terminates an instance. If the resources attached to the instance were created with the
-#!               attribute auto_delete = false, they would be deleted if the attribute delete_all_disk = true,
-#!               otherwise they would be only detached.
+#! @description: This flow terminates an instance. If the resources attached to this instance were created with the
+#!               attribute auto_delete = false, these resources will be deleted only if the attribute
+#!               delete_all_disk= true. If this attribute is set to false, then the resources will be detached
+#!               but not deleted.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: Google Cloud project id.
@@ -47,6 +48,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input timeout: Time in seconds to wait for a connection to be established.
+#!                 default: '300'
 #!                 Optional
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
@@ -83,6 +85,7 @@ flow:
         default: RAS_Operator_Path
         required: false
     - timeout:
+        default: '300'
         required: false
   workflow:
     - get_access_token:
