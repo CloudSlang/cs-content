@@ -146,7 +146,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.2.9-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.3.9-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 
