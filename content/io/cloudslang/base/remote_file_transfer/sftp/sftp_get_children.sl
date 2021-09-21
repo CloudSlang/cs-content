@@ -148,7 +148,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC8'
+    gav: 'io.cloudslang.content:cs-rft:0.1.9-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPGetChildren'
     method_name: 'execute'
 
