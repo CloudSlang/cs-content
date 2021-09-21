@@ -181,7 +181,7 @@
 #! @output instance_name_out: The name of the instance.
 #! @output instance_id: The id of the instance that you get when async is set to false.
 #! @output internal_ips: The internal IPs of the instance that you get when async is set to false.
-#! @output external_ips: The external IPs of the instance that you get when async is set to false..
+#! @output external_ips: The external IPs of the instance that you get when async is set to false.
 #! @output status: The status of the instance if async is false, otherwise the status of the ZoneOperation.
 #! @output zone_operation_name: Contains the ZoneOperation name, if the returnCode is '0', otherwise it is empty.
 #! @output return_result: Contains the ZoneOperation resource, as a JSON object.
