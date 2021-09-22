@@ -54,7 +54,8 @@
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute.compute_engine.instances
-name: get_machine_type
+flow:
+  name: get_machine_type
   inputs:
     - json_token:
         sensitive: true
