@@ -167,34 +167,6 @@ flow:
         navigate:
           - SUCCESS: get_machine_type
           - FAILURE: on_failure
-    - get_machine_type:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          manjooshtest.get_machine_type:
-            - json_token:
-                value: '${json_token}'
-                sensitive: true
-            - project_id: '${project_id}'
-            - zone: '${zone}'
-            - machine_type: '${machine_type}'
-            - scopes: '${scopes}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
-            - connect_timeout: '${timeout}'
-            - trust_all_roots: null
-            - x_509_hostname_verifier: null
-        publish:
-          - self_link
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: random_number_generator
     - insert_instance:
         worker_group: '${worker_group}'
         do:
@@ -237,7 +209,7 @@ flow:
           - zone_out: '${zone}'
         navigate:
           - SUCCESS: set_success_message_for_instance_with_disk_name
-          - FAILURE: undeploy_vm
+          - FAILURE: gcp_undeploy_instance
     - random_number_generator:
         worker_group: '${worker_group}'
         do:
@@ -345,7 +317,7 @@ flow:
           - disk_name_out
         navigate:
           - SUCCESS: attach_disk_to_instance
-          - FAILURE: undeploy_vm
+          - FAILURE: gcp_undeploy_instance
     - attach_disk_to_instance:
         worker_group: '${worker_group}'
         do:
@@ -366,7 +338,7 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: get_disk_size
-          - FAILURE: undeploy_vm
+          - FAILURE: gcp_undeploy_instance
     - check_disk_name_list_is_null:
         worker_group: '${worker_group}'
         do:
@@ -413,38 +385,6 @@ flow:
           - disk_name: '${new_string}'
         navigate:
           - SUCCESS: list_iterator_get_disk_type
-    - undeploy_vm:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          manjooshtest.recheck.undeploy_vm:
-            - json_token:
-                value: '${json_token}'
-                sensitive: true
-            - project_id:
-                value: '${project_id}'
-                sensitive: true
-            - zone: '${zone}'
-            - scopes: '${scopes}'
-            - instance_name: '${instance_name_out}'
-            - delete_all_disks: 'true'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
-            - timeout: '${timeout}'
-            - pretty_print: null
-        publish:
-          - return_code
-          - return_result
-          - exception
-        navigate:
-          - SUCCESS: set_failure_message_for_instance
-          - FAILURE: on_failure
     - set_failure_message_for_instance:
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -568,6 +508,67 @@ flow:
         navigate:
           - SUCCESS: insert_instance
           - FAILURE: on_failure
+    - get_machine_type:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.compute.compute_engine.instances.get_machine_type:
+            - json_token:
+                value: '${json_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - zone: '${zone}'
+            - machine_type: '${machine_type}'
+            - scopes: '${scopes}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+            - connect_timeout: '${timeout}'
+        publish:
+          - self_link
+          - return_code
+          - return_result
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: random_number_generator
+    - gcp_undeploy_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.compute.gcp_undeploy_instance:
+            - json_token:
+                value: '${json_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - zone: '${zone}'
+            - scopes: '${scopes}'
+            - instance_name: '${instance_name_out}'
+            - delete_all_disks: 'true'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+            - timeout: '${timeout}'
+        publish:
+          - return_code
+          - return_result
+          - exception
+        navigate:
+          - SUCCESS: set_failure_message_for_instance
+          - FAILURE: on_failure
   outputs:
     - self_link
     - return_code
@@ -590,8 +591,8 @@ extensions:
   graph:
     steps:
       get_volume_disk_type:
-        x: 457
-        'y': 99
+        x: 474
+        'y': 90
       check_disk_name_type_is_null:
         x: 756
         'y': 283
@@ -619,8 +620,8 @@ extensions:
         x: 1376
         'y': 723
       check_disk_name_list_is_null:
-        x: 749
-        'y': 106
+        x: 758
+        'y': 98
       get_image_type:
         x: 1200
         'y': 79
@@ -634,6 +635,9 @@ extensions:
           d191572d-2ebd-acb5-8365-cdddced8755e:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
             port: SUCCESS
+      gcp_undeploy_instance:
+        x: 210
+        'y': 917
       append_vm_disk_name:
         x: 1365
         'y': 286
@@ -659,7 +663,7 @@ extensions:
             port: SUCCESS
       append_vm_prefix:
         x: 166
-        'y': 89
+        'y': 82
       set_failure_message_for_instance:
         x: 443
         'y': 625
@@ -670,9 +674,6 @@ extensions:
       get_image_type_list:
         x: 1061
         'y': 79
-      undeploy_vm:
-        x: 219
-        'y': 916
       set_success_message_for_instance_with_disk_name:
         x: 625
         'y': 263
@@ -683,11 +684,11 @@ extensions:
         x: 998
         'y': 285
       get_machine_type:
-        x: 15
-        'y': 242
+        x: 14
+        'y': 226.25
       insert_instance:
-        x: 624
-        'y': 95
+        x: 627
+        'y': 85
       get_instance:
         x: 917
         'y': 81
