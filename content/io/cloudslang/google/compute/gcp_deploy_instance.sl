@@ -14,51 +14,54 @@
 ########################################################################################################################
 #!!
 #! @description: This flow deploys an instance in Google cloud. This flow gives the flexibility to attach multiple disks
-#!               that are of different types to the instance.
+#!               that are of different types to this instance.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: Google Cloud project id.
-#!                    Example: "example-project-a"
-#! @input zone: The name of the zone where the Disk resource is located.
-#!              Examples: "us-central1-a", "us-central1-b", "us-central1-c"
-#! @input machine_type: The machine type resource to use for this instance.
-#!                      Example : "n1-standard-1".
+#!                    Example: 'example-project-a'
+#! @input zone: The name of the zone where the disk is located.
+#!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
+#! @input machine_type: The machine type used for this instance.
+#!                      Example : 'n1-standard-1'.
 #! @input scopes: Scopes that you might need to request to access Google Compute APIs, depending on the level of access you need.
 #!                One or more scopes may be specified delimited by the <scopesDelimiter>.
 #!                For a full list of scopes see https://developers.google.com/identity/protocols/googlescopes#computev1
 #!                Note: It is recommended to use the minimum necessary scope in order to perform the requests.
 #!                Example: 'https://www.googleapis.com/auth/compute.readonly'
-#! @input instance_name: Name of the Instance resource to create.
-#! @input volume_disk_source_image: The source image to create this disk.
-#!                                  Example : "https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/image"
+#! @input instance_name: Name of this instance.
+#! @input volume_disk_source_image: The source image required to create a boot disk.
+#!                                  Example : 'https://www.googleapis.com/compute/v1/projects/windows-cloud/global/images/image'
 #! @input volume_disk_size: Specifies the size in GB of the disk on which the system will be installed.
-#! @input instance_description: The description of the new instance.
+#! @input instance_description: The description of this instance.
 #!                              Optional
-#! @input volume_disk_type: Specifies the disk type to use to create the instance.
+#! @input volume_disk_type: Specifies the disk type to use to create this instance.
 #!                          Valid values: pd-ssd,pd-balanced,pd-standard,pd-extreme
 #!                          Optional
-#! @input network: URL of the network resource for this instance. When creating an instance,if neither the network nor
-#!                 the subnetwork is specified, the default network global/networks/default
-#!                 is used; if the network is not specified but the subnetwork is specified, the network is inferred.
+#! @input network: The URL of the network resource for this instance. When creating an instance,if neither the network nor
+#!                 the subnetwork is specified, the default network global/networks/default is used.
+#!                 If the network is not specified but the subnetwork is specified, the network is inferred.
 #!                 This field is optional when creating a firewall rule. If not specified when creating a firewall rule,
 #!                 the default network global/networks/default is used.
-#!                 Example : "https://www.googleapis.com/compute/v1/projects/project/global/networks/network"
+#!                 Example : 'https://www.googleapis.com/compute/v1/projects/project/global/networks/network'
 #!                 Optional
 #! @input sub_network: The URL of the Subnetwork resource for this instance. If the network resource is in legacy mode,
 #!                     do not provide this property. If the network is in auto subnet mode,If the network is in custom subnet mode,
 #!                     then this field should be specified.
-#!                     Example : "https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork"
+#!                     Example : 'https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork'
 #!                     Optional
-#! @input disk_name_list: List of names of the disks provided by the client when the Disks are created.
-#!                        Example : "test1"
+#! @input disk_name_list: A list of disks names. Multiple values should be comma separated.
+#!                        Example : 'test1,test2'
 #!                        Optional
-#! @input disk_type_list: A list of URLs of disk type resources describing which disk type to use to create each disk.
-#!                        Provide this when creating the disks.
+#! @input disk_type_list: A list of disk type resources describing which disk type to use to create each disk.
+#!                        This value must be provided if disk name list is provided. Multiple values should be comma separated.
+#!                        Valid values: pd-ssd,pd-balanced,pd-standard,pd-extreme
+#!                        Example: 'pd-balanced,pd-balanced'
 #!                        Optional
-#! @input disk_size_list: List of sizes of the persistent disks, specified in GB.
+#! @input disk_size_list: A list of persistent disk sizes. Multiple values should be comma separated and specified in GB.
+#!                        Example: '10,10'
 #!                        default: '10'
 #!                        Optional
-#! @input os_type: Type of OS.
+#! @input os_type: Type of operating system.
 #!                 Optional
 #! @input username: Instance username.
 #!                  Optional
@@ -66,7 +69,7 @@
 #!                    Optional
 #! @input proxy_port: The proxy server used to access the provider services.
 #!                    Optional
-#! @input proxy_username: The proxy server user name.
+#! @input proxy_username: The proxy server username.
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
@@ -78,20 +81,20 @@
 #!                 default: '1200'
 #!                 Optional
 #!
-#! @output self_link: The URI of this resource.
+#! @output self_link: The URI of this instance.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
-#! @output zone_operation_name: The zone operation name of the inserted instance.
+#! @output zone_operation_name: The zone operation name of this instance.
 #! @output external_ips: A comma-separated list of external IPs, accessible from outside of the Google Cloud Network, allocated to the instance.
 #! @output internal_ips: A comma-separated list of internal IPs, accessible only from inside of the Google Cloud Network, allocated to the instance.
-#! @output instance_id: The ID of the inserted instance.
-#! @output instance_name_out: The name of the inserted instance.
-#! @output status: The status of the instance.
-#! @output exception: exception if there was an error when executing, empty otherwise
-#! @output return_result: contains the exception in case of failure, success message otherwise
-#! @output disks: A list of all the disks device name that are attached to the instance.
-#! @output vm_name: The name of the inserted instance.
-#! @output image_type: The type of the OS image used on the created instance.
-#! @output zone_out: The zone in which the instance was created.
+#! @output instance_id: The ID of this instance.
+#! @output instance_name_out: The name of this instance.
+#! @output status: The status of this instance.
+#! @output exception: exception if there was an error when executing, empty otherwise.
+#! @output return_result: contains the exception in case of failure, success message otherwise.
+#! @output disks: A list of all the disk device names that are attached to this instance.
+#! @output vm_name: The name of this instance.
+#! @output image_type: The type of the OS image used on this instance.
+#! @output zone_out: The zone in which this instance was created.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute
