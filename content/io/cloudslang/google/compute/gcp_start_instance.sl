@@ -28,7 +28,7 @@
 #! @input instance_name: The name of the instance.
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
-#! @input proxy_port: The proxy server used to access the provider services.
+#! @input proxy_port: The proxy server port.
 #!                    Optional
 #! @input proxy_username: The proxy server username.
 #!                        Optional
@@ -56,6 +56,7 @@
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute
+
 flow:
   name: gcp_start_instance
   inputs:
