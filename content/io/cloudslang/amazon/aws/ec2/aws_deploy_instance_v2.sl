@@ -598,14 +598,14 @@ flow:
             - ignore_case: 'true'
         navigate:
           - SUCCESS: set_os_type_unix
-          - FAILURE: on_failure
+          - FAILURE: set_os_type_windows
     - set_os_type_unix:
         do:
           io.cloudslang.base.utils.do_nothing: []
         publish:
           - os_type: unix
         navigate:
-          - SUCCESS: set_success_message
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - create_tags:
         worker_group: '${worker_group}'
@@ -653,12 +653,11 @@ flow:
         navigate:
           - SUCCESS: is_instance_name_empty
           - FAILURE: terminate_instances
-    - set_success_message:
+    - set_os_type_windows:
         do:
-          io.cloudslang.base.utils.do_nothing:
-            - return_result: "${'Instance '+instance_id+' created successfully'}"
+          io.cloudslang.base.utils.do_nothing: []
         publish:
-          - return_result
+          - os_type: windows
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -735,13 +734,6 @@ extensions:
       set_os_type_linux:
         x: 1052
         'y': 227
-      set_success_message:
-        x: 2683
-        'y': 599.171875
-        navigate:
-          b21b24e3-c820-3bb5-5f3a-3cffe567db88:
-            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
-            port: SUCCESS
       is_instance_name_empty:
         x: 601
         'y': 51
@@ -754,6 +746,10 @@ extensions:
       set_os_type_unix:
         x: 2680
         'y': 404
+        navigate:
+          3491ebeb-bf40-677d-045a-54ddfc67438d:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
       set_endpoint:
         x: 28
         'y': 222
@@ -790,6 +786,13 @@ extensions:
       create_tags:
         x: 606
         'y': 224
+      set_os_type_windows:
+        x: 2689
+        'y': 566
+        navigate:
+          3980de49-51f9-fe6d-0a42-ffa2f571cf9c:
+            targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
+            port: SUCCESS
       check_instance_state_v2:
         x: 325
         'y': 223
