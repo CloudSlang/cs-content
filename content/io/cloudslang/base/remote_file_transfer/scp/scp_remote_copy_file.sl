@@ -163,7 +163,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.94-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.98-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.scp.SCPRemoteCopyFile'
     method_name: 'execute'
   
