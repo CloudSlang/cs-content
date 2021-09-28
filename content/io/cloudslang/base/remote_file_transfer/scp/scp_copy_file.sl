@@ -1,3 +1,16 @@
+#   (c) Copyright 2021 Micro Focus
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an 'AS IS' BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: Copy files to and from remote machine through SSH.
@@ -18,6 +31,10 @@
 #! @input proxy_port: The proxy server port.
 #!                    Default value: 8080
 #!                    Optional
+#! @input proxy_username: The username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: The password used when connecting to the proxy.
+#!                        Optional
 #! @input known_hosts_policy: Optional - Policy used for managing known_hosts file. Valid: 'allow', 'strict', 'add'
 #!                            Default value: allow
 #!                            Optional
@@ -89,7 +106,21 @@ operation:
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
-        private: true 
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+        sensitive: true
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
+        sensitive: true
     - known_hosts_policy:
         default: 'allow'
         required: false  
@@ -111,7 +142,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.93-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC12'
     class_name: 'io.cloudslang.content.rft.actions.scp.SCPCopyFile'
     method_name: 'execute'
   
