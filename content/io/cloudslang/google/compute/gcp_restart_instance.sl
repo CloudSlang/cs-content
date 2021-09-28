@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow is used to start the instance.
+#! @description: This workflow is used to restart the instance.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: Google Cloud project id.
@@ -51,14 +51,14 @@
 #! @output exception: exception if there was an error when executing, empty otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #!
-#! @result FAILURE: There was an error while trying to start the instance.
-#! @result SUCCESS: The instance started successfully.
+#! @result FAILURE: There was an error while trying to restart the instance.
+#! @result SUCCESS: The instance restarted successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute
 
 flow:
-  name: gcp_start_instance
+  name: gcp_restart_instance
   inputs:
     - json_token:
         sensitive: true
@@ -106,6 +106,51 @@ flow:
         navigate:
           - SUCCESS: get_instance
           - FAILURE: on_failure
+    - get_instance_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.compute.compute_engine.instances.get_instance:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id: '${project_id}'
+            - zone: '${zone}'
+            - instance_name: '${instance_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+        publish:
+          - status
+          - return_code
+          - return_result
+          - exception
+          - external_ips
+        navigate:
+          - SUCCESS: is_instance_running
+          - FAILURE: on_failure
+    - sleep:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '${polling_interval}'
+        navigate:
+          - SUCCESS: get_instance_details
+          - FAILURE: on_failure
+    - is_instance_running:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status}'
+            - second_string: RUNNING
+            - ignore_case: 'true'
+        publish:
+          - status: Running
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: sleep
     - get_instance:
         worker_group: '${worker_group}'
         do:
@@ -138,18 +183,8 @@ flow:
             - second_string: RUNNING
             - ignore_case: 'true'
         navigate:
-          - SUCCESS: set_failure_message_for_instance
+          - SUCCESS: stop_instance
           - FAILURE: start_instance
-    - set_failure_message_for_instance:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - instance_name: '${instance_name}'
-        publish:
-          - output: "${\"Cannot start the instance \\\"\"+instance_name+\"\\\"  because it's not stopped.\"}"
-        navigate:
-          - SUCCESS: get_instance_details
-          - FAILURE: on_failure
     - start_instance:
         worker_group: '${worker_group}'
         do:
@@ -176,7 +211,33 @@ flow:
         navigate:
           - SUCCESS: get_instance_details
           - FAILURE: on_failure
-    - get_instance_details:
+    - stop_instance:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.compute.compute_engine.instances.stop_instance:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id: '${project_id}'
+            - zone: '${zone}'
+            - instance_name: '${instance_name}'
+            - timeout: '${timeout}'
+            - polling_interval: '${polling_interval}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+        publish:
+          - status
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: get_instance_details_1
+          - FAILURE: on_failure
+    - get_instance_details_1:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.google.compute.compute_engine.instances.get_instance:
@@ -194,33 +255,32 @@ flow:
                 sensitive: true
         publish:
           - status
-          - return_code
-          - return_result
-          - exception
           - external_ips
+          - return_result
+          - return_code
+          - exception
         navigate:
-          - SUCCESS: compare_power_state
+          - SUCCESS: check_if_instance_is_in_stopped_state
           - FAILURE: on_failure
-    - sleep:
+    - check_if_instance_is_in_stopped_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status}'
+            - second_string: TERMINATED
+            - ignore_case: 'true'
+        publish: []
+        navigate:
+          - SUCCESS: start_instance
+          - FAILURE: sleep_1
+    - sleep_1:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '${polling_interval}'
         navigate:
-          - SUCCESS: get_instance_details
+          - SUCCESS: get_instance_details_1
           - FAILURE: on_failure
-    - compare_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${status}'
-            - second_string: RUNNING
-            - ignore_case: 'true'
-        publish:
-          - status: Running
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: sleep
   outputs:
     - external_ips
     - status
@@ -233,37 +293,46 @@ flow:
 extensions:
   graph:
     steps:
-      get_access_token:
-        x: 48
-        'y': 125
-      get_instance:
-        x: 197
-        'y': 129
-      check_if_instance_is_in_running_state:
-        x: 375
-        'y': 130
-      set_failure_message_for_instance:
-        x: 376
-        'y': 339
-      start_instance:
-        x: 539
-        'y': 126
       get_instance_details:
-        x: 691
-        'y': 128
-      sleep:
-        x: 875
-        'y': 341
-      compare_power_state:
-        x: 871
-        'y': 137
+        x: 732
+        'y': 111
+      get_access_token:
+        x: 42
+        'y': 108
+      sleep_1:
+        x: 572
+        'y': 451
+      is_instance_running:
+        x: 923
+        'y': 120
         navigate:
           649043f8-1950-152b-2ddf-858591e896eb:
             targetId: e104c40a-d81e-dbcf-ed47-b859689c4260
             port: SUCCESS
+      check_if_instance_is_in_running_state:
+        x: 395
+        'y': 103
+      stop_instance:
+        x: 403
+        'y': 281
+      start_instance:
+        x: 565
+        'y': 106
+      get_instance_details_1:
+        x: 408
+        'y': 438
+      sleep:
+        x: 928
+        'y': 303
+      check_if_instance_is_in_stopped_state:
+        x: 574
+        'y': 281
+      get_instance:
+        x: 222
+        'y': 103
     results:
       SUCCESS:
         e104c40a-d81e-dbcf-ed47-b859689c4260:
-          x: 1052
-          'y': 145
+          x: 1112
+          'y': 123
 
