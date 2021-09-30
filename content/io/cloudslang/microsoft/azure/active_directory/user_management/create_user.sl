@@ -260,9 +260,9 @@ operation:
         default: ${get('response_character_set', '')}  
         required: false 
         private: true 
-    
+
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC3'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.3.1-SNAPSHOT'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
