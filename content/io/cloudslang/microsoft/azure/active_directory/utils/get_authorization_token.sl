@@ -62,10 +62,11 @@ operation:
   name: get_authorization_token
   
   inputs: 
-    - login_type:  
+    - login_type:
+        default: 'API'
         required: false  
     - loginType: 
-        default: ${get('login_type', '')}  
+        default: ${get('login_type', '')}
         required: false 
         private: true 
     - client_id    
@@ -92,7 +93,7 @@ operation:
         required: false 
         private: true 
     - scope:
-        default: ${get('scope', 'https://graph.microsoft.com/.default')}
+        default: 'https://graph.microsoft.com/.default'
         required: false  
     - proxy_host:  
         required: false  
@@ -122,7 +123,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.2-SNAPSHOT'
     class_name: 'io.cloudslang.content.microsoftAD.actions.utils.GetAuthorizationToken'
     method_name: 'execute'
   
