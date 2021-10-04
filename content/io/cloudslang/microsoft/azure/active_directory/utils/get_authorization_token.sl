@@ -123,7 +123,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.4-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC7'
     class_name: 'io.cloudslang.content.microsoftAD.actions.utils.GetAuthorizationToken'
     method_name: 'execute'
   
