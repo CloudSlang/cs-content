@@ -56,7 +56,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.utils
+namespace: io.cloudslang.microsoft.azure.active_directory.utils
 
 operation: 
   name: get_authorization_token

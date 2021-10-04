@@ -89,7 +89,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoft.azure.active_directory.user_management
 
 operation: 
   name: is_user_enabled
