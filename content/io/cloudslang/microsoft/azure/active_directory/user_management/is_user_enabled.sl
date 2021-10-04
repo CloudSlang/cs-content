@@ -208,7 +208,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC7'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC8'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.IsUserEnabled'
     method_name: 'execute'
   
