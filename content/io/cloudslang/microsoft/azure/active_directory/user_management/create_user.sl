@@ -92,13 +92,6 @@
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default value: UTF-8
-#!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response.
 #! @output return_code: 0 if success, -1 if failure.
@@ -252,17 +245,10 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true 
-    - response_character_set:
-        default: 'UTF-8'
-        required: false  
-    - responseCharacterSet: 
-        default: ${get('response_character_set', '')}  
-        required: false 
-        private: true 
+        private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC8'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC9'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
