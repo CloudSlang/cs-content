@@ -39,7 +39,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.rft.sftp
+namespace: io.cloudslang.base.remote_file_transfer.sftp
 
 operation: 
   name: sftp_delete_directory
