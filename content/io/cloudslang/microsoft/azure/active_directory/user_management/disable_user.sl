@@ -91,8 +91,9 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
-        required: false  
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
@@ -117,7 +118,8 @@ operation:
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -137,19 +139,22 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - connect_timeout:  
+    - connect_timeout:
+        default: '0'
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - socket_timeout:  
+    - socket_timeout:
+        default: '0'
         required: false  
     - socketTimeout: 
         default: ${get('socket_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
