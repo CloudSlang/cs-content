@@ -146,7 +146,7 @@ operation:
         default: 'false'
         required: false  
     - forceChangePasswordNextSignIn:
-        default: ${get('forceChangePasswordNextSignIn', '')}
+        default: ${get('force_change_password_next_sign_in', '')}
         required: false 
         private: true 
     - password:  
