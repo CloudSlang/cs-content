@@ -583,6 +583,7 @@ flow:
             - json_path: $.selfLink
         publish:
           - self_link: '${return_result}'
+          - status: Running
         navigate:
           - SUCCESS: format_self_link
           - FAILURE: on_failure
