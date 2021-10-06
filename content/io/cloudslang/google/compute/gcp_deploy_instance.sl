@@ -582,7 +582,7 @@ flow:
             - json_object: '${instance_image_details}'
             - json_path: $.selfLink
         publish:
-          - self_link: '${return_result}'
+          - self_link: '${return_result.replace("[","").replace("]","")}'
         navigate:
           - SUCCESS: get_image_type_list
           - FAILURE: on_failure
