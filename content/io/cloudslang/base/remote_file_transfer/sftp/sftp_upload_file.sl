@@ -22,7 +22,10 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_location: The remote location where the file is to be placed.
+#! @input remote_location: The remote destination file name. If the ‘ChrootDirectory’ of the SFTP server is set, then
+#!                         the file will be uploaded in the given path otherwise it will be saved in the user's root
+#!                         folder. For more details about how to configure a SFTP server and how to set the
+#!                         ‘ChrootDirectory’ check the usage section from the CP's release notes.
 #! @input local_file: The local file path to be copied remotely using SFTP.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
