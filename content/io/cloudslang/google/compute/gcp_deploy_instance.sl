@@ -582,7 +582,19 @@ flow:
             - json_object: '${instance_image_details}'
             - json_path: $.selfLink
         publish:
-          - self_link: '${return_result.replace("[","").replace("]","")}'
+          - self_link: '${return_result}'
+        navigate:
+          - SUCCESS: format_self_link
+          - FAILURE: on_failure
+    - format_self_link:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.search_and_replace:
+            - origin_string: '${self_link}'
+            - text_to_replace: '"'
+            - replace_with: ' '
+        publish:
+          - self_link: '${replaced_string}'
         navigate:
           - SUCCESS: get_image_type_list
           - FAILURE: on_failure
@@ -639,15 +651,18 @@ extensions:
       check_disk_name_list_is_null:
         x: 864
         'y': 102
+      format_self_link:
+        x: 1332
+        'y': 99
       get_image_type:
-        x: 1483
-        'y': 102
+        x: 1647
+        'y': 95
       get_access_token:
         x: 15
         'y': 429
       reset_windows_password:
-        x: 1838
-        'y': 94
+        x: 2003
+        'y': 92
         navigate:
           d191572d-2ebd-acb5-8365-cdddced8755e:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
@@ -679,8 +694,8 @@ extensions:
             targetId: 9f8b2def-2919-d5f7-c843-ee45bb32d29d
             port: NO_MORE
       set_success_message_for_unix_os:
-        x: 1850
-        'y': 279
+        x: 2013
+        'y': 236
         navigate:
           7c1c0664-c0b0-9c5e-8829-c27625f86cd5:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
@@ -696,8 +711,8 @@ extensions:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
             port: SUCCESS
       get_image_type_list:
-        x: 1329
-        'y': 101
+        x: 1488
+        'y': 90
       set_success_message_for_instance_with_disk_name:
         x: 676
         'y': 261
@@ -724,13 +739,13 @@ extensions:
         x: 1026
         'y': 101
       os_platform_is_windows:
-        x: 1651
-        'y': 94
+        x: 1818
+        'y': 96
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 2000
-          'y': 95
+          x: 2162
+          'y': 93
         9f8b2def-2919-d5f7-c843-ee45bb32d29d:
           x: 1246
           'y': 635
