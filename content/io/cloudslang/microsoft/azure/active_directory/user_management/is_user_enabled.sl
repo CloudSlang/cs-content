@@ -18,6 +18,7 @@
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_principal_name: The user principal name. 
 #!                             Example: someuser@contoso.com
+#!                             User principal name and user id are mutually exclusive
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
