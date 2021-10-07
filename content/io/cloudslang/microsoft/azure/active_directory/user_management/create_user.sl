@@ -66,7 +66,7 @@
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
 #!                                 Default: strict
-#!                                 Valid values: strict,browser_compatible,allow_all
+#!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
