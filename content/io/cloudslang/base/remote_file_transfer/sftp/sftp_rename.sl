@@ -34,7 +34,9 @@
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
 #! @input remote_path: The remote file or directory to rename.
+#!                     Example: /C:/Users/Administrator/oldName.xls
 #! @input new_remote_path: The new name for the remote file or directory.
+#!                         Example: /C:/Users/Administrator/newName.xls
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Default value: UTF-8
