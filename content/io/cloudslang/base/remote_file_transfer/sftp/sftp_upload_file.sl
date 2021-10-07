@@ -22,11 +22,12 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_location: The remote destination file name. If the ‘ChrootDirectory’ of the SFTP server is set, then
-#!                         the file will be uploaded in the given path otherwise it will be saved in the user's root
-#!                         folder. For more details about how to configure a SFTP server and how to set the
-#!                         ‘ChrootDirectory’ check the usage section from the CP's release notes.
-#! @input local_file: The local file path to be copied remotely using SFTP.
+#! @input remote_path: The remote directory path, the remote location where the file will be uploaded.
+#!                     Examples: C:/Users/Administrator, root/test
+#! @input local_path: The local directory path of the file that will be copied.
+#!                    Examples: C:/Users/Administrator, root/test
+#! @input local_file: The file to be copied remotely using SFTP.
+#!                    Example: test.txt
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -77,9 +78,14 @@ operation:
     - username
     - password:
         sensitive: true
-    - remote_location
-    - remoteLocation:
-        default: ${get('remote_location', '')}
+    - remote_path
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - local_path
+    - localPath:
+        default: ${get('local_path', '')}
         required: false
         private: true
     - local_file
@@ -156,7 +162,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC13'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-SNAPSHOT'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   
