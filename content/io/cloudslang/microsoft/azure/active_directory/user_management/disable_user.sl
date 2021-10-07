@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a user from Active Directory. When deleted, user resources are moved to a temporary container
-#!               and can be restored within 30 days. After that time, they are permanently deleted.
+#! @description: Disable a user from Active Directory.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_principal_name: The user principal name. 
@@ -79,15 +78,15 @@
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The user was successfully deleted.
-#! @result FAILURE: There was an error while trying to delete user.
+#! @result SUCCESS: The user was successfully disabled.
+#! @result FAILURE: There was an error while trying to disable user.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
-  name: delete_user
+  name: disable_user
   
   inputs: 
     - auth_token    
@@ -134,7 +133,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
@@ -193,11 +193,11 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC10'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DisableUser'
     method_name: 'execute'
   
   outputs: 

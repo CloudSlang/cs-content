@@ -66,7 +66,7 @@
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
 #!                                 Default: strict
-#!                                 Valid values: strict,browser_compatible,allow_all
+#!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -248,7 +248,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC9'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC10'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
