@@ -21,9 +21,14 @@
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file
-#! @input remote_file: The remote file.
-#! @input local_location: The location where file is to be placed.
+#!                  file.
+#! @input remote_file: The file to be downloaded remotely using SFTP.
+#!                     Example: file.txt
+#! @input remote_path: The remote directory path, the remote location from where the file will be downloaded.
+#!                     Examples: C:/Users/Administrator, root/test
+#!                     Optional
+#! @input local_path: The local directory path where the file will be downloaded.
+#!                    Examples: C:/Users/Administrator, root/test
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -78,9 +83,14 @@ operation:
         default: ${get('remote_file', '')}
         required: false
         private: true
-    - local_location
-    - localLocation:
-        default: ${get('local_location', '')}
+    - remote_path
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - local_path
+    - localPath:
+        default: ${get('local_path', '')}
         required: false
         private: true
     - proxy_host:
@@ -146,7 +156,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC15'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 

@@ -21,7 +21,7 @@
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file
+#!                  file.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -33,10 +33,16 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The remote file or directory to rename.
-#!                     Example: /C:/Users/Administrator/oldName.xls
-#! @input new_remote_path: The new name for the remote file or directory.
-#!                         Example: /C:/Users/Administrator/newName.xls
+#! @input remote_path: The remote file path containing the file or directory that will be renamed.
+#!                     Examples: C:/Users/Administrator, root/test
+#!                     Optional
+#! @input remote_file: The name of the file or directory that will be renamed.
+#!                     Examples: file.txt
+#! @input new_remote_path: The new name of the file or directory path containing the file that will be renamed.
+#!                         Examples: C:/Users/Administrator, root/test
+#!                         Optional
+#! @input new_remote_file: The new file or directory name.
+#!                         Examples: file.txt
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Default value: UTF-8
@@ -109,14 +115,26 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path    
-    - remotePath: 
-        default: ${get('remote_path', '')}  
-        required: false 
-        private: true 
-    - new_remote_path    
-    - newRemotePath: 
-        default: ${get('new_remote_path', '')}  
+    - remote_path:
+        required: false
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - remote_file
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
+    - new_remote_path:
+        required: false
+    - newRemotePath:
+        default: ${get('new_remote_path', '')}
+        required: false
+        private: true
+    - new_remote_file
+    - newRemoteFile:
+        default: ${get('new_remote_file', '')}
         required: false 
         private: true 
     - character_set:
@@ -149,7 +167,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC15'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPRename'
     method_name: 'execute'
   

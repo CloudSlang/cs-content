@@ -1,31 +1,16 @@
-#   (c) Copyright 2021 Micro Focus
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an 'AS IS' BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
-#! @description: Deletes a directory remotely using Secure FTP (SFTP).
+#! @description: Generated description.
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
-#!              Default value: 22
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file.
+#!                  file
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value: 8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -33,25 +18,27 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The path to the remote directory that will be deleted.
-#!                     Examples: C:/Users/Administrator, root/test
+#! @input command_type: The command type
+#!                      Optional
+#! @input remote_path: The full path of the remote file or directory name.
 #!                     Optional
-#! @input remote_file: The name of the directory that will be deleted.
-#!                     Examples: file.txt
-#! @input character_set: The name of the control encoding to use.
-#!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default value: UTF-8
+#! @input new_remote_path: The new name for the remote file or directory.
+#! @input mode: New numeric mode for remote file or directory.  First digit is for everyone, second digit is for group,
+#!              third digit is for owner.  Setuid, Setgid, and Sticky bits are not supported via SFTP.  Examples: 765
+#!              (rwx,rw-,r-x), 432 (r--,-wx,-w-), 100 (--x,---,---).
+#!              Optional
+#! @input gid: New numeric group id for remote file or directory.
+#!             Optional
+#! @input uid: Numeric user id of the new owner for the remote file or directory.
+#!             Optional
+#! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
-#!                       session can be reused by other SFTP commands in the same flow.
-#!                       Valid values: true, false.
-#!                       Default value: true
+#!                       session can be reused by other SFTP commands in the same flow.  Valid values: true, false.
 #!                       Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
-#!                            Default value: 60
 #!                            Optional
 #! @input execution_timeout: Time in seconds to wait for the operation to complete.
-#!                           Default value: 60
 #!                           Optional
 #!
 #! @output return_result: This is the primary output and it contains the success message if the operation successfully
@@ -59,20 +46,19 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: Directory was deleted successfully.
-#! @result FAILURE: The directory could not be deleted.
+#! @result SUCCESS: Command completed successfully.
+#! @result FAILURE: Command failed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.rft.sftp
 
 operation: 
-  name: sftp_delete_directory
+  name: sftp_command
   
   inputs: 
-    - host    
+    - host
     - port:
-        default: '22'
         required: false  
     - username    
     - password:    
@@ -83,8 +69,7 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:
-        default: '8080'
+    - proxy_port:  
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -110,39 +95,48 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path:
-        required: false
-    - remotePath:
-        default: ${get('remote_path', '')}
-        required: false
-        private: true
-    - remote_file
-    - remoteFile:
-        default: ${get('remote_file', '')}
+    - command_type:  
+        required: false  
+    - commandType: 
+        default: ${get('command_type', '')}  
         required: false 
         private: true 
+    - remote_path:  
+        required: false  
+    - remotePath: 
+        default: ${get('remote_path', '')}  
+        required: false 
+        private: true 
+    - new_remote_path
+    - newRemotePath:
+        default: ${get('new_remote_path', '')}  
+        required: false 
+        private: true 
+    - mode:  
+        required: false  
+    - gid:  
+        required: false  
+    - uid:  
+        required: false  
     - character_set:  
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  
         required: false 
         private: true 
-    - close_session:
-        default: 'true'
+    - close_session:  
         required: false  
     - closeSession: 
         default: ${get('close_session', '')}  
         required: false 
         private: true 
-    - connection_timeout:
-        default: '60'
+    - connection_timeout:  
         required: false  
     - connectionTimeout: 
         default: ${get('connection_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:
-        default: '60'
+    - execution_timeout:  
         required: false  
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
@@ -151,7 +145,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteDirectory'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPCommand'
     method_name: 'execute'
   
   outputs: 

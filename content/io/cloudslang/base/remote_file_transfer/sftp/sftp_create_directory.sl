@@ -21,7 +21,7 @@
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file
+#!                  file.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -33,7 +33,11 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The path of the remote directory to create.
+#! @input remote_path: The path where the remote directory will be created.
+#!                     Examples: C:/Users/Administrator, root/test
+#!                     Optional
+#! @input remote_file: The name of the directory that will be created.
+#!                     Examples: file
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default value: UTF-8
@@ -64,12 +68,12 @@ operation:
   name: sftp_create_directory
   
   inputs: 
-    - host    
+    - host
     - port:
         default: '22'
         required: false  
-    - username    
-    - password:    
+    - username
+    - password:
         sensitive: true
     - proxy_host:  
         required: false  
@@ -104,11 +108,17 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path    
-    - remotePath: 
-        default: ${get('remote_path', '')}  
-        required: false 
-        private: true 
+    - remote_path:
+        required: false
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - remote_file
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
     - character_set:
         default: 'UTF-8'
         required: false  
@@ -139,7 +149,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC15'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPCreateDirectory'
     method_name: 'execute'
   
