@@ -1,13 +1,13 @@
 ########################################################################################################################
 #!!
-#! @description: Generated description.
+#! @description: Executes one of the following commands: chmod, chgrp, chown, rename.
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file
+#!                  file.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -18,23 +18,26 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input command_type: The command type
+#! @input command_type: The command type.
 #!                      Optional
 #! @input remote_path: The full path of the remote file or directory name.
 #!                     Optional
 #! @input new_remote_path: The new name for the remote file or directory.
 #! @input mode: New numeric mode for remote file or directory.  First digit is for everyone, second digit is for group,
-#!              third digit is for owner.  Setuid, Setgid, and Sticky bits are not supported via SFTP.  Examples: 765
-#!              (rwx,rw-,r-x), 432 (r--,-wx,-w-), 100 (--x,---,---).
+#!              third digit is for owner.  Setuid, Setgid, and Sticky bits are not supported via SFTP.
+#!              Examples: 765 (rwx,rw-,r-x), 432 (r--,-wx,-w-), 100 (--x,---,---).
 #!              Optional
 #! @input gid: New numeric group id for remote file or directory.
 #!             Optional
 #! @input uid: Numeric user id of the new owner for the remote file or directory.
 #!             Optional
-#! @input character_set: The name of the control encoding to use. Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
+#! @input character_set: The name of the control encoding to use.
+#!                       Examples: UTF-8, EUC-JP, SJIS.
+#!                       Default is UTF-8.
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
-#!                       session can be reused by other SFTP commands in the same flow.  Valid values: true, false.
+#!                       session can be reused by other SFTP commands in the same flow.
+#!                       Valid values: true, false.
 #!                       Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
 #!                            Optional
