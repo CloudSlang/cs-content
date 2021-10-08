@@ -25,8 +25,10 @@
 #! @input source_private_key_file: Absolute path of the private key file for public/private key authentication
 #!                                 on the source host.
 #!                                 Optional
-#! @input source_path: The absolute path to the source file. For the SFTP protocol please use a relative path to the SFTP
-#!                     server root directory.
+#! @input source_path: The absolute path to the source file. When using SMB3 the destination path should start with the
+#!                     samba shared folder.
+#!                     For more details about how to configure the samba shared folder check the usage section from the
+#!                     CP's release notes.
 #! @input source_protocol: The protocol used to copy from the source file.
 #!                         Valid values: local, SCP, SFTP, SMB3.
 #! @input source_character_set: The name of the control encoding to use with source host for SFTP protocol.
@@ -43,9 +45,10 @@
 #! @input destination_private_key_file: Absolute path of the private key file for public/private key authentication
 #!                                      on the destination host.
 #!                                      Optional
-#! @input destination_path: The absolute path to the destination file.
-#!                          When using the protocol SMB33 the destination path should start with the samba shared folder.
-#!                          Example: sambaSharedFolder\folder1\folder2\file.
+#! @input destination_path: The absolute path to the destination file. When using the SMB3 protocol the destination
+#!                          path should start with the samba shared folder.
+#!                          For more details about how to configure the samba shared folder check the usage section from
+#!                          the CP's release notes.
 #! @input destination_protocol: The protocol used to copy to the destination file.
 #!                              Valid value: local, SCP, SFTP, SMB3.
 #! @input destination_character_set: The name of the control encoding to use with destination host for SFTP protocol.
@@ -186,7 +189,7 @@ operation:
         private: true
         
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC13'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
     class_name: io.cloudslang.content.rft.actions.RemoteCopyAction
     method_name: execute
 

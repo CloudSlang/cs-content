@@ -21,9 +21,8 @@
 #!              Optional
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
-#!                  file
+#!                  file.
 #! @input remote_path: The remote file or directory name.
-#!                     Optional
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -148,7 +147,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC13'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPGetChildren'
     method_name: 'execute'
 

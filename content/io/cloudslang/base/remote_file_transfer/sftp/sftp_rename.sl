@@ -13,19 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Copy files to and from remote machine through SSH.
+#! @description: Renames a file or directory remotely using Secure FTP (SFTP).
 #!
 #! @input host: IP address/host name.
-#! @input port: The port number to connect to.
+#! @input port: The port to connect to on host.
 #!              Default value: 22
 #!              Optional
 #! @input username: Remote username.
-#! @input password: Password of user. If using a private key file this will be used as the passphrase for the file.
-#! @input local_file: Absolute path to the local file. This path is relative to the host that the operation is running
-#!                    on.
-#! @input copy_action: To/From copy action.
-#!                     Valid values: to, from
-#! @input remote_file: Absolute path to remote file.
+#! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
+#!                  file.
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -35,13 +31,27 @@
 #!                        Optional
 #! @input proxy_password: The password used when connecting to the proxy.
 #!                        Optional
-#! @input known_hosts_policy: Optional - Policy used for managing known_hosts file. Valid: 'allow', 'strict', 'add'
-#!                            Default value: allow
-#!                            Optional
-#! @input known_hosts_path: Path to the known_hosts file.
-#!                          Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
+#! @input remote_path: The remote file path containing the file or directory that will be renamed.
+#!                     Examples: C:/Users/Administrator, root/test
+#!                     Optional
+#! @input remote_file: The name of the file or directory that will be renamed.
+#!                     Examples: file.txt
+#! @input new_remote_path: The new name of the file or directory path containing the file that will be renamed.
+#!                         Examples: C:/Users/Administrator, root/test
+#!                         Optional
+#! @input new_remote_file: The new file or directory name.
+#!                         Examples: file.txt
+#! @input character_set: The name of the control encoding to use.
+#!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
+#!                       Default value: UTF-8
+#!                       Optional
+#! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
+#!                       session can be reused by other SFTP commands in the same flow.
+#!                       Valid values: true, false.
+#!                       Default value: true
+#!                       Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
 #!                            Default value: 60
 #!                            Optional
@@ -54,15 +64,15 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: The file was copied successfully.
-#! @result FAILURE: The file could not be copied.
+#! @result SUCCESS: Remote file or directory will be renamed.
+#! @result FAILURE: Remote file or directory couldn't be renamed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.scp
+namespace: io.cloudslang.base.remote_file_transfer.sftp
 
 operation: 
-  name: scp_copy_file
+  name: sftp_rename
   
   inputs: 
     - host    
@@ -70,30 +80,8 @@ operation:
         default: '22'
         required: false  
     - username    
-    - password:  
-        required: false  
+    - password:    
         sensitive: true
-    - private_key:
-        required: false
-    - privateKey:
-        default: ${get('private_key', '')}
-        required: false
-        private: true
-    - local_file
-    - localFile: 
-        default: ${get('local_file', '')}  
-        required: false 
-        private: true 
-    - copy_action    
-    - copyAction: 
-        default: ${get('copy_action', '')}  
-        required: false 
-        private: true 
-    - remote_file    
-    - remoteFile: 
-        default: ${get('remote_file', '')}  
-        required: false 
-        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -106,30 +94,67 @@ operation:
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
-        private: true
-    - proxy_username:
-        required: false
-    - proxyUsername:
-        default: ${get('proxy_username', '')}
-        required: false
-        private: true
-    - proxy_password:
-        required: false
-        sensitive: true
-    - proxyPassword:
-        default: ${get('proxy_password', '')}
-        required: false
-        private: true
-        sensitive: true
-    - known_hosts_policy:
-        default: 'allow'
+        private: true 
+    - proxy_username:  
         required: false  
-    - known_hosts_path:  
+    - proxyUsername: 
+        default: ${get('proxy_username', '')}  
+        required: false 
+        private: true 
+    - proxy_password:  
+        required: false  
+        sensitive: true
+    - proxyPassword: 
+        default: ${get('proxy_password', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - private_key:  
+        required: false  
+    - privateKey: 
+        default: ${get('private_key', '')}  
+        required: false 
+        private: true 
+    - remote_path:
         required: false
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - remote_file
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
+    - new_remote_path:
+        required: false
+    - newRemotePath:
+        default: ${get('new_remote_path', '')}
+        required: false
+        private: true
+    - new_remote_file
+    - newRemoteFile:
+        default: ${get('new_remote_file', '')}
+        required: false 
+        private: true 
+    - character_set:
+        default: 'UTF-8'
+        required: false  
+    - characterSet: 
+        default: ${get('character_set', '')}  
+        required: false 
+        private: true 
+    - close_session:
+        default: 'true'
+        required: false  
+    - closeSession: 
+        default: ${get('close_session', '')}  
+        required: false 
+        private: true 
     - connection_timeout:
         default: '60'
         required: false  
-    - connectionTimeout:
+    - connectionTimeout: 
         default: ${get('connection_timeout', '')}  
         required: false 
         private: true 
@@ -143,7 +168,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
-    class_name: 'io.cloudslang.content.rft.actions.scp.SCPCopyFile'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPRename'
     method_name: 'execute'
   
   outputs: 
