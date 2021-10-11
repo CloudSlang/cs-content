@@ -124,8 +124,8 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC10'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.utils.GetAuthorizationToken'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.011-SNAPSHOT'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.authorization.GetAuthorizationToken'
     method_name: 'execute'
   
   outputs: 
