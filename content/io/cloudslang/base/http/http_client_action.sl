@@ -271,7 +271,7 @@ operation:
     - keep_alive:
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "true")}
+        default: ${get("keep_alive", "false")}
         private: true
     - connections_max_per_root:
         required: false

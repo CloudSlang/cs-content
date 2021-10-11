@@ -151,6 +151,12 @@ flow:
     - socket_timeout:
         default: '0'
         required: false
+    - keep_alive:
+        required: false
+    - connections_max_per_root:
+        required: false
+    - connections_max_total:
+        required: false
     - request_character_set:
         required: false
     - headers:
@@ -189,6 +195,9 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - keep_alive
+            - connections_max_per_root
+            - connections_max_total
             - request_character_set
             - headers
             - query_params
