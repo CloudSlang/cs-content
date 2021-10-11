@@ -56,7 +56,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.utils
+namespace: io.cloudslang.microsoftAD.authorization
 
 operation: 
   name: get_authorization_token
