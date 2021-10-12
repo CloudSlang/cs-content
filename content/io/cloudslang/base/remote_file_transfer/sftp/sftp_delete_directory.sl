@@ -120,8 +120,8 @@ operation:
     - remoteFile:
         default: ${get('remote_file', '')}
         required: false 
-        private: true 
-    - character_set:  
+        private: true
+    - character_set:
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  
