@@ -44,7 +44,6 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input global_session_object: The sessionObject that holds the connection if the close session is false.
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default value: UTF-8
@@ -131,10 +130,7 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true
-    - global_session_object:
-        required: false
     - globalSessionObject:
-        default: ${get('global_session_object', '')}
         required: false
         private: true
     - character_set:

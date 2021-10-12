@@ -117,6 +117,9 @@ operation:
     - delimiter:
         default: ','
         required: false
+    - globalSessionObject:
+        required: false
+        private: true
     - character_set:
         default: 'UTF-8'
         required: false

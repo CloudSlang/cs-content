@@ -120,7 +120,10 @@ operation:
     - remoteFile: 
         default: ${get('remote_file', '')}  
         required: false 
-        private: true 
+        private: true
+    - globalSessionObject:
+        required: false
+        private: true
     - character_set:
         default: 'UTF-8'
         required: false  
