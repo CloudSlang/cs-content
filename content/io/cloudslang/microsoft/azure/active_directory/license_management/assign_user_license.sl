@@ -111,11 +111,11 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true 
-    - assigned licenses:  
-        required: false  
-    - Assigned licenses: 
-        default: ${get('assigned licenses', '')}  
-        required: false 
+    - assigned_licenses:
+        required: true
+    - assignedLicenses:
+        default: ${get('assigned_licenses', '')}
+        required: true
         private: true 
     - proxy_host:  
         required: false  
