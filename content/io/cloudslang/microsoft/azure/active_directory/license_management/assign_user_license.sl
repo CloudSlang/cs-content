@@ -26,11 +26,10 @@
 #! @input assigned licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
 #!                           plans associated with a license by setting the disabledPlans property on an assignedLicense
 #!                           object. [{
-      "disabledPlans": [ "11b0131d-43c8-4bbb-b2c8-e80f9a50834a" ],
-     
+#!      "disabledPlans": [ "11b0131d-43c8-4bbb-b2c8-e80f9a50834a" ],
+#!
 #!                           "skuId": "guid"
-    }]
-#!                           Optional
+#!    }]
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -98,7 +97,7 @@
 namespace: io.cloudslang.microsoftAD.licenseManagement
 
 operation: 
-  name: disable_user
+  name: assign_user_license
   
   inputs: 
     - auth_token    
