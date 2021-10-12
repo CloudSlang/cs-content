@@ -69,8 +69,10 @@
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: 20
 #!                               Optional
 #!
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
@@ -183,20 +185,22 @@ operation:
         required: false 
         private: true 
     - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
+        default: '2'
+        required: false
+    - connectionsMaxPerRoute:
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
+    - connections_max_total:
+        default: '20'
+        required: false
+    - connectionsMaxTotal:
         default: ${get('connections_max_total', '')}  
         required: false 
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC11'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC13'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
     method_name: 'execute'
   
