@@ -138,7 +138,6 @@ operation:
         required: false 
         private: true
     - globalSessionObject:
-        default: 'sshSessions:default-id'
         required: false
         private: true
     - character_set:
