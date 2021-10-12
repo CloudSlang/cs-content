@@ -121,10 +121,7 @@ operation:
         default: ${get('remote_file', '')}
         required: false 
         private: true
-    - globalSessionObject:
-        required: false
-        private: true
-    - character_set:  
+    - character_set:
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  

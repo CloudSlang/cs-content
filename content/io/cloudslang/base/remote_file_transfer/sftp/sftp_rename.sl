@@ -137,10 +137,6 @@ operation:
         default: ${get('new_remote_file', '')}
         required: false 
         private: true
-    - globalSessionObject:
-        default: 'sshSessions:default-id'
-        required: false
-        private: true
     - character_set:
         default: 'UTF-8'
         required: false  

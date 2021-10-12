@@ -126,9 +126,6 @@ operation:
         default: ${get('private_key', '')}
         required: false
         private: true
-    - globalSessionObject:
-        required: false
-        private: true
     - character_set:
         default: 'UTF-8'
         required: false
