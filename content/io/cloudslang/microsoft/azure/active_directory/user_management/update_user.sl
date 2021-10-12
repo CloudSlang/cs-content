@@ -25,10 +25,9 @@
 #! @input account_enabled: This property must be set to 'true' if the account is enabled otherwise, 'false'. This property
 #!                         is required when a user is created. This input is mutually exclusive with the body input and
 #!                         will be ignored if the body is populated.
-#!                         Default value: true.
 #!                         Optional
 #! @input display_name: The name to display in the address book for the user. This property is required when a user is
-#!                      created and it cannot be cleared during updates.";This input is mutually exclusive with the
+#!                      created and it cannot be cleared during updates. This input is mutually exclusive with the
 #!                      body input and will be ignored if the body is populated.
 #!                      Optional
 #! @input on_premises_immutable_id: This property is used to associate an on-premises Active Directory user account to
@@ -41,17 +40,19 @@
 #! @input mail_nickname: The mail alias for the user. This property must be specified when the user is created. This input
 #!                       is mutually exclusive with the body input and will be ignored if the body is populated.
 #!                       Optional
-#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password on the next
-#!                               login. 
-#!                               Default value: false.
-#!                               NOTE: For Azure B2C tenants, set to false and instead
-#!                               use custom policies and user flows to force password reset at first sign in.
-#!                               Optional
+#! @input force_change_password_next_sign_in: In case the value for the input is 'true', the user must change the password
+#!                                            on the next login. This input is mutually exclusive with the body input and
+#!                                            will be ignored if the body is populated.
+#!                                            NOTE: For Azure B2C tenants, set this input to 'false' and instead use
+#!                                            custom policies and user flows to force password reset at first sign in.
+#!                                            Optional
 #! @input password: The password for the user. This property is required when a user is created. The password must satisfy
 #!                  minimum requirements as specified by the user’s passwordPolicies property. By default, a strong password
-#!                  is required.
+#!                  is required. This input is mutually exclusive with the body input and will be ignored if the body is
+#!                  populated.
 #!                  Optional
-#! @input updated_user_principal_name: The new user principal name.
+#! @input updated_user_principal_name: The new user principal name. This input is mutually exclusive with the body input
+#!                                     and will be ignored if the body is populated.
 #!                                     Example: someuser@contoso.com
 #!                                     Optional
 #! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
@@ -61,7 +62,7 @@
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
-#!                    Default: '8080'
+#!                    Default: 8080
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -143,7 +144,6 @@ operation:
         required: false
         private: true
     - account_enabled:
-        default: 'true'
         required: false  
     - accountEnabled: 
         default: ${get('account_enabled', '')}  
@@ -168,7 +168,6 @@ operation:
         required: false 
         private: true
     - force_change_password_next_sign_in:
-        default: 'false'
         required: false  
     - forceChangePasswordNextSignIn:
         default: ${get('force_change_password_next_sign_in', '')}
@@ -275,7 +274,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.20-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC12'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.UpdateUser'
     method_name: 'execute'
   
