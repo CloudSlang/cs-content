@@ -216,8 +216,7 @@ operation:
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - user_id_output: ${get('userId', '')} 
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
