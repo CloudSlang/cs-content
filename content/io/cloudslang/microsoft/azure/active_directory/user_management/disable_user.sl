@@ -68,8 +68,10 @@
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: 20
 #!                               Optional
 #!
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
