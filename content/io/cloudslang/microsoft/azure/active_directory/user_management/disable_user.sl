@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Disable a user from Active Directory.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_principal_name: The user principal name. 
