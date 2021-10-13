@@ -13,50 +13,58 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Create a new user. The request body contains the user to create. At a minimum, you must specify the
-#!               required properties for the user. You can optionally specify any other writable properties.
+#! @description: Updates user's properties.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
-#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in,
-#!              password and user_principal_name inputs.
-#!              Optional
-#! @input account_enabled: Must be true if the user wants to enable the account. This input is mutually exclusive with
-#!                         the body input and will be ignored if the body is populated.
-#!                         Default value: true.
-#!                         Optional
-#! @input display_name: The name to display in the address book for the user. This input is mutually exclusive with the
-#!                      body input and will be ignored if the body is populated.
-#!                      Optional
-#! @input on_premises_immutable_id: Only needs to be specified when creating a new user account if you are using a
-#!                                  federated domain for the user's userPrincipalName (UPN) property. This input is
-#!                                  mutually exclusive with the body input and will be ignored if the body is populated.
-#!                                  Optional
-#! @input mail_nickname: The mail alias for the user. This input is mutually exclusive with the body input and will be
-#!                       ignored if the body is populated.
-#!                       Optional
-#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password
-#!                                            on the next login. This input is mutually exclusive with the body input
-#!                                            and will be ignored if the body is populated.
-#!                                            Default value: false.
-#!                                            NOTE: For Azure B2C tenants, set to false and instead use custom policies
-#!                                            and user flows to force password reset at first sign in.
-#!                                            Optional
-#! @input password: The password for the user. This property is required when a user is
-#!                  created. The password must satisfy minimum requirements as specified by the user’s passwordPolicies
-#!                  property. By default, a strong password is required. This input is mutually exclusive with the body
-#!                  input and will be ignored if the body is populated.
-#!                  Optional
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the body input and will be
-#!                             ignored if the body is populated.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
 #!                             Example: someuser@contoso.com
 #!                             Optional
+#! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
+#!                 user_principal_name input.
+#!                 Optional
+#! @input account_enabled: This property must be set to 'true' if the account is enabled otherwise, 'false'. This property
+#!                         is required when a user is created. This input is mutually exclusive with the body input and
+#!                         will be ignored if the body is populated.
+#!                         Optional
+#! @input display_name: The name to display in the address book for the user. This property is required when a user is
+#!                      created and it cannot be cleared during updates. This input is mutually exclusive with the
+#!                      body input and will be ignored if the body is populated.
+#!                      Optional
+#! @input on_premises_immutable_id: This property is used to associate an on-premises Active Directory user account to
+#!                                  their Azure AD user object. This property must be specified when creating a new user
+#!                                  account in the Graph if you are using a federated domain for the user’s user_principal_name
+#!                                  (UPN) property. The $ and _ characters cannot be used when specifying this property.
+#!                                  This input is mutually exclusive with the body input and will be ignored if the body
+#!                                  is populated.
+#!                                  Optional
+#! @input mail_nickname: The mail alias for the user. This property must be specified when the user is created. This input
+#!                       is mutually exclusive with the body input and will be ignored if the body is populated.
+#!                       Optional
+#! @input force_change_password_next_sign_in: In case the value for the input is 'true', the user must change the password
+#!                                            on the next login. This input is mutually exclusive with the body input and
+#!                                            will be ignored if the body is populated.
+#!                                            NOTE: For Azure B2C tenants, set this input to 'false' and instead use
+#!                                            custom policies and user flows to force password reset at first sign in.
+#!                                            Optional
+#! @input password: The password for the user. This property is required when a user is created. The password must satisfy
+#!                  minimum requirements as specified by the user’s passwordPolicies property. By default, a strong password
+#!                  is required. This input is mutually exclusive with the body input and will be ignored if the body is
+#!                  populated.
+#!                  Optional
+#! @input updated_user_principal_name: The new user principal name. This input is mutually exclusive with the body input
+#!                                     and will be ignored if the body is populated.
+#!                                     Example: someuser@contoso.com
+#!                                     Optional
+#! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
+#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in,
+#!              password and updated_user_principal_name inputs.
+#!              Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
-#!                    Default: '8080'
+#!                    Default: 8080
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -105,32 +113,41 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response.
+#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
+#!                        in the response body.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output user_id: The ID of the newly created user.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: User created successfully.
-#! @result FAILURE: Failed to create user.
+#! @result SUCCESS: The user's properties were updated successfully.
+#! @result FAILURE: There was an error while trying to update user's properties.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
-  name: create_user
+  name: update_user
   
   inputs: 
     - auth_token    
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
-    - body:  
-        required: false  
+        private: true
+    - user_principal_name:
+        required: false
+    - userPrincipalName:
+        default: ${get('user_principal_name', '')}
+        required: false
+        private: true
+    - user_id:
+        required: false
+    - userId:
+        default: ${get('user_id', '')}
+        required: false
+        private: true
     - account_enabled:
-        default: 'true'
         required: false  
     - accountEnabled: 
         default: ${get('account_enabled', '')}  
@@ -141,21 +158,20 @@ operation:
     - displayName: 
         default: ${get('display_name', '')}  
         required: false 
-        private: true 
+        private: true
+    - mail_nickname:
+        required: false
+    - mailNickname:
+        default: ${get('mail_nickname', '')}
+        required: false
+        private: true
     - on_premises_immutable_id:  
         required: false  
     - onPremisesImmutableId: 
         default: ${get('on_premises_immutable_id', '')}  
         required: false 
-        private: true 
-    - mail_nickname:  
-        required: false  
-    - mailNickname: 
-        default: ${get('mail_nickname', '')}  
-        required: false 
-        private: true 
+        private: true
     - force_change_password_next_sign_in:
-        default: 'false'
         required: false  
     - forceChangePasswordNextSignIn:
         default: ${get('force_change_password_next_sign_in', '')}
@@ -164,12 +180,14 @@ operation:
     - password:  
         required: false  
         sensitive: true
-    - user_principal_name:  
+    - updated_user_principal_name:
         required: false  
-    - userPrincipalName: 
-        default: ${get('user_principal_name', '')}  
+    - updatedUserPrincipalName:
+        default: ${get('updated_user_principal_name', '')}
         required: false 
-        private: true 
+        private: true
+    - body:
+        required: false
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -246,31 +264,30 @@ operation:
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:
+    - connections_max_per_route:  
         default: '2'
-        required: false  
-    - connectionsMaxPerRoute: 
+        required: false
+    - connectionsMaxPerRoute:
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:
+    - connections_max_total:  
         default: '20'
-        required: false  
-    - connectionsMaxTotal: 
+        required: false
+    - connectionsMaxTotal:
         default: ${get('connections_max_total', '')}  
         required: false 
         private: true
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC13'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.UpdateUser'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - user_id: ${get('userId', '')} 
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 

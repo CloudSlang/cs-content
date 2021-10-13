@@ -81,20 +81,17 @@
 #!                 default: '1200'
 #!                 Optional
 #!
-#! @output self_link: The URI of this instance.
+#! @output return_result: contains the exception in case of failure, success message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
-#! @output zone_operation_name: The zone operation name of this instance.
+#! @output exception: exception if there was an error when executing, empty otherwise.
+#! @output self_link: The URI of this instance.
 #! @output external_ips: A comma-separated list of external IPs, accessible from outside of the Google Cloud Network, allocated to the instance.
 #! @output internal_ips: A comma-separated list of internal IPs, accessible only from inside of the Google Cloud Network, allocated to the instance.
 #! @output instance_id: The ID of this instance.
 #! @output instance_name_out: The name of this instance.
 #! @output status: The status of this instance.
-#! @output exception: exception if there was an error when executing, empty otherwise.
-#! @output return_result: contains the exception in case of failure, success message otherwise.
 #! @output disks: A list of all the disk device names that are attached to this instance.
-#! @output vm_name: The name of this instance.
 #! @output image_type: The type of the OS image used on this instance.
-#! @output zone_out: The zone in which this instance was created.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute
@@ -258,8 +255,10 @@ flow:
           - disks
           - status
           - instance_image_details: '${return_result}'
+          - return_result
+          - exception
         navigate:
-          - SUCCESS: get_image_type_list
+          - SUCCESS: get_self_link_of_instance
           - FAILURE: on_failure
     - os_platform_is_windows:
         worker_group: '${worker_group}'
@@ -386,6 +385,7 @@ flow:
         navigate:
           - SUCCESS: list_iterator_get_disk_type
     - set_failure_message_for_instance:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - external_ips: null
@@ -452,6 +452,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_disk_size:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${disk_size_list}'
@@ -462,6 +463,7 @@ flow:
           - NO_MORE: get_instance
           - FAILURE: on_failure
     - list_iterator_get_disk_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${disk_type_list}'
@@ -472,6 +474,7 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - list_iterator_get_disk_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${disk_name_list}'
@@ -482,6 +485,7 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - is_volume_disk_type_is_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${volume_disk_type}'
@@ -489,6 +493,7 @@ flow:
           - IS_NULL: get_volume_disk_type
           - IS_NOT_NULL: form_volume_disk_type_url
     - get_volume_disk_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - volume_disk_type: '${volume_disk_type}'
@@ -498,6 +503,7 @@ flow:
           - SUCCESS: insert_instance
           - FAILURE: on_failure
     - form_volume_disk_type_url:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - volume_disk_type: '${volume_disk_type}'
@@ -569,21 +575,42 @@ flow:
         navigate:
           - SUCCESS: set_failure_message_for_instance
           - FAILURE: on_failure
+    - get_self_link_of_instance:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${instance_image_details}'
+            - json_path: $.selfLink
+        publish:
+          - self_link: '${return_result}'
+          - status: Running
+        navigate:
+          - SUCCESS: format_self_link
+          - FAILURE: on_failure
+    - format_self_link:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.search_and_replace:
+            - origin_string: '${self_link}'
+            - text_to_replace: '"'
+            - replace_with: ' '
+        publish:
+          - self_link: '${replaced_string}'
+        navigate:
+          - SUCCESS: get_image_type_list
+          - FAILURE: on_failure
   outputs:
-    - self_link
+    - return_result
     - return_code
-    - zone_operation_name
+    - exception
+    - self_link
     - external_ips
     - internal_ips
     - instance_id
     - instance_name_out
     - status
-    - exception
-    - return_result
     - disks
-    - vm_name
     - image_type
-    - zone_out
   results:
     - SUCCESS
     - FAILURE
@@ -591,14 +618,14 @@ extensions:
   graph:
     steps:
       get_volume_disk_type:
-        x: 474
-        'y': 90
+        x: 517
+        'y': 91
       check_disk_name_type_is_null:
-        x: 756
-        'y': 283
+        x: 867
+        'y': 314
       set_failure_message_if_disk_type_doesnt_exists:
-        x: 759
-        'y': 480
+        x: 867
+        'y': 494
         navigate:
           2d92886c-3b21-8f05-0052-fc86b64b8371:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
@@ -606,57 +633,70 @@ extensions:
       random_number_generator_for_vm_disk_name:
         x: 1184
         'y': 285
+      get_self_link_of_instance:
+        x: 1176
+        'y': 102
       form_volume_disk_type_url:
-        x: 325
-        'y': 287
+        x: 340
+        'y': 290
       list_iterator_get_disk_type:
-        x: 1371
-        'y': 466
+        x: 1340
+        'y': 464
         navigate:
           ec2679f7-81d2-bdc8-016c-136f5b882132:
             targetId: 9f8b2def-2919-d5f7-c843-ee45bb32d29d
             port: NO_MORE
       insert_disk:
-        x: 1376
-        'y': 723
+        x: 1345
+        'y': 768
       check_disk_name_list_is_null:
-        x: 758
-        'y': 98
+        x: 864
+        'y': 102
+      format_self_link:
+        x: 1332
+        'y': 99
       get_image_type:
-        x: 1200
-        'y': 79
+        x: 1647
+        'y': 95
       get_access_token:
-        x: 12
-        'y': 397
+        x: 15
+        'y': 429
       reset_windows_password:
-        x: 1515
-        'y': 78
+        x: 2003
+        'y': 92
         navigate:
           d191572d-2ebd-acb5-8365-cdddced8755e:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
             port: SUCCESS
       gcp_undeploy_instance:
-        x: 210
-        'y': 917
+        x: 523
+        'y': 774
       append_vm_disk_name:
-        x: 1365
-        'y': 286
+        x: 1341
+        'y': 290
       is_volume_disk_type_is_empty:
-        x: 328
-        'y': 98
+        x: 336
+        'y': 97
       attach_disk_to_instance:
-        x: 1003
-        'y': 713
+        x: 1026
+        'y': 624
+        navigate:
+          8206c284-aed9-6c05-abbe-2ccb724ebaa6:
+            vertices:
+              - x: 902
+                'y': 757
+            targetId: gcp_undeploy_instance
+            port: FAILURE
       list_iterator_get_disk_name:
-        x: 1197
-        'y': 460
+        x: 1112
+        'y': 492
         navigate:
           0993d496-4663-dda8-a848-62eb0f303df2:
             targetId: 9f8b2def-2919-d5f7-c843-ee45bb32d29d
             port: NO_MORE
       set_success_message_for_unix_os:
-        x: 1538
-        'y': 261
+        x: 2013
+        'y': 236
         navigate:
           7c1c0664-c0b0-9c5e-8829-c27625f86cd5:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
@@ -665,45 +705,53 @@ extensions:
         x: 166
         'y': 82
       set_failure_message_for_instance:
-        x: 443
-        'y': 625
+        x: 688
+        'y': 628
         navigate:
           cc0d03dd-5ad0-2868-3ec7-082f8b97f99b:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
             port: SUCCESS
       get_image_type_list:
-        x: 1061
-        'y': 79
+        x: 1488
+        'y': 90
       set_success_message_for_instance_with_disk_name:
-        x: 625
-        'y': 263
+        x: 676
+        'y': 261
       random_number_generator:
-        x: 21
-        'y': 85
+        x: 13
+        'y': 93
       get_disk_size:
-        x: 998
-        'y': 285
+        x: 1025
+        'y': 283
       get_machine_type:
         x: 14
-        'y': 226.25
+        'y': 248
       insert_instance:
-        x: 627
-        'y': 85
+        x: 680
+        'y': 93
+        navigate:
+          a24acfcd-9043-51a3-0b4e-6e7b7b9c6bf1:
+            vertices:
+              - x: 566
+                'y': 360
+            targetId: gcp_undeploy_instance
+            port: FAILURE
       get_instance:
-        x: 917
-        'y': 81
+        x: 1026
+        'y': 101
       os_platform_is_windows:
-        x: 1356
-        'y': 79
+        x: 1818
+        'y': 96
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 1670
-          'y': 78
+          x: 2162
+          'y': 93
         9f8b2def-2919-d5f7-c843-ee45bb32d29d:
-          x: 1284
-          'y': 631
+          x: 1246
+          'y': 635
       FAILURE:
         155c7a8a-b77e-2249-630e-4322fa93b234:
-          x: 610
-          'y': 629
+          x: 689
+          'y': 497
+

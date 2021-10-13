@@ -15,10 +15,13 @@
 #!!
 #! @description: Delete a user from Active Directory. When deleted, user resources are moved to a temporary container
 #!               and can be restored within 30 days. After that time, they are permanently deleted.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_principal_name: The user principal name. 
 #!                             Example: someuser@contoso.com
+#!                             User principal name and user id are mutually exclusive.
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
@@ -45,7 +48,7 @@
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
 #!                                 Default: strict
-#!                                 Valid values: strict,browser_compatible,allow_all
+#!                                 Valid values: strict, browser_compatible, allow_all
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -68,8 +71,10 @@
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default: 20
 #!                               Optional
 #!
 #! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
@@ -182,20 +187,22 @@ operation:
         required: false 
         private: true 
     - connections_max_per_route:  
-        required: false  
-    - connectionsMaxPerRoute: 
+        default: '2'
+        required: false
+    - connectionsMaxPerRoute:
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:  
-        required: false  
-    - connectionsMaxTotal: 
+    - connections_max_total:
+        default: '20'
+        required: false
+    - connectionsMaxTotal:
         default: ${get('connections_max_total', '')}  
         required: false 
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC9'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC13'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
     method_name: 'execute'
   

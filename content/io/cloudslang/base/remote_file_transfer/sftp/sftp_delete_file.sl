@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Uses Secure FTP (SFTP) to send a file from local file system to a remote host.
+#! @description: Deletes a file remotely using Secure FTP (SFTP)
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -22,17 +22,6 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_path: The remote directory path where the file will be uploaded. If it's empty and the ‘ChrootDirectory’
-#!                     of the SFTP server is set, then the file will be uploaded in the path configured
-#!                     in the ‘ChrootDirectory’ otherwise it will be saved in the user's root folder.
-#!                     Examples: C:/Users/Administrator, root/test
-#!                     Optional
-#! @input local_path: The local directory path of the file that will be copied.
-#!                    Examples: C:/Users/Administrator, root/test
-#!                    Optional
-#! @input local_file: The file to be copied remotely using SFTP.
-#!                    Example: file.txt
-#!                    Optional
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -44,11 +33,16 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
+#! @input remote_path: The path to the remote file that will be deleted.
+#!                     Examples: C:/Users/Administrator, root/test
+#!                     Optional
+#! @input remote_file: The remote file.
+#!                     Examples: file.txt
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default value: UTF-8
+#!                       Default is UTF-8.
 #!                       Optional
-#! @input close_session: Close the SSH session at completion of operation. If false the SSH
+#! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
 #!                       Valid values: true, false.
 #!                       Default value: true
@@ -60,45 +54,30 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: A suggestive message saying whether the operation was successful or an error message.
+#! @output return_result: This is the primary output and it contains the success message if the operation successfully
+#!                        completes, or an exception message otherwise.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: Command completed successfully.
-#! @result FAILURE: Command failed.
+#! @result SUCCESS: File was deleted successfully.
+#! @result FAILURE: The file could not be deleted.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.base.remote_file_transfer.sftp
 
 operation: 
-  name: sftp_upload_file
+  name: sftp_delete_file
   
   inputs: 
-    - host
+    - host    
     - port:
         default: '22'
         required: false  
-    - username
-    - password:
+    - username    
+    - password:    
         sensitive: true
-    - remote_path:
-        required: false
-    - remotePath:
-        default: ${get('remote_path', '')}
-        required: false
-        private: true
-    - local_path
-    - localPath:
-        default: ${get('local_path', '')}
-        required: false
-        private: true
-    - local_file
-    - localFile:
-        default: ${get('local_file', '')}
-        required: false
-        private: true
-    - proxy_host:
+    - proxy_host:  
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
@@ -118,17 +97,28 @@ operation:
         required: false 
         private: true 
     - proxy_password:  
-        required: false
+        required: false  
         sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
-        private: true
+        private: true 
         sensitive: true
-    - private_key:
+    - private_key:  
         required: false  
     - privateKey: 
         default: ${get('private_key', '')}  
+        required: false 
+        private: true 
+    - remote_path:
+        required: false
+    - remotePath:
+        default: ${get('remote_path', '')}
+        required: false
+        private: true
+    - remote_file
+    - remoteFile: 
+        default: ${get('remote_file', '')}  
         required: false 
         private: true
     - character_set:
@@ -144,25 +134,25 @@ operation:
     - closeSession: 
         default: ${get('close_session', '')}  
         required: false 
-        private: true
+        private: true 
     - connection_timeout:
         default: '60'
-        required: false
-    - connectionTimeout:
-        default: ${get('connection_timeout', '')}
-        required: false
-        private: true
+        required: false  
+    - connectionTimeout: 
+        default: ${get('connection_timeout', '')}  
+        required: false 
+        private: true 
     - execution_timeout:
         default: '60'
-        required: false
-    - executionTimeout:
-        default: ${get('execution_timeout', '')}
-        required: false
-        private: true
+        required: false  
+    - executionTimeout: 
+        default: ${get('execution_timeout', '')}  
+        required: false 
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:0.0.9-RC18'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteFile'
     method_name: 'execute'
   
   outputs: 

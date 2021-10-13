@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Get the authorization token for Azure Active Directory.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input login_type: Login method according to application type.
 #!                    Valid values: 'API', 'Native'
@@ -56,7 +58,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.utils
+namespace: io.cloudslang.microsoftAD.authorization
 
 operation: 
   name: get_authorization_token
@@ -124,8 +126,8 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC9'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.utils.GetAuthorizationToken'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC13'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.authorization.GetAuthorizationToken'
     method_name: 'execute'
   
   outputs: 
