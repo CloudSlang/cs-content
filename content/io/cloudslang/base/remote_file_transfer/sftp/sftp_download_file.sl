@@ -83,7 +83,8 @@ operation:
         default: ${get('remote_file', '')}
         required: false
         private: true
-    - remote_path
+    - remote_path:
+        required: false
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
