@@ -1,6 +1,8 @@
 ########################################################################################################################
 #!!
 #! @description: Return all the groups that the user is a member of.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_id: The ID of the user to perform the action on.
