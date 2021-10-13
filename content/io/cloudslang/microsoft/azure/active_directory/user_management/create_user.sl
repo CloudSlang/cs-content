@@ -15,12 +15,16 @@
 #!!
 #! @description: Create a new user. The request body contains the user to create. At a minimum, you must specify the
 #!               required properties for the user. You can optionally specify any other writable properties.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
-#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in, password and user_principal_name inputs.
+#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in,
+#!              password and user_principal_name inputs.
 #!              Optional
-#! @input account_enabled: Must be true if the user wants to enable the account. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#! @input account_enabled: Must be true if the user wants to enable the account. This input is mutually exclusive with
+#!                         the body input and will be ignored if the body is populated.
 #!                         Default value: true.
 #!                         Optional
 #! @input display_name: The name to display in the address book for the user. This input is mutually exclusive with the body input and will be ignored if the body is populated.
