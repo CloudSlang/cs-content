@@ -82,7 +82,8 @@ operation:
     - username
     - password:
         sensitive: true
-    - remote_path
+    - remote_path:
+        required: false
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
