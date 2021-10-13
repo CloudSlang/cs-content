@@ -23,7 +23,7 @@
 #! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
 #!                 userPrincipalName input.
 #!                 Optional
-#! @input assigned licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
+#! @input assigned_licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
 #!                           plans associated with a license by setting the disabledPlans property on an assignedLicense
 #!                           object. For instance:
 #!                           [
