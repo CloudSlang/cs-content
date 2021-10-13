@@ -4,11 +4,11 @@
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_id: The ID of the user to perform the action on.
-#!                 Optional
 #! @input body: Full json body, security_enabled_only input is ignored if the body is given.
 #!              Optional
 #! @input security_enabled_only: True if only security groups that the user is a member of should be returned, false to
 #!                               specify that all groups should be returned.
+#!                               Default: false
 #!                               Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
@@ -84,8 +84,7 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - user_id:  
-        required: true
+    - user_id
     - userId: 
         default: ${get('user_id', '')}  
         required: false 
@@ -190,7 +189,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC14'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.IsUserInGroup'
     method_name: 'execute'
   
