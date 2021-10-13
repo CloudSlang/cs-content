@@ -27,24 +27,30 @@
 #!                         the body input and will be ignored if the body is populated.
 #!                         Default value: true.
 #!                         Optional
-#! @input display_name: The name to display in the address book for the user. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#! @input display_name: The name to display in the address book for the user. This input is mutually exclusive with the
+#!                      body input and will be ignored if the body is populated.
 #!                      Optional
 #! @input on_premises_immutable_id: Only needs to be specified when creating a new user account if you are using a
-#!                                  federated domain for the user's userPrincipalName (UPN) property. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#!                                  federated domain for the user's userPrincipalName (UPN) property. This input is
+#!                                  mutually exclusive with the body input and will be ignored if the body is populated.
 #!                                  Optional
-#! @input mail_nickname: The mail alias for the user. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#! @input mail_nickname: The mail alias for the user. This input is mutually exclusive with the body input and will be
+#!                       ignored if the body is populated.
 #!                       Optional
-#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password on the next
-#!                               login. This input is mutually exclusive with the body input and will be ignored if the body is populated.
-#!                               Default value: false.
-#!                               NOTE: For Azure B2C tenants, set to false and instead
-#!                               use custom policies and user flows to force password reset at first sign in.
-#!                               Optional
+#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password
+#!                                            on the next login. This input is mutually exclusive with the body input
+#!                                            and will be ignored if the body is populated.
+#!                                            Default value: false.
+#!                                            NOTE: For Azure B2C tenants, set to false and instead use custom policies
+#!                                            and user flows to force password reset at first sign in.
+#!                                            Optional
 #! @input password: The password for the user. This property is required when a user is
 #!                  created. The password must satisfy minimum requirements as specified by the user’s passwordPolicies
-#!                  property. By default, a strong password is required. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#!                  property. By default, a strong password is required. This input is mutually exclusive with the body
+#!                  input and will be ignored if the body is populated.
 #!                  Optional
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the body input and will be ignored if the body is populated.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the body input and will be
+#!                             ignored if the body is populated.
 #!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
