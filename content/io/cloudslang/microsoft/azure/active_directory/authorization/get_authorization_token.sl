@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Get the authorization token for Azure Active Directory.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input login_type: Login method according to application type.
 #!                    Valid values: 'API', 'Native'

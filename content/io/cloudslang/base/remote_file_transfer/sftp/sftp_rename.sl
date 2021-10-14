@@ -136,7 +136,7 @@ operation:
     - newRemoteFile:
         default: ${get('new_remote_file', '')}
         required: false 
-        private: true 
+        private: true
     - character_set:
         default: 'UTF-8'
         required: false  
@@ -167,7 +167,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC18'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPRename'
     method_name: 'execute'
   
