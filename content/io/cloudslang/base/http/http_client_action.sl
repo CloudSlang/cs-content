@@ -72,11 +72,11 @@
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not.
 #!                     Default: 'true'
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
-#!                    Default: 'true'
-#! @input connections_max_per_root: Optional - Maximum limit of connections on a per route basis.
+#!                    Default: 'false'
+#! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis.
 #!                                  Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total.
-#!                               Default: '2'
+#!                               Default: '20'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF);
 #!                 header name - value pair will be separated by ":".
 #!                 Format: According to HTTP standard for headers (RFC 2616)
@@ -271,12 +271,12 @@ operation:
     - keep_alive:
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "true")}
+        default: ${get("keep_alive", "false")}
         private: true
-    - connections_max_per_root:
+    - connections_max_per_route:
         required: false
-    - connectionsMaxPerRoot:
-        default: ${get("connections_max_per_root", "2")}
+    - connectionsMaxPerRoute:
+        default: ${get("connections_max_per_route", "2")}
         private: true
     - connections_max_total:
         required: false
@@ -396,7 +396,7 @@ operation:
         default: ${ str(list(range(200, 300))) }
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.80-RC1'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.80'
     class_name: io.cloudslang.content.httpclient.actions.HttpClientAction
     method_name: execute
 

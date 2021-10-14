@@ -66,6 +66,12 @@
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
+#! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
+#!                    Default: 'false'
+#! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis.
+#!                                  Default: '2'
+#! @input connections_max_total: Optional - Maximum limit of connections in total.
+#!                               Default: '20'
 #! @input request_character_set: Optional - Character encoding to be used for the HTTP request body; should not
 #!                               be provided for method=GET, HEAD, TRACE
 #!                               Default: 'ISO-8859-1'
@@ -151,6 +157,15 @@ flow:
     - socket_timeout:
         default: '0'
         required: false
+    - keep_alive:
+        default: 'false'
+        required: false
+    - connections_max_per_route:
+        default: '2'
+        required: false
+    - connections_max_total:
+        default: '20'
+        required: false
     - headers:
         required: false
     - query_params:
@@ -187,6 +202,9 @@ flow:
             - keystore_password
             - connect_timeout
             - socket_timeout
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
             - headers
             - query_params
             - content_type
