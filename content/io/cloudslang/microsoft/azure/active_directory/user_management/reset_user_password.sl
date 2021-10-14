@@ -18,11 +18,11 @@
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Generated authentication token.
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the userId input.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
 #!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
-#!                 userPrincipalName input.
+#!                 user_principal_name input.
 #!                 Optional
 #! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password
 #!                                            on the next login.
