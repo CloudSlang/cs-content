@@ -195,7 +195,6 @@ flow:
           - instance_tags_key: '${return_result}'
         navigate:
           - SUCCESS: add_value_tag
-          - FAILURE: set_failure_message_unknown_error
 
     - add_value_tag:
         do:
@@ -204,12 +203,10 @@ flow:
             - delimiter: '${delimiter}'
             - element: '${random_name}'
         publish:
-          - return_code: '${return_code}'
           - instance_tags_value: '${return_result}'
           - return_result: 'Successfully generated a unique name!'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: set_failure_message_unknown_error
 
     - is_list_empty:
         do:

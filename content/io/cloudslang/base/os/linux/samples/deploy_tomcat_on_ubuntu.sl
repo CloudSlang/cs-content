@@ -336,12 +336,13 @@ flow:
 
     - upload_init_config_file:
         do:
-          remote.remote_secure_copy:
+          ssh.ssh_flow:
+            - host
+            - username: 'root'
+            - password: ${root_password}
             - source_path
-            - destination_host: ${host}
-            - destination_path: '/etc/init.d/tomcat'
-            - destination_username: 'root'
-            - destination_password: ${root_password}
+            - destination_path: '/etc/init.d/tomcat/'
+            - command: ${'ln -s ' + source_path + '/* ' + destination_path}
         publish:
           - return_result
           - return_code
