@@ -23,6 +23,7 @@
 #!              Optional
 #! @input security_enabled_only: True if only security groups that the user is a member of should be returned, false to
 #!                               specify that all groups should be returned.
+#!                               Valid values: true, false
 #!                               Default: false
 #!                               Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
@@ -70,6 +71,7 @@
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Valid values: true, false
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
