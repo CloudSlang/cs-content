@@ -63,22 +63,22 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is
 #!                        'true' this input is ignored. Format: Java KeyStore (JKS).
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#! @input trust_password: The password associated with the TrustStore file. If trust_all_roots is false and trust_keystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
+#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
-#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
+#!                        packets), in seconds. A socket_timeout value of '0' represents an infinite timeout.
 #!                        Default: 0
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    keep_alive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
