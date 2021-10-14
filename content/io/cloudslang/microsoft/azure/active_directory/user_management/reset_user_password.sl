@@ -130,7 +130,7 @@ operation:
         required: false 
         private: true 
     - password:  
-        required: false  
+        required: true
         sensitive: true
     - proxy_host:  
         required: false  
