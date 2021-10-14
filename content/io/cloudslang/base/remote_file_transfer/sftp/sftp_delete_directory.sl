@@ -36,8 +36,6 @@
 #! @input remote_path: The path to the remote directory that will be deleted.
 #!                     Examples: C:/Users/Administrator, root/test
 #!                     Optional
-#! @input remote_file: The name of the directory that will be deleted.
-#!                     Examples: file.txt
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default value: UTF-8
@@ -109,17 +107,12 @@ operation:
     - privateKey: 
         default: ${get('private_key', '')}  
         required: false 
-        private: true 
+        private: true
     - remote_path:
         required: false
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
-        private: true
-    - remote_file
-    - remoteFile:
-        default: ${get('remote_file', '')}
-        required: false 
         private: true
     - character_set:
         required: false  
