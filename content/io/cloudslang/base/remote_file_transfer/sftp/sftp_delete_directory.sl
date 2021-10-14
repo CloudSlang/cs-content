@@ -110,12 +110,6 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path:
-        required: false
-    - remotePath:
-        default: ${get('remote_path', '')}
-        required: false
-        private: true
     - remote_file
     - remoteFile:
         default: ${get('remote_file', '')}
