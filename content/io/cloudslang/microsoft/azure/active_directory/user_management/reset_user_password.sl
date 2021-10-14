@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Reset the password for an Active Directory user.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Generated authentication token.
 #! @input user_principal_name: The user principal name. This input is mutually exclusive with the userId input.
