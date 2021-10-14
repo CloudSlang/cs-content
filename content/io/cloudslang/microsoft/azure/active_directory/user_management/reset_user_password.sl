@@ -13,29 +13,26 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Add subscriptions for the user. You can also enable specific plans associated with a subscription. To
-#!               successfully assign a license, the user must have the 'Usage location' property set.
-#!               Note: In order to check all the application permissions and the prerequisites required to run this
-#!               operation please check the "Use" section of the content pack's release notes.
+#! @description: Reset the password for an Active Directory user.
 #!
-#! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
+#! @input auth_token: Generated authentication token.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the userId input.
 #!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
-#!                 user_principal_name input.
+#!                 userPrincipalName input.
 #!                 Optional
-#! @input assigned_licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
-#!                           plans associated with a license by setting the disabledPlans property on an assignedLicense
-#!                           object. For instance:
-#!                           [
-#!                                 {
-#!                                    "disabledPlans": [ "guid" ],
-#!                                    "skuId": "guid"
-#!                                 }
-#!                           ]
-#!                          where disabledPlans is collection of the unique identifiers for plans that have been
-#!                          disabled and  skuId is the unique identifier for the SKU.
+#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password
+#!                                            on the next login.
+#!                                            NOTE: For Azure B2C tenants,
+#!                                            set to false and instead use custom policies and user flows to force
+#!                                            password reset at first sign in.
+#!                                            Valid values: true, false
+#!                                            Default value: false
+#!                                            Optional
+#! @input password: The new password for the user. The password must
+#!                  satisfy minimum requirements as specified by the user’s passwordPolicies property. By default, a
+#!                  strong password is required.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -47,8 +44,8 @@
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
-#!                         Default: false
 #!                         Valid values: true, false
+#!                         Default: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -79,6 +76,7 @@
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Valid values: true, false
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -88,20 +86,21 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, this method returns 200 response code and a user object in the response body.
+#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
+#!                        in the response body.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The license was successfully assigned.
-#! @result FAILURE: There was an error while trying to assign license.
+#! @result SUCCESS: The user's password was successfully updated.
+#! @result FAILURE: There was an error while trying to reset the user password.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.licenseManagement
+namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
-  name: assign_user_license
+  name: reset_user_password
   
   inputs: 
     - auth_token    
@@ -121,12 +120,16 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true 
-    - assigned_licenses:
-        required: true
-    - assignedLicenses:
-        default: ${get('assigned_licenses', '')}
-        required: true
+    - force_change_password_next_sign_in:
+        default: 'false'
+        required: false  
+    - forceChangePasswordNextSignIn: 
+        default: ${get('force_change_password_next_sign_in', '')}
+        required: false 
         private: true 
+    - password:  
+        required: false  
+        sensitive: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -135,9 +138,9 @@ operation:
         private: true 
     - proxy_port:
         default: '8080'
-        required: false
+        required: false  
     - proxyPort: 
-        default: ${get('proxy_port', '')}  
+        default: ${get('proxy_port', '')}
         required: false 
         private: true 
     - proxy_username:  
@@ -158,14 +161,14 @@ operation:
         default: 'false'
         required: false  
     - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
+        default: ${get('trust_all_roots', '')}
         required: false 
         private: true 
     - x_509_hostname_verifier:
         default: 'strict'
         required: false  
     - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
+        default: ${get('x_509_hostname_verifier', '')}
         required: false 
         private: true 
     - trust_keystore:  
@@ -186,47 +189,47 @@ operation:
         default: '0'
         required: false  
     - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
+        default: ${get('connect_timeout', '')}
         required: false 
         private: true 
     - socket_timeout:
         default: '0'
         required: false  
     - socketTimeout: 
-        default: ${get('socket_timeout', '')}  
+        default: ${get('socket_timeout', '')}
         required: false 
         private: true 
     - keep_alive:
         default: 'false'
         required: false  
     - keepAlive: 
-        default: ${get('keep_alive', '')}  
+        default: ${get('keep_alive', '')}
         required: false 
         private: true 
     - connections_max_per_route:
         default: '2'
         required: false  
     - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
+        default: ${get('connections_max_per_route', '')}
         required: false 
         private: true 
     - connections_max_total:
         default: '20'
         required: false  
     - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
+        default: ${get('connections_max_total', '')}
         required: false 
         private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC16'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.AssignUserLicense'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.ResetUserPassword'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')}
+    - status_code: ${get('statusCode', '')} 
     - exception: ${get('exception', '')} 
   
   results: 

@@ -202,7 +202,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC15'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC16'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.EnableUser'
     method_name: 'execute'
   
