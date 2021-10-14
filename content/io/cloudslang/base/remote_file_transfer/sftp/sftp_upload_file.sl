@@ -22,9 +22,9 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_path: The remote directory path, the remote location where the file will be uploaded. If it's empty and the
-#!                     ‘ChrootDirectory’ of the SFTP server is set, then the file will be uploaded in the given path
-#!                     otherwise it will be saved in the user's root folder.
+#! @input remote_path: The remote directory path where the file will be uploaded. If it's empty and the ‘ChrootDirectory’
+#!                     of the SFTP server is set, then the file will be uploaded in the path configured
+#!                     in the ‘ChrootDirectory’ otherwise it will be saved in the user's root folder.
 #!                     Examples: C:/Users/Administrator, root/test
 #!                     Optional
 #! @input local_path: The local directory path of the file that will be copied.
@@ -44,7 +44,6 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input global_session_object: The sessionObject that holds the connection if the close session is false.
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default value: UTF-8
@@ -83,7 +82,8 @@ operation:
     - username
     - password:
         sensitive: true
-    - remote_path
+    - remote_path:
+        required: false
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
@@ -131,12 +131,6 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true
-    - global_session_object:
-        required: false
-    - globalSessionObject:
-        default: ${get('global_session_object', '')}
-        required: false
-        private: true
     - character_set:
         default: 'UTF-8'
         required: false  
@@ -167,7 +161,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC16'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC18'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   
