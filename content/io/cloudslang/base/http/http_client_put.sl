@@ -67,7 +67,7 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
-#!                    Default: 'true'
+#!                    Default: 'false'
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis.
 #!                                  Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total.
