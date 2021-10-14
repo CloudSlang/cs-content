@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Add subscriptions for the user. You can also enable specific plans associated with a subscription.
+#! @description: Add subscriptions for the user. You can also enable specific plans associated with a subscription. To
+#!               successfully assign a license, the user must have the 'Usage location' property set.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
