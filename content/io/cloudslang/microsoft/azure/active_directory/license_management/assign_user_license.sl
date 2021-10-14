@@ -16,12 +16,11 @@
 #! @description: Add subscriptions for the user. You can also enable specific plans associated with a subscription.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
 #!                             Example: someuser@contoso.com
-#!                             User principal name and user id are mutually exclusive.
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
-#!                 userPrincipalName input.
+#!                 user_principal_name input.
 #!                 Optional
 #! @input assigned_licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
 #!                           plans associated with a license by setting the disabledPlans property on an assignedLicense
@@ -69,7 +68,7 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
-#!                        Default: 0
+#!                         Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
@@ -217,7 +216,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC15'
     class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.AssignUserLicense'
     method_name: 'execute'
   

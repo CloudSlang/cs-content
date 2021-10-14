@@ -200,7 +200,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC15'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DisableUser'
     method_name: 'execute'
   
