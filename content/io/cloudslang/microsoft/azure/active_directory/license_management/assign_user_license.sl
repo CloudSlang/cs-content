@@ -13,17 +13,29 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Checks if a user is enabled.
+#! @description: Add subscriptions for the user. You can also enable specific plans associated with a subscription. To
+#!               successfully assign a license, the user must have the 'Usage location' property set.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. 
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
 #!                             Example: someuser@contoso.com
-#!                             User principal name and user id are mutually exclusive.
 #!                             Optional
-#! @input user_id: The ID of the user to perform the action on.
+#! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
+#!                 user_principal_name input.
 #!                 Optional
+#! @input assigned_licenses: A collection of assignedLicense objects that specify the licenses to add. You can disable
+#!                           plans associated with a license by setting the disabledPlans property on an assignedLicense
+#!                           object. For instance:
+#!                           [
+#!                                 {
+#!                                    "disabledPlans": [ "guid" ],
+#!                                    "skuId": "guid"
+#!                                 }
+#!                           ]
+#!                          where disabledPlans is collection of the unique identifiers for plans that have been
+#!                          disabled and  skuId is the unique identifier for the SKU.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -76,21 +88,20 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, this method returns 200 response code.
+#! @output return_result: If successful, this method returns 200 response code and a user object in the response body.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output account_enabled: True if the account is enabled, false otherwise.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: Request went successfully.
-#! @result FAILURE: There was an error while trying to do the request.
+#! @result SUCCESS: The license was successfully assigned.
+#! @result FAILURE: There was an error while trying to assign license.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoftAD.licenseManagement
 
 operation: 
-  name: is_user_enabled
+  name: assign_user_license
   
   inputs: 
     - auth_token    
@@ -110,6 +121,12 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true 
+    - assigned_licenses:
+        required: true
+    - assignedLicenses:
+        default: ${get('assigned_licenses', '')}
+        required: true
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -118,7 +135,7 @@ operation:
         private: true 
     - proxy_port:
         default: '8080'
-        required: false  
+        required: false
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
@@ -137,7 +154,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
@@ -198,18 +216,17 @@ operation:
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC15'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.IsUserEnabled'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.AssignUserLicense'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - account_enabled: ${get('accountEnabled', '')} 
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
