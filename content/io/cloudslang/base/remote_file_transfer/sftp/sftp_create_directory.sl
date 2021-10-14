@@ -36,8 +36,6 @@
 #! @input remote_path: The path where the remote directory will be created.
 #!                     Examples: C:/Users/Administrator, root/test
 #!                     Optional
-#! @input remote_file: The name of the directory that will be created.
-#!                     Examples: file
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
 #!                       Default value: UTF-8
@@ -112,11 +110,6 @@ operation:
         required: false
     - remotePath:
         default: ${get('remote_path', '')}
-        required: false
-        private: true
-    - remote_file
-    - remoteFile:
-        default: ${get('remote_file', '')}
         required: false
         private: true
     - character_set:
