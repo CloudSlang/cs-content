@@ -13,18 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a user from Active Directory. When deleted, user resources are moved to a temporary container
-#!               and can be restored within 30 days. After that time, they are permanently deleted.
-#!               Note: In order to check all the application permissions and the prerequisites required to run this
-#!               operation please check the "Use" section of the content pack's release notes.
+#! @description: Remove subscriptions for the user.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. 
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
 #!                             Example: someuser@contoso.com
-#!                             User principal name and user id are mutually exclusive.
 #!                             Optional
-#! @input user_id: The ID of the user to perform the action on.
+#! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
+#!                 user_principal_name input.
 #!                 Optional
+#! @input removed_licenses: A comma separated list of skuIds that need to be removed.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -60,7 +58,7 @@
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
 #!                         represents an infinite timeout.
-#!                        Default: 0
+#!                         Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socket_timeout value of '0' represents an infinite timeout.
@@ -77,21 +75,20 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
-#!                        in the response body.
+#! @output return_result: If successful, this method returns 200 response code and a user object in the response body.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The user was successfully deleted.
-#! @result FAILURE: There was an error while trying to delete user.
+#! @result SUCCESS: The license was successfully removed.
+#! @result FAILURE: There was an error while trying to remove license.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoftAD.licenseManagement
 
 operation: 
-  name: delete_user
+  name: remove_user_license
   
   inputs: 
     - auth_token    
@@ -110,6 +107,12 @@ operation:
     - userId: 
         default: ${get('user_id', '')}  
         required: false 
+        private: true 
+    - removed_licenses
+        required: true
+    - removedLicenses: 
+        default: ${get('removed_licenses', '')}  
+        required: true
         private: true 
     - proxy_host:  
         required: false  
@@ -138,7 +141,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
@@ -186,30 +190,30 @@ operation:
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
         default: '2'
-        required: false
-    - connectionsMaxPerRoute:
+        required: false  
+    - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
     - connections_max_total:
         default: '20'
-        required: false
-    - connectionsMaxTotal:
+        required: false  
+    - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.RemoveUserLicense'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
