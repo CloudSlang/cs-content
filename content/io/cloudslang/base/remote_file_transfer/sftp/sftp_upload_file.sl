@@ -22,17 +22,12 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_path: The remote directory path where the file will be uploaded. If it's empty and the ‘ChrootDirectory’
-#!                     of the SFTP server is set, then the file will be uploaded in the path configured
-#!                     in the ‘ChrootDirectory’ otherwise it will be saved in the user's root folder.
+#! @input remote_path: The remote directory path where the file will be uploaded.
 #!                     Examples: C:/Users/Administrator, root/test
-#!                     Optional
 #! @input local_path: The local directory path of the file that will be copied.
 #!                    Examples: C:/Users/Administrator, root/test
-#!                    Optional
 #! @input local_file: The file to be copied remotely using SFTP.
 #!                    Example: file.txt
-#!                    Optional
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -82,8 +77,7 @@ operation:
     - username
     - password:
         sensitive: true
-    - remote_path:
-        required: false
+    - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
@@ -161,7 +155,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC18'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC19'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   
