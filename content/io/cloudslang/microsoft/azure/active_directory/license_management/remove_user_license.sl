@@ -109,10 +109,9 @@ operation:
         required: false 
         private: true 
     - removed_licenses
-        required: true
-    - removedLicenses: 
-        default: ${get('removed_licenses', '')}  
-        required: true
+    - removedLicenses:
+        default: ${get('removed_licenses', '')}
+        required: false
         private: true 
     - proxy_host:  
         required: false  
