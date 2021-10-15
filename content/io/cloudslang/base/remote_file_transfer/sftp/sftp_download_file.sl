@@ -24,11 +24,8 @@
 #!                  file.
 #! @input remote_file: The file to be downloaded remotely using SFTP.
 #!                     Example: file.txt
-#! @input remote_path: The remote directory path from where the file will be downloaded. If it's empty and the ‘ChrootDirectory’
-#!                     of the SFTP server is set, then the file will be downloaded from the path configured
-#!                     in the ‘ChrootDirectory’ otherwise it will be downloaded from the user's root folder.
+#! @input remote_path: The remote directory path from where the file will be downloaded.
 #!                     Examples: C:/Users/Administrator, root/test
-#!                     Optional
 #! @input local_path: The local directory path where the file will be downloaded.
 #!                    Examples: C:/Users/Administrator, root/test
 #! @input proxy_host: The proxy server used to access the remote host.
@@ -85,8 +82,7 @@ operation:
         default: ${get('remote_file', '')}
         required: false
         private: true
-    - remote_path:
-        required: false
+    - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
@@ -159,7 +155,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC18'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC19'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
 
