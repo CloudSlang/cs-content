@@ -33,16 +33,16 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The remote file path containing the file or directory that will be renamed.
+#! @input remote_path: The path to the file or directory to be renamed.
 #!                     Examples: C:/Users/Administrator, root/test
+#! @input remote_file: The name of the file or directory to be renamed.
+#!                     Examples: oldFile.txt, oldFolder
 #!                     Optional
-#! @input remote_file: The name of the file or directory that will be renamed.
-#!                     Examples: file.txt
 #! @input new_remote_path: The new name of the file or directory path containing the file that will be renamed.
 #!                         Examples: C:/Users/Administrator, root/test
-#!                         Optional
 #! @input new_remote_file: The new file or directory name.
-#!                         Examples: file.txt
+#!                         Examples: newFile.txt, newFolder
+#!                         Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Default value: UTF-8
@@ -64,7 +64,7 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: Remote file or directory will be renamed.
+#! @result SUCCESS: Remote file or directory was renamed successfully.
 #! @result FAILURE: Remote file or directory couldn't be renamed.
 #!!#
 ########################################################################################################################

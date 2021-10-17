@@ -22,7 +22,8 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_path: The remote file or directory name.
+#! @input remote_path: The full path of directory from where the list of subdirectories and files is retrieved.
+#!                     Examples: C:/Users/Administrator, root/test
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
