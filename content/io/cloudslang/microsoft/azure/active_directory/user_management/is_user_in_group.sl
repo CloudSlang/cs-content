@@ -19,8 +19,6 @@
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_id: The ID of the user to perform the action on.
-#! @input body: Full json body, security_enabled_groups input is ignored if the body is given.
-#!              Optional
 #! @input security_enabled_groups: True if only security groups that the user is a member of should be returned, false to
 #!                                 specify that all groups should be returned.
 #!                                 Valid values: true, false
@@ -109,9 +107,6 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true 
-    - body:
-        private: true
-        required: false  
     - security_enabled_groups:
         default: 'false'
         required: false  
