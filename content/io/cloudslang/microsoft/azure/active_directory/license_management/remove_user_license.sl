@@ -14,13 +14,15 @@
 ########################################################################################################################
 #!!
 #! @description: Remove subscriptions for the user.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
+#! @input user_principal_name: The user principal name.
 #!                             Example: someuser@contoso.com
+#!                             User principal name and user id are mutually exclusive.
 #!                             Optional
-#! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
-#!                 user_principal_name input.
+#! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
 #! @input removed_licenses: A comma separated list of skuIds that need to be removed.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
@@ -54,11 +56,12 @@
 #!                        'true' this input is ignored. Format: Java KeyStore (JKS).
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trust_all_roots is false and trust_keystore
-#!                        is empty, trustPassword default will be supplied.
+#!                        is empty, the default trust_password will be supplied.
+#!                        Default: changeit
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
 #!                         represents an infinite timeout.
-#!                         Default: 0
+#!                        Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
 #!                        packets), in seconds. A socket_timeout value of '0' represents an infinite timeout.
@@ -160,7 +163,8 @@ operation:
         default: ${get('trust_keystore', '')}  
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
+        default: 'changeit'
         required: false  
         sensitive: true
     - trustPassword: 
