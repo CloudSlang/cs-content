@@ -85,7 +85,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.licenseManagement
+namespace: io.cloudslang.microsoft.azure.active_directory.license_management
 
 operation: 
   name: remove_user_license
