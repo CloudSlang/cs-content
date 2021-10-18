@@ -97,12 +97,14 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - current_password
+    - current_password:
+        sensitive: true
     - currentPassword:
         default: ${get('current_password', '')}
         required: false 
         private: true 
-    - new_password
+    - new_password:
+        sensitive: true
     - newPassword:
         default: ${get('new_password', '')}
         required: false 
