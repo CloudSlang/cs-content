@@ -110,7 +110,7 @@ operation:
     - security_enabled_groups:
         default: 'false'
         required: false  
-    - securityEnabledGroups:
+    - securityEnabledOnly:
         default: ${get('security_enabled_groups', '')}
         required: false 
         private: true 
