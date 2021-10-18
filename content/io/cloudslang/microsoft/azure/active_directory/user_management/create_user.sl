@@ -264,7 +264,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC18'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.222-SNAPSHOT'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
