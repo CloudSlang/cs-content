@@ -13,28 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Reset the password for an Active Directory user.
+#! @description: Enables the user to update their own password. Any user can update their password without belonging to
+#!               any administrator role.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Generated authentication token.
-#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
-#!                             Example: someuser@contoso.com
-#!                             Optional
-#! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
-#!                 user_principal_name input.
-#!                 Optional
-#! @input force_change_password_next_sign_in: In case the value for the input is true, the user must change the password
-#!                                            on the next login.
-#!                                            NOTE: For Azure B2C tenants,
-#!                                            set to false and instead use custom policies and user flows to force
-#!                                            password reset at first sign in.
-#!                                            Valid values: true, false
-#!                                            Default value: false
-#!                                            Optional
-#! @input password: The new password for the user. The password must
-#!                  satisfy minimum requirements as specified by the user’s passwordPolicies property. By default, a
-#!                  strong password is required.
+#! @input current_password: The user's current password.
+#! @input new_password: The new password. The password must satisfy minimum requirements as specified by the user’s
+#!                      passwordPolicies property. By default, a strong password is required.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -94,15 +81,15 @@
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The user's password was successfully updated.
-#! @result FAILURE: There was an error while trying to reset the user password.
+#! @result SUCCESS: The user's password was successfully changed.
+#! @result FAILURE: There was an error while trying to change the user's password.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoftAD.userManagement
 
 operation: 
-  name: reset_user_password
+  name: change_user_password
   
   inputs: 
     - auth_token    
@@ -110,28 +97,16 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - user_principal_name:  
-        required: false  
-    - userPrincipalName: 
-        default: ${get('user_principal_name', '')}  
+    - current_password
+    - currentPassword:
+        default: ${get('current_password', '')}
         required: false 
         private: true 
-    - user_id:  
-        required: false  
-    - userId: 
-        default: ${get('user_id', '')}  
+    - new_password
+    - newPassword:
+        default: ${get('new_password', '')}
         required: false 
-        private: true 
-    - force_change_password_next_sign_in:
-        default: 'false'
-        required: false  
-    - forceChangePasswordNextSignIn: 
-        default: ${get('force_change_password_next_sign_in', '')}
-        required: false 
-        private: true 
-    - password:  
-        required: true
-        sensitive: true
+        private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
