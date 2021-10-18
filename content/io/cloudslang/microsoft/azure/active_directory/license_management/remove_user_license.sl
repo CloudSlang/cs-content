@@ -13,17 +13,18 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Disable a user from Active Directory.
+#! @description: Remove subscriptions for the user.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. 
+#! @input user_principal_name: The user principal name.
 #!                             Example: someuser@contoso.com
 #!                             User principal name and user id are mutually exclusive.
 #!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
+#! @input removed_licenses: A comma separated list of skuIds that need to be removed.
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -77,21 +78,20 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
-#!                        in the response body.
+#! @output return_result: If successful, this method returns 200 response code and a user object in the response body.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The user was successfully disabled.
-#! @result FAILURE: There was an error while trying to disable user.
+#! @result SUCCESS: The license was successfully removed.
+#! @result FAILURE: There was an error while trying to remove license.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.user_management
+namespace: io.cloudslang.microsoft.azure.active_directory.license_management
 
 operation: 
-  name: disable_user
+  name: remove_user_license
   
   inputs: 
     - auth_token    
@@ -110,6 +110,11 @@ operation:
     - userId: 
         default: ${get('user_id', '')}  
         required: false 
+        private: true 
+    - removed_licenses
+    - removedLicenses:
+        default: ${get('removed_licenses', '')}
+        required: false
         private: true 
     - proxy_host:  
         required: false  
@@ -205,13 +210,13 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC18'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DisableUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.RemoveUserLicense'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
