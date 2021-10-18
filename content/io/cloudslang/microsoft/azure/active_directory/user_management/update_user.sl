@@ -24,6 +24,10 @@
 #! @input user_id: The ID of the user to perform the action on. This input is mutually exclusive with the
 #!                 user_principal_name input.
 #!                 Optional
+#! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
+#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in,
+#!              password and updated_user_principal_name inputs.
+#!              Optional
 #! @input account_enabled: This property must be set to 'true' if the account is enabled otherwise, 'false'. This property
 #!                         is required when a user is created. This input is mutually exclusive with the body input and
 #!                         will be ignored if the body is populated.
@@ -57,10 +61,6 @@
 #!                                     and will be ignored if the body is populated.
 #!                                     Example: someuser@contoso.com
 #!                                     Optional
-#! @input body: Full json body if the user wants to set additional properties. This input is mutually exclusive with the
-#!              account_enabled, display_name, on_premises_immutable_id, mail_nickname, force_change_password_next_sign_in,
-#!              password and updated_user_principal_name inputs.
-#!              Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -92,7 +92,8 @@
 #!                        'true' this input is ignored. Format: Java KeyStore (JKS).
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trust_all_roots is false and trust_keystore
-#!                        is empty, trustPassword default will be supplied.
+#!                        is empty, the default trust_password will be supplied.
+#!                        Default: changeit
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
 #!                         represents an infinite timeout.
@@ -124,7 +125,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoft.azure.active_directory.user_management
 
 operation: 
   name: update_user
@@ -147,6 +148,8 @@ operation:
         default: ${get('user_id', '')}
         required: false
         private: true
+    - body:
+        required: false
     - account_enabled:
         required: false  
     - accountEnabled: 
@@ -186,8 +189,6 @@ operation:
         default: ${get('updated_user_principal_name', '')}
         required: false 
         private: true
-    - body:
-        required: false
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -235,7 +236,8 @@ operation:
         default: ${get('trust_keystore', '')}  
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
+        default: 'changeit'
         required: false  
         sensitive: true
     - trustPassword: 
