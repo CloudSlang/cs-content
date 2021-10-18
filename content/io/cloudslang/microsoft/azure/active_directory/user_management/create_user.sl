@@ -84,7 +84,8 @@
 #!                        'true' this input is ignored. Format: Java KeyStore (JKS).
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trust_all_roots is false and trust_keystore
-#!                        is empty, trustPassword default will be supplied.
+#!                        is empty, the default trust_password will be supplied.
+#!                        Default: changeit
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
 #!                         represents an infinite timeout.
@@ -116,7 +117,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoftAD.userManagement
+namespace: io.cloudslang.microsoft.azure.active_directory.user_management
 
 operation: 
   name: create_user
@@ -217,7 +218,8 @@ operation:
         default: ${get('trust_keystore', '')}  
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
+        default: 'changeit'
         required: false  
         sensitive: true
     - trustPassword: 
@@ -262,7 +264,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC17'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
