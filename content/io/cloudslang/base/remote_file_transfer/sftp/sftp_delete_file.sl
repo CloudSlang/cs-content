@@ -33,10 +33,9 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The path to the remote file that will be deleted.
+#! @input remote_path: The path to the remote file to be deleted.
 #!                     Examples: C:/Users/Administrator, root/test
-#!                     Optional
-#! @input remote_file: The remote file.
+#! @input remote_file: The name and extension of the file to be deleted.
 #!                     Examples: file.txt
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
@@ -151,7 +150,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC19'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC20'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteFile'
     method_name: 'execute'
   
