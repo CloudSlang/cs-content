@@ -271,12 +271,12 @@ operation:
     - keep_alive:
         required: false
     - keepAlive:
-        default: ${get("keep_alive", "false")}
+        default: ${get("keep_alive", "true")}
         private: true
-    - connections_max_per_route:
+    - connections_max_per_root:
         required: false
-    - connectionsMaxPerRoute:
-        default: ${get("connections_max_per_route", "2")}
+    - connectionsMaxPerRoot:
+        default: ${get("connections_max_per_root", "2")}
         private: true
     - connections_max_total:
         required: false
@@ -396,7 +396,7 @@ operation:
         default: ${ str(list(range(200, 300))) }
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.811-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.812-SNAPSHOT'
     class_name: io.cloudslang.content.httpclient.actions.HttpClientAction
     method_name: execute
 
