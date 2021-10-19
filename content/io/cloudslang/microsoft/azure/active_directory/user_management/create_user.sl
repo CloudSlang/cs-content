@@ -56,8 +56,8 @@
 #! @input user_principal_name: The user principal name. This input is mutually exclusive with the body input and will be
 #!                             ignored if the body is populated.
 #!                             The principal name needs to comply with the format accepted by Active Directory.
-#!                             The allowed characters are A-Z, a-z, 0-9 and ' . - _ ! # ^ ~ . The length must not
-#!                             exceed 113 characters in total, and there should be 64 characters or less before @ .
+#!                             The allowed characters are A-Z, a-z, 0-9 and ' . - _ ! # ^ ~ . The length must not exceed
+#!                             113 characters in total, and there should be 64 characters or less before @ .
 #!                             Example: someuser@contoso.com
 #!                             Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
