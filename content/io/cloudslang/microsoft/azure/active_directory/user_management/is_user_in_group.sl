@@ -18,14 +18,16 @@
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
+#! @input user_principal_name: The user principal name. This input is mutually exclusive with the user_id input.
+#!                             Example: someuser@contoso.com
+#!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
-#! @input body: Full json body, security_enabled_only input is ignored if the body is given.
-#!              Optional
-#! @input security_enabled_only: True if only security groups that the user is a member of should be returned, false to
-#!                               specify that all groups should be returned.
-#!                               Valid values: true, false
-#!                               Default: false
-#!                               Optional
+#!                 Optional
+#! @input security_enabled_groups: True if only security groups that the user is a member of should be returned, false to
+#!                                 specify that all groups should be returned.
+#!                                 Valid values: true, false
+#!                                 Default: false
+#!                                 Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -103,20 +105,25 @@ operation:
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
-    - user_id
+        private: true
+    - user_principal_name:
+        required: false
+    - userPrincipalName:
+        default: ${get('user_principal_name', '')}
+        required: false
+        private: true
+    - user_id:
+        required: false
     - userId: 
         default: ${get('user_id', '')}  
         required: false 
         private: true 
-    - body:  
-        required: false  
-    - security_enabled_only:
+    - security_enabled_groups:
         default: 'false'
         required: false  
-    - securityEnabledOnly: 
-        default: ${get('security_enabled_only', '')}  
-        required: false 
+    - securityEnabledGroups:
+        default: ${get('security_enabled_groups', '')}
+        required: false
         private: true 
     - proxy_host:  
         required: false  
@@ -211,7 +218,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC18'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC19'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.IsUserInGroup'
     method_name: 'execute'
   
