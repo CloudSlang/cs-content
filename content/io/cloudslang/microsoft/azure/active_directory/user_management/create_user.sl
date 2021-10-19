@@ -45,13 +45,20 @@
 #!                                            and user flows to force password reset at first sign in.
 #!                                            Optional
 #! @input password: The password for the user. This property is required when a user is
-#!                  created. The password must satisfy minimum requirements as specified by the user’s passwordPolicies
-#!                  property. By default, a strong password is required. This input is mutually exclusive with the body
-#!                  input and will be ignored if the body is populated.
+#!                  created. The password needs to comply with the format accepted by Active Directory.
+#!                  The allowed characters are A-Z, a-z, 0-9, blank space and @ # $ % ^ & * - _ ! + = [ ] { } |
+#!                  \ : ' , . ? / ` ~ " ( ) ; < >. The length must be between 8 and 256 characters in total, and
+#!                  at least three of the following conditions must be met: lowercase characters, uppercase characters,
+#!                  numbers, symbols. The password must also satisfy minimum requirements as specified by the user’s
+#!                  passwordPolicies property. By default, a strong password is required. This input is mutually
+#!                  exclusive with the body input and will be ignored if the body is populated.
 #!                  Optional
 #! @input user_principal_name: The user principal name. This input is mutually exclusive with the body input and will be
 #!                             ignored if the body is populated.
-#!                             Example: someuser@contoso.com
+#!                             The principal name needs to comply with the format accepted by Active Directory.
+#!                             The allowed characters are A-Z, a-z, 0-9 and ' . - _ ! # ^ ~ . The length must not exceed
+#!                             113 characters in total, and there should be 64 characters or less before @ .
+#!                             Example: someUser1@contoso.com
 #!                             Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
@@ -264,7 +271,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC19'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC20'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.CreateUser'
     method_name: 'execute'
   
