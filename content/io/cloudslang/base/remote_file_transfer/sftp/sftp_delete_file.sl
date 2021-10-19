@@ -109,8 +109,7 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path:
-        required: false
+    - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false

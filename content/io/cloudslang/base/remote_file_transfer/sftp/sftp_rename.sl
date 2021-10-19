@@ -115,24 +115,24 @@ operation:
         default: ${get('private_key', '')}  
         required: false 
         private: true 
-    - remote_path:
-        required: false
+    - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
         private: true
-    - remote_file
+    - remote_file:
+        required: false
     - remoteFile:
         default: ${get('remote_file', '')}
         required: false
         private: true
-    - new_remote_path:
-        required: false
+    - new_remote_path
     - newRemotePath:
         default: ${get('new_remote_path', '')}
         required: false
         private: true
-    - new_remote_file
+    - new_remote_file:
+        required: false
     - newRemoteFile:
         default: ${get('new_remote_file', '')}
         required: false 
