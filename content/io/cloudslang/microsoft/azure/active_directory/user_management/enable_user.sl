@@ -204,7 +204,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC20'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.6-SNAPSHOT'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.EnableUser'
     method_name: 'execute'
   
