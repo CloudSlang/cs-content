@@ -13,18 +13,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a user from Active Directory. When deleted, user resources are moved to a temporary container
-#!               and can be restored within 30 days. After that time, they are permanently deleted.
+#! @description: Retrieve a list of license details objects for a given user.
 #!               Note: In order to check all the application permissions and the prerequisites required to run this
 #!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
-#! @input user_principal_name: The user principal name. 
-#!                             Example: someuser@contoso.com
-#!                             User principal name and user id are mutually exclusive.
-#!                             Optional
 #! @input user_id: The ID of the user to perform the action on.
 #!                 Optional
+#! @input query_params: This input can be used to filter the response using query parameters in the form of a comma
+#!                      delimited list.
+#!                      For a complete list of available query parameters please check the Microsoft Graph
+#!                      documentation.
+#!                      Example: id,skuId,skuPartNumber
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -52,23 +53,24 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trust_all_roots is
-#!                        'true' this input is ignored. Format: Java KeyStore (JKS).
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS).
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trust_all_roots is false and trust_keystore
-#!                        is empty, the default trust_password will be supplied.
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
 #!                        Default: changeit
 #!                        Optional
-#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A connect_timeout value of '0'
+#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
-#!                        Default: 0
+#!                         Default: 0
 #!                         Optional
 #! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
-#!                        packets), in seconds. A socket_timeout value of '0' represents an infinite timeout.
+#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
 #!                        Default: 0
 #!                        Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keep_alive is false, the already open connection will be used and after execution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
@@ -78,32 +80,26 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code. It does not return anything
-#!                        in the response body.
+#! @output return_result: A list of license details objects for a given user.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
+#! @output status_code: The HTTP status code for Azure API request, if successful, this method returns 200 response
+#!                      code.
 #! @output exception: The error message in case of failure.
 #!
-#! @result SUCCESS: The user was successfully deleted.
-#! @result FAILURE: There was an error while trying to delete user.
+#! @result SUCCESS: Request went successfully.
+#! @result FAILURE: There was an error while trying to do the request.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.active_directory.user_management
+namespace: io.cloudslang.microsoft.azure.active_directory.license_management
 
 operation: 
-  name: delete_user
+  name: get_user_license_details
   
   inputs: 
     - auth_token    
     - authToken: 
         default: ${get('auth_token', '')}  
-        required: false 
-        private: true 
-    - user_principal_name:  
-        required: false  
-    - userPrincipalName: 
-        default: ${get('user_principal_name', '')}  
         required: false 
         private: true 
     - user_id:  
@@ -112,6 +108,12 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true 
+    - query_params:
+        required: false
+    - queryParams:
+        default: ${get('query_params', '')}
+        required: false
+        private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -120,7 +122,7 @@ operation:
         private: true 
     - proxy_port:
         default: '8080'
-        required: false
+        required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
@@ -189,24 +191,24 @@ operation:
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
         default: '2'
-        required: false
-    - connectionsMaxPerRoute:
+        required: false  
+    - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
     - connections_max_total:
         default: '20'
-        required: false
-    - connectionsMaxTotal:
+        required: false  
+    - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
         required: false 
-        private: true
+        private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC21'
-    class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
+    class_name: 'io.cloudslang.content.microsoftAD.actions.licenseManagement.GetUserLicenseDetails'
     method_name: 'execute'
   
   outputs: 
