@@ -77,7 +77,7 @@
 #! @output return_result: If successful, this method returns the complete API response.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output available_skus_list: Get a comma separated list of skuIds. If the query parameter does not select skuIds,
+#! @output available_sku_ids_list: Get a comma separated list of skuIds. If the query parameter does not select skuIds,
 #!                              this field will be empty
 #! @output exception: The error message in case of failure.
 #!
@@ -204,7 +204,7 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
-    - available_skus_list: ${get('availableSkusList', '')} 
+    - available_sku_ids_list: ${get('availableSkuIdsList', '')}
     - exception: ${get('exception', '')} 
   
   results: 
