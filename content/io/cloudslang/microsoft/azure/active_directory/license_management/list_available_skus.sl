@@ -16,6 +16,12 @@
 #! @description: Get the list of commercial subscriptions that an organization has acquired.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
+#! @input query_params: This input can be used to filter the response using query parameters in the form of a comma
+#!                      delimited list.
+For a complete list of available query parameters please check the Microsoft
+#!                      Graph documentation.
+Example: id,skuId,skuPartNumber
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Azure Active Directory service.
@@ -69,10 +75,11 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: If successful, returns the complete API response.
+#! @output return_result: If successful, this method returns the complete API response.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
-#! @output available_skus_list: Get the list of commercial subscriptions that an organization has acquired.
+#! @output available_skus_list: Get a comma separated list of skuIds. If the query parameter does not select skuIds,
+#!                              this field will be empty
 #! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: Request went successfully.
@@ -91,7 +98,13 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - proxy_host:  
+    - query_params:
+        required: false
+    - queryParams:
+        default: ${get('query_params', '')}
+        required: false
+        private: true
+    - proxy_host:
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
