@@ -18,9 +18,8 @@
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input query_params: This input can be used to filter the response using query parameters in the form of a comma
 #!                      delimited list.
-For a complete list of available query parameters please check the Microsoft
-#!                      Graph documentation.
-Example: id,skuId,skuPartNumber
+#!                      For a complete list of available query parameters please check the Microsoft Graph documentation.
+#!                      Example: id,skuId,skuPartNumber
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the Azure Active Directory service.
 #!                    Optional
