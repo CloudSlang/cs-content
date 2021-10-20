@@ -226,7 +226,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:2.0.6-SNAPSHOT'
+'io.cloudslang.content:cs-microsoft-ad:2.0.9-SNAPSHOT'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.ResetUserPassword'
     method_name: 'execute'
   
