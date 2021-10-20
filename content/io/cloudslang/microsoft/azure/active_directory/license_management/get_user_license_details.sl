@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Retrieve a list of license details objects for a given user.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input user_id: The ID of the user to perform the action on.
@@ -107,7 +109,11 @@ operation:
         required: false 
         private: true 
     - query_params:
-        required: false  
+        required: false
+    - queryParams:
+        default: ${get('query_params', '')}
+        required: false
+        private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
