@@ -14,6 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: Get the list of commercial subscriptions that an organization has acquired.
+#!               Note: In order to check all the application permissions and the prerequisites required to run this
+#!               operation please check the "Use" section of the content pack's release notes.
 #!
 #! @input auth_token: Token used to authenticate to Azure Active Directory.
 #! @input query_params: This input can be used to filter the response using query parameters in the form of a comma
@@ -78,7 +80,7 @@
 #! @output return_code: 0 if success, -1 if failure.
 #! @output status_code: The HTTP status code for Azure API request, successful if between 200 and 300.
 #! @output available_sku_ids_list: Get a comma separated list of skuIds. If the query parameter does not select skuIds,
-#!                              this field will be empty
+#!                                 this field will be empty
 #! @output exception: The error message in case of failure.
 #!
 #! @result SUCCESS: Request went successfully.
