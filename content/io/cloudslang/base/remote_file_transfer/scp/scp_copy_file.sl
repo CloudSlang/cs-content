@@ -23,9 +23,11 @@
 #! @input password: Password of user. If using a private key file this will be used as the passphrase for the file.
 #! @input local_file: Absolute path to the local file. This path is relative to the host that the operation is running
 #!                    on.
+#!                    Example: /root/testFile.txt, C:\testFile.txt
 #! @input copy_action: To/From copy action.
 #!                     Valid values: to, from
 #! @input remote_file: Absolute path to remote file.
+#!                     Example: C:\Users\Administrator\testFile.txt
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -142,7 +144,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC20'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC21'
     class_name: 'io.cloudslang.content.rft.actions.scp.SCPCopyFile'
     method_name: 'execute'
   
