@@ -25,7 +25,7 @@
 #! @input remote_path: The remote directory path where the file will be uploaded.
 #!                     Examples: C:/Users/Administrator, root/test
 #! @input local_path: The local directory path of the file that will be copied.
-#!                    Examples: C:/Users/Administrator, root/test
+#!                    Examples: C:/Users/Administrator, /root/test
 #! @input local_file: The file to be copied remotely using SFTP.
 #!                    Example: file.txt
 #! @input proxy_host: The proxy server used to access the remote host.
@@ -155,7 +155,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC20'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC21'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
     method_name: 'execute'
   

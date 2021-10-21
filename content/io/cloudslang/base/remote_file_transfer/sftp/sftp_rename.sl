@@ -34,14 +34,15 @@
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
 #! @input remote_path: The path to the file or directory to be renamed.
-#!                     Examples: C:/Users/Administrator, root/test
+#!                     Examples: C:/Users/Administrator,C:/Users/Administrator/oldFolderName ,root/test, root/test/oldFolderName
 #! @input remote_file: The name of the file or directory to be renamed.
-#!                     Examples: oldFile.txt, oldFolder
+#!                     Examples: oldFile.txt
 #!                     Optional
 #! @input new_remote_path: The new name of the file or directory path containing the file that will be renamed.
-#!                         Examples: C:/Users/Administrator, root/test
-#! @input new_remote_file: The new file or directory name.
-#!                         Examples: newFile.txt, newFolder
+#!                         Examples: C:/Users/Administrator,C:/Users/Administrator/newFolderName, root/test, root/test/newFolderName
+#! @input new_remote_file: The new file or directory name. If the provided path in the remote_path input doesn't match
+#!                         the path for the input: new_remote_path the file will be moved in the new_remote_path location.
+#!                         Examples: newFile.txt
 #!                         Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
@@ -167,7 +168,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC20'
+    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC21'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPRename'
     method_name: 'execute'
   
