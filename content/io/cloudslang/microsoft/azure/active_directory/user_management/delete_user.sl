@@ -205,7 +205,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0-RC22'
+    gav: 'io.cloudslang.content:cs-microsoft-ad:1.0.0'
     class_name: 'io.cloudslang.content.microsoftAD.actions.userManagement.DeleteUser'
     method_name: 'execute'
   
