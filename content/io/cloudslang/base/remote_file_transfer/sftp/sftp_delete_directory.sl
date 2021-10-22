@@ -33,7 +33,7 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: TThe absolute path to the directory that will be deleted.
+#! @input remote_path: The absolute path to the directory that will be deleted.
 #!                     Examples: C:/Users/Administrator/folder, root/test/folder
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
@@ -141,7 +141,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC21'
+    gav: 'io.cloudslang.content:cs-rft:1.0.0'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteDirectory'
     method_name: 'execute'
   
