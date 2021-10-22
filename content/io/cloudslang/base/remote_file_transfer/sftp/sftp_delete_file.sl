@@ -149,7 +149,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:0.0.9-RC21'
+    gav: 'io.cloudslang.content:cs-rft:1.0.0'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteFile'
     method_name: 'execute'
   
