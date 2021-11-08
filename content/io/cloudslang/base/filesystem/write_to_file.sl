@@ -44,7 +44,7 @@ operation:
     - file_path
     - text
     - encode_type:
-        default: 'utf-8'
+        default: 'utf_8'
         required: false
 
   python_action:
