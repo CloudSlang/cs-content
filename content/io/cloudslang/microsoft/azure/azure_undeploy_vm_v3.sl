@@ -22,8 +22,9 @@
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients),
 #!                       which have the ability to store the client_secret securely on the server side.
-#! @input provider_sap: Optional - The providerSAP(Service Access Point) to which requests will be sent.
+#! @input provider_sap: The providerSAP(Service Access Point) to which requests will be sent.
 #!                      Default: 'https://management.azure.com'
+#!                      Optional
 #! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
 #! @input vm_name: The name of the virtual machine to be un-deployed.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
@@ -32,29 +33,40 @@
 #! @input infrastructure_options: Type of the infrastructure.Allowed Values: noInfrastructure, availabilitySet
 #! @input availability_options: If "noInfrastructure" is specified for infrastructure_options, then enter either Managedor Unmanaged options. If "availabilitySet" is specified for infrastructure_options, thenenter availability set name.
 #! @input type_of_storage: Type of Storage used for VM deployment. If aligned availability set or Managed option isentered for availability_options, then specify storage account types. If classic availabilityset or Unmanaged option is entered for availability_options, then enter storage accounts name.
-#! @input public_ip_address_name: Optional - The name of public IP Address.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input public_ip_address_name: The name of public IP Address.
+#!                                Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
-#!                    Default: '8080'
-#! @input proxy_username: Optional - Username used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
 #! @output return_code: 0 if success, -1 if failure
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -66,6 +78,7 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure
+
 imports:
   strings: io.cloudslang.base.strings
   ip: io.cloudslang.microsoft.azure.compute.network.public_ip_addresses
@@ -74,6 +87,7 @@ imports:
   nic: io.cloudslang.microsoft.azure.compute.network.network_interface_card
   flow: io.cloudslang.base.utils
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
+
 flow:
   name: azure_undeploy_vm_v3
   inputs:
@@ -103,7 +117,6 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false

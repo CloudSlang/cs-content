@@ -15,8 +15,9 @@
 #!!
 #! @description: This workflow is used to provision VM in Azure.
 #!
-#! @input provider_sap: Optional - The providerSAP(Service Access Point) to which requests will be sent.
+#! @input provider_sap: The providerSAP(Service Access Point) to which requests will be sent.
 #!                      Default: 'https://management.azure.com'
+#!                      Optional
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be deployed.
 #! @input tenant_id: The tenantId value used to control who can sign into the application.
 #! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
@@ -52,6 +53,7 @@
 #!               is used to create the virtual machine. You can enter either public image or private image name.
 #! @input enable_public_ip: Create public ip for the VM if the value is true.
 #! @input dns_name: Specifies the domain name of the VM.
+#!                  Optional
 #! @input os_platform: Name of the operating system that will be installed
 #!                     Valid values: 'Windows,'Linux'
 #! @input vm_password: Specifies the password of the administrator account.
@@ -66,13 +68,18 @@
 #!                     Has a special character (Regex match [\W_])
 #!                     Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1",
 #!                     "Password!", "Password1", "Password22", "iloveyou!"
+#!                     Optional
 #! @input ssh_publicKey_name: The name of the SSH public key.
+#!                            Optional
 #! @input disk_size: The size of the storage disk to be attach to the virtual machine.
 #!                   Note: The value must be greater than '0'
 #!                   Example: '1'
+#!                   Optional
 #! @input os_disk_name: Name of the VM disk used as a place to store operating system, applications and data.
+#!                      Optional
 #! @input data_disk_name: This is the name for the data disk which is a VHD that’s attached to a virtual machine to
 #!                        store application data, or other data you need to keep.
+#!                        Optional
 #! @input tag_name_list: Name of the tag to be added to the virtual machine
 #!                       Default: ''
 #!                       Optional
@@ -88,7 +95,6 @@
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
-#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Username used when connecting to the proxy.
 #!                        Optional
@@ -147,6 +153,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
+
 flow:
   name: azure_deploy_vm_v3
   inputs:
