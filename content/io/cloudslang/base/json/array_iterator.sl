@@ -19,9 +19,8 @@
 #!
 #!
 #! @input array: The JavaScript array that will be iterated through. A normal OO list is NOT a JavaScript array.
-#!               Examples:
-#!               For example, the following is a simple JSON array:
-#!               "cat", "dog", "horse" ]
+#!               Examples: For example, the following is a simple JSON array:
+#!               ["cat", "dog", "horse"]
 #!
 #! @output return_code: "0" if has more, "1" if no more values, and "-1" if failed.
 #! @output return_result: "has more" - Another value was found in the JSON array and it has been returned,
@@ -48,16 +47,16 @@ operation:
     - array    
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-json:0.0.19-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-json:0.0.20-SNAPSHOT'
     class_name: 'io.cloudslang.content.json.actions.ArrayIteratorAction'
     method_name: 'execute'
   
   outputs: 
   - result_string: ${resultString}
-  - return_result: ${result}
+  - return_result: ${returnResult}
   - return_code: ${returnCode}
   
   results: 
-    - HAS_MORE: ${result=='0'}
-    - NO_MORE: ${result=='1'}
+    - HAS_MORE: ${returnCode =='0'}
+    - NO_MORE: ${returnCode =='1'}
     - FAILURE
