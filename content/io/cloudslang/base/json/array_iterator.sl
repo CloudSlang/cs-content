@@ -18,7 +18,7 @@
 #!               into the "returnResult" output and advances the iterator to the next array element.
 #!
 #!
-#! @input array: The JavaScript array that will be iterated through. A normal OO list is NOT a JavaScript array.
+#! @input array: The JSON array that will be iterated through.
 #!               Examples: For example, the following is a simple JSON array:
 #!               ["cat", "dog", "horse"]
 #!
@@ -47,7 +47,7 @@ operation:
     - array    
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-json:0.0.21-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-json:0.0.22-SNAPSHOT'
     class_name: 'io.cloudslang.content.json.actions.ArrayIteratorAction'
     method_name: 'execute'
   
