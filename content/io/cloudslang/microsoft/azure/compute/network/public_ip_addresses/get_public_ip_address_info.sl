@@ -26,8 +26,8 @@
 #! @input public_ip_address_name: public IP address name
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
-#!                      Optional
 #!                      Default: 'RAS_Operator_Path'.
+#!                      Optional
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved
