@@ -24,6 +24,10 @@
 #!                     Default: '2016-03-30'
 #!                     Optional
 #! @input public_ip_address_name: public IP address name
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Optional
+#!                      Default: 'RAS_Operator_Path'.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Time in seconds to wait for data to be retrieved
@@ -90,6 +94,9 @@ flow:
         default: "0"
         required: false
     - public_ip_address_name
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -114,6 +121,9 @@ flow:
 
   workflow:
     - get_public_ip_address_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -143,6 +153,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
