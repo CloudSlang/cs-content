@@ -49,7 +49,8 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output output: Information about the virtual machine that has been started.
