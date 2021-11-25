@@ -91,6 +91,7 @@
 #!                         Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional

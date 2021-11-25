@@ -25,7 +25,10 @@
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #! @input polling_interval: Time to wait between checks
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
