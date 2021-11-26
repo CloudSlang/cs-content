@@ -154,6 +154,7 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
+
 flow:
   name: azure_deploy_vm_v3
   inputs:
