@@ -126,11 +126,11 @@ flow:
           override: true
         do:
           http.http_client_put:
-            - url: |-
+            - url: >
                 ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
                 resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name +
                 '?api-version=' + api_version}
-            - body: |-
+            - body: >
                 ${'{"location":"' + location + '","properties":{"ipConfigurations":[{"name":"' + nic_name +
                 '","properties":{"subnet":{"id":"/subscriptions/' + subscription_id + '/resourceGroups/' +
                 resource_group_name + '/providers/Microsoft.Network/virtualNetworks/' + virtual_network_name +
@@ -138,10 +138,10 @@ flow:
                 subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' +
                 public_ip_address_name + '"}}}],"dnsSettings":{"dnsServers":['+dns_json+'],"internalDnsNameLabel":"dns'+nic_name+'"}}}'}
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: anonymous
+            - auth_type: 'anonymous'
             - preemptive_auth: 'true'
-            - content_type: application/json
-            - request_character_set: UTF-8
+            - content_type: 'application/json'
+            - request_character_set: 'UTF-8'
             - connect_timeout
             - socket_timeout
             - proxy_host
@@ -153,7 +153,7 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - output: '${return_result}'
+          - output: ${return_result}
           - status_code
         navigate:
           - SUCCESS: SUCCESS
@@ -162,10 +162,10 @@ flow:
         worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: '${output}'
+            - json_input: ${output}
             - json_path: 'error,message'
         publish:
-          - error_message: '${return_result}'
+          - error_message: ${return_result}
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
