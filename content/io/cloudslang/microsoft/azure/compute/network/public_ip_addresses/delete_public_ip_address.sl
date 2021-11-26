@@ -21,6 +21,9 @@
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2016-03-30'
 #! @input public_ip_address_name: Virtual machine public IP address
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
@@ -79,6 +82,9 @@ flow:
         default: "0"
         required: false
     - public_ip_address_name
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -103,6 +109,9 @@ flow:
 
   workflow:
     - delete_public_ip_address:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_delete:
             - url: >
@@ -132,6 +141,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}
