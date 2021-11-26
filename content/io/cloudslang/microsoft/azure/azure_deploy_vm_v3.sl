@@ -154,7 +154,6 @@ imports:
   flow: io.cloudslang.base.utils
   lists: io.cloudslang.base.lists
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
-
 flow:
   name: azure_deploy_vm_v3
   inputs:
@@ -999,6 +998,7 @@ flow:
           - SUCCESS: set_storage_account_type
           - FAILURE: set_storage_type_1
     - format_dns_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - dns_name: '${dns_name+random_number}'
