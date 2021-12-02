@@ -37,7 +37,7 @@
 #!                  will become undefined after this call, which basically will reset it so that if called again, this
 #!                  operation will begin another iteration at the beginning of the array.
 #! @result FAILURE: There was some error in iterating through the list, and the "return_result" output will contain
-#!                  information about the error. This will occur if the input array is not a valid JavaScript array.
+#!                  information about the error. This will occur if the input array is not a valid JSON array.
 #!!#
 ########################################################################################################################
 
