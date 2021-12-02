@@ -1,4 +1,4 @@
-#   (c) Copyright 2019 EntIT Software LLC, a Micro Focus company, L.P.
+#   (c) Copyright 2021 EntIT Software LLC, a Micro Focus company, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -67,7 +67,7 @@ operation:
          private: true
 
   java_action:
-     gav: 'io.cloudslang.content:cs-json:0.0.16'
+     gav: 'io.cloudslang.content:cs-json:0.0.18-RC1'
      class_name: io.cloudslang.content.json.actions.JsonPathQuery
      method_name: execute
 
