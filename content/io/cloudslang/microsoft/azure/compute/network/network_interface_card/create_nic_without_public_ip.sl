@@ -25,6 +25,10 @@
 #! @input subnet_name: The name of the Subnet in which the created VM should be added.
 #! @input location: Specifies the supported Azure location where the network interface card should be created.
 #!                  This can be different from the location of the resource group.
+#! @input dns_json: Optional - List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS
+#!                  resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value
+#!                  in dnsServers collection.
+#!                  Default: ''
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
@@ -111,6 +115,7 @@ flow:
         required: false
         sensitive: true
     - dns_json:
+        default: ''
         required: false
   workflow:
     - create_network_interface_card:
