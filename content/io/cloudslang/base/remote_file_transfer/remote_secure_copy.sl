@@ -158,7 +158,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-rft:1.0.0'
+    gav: 'io.cloudslang.content:cs-rft:1.0.1'
     class_name: io.cloudslang.content.rft.actions.RemoteSecureCopyAction
     method_name: copyTo
 
