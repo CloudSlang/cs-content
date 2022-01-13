@@ -137,7 +137,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.16'
+    gav: 'io.cloudslang.content:cs-xml:0.0.17'
     class_name: io.cloudslang.content.xml.actions.EditXml
     method_name: xPathReplaceNode
 
