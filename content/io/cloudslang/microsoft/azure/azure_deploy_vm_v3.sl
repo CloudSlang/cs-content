@@ -401,7 +401,7 @@ flow:
     - create_vm:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.azure.compute.virtualmachines.create_vm:
+          io.cloudslang.microsoft.azure.compute.virtual_machines.create_vm:
             - subscription_id: '${subscription_id}'
             - azure_protocol: https
             - azure_host: management.azure.com
