@@ -109,7 +109,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.8-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-google:0.4.9-SNAPSHOT'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DisksGet
     method_name: execute
 
