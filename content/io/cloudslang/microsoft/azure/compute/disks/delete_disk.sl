@@ -19,8 +19,10 @@
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to delete the disk.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to AzureDefault: '2020-12-01'
-#! @input disk_name: disk name
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input disk_name: The name of the disk to be created.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved

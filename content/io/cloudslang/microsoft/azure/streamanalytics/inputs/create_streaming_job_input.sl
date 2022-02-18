@@ -171,7 +171,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.13'
+    gav: 'io.cloudslang.content:cs-azure:0.0.14'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.inputs.CreateStreamingJobInput'
     method_name: 'execute'
   

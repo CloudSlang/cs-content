@@ -26,7 +26,8 @@
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
 #! @input enable_public_ip: The value of property will be true if the VM has public IP Address.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

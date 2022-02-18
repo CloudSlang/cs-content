@@ -21,17 +21,22 @@
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2015-06-15'
 #! @input nic_name: network interface card name
-#! @input location: Specifies the supported Azure location where the network interface card should be created.
-#!                  This can be different from the location of the resource group.
 #! @input public_ip_address_name: Virtual machine public IP address
 #! @input virtual_network_name: Name of the virtual network in which the virtual machine will be assigned to
 #! @input subnet_name: The name of the Subnet in which the created VM should be added.
+#! @input location: Specifies the supported Azure location where the network interface card should be created.
+#!                  This can be different from the location of the resource group.
+#! @input dns_json: Optional - List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS
+#!                  resolution. 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value
+#!                  in dnsServers collection.
+#!                  Default: ''
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved
 #!                        Default: '0' (infinite)
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
@@ -47,7 +52,7 @@
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
@@ -64,40 +69,39 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure.compute.network.network_interface_card
-
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-
 flow:
   name: create_nic
-
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
-        required: false
         default: '2015-06-15'
+        required: false
     - nic_name
     - public_ip_address_name
     - virtual_network_name
     - subnet_name
     - location
     - dns_json:
+        default: ''
         required: false
     - connect_timeout:
-        default: "0"
+        default: '0'
         required: false
     - socket_timeout:
-        default: "0"
+        default: '0'
         required: false
     - worker_group:
+        default: RAS_Operator_Path
         required: false
     - proxy_host:
         required: false
     - proxy_port:
-        default: "8080"
+        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -105,17 +109,16 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: strict
         required: false
     - trust_keystore:
         required: false
     - trust_password:
         required: false
         sensitive: true
-
   workflow:
     - create_network_interface_card:
         worker_group:
@@ -155,7 +158,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         worker_group: '${worker_group}'
         do:
@@ -167,13 +169,40 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
-      - SUCCESS
-      - FAILURE
+    - SUCCESS
+    - FAILURE
+extensions:
+  graph:
+    steps:
+      create_network_interface_card:
+        x: 100
+        'y': 250
+        navigate:
+          c397d8d4-faf2-f07e-1073-ceceea2bd966:
+            targetId: 14e0bacc-5399-3e9e-c3c2-7a4d882ed416
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          aa37cdb1-a195-830f-8f38-30709ba46412:
+            targetId: 8d672533-c532-2efc-4566-70efe65d9161
+            port: SUCCESS
+          3e114ef5-aeb7-c46b-9995-0b334e378a2f:
+            targetId: 8d672533-c532-2efc-4566-70efe65d9161
+            port: FAILURE
+    results:
+      SUCCESS:
+        14e0bacc-5399-3e9e-c3c2-7a4d882ed416:
+          x: 400
+          'y': 125
+      FAILURE:
+        8d672533-c532-2efc-4566-70efe65d9161:
+          x: 700
+          'y': 250
 

@@ -20,6 +20,9 @@
 #! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2016-03-30'
 #! @input public_ip_address_name: public IP address name.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -66,6 +69,9 @@ flow:
         required: false
         default: '2016-03-30'
     - public_ip_address_name
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -90,6 +96,9 @@ flow:
 
   workflow:
     - list_public_ip_addresses:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
             - url: >
@@ -116,6 +125,7 @@ flow:
           - FAILURE: retrieve_error
 
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: ${output}

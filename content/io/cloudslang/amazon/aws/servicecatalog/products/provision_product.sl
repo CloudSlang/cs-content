@@ -237,7 +237,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.38'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.39'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.ProvisionProductAction'
     method_name: 'execute'
   

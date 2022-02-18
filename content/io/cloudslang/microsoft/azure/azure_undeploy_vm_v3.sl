@@ -37,6 +37,7 @@
 #!                                Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)

@@ -91,6 +91,7 @@
 #!                         Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -400,7 +401,7 @@ flow:
     - create_vm:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.azure.compute.virtualmachines.create_vm:
+          io.cloudslang.microsoft.azure.compute.virtual_machines.create_vm:
             - subscription_id: '${subscription_id}'
             - azure_protocol: https
             - azure_host: management.azure.com
@@ -998,6 +999,7 @@ flow:
           - SUCCESS: set_storage_account_type
           - FAILURE: set_storage_type_1
     - format_dns_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - dns_name: '${dns_name+random_number}'

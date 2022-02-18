@@ -49,7 +49,9 @@
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output output: json response with information about the virtual machine's instance power state as a JSON array.
 #! @output power_state: Power state json response.
