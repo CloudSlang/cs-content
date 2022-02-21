@@ -13,8 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow deploys an instance in Google cloud. This flow gives the flexibility to attach multiple disks
-#!               that are of different types to this instance.
+#! @description: This flow deploys an instance in Google cloud.
 #!
 #! @input json_token: Content of the Google Cloud service account JSON.
 #! @input project_id: Google Cloud project id.
