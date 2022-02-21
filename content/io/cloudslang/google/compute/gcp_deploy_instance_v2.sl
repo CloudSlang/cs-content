@@ -553,6 +553,7 @@ flow:
             - project_id: '${project_id}'
             - zone: '${zone}'
             - disk_name: '${disk_name_out}'
+            - timeout: '${timeout}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
