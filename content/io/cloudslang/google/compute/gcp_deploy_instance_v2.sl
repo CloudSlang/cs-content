@@ -337,7 +337,7 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: get_disk_size
-          - FAILURE: FAILURE
+          - FAILURE: delete_disk
     - check_disk_name_list_is_null:
         worker_group: '${worker_group}'
         do:
@@ -544,6 +544,24 @@ flow:
         navigate:
           - SUCCESS: get_image_type_list
           - FAILURE: on_failure
+    - delete_disk:
+        do:
+          io.cloudslang.google.compute.compute_engine.disks.delete_disk:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id: '${project_id}'
+            - zone: '${zone}'
+            - disk_name: '${disk_name_out}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -599,7 +617,7 @@ extensions:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
             port: FAILURE
             vertices:
-              - x: 1040
+              - x: 880
                 'y': 880
       check_disk_name_list_is_null:
         x: 864
@@ -629,10 +647,13 @@ extensions:
       attach_disk_to_instance:
         x: 1026
         'y': 624
+      delete_disk:
+        x: 880
+        'y': 680
         navigate:
-          52878d94-3ff9-5d06-4a19-7f33e23d8a69:
+          d8597a6f-6003-1be1-cad7-a4e7d668cd70:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
-            port: FAILURE
+            port: SUCCESS
       list_iterator_get_disk_name:
         x: 1112
         'y': 492
