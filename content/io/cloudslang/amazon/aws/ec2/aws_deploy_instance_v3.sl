@@ -105,6 +105,7 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2
+
 imports:
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
