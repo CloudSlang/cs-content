@@ -114,7 +114,7 @@ imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   utils: io.cloudslang.amazon.aws.ec2.utils
 flow:
-name: aws_deploy_instance_v3
+  name: aws_deploy_instance_v3
   inputs:
     - provider_sap:
         default: 'https://ec2.amazonaws.com'
