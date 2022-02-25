@@ -113,7 +113,7 @@ imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   utils: io.cloudslang.amazon.aws.ec2.utils
 flow:
-  name: aws_deploy_instance_v3
+name: aws_deploy_instance_v3
   inputs:
     - provider_sap:
         default: 'https://ec2.amazonaws.com'
@@ -129,14 +129,12 @@ flow:
     - instance_type:
         default: t2.micro
         required: true
-    - volume_type:
-        default: standard
-        required: true
-    - volume_size:
-        default: '10'
-        required: true
     - key_pair_name:
         required: true
+    - volume_type:
+        required: false
+    - volume_size:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -466,7 +464,7 @@ flow:
           - return_result
           - return_code
         navigate:
-          - HAS_MORE: create_and_attach_single_volume
+          - HAS_MORE: is_volume_type_is_null
           - NO_MORE: set_ip_address
           - FAILURE: on_failure
     - parse_availability_zone:
@@ -635,6 +633,23 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - is_volume_type_is_null:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.is_null:
+            - variable: '${volume_type}'
+        navigate:
+          - IS_NULL: set_volume_type
+          - IS_NOT_NULL: create_and_attach_single_volume
+    - set_volume_type:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - volume_type: standard
+        navigate:
+          - SUCCESS: create_and_attach_single_volume
+          - FAILURE: on_failure
   outputs:
     - instance_id
     - availability_zone_out
@@ -659,11 +674,14 @@ extensions:
       iterate_volume_size:
         x: 1400
         'y': 245
+      set_volume_type:
+        x: 1240
+        'y': 440
       create_and_attach_single_volume:
-        x: 1058
-        'y': 548
+        x: 1040
+        'y': 560
         navigate:
-          426da7a2-baf1-43be-2a4d-8f917eb774c6:
+          5493772b-4d4f-79e8-0e52-eee2084b9766:
             targetId: f31809d7-ee75-1d88-2683-192373df394e
             port: FAILURE
       is_volume_size_0:
@@ -681,6 +699,9 @@ extensions:
       set_mac_address:
         x: 2374
         'y': 52
+      is_volume_type_is_null:
+        x: 1040
+        'y': 400
       set_ip_address_empty:
         x: 1543
         'y': 241
@@ -726,7 +747,7 @@ extensions:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
       set_endpoint:
-        x: 0
+        x: 100
         'y': 240
       is_public_dns_name_not_present:
         x: 2206
