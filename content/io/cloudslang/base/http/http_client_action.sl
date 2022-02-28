@@ -64,6 +64,8 @@
 #!                  Format: a URL or the local path to it.
 #!                  This input is empty if no HTTPS client authentication is used
 #! @input keystore_password: Optional - Password associated with the KeyStore file.
+#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing.
+#!                         Default: '0' (infinite timeout)
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
 #!                         Default: '0' (infinite timeout)
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity.
@@ -252,6 +254,12 @@ operation:
         required: false
         private: true
         sensitive: true
+    - execution_timeout:
+        required: false
+    - executionTimeout:
+        default: ${get("execution_timeout", "0")}
+        required: false
+        private: true
     - connect_timeout:
         required: false
     - connectTimeout:
