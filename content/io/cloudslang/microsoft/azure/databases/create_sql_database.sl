@@ -33,9 +33,8 @@
 #!                          Valid values are: Standard, Premium and Basic.
 #! @input location: Specifies the supported Azure location where the sql database should be created.
 #!                  This can be different from the location of the resource group.
-#! @input database_name: Azure database name to be created
-#! @input sql_server_name: Sql Database server name
-#! @input database_edition: Optional - Specifies the edition of the database
+#! @input database_name: Azure database name to be created.
+#! @input database_edition: Optional - Specifies the edition of the database.
 #!                          Default: 'Standard'.
 #!                          Accepted values: 'Basic','Standard','Premium' or 'DataWarehouse'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
@@ -127,6 +126,9 @@ flow:
         required: false
   workflow:
     - create_sql_database:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_put:
             - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + db_server_name + '/databases/' +database_name + '?api-version=' + api_version}"
@@ -204,3 +206,4 @@ extensions:
         3ca3aa9c-816d-d335-85a1-12965c534a16:
           x: 360
           'y': 40
+
