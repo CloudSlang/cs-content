@@ -13,13 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve information about the list of all the sql servers available
+#! @description: This operation can be used to retrieve information about the list of all the sql servers available.
 #!
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Azure authorization Bearer token
 #! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2014-04-01-preview'
+#!                     Default: '2014-04-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -55,52 +55,47 @@ namespace: io.cloudslang.microsoft.azure.databases
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-
 flow:
   name: list_sql_servers
-
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
+        default: '2014-04-01'
         required: false
-        default: '2014-04-01-preview'
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: strict
         required: false
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
+        default: ********
         required: false
         sensitive: true
-
   workflow:
     - list_sql_databases:
         do:
           http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Sql/servers?api-version=' + api_version}
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers?api-version=' + api_version}"
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
+            - content_type: application/json
+            - request_character_set: UTF-8
             - proxy_host
             - proxy_port
             - proxy_username
@@ -110,29 +105,54 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
     - SUCCESS
     - FAILURE
-
+extensions:
+  graph:
+    steps:
+      list_sql_databases:
+        x: 100
+        'y': 250
+        navigate:
+          8b168b77-bdff-4156-3d8f-3181198f70f8:
+            targetId: 3204be19-04f9-ee4b-01b2-7196d111b4ff
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          83ddc054-2868-64cb-b0c2-91afa928e02d:
+            targetId: c59370b6-82f1-62e1-0b3a-763b08ba0843
+            port: SUCCESS
+          2065f703-a294-55b8-8355-4ae0e836d8b3:
+            targetId: c59370b6-82f1-62e1-0b3a-763b08ba0843
+            port: FAILURE
+    results:
+      SUCCESS:
+        3204be19-04f9-ee4b-01b2-7196d111b4ff:
+          x: 400
+          'y': 125
+      FAILURE:
+        c59370b6-82f1-62e1-0b3a-763b08ba0843:
+          x: 700
+          'y': 250
