@@ -103,6 +103,7 @@ operation:
         required: false
         private: true
     - date
+        required: false
     - headers:
         default: ''
         required: false
