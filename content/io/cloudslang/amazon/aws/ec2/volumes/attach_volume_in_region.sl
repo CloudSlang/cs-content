@@ -127,7 +127,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.39'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.40-SNAPSHOT'
     class_name: io.cloudslang.content.amazon.actions.volumes.AttachVolumeAction
     method_name: execute
 
