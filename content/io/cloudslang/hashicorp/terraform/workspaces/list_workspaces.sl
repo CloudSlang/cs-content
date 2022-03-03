@@ -210,7 +210,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.4''
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.4'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.ListWorkspaces'
     method_name: 'execute'
   
