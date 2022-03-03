@@ -41,6 +41,8 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'.
 #!
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output output: result of the operation.
@@ -89,8 +91,14 @@ flow:
         default: ********
         required: false
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
   workflow:
     - delete_sql_database:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_delete:
             - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + db_server_name + '/databases/' + database_name + '?api-version=' + api_version}"
@@ -114,6 +122,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
             - json_input: '${output}'
