@@ -13,20 +13,25 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve information about the list of all the sql servers available.
+#! @description: This operation can be used to delete an sql database server.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input auth_token: Azure authorization Bearer token.
+#! @input location: Specifies the Azure location where the resource exists.
+#!                  Example: eastasia, westus, westeurope, japanwest.
+#! @input db_server_name: Name of the SQL Server that will be used as a place holder for your SQL database.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2014-04-01'
+#! @input api_version: Optional - Specifies the version of the API that must be used.
+#!                     Default: '2014-04-01'.
+#! @input location: Specifies the supported Azure location where the sql database should be created.
+#!                  This can be different from the location of the resource group.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
-#!                    Default: '8080'
+#!                    Default: '8080'.
 #! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
+#!                         Default: 'false'.
 #! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
@@ -42,27 +47,26 @@
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'.
 #!
-#! @output output: information about the specified sql servers found
-#! @output status_code: 200 if request completed successfully, others in case something went wrong
-#! @output error_message: If the no databases are foun the error message will be populated with a response,
-#!                        empty otherwise
+#! @output output: response with information about the created sql database.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output error_message: If a database is not found the error message will be populated with a response,
+#!                        empty otherwise.
 #!
-#! @result SUCCESS: Information about the list of sql servers retrieved successfully.
-#! @result FAILURE: There was an error while trying to retrieve information about the sql servers found
+#! @result SUCCESS: Database created successfully.
+#! @result FAILURE: There was an error while trying to create the database.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure.databases
 
-imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
 flow:
-  name: list_sql_servers
+  name: delete_sql_database_server
   inputs:
     - subscription_id
-    - resource_group_name
     - auth_token
+    - location
+    - db_server_name
+    - resource_group_name
     - api_version:
         default: '2014-04-01'
         required: false
@@ -91,26 +95,26 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - list_sql_databases:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - delete_sql_database_server_client:
         do:
-          http.http_client_get:
-            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers?api-version=' + api_version}"
-            - headers: "${'Authorization: ' + auth_token}"
+          io.cloudslang.base.http.http_client_delete:
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' + db_server_name + '?api-version=' + api_version}"
             - auth_type: anonymous
-            - preemptive_auth: 'true'
-            - content_type: application/json
-            - request_character_set: UTF-8
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '20'
+            - headers: "${'Authorization: ' + auth_token}"
+            - worker_group: '${worker_group}'
         publish:
           - output: '${return_result}'
           - status_code
@@ -120,7 +124,7 @@ flow:
     - retrieve_error:
         worker_group: '${worker_group}'
         do:
-          json.get_value:
+          io.cloudslang.base.json.get_value:
             - json_input: '${output}'
             - json_path: 'error,message'
         publish:
@@ -133,34 +137,34 @@ flow:
     - status_code
     - error_message
   results:
-    - SUCCESS
     - FAILURE
+    - SUCCESS
 extensions:
   graph:
     steps:
-      list_sql_databases:
-        x: 100
-        'y': 250
+      delete_sql_database_server_client:
+        x: 120
+        'y': 160
         navigate:
-          8b168b77-bdff-4156-3d8f-3181198f70f8:
-            targetId: 3204be19-04f9-ee4b-01b2-7196d111b4ff
+          0252bb17-0745-2a25-0ce5-27663d2ec29c:
+            targetId: 3ca3aa9c-816d-d335-85a1-12965c534a16
             port: SUCCESS
       retrieve_error:
-        x: 400
-        'y': 375
+        x: 280
+        'y': 280
         navigate:
-          83ddc054-2868-64cb-b0c2-91afa928e02d:
-            targetId: c59370b6-82f1-62e1-0b3a-763b08ba0843
-            port: SUCCESS
-          2065f703-a294-55b8-8355-4ae0e836d8b3:
-            targetId: c59370b6-82f1-62e1-0b3a-763b08ba0843
+          ff6a5a79-101a-4c29-2a07-a9bc99fc18e1:
+            targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
             port: FAILURE
+          fdd6d20b-083d-b3f2-9506-f6e69dd01032:
+            targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
+            port: SUCCESS
     results:
-      SUCCESS:
-        3204be19-04f9-ee4b-01b2-7196d111b4ff:
-          x: 400
-          'y': 125
       FAILURE:
-        c59370b6-82f1-62e1-0b3a-763b08ba0843:
-          x: 700
-          'y': 250
+        9c2c3761-ccb0-0d73-e160-0cabb347d0d1:
+          x: 560
+          'y': 280
+      SUCCESS:
+        3ca3aa9c-816d-d335-85a1-12965c534a16:
+          x: 360
+          'y': 40
