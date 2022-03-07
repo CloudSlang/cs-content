@@ -62,6 +62,8 @@
 #! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
+#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing.
+#!                         Default: '0' (infinite timeout)
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
@@ -151,6 +153,8 @@ flow:
         default: ${get_sp('io.cloudslang.base.http.keystore_password')}
         required: false
         sensitive: true
+    - execution_timeout:
+        required: false
     - connect_timeout:
         default: '0'
         required: false
@@ -202,6 +206,7 @@ flow:
             - trust_password
             - keystore
             - keystore_password
+            - execution_timeout
             - connect_timeout
             - socket_timeout
             - keep_alive
