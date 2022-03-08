@@ -13,18 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a new DB instance.
+#! @description: Deletes a DB instance.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS or IAM account.
 #! @input access_key: Secret access key associated with your Amazon AWS or IAM account.
 #! @input region: String that contains the Amazon AWS region name.
 #! @input db_instance_identifier: Name of the RDS DB instance identifier.
-#! @input db_engine_name: The name of the database engine to be used for this instance.
-#! @input db_engine_version: The version number of the database engine to use.
-#! @input db_instance_size: The compute and memory capacity of the DB instance.
-#! @input db_username: The name for the master user.
-#! @input db_password: The password for the master user.
-#! @input db_storage_size: The amount of storage in gibibytes (GiB) to allocate for the DB instance.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -46,13 +40,9 @@
 #!                         Default: '60'
 #!                         Optional
 #!
-#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output return_result: The full API response in case of success, or an error message in case of failure.
+#! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
-#! @output db_instance_status: Specifies the current state of this database.
-#! @output endpoint_address: Specifies the DNS address of the DB instance.
-#! @output db_instance_arn: The Amazon Resource Name (ARN) for the DB instance.
-#! @input db_instance_name: Name of the RDS DB instance identifier.
 #!
 #! @result SUCCESS: The product was successfully provisioned.
 #! @result FAILURE: An error has occurred while trying to provision the product.
@@ -62,20 +52,13 @@
 namespace: io.cloudslang.amazon.aws.rds
 
 flow:
-  name: aws_deploy_rds_instance
+  name: aws_undeploy_db_instance
   inputs:
     - access_key_id
     - access_key:
         sensitive: true
     - region
     - db_instance_identifier
-    - db_engine_name
-    - db_engine_version
-    - db_instance_size
-    - db_username
-    - db_password:
-        sensitive: true
-    - db_storage_size
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -95,37 +78,16 @@ flow:
         default: '60'
         required: false
   workflow:
-    - random_number_generator:
+    - delete_db_instance:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.math.random_number_generator:
-            - min: '10000'
-            - max: '99999'
-        publish:
-          - random_number
-        navigate:
-          - SUCCESS: set_random_number
-          - FAILURE: random_number_generator
-    - create_db_instance:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.amazon.aws.rds.databases.create_db_instance:
+          io.cloudslang.amazon.aws.rds.databases.delete_db_instance:
             - access_key_id: '${access_key_id}'
             - access_key:
                 value: '${access_key}'
                 sensitive: true
             - region: '${region}'
             - db_instance_identifier: '${db_instance_identifier}'
-            - db_engine_name: '${db_engine_name}'
-            - db_engine_version: '${db_engine_version}'
-            - db_instance_size: '${db_instance_size}'
-            - db_username: '${db_username}'
-            - db_password:
-                value: '${db_password}'
-                sensitive: true
-            - db_storage_size:
-                value: '${db_storage_size}'
-                sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -134,7 +96,7 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: describe_db_instance
-          - FAILURE: delete_db_instance
+          - FAILURE: on_failure
     - describe_db_instance:
         worker_group: '${worker_group}'
         do:
@@ -161,35 +123,6 @@ flow:
           - exception
         navigate:
           - SUCCESS: compare_power_state
-          - FAILURE: delete_db_instance
-    - delete_db_instance:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.amazon.aws.rds.databases.delete_db_instance:
-            - access_key_id: '${access_key_id}'
-            - access_key:
-                value: '${access_key}'
-                sensitive: true
-            - region: '${region}'
-            - db_instance_identifier: '${db_instance_identifier}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-        navigate:
-          - SUCCESS: FAILURE_1
-          - FAILURE: on_failure
-    - set_random_number:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - db_instance_identifier: '${db_instance_identifier+random_number}'
-        publish:
-          - db_instance_identifier
-        navigate:
-          - SUCCESS: create_db_instance
           - FAILURE: on_failure
     - wait_before_check:
         worker_group: '${worker_group}'
@@ -209,25 +142,21 @@ flow:
             - reset: 'false'
         navigate:
           - HAS_MORE: wait_before_check
-          - NO_MORE: delete_db_instance
+          - NO_MORE: FAILURE_1
           - FAILURE: on_failure
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${db_instance_status}'
-            - second_string: available
+            - second_string: deleting
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: counter
+          - SUCCESS: counter
+          - FAILURE: SUCCESS
   outputs:
     - return_result
     - return_code
     - exception
-    - db_instance_status
-    - endpoint_address
-    - db_instance_arn
-    - db_instance_name
   results:
     - SUCCESS
     - FAILURE
@@ -235,38 +164,29 @@ flow:
 extensions:
   graph:
     steps:
-      random_number_generator:
-        x: 80
-        'y': 200
-      create_db_instance:
-        x: 280
+      delete_db_instance:
+        x: 200
         'y': 200
       describe_db_instance:
         x: 520
         'y': 200
-      delete_db_instance:
-        x: 280
-        'y': 480
-        navigate:
-          c469adb7-fc24-1c83-f7ad-06c299e12cef:
-            targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
-            port: SUCCESS
-      set_random_number:
-        x: 80
-        'y': 480
       wait_before_check:
         x: 520
         'y': 400
       counter:
         x: 720
         'y': 600
+        navigate:
+          8f76edeb-f76d-65c2-8923-f40089781ec2:
+            targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
+            port: NO_MORE
       compare_power_state:
         x: 720
         'y': 200
         navigate:
-          3f378b3c-6acd-36de-02e2-91f18cdaf887:
+          60948d1c-f921-4c8c-18cc-f8c6dc6eda38:
             targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
-            port: SUCCESS
+            port: FAILURE
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
@@ -274,6 +194,5 @@ extensions:
           'y': 200
       FAILURE_1:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
-          x: 280
-          'y': 680
-
+          x: 520
+          'y': 600
