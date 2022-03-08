@@ -15,12 +15,12 @@
 #!!
 #! @description: This operation can be used to retrieve information about the specified sql database server
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
-#! @input auth_token: Azure authorization Bearer token
-#! @input api_version: The API version used to create calls to Azure
-#!                     Default: '2014-04-01-preview'
-#! @input sql_server_name: Sql server name
+#! @input auth_token: Specifies the authentication token that is used for the request.
+#! @input db_server_name: The logical name of the Azure database.
+#! @input api_version: The API version used to create calls to Azure.
+#!                     Default: '2014-04-01
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -40,6 +40,8 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'.
 #!
 #! @output output: information about the specified sql database server
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
@@ -56,54 +58,53 @@ namespace: io.cloudslang.microsoft.azure.databases
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-
 flow:
   name: get_sql_database_server_info
-
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
+    - db_server_name
     - api_version:
+        default: '2014-04-01'
         required: false
-        default: '2014-04-01-preview'
-    - sql_server_name
+    - proxy_host:
+        required: false
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
         required: false
         sensitive: true
-    - proxy_port:
-        default: "8080"
-        required: false
-    - proxy_host:
-        required: false
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: strict
         required: false
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
         required: false
         sensitive: true
-
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
   workflow:
     - get_sql_database_server_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Sql/servers/' +
-                sql_server_name + '?api-version=' + api_version}
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' + resource_group_name + '/providers/Microsoft.Sql/servers/' +db_server_name + '?api-version=' + api_version}"
             - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
+            - content_type: application/json
+            - request_character_set: UTF-8
             - proxy_host
             - proxy_port
             - proxy_username
@@ -113,29 +114,55 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
+        worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
     - SUCCESS
     - FAILURE
-
+extensions:
+  graph:
+    steps:
+      get_sql_database_server_info:
+        x: 100
+        'y': 250
+        navigate:
+          7042c97b-e96b-9740-f10d-9be456ede517:
+            targetId: 8e7da55c-0c35-c343-fa55-70ef14ba5923
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          a089fce4-6561-dba4-ba77-14fff186c534:
+            targetId: 5cd3da6b-71f5-0d91-d84c-5519a0e20533
+            port: SUCCESS
+          c9a76451-c8ca-5df4-095b-757cb385943a:
+            targetId: 5cd3da6b-71f5-0d91-d84c-5519a0e20533
+            port: FAILURE
+    results:
+      SUCCESS:
+        8e7da55c-0c35-c343-fa55-70ef14ba5923:
+          x: 400
+          'y': 125
+      FAILURE:
+        5cd3da6b-71f5-0d91-d84c-5519a0e20533:
+          x: 700
+          'y': 250
