@@ -60,8 +60,7 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.rds
-imports:
-  instances: io.cloudslang.amazon.aws.ec2.instances
+
 flow:
   name: aws_deploy_rds_instance
   inputs:
@@ -148,7 +147,7 @@ flow:
                   sensitive: true
               - region: '${region}'
               - db_instance_identifier: '${db_instance_identifier}'
-              - db_instance_name: available
+              - db_instance_status: available
               - proxy_host: '${proxy_host}'
               - proxy_port: '${proxy_port}'
               - proxy_username: '${proxy_username}'
