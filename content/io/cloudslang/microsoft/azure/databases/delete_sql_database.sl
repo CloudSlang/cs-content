@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation can be used to delete an sql database.
 #!
-#! @input subscription_id: The ID of the Azure Subscription on which the VM should be created.
+#! @input subscription_id: Specifies the unique identifier of Azure subscription.
 #! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input auth_token: Specifies the authentication token that is used for the request.
 #! @input api_version: The API version used to create calls to Azure.
