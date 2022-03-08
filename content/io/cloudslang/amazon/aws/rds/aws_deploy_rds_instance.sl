@@ -137,35 +137,30 @@ flow:
           - FAILURE: delete_db_instance
     - describe_db_instance:
         worker_group: '${worker_group}'
-        loop:
-          for: 'step in range(0, int(get("polling_retries", 50)))'
-          do:
-            io.cloudslang.amazon.aws.rds.databases.describe_db_instance:
-              - access_key_id: '${access_key_id}'
-              - access_key:
-                  value: '${access_key}'
-                  sensitive: true
-              - region: '${region}'
-              - db_instance_identifier: '${db_instance_identifier}'
-              - db_instance_status: available
-              - proxy_host: '${proxy_host}'
-              - proxy_port: '${proxy_port}'
-              - proxy_username: '${proxy_username}'
-              - proxy_password:
-                  value: '${proxy_password}'
-                  sensitive: true
-          break:
-            - SUCCESS
-          publish:
-            - db_instance_status
-            - endpoint_address
-            - db_instance_arn
-            - return_result
-            - db_instance_name: '${db_instance_identifier}'
-            - return_code
-            - exception
+        do:
+          io.cloudslang.amazon.aws.rds.databases.describe_db_instance:
+            - access_key_id: '${access_key_id}'
+            - access_key:
+                value: '${access_key}'
+                sensitive: true
+            - region: '${region}'
+            - db_instance_identifier: '${db_instance_identifier}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+        publish:
+          - db_instance_status
+          - endpoint_address
+          - db_instance_arn
+          - return_result
+          - db_instance_name: '${db_instance_identifier}'
+          - return_code
+          - exception
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: compare_power_state
           - FAILURE: delete_db_instance
     - delete_db_instance:
         worker_group: '${worker_group}'
@@ -196,6 +191,35 @@ flow:
         navigate:
           - SUCCESS: create_db_instance
           - FAILURE: on_failure
+    - wait_before_check:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '${polling_interval}'
+        navigate:
+          - SUCCESS: describe_db_instance
+          - FAILURE: on_failure
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_before_check
+          - NO_MORE: delete_db_instance
+          - FAILURE: on_failure
+    - compare_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${db_instance_status}'
+            - second_string: available
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: counter
   outputs:
     - return_result
     - return_code
@@ -211,16 +235,15 @@ flow:
 extensions:
   graph:
     steps:
+      random_number_generator:
+        x: 80
+        'y': 200
       create_db_instance:
         x: 280
         'y': 200
       describe_db_instance:
         x: 520
         'y': 200
-        navigate:
-          e60aa154-a540-ec64-27f4-917bca5d5f81:
-            targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
-            port: SUCCESS
       delete_db_instance:
         x: 280
         'y': 480
@@ -228,19 +251,29 @@ extensions:
           c469adb7-fc24-1c83-f7ad-06c299e12cef:
             targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
             port: SUCCESS
-      random_number_generator:
-        x: 80
-        'y': 200
       set_random_number:
         x: 80
         'y': 480
+      wait_before_check:
+        x: 520
+        'y': 400
+      counter:
+        x: 720
+        'y': 600
+      compare_power_state:
+        x: 720
+        'y': 200
+        navigate:
+          3f378b3c-6acd-36de-02e2-91f18cdaf887:
+            targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
+            port: SUCCESS
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
-          x: 720
+          x: 920
           'y': 200
       FAILURE_1:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
-          x: 680
-          'y': 480
+          x: 280
+          'y': 680
 
