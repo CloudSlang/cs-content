@@ -1,6 +1,19 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: Creates a new DB instance.
+#! @description: Returns information about provisioned RDS instances.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS or IAM account.Example:
 #!                       'AKIAIOSFODNN7EXAMPLE'
@@ -8,17 +21,6 @@
 #!                    'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input region: String that contains the Amazon AWS region name.
 #! @input db_instance_identifier: Name of the RDS DB instance identifier.
-#! @input db_engine_name: The name of the database engine to be used for this instance.
-#! @input db_engine_version: The version number of the database engine to use.
-#! @input db_instance_size: The compute and memory capacity of the DB instance.
-#! @input db_username: The name for the master user.
-#! @input db_password: The password for the master user.
-#! @input db_storage_size: The amount of storage in gibibytes (GiB) to allocate for the DB instance.
-#! @input license_model: License model information for this DB instance.
-#!                       Valid values: license-included |bring-your-own-license | general-public-license.
-#!                       Optional
-#! @input availability_zone: The Availability Zone (AZ) where the database will be created.
-#!                           Optional
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
@@ -39,6 +41,9 @@
 #!
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output return_result: The full API response in case of success, or an error message in case of failure.
+#! @output db_instance_status: Specifies the current state of this database.
+#! @output endpoint_address: Specifies the DNS address of the DB instance.
+#! @output db_instance_arn: The Amazon Resource Name (ARN) for the DB instance.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: The product was successfully provisioned.
@@ -46,10 +51,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.rds.database
+namespace: io.cloudslang.amazon.aws.rds.databases
 
 operation: 
-  name: create_db_instance
+  name: describe_db_instance
   
   inputs: 
     - access_key_id    
@@ -66,46 +71,6 @@ operation:
     - db_instance_identifier    
     - dbInstanceIdentifier: 
         default: ${get('db_instance_identifier', '')}
-        private: true 
-    - db_engine_name    
-    - dbEngineName: 
-        default: ${get('db_engine_name', '')}
-        private: true 
-    - db_engine_version    
-    - dbEngineVersion: 
-        default: ${get('db_engine_version', '')}
-        private: true 
-    - db_instance_size    
-    - dbInstanceSize: 
-        default: ${get('db_instance_size', '')}
-        private: true 
-    - db_username    
-    - dbUsername: 
-        default: ${get('db_username', '')}
-        private: true 
-    - db_password:    
-        sensitive: true
-    - dbPassword: 
-        default: ${get('db_password', '')}
-        private: true 
-        sensitive: true
-    - db_storage_size:    
-        sensitive: true
-    - dbStorageSize: 
-        default: ${get('db_storage_size', '')}
-        private: true 
-        sensitive: true
-    - license_model:  
-        required: false  
-    - licenseModel: 
-        default: ${get('license_model', '')}  
-        required: false 
-        private: true 
-    - availability_zone:  
-        required: false  
-    - availabilityZone: 
-        default: ${get('availability_zone', '')}  
-        required: false 
         private: true 
     - proxy_host:  
         required: false  
@@ -150,12 +115,15 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-amazon:1.0.40-RC2'
-    class_name: 'io.cloudslang.content.amazon.actions.rds.CreateDBInstance'
+    class_name: 'io.cloudslang.content.amazon.actions.rds.DescribeDBInstance'
     method_name: 'execute'
   
   outputs: 
     - return_code: ${get('returnCode', '')} 
-    - return_result: ${get('returnResult', '')}
+    - return_result: ${get('returnResult', '')} 
+    - db_instance_status: ${get('dbInstanceStatus', '')} 
+    - endpoint_address: ${get('endpointAddress', '')} 
+    - db_instance_arn: ${get('dbInstanceArn', '')}
     - exception: ${get('exception', '')} 
   
   results: 

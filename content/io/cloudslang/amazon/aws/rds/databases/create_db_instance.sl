@@ -1,6 +1,19 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
-#! @description: Delete a new DB instance.
+#! @description: Creates a new DB instance.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS or IAM account.Example:
 #!                       'AKIAIOSFODNN7EXAMPLE'
@@ -8,17 +21,17 @@
 #!                    'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input region: String that contains the Amazon AWS region name.
 #! @input db_instance_identifier: Name of the RDS DB instance identifier.
-#! @input skip_final_snapshot: A value that indicates whether to skip the creation of a final DB snapshot before
-#!                             deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If
-#!                             you don't enable this parameter, RDS creates a DB snapshot before the DB instance is
-#!                             deleted.
-#!                             Optional
-#! @input final_db_snapshot_identifier: The DBSnapshotIdentifier of the new DBSnapshot created when the
-#!                                      SkipFinalSnapshot parameter is disabled.
-#!                                      Optional
-#! @input delete_automated_backups: A value that indicates whether to remove automated backups immediately after the DB
-#!                                  instance is deleted.
-#!                                  Optional
+#! @input db_engine_name: The name of the database engine to be used for this instance.
+#! @input db_engine_version: The version number of the database engine to use.
+#! @input db_instance_size: The compute and memory capacity of the DB instance.
+#! @input db_username: The name for the master user.
+#! @input db_password: The password for the master user.
+#! @input db_storage_size: The amount of storage in gibibytes (GiB) to allocate for the DB instance.
+#! @input license_model: License model information for this DB instance.
+#!                       Valid values: license-included |bring-your-own-license | general-public-license.
+#!                       Optional
+#! @input availability_zone: The Availability Zone (AZ) where the database will be created.
+#!                           Optional
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
@@ -46,10 +59,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.rds
+namespace: io.cloudslang.amazon.aws.rds.databases
 
 operation: 
-  name: delete_db_instance
+  name: create_db_instance
   
   inputs: 
     - access_key_id    
@@ -67,22 +80,44 @@ operation:
     - dbInstanceIdentifier: 
         default: ${get('db_instance_identifier', '')}
         private: true 
-    - skip_final_snapshot:  
+    - db_engine_name    
+    - dbEngineName: 
+        default: ${get('db_engine_name', '')}
+        private: true 
+    - db_engine_version    
+    - dbEngineVersion: 
+        default: ${get('db_engine_version', '')}
+        private: true 
+    - db_instance_size    
+    - dbInstanceSize: 
+        default: ${get('db_instance_size', '')}
+        private: true 
+    - db_username    
+    - dbUsername: 
+        default: ${get('db_username', '')}
+        private: true 
+    - db_password:    
+        sensitive: true
+    - dbPassword: 
+        default: ${get('db_password', '')}
+        private: true 
+        sensitive: true
+    - db_storage_size:    
+        sensitive: true
+    - dbStorageSize: 
+        default: ${get('db_storage_size', '')}
+        private: true 
+        sensitive: true
+    - license_model:  
         required: false  
-    - skipFinalSnapshot: 
-        default: ${get('skip_final_snapshot', '')}  
+    - licenseModel: 
+        default: ${get('license_model', '')}  
         required: false 
         private: true 
-    - final_db_snapshot_identifier:  
+    - availability_zone:  
         required: false  
-    - finalDBSnapshotIdentifier: 
-        default: ${get('final_db_snapshot_identifier', '')}  
-        required: false 
-        private: true 
-    - delete_automated_backups:  
-        required: false  
-    - deleteAutomatedBackups: 
-        default: ${get('delete_automated_backups', '')}  
+    - availabilityZone: 
+        default: ${get('availability_zone', '')}  
         required: false 
         private: true 
     - proxy_host:  
@@ -128,7 +163,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-amazon:1.0.40-RC2'
-    class_name: 'io.cloudslang.content.amazon.actions.rds.DeleteDBInstance'
+    class_name: 'io.cloudslang.content.amazon.actions.rds.CreateDBInstance'
     method_name: 'execute'
   
   outputs: 
