@@ -140,7 +140,7 @@ flow:
         loop:
           for: 'step in range(0, int(get("polling_retries", 50)))'
           do:
-            io.cloudslang.amazon.rds.databases.describe_db_instance:
+            io.cloudslang.amazon.aws.rds.databases.describe_db_instance:
               - access_key_id: '${access_key_id}'
               - access_key:
                   value: '${access_key}'
@@ -170,7 +170,7 @@ flow:
     - delete_db_instance:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.rds.databases.delete_db_instance:
+          io.cloudslang.amazon.aws.rds.databases.delete_db_instance:
             - access_key_id: '${access_key_id}'
             - access_key:
                 value: '${access_key}'
