@@ -125,7 +125,7 @@ flow:
           - exception
         navigate:
           - SUCCESS: compare_power_state
-          - FAILURE: on_failure
+          - FAILURE: SUCCESS
     - wait_before_check:
         worker_group: '${worker_group}'
         do:
@@ -171,18 +171,22 @@ extensions:
       describe_db_instance:
         x: 520
         'y': 200
+        navigate:
+          acab8ba5-a845-c625-e5a1-282a028cdbc4:
+            targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
+            port: FAILURE
       wait_before_check:
         x: 520
         'y': 400
       counter:
-        x: 720
+        x: 840
         'y': 600
         navigate:
           8f76edeb-f76d-65c2-8923-f40089781ec2:
             targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
             port: NO_MORE
       compare_power_state:
-        x: 720
+        x: 840
         'y': 200
         navigate:
           60948d1c-f921-4c8c-18cc-f8c6dc6eda38:
@@ -191,8 +195,8 @@ extensions:
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
-          x: 920
-          'y': 200
+          x: 680
+          'y': 360
       FAILURE:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
           x: 520
