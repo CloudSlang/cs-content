@@ -172,6 +172,8 @@ flow:
                 sensitive: true
             - region: '${region}'
             - db_instance_identifier: '${db_instance_identifier}'
+            - skip_final_snapshot: 'true'
+            - delete_automated_backups: 'true'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -179,7 +181,7 @@ flow:
                 value: '${proxy_password}'
                 sensitive: true
         navigate:
-          - SUCCESS: FAILURE_1
+          - SUCCESS: FAILURE
           - FAILURE: on_failure
     - set_random_number:
         worker_group: '${worker_group}'
@@ -231,7 +233,6 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-    - FAILURE_1
 extensions:
   graph:
     steps:
@@ -272,7 +273,7 @@ extensions:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
           x: 920
           'y': 200
-      FAILURE_1:
+      FAILURE:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
           x: 280
           'y': 680
