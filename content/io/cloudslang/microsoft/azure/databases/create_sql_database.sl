@@ -15,24 +15,22 @@
 #!!
 #! @description: This operation can be used to create an sql database.
 #!
-#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input subscription_id: The subscription ID that identifies an Azure subscription.
 #! @input auth_token: Azure authorization Bearer token.
-#! @input location: Specifies the Azure location where the resource exists.
+#! @input location: Resource location.
 #!                  Example: eastasia, westus, westeurope, japanwest.
-#! @input db_server_name: Name of the SQL Server that will be used as a place holder for your SQL database.
-#! @input database_name: Name of your SQL database (logical) that will get created in the SQL server that you specify.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input db_server_name: Name of the SQL Server.
+#! @input database_name: The name of the database.
+#! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input db_server_password: Password value for the DB Server username.
 #! @input db_server_username: Username for the newly created SQL DB Server.
-#! @input api_version: Optional - Specifies the version of the API that must be used.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'.
 #! @input db_service_level: Optional - This property specifies the requested service level of the database.
 #!                          Accepted values: 'Basic','S0','S1','S2','S3','P1','P2','P4','P6','P11' or 'ElasticPool'.
 #!                          Default: 'S0'.
 #! @input database_edition: Optional - The SQL database editions that are available for the user to choose from.
 #!                          Valid values are: Standard, Premium and Basic.
-#! @input location: Specifies the supported Azure location where the sql database should be created.
-#!                  This can be different from the location of the resource group.
 #! @input database_name: Azure database name to be created.
 #! @input database_edition: Optional - Specifies the edition of the database.
 #!                          Default: 'Standard'.

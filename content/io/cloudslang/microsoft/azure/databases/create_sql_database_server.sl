@@ -15,18 +15,16 @@
 #!!
 #! @description: This operation can be used to create an sql database server.
 #!
-#! @input subscription_id: Specifies the unique identifier of Azure subscription.
+#! @input subscription_id: The subscription ID that identifies an Azure subscription.
 #! @input auth_token: Azure authorization Bearer token.
-#! @input location: Specifies the Azure location where the resource exists.
+#! @input location: Resource location.
 #!                  Example: eastasia, westus, westeurope, japanwest.
-#! @input db_server_name: Name of the SQL Server that will be used as a place holder for your SQL database.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to create the VM.
+#! @input db_server_name: Name of the SQL Server.
+#! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input db_server_password: Password value for the DB Server username.
 #! @input db_server_username: Username for the newly created SQL DB Server.
-#! @input api_version: Optional - Specifies the version of the API that must be used.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'.
-#! @input location: Specifies the supported Azure location where the sql database should be created.
-#!                  This can be different from the location of the resource group.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'.
