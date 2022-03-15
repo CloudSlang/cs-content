@@ -19,7 +19,7 @@
 #! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input auth_token: Specifies the authentication token that is used for the request.
 #! @input db_server_name: Name of the SQL Server.
-#! @input api_version: TThe API version to use for the request.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.

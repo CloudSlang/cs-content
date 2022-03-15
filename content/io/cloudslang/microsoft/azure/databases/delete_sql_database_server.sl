@@ -21,7 +21,7 @@
 #!                  Example: eastasia, westus, westeurope, japanwest.
 #! @input db_server_name: Name of the SQL Server.
 #! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
-#! @input api_version: TThe API version to use for the request.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'.
 #! @input location: Resource location.
 #! @input proxy_host: Optional - Proxy server used to access the web site.

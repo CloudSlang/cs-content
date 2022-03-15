@@ -18,7 +18,7 @@
 #! @input subscription_id: The subscription ID that identifies an Azure subscription.
 #! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input auth_token: Azure authorization Bearer token.
-#! @input api_version: TThe API version to use for the request.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.

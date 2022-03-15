@@ -20,7 +20,7 @@
 #! @input auth_token: Azure authorization Bearer token.
 #! @input db_server_name: Name of the SQL Server.
 #! @input database_name: The name of the database.
-#! @input api_version: TThe API version to use for the request.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.

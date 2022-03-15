@@ -23,7 +23,7 @@
 #! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input db_server_password: Password value for the DB Server username.
 #! @input db_server_username: Username for the newly created SQL DB Server.
-#! @input api_version: TThe API version to use for the request.
+#! @input api_version: The API version to use for the request.
 #!                     Default: '2014-04-01'.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
