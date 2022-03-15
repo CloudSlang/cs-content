@@ -42,7 +42,7 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
-#!                      Default: 'RAS_Operator_Path'.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output output: information about the specified sql database server
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
