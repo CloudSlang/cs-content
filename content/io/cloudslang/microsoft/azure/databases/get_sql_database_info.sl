@@ -15,12 +15,12 @@
 #!!
 #! @description: This operation can be used to retrieve information about the specified sql database.
 #!
-#! @input subscription_id: Specifies the unique identifier of Azure subscription.
-#! @input resource_group_name: The name of the Azure Resource Group.
+#! @input subscription_id: The subscription ID that identifies an Azure subscription.
+#! @input resource_group_name: The name of the Azure Resource Group that contains the resource.
 #! @input auth_token: Azure authorization Bearer token.
-#! @input db_server_name: Name of the SQL Server that will be used as a place holder for your SQL database.
-#! @input database_name: Azure database name.
-#! @input api_version: The API version used to create calls to Azure.
+#! @input db_server_name: Name of the SQL Server.
+#! @input database_name: The name of the database.
+#! @input api_version: TThe API version to use for the request.
 #!                     Default: '2014-04-01'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
