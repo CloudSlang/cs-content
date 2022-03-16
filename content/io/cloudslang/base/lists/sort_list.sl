@@ -46,7 +46,7 @@ operation:
         default: "false"
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.9'
+    gav: 'io.cloudslang.content:cs-lists:0.0.100-SNAPSHOT'
     class_name: io.cloudslang.content.actions.ListSortAction
     method_name: sortList
 
