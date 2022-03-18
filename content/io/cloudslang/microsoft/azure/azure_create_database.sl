@@ -70,6 +70,8 @@
 #! @output db_name: The name of the database.
 #! @output database_server_name: The name of the SQL Server.
 #! @output resource_group: The name of the Azure Resource Group that contains the resource.
+#! @output database_resource_id: The resource id of the database.
+#! @output database_id: The unique identifier associated with the database.
 #!
 #! @result FAILURE: There was an error while trying to create the database.
 #! @result SUCCESS: Database created successfully.
