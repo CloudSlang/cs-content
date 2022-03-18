@@ -308,17 +308,6 @@ flow:
         navigate:
           - SUCCESS: sleep
           - FAILURE: on_failure
-    - counter:
-        do:
-          io.cloudslang.microsoft.azure.utils.counter:
-            - from: '0'
-            - to: '20'
-            - increment_by: '1'
-            - reset: 'false'
-        navigate:
-          - HAS_MORE: get_sql_database_info
-          - NO_MORE: FAILURE
-          - FAILURE: on_failure
     - is_database_is_online_or_not:
         worker_group: '${worker_group}'
         do:
@@ -401,6 +390,17 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - counter:
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '0'
+            - to: '20'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: get_sql_database_info
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - output
     - status_code
@@ -476,10 +476,10 @@ extensions:
         x: 80
         'y': 320
       counter:
-        x: 1000
+        x: 1040
         'y': 320
         navigate:
-          18dcee87-451f-a5df-1f84-9858cc8e97a1:
+          d7e3af09-382d-0635-b956-b24ba5e0d9db:
             targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
             port: NO_MORE
       is_database_is_online_or_not:
@@ -494,4 +494,3 @@ extensions:
         3ca3aa9c-816d-d335-85a1-12965c534a16:
           x: 1320
           'y': 520
-
