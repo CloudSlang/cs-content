@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow can be used to delets an sql database.
+#! @description: This workflow can be used to deletes an sql database.
 #!
 #! @input provider_sap: The providerSAP(Service Access Point) to which requests will be sent.
 #!                      Default: 'https://management.azure.com'
