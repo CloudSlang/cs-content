@@ -140,7 +140,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-rft:1.0.6'
+    gav: 'io.cloudslang.content:cs-rft:1.0.7'
     class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPCreateDirectory'
     method_name: 'execute'
   
