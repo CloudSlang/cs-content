@@ -134,18 +134,6 @@ flow:
         navigate:
           - SUCCESS: describe_db_instance
           - FAILURE: on_failure
-    - counter:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.counter:
-            - from: '1'
-            - to: '${polling_retries}'
-            - increment_by: '1'
-            - reset: 'false'
-        navigate:
-          - HAS_MORE: wait_before_check
-          - NO_MORE: FAILURE
-          - FAILURE: on_failure
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
@@ -155,6 +143,18 @@ flow:
         navigate:
           - SUCCESS: counter
           - FAILURE: SUCCESS
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_before_check
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -178,13 +178,6 @@ extensions:
       wait_before_check:
         x: 520
         'y': 400
-      counter:
-        x: 840
-        'y': 600
-        navigate:
-          8f76edeb-f76d-65c2-8923-f40089781ec2:
-            targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
-            port: NO_MORE
       compare_power_state:
         x: 840
         'y': 200
@@ -192,6 +185,13 @@ extensions:
           60948d1c-f921-4c8c-18cc-f8c6dc6eda38:
             targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
             port: FAILURE
+      counter:
+        x: 840
+        'y': 600
+        navigate:
+          616e7c62-078d-2c08-c63d-29c04c85c792:
+            targetId: e37946a9-8c96-f57c-3189-a1ec899693fd
+            port: NO_MORE
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
