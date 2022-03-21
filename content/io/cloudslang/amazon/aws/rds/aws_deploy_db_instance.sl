@@ -218,6 +218,8 @@ flow:
             - to: '${polling_retries}'
             - increment_by: '1'
             - reset: 'false'
+        publish:
+          - return_result
         navigate:
           - HAS_MORE: wait_before_check
           - NO_MORE: delete_db_instance
@@ -277,4 +279,3 @@ extensions:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
           x: 280
           'y': 680
-

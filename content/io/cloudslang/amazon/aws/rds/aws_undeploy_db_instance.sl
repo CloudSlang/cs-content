@@ -151,6 +151,8 @@ flow:
             - to: '${polling_retries}'
             - increment_by: '1'
             - reset: 'false'
+        publish:
+          - return_result
         navigate:
           - HAS_MORE: wait_before_check
           - NO_MORE: FAILURE
