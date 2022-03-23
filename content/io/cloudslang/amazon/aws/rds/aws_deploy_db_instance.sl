@@ -201,18 +201,6 @@ flow:
         navigate:
           - SUCCESS: describe_db_instance
           - FAILURE: on_failure
-    - counter:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.counter:
-            - from: '1'
-            - to: '${polling_retries}'
-            - increment_by: '1'
-            - reset: 'false'
-        navigate:
-          - HAS_MORE: wait_before_check
-          - NO_MORE: delete_db_instance
-          - FAILURE: on_failure
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
@@ -222,6 +210,20 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: counter
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        publish:
+          - return_result
+        navigate:
+          - HAS_MORE: wait_before_check
+          - NO_MORE: delete_db_instance
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -258,9 +260,6 @@ extensions:
       wait_before_check:
         x: 520
         'y': 400
-      counter:
-        x: 720
-        'y': 600
       compare_power_state:
         x: 720
         'y': 200
@@ -268,6 +267,9 @@ extensions:
           3f378b3c-6acd-36de-02e2-91f18cdaf887:
             targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
             port: SUCCESS
+      counter:
+        x: 720
+        'y': 600
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
@@ -277,4 +279,3 @@ extensions:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
           x: 280
           'y': 680
-
