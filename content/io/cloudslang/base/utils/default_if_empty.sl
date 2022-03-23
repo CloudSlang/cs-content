@@ -55,7 +55,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.18-RC1'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.18'
     class_name: 'io.cloudslang.content.utilities.actions.DefaultIfEmpty'
     method_name: 'execute'
   
