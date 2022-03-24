@@ -71,7 +71,8 @@ flow:
     - location
     - db_server_name
     - resource_group_name
-    - db_server_password
+    - db_server_password:
+        sensitive: true
     - db_server_username
     - api_version:
         default: '2014-04-01'
@@ -162,6 +163,13 @@ flow:
 extensions:
   graph:
     steps:
+      create_sql_database_server:
+        x: 120
+        'y': 160
+        navigate:
+          9066cad3-745d-1dd3-fab7-13eeb4654c08:
+            targetId: 3ca3aa9c-816d-d335-85a1-12965c534a16
+            port: SUCCESS
       retrieve_error:
         x: 280
         'y': 280
@@ -171,13 +179,6 @@ extensions:
             port: FAILURE
           fdd6d20b-083d-b3f2-9506-f6e69dd01032:
             targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
-            port: SUCCESS
-      create_sql_database_server:
-        x: 120
-        'y': 160
-        navigate:
-          9066cad3-745d-1dd3-fab7-13eeb4654c08:
-            targetId: 3ca3aa9c-816d-d335-85a1-12965c534a16
             port: SUCCESS
     results:
       FAILURE:

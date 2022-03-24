@@ -57,7 +57,7 @@
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
-#!                         Default: '100' (infinite)
+#!                         Default: '10' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved.
 #!                        Default: '0' (infinite)
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
@@ -123,7 +123,7 @@ flow:
         required: false
         sensitive: true
     - connect_timeout:
-        default: '100'
+        default: '10'
         required: false
     - socket_timeout:
         default: '0'
@@ -161,17 +161,6 @@ flow:
         navigate:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
-    - retrieve_error:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${output}'
-            - json_path: 'error,message'
-        publish:
-          - error_message: '${return_result}'
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: FAILURE
     - create_sql_database_server:
         worker_group:
           value: '${worker_group}'
@@ -368,7 +357,7 @@ flow:
           - error_message
           - status_code
         navigate:
-          - FAILURE: retrieve_error
+          - FAILURE: delete_sql_database_server
           - SUCCESS: sleep_for_to_get_the_status_of_database
     - get_database_resource_id:
         do:
@@ -401,6 +390,33 @@ flow:
           - HAS_MORE: get_sql_database_info
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - delete_sql_database_server:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.databases.delete_sql_database_server:
+            - subscription_id: '${subscription_id}'
+            - auth_token: '${auth_token}'
+            - location: '${location}'
+            - db_server_name: '${db_server_name}'
+            - resource_group_name: '${resource_group_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: FAILURE
+          - SUCCESS: FAILURE
   outputs:
     - output
     - status_code
@@ -419,19 +435,19 @@ extensions:
       get_auth_token_using_web_api:
         x: 100
         'y': 120
-      set_db_server_name:
-        x: 200
-        'y': 120
-      retrieve_error:
+      delete_sql_database_server:
         x: 560
         'y': 320
         navigate:
-          ff6a5a79-101a-4c29-2a07-a9bc99fc18e1:
+          bf579f20-6a33-43d1-216b-368128b9b213:
             targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
             port: FAILURE
-          fdd6d20b-083d-b3f2-9506-f6e69dd01032:
+          e3861579-2be2-9ea0-0e54-a5dc88dbc800:
             targetId: 9c2c3761-ccb0-0d73-e160-0cabb347d0d1
             port: SUCCESS
+      set_db_server_name:
+        x: 200
+        'y': 120
       random_number_generator_1:
         x: 440
         'y': 320

@@ -113,6 +113,7 @@ flow:
             - trust_all_roots
             - x_509_hostname_verifier
             - trust_keystore
+            - worker_group: '${worker_group}'
             - trust_password
         publish:
           - output: '${return_result}'
