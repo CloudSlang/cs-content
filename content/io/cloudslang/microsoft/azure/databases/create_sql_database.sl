@@ -81,7 +81,8 @@ flow:
     - db_server_name
     - database_name
     - resource_group_name
-    - db_server_password
+    - db_server_password:
+        sensitive: true
     - db_server_username
     - api_version:
         default: '2014-04-01'
@@ -204,4 +205,3 @@ extensions:
         3ca3aa9c-816d-d335-85a1-12965c534a16:
           x: 360
           'y': 40
-

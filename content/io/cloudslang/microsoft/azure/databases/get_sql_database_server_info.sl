@@ -111,6 +111,7 @@ flow:
             - proxy_password
             - trust_all_roots
             - x_509_hostname_verifier
+            - worker_group: '${worker_group}'
             - trust_keystore
             - trust_password
         publish:
