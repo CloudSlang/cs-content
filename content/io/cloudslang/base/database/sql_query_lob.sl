@@ -188,7 +188,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database-0.0.20-SNAPSHOT.jar'
+    gav: 'io.cloudslang.content:cs-database-0.0.21-SNAPSHOT.jar'
     class_name: io.cloudslang.content.database.actions.SQLQueryLOB
     method_name: execute
 
