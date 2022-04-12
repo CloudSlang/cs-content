@@ -196,7 +196,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database-0.0.21-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-database-0.0.21:SNAPSHOT'
     class_name: io.cloudslang.content.database.actions.SQLQueryAllRows
     method_name: execute
 
