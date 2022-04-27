@@ -50,7 +50,7 @@ operation:
     - array    
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-json:0.0.191-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-json:0.0.20-RC1'
     class_name: 'io.cloudslang.content.json.actions.ArrayIteratorAction'
     method_name: 'execute'
   
