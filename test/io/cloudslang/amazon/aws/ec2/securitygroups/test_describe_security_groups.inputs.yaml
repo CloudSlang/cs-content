@@ -1,0 +1,39 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+testAmazonListSecurityGroupsLocal:
+  testSuites: [amazon-local]
+  description: "Test that successfully retrieves Amazon AWS available security group list."
+  testFlowPath: io.cloudslang.amazon.aws.ec2.securitygroups.describe_security_groups
+  inputs:
+    - endpoint: <endpoint>
+    - identity: <identity>
+    - credential: <credential>
+    - security_group_ids_string: <security_group_ids_string>
+    - security_group_names_string: <security_group_names_string>
+    - proxy_host: <proxy_host>
+    - proxy_port: <proxy_port>
+    - proxy_username: <proxy_username>
+    - proxy_password: <proxy_password>
+    - version: <version>
+    - headers: <headers>
+    - query_params: <query_params>
+    - delimiter: <delimiter>
+    - filter_names_string: <filter_names_string>
+    - filter_values_string: <filter_values_string>
+    - max_results: <max_results>
+    - next_token: <next_token>
+
+  result: SUCCESS
+
