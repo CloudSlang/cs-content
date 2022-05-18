@@ -31,7 +31,7 @@
 namespace: io.cloudslang.microsoft.azure.utils
 
 operation: 
-  name: scheduler_time
+  name: schedule_time
   
   inputs: 
     - scheduler_time    
@@ -44,7 +44,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC1'
+    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC2'
     class_name: 'io.cloudslang.content.azure.actions.utils.SchedulerTime'
     method_name: 'execute'
   
