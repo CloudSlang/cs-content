@@ -142,7 +142,7 @@ operation:
         required: false
         private: true
     - version:
-        default: '2016-09-15'
+        default: '2016-11-15'
         required: false
     - delimiter:
         default: ','
