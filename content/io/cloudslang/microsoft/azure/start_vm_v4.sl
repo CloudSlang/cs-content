@@ -287,7 +287,7 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - input1: '${response_headers.split("Location: /schedules/")[1]}'
             - scheduler_start_time: '${scheduler_start_time}'
-            - timezone: '${time_zone}'
+            - time_zone: '${time_zone}'
         publish:
           - scheduler_id: '${input1.split("X-Content-Type-Options:")[0]}'
           - updated_start_vm_scheduler_time: "${scheduler_start_time + ' ' + time_zone}"
