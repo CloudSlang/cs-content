@@ -17,7 +17,7 @@
 #!
 #! @input endpoint: Optional - The endpoint to which requests are sent.
 #!                  Examples:  ec2.us-east-1.amazonaws.com, ec2.us-west-2.amazonaws.com, ec2.us-west-1.amazonaws.com.
-#!                  Default: 'ec2.amazonaws.com'.
+#!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: The Amazon Access Key ID.
 #! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
 #! @input subnet_ids_string: Optional - The list of subnets by their IDs. If empty, all the subnets are described.
@@ -72,7 +72,8 @@ operation:
   name: describe_subnets
   
   inputs: 
-    - endpoint:  
+    - endpoint:
+        default: 'https://ec2.amazonaws.com'
         required: false  
     - identity    
     - credential:    
@@ -80,32 +81,32 @@ operation:
     - subnet_ids_string:  
         required: false  
     - subnetIdsString: 
-        default: ${get('subnet_ids_string', '')}  
+        default: ${get("subnet_ids_string", "")}
         required: false 
         private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
-        default: ${get('proxy_host', '')}  
+        default: ${get("proxy_host", "")}
         required: false 
         private: true 
     - proxy_port:  
         required: false  
     - proxyPort: 
-        default: ${get('proxy_port', '')}  
+        default: ${get("proxy_port", "8080")}
         required: false 
         private: true 
     - proxy_username:  
         required: false  
     - proxyUsername: 
-        default: ${get('proxy_username', '')}  
+        default: ${get("proxy_username", "")}
         required: false 
         private: true 
     - proxy_password:  
         required: false  
         sensitive: true
     - proxyPassword: 
-        default: ${get('proxy_password', '')}  
+        default: ${get("proxy_password", "")}
         required: false 
         private: true 
         sensitive: true
@@ -114,47 +115,49 @@ operation:
     - query_params:  
         required: false  
     - queryParams: 
-        default: ${get('query_params', '')}  
+        default: ${get("query_params", "")}
         required: false 
         private: true 
-    - version:  
+    - version:
+        default: "2016-11-15"
         required: false  
     - delimiter:  
-        required: false  
+        required: false
+        default: ','
     - filter_names_string:  
         required: false  
     - filterNamesString: 
-        default: ${get('filter_names_string', '')}  
+        default: ${get("filter_names_string", "")}
         required: false 
         private: true 
     - filter_values_string:  
         required: false  
     - filterValuesString: 
-        default: ${get('filter_values_string', '')}  
+        default: ${get("filter_values_string", "")}
         required: false 
         private: true 
     - max_results:  
         required: false  
     - maxResults: 
-        default: ${get('max_results', '')}  
+        default: ${get("max_results", "")}
         required: false 
         private: true 
     - next_token:  
         required: false  
     - nextToken: 
-        default: ${get('next_token', '')}  
+        default: ${get("next_token", "")}
         required: false 
         private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC3'
-    class_name: 'io.cloudslang.content.amazon.actions.subnets.DescribeSubnetsAction'
-    method_name: 'execute'
+    class_name: io.cloudslang.content.amazon.actions.subnets.DescribeSubnetsAction
+    method_name: execute
   
   outputs: 
-    - return_code: ${get('returnCode', '')} 
-    - return_result: ${get('returnResult', '')} 
-    - exception: ${get('exception', '')} 
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - exception: ${get("exception", "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
