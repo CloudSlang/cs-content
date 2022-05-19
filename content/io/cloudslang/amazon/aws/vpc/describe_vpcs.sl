@@ -66,7 +66,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.vpc
+namespace: io.cloudslang.amazon.aws.vpc
 
 operation:
   name: describe_vpcs
