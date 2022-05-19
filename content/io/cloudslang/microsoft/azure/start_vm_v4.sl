@@ -25,40 +25,66 @@
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
-#! @input enable_public_ip: The value of property will be true if the VM has public IP Address
-#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#! @input enable_public_ip: The value of property will be true if the VM has public IP Address.
+#! @input schedule_time: Schedule time of the start VM.
+#!                       Optional
+#! @input schedule_time_zone: Schedule time zone of the start VM.
+#!                            Optional
+#! @input start_vm_scheduler_id: Start VM scheduler ID.
+#!                               Optional
+#! @input cancel_scheduler: The value of property will be yes if the scheduler has to cancel, otherwise no.
+#!                          Optional
+#! @input start_vm_scheduler_time: Start VM scheduler time.
+#!                                 Optional
+#! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
-#! @input polling_interval: Optional - Time to wait between checks.
+#!                         Optional
+#! @input polling_interval: Time to wait between checks.
 #!                          Default: '30'
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
+#!                          Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - Username used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
 #!                                 Default: 'strict'
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #!
+#! @output scheduler_id: Start VM scheduler ID.
+#! @output power_state: Power state of the Virtual Machine.
+#! @output public_ip_address: The primary IP Address of the VM.
+#! @output updated_start_vm_scheduler_time: Start VM scheduler time.
+#!
+#! @result SUCCESS: The flow completed successfully.
 #! @result FAILURE: There was an error while trying to run every step of the flow.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure
-
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
@@ -66,7 +92,6 @@ imports:
   flow: io.cloudslang.base.utils
   auth: io.cloudslang.microsoft.azure.authorization
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
-
 flow:
   name: start_vm_v4
   inputs:
@@ -83,6 +108,16 @@ flow:
         required: true
         sensitive: true
     - enable_public_ip
+    - schedule_time:
+        required: false
+    - schedule_time_zone:
+        required: false
+    - start_vm_scheduler_id:
+        required: false
+    - cancel_scheduler:
+        required: false
+    - start_vm_scheduler_time:
+        required: false
     - connect_timeout:
         default: '0'
         required: false
@@ -110,14 +145,6 @@ flow:
         sensitive: true
     - worker_group:
         default: RAS_Operator_Path
-        required: false
-    - schedule_time:
-        required: false
-    - schedule_time_zone:
-        required: false
-    - start_vm_scheduler_id:
-        required: false
-    - cancel_scheduler:
         required: false
   workflow:
     - get_auth_token_using_web_api:
@@ -157,10 +184,12 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
             - scheduler_id: '${start_vm_scheduler_id}'
+            - updated_start_vm_scheduler_time: '${start_vm_scheduler_time}'
         publish:
           - dnd_rest_user
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
           - scheduler_id
+          - updated_start_vm_scheduler_time
         navigate:
           - SUCCESS: check_schedule_time_empty
           - FAILURE: on_failure
@@ -190,7 +219,7 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: check_enable_public_ip
+          - SUCCESS: check_power_state
           - FAILURE: on_failure
     - check_schedule_time_empty:
         do:
@@ -219,7 +248,7 @@ flow:
           - time_zone
           - exception
         navigate:
-          - SUCCESS: api_call_to_create_scheduler
+          - SUCCESS: get_optional_properties_json
           - FAILURE: on_failure
     - api_call_to_create_scheduler:
         do:
@@ -259,6 +288,7 @@ flow:
             - input1: '${response_headers.split("Location: /schedules/")[1]}'
         publish:
           - scheduler_id: '${input1.split("X-Content-Type-Options:")[0]}'
+          - updated_start_vm_scheduler_time: "${scheduler_start_time + ' ' + time_zone}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -398,19 +428,99 @@ flow:
         navigate:
           - SUCCESS: get_tenant_id
           - FAILURE: on_failure
+    - check_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${power_status}'
+            - json_path: 'statuses,1,code'
+        publish:
+          - expected_power_state: '${return_result}'
+        navigate:
+          - SUCCESS: compare_power_state
+          - FAILURE: on_failure
+    - compare_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${expected_power_state}'
+            - second_string: PowerState/running
+        navigate:
+          - SUCCESS: check_enable_public_ip
+          - FAILURE: check_schedule_time_empty
+    - get_optional_properties_json:
+        do:
+          io.cloudslang.microsoft.azure.utils.set_optional_properties_json:
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - optional_properties_json
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: check_optional_property_json_empty
+    - check_optional_property_json_empty:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${optional_properties_json}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: api_call_to_create_scheduler
+          - FAILURE: api_call_to_create_scheduler_with_optional_values
+    - api_call_to_create_scheduler_with_optional_values:
+        do:
+          io.cloudslang.base.http.http_client_post:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules'}"
+            - username: '${dnd_rest_user}'
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
+            - trust_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
+                sensitive: true
+            - connect_timeout: "${get_sp('io.cloudslang.microfocus.content.connect_timeout')}"
+            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
+            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.start_vm_v3\",\"scheduleName\": \"Schedule Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false}, ' + optional_properties_json +' {\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' + x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - content_type: application/json
+            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+        publish:
+          - response_headers
+          - status_code
+          - error_message
+        navigate:
+          - SUCCESS: get_scheduler_id
+          - FAILURE: on_failure
   outputs:
     - scheduler_id
     - public_ip_address
     - power_state
+    - updated_start_vm_scheduler_time
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
+      check_power_state:
+        x: 40
+        'y': 320
       api_call_to_create_scheduler:
         x: 1360
-        'y': 520
+        'y': 720
       get_auth_token_using_web_api:
         x: 40
         'y': 120
@@ -423,13 +533,16 @@ extensions:
             port: FAILURE
       get_public_ip_address_info:
         x: 40
-        'y': 280
+        'y': 520
+      api_call_to_create_scheduler_with_optional_values:
+        x: 1120
+        'y': 480
       get_tenant_id:
         x: 200
-        'y': 520
+        'y': 760
       get_scheduler_id:
         x: 1120
-        'y': 520
+        'y': 720
         navigate:
           5eed7b79-c5a1-2f9b-58bf-286142b3ffbd:
             targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
@@ -473,10 +586,13 @@ extensions:
             port: SUCCESS
       set_public_ip_address:
         x: 40
-        'y': 520
+        'y': 760
+      check_optional_property_json_empty:
+        x: 1360
+        'y': 480
       check_enable_public_ip:
         x: 200
-        'y': 280
+        'y': 520
       check_schedule_time_zone_empty:
         x: 600
         'y': 120
@@ -487,6 +603,12 @@ extensions:
       check_cancel_scheduler_empty:
         x: 400
         'y': 280
+      compare_power_state:
+        x: 200
+        'y': 320
+      get_optional_properties_json:
+        x: 1360
+        'y': 320
     results:
       FAILURE:
         982c534f-a49d-7b50-8804-eefbdb22843c:
@@ -495,5 +617,4 @@ extensions:
       SUCCESS:
         49f71b73-1825-42e1-f00c-2b1e4388e4f9:
           x: 840
-          'y': 640
-
+          'y': 720
