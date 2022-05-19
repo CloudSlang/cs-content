@@ -286,6 +286,8 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - input1: '${response_headers.split("Location: /schedules/")[1]}'
+            - scheduler_start_time: '${scheduler_start_time}'
+            - timezone: '${time_zone}'
         publish:
           - scheduler_id: '${input1.split("X-Content-Type-Options:")[0]}'
           - updated_start_vm_scheduler_time: "${scheduler_start_time + ' ' + time_zone}"
@@ -450,7 +452,7 @@ flow:
           - FAILURE: check_schedule_time_empty
     - get_optional_properties_json:
         do:
-          io.cloudslang.microsoft.azure.utils.set_optional_properties_json:
+          a.testing:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
