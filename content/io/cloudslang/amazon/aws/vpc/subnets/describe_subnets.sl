@@ -66,7 +66,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.vpc.subnets
+namespace: io.cloudslang.amazon.aws.vpc.subnets
 
 operation: 
   name: describe_subnets
