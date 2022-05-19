@@ -13,10 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes the security groups that you own. By default, this operation returns information about all of
-#!               your security groups, but you can specify a list of group names or group IDs to restrict the results to
-#!               only those specified.
-#!
+#! @description: Returns information about your Amazon virtual private clouds (VPCs). You can filter the results to return
+#!               information only about VPCs that match the criteria you specify.
 #! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
@@ -28,13 +26,10 @@
 #!                                   Example: "sg-01234567,sg-7654321,sg-abcdef01"
 #!                                   Default: ""
 #! @input vpc_filter_names_string: Optional - String that contains one or more values that represents filters for the search.
-#!                             For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
-#!                             Example: "description,group-id,group-name,ip-permission.cidr,ip-permission.from-port,
-#!                                       ip-permission.group-id,ip-permission.group-name,ip-permission.protocol,
-#!                                       ip-permission.to-port,ip-permission.user-id,owner-id,tag-key,tag-value,vpc-id"
+#!                             Example: "cidr, dhcp-options-id, state, vpc-id, tag-key, tag-value and tag:<tag-name>
+#!                             where <tag-name> stands for the name of a tag that a snapshot may have."
 #!                             Default: ""
 #! @input vpc_filter_values_string: Optional - String that contains one or more values that represents filters values.
-#!                              For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
 #!                              Default (describes all your security groups): ""
 #! @input proxy_host: Optional - Proxy server used to access the provider services
 #! @input proxy_port: Optional - Proxy server port used to access the provider services
@@ -66,8 +61,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: The list with existing servers (instances) was successfully retrieved
-#! @result FAILURE: An error occurred when trying to retrieve servers (instances) list
+#! @result SUCCESS: The vpc details successfully retrieved.
+#! @result FAILURE: An error occurred when trying to retrieve vpc list.
 #!!#
 ########################################################################################################################
 
