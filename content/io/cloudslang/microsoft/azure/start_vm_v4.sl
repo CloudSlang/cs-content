@@ -452,11 +452,13 @@ flow:
           - FAILURE: check_schedule_time_empty
     - get_optional_properties_json:
         do:
-          a.testing:
+          io.cloudslang.microsoft.azure.utils.set_optional_properties_json:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
             - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
