@@ -124,7 +124,7 @@ flow:
     - add_proxy_password_to_json:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - optional_properties_json: "${optional_properties_json + ' {\"name\": \"proxy_password\", \"value\": \"' + proxy_password + '\", \"sensitive\": false},'}"
+            - optional_properties_json: "${optional_properties_json + ' {\"name\": \"proxy_password\", \"value\": \"' + proxy_password + '\", \"sensitive\": true},'}"
         publish:
           - optional_properties_json
         navigate:
@@ -158,7 +158,7 @@ flow:
     - add_trust_password_to_json:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - optional_properties_json: "${optional_properties_json + ' {\"name\": \"trust_password\", \"value\": \"' + trust_password + '\", \"sensitive\": false},'}"
+            - optional_properties_json: "${optional_properties_json + ' {\"name\": \"trust_password\", \"value\": \"' + trust_password + '\", \"sensitive\": true},'}"
         publish:
           - optional_properties_json
         navigate:
