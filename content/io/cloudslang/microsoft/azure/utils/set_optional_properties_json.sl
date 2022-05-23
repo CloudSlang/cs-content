@@ -174,7 +174,7 @@ flow:
         navigate:
           - SUCCESS: check_component_id_empty
           - FAILURE: on_failure
-    - add_trust_password_to_json_1:
+    - add_component_id_to_json:
         do:
           io.cloudslang.base.utils.do_nothing:
             - optional_properties_json: "${optional_properties_json + ' {\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},'}"
@@ -190,7 +190,7 @@ flow:
             - second_string: ''
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: add_trust_password_to_json_1
+          - FAILURE: add_component_id_to_json
   outputs:
     - optional_properties_json
   results:
@@ -215,6 +215,13 @@ extensions:
       check_trust_password_empty:
         x: 680
         'y': 360
+      add_component_id_to_json:
+        x: 880
+        'y': 200
+        navigate:
+          70978434-63ee-2d91-1a81-6c791a584b5e:
+            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
+            port: SUCCESS
       add_trust_password_to_json:
         x: 880
         'y': 360
@@ -245,13 +252,6 @@ extensions:
       check_proxy_host_empty:
         x: 320
         'y': 40
-      add_trust_password_to_json_1:
-        x: 840
-        'y': 200
-        navigate:
-          70978434-63ee-2d91-1a81-6c791a584b5e:
-            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
-            port: SUCCESS
     results:
       SUCCESS:
         0b39bcfb-5352-3c4f-c5d0-2743eb919761:

@@ -302,7 +302,7 @@ flow:
             - first_string: '${cancel_scheduler}'
             - second_string: 'yes'
         navigate:
-          - SUCCESS: check_start_vm_scheduler_id_empty_1
+          - SUCCESS: check_start_vm_scheduler_id
           - FAILURE: start_vm_v3
     - start_vm_v3:
         do:
@@ -360,7 +360,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - check_start_vm_scheduler_id_empty_1:
+    - check_start_vm_scheduler_id:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${start_vm_scheduler_id}'
@@ -584,7 +584,7 @@ extensions:
       scheduler_time:
         x: 1360
         'y': 120
-      check_start_vm_scheduler_id_empty_1:
+      check_start_vm_scheduler_id:
         x: 600
         'y': 280
         navigate:
