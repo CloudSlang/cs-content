@@ -20,7 +20,7 @@
 #!                  Valid values: http, https
 #!                  Default value: https
 #!                  Optional
-#! @input auth_token: Token used to authenticate to the cyberark environment.
+#! @input auth_token: Token used to authenticate to the CyberArk environment.
 #! @input id: The account's unique ID, composed of the SafeID and internal AccountID of the account to delete.
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
@@ -29,15 +29,14 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
-#!                     Default value: TLSv1.2.
+#!                     information. Valid values: TLSv1.2
+#!                     Default value: TLSv1.2
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
-#!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
+#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
@@ -58,13 +57,8 @@
 #!                         Optional
 #! @input x509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
-#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
-#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Valid values: strict, browser_compatible, allow_all
+#!                                 "allow_all" to skip any checking.
+#!                                 Valid values: strict, allow_all
 #!                                 Default value: strict
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
@@ -73,15 +67,13 @@
 #!                        'true' this input is ignored. 
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
+#! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                  authentication. If the protocol (specified by the 'url') is not 'https' this input is ignored.
+#!                  Format: Java KeyStore (JKS)
 #!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
+#! @input keystore_password: The password associated with the KeyStore file.
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
@@ -92,7 +84,7 @@
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and afterexecution it will close it.
+#!                    keep_alive is false, the already open connection will be used and after execution it will close it.
 #!                    Valid values: true, false
 #!                    Default value: false
 #!                    Optional
@@ -103,13 +95,13 @@
 #!                               Default: 20
 #!                               Optional
 #!
-#! @output return_result: 
-#! @output status_code: 
-#! @output return_code: 
-#! @output exception: 
+#! @output return_result: Contains a human readable message describing the status of the CyberArk action or the CyberArk response if one was provided.
+#! @output status_code: The status_code returned by the server.
+#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure
+#! @output exception: In case of success response, this result is empty. In case of failure response, this result contains the java stack trace of the runtime exception.
 #!
-#! @result SUCCESS: Generated description.
-#! @result FAILURE: Generated description.
+#! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
+#! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 
@@ -158,7 +150,8 @@ operation:
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
-        required: false  
+        private: true
+        required: false
     - tlsVersion: 
         default: ${get('tls_version', "")}
         required: false 
