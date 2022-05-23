@@ -15,16 +15,24 @@
 #!!
 #! @description: This flow forms optional properties json.
 #!
-#! @input proxy_host: Optional - Proxy server used to access the web site.
-#! @input proxy_port: Optional - Proxy server port.
-#! @input proxy_username: Optional - Username used when connecting to the proxy.
-#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
-#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                         Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
+#! @input component_id: The service component ID.
+#!                      Optional
 #!
 #! @output optional_properties_json: Returns optional properties json.
 #!
@@ -35,7 +43,7 @@
 
 namespace: io.cloudslang.microsoft.azure.utils
 flow:
-  name:   set_optional_properties_json
+  name: set_optional_properties_json
   inputs:
     - proxy_host:
         required: false
@@ -51,6 +59,8 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - component_id:
+        required: false
   workflow:
     - set_optional_properties_json:
         do:
@@ -153,7 +163,7 @@ flow:
             - first_string: '${trust_password}'
             - second_string: ''
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: check_component_id_empty
           - FAILURE: add_trust_password_to_json
     - add_trust_password_to_json:
         do:
@@ -162,8 +172,25 @@ flow:
         publish:
           - optional_properties_json
         navigate:
+          - SUCCESS: check_component_id_empty
+          - FAILURE: on_failure
+    - add_trust_password_to_json_1:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - optional_properties_json: "${optional_properties_json + ' {\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},'}"
+        publish:
+          - optional_properties_json
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - check_component_id_empty:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${component_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: add_trust_password_to_json_1
   outputs:
     - optional_properties_json
   results:
@@ -172,6 +199,13 @@ flow:
 extensions:
   graph:
     steps:
+      check_component_id_empty:
+        x: 680
+        'y': 200
+        navigate:
+          e2d32522-bd58-d83b-9f27-76280dabb2a0:
+            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
+            port: SUCCESS
       add_proxy_host_to_json:
         x: 520
         'y': 40
@@ -180,21 +214,13 @@ extensions:
         'y': 360
       check_trust_password_empty:
         x: 680
-        'y': 200
-        navigate:
-          15fa6e25-0b82-c4fd-263f-bbaf775c580f:
-            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
-            port: SUCCESS
+        'y': 360
       add_trust_password_to_json:
         x: 880
-        'y': 200
-        navigate:
-          d72ac3da-4c0e-d7d5-2a40-16cac9f0b86e:
-            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
-            port: SUCCESS
+        'y': 360
       check_trust_keystore_empty:
         x: 680
-        'y': 400
+        'y': 560
       check_proxy_password_empty:
         x: 320
         'y': 560
@@ -206,7 +232,7 @@ extensions:
         'y': 40
       add_trust_keystore_to_json:
         x: 880
-        'y': 400
+        'y': 560
       check_proxy_port_empty:
         x: 320
         'y': 200
@@ -219,6 +245,13 @@ extensions:
       check_proxy_host_empty:
         x: 320
         'y': 40
+      add_trust_password_to_json_1:
+        x: 840
+        'y': 200
+        navigate:
+          70978434-63ee-2d91-1a81-6c791a584b5e:
+            targetId: 0b39bcfb-5352-3c4f-c5d0-2743eb919761
+            port: SUCCESS
     results:
       SUCCESS:
         0b39bcfb-5352-3c4f-c5d0-2743eb919761:

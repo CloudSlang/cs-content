@@ -118,6 +118,8 @@ flow:
         required: false
     - start_vm_scheduler_time:
         required: false
+    - component_id:
+        required: false
     - connect_timeout:
         default: '0'
         required: false
@@ -128,9 +130,9 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - proxy_username:
-        required: false
     - proxy_password:
+        required: false
+    - proxy_username:
         required: false
     - trust_all_roots:
         default: 'false'
@@ -272,7 +274,7 @@ flow:
                 sensitive: true
             - connect_timeout: "${get_sp('io.cloudslang.microfocus.content.connect_timeout')}"
             - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
-            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.start_vm_v3\",\"scheduleName\": \"Schedule Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false},{\"name\": \"proxy_host\",\"value\": \"' + proxy_host + '\",\"sensitive\": false},{\"name\": \"proxy_port\", \"value\": \"' + proxy_port + '\",\"sensitive\": false},{\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' +x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.schedule_start_vm\",\"scheduleName\": \"Schedule Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false},{\"name\": \"proxy_host\",\"value\": \"' + proxy_host + '\",\"sensitive\": false},{\"name\": \"proxy_port\", \"value\": \"' + proxy_port + '\",\"sensitive\": false},{\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' +x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
             - content_type: application/json
             - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         publish:
@@ -463,6 +465,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+            - component_id: '${component_id}'
         publish:
           - optional_properties_json
         navigate:
@@ -498,7 +501,7 @@ flow:
                 sensitive: true
             - connect_timeout: "${get_sp('io.cloudslang.microfocus.content.connect_timeout')}"
             - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
-            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.start_vm_v3\",\"scheduleName\": \"Schedule Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false}, ' + optional_properties_json +' {\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' + x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.schedule_start_vm\",\"scheduleName\": \"Schedule Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false}, ' + optional_properties_json +' {\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' + x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
             - content_type: application/json
             - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         publish:
@@ -622,3 +625,4 @@ extensions:
         49f71b73-1825-42e1-f00c-2b1e4388e4f9:
           x: 840
           'y': 720
+
