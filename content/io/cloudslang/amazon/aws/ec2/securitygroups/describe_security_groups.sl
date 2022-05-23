@@ -77,8 +77,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: The list with existing servers (instances) was successfully retrieved
-#! @result FAILURE: An error occurred when trying to retrieve servers (instances) list
+#! @result SUCCESS: The list with existing security groups was successfully retrieved
+#! @result FAILURE: An error occurred when trying to retrieve security groups list or details of security group.
 #!!#
 ########################################################################################################################
 
@@ -173,7 +173,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC4'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC2'
     class_name: io.cloudslang.content.amazon.actions.securitygroups.DescribeSecurityGroupsAction
     method_name: execute
 
