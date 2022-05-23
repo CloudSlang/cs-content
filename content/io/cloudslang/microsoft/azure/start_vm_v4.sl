@@ -36,6 +36,8 @@
 #!                          Optional
 #! @input start_vm_scheduler_time: Start VM scheduler time.
 #!                                 Optional
+#! @input component_id: The service component ID.
+#!                      Optional
 #! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #!                         Optional
