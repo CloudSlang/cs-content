@@ -46,7 +46,7 @@
 #!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.
 #!                     Optional
-#! @input allowed_cyphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
+#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
 #!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
@@ -66,7 +66,7 @@
 #!                         Valid values: true, false
 #!                         Default value: false
 #!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#! @input x509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
 #!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
 #!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
@@ -132,7 +132,7 @@ operation:
     - hostname    
     - protocol:
         default: 'https'
-        required: false  
+        required: false
     - username    
     - password:    
         sensitive: true
@@ -140,36 +140,40 @@ operation:
         required: false  
         sensitive: true
     - newPassword: 
-        default: ${get('new_password', '')}  
+        default: ${get('new_password', "")}
         required: false 
         private: true 
         sensitive: true
     - concurrent_session:  
         required: false  
     - concurrentSession: 
-        default: ${get('concurrent_session', '')}  
+        default: ${get('concurrent_session', "")}
         required: false 
         private: true 
     - proxy_host:  
         required: false
     - proxyHost:
-        default: ${get('proxy_host', '')}
+        default: ${get('proxy_host', "")}
         required: false
         private: true
     - proxy_port:
         default: '8080'
         required: false
+    - proxyPort:
+        default: ${get('proxy_port', "")}
+        required: false
+        private: true
     - proxy_username:
         required: false
     - proxyUsername:
-        default: ${get('proxy_username', '')}
+        default: ${get('proxy_username', "")}
         required: false
         private: true
     - proxy_password:
         required: false
         sensitive: true
     - proxyPassword:
-        default: ${get('proxy_password', '')}
+        default: ${get('proxy_password', "")}
         required: false
         private: true
         sensitive: true
@@ -177,50 +181,51 @@ operation:
         default: 'TLSv1.2'
         required: false
     - tlsVersion:
-        default: ${get('tls_version', '')}
+        default: ${get('tls_version', "")}
         required: false
         private: true
-    - allowed_cyphers:
+    - allowed_ciphers:
         required: false
-    - allowedCyphers:
-        default: ${get('allowed_cyphers', '')}
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', "")}
         required: false
         private: true
     - trust_all_roots:
         default: 'false'
         required: false
     - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
+        default: ${get('trust_all_roots', "")}
         required: false
         private: true
-    - x_509_hostname_verifier:
+    - x509_hostname_verifier:
         default: 'strict'
         required: false
     - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}
+        default: ${get('x509_hostname_verifier', "")}
         required: false
         private: true
     - trust_keystore:
         required: false
     - trustKeystore:
-        default: ${get('trust_keystore', '')}
+        default: ${get('trust_keystore', "")}
         required: false
         private: true
     - trust_password:
         required: false
         sensitive: true
     - trustPassword:
-        default: ${get('trust_password', '')}
+        default: ${get('trust_password', "")}
         required: false
         private: true
         sensitive: true
     - keystore:
         required: false
+        default: ''
     - keystore_password:
         required: false
         sensitive: true
     - keystorePassword:
-        default: ${get('keystore_password', '')}
+        default: ${get('keystore_password', "")}
         required: false
         private: true
         sensitive: true
@@ -228,48 +233,49 @@ operation:
         default: '60'
         required: false
     - connectTimeout:
-        default: ${get('connect_timeout', '')}
+        default: ${get('connect_timeout', "")}
         required: false
         private: true
     - execution_timeout:
         default: '60'
         required: false
     - executionTimeout:
-        default: ${get('execution_timeout', '')}
+        default: ${get('execution_timeout', "")}
         required: false
         private: true
     - keep_alive:
         default: 'false'
         required: false
     - keepAlive:
-        default: ${get('keep_alive', '')}
+        default: ${get('keep_alive', "")}
         required: false
         private: true
     - connections_max_per_route:
         default: '2'
         required: false
     - connectionsMaxPerRoute:
-        default: ${get('connections_max_per_route', '')}
+        default: ${get('connections_max_per_route', "")}
         required: false
         private: true
     - connections_max_total:
         default: '20'
         required: false  
     - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
+        default: ${get('connections_max_total', "")}
         required: false 
         private: true 
-    
+
+
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:1.0.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-cyberark-privileged-access-manager-sources:1.0.0-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
 
   outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - exception: ${get('exception', '')} 
+    - return_result: ${get('returnResult', "")}
+    - status_code: ${get('statusCode', "")}
+    - return_code: ${get('returnCode', "")}
+    - exception: ${get('exception', "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
