@@ -125,9 +125,9 @@ operation:
         default: 'https'
         required: false
     - username    
-    - password:    
+    - password:  
         sensitive: true
-    - new_password:  
+    - new_password:
         required: false  
         sensitive: true
     - newPassword: 
@@ -142,7 +142,7 @@ operation:
         default: ${get('concurrent_session', "")}
         required: false 
         private: true 
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}

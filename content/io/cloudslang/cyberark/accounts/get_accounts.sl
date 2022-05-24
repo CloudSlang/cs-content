@@ -164,7 +164,7 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - search:  
+    - search:
         required: false  
     - search_type:
         default: 'contains'
@@ -173,7 +173,7 @@ operation:
         default: ${get('search_type', "")}
         required: false 
         private: true 
-    - sort:  
+    - sort:
         required: false
     - offset:
         default: '0'
@@ -181,15 +181,15 @@ operation:
     - limit:
         default: '50'
         required: false  
-    - filter:  
+    - filter:
         required: false  
-    - saved_filter:  
+    - saved_filter:
         required: false  
     - savedFilter: 
         default: ${get('saved_filter', "")}
         required: false 
         private: true 
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}

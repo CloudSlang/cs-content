@@ -139,7 +139,7 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - name:  
+    - name:
         required: false  
     - address    
     - username    
@@ -153,33 +153,33 @@ operation:
         default: ${get('safe_name', "")}
         required: false 
         private: true 
-    - secret_type:  
+    - secret_type:
         required: false  
     - secretType: 
         default: ${get('secret_type', "")}
         required: false 
         private: true 
-    - secret:  
+    - secret:
         required: false  
-    - platform_account_properties:  
+    - platform_account_properties:
         required: false  
     - platformAccountProperties: 
         default: ${get('platform_account_properties', "")}
         required: false 
         private: true 
-    - secret_management:  
+    - secret_management:
         required: false  
     - secretManagement: 
         default: ${get('secret_management', "")}
         required: false 
         private: true 
-    - remote_machine_access:  
+    - remote_machine_access:
         required: false  
     - remoteMachineAccess: 
         default: ${get('remote_machine_access', "")}
         required: false 
         private: true 
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}

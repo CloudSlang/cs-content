@@ -121,7 +121,7 @@ operation:
         required: false 
         private: true 
     - id    
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}
@@ -134,13 +134,13 @@ operation:
         default: ${get('proxy_port', "")}
         required: false
         private: true
-    - proxy_username:  
+    - proxy_username:
         required: false  
     - proxyUsername: 
         default: ${get('proxy_username', "")}
         required: false 
         private: true 
-    - proxy_password:  
+    - proxy_password:
         required: false  
         sensitive: true
     - proxyPassword: 
@@ -176,13 +176,13 @@ operation:
         default: ${get('x509_hostname_verifier', "")}
         required: false 
         private: true 
-    - trust_keystore:  
+    - trust_keystore:
         required: false  
     - trustKeystore: 
         default: ${get('trust_keystore', "")}
         required: false 
         private: true 
-    - trust_password:  
+    - trust_password:
         required: false  
         sensitive: true
     - trustPassword: 
@@ -190,9 +190,9 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
+    - keystore:
         required: false  
-    - keystore_password:  
+    - keystore_password:
         required: false  
         sensitive: true
     - keystorePassword: 

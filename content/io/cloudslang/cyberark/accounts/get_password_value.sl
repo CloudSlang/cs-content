@@ -129,15 +129,15 @@ operation:
         default: ${get('app_id', "")}
         required: false 
         private: true 
-    - query:  
+    - query:
         required: false  
-    - query_format:  
+    - query_format:
         required: false  
     - queryFormat: 
         default: ${get('query_format', "")}
         required: false 
         private: true 
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}

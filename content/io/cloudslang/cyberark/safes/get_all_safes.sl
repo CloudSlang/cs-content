@@ -138,29 +138,29 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - search:  
+    - search:
         required: false  
     - offset:
         default: '0'
         required: false  
-    - sort:  
+    - sort:
         required: false  
     - limit:
         default: '25'
         required: false  
-    - include_accounts:  
+    - include_accounts:
         required: false  
     - includeAccounts: 
         default: ${get('include_accounts', "")}
         required: false 
         private: true 
-    - extended_details:  
+    - extended_details:
         required: false  
     - extendedDetails: 
         default: ${get('extended_details', "")}
         required: false 
         private: true 
-    - proxy_host:  
+    - proxy_host:
         required: false
     - proxyHost:
         default: ${get('proxy_host', "")}
