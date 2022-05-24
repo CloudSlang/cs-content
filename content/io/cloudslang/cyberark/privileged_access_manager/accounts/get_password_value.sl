@@ -13,24 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method authenticates a user to Privilege Cloud and returns a token that can be used in subsequent
-#!               web services calls. In addition, this method enables you to set a new password.
+#! @description: This service enables applications to retrieve secrets from the Central Credential Provider.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
-#!                  Optional
-#! @input username: The name of the user who is logging in to Privilege Cloud.
-#! @input password: The password used by the user to log in to Privilege Cloud.
-#! @input new_password: Set this parameter with a new password to change the user's password.
+#! @input app_id: Specifies the unique ID of the application issuing the password request.
+#! @input query: Defines a free query using account properties, including Safe, folder, and object. When this method is
+#!               specified, all other search criteria (Safe/Folder/Object/UserName/Address/PolicyID/Database) are
+#!               ignored and only the account properties that are specified in the query are passed to the Central
+#!               Credential Provider in the password request.
+#!               Optional
+#! @input query_format: Defines the query format, which can optionally use regular expressions.
+#!                      Valid values: Exact/Regexp
+#!                      Default: Exact
 #!                      Optional
-#! @input concurrent_session: Set this parameter to True to enable the user to open multiple connection sessions
-#!                            simultaneously.
-#!                            Up to 300 concurrent sessions are supported.
-#!                            Valid values: true, false
-#!                            Default value: false
-#!                            Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -38,7 +36,7 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
+#! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
@@ -73,10 +71,11 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. 
+#!                        'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file.
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' this input is ignored.
@@ -108,38 +107,34 @@
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: The returnCode of the operation: 0 for success, -1 for failure
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result contains the java stack trace of the runtime exception.
+#! @output password_value:
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.authorization
+namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
 
 operation: 
-  name: get_auth_token
+  name: get_password_value
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
         required: false
-    - username    
-    - password:    
-        sensitive: true
-    - new_password:  
-        required: false  
-        sensitive: true
-    - newPassword: 
-        default: ${get('new_password', "")}
+    - app_id    
+    - appId: 
+        default: ${get('app_id', "")}
         required: false 
         private: true 
-        sensitive: true
-    - concurrent_session:
-        default: 'false'
+    - query:  
         required: false  
-    - concurrentSession: 
-        default: ${get('concurrent_session', "")}
+    - query_format:  
+        required: false  
+    - queryFormat: 
+        default: ${get('query_format', "")}
         required: false 
         private: true 
     - proxy_host:  
@@ -261,14 +256,15 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
-    class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
+    class_name: io.cloudslang.content.cyberark.actions.accounts.GetPasswordValue
     method_name: execute
-
+  
   outputs: 
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
+    - password_value: ${get('passwordValue', "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

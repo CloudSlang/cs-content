@@ -13,59 +13,24 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method returns a list of all the accounts in Privilege Cloud. The user who runs this web service
-#!               requires List Accounts permissions in the Safe.
+#! @description: This method authenticates a user to Privilege Cloud and returns a token that can be used in subsequent
+#!               web services calls. In addition, this method enables you to set a new password.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
 #!                  Optional
-#! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input search: A list of keywords to search for in accounts, separated by a space.
-#!                Optional
-#! @input search_type: Get accounts that either contain or start with the value specified in the Search parameter.
-#!                     Valid values: contains/startswith
-#!                     Default value: contains
-#!                     Optional
-#! @input sort: The property or properties that you want to sort returned accounts, followed by asc (default) or desc to
-#!              control sort direction. Separate multiple properties with commas, up to a maximum of three properties.
-#!              Optional
-#! @input offset: Offset of the first account that is returned in the collection of results.
-#!                Default value: 0
-#!                Optional
-#! @input limit: The maximum number of returned accounts. The maximum number that you can specify is 1000.
-#!               When used
-#!               together with the Offset parameter, this value determines the number of accounts to return, starting
-#!               from the first account that is returned.
-#!               Default value: 50
-#!               Optional
-#! @input filter: Search for accounts using a filter.
-#!                To use more than one filter, use the AND operator.
-#!                Optional
-#! @input saved_filter: Search for accounts using a saved filter(s).
-#!                      Search using any of the following saved filter types:
-#!                      Regular
-#!                      Recently
-#!                      New
-#!                      Link
-#!                      Deleted
-#!                      PolicyFailures
-#!                      AccessedByUsers
-#!                      ModifiedByUsers
-#!                      ModifiedByCPM
-#!                      DisabledPasswordByUser
-#!                      DisabledPasswordByCPM
-#!                      ScheduledForChange
-#!                      ScheduledForVerify
-#!                      ScheduledForReconcile
-#!                      SuccessfullyReconciled
-#!                      FailedChange
-#!                      FailedVerify
-#!                      FailedReconcile
-#!                      LockedOrNew
-#!                      Locked
-#!                      Favorites
+#! @input username: The name of the user who is logging in to Privilege Cloud.
+#! @input password: The password used by the user to log in to Privilege Cloud.
+#! @input new_password: Set this parameter with a new password to change the user's password.
+#!                      Optional
+#! @input concurrent_session: Set this parameter to True to enable the user to open multiple connection sessions
+#!                            simultaneously.
+#!                            Up to 300 concurrent sessions are supported.
+#!                            Valid values: true, false
+#!                            Default value: false
+#!                            Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -73,7 +38,7 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxy_username input value.
+#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
@@ -102,7 +67,7 @@
 #! @input x509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
 #!                                 "allow_all" to skip any checking.
-#!                                 Valid values: strict, browser_compatible, allow_all
+#!                                 Valid values: strict, allow_all
 #!                                 Default value: strict
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
@@ -133,7 +98,7 @@
 #!                    Default value: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default: 2
+#!                                   Default value: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Default: 20
@@ -149,44 +114,32 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.authorization
 
 operation: 
-  name: get_accounts
+  name: get_auth_token
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
+        required: false
+    - username    
+    - password:    
+        sensitive: true
+    - new_password:  
         required: false  
-    - auth_token    
-    - authToken: 
-        default: ${get('auth_token', "")}
+        sensitive: true
+    - newPassword: 
+        default: ${get('new_password', "")}
         required: false 
         private: true 
-    - search:  
+        sensitive: true
+    - concurrent_session:
+        default: 'false'
         required: false  
-    - search_type:
-        default: 'contains'
-        required: false  
-    - searchType: 
-        default: ${get('search_type', "")}
-        required: false 
-        private: true 
-    - sort:  
-        required: false
-    - offset:
-        default: '0'
-        required: false
-    - limit:
-        default: '50'
-        required: false  
-    - filter:  
-        required: false  
-    - saved_filter:  
-        required: false  
-    - savedFilter: 
-        default: ${get('saved_filter', "")}
+    - concurrentSession: 
+        default: ${get('concurrent_session', "")}
         required: false 
         private: true 
     - proxy_host:  
@@ -308,9 +261,9 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccounts
+    class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
-  
+
   outputs: 
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}
