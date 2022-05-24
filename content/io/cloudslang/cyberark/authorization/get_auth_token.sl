@@ -260,7 +260,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.3-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
 
