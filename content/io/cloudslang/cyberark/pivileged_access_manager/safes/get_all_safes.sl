@@ -27,7 +27,7 @@
 #!                Default value: 0
 #!                Optional
 #! @input sort: Sorts according to the safeName property in ascending order (default) or descending order to control the
-#!              sort direction. Valid values: asc, desc
+#!              sort direction. Valid values:safeName asc, safeName desc
 #!              Optional
 #! @input limit: The maximum number of returned safes.
 #!               When used together with the Offset parameter, this value
