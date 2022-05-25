@@ -28,14 +28,16 @@
 #! @input platform_id: The platform assigned to this account.
 #! @input safe_name: The Safe where the account is created.
 #! @input secret_type: The type of password.
+#!                     Valid values: password, key
 #!                     Optional
-#! @input secret: The password value. This will not be returned in the API output.
+#! @input secret: The password value or private SSH key. This will not be returned in the API output.
 #!                Optional
 #! @input platform_account_properties: Object containing key-value pairs to associate with the account, as defined by
 #!                                     the account platform. These properties are validated against the mandatory and
 #!                                     optional properties of the specified platform's definition. Optional properties
 #!                                     that do not exist on the account will not be returned here. Internal properties
 #!                                     are not returned.
+#!                                     Example: {"Location": "IT", "OwnerName": "MSSPAdmin"}
 #!                                     Optional
 #! @input secret_management: JSON having secret management properties.
 #!                           Optional
@@ -160,6 +162,7 @@ operation:
         required: false 
         private: true 
     - secret:
+        sensitive: true
         required: false  
     - platform_account_properties:
         required: false  
