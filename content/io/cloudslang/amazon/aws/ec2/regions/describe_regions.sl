@@ -122,7 +122,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC10'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC12'
     class_name: io.cloudslang.content.amazon.actions.regions.DescribeRegionsAction
     method_name: execute
 

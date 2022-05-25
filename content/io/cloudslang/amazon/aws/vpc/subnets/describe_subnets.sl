@@ -13,13 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes the specified key pairs or all of your key pairs.
+#! @description: Retrieves information about subnets.
 #!
 #! @input endpoint: Optional - The endpoint to which requests are sent.
 #!                  Examples:  ec2.us-east-1.amazonaws.com, ec2.us-west-2.amazonaws.com, ec2.us-west-1.amazonaws.com.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: The Amazon Access Key ID.
 #! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input subnet_ids_string: Optional - The list of subnets by their IDs. If empty, all the subnets are described.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #!                    inputs or leave them both empty.
@@ -43,7 +44,7 @@
 #! @input delimiter: Optional - Delimiter that will be used.
 #! @input filter_names_string: Optional - String that contains one or more values that represents filters for
 #!                             the search.
-#!                             Example: " key-pair-id,key-name,fingerprint.
+#!                             Example: " availability-zone, available-ip-address-count, cidr, state, subnet-id.
 #!                             Default: ''
 #! @input filter_values_string: Optional - String that contains one or more values that represents filters values.
 #!                              Default: ''
@@ -65,10 +66,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.keypairs
+namespace: io.cloudslang.amazon.aws.vpc.subnets
 
 operation:
-  name: describe_key_pairs
+  name: describe_subnets
 
   inputs:
     - endpoint:
@@ -77,6 +78,12 @@ operation:
     - identity
     - credential:
         sensitive: true
+    - subnet_ids_string:
+        required: false
+    - subnetIdsString:
+        default: ${get("subnet_ids_string", "")}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -145,13 +152,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC12'
-    class_name: 'io.cloudslang.content.amazon.actions.keypairs.DescribeKeyPairsAction'
-    method_name: 'execute'
+    class_name: io.cloudslang.content.amazon.actions.subnets.DescribeSubnetsAction
+    method_name: execute
 
   outputs:
-    - return_code: ${get('returnCode', '')}
-    - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')}
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - exception: ${get("exception", "")}
 
   results:
     - SUCCESS: ${returnCode=='0'}
