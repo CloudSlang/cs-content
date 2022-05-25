@@ -13,14 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Retrieves information about subnets.
+#! @description: Describes the specified key pairs or all of your key pairs.
 #!
 #! @input endpoint: Optional - The endpoint to which requests are sent.
 #!                  Examples:  ec2.us-east-1.amazonaws.com, ec2.us-west-2.amazonaws.com, ec2.us-west-1.amazonaws.com.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: The Amazon Access Key ID.
 #! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
-#! @input subnet_ids_string: Optional - The list of subnets by their IDs. If empty, all the subnets are described.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #!                    inputs or leave them both empty.
@@ -44,7 +43,7 @@
 #! @input delimiter: Optional - Delimiter that will be used.
 #! @input filter_names_string: Optional - String that contains one or more values that represents filters for
 #!                             the search.
-#!                             Example: " availability-zone, available-ip-address-count, cidr, state, subnet-id.
+#!                             Example: " key-pair-id,key-name,fingerprint.
 #!                             Default: ''
 #! @input filter_values_string: Optional - String that contains one or more values that represents filters values.
 #!                              Default: ''
@@ -66,99 +65,93 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.vpc.subnets
+namespace: io.cloudslang.amazon.aws.ec2.keypairs
 
-operation: 
-  name: describe_subnets
-  
-  inputs: 
+operation:
+  name: describe_key_pairs
+
+  inputs:
     - endpoint:
         default: 'https://ec2.amazonaws.com'
-        required: false  
-    - identity    
-    - credential:    
+        required: false
+    - identity
+    - credential:
         sensitive: true
-    - subnet_ids_string:  
-        required: false  
-    - subnetIdsString: 
-        default: ${get("subnet_ids_string", "")}
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
+    - proxy_host:
+        required: false
+    - proxyHost:
         default: ${get("proxy_host", "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - proxy_port:
         default: "8080"
-        required: false  
-    - proxyPort: 
+        required: false
+    - proxyPort:
         default: ${get("proxy_port", "8080")}
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
         default: ${get("proxy_username", "")}
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
+    - proxyPassword:
         default: ${get("proxy_password", "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
-    - headers:  
-        required: false  
-    - query_params:  
-        required: false  
-    - queryParams: 
+    - headers:
+        required: false
+    - query_params:
+        required: false
+    - queryParams:
         default: ${get("query_params", "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - version:
         default: "2016-11-15"
-        required: false  
-    - delimiter:  
+        required: false
+    - delimiter:
         required: false
         default: ','
-    - filter_names_string:  
-        required: false  
-    - filterNamesString: 
+    - filter_names_string:
+        required: false
+    - filterNamesString:
         default: ${get("filter_names_string", "")}
-        required: false 
-        private: true 
-    - filter_values_string:  
-        required: false  
-    - filterValuesString: 
+        required: false
+        private: true
+    - filter_values_string:
+        required: false
+    - filterValuesString:
         default: ${get("filter_values_string", "")}
-        required: false 
-        private: true 
-    - max_results:  
-        required: false  
-    - maxResults: 
+        required: false
+        private: true
+    - max_results:
+        required: false
+    - maxResults:
         default: ${get("max_results", "")}
-        required: false 
-        private: true 
-    - next_token:  
-        required: false  
-    - nextToken: 
+        required: false
+        private: true
+    - next_token:
+        required: false
+    - nextToken:
         default: ${get("next_token", "")}
         required: false 
         private: true 
     
   java_action: 
     gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC7'
-    class_name: io.cloudslang.content.amazon.actions.subnets.DescribeSubnetsAction
-    method_name: execute
+    class_name: 'io.cloudslang.content.amazon.actions.keypairs.DescribeKeyPairsAction'
+    method_name: 'execute'
   
   outputs: 
-    - return_result: ${returnResult}
-    - return_code: ${returnCode}
-    - exception: ${get("exception", "")}
+    - return_code: ${get('returnCode', '')} 
+    - return_result: ${get('returnResult', '')} 
+    - exception: ${get('exception', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
