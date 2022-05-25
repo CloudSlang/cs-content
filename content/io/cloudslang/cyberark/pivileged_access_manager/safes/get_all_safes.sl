@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method adds a new privileged account to Privilege Cloud.
+#! @description: This method returns a list of all Safes in the Vault that the user has permissions for.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
@@ -21,26 +21,25 @@
 #!                  Default value: https
 #!                  Optional
 #! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input name: The name of the account.
-#!              Optional
-#! @input address: The name or address of the machine where the account will be used.
-#! @input username: Account's user name.
-#! @input platform_id: The platform assigned to this account.
-#! @input safe_name: The Safe where the account is created.
-#! @input secret_type: The type of password.
-#!                     Optional
-#! @input secret: The password value. This will not be returned in the API output.
+#! @input search: A list of keywords to search for in safes, separated by a space.
 #!                Optional
-#! @input platform_account_properties: Object containing key-value pairs to associate with the account, as defined by
-#!                                     the account platform. These properties are validated against the mandatory and
-#!                                     optional properties of the specified platform's definition. Optional properties
-#!                                     that do not exist on the account will not be returned here. Internal properties
-#!                                     are not returned.
-#!                                     Optional
-#! @input secret_management: JSON having secret management properties.
-#!                           Optional
-#! @input remote_machine_access: JSON having remote machine access properties.
-#!                               Optional
+#! @input offset: Offset of the first safe that is returned in the collection of results.
+#!                Default value: 0
+#!                Optional
+#! @input sort: Sorts according to the safeName property in ascending order (default) or descending order to control the
+#!              sort direction. Valid values: asc, desc
+#!              Optional
+#! @input limit: The maximum number of returned safes.
+#!               When used together with the Offset parameter, this value
+#!               determines the number of safes to return, starting from the first safe that is returned.
+#!               Default value: 25
+#!               Optional
+#! @input include_accounts: Whether or not to return accounts for each Safe as part of the response. If not sent, the
+#!                          value is False.
+#!                          Optional
+#! @input extended_details: Whether or not to return all Safe details or only safeName as part of the response. If not
+#!                          sent, the value is True.
+#!                          Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -55,8 +54,8 @@
 #!                     information. Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation
-#!                         for further security considerations.In order to connect successfully to the target host, it
+#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
+#!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
 #!                         ciphers. 
@@ -124,10 +123,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
 
 operation: 
-  name: add_account
+  name: get_all_safes
   
   inputs: 
     - hostname    
@@ -139,44 +138,26 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - name:
+    - search:
         required: false  
-    - address    
-    - username    
-    - platform_id    
-    - platformId: 
-        default: ${get('platform_id', "")}
+    - offset:
+        default: '0'
+        required: false  
+    - sort:
+        required: false  
+    - limit:
+        default: '25'
+        required: false  
+    - include_accounts:
+        required: false  
+    - includeAccounts: 
+        default: ${get('include_accounts', "")}
         required: false 
         private: true 
-    - safe_name    
-    - safeName: 
-        default: ${get('safe_name', "")}
-        required: false 
-        private: true 
-    - secret_type:
+    - extended_details:
         required: false  
-    - secretType: 
-        default: ${get('secret_type', "")}
-        required: false 
-        private: true 
-    - secret:
-        required: false  
-    - platform_account_properties:
-        required: false  
-    - platformAccountProperties: 
-        default: ${get('platform_account_properties', "")}
-        required: false 
-        private: true 
-    - secret_management:
-        required: false  
-    - secretManagement: 
-        default: ${get('secret_management', "")}
-        required: false 
-        private: true 
-    - remote_machine_access:
-        required: false  
-    - remoteMachineAccess: 
-        default: ${get('remote_machine_access', "")}
+    - extendedDetails: 
+        default: ${get('extended_details', "")}
         required: false 
         private: true 
     - proxy_host:
@@ -297,8 +278,8 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.5-SNAPSHOT'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.AddAccount
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC1'
+    class_name: io.cloudslang.content.cyberark.actions.safes.GetAllSafes
     method_name: execute
   
   outputs: 

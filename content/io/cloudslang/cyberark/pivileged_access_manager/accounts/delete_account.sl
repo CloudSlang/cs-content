@@ -13,34 +13,27 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This service enables applications to retrieve secrets from the Central Credential Provider.
+#! @description: This method deletes a specific account in the Vault
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
-#! @input app_id: Specifies the unique ID of the application issuing the password request.
-#! @input query: Defines a free query using account properties, including Safe, folder, and object. When this method is
-#!               specified, all other search criteria (Safe/Folder/Object/UserName/Address/PolicyID/Database) are
-#!               ignored and only the account properties that are specified in the query are passed to the Central
-#!               Credential Provider in the password request.
-#!               Optional
-#! @input query_format: Defines the query format, which can optionally use regular expressions.
-#!                      Valid values: Exact/Regexp
-#!                      Default: Exact
-#!                      Optional
+#!                  Optional
+#! @input auth_token: Token used to authenticate to the CyberArk environment.
+#! @input id: The account's unique ID, composed of the SafeID and internal AccountID of the account to delete.
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value: 8080
+#!                    Default value:8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1.2
+#!                     information. Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
@@ -71,11 +64,10 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored.
+#!                        'true' this input is ignored. 
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
+#! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' this input is ignored.
@@ -107,36 +99,28 @@
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: The returnCode of the operation: 0 for success, -1 for failure
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result contains the java stack trace of the runtime exception.
-#! @output password_value:
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
 
 operation: 
-  name: get_password_value
+  name: delete_account
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
-        required: false
-    - app_id    
-    - appId: 
-        default: ${get('app_id', "")}
+        required: false  
+    - auth_token    
+    - authToken: 
+        default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - query:
-        required: false  
-    - query_format:
-        required: false  
-    - queryFormat: 
-        default: ${get('query_format', "")}
-        required: false 
-        private: true 
+    - id    
     - proxy_host:
         required: false
     - proxyHost:
@@ -151,100 +135,99 @@ operation:
         required: false
         private: true
     - proxy_username:
-        required: false
-    - proxyUsername:
+        required: false  
+    - proxyUsername: 
         default: ${get('proxy_username', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - proxy_password:
-        required: false
+        required: false  
         sensitive: true
-    - proxyPassword:
+    - proxyPassword: 
         default: ${get('proxy_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
         private: true
         required: false
-    - tlsVersion:
+    - tlsVersion: 
         default: ${get('tls_version', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - allowed_ciphers:
-        required: false
+        required: false  
     - allowedCiphers:
         default: ${get('allowed_ciphers', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_all_roots:
         default: 'false'
-        required: false
-    - trustAllRoots:
+        required: false  
+    - trustAllRoots: 
         default: ${get('trust_all_roots', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - x509_hostname_verifier:
         default: 'strict'
-        required: false
-    - x509HostnameVerifier:
+        required: false  
+    - x509HostnameVerifier: 
         default: ${get('x509_hostname_verifier', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_keystore:
-        required: false
-    - trustKeystore:
+        required: false  
+    - trustKeystore: 
         default: ${get('trust_keystore', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_password:
-        required: false
+        required: false  
         sensitive: true
-    - trustPassword:
+    - trustPassword: 
         default: ${get('trust_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - keystore:
-        required: false
-        default: ''
+        required: false  
     - keystore_password:
-        required: false
+        required: false  
         sensitive: true
-    - keystorePassword:
+    - keystorePassword: 
         default: ${get('keystore_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - connect_timeout:
         default: '60'
-        required: false
-    - connectTimeout:
+        required: false  
+    - connectTimeout: 
         default: ${get('connect_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - execution_timeout:
         default: '60'
-        required: false
-    - executionTimeout:
+        required: false  
+    - executionTimeout: 
         default: ${get('execution_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - keep_alive:
         default: 'false'
-        required: false
-    - keepAlive:
+        required: false  
+    - keepAlive: 
         default: ${get('keep_alive', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_per_route:
         default: '2'
-        required: false
-    - connectionsMaxPerRoute:
+        required: false  
+    - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_total:
         default: '20'
         required: false  
@@ -255,8 +238,8 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.5-SNAPSHOT'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.GetPasswordValue
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC1'
+    class_name: io.cloudslang.content.cyberark.actions.accounts.DeleteAccount
     method_name: execute
   
   outputs: 
@@ -264,7 +247,6 @@ operation:
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
-    - password_value: ${get('passwordValue', "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
