@@ -13,29 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes the security groups that you own. By default, this operation returns information about all of
-#!               your security groups, but you can specify a list of group names or group IDs to restrict the results to
-#!               only those specified.
+#! @description: Performs an Amazon Web Services Elastic Compute Cloud (EC2) command to list the instances within a cloud
+#!               region with advance filtering support.
+#!               If value for input filter is not supplied than that filter is ignored.
 #!
 #! @input endpoint: Optional - Endpoint to which first request will be sent
 #!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
-#!                  Example: "AKIAIOSFODNN7EXAMPLE"
-#! @input credential: Secret access key associated with your Amazon AWS or IAM account.
-#!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-#! @input vpc_ids: Optional - The IDs of the groups that you want to describe. This input can be used
-#!                                   also for security groups in a nondefault VPC
-#!                                   Example: "sg-01234567,sg-7654321,sg-abcdef01"
-#!                                   Default: ""
-#! @input vpc_filter_names_string: Optional - String that contains one or more values that represents filters for the search.
-#!                             For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
-#!                             Example: "description,group-id,group-name,ip-permission.cidr,ip-permission.from-port,
-#!                                       ip-permission.group-id,ip-permission.group-name,ip-permission.protocol,
-#!                                       ip-permission.to-port,ip-permission.user-id,owner-id,tag-key,tag-value,vpc-id"
-#!                             Default: ""
-#! @input vpc_filter_values_string: Optional - String that contains one or more values that represents filters values.
-#!                              For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
-#!                              Default (describes all your security groups): ""
+#! @input identity: Amazon Access Key ID
+#! @input credential: Amazon Secret Access Key that corresponds to the Amazon Access Key ID
 #! @input proxy_host: Optional - Proxy server used to access the provider services
 #! @input proxy_port: Optional - Proxy server port used to access the provider services
 #!                    Default: '8080'
@@ -57,10 +42,20 @@
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
 #! @input version: Version of the web service to made the call against it.
-#!                 Example: "2016-11-15"
-#!                 Default: "2016-11-15"
-#! @input delimiter: Optional - delimiter that will be used
-#!                   Default: ','
+#!                 Example: "2016-09-15"
+#!                 Default: "2016-09-15"
+#! @input connect_timeout: The time to wait for a connection to be established.
+#!                             Default: "10000"
+#! @input execution_timeout: The amount of time (in milliseconds) to allow the client.
+#!                     Default: "60000"
+#! @input max_results: Optional - The maximum number of results to return in a single call. To retrieve the
+#!                     remaining results, make another call with the returned NextToken value. This value can
+#!                     be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter
+#!                     or tag filters in the same call.
+#!                     Default: ""
+#! @input next_token: Optional - The token to use to retrieve the next page of results. This value is null when
+#!                    there are no more results to return.
+#!                    Default: ""
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
@@ -71,36 +66,18 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.vpc
+namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:
-  name: describe_vpcs
+  name: describe_instance_type_offerings
 
   inputs:
     - endpoint:
-        default: 'https://ec2.amazonaws.com'
+        default: 'https://ec2.us-west-1.amazonaws.com'
         required: false
     - identity
     - credential:
         sensitive: true
-    - vpc_ids:
-        required: false
-    - vpcIds:
-        default: ${get("vpc_ids", "")}
-        required: false
-        private: true
-    - vpc_filter_names_string:
-        required: false
-    - vpcFilterNamesString:
-        default: ${get("vpc_filter_names_string", "")}
-        required: false
-        private: true
-    - vpc_filter_values_string:
-        required: false
-    - vpcFilterValuesString:
-        default: ${get("vpc_filter_values_string", "")}
-        required: false
-        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -137,15 +114,39 @@ operation:
         required: false
         private: true
     - version:
-        default: '2016-11-15'
+        default: '2016-09-15'
         required: false
     - delimiter:
         default: ','
         required: false
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get("connect_timeout", "")}
+        required: false
+        private: true
+    - execution_timeout:
+        required: false
+    - executionTimeout:
+        default: ${get("execution_timeout", "")}
+        required: false
+        private: true
+    - max_results:
+        required: false
+    - maxResults:
+        default: ${get("max_results", "")}
+        required: false
+        private: true
+    - next_token:
+        required: false
+    - nextToken:
+        default: ${get("next_token", "")}
+        required: false
+        private: true
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC9'
-    class_name: io.cloudslang.content.amazon.actions.vpc.DescribeVpcsAction
+    class_name: io.cloudslang.content.amazon.actions.instances.DescribeInstanceTypeOfferingsAction
     method_name: execute
 
   outputs:
