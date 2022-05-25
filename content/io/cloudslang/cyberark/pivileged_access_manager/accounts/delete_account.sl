@@ -31,7 +31,7 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the proxy_username input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information. Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
@@ -191,6 +191,7 @@ operation:
         private: true 
         sensitive: true
     - keystore:
+        default: ''
         required: false  
     - keystore_password:
         required: false  
