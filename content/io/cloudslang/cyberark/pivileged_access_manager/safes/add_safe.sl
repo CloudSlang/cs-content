@@ -190,9 +190,7 @@ operation:
     - autoPurgeEnabled: 
         default: ${get('auto_purge_enabled', "")}
         required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
