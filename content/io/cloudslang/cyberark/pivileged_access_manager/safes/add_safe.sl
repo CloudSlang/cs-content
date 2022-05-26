@@ -29,7 +29,6 @@
 #! @input description: The description of the Safe.
 #!                     Optional
 #! @input location: The location of the Safe in the Vault.
-#!                  Default value: \\
 #!                  Optional
 #! @input olac_enabled: Whether or not to enable Object Level Access Control for the new Safe.
 #!                      Valid values: true, false
@@ -157,7 +156,6 @@ operation:
     - description:  
         required: false  
     - location:
-        default: '\\'
         required: false  
     - olac_enabled:
         default: 'false'
