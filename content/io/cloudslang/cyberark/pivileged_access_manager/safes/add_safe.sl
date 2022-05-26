@@ -148,7 +148,7 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - safe_name:
+    - safe_name
     - safeName: 
         default: ${get('safe_name', "")}
         required: false 
