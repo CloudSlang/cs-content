@@ -231,7 +231,7 @@ operation:
         sensitive: true
     - keystore:
         required: false
-        default: ''
+        default: ""
     - keystore_password:
         required: false
         sensitive: true
@@ -278,7 +278,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.001-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.safes.GetAllSafes
     method_name: execute
   
