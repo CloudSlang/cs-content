@@ -41,24 +41,13 @@
 #!                      query value by "=".
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
-#! @input delimiter: Optional - delimiter that will be used
-#!                   Default: ','
 #! @input version: Version of the web service to made the call against it.
 #!                 Example: "2016-09-15"
 #!                 Default: "2016-09-15"
-#! @input filter_names_string: Optional - String that contains one or more values that represents filters for the search.
-#!                             For a complete list of valid filters see: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
-#!                             Example: "instance-type,block-device-mapping.status,block-device-mapping.delete-on-termination"
-#!                             Default: ""
-#! @input filter_values_string: Optional - String that contains one or more values that represents filters values.
-#!                              For a complete list of valid filters see: http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
-#!                              Example of filters values for the above <filterNamesString> input: "m1.small|m1.large,attached,true"
-#!                              Note that "m1.small|m1.large" represents values for "instance-type" and are separated
-#!                              by the enforced "|" symbol
-#!                              Default (describes all your instances): ""
-#! @input instance_ids_string: Optional - String that contains one or more values that represents instance IDs.
-#!                             Example: "i-12345678,i-abcdef12,i-12ab34cd"
-#!                             Default: ""
+#! @input connect_timeout: The time to wait for a connection to be established.
+#!                             Default: "10000"
+#! @input execution_timeout: The amount of time (in milliseconds) to allow the client.
+#!                     Default: "60000"
 #! @input max_results: Optional - The maximum number of results to return in a single call. To retrieve the
 #!                     remaining results, make another call with the returned NextToken value. This value can
 #!                     be between 5 and 1000. You cannot specify this parameter and the instance IDs parameter
@@ -80,11 +69,11 @@
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:
-  name: describe_instances
+  name: describe_instance_type_offerings
 
   inputs:
     - endpoint:
-        default: 'https://ec2.amazonaws.com'
+        default: 'https://ec2.us-west-1.amazonaws.com'
         required: false
     - identity
     - credential:
@@ -130,22 +119,16 @@ operation:
     - delimiter:
         default: ','
         required: false
-    - filter_names_string:
+    - connect_timeout:
         required: false
-    - filterNamesString:
-        default: ${get("filter_names_string", "")}
-        required: false
-        private: true
-    - filter_values_string:
-        required: false
-    - filterValuesString:
-        default: ${get("filter_values_string", "")}
+    - connectTimeout:
+        default: ${get("connect_timeout", "")}
         required: false
         private: true
-    - instance_ids_string:
+    - execution_timeout:
         required: false
-    - instanceIdsString:
-        default: ${get("instance_ids_string", "")}
+    - executionTimeout:
+        default: ${get("execution_timeout", "")}
         required: false
         private: true
     - max_results:
@@ -163,7 +146,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC13'
-    class_name: io.cloudslang.content.amazon.actions.instances.DescribeInstancesAction
+    class_name: io.cloudslang.content.amazon.actions.instances.DescribeInstanceTypeOfferingsAction
     method_name: execute
 
   outputs:
