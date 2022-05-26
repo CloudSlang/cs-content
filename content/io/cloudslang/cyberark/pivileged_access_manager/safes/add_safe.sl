@@ -141,7 +141,8 @@ operation:
   
   inputs: 
     - hostname    
-    - protocol:  
+    - protocol:
+        default: 'https'
         required: false  
     - auth_token    
     - authToken: 
