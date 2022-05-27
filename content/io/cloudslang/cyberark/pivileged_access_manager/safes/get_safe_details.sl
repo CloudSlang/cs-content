@@ -126,7 +126,7 @@ operation:
         default: ${get('auth_token', "")}
         required: false
         private: true
-    - safe_url_id:
+    - safe_url_id
     - safeUrlId:
         default: ${get('safe_url_id', "")}
         required: false
