@@ -133,7 +133,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.safes
+namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
 
 operation: 
   name: add_safe
