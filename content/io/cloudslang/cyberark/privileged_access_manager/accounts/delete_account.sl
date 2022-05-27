@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method adds a new privileged account to Privilege Cloud.
+#! @description: This method deletes a specific account in the Vault
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
@@ -21,32 +21,11 @@
 #!                  Default value: https
 #!                  Optional
 #! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input name: The name of the account.
-#!              Optional
-#! @input address: The name or address of the machine where the account will be used.
-#! @input username: Account's user name.
-#! @input platform_id: The platform assigned to this account.
-#! @input safe_name: The Safe where the account is created.
-#! @input secret_type: The type of password.
-#!                     Valid values: password, key
-#!                     Optional
-#! @input secret: The password value or private SSH key. This will not be returned in the API output.
-#!                Optional
-#! @input platform_account_properties: Object containing key-value pairs to associate with the account, as defined by
-#!                                     the account platform. These properties are validated against the mandatory and
-#!                                     optional properties of the specified platform's definition. Optional properties
-#!                                     that do not exist on the account will not be returned here. Internal properties
-#!                                     are not returned.
-#!                                     Example: {"Location": "IT", "OwnerName": "MSSPAdmin"}
-#!                                     Optional
-#! @input secret_management: JSON having secret management properties.
-#!                           Optional
-#! @input remote_machine_access: JSON having remote machine access properties.
-#!                               Optional
+#! @input id: The account's unique ID, composed of the SafeID and internal AccountID of the account to delete.
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value: 8080
+#!                    Default value:8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -57,8 +36,8 @@
 #!                     information. Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation
-#!                         for further security considerations.In order to connect successfully to the target host, it
+#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
+#!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
 #!                         ciphers. 
@@ -126,10 +105,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
 
 operation: 
-  name: add_account
+  name: delete_account
   
   inputs: 
     - hostname    
@@ -141,47 +120,7 @@ operation:
         default: ${get('auth_token', "")}
         required: false 
         private: true 
-    - name:
-        required: false  
-    - address    
-    - username    
-    - platform_id    
-    - platformId: 
-        default: ${get('platform_id', "")}
-        required: false 
-        private: true 
-    - safe_name    
-    - safeName: 
-        default: ${get('safe_name', "")}
-        required: false 
-        private: true 
-    - secret_type:
-        required: false  
-    - secretType: 
-        default: ${get('secret_type', "")}
-        required: false 
-        private: true 
-    - secret:
-        sensitive: true
-        required: false  
-    - platform_account_properties:
-        required: false  
-    - platformAccountProperties: 
-        default: ${get('platform_account_properties', "")}
-        required: false 
-        private: true 
-    - secret_management:
-        required: false  
-    - secretManagement: 
-        default: ${get('secret_management', "")}
-        required: false 
-        private: true 
-    - remote_machine_access:
-        required: false  
-    - remoteMachineAccess: 
-        default: ${get('remote_machine_access', "")}
-        required: false 
-        private: true 
+    - id    
     - proxy_host:
         required: false
     - proxyHost:
@@ -196,100 +135,100 @@ operation:
         required: false
         private: true
     - proxy_username:
-        required: false
-    - proxyUsername:
+        required: false  
+    - proxyUsername: 
         default: ${get('proxy_username', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - proxy_password:
-        required: false
+        required: false  
         sensitive: true
-    - proxyPassword:
+    - proxyPassword: 
         default: ${get('proxy_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
         private: true
         required: false
-    - tlsVersion:
+    - tlsVersion: 
         default: ${get('tls_version', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - allowed_ciphers:
-        required: false
+        required: false  
     - allowedCiphers:
         default: ${get('allowed_ciphers', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_all_roots:
         default: 'false'
-        required: false
-    - trustAllRoots:
+        required: false  
+    - trustAllRoots: 
         default: ${get('trust_all_roots', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - x509_hostname_verifier:
         default: 'strict'
-        required: false
-    - x509HostnameVerifier:
+        required: false  
+    - x509HostnameVerifier: 
         default: ${get('x509_hostname_verifier', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_keystore:
-        required: false
-    - trustKeystore:
+        required: false  
+    - trustKeystore: 
         default: ${get('trust_keystore', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_password:
-        required: false
+        required: false  
         sensitive: true
-    - trustPassword:
+    - trustPassword: 
         default: ${get('trust_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - keystore:
-        required: false
         default: ''
+        required: false  
     - keystore_password:
-        required: false
+        required: false  
         sensitive: true
-    - keystorePassword:
+    - keystorePassword: 
         default: ${get('keystore_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - connect_timeout:
         default: '60'
-        required: false
-    - connectTimeout:
+        required: false  
+    - connectTimeout: 
         default: ${get('connect_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - execution_timeout:
         default: '60'
-        required: false
-    - executionTimeout:
+        required: false  
+    - executionTimeout: 
         default: ${get('execution_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - keep_alive:
         default: 'false'
-        required: false
-    - keepAlive:
+        required: false  
+    - keepAlive: 
         default: ${get('keep_alive', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_per_route:
         default: '2'
-        required: false
-    - connectionsMaxPerRoute:
+        required: false  
+    - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_total:
         default: '20'
         required: false  
@@ -301,7 +240,7 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.AddAccount
+    class_name: io.cloudslang.content.cyberark.actions.accounts.DeleteAccount
     method_name: execute
   
   outputs: 
