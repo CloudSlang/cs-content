@@ -111,7 +111,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
 
 operation:
   name: change_credentials_in_safe
