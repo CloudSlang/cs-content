@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method returns a list of all Safes in the Vault that the user has permissions for.
+#! @description: This method returns information about a specific Safe in Privilege Cloud.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
