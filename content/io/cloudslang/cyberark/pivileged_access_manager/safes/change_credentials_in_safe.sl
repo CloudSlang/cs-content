@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method enables users to set account credentials and change them in the Vault. This will not affect
+#! @description: This method enables users to set account credentials and change them in the Safe. This will not affect
 #!               credentials on the target device. The user who runs this web service requires Update password value
 #!               permission in the Safe where the privileged account is stored.
 #! @input hostname: The hostname or IP address of the host.
@@ -114,7 +114,7 @@
 namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
 
 operation:
-  name: change_credentials_in_vault
+  name: change_credentials_in_safe
 
   inputs:
     - hostname
@@ -252,7 +252,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
     class_name: io.cloudslang.content.cyberark.actions.accounts.DeleteAccount
     method_name: execute
 
