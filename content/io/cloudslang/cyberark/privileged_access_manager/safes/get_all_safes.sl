@@ -123,7 +123,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
+namespace: io.cloudslang.cyberark.privileged_access_manager.safes
 
 operation: 
   name: get_all_safes
@@ -278,7 +278,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC2'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
     class_name: io.cloudslang.content.cyberark.actions.safes.GetAllSafes
     method_name: execute
   

@@ -13,36 +13,24 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method adds a new privileged account to Privilege Cloud.
+#! @description: This method authenticates a user to Privilege Cloud and returns a token that can be used in subsequent
+#!               web services calls. In addition, this method enables you to set a new password.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
 #!                  Optional
-#! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input name: The name of the account.
-#!              Optional
-#! @input address: The name or address of the machine where the account will be used.
-#! @input username: Account's user name.
-#! @input platform_id: The platform assigned to this account.
-#! @input safe_name: The Safe where the account is created.
-#! @input secret_type: The type of password.
-#!                     Valid values: password, key
-#!                     Optional
-#! @input secret: The password value or private SSH key. This will not be returned in the API output.
-#!                Optional
-#! @input platform_account_properties: Object containing key-value pairs to associate with the account, as defined by
-#!                                     the account platform. These properties are validated against the mandatory and
-#!                                     optional properties of the specified platform's definition. Optional properties
-#!                                     that do not exist on the account will not be returned here. Internal properties
-#!                                     are not returned.
-#!                                     Example: {"Location": "IT", "OwnerName": "MSSPAdmin"}
-#!                                     Optional
-#! @input secret_management: JSON having secret management properties.
-#!                           Optional
-#! @input remote_machine_access: JSON having remote machine access properties.
-#!                               Optional
+#! @input username: The name of the user who is logging in to Privilege Cloud.
+#! @input password: The password used by the user to log in to Privilege Cloud.
+#! @input new_password: Set this parameter with a new password to change the user's password.
+#!                      Optional
+#! @input concurrent_session: Set this parameter to True to enable the user to open multiple connection sessions
+#!                            simultaneously.
+#!                            Up to 300 concurrent sessions are supported.
+#!                            Valid values: true, false
+#!                            Default value: false
+#!                            Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -50,15 +38,15 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxy_username input value.
+#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information. Valid values: TLSv1.2
+#!                     information.Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation
-#!                         for further security considerations.In order to connect successfully to the target host, it
+#! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
+#!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
 #!                         ciphers. 
@@ -126,60 +114,32 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.authorization
 
 operation: 
-  name: add_account
+  name: get_auth_token
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
-        required: false  
-    - auth_token    
-    - authToken: 
-        default: ${get('auth_token', "")}
-        required: false 
-        private: true 
-    - name:
-        required: false  
-    - address    
+        required: false
     - username    
-    - platform_id    
-    - platformId: 
-        default: ${get('platform_id', "")}
-        required: false 
-        private: true 
-    - safe_name    
-    - safeName: 
-        default: ${get('safe_name', "")}
-        required: false 
-        private: true 
-    - secret_type:
-        required: false  
-    - secretType: 
-        default: ${get('secret_type', "")}
-        required: false 
-        private: true 
-    - secret:
+    - password:  
         sensitive: true
+    - new_password:
         required: false  
-    - platform_account_properties:
-        required: false  
-    - platformAccountProperties: 
-        default: ${get('platform_account_properties', "")}
+        sensitive: true
+    - newPassword: 
+        default: ${get('new_password', "")}
         required: false 
         private: true 
-    - secret_management:
+        sensitive: true
+    - concurrent_session:
+        default: 'false'
         required: false  
-    - secretManagement: 
-        default: ${get('secret_management', "")}
-        required: false 
-        private: true 
-    - remote_machine_access:
-        required: false  
-    - remoteMachineAccess: 
-        default: ${get('remote_machine_access', "")}
+    - concurrentSession: 
+        default: ${get('concurrent_session', "")}
         required: false 
         private: true 
     - proxy_host:
@@ -300,10 +260,10 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC2'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.AddAccount
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
+    class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
-  
+
   outputs: 
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}

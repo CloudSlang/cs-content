@@ -149,7 +149,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
 
 operation: 
   name: get_accounts
@@ -307,7 +307,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC2'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
     class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccounts
     method_name: execute
   
