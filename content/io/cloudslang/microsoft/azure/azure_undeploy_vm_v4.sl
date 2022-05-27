@@ -858,12 +858,12 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
             - start_vm_scheduler_id: '${start_vm_scheduler_id}'
-            - stop_and_deallocated_vm_scheduler_id: '${stop_and_deallocate_vm_scheduler_id}'
+            - stop_and_deallocate_vm_scheduler_id: '${stop_and_deallocate_vm_scheduler_id}'
         publish:
           - dnd_rest_user
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
           - start_vm_scheduler_id
-          - stop_and_deallocate_vm_scheduler_id: '${stop_and_deallocated_vm_scheduler_id}'
+          - stop_and_deallocate_vm_scheduler_id
         navigate:
           - SUCCESS: check_stop_and_deallocate_vm_scheduler_id
           - FAILURE: on_failure
@@ -882,7 +882,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id}"
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip(\" \")}"
             - username: '${dnd_rest_user}'
             - password:
                 value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
@@ -911,15 +911,15 @@ flow:
             - first_string: '${start_vm_scheduler_id}'
             - second_string: ''
         navigate:
-          - SUCCESS: api_call_to_delete_start_vm_scheduler
-          - FAILURE: success_message
+          - SUCCESS: success_message
+          - FAILURE: api_call_to_delete_start_vm_scheduler
     - api_call_to_delete_start_vm_scheduler:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id}"
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id.strip(\" \")}"
             - username: '${dnd_rest_user}'
             - password:
                 value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
