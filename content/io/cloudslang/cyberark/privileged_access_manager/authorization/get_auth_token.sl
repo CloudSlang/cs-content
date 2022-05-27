@@ -13,27 +13,36 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method deletes a specific account in the Vault
+#! @description: This method authenticates a user to Privilege Cloud and returns a token that can be used in subsequent
+#!               web services calls. In addition, this method enables you to set a new password.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
 #!                  Optional
-#! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input id: The account's unique ID, composed of the SafeID and internal AccountID of the account to delete.
+#! @input username: The name of the user who is logging in to Privilege Cloud.
+#! @input password: The password used by the user to log in to Privilege Cloud.
+#! @input new_password: Set this parameter with a new password to change the user's password.
+#!                      Optional
+#! @input concurrent_session: Set this parameter to True to enable the user to open multiple connection sessions
+#!                            simultaneously.
+#!                            Up to 300 concurrent sessions are supported.
+#!                            Valid values: true, false
+#!                            Default value: false
+#!                            Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value:8080
+#!                    Default value: 8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the proxy_username input value.
+#! @input proxy_password: The proxy server password associated with the proxyUsername input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information. Valid values: TLSv1.2
+#!                     information.Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
@@ -105,22 +114,34 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.authorization
 
 operation: 
-  name: delete_account
+  name: get_auth_token
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
+        required: false
+    - username    
+    - password:  
+        sensitive: true
+    - new_password:
         required: false  
-    - auth_token    
-    - authToken: 
-        default: ${get('auth_token', "")}
+        sensitive: true
+    - newPassword: 
+        default: ${get('new_password', "")}
         required: false 
         private: true 
-    - id    
+        sensitive: true
+    - concurrent_session:
+        default: 'false'
+        required: false  
+    - concurrentSession: 
+        default: ${get('concurrent_session', "")}
+        required: false 
+        private: true 
     - proxy_host:
         required: false
     - proxyHost:
@@ -135,100 +156,100 @@ operation:
         required: false
         private: true
     - proxy_username:
-        required: false  
-    - proxyUsername: 
+        required: false
+    - proxyUsername:
         default: ${get('proxy_username', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - proxy_password:
-        required: false  
+        required: false
         sensitive: true
-    - proxyPassword: 
+    - proxyPassword:
         default: ${get('proxy_password', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
         private: true
         required: false
-    - tlsVersion: 
+    - tlsVersion:
         default: ${get('tls_version', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - allowed_ciphers:
-        required: false  
+        required: false
     - allowedCiphers:
         default: ${get('allowed_ciphers', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - trust_all_roots:
         default: 'false'
-        required: false  
-    - trustAllRoots: 
+        required: false
+    - trustAllRoots:
         default: ${get('trust_all_roots', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - x509_hostname_verifier:
         default: 'strict'
-        required: false  
-    - x509HostnameVerifier: 
+        required: false
+    - x509HostnameVerifier:
         default: ${get('x509_hostname_verifier', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - trust_keystore:
-        required: false  
-    - trustKeystore: 
+        required: false
+    - trustKeystore:
         default: ${get('trust_keystore', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - trust_password:
-        required: false  
+        required: false
         sensitive: true
-    - trustPassword: 
+    - trustPassword:
         default: ${get('trust_password', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
     - keystore:
+        required: false
         default: ''
-        required: false  
     - keystore_password:
-        required: false  
+        required: false
         sensitive: true
-    - keystorePassword: 
+    - keystorePassword:
         default: ${get('keystore_password', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
     - connect_timeout:
         default: '60'
-        required: false  
-    - connectTimeout: 
+        required: false
+    - connectTimeout:
         default: ${get('connect_timeout', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - execution_timeout:
         default: '60'
-        required: false  
-    - executionTimeout: 
+        required: false
+    - executionTimeout:
         default: ${get('execution_timeout', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - keep_alive:
         default: 'false'
-        required: false  
-    - keepAlive: 
+        required: false
+    - keepAlive:
         default: ${get('keep_alive', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - connections_max_per_route:
         default: '2'
-        required: false  
-    - connectionsMaxPerRoute: 
+        required: false
+    - connectionsMaxPerRoute:
         default: ${get('connections_max_per_route', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - connections_max_total:
         default: '20'
         required: false  
@@ -240,9 +261,9 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.DeleteAccount
+    class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
-  
+
   outputs: 
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}

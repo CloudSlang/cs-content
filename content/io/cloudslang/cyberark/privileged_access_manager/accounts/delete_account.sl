@@ -13,9 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method enables users to set account credentials and change them in the Safe. This will not affect
-#!               credentials on the target device. The user who runs this web service requires Update password value
-#!               permission in the Safe where the privileged account is stored.
+#! @description: This method deletes a specific account in the Vault
+#!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
@@ -23,11 +22,6 @@
 #!                  Optional
 #! @input auth_token: Token used to authenticate to the CyberArk environment.
 #! @input id: The account's unique ID, composed of the SafeID and internal AccountID of the account to delete.
-#! @input new_credentials: The new account credentials that will be allocated to the account in the Vault.
-#!                         Note:
-#!                         Digits are never placed as the first or last character of the password, regardless of the
-#!                         password policy or specifications. If the specified password contains leading and/or trailing
-#!                         white spaces, they will automatically be removed.
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -46,7 +40,7 @@
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers.
+#!                         ciphers. 
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -70,7 +64,7 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored.
+#!                        'true' this input is ignored. 
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
@@ -86,7 +80,7 @@
 #!                         Default: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature.
+#!                           call. A value of '0' disables this feature. 
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -111,29 +105,22 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
+namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
 
-operation:
-  name: change_credentials_in_safe
-
-  inputs:
-    - hostname
+operation: 
+  name: delete_account
+  
+  inputs: 
+    - hostname    
     - protocol:
         default: 'https'
-        required: false
-    - auth_token
-    - authToken:
+        required: false  
+    - auth_token    
+    - authToken: 
         default: ${get('auth_token', "")}
-        required: false
-        private: true
-    - id
-    - new_credentials:
-        sensitive: true
-    - newCredentials:
-        default: ${get('new_credentials', "")}
-        required: false
-        private: true
-        sensitive: true
+        required: false 
+        private: true 
+    - id    
     - proxy_host:
         required: false
     - proxyHost:
@@ -148,120 +135,120 @@ operation:
         required: false
         private: true
     - proxy_username:
-        required: false
-    - proxyUsername:
+        required: false  
+    - proxyUsername: 
         default: ${get('proxy_username', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - proxy_password:
-        required: false
+        required: false  
         sensitive: true
-    - proxyPassword:
+    - proxyPassword: 
         default: ${get('proxy_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
         private: true
         required: false
-    - tlsVersion:
+    - tlsVersion: 
         default: ${get('tls_version', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - allowed_ciphers:
-        required: false
+        required: false  
     - allowedCiphers:
         default: ${get('allowed_ciphers', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_all_roots:
         default: 'false'
-        required: false
-    - trustAllRoots:
+        required: false  
+    - trustAllRoots: 
         default: ${get('trust_all_roots', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - x509_hostname_verifier:
         default: 'strict'
-        required: false
-    - x509HostnameVerifier:
+        required: false  
+    - x509HostnameVerifier: 
         default: ${get('x509_hostname_verifier', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_keystore:
-        required: false
-    - trustKeystore:
+        required: false  
+    - trustKeystore: 
         default: ${get('trust_keystore', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - trust_password:
-        required: false
+        required: false  
         sensitive: true
-    - trustPassword:
+    - trustPassword: 
         default: ${get('trust_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - keystore:
         default: ''
-        required: false
+        required: false  
     - keystore_password:
-        required: false
+        required: false  
         sensitive: true
-    - keystorePassword:
+    - keystorePassword: 
         default: ${get('keystore_password', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
         sensitive: true
     - connect_timeout:
         default: '60'
-        required: false
-    - connectTimeout:
+        required: false  
+    - connectTimeout: 
         default: ${get('connect_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - execution_timeout:
         default: '60'
-        required: false
-    - executionTimeout:
+        required: false  
+    - executionTimeout: 
         default: ${get('execution_timeout', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - keep_alive:
         default: 'false'
-        required: false
-    - keepAlive:
+        required: false  
+    - keepAlive: 
         default: ${get('keep_alive', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_per_route:
         default: '2'
-        required: false
-    - connectionsMaxPerRoute:
+        required: false  
+    - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
     - connections_max_total:
         default: '20'
-        required: false
-    - connectionsMaxTotal:
+        required: false  
+    - connectionsMaxTotal: 
         default: ${get('connections_max_total', "")}
-        required: false
-        private: true
+        required: false 
+        private: true 
 
 
-  java_action:
+  java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
-    class_name: io.cloudslang.content.cyberark.actions.safes.ChangeCredentialsInSafe
+    class_name: io.cloudslang.content.cyberark.actions.accounts.DeleteAccount
     method_name: execute
-
-  outputs:
+  
+  outputs: 
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
