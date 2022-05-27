@@ -13,22 +13,43 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This service enables applications to retrieve secrets from the Central Credential Provider.
+#! @description: This method adds a new Safe to Privilege Cloud.
+#!               The user who runs this web service must have Add Safes
+#!               permissions in Privilege Cloud.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
 #!                  Valid values: http, https
 #!                  Default value: https
-#! @input app_id: Specifies the unique ID of the application issuing the password request.
-#! @input query: Defines a free query using account properties, including Safe, folder, and object. When this method is
-#!               specified, all other search criteria (Safe/Folder/Object/UserName/Address/PolicyID/Database) are
-#!               ignored and only the account properties that are specified in the query are passed to the Central
-#!               Credential Provider in the password request.
-#!               Optional
-#! @input query_format: Defines the query format, which can optionally use regular expressions.
-#!                      Valid values: Exact/Regexp
-#!                      Default: Exact
+#!                  Optional
+#! @input auth_token: Token used to authenticate to the cyberark environment.
+#! @input safe_name: The unique name of the Safe.
+#!                   The following characters cannot be used in the Safe name: \ / : * < >
+#!                   . | ? “% & +
+#! @input description: The description of the Safe.
+#!                     Optional
+#! @input location: The location of the Safe in the Vault.
+#!                  Optional
+#! @input olac_enabled: Whether or not to enable Object Level Access Control for the new Safe.
+#!                      Valid values: true, false
+#!                      Default value: false
 #!                      Optional
+#! @input managing_cpm: The name of the CPM user who will manage the new Safe.
+#!                      Optional
+#! @input number_of_versions_retention: The number of retained versions of every password that is stored in the Safe.
+#!                                      Optional
+#! @input number_of_days_retention: The number of days that password versions are saved in the Safe.
+#!                                  Default value: 7
+#!                                  Optional
+#! @input auto_purge_enabled: Whether or not to automatically purge files after the end of the Object History Retention
+#!                            Period defined in the Safe properties.
+#!                            Report Safes and PSM Recording Safes are created
+#!                            automatically with AutoPurgeEnabled set to Yes.
+#!                            These Safes cannot be managed by the
+#!                            CPM.
+#!                            Valid values: true, false
+#!                            Default value: false
+#!                            Optional
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -40,14 +61,14 @@
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1.2
+#!                     information. Valid values: TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. This capability is provided “as is”, please see product documentation for
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -74,8 +95,7 @@
 #!                        'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
+#! @input trust_password: The password associated with the TrustStore file.
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
 #!                  authentication. If the protocol (specified by the 'url') is not 'https' this input is ignored.
@@ -88,7 +108,7 @@
 #!                         Default: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature. 
+#!                           call. A value of '0' disables this feature.
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -107,36 +127,69 @@
 #! @output status_code: The status_code returned by the server.
 #! @output return_code: The returnCode of the operation: 0 for success, -1 for failure
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result contains the java stack trace of the runtime exception.
-#! @output password_value:
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
 #! @result FAILURE: The operation could not be executed or the value of the 'return_code' is different than 0.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
 
 operation: 
-  name: get_password_value
+  name: add_safe
   
   inputs: 
     - hostname    
     - protocol:
         default: 'https'
+        required: false  
+    - auth_token    
+    - authToken: 
+        default: ${get('auth_token', "")}
+        required: false 
+        private: true 
+    - safe_name
+    - safeName: 
+        default: ${get('safe_name', "")}
+        required: false 
+        private: true 
+    - description:  
+        required: false  
+    - location:
+        required: false  
+    - olac_enabled:
+        default: 'false'
+        required: false  
+    - olacEnabled: 
+        default: ${get('olac_enabled', "")}
+        required: false 
+        private: true 
+    - managing_cpm:  
+        required: false  
+    - managingCPM: 
+        default: ${get('managing_cpm', "")}
+        required: false 
+        private: true 
+    - number_of_versions_retention:  
+        required: false  
+    - numberOfVersionsRetention: 
+        default: ${get('number_of_versions_retention', "")}
+        required: false 
+        private: true 
+    - number_of_days_retention:
+        default: '7'
+        required: false  
+    - numberOfDaysRetention: 
+        default: ${get('number_of_days_retention', "")}
+        required: false 
+        private: true 
+    - auto_purge_enabled:  
         required: false
-    - app_id    
-    - appId: 
-        default: ${get('app_id', "")}
+        default: 'false'
+    - autoPurgeEnabled: 
+        default: ${get('auto_purge_enabled', "")}
         required: false 
-        private: true 
-    - query:
-        required: false  
-    - query_format:
-        required: false  
-    - queryFormat: 
-        default: ${get('query_format', "")}
-        required: false 
-        private: true 
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -208,7 +261,7 @@ operation:
         sensitive: true
     - keystore:
         required: false
-        default: ''
+        default: ""
     - keystore_password:
         required: false
         sensitive: true
@@ -247,16 +300,15 @@ operation:
         private: true
     - connections_max_total:
         default: '20'
-        required: false  
-    - connectionsMaxTotal: 
+        required: false
+    - connectionsMaxTotal:
         default: ${get('connections_max_total', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
 
-
-  java_action: 
+  java_action:
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.GetPasswordValue
+    class_name: io.cloudslang.content.cyberark.actions.safes.AddSafe
     method_name: execute
   
   outputs: 
@@ -264,7 +316,6 @@ operation:
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
-    - password_value: ${get('passwordValue', "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

@@ -149,7 +149,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
 
 operation: 
   name: get_accounts

@@ -123,7 +123,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.privileged_access_manager.safes
+namespace: io.cloudslang.cyberark.pivileged_access_manager.safes
 
 operation: 
   name: get_all_safes
@@ -231,7 +231,7 @@ operation:
         sensitive: true
     - keystore:
         required: false
-        default: ''
+        default: ""
     - keystore_password:
         required: false
         sensitive: true

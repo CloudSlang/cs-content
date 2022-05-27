@@ -126,7 +126,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
 
 operation: 
   name: add_account
