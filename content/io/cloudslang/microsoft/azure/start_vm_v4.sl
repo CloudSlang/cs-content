@@ -49,9 +49,9 @@
 #! @input proxy_port: Proxy server port.
 #!                    Default: '8080'
 #!                    Optional
-#! @input proxy_username: Username used when connecting to the proxy.
-#!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input proxy_username: Username used when connecting to the proxy.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
@@ -77,12 +77,12 @@
 #!                      Optional
 #!
 #! @output scheduler_id: Start VM scheduler ID.
-#! @output power_state: Power state of the Virtual Machine.
 #! @output public_ip_address: The primary IP Address of the VM.
+#! @output power_state: Power state of the Virtual Machine.
 #! @output updated_start_vm_scheduler_time: Start VM scheduler time.
 #!
-#! @result SUCCESS: The flow completed successfully.
 #! @result FAILURE: There was an error while trying to run every step of the flow.
+#! @result SUCCESS: The flow completed successfully.
 #!!#
 ########################################################################################################################
 
@@ -226,6 +226,7 @@ flow:
           - SUCCESS: check_power_state
           - FAILURE: on_failure
     - check_schedule_time_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${schedule_time}'
@@ -234,6 +235,7 @@ flow:
           - SUCCESS: check_cancel_scheduler_empty
           - FAILURE: check_schedule_time_zone_empty
     - check_start_vm_scheduler_id_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${start_vm_scheduler_id}'
@@ -242,6 +244,7 @@ flow:
           - SUCCESS: scheduler_time
           - FAILURE: FAILURE
     - scheduler_time:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.utils.schedule_time:
             - scheduler_time: '${schedule_time}'
@@ -255,6 +258,9 @@ flow:
           - SUCCESS: get_optional_properties_json
           - FAILURE: on_failure
     - api_call_to_create_scheduler:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules'}"
@@ -287,6 +293,7 @@ flow:
           - SUCCESS: get_scheduler_id
           - FAILURE: on_failure
     - get_scheduler_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - input1: '${response_headers.split("Location: /schedules/")[1]}'
@@ -299,6 +306,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - check_cancel_scheduler_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${cancel_scheduler}'
@@ -307,6 +315,9 @@ flow:
           - SUCCESS: check_start_vm_scheduler_id
           - FAILURE: start_vm_v3
     - start_vm_v3:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.start_vm_v3:
             - vm_name: '${vm_name}'
@@ -338,9 +349,12 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - api_call_to_delete_scheduler:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id}"
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id.strip(\" \")}"
             - username: '${dnd_rest_user}'
             - password:
                 value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
@@ -363,6 +377,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - check_start_vm_scheduler_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${start_vm_scheduler_id}'
@@ -371,6 +386,7 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: api_call_to_delete_scheduler
     - check_schedule_time_zone:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${schedule_time_zone}'
@@ -379,6 +395,7 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: check_start_vm_scheduler_id_empty
     - check_schedule_time_zone_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${schedule_time_zone}'
@@ -455,6 +472,9 @@ flow:
           - SUCCESS: check_enable_public_ip
           - FAILURE: check_schedule_time_empty
     - get_optional_properties_json:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.utils.set_optional_properties_json:
             - proxy_host: '${proxy_host}'
@@ -474,6 +494,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: check_optional_property_json_empty
     - check_optional_property_json_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${optional_properties_json}'
@@ -482,6 +503,9 @@ flow:
           - SUCCESS: api_call_to_create_scheduler
           - FAILURE: api_call_to_create_scheduler_with_optional_values
     - api_call_to_create_scheduler_with_optional_values:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules'}"
@@ -588,7 +612,7 @@ extensions:
         'y': 120
       check_start_vm_scheduler_id:
         x: 600
-        'y': 280
+        'y': 320
         navigate:
           9503230f-e28b-ad48-5e48-e372253abcd8:
             targetId: 982c534f-a49d-7b50-8804-eefbdb22843c
@@ -611,7 +635,7 @@ extensions:
             port: SUCCESS
       check_cancel_scheduler_empty:
         x: 400
-        'y': 280
+        'y': 320
       compare_power_state:
         x: 200
         'y': 320
@@ -627,4 +651,3 @@ extensions:
         49f71b73-1825-42e1-f00c-2b1e4388e4f9:
           x: 840
           'y': 720
-
