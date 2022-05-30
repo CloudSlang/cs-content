@@ -278,7 +278,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC3'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC4'
     class_name: io.cloudslang.content.cyberark.actions.safes.GetAllSafes
     method_name: execute
   
