@@ -296,6 +296,9 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
     - update_power_state_component_property:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microfocus.content.add_or_update_service_component_property:
             - component_id: '${component_id}'
@@ -316,6 +319,9 @@ flow:
           - SUCCESS: check_enable_public_ip
           - FAILURE: get_user_identifier
     - get_user_identifier:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microfocus.content.get_user_identifier: []
         publish:
@@ -334,6 +340,9 @@ flow:
           - SUCCESS: update_public_ip_address_component_property
           - FAILURE: on_failure
     - update_public_ip_address_component_property:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microfocus.content.add_or_update_service_component_property:
             - component_id: '${component_id}'
@@ -367,7 +376,7 @@ extensions:
             targetId: compare_power_state
             port: SUCCESS
       get_auth_token_using_web_api:
-        x: 50
+        x: 40
         'y': 80
       get_public_ip_address_info:
         x: 758
@@ -391,11 +400,11 @@ extensions:
         x: 920
         'y': 480
       set_public_ip_address:
-        x: 933
-        'y': 76
+        x: 920
+        'y': 80
       sleep:
-        x: 383
-        'y': 255
+        x: 400
+        'y': 240
         navigate:
           749737d7-bad6-2fed-b625-a2ec7b48eb62:
             vertices:
@@ -404,8 +413,8 @@ extensions:
             targetId: get_power_state
             port: SUCCESS
       check_enable_public_ip:
-        x: 766
-        'y': 255
+        x: 760
+        'y': 240
         navigate:
           fcefbbbc-6229-9b54-8255-371bfe3420cc:
             targetId: 56d1cd55-93f0-4c69-4128-01b03b870c0c
