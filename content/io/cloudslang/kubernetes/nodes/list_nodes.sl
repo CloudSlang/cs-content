@@ -70,6 +70,9 @@ flow:
     - kubernetes_port:
         default: '8443'
         required: false
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
