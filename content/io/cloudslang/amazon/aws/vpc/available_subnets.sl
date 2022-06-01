@@ -26,6 +26,9 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
+#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output subnet_xml: Describes the information of each subnet in the xml format.
 #!!#
@@ -51,8 +54,12 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
   workflow:
     - describe_subnets:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.vpc.subnets.describe_subnets:
             - endpoint: '${endpoint}'
@@ -72,6 +79,7 @@ flow:
           - SUCCESS: convert_xml_to_json
           - FAILURE: on_failure
     - iterate_subnet_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.array_iterator:
             - array: '${array_list}'
@@ -83,6 +91,7 @@ flow:
           - NO_MORE: is_list_null
           - FAILURE: on_failure
     - convert_xml_to_json:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.xml.convert_xml_to_json:
             - xml: '${return_result}'
@@ -93,6 +102,7 @@ flow:
           - SUCCESS: get_subnet_array_list
           - FAILURE: on_failure
     - get_subnet_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${list_of_array}'
@@ -103,6 +113,7 @@ flow:
           - SUCCESS: get_availability_zone
           - FAILURE: on_failure
     - get_subnet_array_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${return_result}'
@@ -113,6 +124,7 @@ flow:
           - SUCCESS: iterate_subnet_list
           - FAILURE: on_failure
     - get_availability_zone:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${list_of_array}'
@@ -123,6 +135,7 @@ flow:
           - SUCCESS: get_vpc_id
           - FAILURE: on_failure
     - get_vpc_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${list_of_array}'
@@ -133,6 +146,7 @@ flow:
           - SUCCESS: get_default_for_az
           - FAILURE: on_failure
     - get_default_for_az:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${list_of_array}'
@@ -143,6 +157,7 @@ flow:
           - SUCCESS: set_value_for_subnet_list
           - FAILURE: on_failure
     - set_value_for_subnet_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_id: '${subnet_id}'
@@ -155,6 +170,7 @@ flow:
           - SUCCESS: set_empty_list
           - FAILURE: on_failure
     - set_empty_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_list: '${subnet_list}'
@@ -165,6 +181,7 @@ flow:
           - SUCCESS: add_values_to_main_list
           - FAILURE: on_failure
     - add_values_to_main_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.add_element:
             - list: '${subnet_list}'
@@ -176,6 +193,7 @@ flow:
           - SUCCESS: check_status_code
           - FAILURE: on_failure
     - is_list_null:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${list_of_array}'
@@ -185,6 +203,7 @@ flow:
           - IS_NULL: start_subnets_xml_tag
           - IS_NOT_NULL: get_subnet_value
     - check_status_code:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${return_code}'
@@ -194,6 +213,7 @@ flow:
           - SUCCESS: iterate_subnet_list
           - FAILURE: start_subnets_xml_tag
     - start_subnets_xml_tag:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_start: '<Subnets>'
@@ -205,6 +225,7 @@ flow:
           - SUCCESS: is_subnet_list_null
           - FAILURE: on_failure
     - is_subnet_list_null:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${subnet_list}'
@@ -213,6 +234,7 @@ flow:
           - IS_NULL: end_subnets_xml_tag
           - IS_NOT_NULL: list_iterator
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${subnet_list}'
@@ -224,6 +246,7 @@ flow:
           - NO_MORE: end_subnets_xml_tag_if_not_null
           - FAILURE: on_failure
     - end_subnets_xml_tag:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_start: '<Subnets>'
@@ -234,6 +257,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_subnet_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${subnet_ids}'
@@ -245,6 +269,7 @@ flow:
           - SUCCESS: get_availability_zone_1
           - FAILURE: on_failure
     - get_availability_zone_1:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${subnet_ids}'
@@ -256,6 +281,7 @@ flow:
           - SUCCESS: get_defualt_for_az
           - FAILURE: on_failure
     - get_defualt_for_az:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${subnet_ids}'
@@ -267,6 +293,7 @@ flow:
           - SUCCESS: set_xml_tags
           - FAILURE: on_failure
     - set_xml_tags:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_id: '${"<SubnetId>"+subnet_id+"</SubnetId>"}'
@@ -278,6 +305,7 @@ flow:
           - SUCCESS: set_empty_list_xml
           - FAILURE: on_failure
     - set_empty_list_xml:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_final_xml: '${subnet_final_xml}'
@@ -287,6 +315,7 @@ flow:
           - SUCCESS: add_element
           - FAILURE: on_failure
     - add_element:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.add_element:
             - list: '${subnet_final_xml}'
@@ -298,6 +327,7 @@ flow:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
     - end_subnets_xml_tag_if_not_null:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_start: '<Subnets>'
@@ -399,6 +429,5 @@ extensions:
     results:
       SUCCESS:
         75bacfa7-905e-30ac-aaeb-ac8dc7c439f9:
-          x: 0
-          'y': 200
-
+          x: 40
+          'y': 280
