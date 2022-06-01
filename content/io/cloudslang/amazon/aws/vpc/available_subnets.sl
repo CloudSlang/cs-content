@@ -264,9 +264,9 @@ flow:
         publish:
           - subnet_id: "${return_result.lstrip('subnetId').lstrip('=')}"
         navigate:
-          - SUCCESS: get_availability_zone_1
+          - SUCCESS: get_availability_zone_tag_value
           - FAILURE: on_failure
-    - get_availability_zone_1:
+    - get_availability_zone_tag_value:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.get_by_index:
@@ -375,6 +375,9 @@ extensions:
       is_list_null:
         x: 480
         'y': 280
+      get_availability_zone_tag_value:
+        x: 440
+        'y': 600
       get_subnet_id:
         x: 280
         'y': 600
@@ -387,9 +390,6 @@ extensions:
       convert_xml_to_json:
         x: 240
         'y': 80
-      get_availability_zone_1:
-        x: 440
-        'y': 600
       get_vpc_id:
         x: 880
         'y': 240
