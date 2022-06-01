@@ -29,7 +29,7 @@
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output subnet_xml: Describes the information of each subnets.
+#! @output subnets_xml: Describes the information of each subnets.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.vpc
@@ -250,7 +250,7 @@ flow:
             - subnet_start: '<Subnets>'
             - subnet_end: '</Subnets>'
         publish:
-          - subnetxml: "${subnet_start+\"\\n\"+subnet_end}"
+          - subnets_xml: "${subnet_start+\"\\n\"+subnet_end}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -332,12 +332,12 @@ flow:
             - subnet_end: '</Subnets>'
             - subnet_final_xml: '${subnet_final_xml}'
         publish:
-          - subnetxml: "${subnet_start+\"\\n\"+subnet_final_xml+\"\\n\"+subnet_end}"
+          - subnets_xml: "${subnet_start+\"\\n\"+subnet_final_xml+\"\\n\"+subnet_end}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - subnet_xml: '${subnetxml}'
+    - subnets_xml
   results:
     - FAILURE
     - SUCCESS
@@ -345,7 +345,7 @@ extensions:
   graph:
     steps:
       describe_subnets:
-        x: 100
+        x: 120
         'y': 80
       check_status_code:
         x: 640
@@ -429,4 +429,3 @@ extensions:
         75bacfa7-905e-30ac-aaeb-ac8dc7c439f9:
           x: 40
           'y': 280
-
