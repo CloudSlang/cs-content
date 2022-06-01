@@ -23,7 +23,6 @@
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #!                    inputs or leave them both empty.
-#!                    Default: '8080'
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more than
@@ -47,7 +46,6 @@ flow:
     - proxy_host:
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false
