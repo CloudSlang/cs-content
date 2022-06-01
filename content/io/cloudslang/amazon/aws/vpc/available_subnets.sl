@@ -29,7 +29,7 @@
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output subnet_xml: Describes the information of each subnet in the xml format.
+#! @output subnet_xml: Describes the information of each subnets.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.vpc
@@ -276,9 +276,9 @@ flow:
         publish:
           - availability_zone: "${return_result.lstrip('availabilityZone').lstrip('=')}"
         navigate:
-          - SUCCESS: get_defualt_for_az
+          - SUCCESS: get_value_of_default_az
           - FAILURE: on_failure
-    - get_defualt_for_az:
+    - get_value_of_default_az:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.get_by_index:
@@ -363,6 +363,9 @@ extensions:
       get_availability_zone:
         x: 880
         'y': 80
+      get_value_of_default_az:
+        x: 640
+        'y': 600
       start_subnets_xml_tag:
         x: 480
         'y': 440
@@ -415,9 +418,6 @@ extensions:
       set_xml_tags:
         x: 640
         'y': 760
-      get_defualt_for_az:
-        x: 640
-        'y': 600
       add_values_to_main_list:
         x: 880
         'y': 400
@@ -429,3 +429,4 @@ extensions:
         75bacfa7-905e-30ac-aaeb-ac8dc7c439f9:
           x: 40
           'y': 280
+
