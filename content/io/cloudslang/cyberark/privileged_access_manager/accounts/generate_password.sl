@@ -120,10 +120,10 @@ operation:
         default: ${get('auth_token', "")}
         required: false
         private: true
-    - account_id:
-    - accountId
-      default: ${get('account_id', "")}
-      required: false
+    - account_id
+    - accountId:
+        default: ${get('account_id', "")}
+        required: false
     - proxy_host:
         required: false
     - proxyHost:
