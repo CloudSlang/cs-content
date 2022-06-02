@@ -261,7 +261,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC4'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.8-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.safes.GetSafeDetails
     method_name: execute
 
