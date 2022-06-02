@@ -16,10 +16,9 @@
 #! @description: This operation list objects of kind Node.
 #!
 #! @input kubernetes_host: Kubernetes host..
-#! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '8443'
-#!                         Optional
+#!                         Default: '443'
+#! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -27,7 +26,6 @@
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
-#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Username used when connecting to the proxy.
 #!                        Optional
@@ -65,18 +63,17 @@ flow:
   name: list_nodes
   inputs:
     - kubernetes_host
+    - kubernetes_port:
+        default: '443'
+        required: true
     - kubernetes_auth_token:
         sensitive: true
-    - kubernetes_port:
-        default: '8443'
-        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
     - proxy_host:
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false
@@ -94,7 +91,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-
   workflow:
     - api_to_get_kubernetes_nodes:
         worker_group:
