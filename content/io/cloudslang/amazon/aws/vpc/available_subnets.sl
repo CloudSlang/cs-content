@@ -43,6 +43,8 @@ flow:
     - identity
     - credential:
         sensitive: true
+    - vpc_id:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -139,7 +141,7 @@ flow:
             - json_input: '${list_of_array}'
             - json_path: vpcId
         publish:
-          - vpc_id: '${"vpcId="+return_result}'
+          - vpc_id_list_value: '${"vpcId="+return_result}'
         navigate:
           - SUCCESS: get_default_for_az
           - FAILURE: on_failure
@@ -159,7 +161,7 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - subnet_id: '${subnet_id}'
-            - vpc_id: '${vpc_id}'
+            - vpc_id: '${vpc_id_list_value}'
             - default_for_az: '${default_for_az}'
             - availability_zone: '${availability_zone}'
         publish:
@@ -240,8 +242,8 @@ flow:
         publish:
           - subnet_ids: '${result_string}'
         navigate:
-          - HAS_MORE: get_subnet_id
-          - NO_MORE: end_subnets_xml_tag_if_not_null
+          - HAS_MORE: set_empty_list_xml
+          - NO_MORE: is_xml_empty
           - FAILURE: on_failure
     - end_subnets_xml_tag:
         worker_group: '${worker_group}'
@@ -300,16 +302,6 @@ flow:
         publish:
           - subnet_xml: "${\"<Subnet>\"+\"\\n\"+subnet_id+\"\\n\"+availability_zone+\"\\n\"+default_for_az+\"\\n\"+\"</Subnet>\"}"
         navigate:
-          - SUCCESS: set_empty_list_xml
-          - FAILURE: on_failure
-    - set_empty_list_xml:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - subnet_final_xml: '${subnet_final_xml}'
-        publish:
-          - subnet_final_xml
-        navigate:
           - SUCCESS: add_element
           - FAILURE: on_failure
     - add_element:
@@ -336,6 +328,44 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - check_vpc_is_matching:
+        do:
+          io.cloudslang.base.lists.contains:
+            - container: '${vpc_id}'
+            - sublist: '${vpc_id_value}'
+        navigate:
+          - SUCCESS: get_subnet_id
+          - FAILURE: list_iterator
+    - get_vpc_id_from_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.lists.get_by_index:
+            - list: '${subnet_ids}'
+            - delimiter: ','
+            - index: '2'
+        publish:
+          - vpc_id_value: "${return_result.lstrip('vpcId').lstrip('=')}"
+        navigate:
+          - SUCCESS: check_vpc_is_matching
+          - FAILURE: on_failure
+    - set_empty_list_xml:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - subnet_final_xml: '${subnet_final_xml}'
+        publish:
+          - subnet_final_xml
+        navigate:
+          - SUCCESS: get_vpc_id_from_list
+          - FAILURE: on_failure
+    - is_xml_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.is_null:
+            - variable: '${subnet_final_xml}'
+        navigate:
+          - IS_NULL: end_subnets_xml_tag
+          - IS_NOT_NULL: end_subnets_xml_tag_if_not_null
   outputs:
     - subnets_xml
   results:
@@ -345,14 +375,14 @@ extensions:
   graph:
     steps:
       describe_subnets:
-        x: 120
+        x: 40
         'y': 80
       check_status_code:
-        x: 640
-        'y': 360
+        x: 600
+        'y': 320
       set_empty_list_xml:
-        x: 400
-        'y': 760
+        x: 280
+        'y': 600
       end_subnets_xml_tag:
         x: 200
         'y': 280
@@ -360,30 +390,39 @@ extensions:
           0a0c80f1-9781-b403-92ba-162ef620e618:
             targetId: 75bacfa7-905e-30ac-aaeb-ac8dc7c439f9
             port: SUCCESS
+      check_vpc_is_matching:
+        x: 440
+        'y': 640
       get_availability_zone:
         x: 880
         'y': 80
       get_value_of_default_az:
-        x: 640
-        'y': 600
+        x: 920
+        'y': 640
       start_subnets_xml_tag:
         x: 480
         'y': 440
       set_empty_list:
         x: 1080
         'y': 440
+      get_vpc_id_from_list:
+        x: 280
+        'y': 800
       list_iterator:
         x: 280
+        'y': 440
+      is_xml_empty:
+        x: 120
         'y': 440
       is_list_null:
         x: 480
         'y': 280
       get_availability_zone_tag_value:
-        x: 440
-        'y': 600
+        x: 720
+        'y': 640
       get_subnet_id:
-        x: 280
-        'y': 600
+        x: 600
+        'y': 640
       get_default_for_az:
         x: 1080
         'y': 80
@@ -391,14 +430,14 @@ extensions:
         x: 680
         'y': 80
       convert_xml_to_json:
-        x: 240
+        x: 200
         'y': 80
       get_vpc_id:
         x: 880
         'y': 240
       end_subnets_xml_tag_if_not_null:
-        x: 80
-        'y': 440
+        x: 0
+        'y': 600
         navigate:
           d432a9cb-0ae6-bdb8-8fb8-b5476799ba35:
             targetId: 75bacfa7-905e-30ac-aaeb-ac8dc7c439f9
@@ -410,22 +449,22 @@ extensions:
         x: 480
         'y': 80
       get_subnet_array_list:
-        x: 360
+        x: 320
         'y': 80
       add_element:
-        x: 80
-        'y': 760
+        x: 40
+        'y': 920
       set_xml_tags:
-        x: 640
-        'y': 760
+        x: 920
+        'y': 920
       add_values_to_main_list:
-        x: 880
-        'y': 400
+        x: 920
+        'y': 440
       set_value_for_subnet_list:
         x: 1080
         'y': 240
     results:
       SUCCESS:
         75bacfa7-905e-30ac-aaeb-ac8dc7c439f9:
-          x: 40
+          x: 0
           'y': 280
