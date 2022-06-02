@@ -20,6 +20,7 @@
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: The Amazon Access Key ID.
 #! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input vpc_id: Optional - The IDs of the groups that you want to describe.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #!                    inputs or leave them both empty.
