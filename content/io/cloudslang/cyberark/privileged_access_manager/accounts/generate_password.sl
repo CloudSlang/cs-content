@@ -124,6 +124,7 @@ operation:
     - accountId:
         default: ${get('account_id', "")}
         required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
