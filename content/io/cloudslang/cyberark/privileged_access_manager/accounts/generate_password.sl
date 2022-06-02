@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This method adds a new privileged account to Privilege Cloud.
+#! @description: This method generates a new password for an existing account.
 #!
 #! @input hostname: The hostname or IP address of the host.
 #! @input protocol: Specifies what protocol is used to execute commands on the remote host.
@@ -21,28 +21,7 @@
 #!                  Default value: https
 #!                  Optional
 #! @input auth_token: Token used to authenticate to the CyberArk environment.
-#! @input name: The name of the account.
-#!              Optional
-#! @input address: The name or address of the machine where the account will be used.
-#! @input username: Account's user name.
-#! @input platform_id: The platform assigned to this account.
-#! @input safe_name: The Safe where the account is created.
-#! @input secret_type: The type of password.
-#!                     Valid values: password, key
-#!                     Optional
-#! @input secret: The password value or private SSH key. This will not be returned in the API output.
-#!                Optional
-#! @input platform_account_properties: Object containing key-value pairs to associate with the account, as defined by
-#!                                     the account platform. These properties are validated against the mandatory and
-#!                                     optional properties of the specified platform's definition. Optional properties
-#!                                     that do not exist on the account will not be returned here. Internal properties
-#!                                     are not returned.
-#!                                     Example: {"Location": "IT", "OwnerName": "MSSPAdmin"}
-#!                                     Optional
-#! @input secret_management: JSON having secret management properties.
-#!                           Optional
-#! @input remote_machine_access: JSON having remote machine access properties.
-#!                               Optional
+#! @input account_id: The ID of the account to which the password will be generated.
 #! @input proxy_host: The proxy server used to access the host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -61,7 +40,7 @@
 #!                         for further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -85,7 +64,7 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. 
+#!                        'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file.
@@ -101,7 +80,7 @@
 #!                         Default: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature. 
+#!                           call. A value of '0' disables this feature.
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -128,60 +107,24 @@
 
 namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
 
-operation: 
-  name: add_account
-  
-  inputs: 
-    - hostname    
+operation:
+  name: generate_password
+
+  inputs:
+    - hostname
     - protocol:
         default: 'https'
-        required: false  
-    - auth_token    
-    - authToken: 
+        required: false
+    - auth_token
+    - authToken:
         default: ${get('auth_token', "")}
-        required: false 
-        private: true 
-    - name:
-        required: false  
-    - address    
-    - username    
-    - platform_id    
-    - platformId: 
-        default: ${get('platform_id', "")}
-        required: false 
-        private: true 
-    - safe_name    
-    - safeName: 
-        default: ${get('safe_name', "")}
-        required: false 
-        private: true 
-    - secret_type:
-        required: false  
-    - secretType: 
-        default: ${get('secret_type', "")}
-        required: false 
-        private: true 
-    - secret:
-        sensitive: true
-        required: false  
-    - platform_account_properties:
-        required: false  
-    - platformAccountProperties: 
-        default: ${get('platform_account_properties', "")}
-        required: false 
-        private: true 
-    - secret_management:
-        required: false  
-    - secretManagement: 
-        default: ${get('secret_management', "")}
-        required: false 
-        private: true 
-    - remote_machine_access:
-        required: false  
-    - remoteMachineAccess: 
-        default: ${get('remote_machine_access', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
+    - account_id
+    - accountId:
+        default: ${get('account_id', "")}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -292,24 +235,24 @@ operation:
         private: true
     - connections_max_total:
         default: '20'
-        required: false  
-    - connectionsMaxTotal: 
+        required: false
+    - connectionsMaxTotal:
         default: ${get('connections_max_total', "")}
-        required: false 
-        private: true 
+        required: false
+        private: true
 
 
-  java_action: 
+  java_action:
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC5'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.AddAccount
+    class_name: io.cloudslang.content.cyberark.actions.accounts.GeneratePassword
     method_name: execute
-  
-  outputs: 
+
+  outputs:
     - return_result: ${get('returnResult', "")}
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
