@@ -114,7 +114,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.authorization
+namespace: io.cloudslang.cyberark.privileged_access_manager.authorization
 
 operation: 
   name: get_auth_token

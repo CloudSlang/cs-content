@@ -105,10 +105,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.cyberark.pivileged_access_manager.accounts
+namespace: io.cloudslang.cyberark.privileged_access_manager.accounts
 
 operation: 
-  name: delete_account
+  name: get_account_details
   
   inputs: 
     - hostname    
