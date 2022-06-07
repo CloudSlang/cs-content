@@ -239,7 +239,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC6'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC7'
     class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccountDetails
     method_name: execute
   
