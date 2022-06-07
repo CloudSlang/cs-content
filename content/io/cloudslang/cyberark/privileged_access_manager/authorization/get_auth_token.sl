@@ -23,8 +23,6 @@
 #!                  Optional
 #! @input username: The name of the user who is logging in to Privilege Cloud.
 #! @input password: The password used by the user to log in to Privilege Cloud.
-#! @input new_password: Set this parameter with a new password to change the user's password.
-#!                      Optional
 #! @input concurrent_session: Set this parameter to True to enable the user to open multiple connection sessions
 #!                            simultaneously.
 #!                            Up to 300 concurrent sessions are supported.
@@ -126,14 +124,6 @@ operation:
         required: false
     - username    
     - password:  
-        sensitive: true
-    - new_password:
-        required: false  
-        sensitive: true
-    - newPassword: 
-        default: ${get('new_password', "")}
-        required: false 
-        private: true 
         sensitive: true
     - concurrent_session:
         default: 'false'
@@ -260,7 +250,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC6'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC7'
     class_name: io.cloudslang.content.cyberark.actions.authorization.GetAuthToken
     method_name: execute
 
