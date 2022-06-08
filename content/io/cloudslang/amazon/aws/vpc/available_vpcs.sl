@@ -15,21 +15,22 @@
 #!!
 #! @description: Describes the information about each vpc.
 #!!
-#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.htmlDefault: 'https://ec2.amazonaws.com'.
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'.
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
-#! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'
+#! @input worker_group: Optional - A worker group is a logical collection of workers.
+#!                      A worker may belong to more thanone group simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!
 #! @output available_vpcs_xml: Returns information of vpc's.
 #!!#
 ########################################################################################################################
-
 namespace: io.cloudslang.amazon.aws.vpc
-
 flow:
   name: available_vpcs
   inputs:
