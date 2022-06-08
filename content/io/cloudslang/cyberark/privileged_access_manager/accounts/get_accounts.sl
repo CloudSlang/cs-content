@@ -140,8 +140,8 @@
 #!                               Optional
 #!
 #! @output return_result: Contains a human readable message describing the status of the CyberArk action or the CyberArk response if one was provided.
-#! @output status_code: The status_code returned by the server.
-#! @output return_code: The returnCode of the operation: 0 for success, -1 for failure
+#! @output status_code: The status code returned by the server.
+#! @output return_code: The return code of the operation: 0 for success, -1 for failure
 #! @output exception: In case of success response, this result is empty. In case of failure response, this result contains the java stack trace of the runtime exception.
 #!
 #! @result SUCCESS: The operation executed successfully and the 'return_code' is 0.
@@ -307,7 +307,7 @@ operation:
 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC7'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC8'
     class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccounts
     method_name: execute
   
