@@ -17,7 +17,7 @@
 #!
 #! @input json_data: Json data file.
 #!
-#! @output vpc_list: returns list the vpc's.
+#! @output vpc_list: returns list of vpc's.
 #!!#
 ########################################################################################################################
 

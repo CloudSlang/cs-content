@@ -16,9 +16,9 @@
 #! @description: list the subnets.
 #!
 #! @input json_data: Json data file.
-#! @input vpc_id: Optional - The IDs of the groups that you want to describe.
+#! @input vpc_id: The IDs of the groups that you want to describe.
 #!
-#! @output subnet_list: list the subnets.
+#! @output subnet_list: returns list of subnets.
 #!!#
 ########################################################################################################################
 

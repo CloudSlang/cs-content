@@ -16,7 +16,7 @@
 #! @description: list the security groups.
 #!
 #! @input json_data: Json data file.
-#! @input vpc_id: Optional - The IDs of the groups that you want to describe.
+#! @input vpc_id: The IDs of the groups that you want to describe.
 #!
 #! @output vpc_security_list: returns list of security groups.
 #!!#
