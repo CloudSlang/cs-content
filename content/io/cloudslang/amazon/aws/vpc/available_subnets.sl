@@ -15,11 +15,11 @@
 #!!
 #! @description: Describes the information about each subnets.
 #!
-#! @input endpoint: Optional - The endpoint to which requests are sent.
-#!                  Examples:  ec2.us-east-1.amazonaws.com, ec2.us-west-2.amazonaws.com, ec2.us-west-1.amazonaws.com.
-#!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: The Amazon Access Key ID.
-#! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'.
+#! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
+#! @input access_key: Secret access key associated with your Amazon AWS account.
+#! @input vpc_id: The IDs of the groups that you want to describe.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #!                    inputs or leave them both empty.
@@ -37,12 +37,14 @@ namespace: io.cloudslang.amazon.aws.vpc
 flow:
   name: available_subnets
   inputs:
-    - endpoint:
+    - provider_sap:
         default: 'https://ec2.amazonaws.com'
-        required: false
-    - identity
-    - credential:
+        required: true
+    - access_key_id
+    - access_key:
         sensitive: true
+    - vpc_id:
+        required: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -60,10 +62,10 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.vpc.subnets.describe_subnets:
-            - endpoint: '${endpoint}'
-            - identity: '${identity}'
+            - endpoint: '${provider_sap}'
+            - identity: '${access_key_id}'
             - credential:
-                value: '${credential}'
+                value: '${access_key}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -76,18 +78,6 @@ flow:
         navigate:
           - SUCCESS: convert_xml_to_json
           - FAILURE: on_failure
-    - iterate_subnet_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.array_iterator:
-            - array: '${array_list}'
-        publish:
-          - list_of_array: '${result_string}'
-          - return_code
-        navigate:
-          - HAS_MORE: get_subnet_value
-          - NO_MORE: is_list_null
-          - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
         do:
@@ -97,151 +87,19 @@ flow:
           - return_code
           - return_result
         navigate:
-          - SUCCESS: get_subnet_array_list
+          - SUCCESS: get_subnet_list
           - FAILURE: on_failure
-    - get_subnet_value:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: subnetId
-        publish:
-          - subnet_id: '${"subnetId="+return_result}'
-        navigate:
-          - SUCCESS: get_availability_zone
-          - FAILURE: on_failure
-    - get_subnet_array_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: DescribeSubnetsResponse.subnetSet.item
-        publish:
-          - array_list: '${return_result}'
-        navigate:
-          - SUCCESS: iterate_subnet_list
-          - FAILURE: on_failure
-    - get_availability_zone:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: availabilityZone
-        publish:
-          - availability_zone: '${"availabilityZone="+return_result}'
-        navigate:
-          - SUCCESS: get_vpc_id
-          - FAILURE: on_failure
-    - get_vpc_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: vpcId
-        publish:
-          - vpc_id: '${"vpcId="+return_result}'
-        navigate:
-          - SUCCESS: get_default_for_az
-          - FAILURE: on_failure
-    - get_default_for_az:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: defaultForAz
-        publish:
-          - default_for_az: '${"defaultForAz="+return_result}'
-        navigate:
-          - SUCCESS: set_value_for_subnet_list
-          - FAILURE: on_failure
-    - set_value_for_subnet_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - subnet_id: '${subnet_id}'
-            - vpc_id: '${vpc_id}'
-            - default_for_az: '${default_for_az}'
-            - availability_zone: '${availability_zone}'
-        publish:
-          - list_of_array_item: '${subnet_id + "," + availability_zone + ","+ vpc_id + "," + default_for_az}'
-        navigate:
-          - SUCCESS: set_empty_list
-          - FAILURE: on_failure
-    - set_empty_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - subnet_list: '${subnet_list}'
-            - return_code: '${return_code}'
-        publish:
-          - subnet_list
-        navigate:
-          - SUCCESS: add_values_to_main_list
-          - FAILURE: on_failure
-    - add_values_to_main_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.add_element:
-            - list: '${subnet_list}'
-            - element: '${list_of_array_item}'
-            - delimiter: ' '
-        publish:
-          - subnet_list: '${return_result}'
-        navigate:
-          - SUCCESS: check_status_code
-          - FAILURE: on_failure
-    - is_list_null:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${list_of_array}'
-        publish:
-          - list_of_array: '${variable}'
-        navigate:
-          - IS_NULL: start_subnets_xml_tag
-          - IS_NOT_NULL: get_subnet_value
-    - check_status_code:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${return_code}'
-            - second_string: '0'
-            - ignore_case: 'true'
-        navigate:
-          - SUCCESS: iterate_subnet_list
-          - FAILURE: start_subnets_xml_tag
-    - start_subnets_xml_tag:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - subnet_start: '<Subnets>'
-            - subnet_end: '</Subnets>'
-        publish:
-          - subnet_start
-          - subnet_end
-        navigate:
-          - SUCCESS: is_subnet_list_null
-          - FAILURE: on_failure
-    - is_subnet_list_null:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${subnet_list}'
-        publish: []
-        navigate:
-          - IS_NULL: end_subnets_xml_tag
-          - IS_NOT_NULL: list_iterator
     - list_iterator:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${subnet_list}'
-            - separator: ' '
+            - list: '${subnet_list_array}'
+            - separator: '  '
         publish:
           - subnet_ids: '${result_string}'
         navigate:
-          - HAS_MORE: get_subnet_id
-          - NO_MORE: end_subnets_xml_tag_if_not_null
+          - HAS_MORE: set_empty_list_xml
+          - NO_MORE: is_xml_is_empty
           - FAILURE: on_failure
     - end_subnets_xml_tag:
         worker_group: '${worker_group}'
@@ -262,7 +120,7 @@ flow:
             - delimiter: ','
             - index: '0'
         publish:
-          - subnet_id: "${return_result.lstrip('subnetId').lstrip('=')}"
+          - subnet_id: '${return_result}'
         navigate:
           - SUCCESS: get_availability_zone_tag_value
           - FAILURE: on_failure
@@ -274,7 +132,7 @@ flow:
             - delimiter: ','
             - index: '1'
         publish:
-          - availability_zone: "${return_result.lstrip('availabilityZone').lstrip('=')}"
+          - availability_zone: '${return_result}'
         navigate:
           - SUCCESS: get_value_of_default_az
           - FAILURE: on_failure
@@ -286,7 +144,7 @@ flow:
             - delimiter: ','
             - index: '3'
         publish:
-          - default_for_az: "${return_result.lstrip('defaultForAz').lstrip('=')}"
+          - default_for_az: '${return_result}'
         navigate:
           - SUCCESS: set_xml_tags
           - FAILURE: on_failure
@@ -299,16 +157,6 @@ flow:
             - default_for_az: '${"<DefaultSubnet>"+default_for_az+"</DefaultSubnet>"}'
         publish:
           - subnet_xml: "${\"<Subnet>\"+\"\\n\"+subnet_id+\"\\n\"+availability_zone+\"\\n\"+default_for_az+\"\\n\"+\"</Subnet>\"}"
-        navigate:
-          - SUCCESS: set_empty_list_xml
-          - FAILURE: on_failure
-    - set_empty_list_xml:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - subnet_final_xml: '${subnet_final_xml}'
-        publish:
-          - subnet_final_xml
         navigate:
           - SUCCESS: add_element
           - FAILURE: on_failure
@@ -336,6 +184,54 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - get_vpc_id_from_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.lists.get_by_index:
+            - list: '${subnet_ids}'
+            - delimiter: ','
+            - index: '2'
+        publish:
+          - vpc_id_value: '${return_result}'
+        navigate:
+          - SUCCESS: get_subnet_id
+          - FAILURE: on_failure
+    - get_subnet_list:
+        worker_group: '${worker_group}'
+        do:
+          checkin.get_subnet_list:
+            - json_data: '${return_result}'
+            - vpc_id: '${vpc_id}'
+        publish:
+          - subnet_list_array: "${subnet_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
+          - subnet_empty_array: '${subnet_list}'
+        navigate:
+          - SUCCESS: is_subnet_list_empty
+    - set_empty_list_xml:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - subnet_final_xml: '${subnet_final_xml}'
+        publish:
+          - subnet_final_xml
+        navigate:
+          - SUCCESS: get_vpc_id_from_list
+          - FAILURE: on_failure
+    - is_subnet_list_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${subnet_list_array}'
+        navigate:
+          - SUCCESS: end_subnets_xml_tag
+          - FAILURE: list_iterator
+    - is_xml_is_empty:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${subnet_final_xml}'
+        navigate:
+          - SUCCESS: end_subnets_xml_tag
+          - FAILURE: end_subnets_xml_tag_if_not_null
   outputs:
     - subnets_xml
   results:
@@ -345,14 +241,11 @@ extensions:
   graph:
     steps:
       describe_subnets:
-        x: 120
+        x: 40
         'y': 80
-      check_status_code:
-        x: 640
-        'y': 360
       set_empty_list_xml:
-        x: 400
-        'y': 760
+        x: 1080
+        'y': 80
       end_subnets_xml_tag:
         x: 200
         'y': 280
@@ -360,72 +253,48 @@ extensions:
           0a0c80f1-9781-b403-92ba-162ef620e618:
             targetId: 75bacfa7-905e-30ac-aaeb-ac8dc7c439f9
             port: SUCCESS
-      get_availability_zone:
-        x: 880
-        'y': 80
       get_value_of_default_az:
-        x: 640
-        'y': 600
-      start_subnets_xml_tag:
-        x: 480
-        'y': 440
-      set_empty_list:
+        x: 720
+        'y': 680
+      get_vpc_id_from_list:
         x: 1080
-        'y': 440
+        'y': 240
       list_iterator:
-        x: 280
-        'y': 440
-      is_list_null:
-        x: 480
-        'y': 280
-      get_availability_zone_tag_value:
-        x: 440
-        'y': 600
-      get_subnet_id:
-        x: 280
-        'y': 600
-      get_default_for_az:
-        x: 1080
+        x: 800
         'y': 80
-      get_subnet_value:
-        x: 680
+      get_availability_zone_tag_value:
+        x: 880
+        'y': 680
+      get_subnet_id:
+        x: 880
+        'y': 280
+      is_xml_is_empty:
+        x: 640
+        'y': 200
+      get_subnet_list:
+        x: 360
         'y': 80
       convert_xml_to_json:
-        x: 240
+        x: 200
         'y': 80
-      get_vpc_id:
-        x: 880
-        'y': 240
+      is_subnet_list_empty:
+        x: 520
+        'y': 80
       end_subnets_xml_tag_if_not_null:
-        x: 80
-        'y': 440
+        x: 520
+        'y': 360
         navigate:
           d432a9cb-0ae6-bdb8-8fb8-b5476799ba35:
             targetId: 75bacfa7-905e-30ac-aaeb-ac8dc7c439f9
             port: SUCCESS
-      is_subnet_list_null:
-        x: 360
-        'y': 280
-      iterate_subnet_list:
-        x: 480
-        'y': 80
-      get_subnet_array_list:
-        x: 360
-        'y': 80
       add_element:
-        x: 80
-        'y': 760
+        x: 720
+        'y': 360
       set_xml_tags:
-        x: 640
-        'y': 760
-      add_values_to_main_list:
-        x: 880
-        'y': 400
-      set_value_for_subnet_list:
-        x: 1080
-        'y': 240
+        x: 720
+        'y': 520
     results:
       SUCCESS:
         75bacfa7-905e-30ac-aaeb-ac8dc7c439f9:
-          x: 40
-          'y': 280
+          x: 400
+          'y': 600
