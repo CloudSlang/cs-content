@@ -15,11 +15,10 @@
 #!!
 #! @description: Describes the information about each security groups.
 #!
-#! @input endpoint: Optional - The endpoint to which requests are sent.
-#!                  Examples:  ec2.us-east-1.amazonaws.com, ec2.us-west-2.amazonaws.com, ec2.us-west-1.amazonaws.com.
-#!                  Default: 'https://ec2.amazonaws.com'
-#! @input identity: The Amazon Access Key ID.
-#! @input credential: The Amazon Secret Access Key that corresponds to the Amazon Access Key ID.
+#! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
+#!                      Default: 'https://ec2.amazonaws.com'.
+#! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
+#! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input vpc_id: Optional - The IDs of the groups that you want to describe.
 #! @input proxy_host: Optional - Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
@@ -38,11 +37,11 @@ namespace: io.cloudslang.amazon.aws.vpc
 flow:
   name: available_vpc_security_groups
   inputs:
-    - endpoint:
+    - provider_sap:
         default: 'https://ec2.amazonaws.com'
-        required: false
-    - identity
-    - credential:
+        required: true
+    - access_key_id
+    - access_key:
         sensitive: true
     - vpc_id:
         required: false
@@ -62,10 +61,10 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.securitygroups.describe_security_groups:
-            - endpoint: '${endpoint}'
-            - identity: '${identity}'
+            - endpoint: '${provider_sap}'
+            - identity: '${access_key_id}'
             - credential:
-                value: '${credential}'
+                value: '${access_key}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -87,52 +86,7 @@ flow:
           - return_code
           - return_result
         navigate:
-          - SUCCESS: get_security_groups_array_list
-          - FAILURE: on_failure
-    - get_security_groups_array_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: DescribeSecurityGroupsResponse.securityGroupInfo.item
-        publish:
-          - array_list: '${return_result}'
-        navigate:
-          - SUCCESS: set_empty_list
-          - FAILURE: on_failure
-    - iterate_security_group_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.array_iterator:
-            - array: '${array_list}'
-        publish:
-          - list_of_array: '${result_string}'
-          - return_code
-        navigate:
-          - HAS_MORE: get_group_id_value
-          - NO_MORE: is_list_null
-          - FAILURE: on_failure
-    - get_group_id_value:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: groupId
-        publish:
-          - group_id: '${return_result}'
-        navigate:
-          - SUCCESS: get_group_name_value
-          - FAILURE: on_failure
-    - get_group_name_value:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: groupName
-        publish:
-          - group_name: '${return_result}'
-        navigate:
-          - SUCCESS: get_group_vpc_id
+          - SUCCESS: get_vpc_security_list
           - FAILURE: on_failure
     - set_empty_list:
         do:
@@ -141,86 +95,19 @@ flow:
         publish:
           - security_empty_list
         navigate:
-          - SUCCESS: iterate_security_group_list
-          - FAILURE: on_failure
-    - get_group_vpc_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: vpcId
-        publish:
-          - vpc_id_list_value: '${return_result}'
-        navigate:
-          - SUCCESS: set_value_for_security_group_list
-          - FAILURE: on_failure
-    - set_value_for_security_group_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - group_id: '${group_id}'
-            - group_name: '${group_name}'
-            - vpc_id_list_value: '${vpc_id_list_value}'
-        publish:
-          - list_of_array_item: '${group_id + "," + group_name + ","+ vpc_id_list_value}'
-        navigate:
-          - SUCCESS: add_values_to_main_list
-          - FAILURE: on_failure
-    - add_values_to_main_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.add_element:
-            - list: '${security_empty_list}'
-            - element: '${list_of_array_item}'
-            - delimiter: ' '
-        publish:
-          - security_empty_list: '${return_result}'
-        navigate:
-          - SUCCESS: check_status_code
-          - FAILURE: on_failure
-    - check_status_code:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${return_code}'
-            - second_string: '0'
-            - ignore_case: 'true'
-        navigate:
-          - SUCCESS: iterate_security_group_list
-          - FAILURE: start_security_group_xml_tag
-    - is_list_null:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${list_of_array}'
-        publish:
-          - list_of_array: '${variable}'
-        navigate:
-          - IS_NULL: start_security_group_xml_tag
-          - IS_NOT_NULL: get_group_id_value
-    - start_security_group_xml_tag:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_group_start: '<SecurityGroups>'
-            - security_group_end: '</SecurityGroups>'
-        publish:
-          - security_group_start
-          - security_group_end
-        navigate:
-          - SUCCESS: is_security_group_list_null
+          - SUCCESS: list_iterator
           - FAILURE: on_failure
     - list_iterator:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${security_empty_list}'
-            - separator: ' '
+            - list: '${vpc_security_list}'
+            - separator: '  '
         publish:
           - security_vpc: '${result_string}'
         navigate:
-          - HAS_MORE: set_list_empty
-          - NO_MORE: is_xml_empty
+          - HAS_MORE: get_vpc_id_value
+          - NO_MORE: is_xml_is_empty
           - FAILURE: on_failure
     - get_group_id:
         worker_group: '${worker_group}'
@@ -256,17 +143,8 @@ flow:
         publish:
           - vpc_value_id: '${return_result}'
         navigate:
-          - SUCCESS: check_vpc_is_matching
+          - SUCCESS: set_list_empty
           - FAILURE: on_failure
-    - check_vpc_is_matching:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.contains:
-            - container: '${vpc_id}'
-            - sublist: '${vpc_value_id}'
-        navigate:
-          - SUCCESS: get_group_id
-          - FAILURE: list_iterator
     - set_security_tag_value:
         worker_group: '${worker_group}'
         do:
@@ -292,23 +170,6 @@ flow:
         navigate:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
-    - set_list_empty:
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_group_empty_list: '${security_group_empty_list}'
-        publish:
-          - security_group_empty_list
-        navigate:
-          - SUCCESS: get_vpc_id_value
-          - FAILURE: on_failure
-    - is_xml_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${security_group_empty_list}'
-        navigate:
-          - IS_NULL: end_security_xml_tag
-          - IS_NOT_NULL: end_security_group_xml_tag
     - end_security_xml_tag:
         worker_group: '${worker_group}'
         do:
@@ -332,15 +193,40 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - is_security_group_list_null:
+    - get_vpc_security_list:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${security_empty_list}'
-        publish: []
+          checkin.get_vpc_security_list:
+            - json_data: '${return_result}'
+            - vpc_id: '${vpc_id}'
+        publish:
+          - vpc_security_list: "${vpc_security_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
         navigate:
-          - IS_NULL: end_security_xml_tag
-          - IS_NOT_NULL: list_iterator
+          - SUCCESS: is_vpc_security_list_empty
+    - set_list_empty:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - security_group_empty_list: '${security_group_empty_list}'
+        publish:
+          - security_group_empty_list
+        navigate:
+          - SUCCESS: get_group_id
+          - FAILURE: on_failure
+    - is_vpc_security_list_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vpc_security_list}'
+        navigate:
+          - SUCCESS: end_security_xml_tag
+          - FAILURE: set_empty_list
+    - is_xml_is_empty:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${security_group_empty_list}'
+        navigate:
+          - SUCCESS: end_security_xml_tag
+          - FAILURE: end_security_group_xml_tag
   outputs:
     - security_group_xml
   results:
@@ -349,51 +235,36 @@ flow:
 extensions:
   graph:
     steps:
-      check_status_code:
-        x: 800
-        'y': 440
-      get_group_id:
-        x: 840
-        'y': 760
-      check_vpc_is_matching:
-        x: 680
-        'y': 600
-      get_group_name_value:
-        x: 1120
+      is_vpc_security_list_empty:
+        x: 520
         'y': 80
+      get_group_id:
+        x: 880
+        'y': 720
       set_list_empty:
-        x: 480
-        'y': 560
+        x: 880
+        'y': 520
       set_security_tag_value:
-        x: 1040
-        'y': 920
+        x: 440
+        'y': 720
       get_vpc_id_value:
-        x: 480
-        'y': 760
+        x: 1040
+        'y': 360
       set_empty_list:
-        x: 600
+        x: 680
         'y': 80
       list_iterator:
-        x: 480
-        'y': 400
-      add_element_to_the_list:
-        x: 240
-        'y': 920
-      is_xml_empty:
-        x: 200
-        'y': 440
-      start_security_group_xml_tag:
-        x: 640
-        'y': 240
-      is_list_null:
-        x: 920
-        'y': 280
-      get_group_name:
         x: 1040
-        'y': 720
-      get_group_id_value:
-        x: 960
         'y': 80
+      add_element_to_the_list:
+        x: 440
+        'y': 480
+      get_group_name:
+        x: 680
+        'y': 720
+      is_xml_is_empty:
+        x: 520
+        'y': 280
       end_security_xml_tag:
         x: 200
         'y': 280
@@ -408,27 +279,12 @@ extensions:
           6d64cec8-6d1d-f98d-1ff1-b40a902e4592:
             targetId: dd23344c-e104-c471-9e35-c58c1b2645be
             port: SUCCESS
-      iterate_security_group_list:
-        x: 800
-        'y': 80
       convert_xml_to_json:
-        x: 240
+        x: 200
         'y': 80
-      get_security_groups_array_list:
-        x: 400
-        'y': 80
-      get_group_vpc_id:
-        x: 1280
-        'y': 80
-      set_value_for_security_group_list:
-        x: 1280
-        'y': 240
-      is_security_group_list_null:
+      get_vpc_security_list:
         x: 360
-        'y': 240
-      add_values_to_main_list:
-        x: 1280
-        'y': 440
+        'y': 80
       describe_security_groups:
         x: 40
         'y': 80
