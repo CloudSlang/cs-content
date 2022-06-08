@@ -194,62 +194,6 @@ flow:
         navigate:
           - SUCCESS: add_element
           - FAILURE: on_failure
-    - available_subnets:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          checkin.available_subnets:
-            - provider_sap: '${provider_sap}'
-            - access_key_id: '${access_key_id}'
-            - access_key:
-                value: '${access_key}'
-                sensitive: true
-            - endpoint: '${endpoint}'
-            - identity: '${identity}'
-            - credential:
-                value: '${credential}'
-                sensitive: true
-            - vpc_id: '${vpc_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
-        publish:
-          - subnets_xml
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: available_vpc_security_groups
-    - available_vpc_security_groups:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          checkin.available_vpc_security_groups:
-            - provider_sap: '${provider_sap}'
-            - access_key_id: '${access_key_id}'
-            - access_key:
-                value: '${access_key}'
-                sensitive: true
-            - endpoint: '${endpoint}'
-            - identity: '${identity}'
-            - credential:
-                value: '${credential}'
-                sensitive: true
-            - vpc_id: '${vpc_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
-            - worker_group: '${worker_group}'
-        publish:
-          - security_group_xml
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: set_values_of_security_subnet_tags
     - get_vpc_list:
         worker_group: '${worker_group}'
         do:
@@ -275,6 +219,52 @@ flow:
         navigate:
           - SUCCESS: end_vpc_xml_tag_if_empty
           - FAILURE: end_vpcs_xml_tag
+    - available_subnets:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.amazon.aws.vpc.available_subnets:
+            - provider_sap: '${provider_sap}'
+            - access_key_id: '${access_key_id}'
+            - access_key:
+                value: '${access_key}'
+                sensitive: true
+            - vpc_id: '${vpc_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        publish:
+          - subnets_xml
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: available_vpc_security_groups
+    - available_vpc_security_groups:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.amazon.aws.vpc.available_vpc_security_groups:
+            - provider_sap: '${provider_sap}'
+            - access_key_id: '${access_key_id}'
+            - access_key:
+                value: '${access_key}'
+                sensitive: true
+            - vpc_id: '${vpc_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - worker_group: '${worker_group}'
+        publish:
+          - security_group_xml
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: set_values_of_security_subnet_tags
   outputs:
     - available_vpcs_xml
   results:
@@ -284,7 +274,7 @@ extensions:
   graph:
     steps:
       available_subnets:
-        x: 720
+        x: 760
         'y': 640
       end_vpcs_xml_tag:
         x: 240
@@ -300,7 +290,7 @@ extensions:
         x: 1000
         'y': 440
       available_vpc_security_groups:
-        x: 400
+        x: 560
         'y': 640
       set_security_tag_value:
         x: 1000
@@ -337,7 +327,7 @@ extensions:
         x: 640
         'y': 280
       describe_vpcs:
-        x: 0
+        x: 100
         'y': 80
       start_vpc_xml_tag:
         x: 800
