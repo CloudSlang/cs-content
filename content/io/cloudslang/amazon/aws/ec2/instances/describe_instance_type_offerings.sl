@@ -114,7 +114,7 @@ operation:
         required: false
         private: true
     - version:
-        default: '2016-09-15'
+        default: '2016-11-15'
         required: false
     - delimiter:
         default: ','
@@ -145,7 +145,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC13'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.41-RC14'
     class_name: io.cloudslang.content.amazon.actions.instances.DescribeInstanceTypeOfferingsAction
     method_name: execute
 
