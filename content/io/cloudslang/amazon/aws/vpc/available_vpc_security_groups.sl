@@ -32,8 +32,8 @@
 #! @output security_group_xml: Returns information of security groups.
 #!!#
 ########################################################################################################################
-
 namespace: io.cloudslang.amazon.aws.vpc
+
 
 flow:
   name: available_vpc_security_groups
