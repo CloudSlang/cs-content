@@ -16,7 +16,7 @@
 #! @description: Describes the information about each security groups.
 #!
 #! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
-#!                      Default: 'https://ec2.amazonaws.com'.
+#!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS account.
 #! @input access_key: Secret access key associated with your Amazon AWS account.
 #! @input vpc_id: The IDs of the groups that you want to describe.
