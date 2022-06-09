@@ -30,7 +30,7 @@
 #! @output key_pair_xml: Returns information of each key-pair.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.amazon.ec2
+namespace: io.cloudslang.amazon.aws.ec2
 flow:
   name: available_key_pairs
   inputs:
