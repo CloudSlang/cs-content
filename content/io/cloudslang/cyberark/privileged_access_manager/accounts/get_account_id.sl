@@ -244,7 +244,7 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC9'
-    class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccounts
+    class_name: io.cloudslang.content.cyberark.actions.accounts.GetAccountId
     method_name: execute
   
   outputs: 
@@ -252,7 +252,7 @@ operation:
     - status_code: ${get('statusCode', "")}
     - return_code: ${get('returnCode', "")}
     - exception: ${get('exception', "")}
-    - account_id: ${get('accountId',"")}
+    - account_id: ${get('accountId', "")}
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
