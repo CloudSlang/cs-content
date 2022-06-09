@@ -124,6 +124,10 @@ operation:
         required: false 
         private: true
     - username
+    - userName:
+            default: ${get('username', "")}
+            required: false
+            private: true
     - safe
     - proxy_host:
         required: false
