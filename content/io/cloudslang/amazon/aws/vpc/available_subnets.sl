@@ -196,17 +196,6 @@ flow:
         navigate:
           - SUCCESS: get_subnet_id
           - FAILURE: on_failure
-    - get_subnet_list:
-        worker_group: '${worker_group}'
-        do:
-          checkin.get_subnet_list:
-            - json_data: '${return_result}'
-            - vpc_id: '${vpc_id}'
-        publish:
-          - subnet_list_array: "${subnet_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
-          - subnet_empty_array: '${subnet_list}'
-        navigate:
-          - SUCCESS: is_subnet_list_empty
     - set_empty_list_xml:
         worker_group: '${worker_group}'
         do:
@@ -232,6 +221,16 @@ flow:
         navigate:
           - SUCCESS: end_subnets_xml_tag
           - FAILURE: end_subnets_xml_tag_if_not_null
+    - get_subnet_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.vpc.subnets.get_subnet_list:
+            - json_data: '${return_result}'
+            - vpc_id: '${vpc_id}'
+        publish:
+          - subnet_list_array: "${subnet_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
+        navigate:
+          - SUCCESS: is_subnet_list_empty
   outputs:
     - subnets_xml
   results:

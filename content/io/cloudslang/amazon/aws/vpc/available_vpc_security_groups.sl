@@ -193,16 +193,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - get_vpc_security_list:
-        worker_group: '${worker_group}'
-        do:
-          checkin.get_vpc_security_list:
-            - json_data: '${return_result}'
-            - vpc_id: '${vpc_id}'
-        publish:
-          - vpc_security_list: "${vpc_security_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
-        navigate:
-          - SUCCESS: is_vpc_security_list_empty
     - set_list_empty:
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -227,6 +217,16 @@ flow:
         navigate:
           - SUCCESS: end_security_xml_tag
           - FAILURE: end_security_group_xml_tag
+    - get_vpc_security_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.vpc.get_vpc_security_list:
+            - json_data: '${return_result}'
+            - vpc_id: '${vpc_id}'
+        publish:
+          - vpc_security_list: "${vpc_security_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
+        navigate:
+          - SUCCESS: is_vpc_security_list_empty
   outputs:
     - security_group_xml
   results:

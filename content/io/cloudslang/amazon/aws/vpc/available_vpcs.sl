@@ -197,15 +197,6 @@ flow:
         navigate:
           - SUCCESS: add_element
           - FAILURE: on_failure
-    - get_vpc_list:
-        worker_group: '${worker_group}'
-        do:
-          checkin.get_vpc_list:
-            - json_data: '${return_result}'
-        publish:
-          - vpc_list: "${vpc_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
-        navigate:
-          - SUCCESS: is_vpc_list_is_empty
     - is_vpc_list_is_empty:
         worker_group: '${worker_group}'
         do:
@@ -268,6 +259,15 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: set_values_of_security_subnet_tags
+    - get_vpc_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.vpc.get_vpc_list:
+            - json_data: '${return_result}'
+        publish:
+          - vpc_list: "${vpc_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
+        navigate:
+          - SUCCESS: is_vpc_list_is_empty
   outputs:
     - available_vpcs_xml
   results:
@@ -277,7 +277,7 @@ extensions:
   graph:
     steps:
       available_subnets:
-        x: 760
+        x: 880
         'y': 640
       end_vpcs_xml_tag:
         x: 240
@@ -287,28 +287,28 @@ extensions:
             targetId: 6a2f91a0-1742-9970-7842-0fa4695e592d
             port: SUCCESS
       set_values_of_security_subnet_tags:
-        x: 640
+        x: 680
         'y': 440
       set_empty_list_xml:
-        x: 1000
-        'y': 440
+        x: 1080
+        'y': 480
       available_vpc_security_groups:
-        x: 560
+        x: 680
         'y': 640
       set_security_tag_value:
-        x: 1000
+        x: 1080
         'y': 640
       is_vpc_xml_is_empty:
         x: 440
         'y': 280
       get_vpc_id_value:
-        x: 1000
+        x: 1080
         'y': 80
       is_vpc_list_is_empty:
-        x: 480
+        x: 520
         'y': 80
       list_iterator:
-        x: 640
+        x: 680
         'y': 80
       end_vpc_xml_tag_if_empty:
         x: 240
@@ -318,22 +318,22 @@ extensions:
             targetId: 6a2f91a0-1742-9970-7842-0fa4695e592d
             port: SUCCESS
       convert_xml_to_json_describe_vpc:
-        x: 160
+        x: 200
         'y': 80
       get_vpc_list:
-        x: 320
+        x: 360
         'y': 80
       get_value_of_is_default:
-        x: 1000
+        x: 1080
         'y': 280
       add_element:
-        x: 640
+        x: 680
         'y': 280
       describe_vpcs:
-        x: 100
+        x: 40
         'y': 80
       start_vpc_xml_tag:
-        x: 800
+        x: 880
         'y': 80
     results:
       SUCCESS:
