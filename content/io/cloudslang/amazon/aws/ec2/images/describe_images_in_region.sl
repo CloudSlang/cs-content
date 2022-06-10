@@ -97,7 +97,7 @@ operation:
     - proxy_port:
         required: false
     - proxyPort:
-        default: ${get("proxy_port", "8080")}
+        default: ${get("proxy_port", "")}
         required: false
         private: true
     - proxy_username:
@@ -129,7 +129,6 @@ operation:
         required: false
         default: ','
     - platform:
-        default: ''
         required: false
     - root_device_type:
         required: false
@@ -138,10 +137,8 @@ operation:
         required: false
         private: true
     - type:
-        default: ''
         required: false
     - state:
-        default: ''
         required: false
 
   java_action:
