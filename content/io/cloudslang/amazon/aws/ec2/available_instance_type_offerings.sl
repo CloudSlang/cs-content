@@ -27,7 +27,7 @@
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'
 #!!#
 ########################################################################################################################
-namespace: available_instance_type_offerings
+namespace: io.cloudslang.amazon.aws.ec2
 flow:
   name: available_instance_type_offerings
   inputs:
