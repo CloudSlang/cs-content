@@ -88,135 +88,6 @@ flow:
         navigate:
           - SUCCESS: get_vpc_security_list
           - FAILURE: on_failure
-    - set_empty_list:
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_empty_list: '${security_empty_list}'
-        publish:
-          - security_empty_list
-        navigate:
-          - SUCCESS: list_iterator
-          - FAILURE: on_failure
-    - list_iterator:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.list_iterator:
-            - list: '${vpc_security_list}'
-            - separator: '  '
-        publish:
-          - security_vpc: '${result_string}'
-        navigate:
-          - HAS_MORE: get_vpc_id_value
-          - NO_MORE: is_xml_is_empty
-          - FAILURE: on_failure
-    - get_group_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.get_by_index:
-            - list: '${security_vpc}'
-            - delimiter: ','
-            - index: '0'
-        publish:
-          - group_id: '${return_result}'
-        navigate:
-          - SUCCESS: get_group_name
-          - FAILURE: on_failure
-    - get_group_name:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.get_by_index:
-            - list: '${security_vpc}'
-            - delimiter: ','
-            - index: '1'
-        publish:
-          - group_name: '${return_result}'
-        navigate:
-          - SUCCESS: set_security_tag_value
-          - FAILURE: on_failure
-    - get_vpc_id_value:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.get_by_index:
-            - list: '${security_vpc}'
-            - delimiter: ','
-            - index: '2'
-        publish:
-          - vpc_value_id: '${return_result}'
-        navigate:
-          - SUCCESS: set_list_empty
-          - FAILURE: on_failure
-    - set_security_tag_value:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - group_id: '${group_id}'
-            - group_name: '${group_name}'
-            - security_group_empty_list: '${security_group_empty_list}'
-        publish:
-          - security_group_list: "${\"<SecurityGroup>\"+\"\\n\"+\"<SecurityGroupId>\"+group_id+\"</SecurityGroupId>\"+\"\\n\"+\"<SecurityGroupName>\"+group_name+\"</SecurityGroupName>\"+\"\\n\"+\"</SecurityGroup>\"}"
-          - security_group_empty_list
-        navigate:
-          - SUCCESS: add_element_to_the_list
-          - FAILURE: on_failure
-    - add_element_to_the_list:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.add_element:
-            - list: '${security_group_empty_list}'
-            - element: '${security_group_list}'
-            - delimiter: "${' '+\"\\n\"}"
-        publish:
-          - security_group_empty_list: '${return_result}'
-        navigate:
-          - SUCCESS: list_iterator
-          - FAILURE: on_failure
-    - end_security_xml_tag:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_group_start: '<SecurityGroups>'
-            - security_group_end: '</SecurityGroups>'
-        publish:
-          - security_group_xml: "${security_group_start+\"\\n\"+security_group_end}"
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - end_security_group_xml_tag:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_group_start: '<SecurityGroups>'
-            - security_group_end: '</SecurityGroups>'
-            - security_group_xml: '${security_group_empty_list}'
-        publish:
-          - security_group_xml: "${security_group_start+\"\\n\"+security_group_xml+\"\\n\"+security_group_end}"
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - set_list_empty:
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - security_group_empty_list: '${security_group_empty_list}'
-        publish:
-          - security_group_empty_list
-        navigate:
-          - SUCCESS: get_group_id
-          - FAILURE: on_failure
-    - is_vpc_security_list_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${vpc_security_list}'
-        navigate:
-          - SUCCESS: end_security_xml_tag
-          - FAILURE: set_empty_list
-    - is_xml_is_empty:
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${security_group_empty_list}'
-        navigate:
-          - SUCCESS: end_security_xml_tag
-          - FAILURE: end_security_group_xml_tag
     - get_vpc_security_list:
         worker_group: '${worker_group}'
         do:
@@ -224,9 +95,9 @@ flow:
             - json_data: '${return_result}'
             - vpc_id: '${vpc_id}'
         publish:
-          - vpc_security_list: "${vpc_security_list.replace('],',' ').replace('[[','').replace(']]','').replace('[','').replace(', ' ,',').replace(\"'\",'').replace(']','')}"
+          - security_group_xml: '${vpc_security_list}'
         navigate:
-          - SUCCESS: is_vpc_security_list_empty
+          - SUCCESS: SUCCESS
   outputs:
     - security_group_xml
   results:
@@ -235,61 +106,21 @@ flow:
 extensions:
   graph:
     steps:
-      is_vpc_security_list_empty:
-        x: 520
-        'y': 80
-      get_group_id:
-        x: 880
-        'y': 720
-      set_list_empty:
-        x: 880
-        'y': 520
-      set_security_tag_value:
-        x: 440
-        'y': 720
-      get_vpc_id_value:
-        x: 1040
-        'y': 360
-      set_empty_list:
-        x: 680
-        'y': 80
-      list_iterator:
-        x: 1040
-        'y': 80
-      add_element_to_the_list:
-        x: 440
-        'y': 480
-      get_group_name:
-        x: 680
-        'y': 720
-      is_xml_is_empty:
-        x: 520
-        'y': 280
-      end_security_xml_tag:
-        x: 200
-        'y': 280
-        navigate:
-          ee091afe-1085-39fa-1edc-1fc2e3742b13:
-            targetId: dd23344c-e104-c471-9e35-c58c1b2645be
-            port: SUCCESS
-      end_security_group_xml_tag:
+      describe_security_groups:
         x: 40
-        'y': 560
-        navigate:
-          6d64cec8-6d1d-f98d-1ff1-b40a902e4592:
-            targetId: dd23344c-e104-c471-9e35-c58c1b2645be
-            port: SUCCESS
+        'y': 80
       convert_xml_to_json:
         x: 200
         'y': 80
       get_vpc_security_list:
         x: 360
         'y': 80
-      describe_security_groups:
-        x: 40
-        'y': 80
+        navigate:
+          dea72b6b-f3f2-5501-1369-5bbb2791b7ef:
+            targetId: dd23344c-e104-c471-9e35-c58c1b2645be
+            port: SUCCESS
     results:
       SUCCESS:
         dd23344c-e104-c471-9e35-c58c1b2645be:
-          x: 40
-          'y': 280
+          x: 560
+          'y': 80

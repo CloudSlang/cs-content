@@ -31,36 +31,11 @@ operation:
     - vpc_id
   python_action:
     use_jython: false
-    script: |-
-      import json
-
-      def execute(json_data,vpc_id):
-          return_code = 0
-          finallist = []
-          error_message = ''
-          isArray = "[" in json_data
-          try:
-              json_load = (json.loads(json_data))
-              data=json_load['DescribeSecurityGroupsResponse']['securityGroupInfo']['item']
-              if (isArray):
-                  for x in data:
-                      List = []
-                      List.append(x['groupId'])
-                      List.append(x['groupName'])
-                      List.append(x['vpcId'])
-                      if vpc_id in x['vpcId']:
-                          finallist.append(List)
-              else:
-                  finallist.append(data['groupId'])
-                  finallist.append(data['groupName'])
-                  finallist.append(data['vpcId'])
-          except Exception as e:
-              return_code = 1
-              error_message = str(e)
-          return{"vpc_security_list":finallist, "return_code": return_code, "error_message": error_message}
+    script: "import json\n\ndef execute(json_data,vpc_id):\n    return_code = 0\n    error_message = ''\n    securityGroups_start = '<SecurityGroups>'\n    securityGroups_end = '</SecurityGroups>'\n    securityGroup_start = '<SecurityGroup>'\n    securityGroup_end = '</SecurityGroup>'\n    securityGroup_id_start = '<SecurityGroupId>'\n    securityGroup_id_end = '</SecurityGroupId>'\n    securityGroup_name_start = '<SecurityGroupName>'\n    securityGroup_name_end = '</SecurityGroupName>'\n    security_names = ''\n    isArray = \"[\" in json_data\n    try:\n        json_load = (json.loads(json_data))\n        data=json_load['DescribeSecurityGroupsResponse']['securityGroupInfo']['item']\n        if (isArray):\n            for x in data:\n                if vpc_id in x['vpcId']:\n                    security_names += securityGroup_start + '\\n'+ securityGroup_id_start+ x['groupId'] + securityGroup_id_end + '\\n' + securityGroup_name_start + x['groupName'] + securityGroup_name_end +'\\n'+securityGroup_end +'\\n'\n            \n            security_names = securityGroups_start +'\\n' + security_names + securityGroups_end        \n        else:\n            security_names += securityGroup_start + '\\n'+ securityGroup_id_start+ x['groupId'] + securityGroup_id_end + '\\n' + securityGroup_name_start + x['groupName'] + securityGroup_name_end +'\\n'+securityGroup_end +'\\n'\n            \n            security_names = securityGroups_start +'\\n' + security_names + securityGroups_end\n    except Exception as e:\n        return_code = 1\n        error_message = str(e)\n    return{\"vpc_security_list\":security_names, \"return_code\": return_code, \"error_message\": error_message}"
   outputs:
     - vpc_security_list
     - return_code
     - error_message
   results:
     - SUCCESS
+
