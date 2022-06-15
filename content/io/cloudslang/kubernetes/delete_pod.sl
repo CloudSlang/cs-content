@@ -229,7 +229,6 @@ flow:
   results:
     - FAILURE
     - SUCCESS
-    - FAILURE
 extensions:
   graph:
     steps:
@@ -246,14 +245,14 @@ extensions:
           fecfee15-18bf-1fc4-6d04-ef2e93fb0f15:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      check_pod_details:
-        x: 360
-        'y': 120
       wait_before_check:
         x: 560
         'y': 320
       delete_pod:
         x: 200
+        'y': 120
+      check_pod_details:
+        x: 360
         'y': 120
       counter:
         x: 360
