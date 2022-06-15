@@ -54,7 +54,7 @@ operation:
         default: ','
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.6-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-excel:0.0.7-SNAPSHOT'
     class_name: 'io.cloudslang.content.excel.actions.CreateExcelFile'
     method_name: 'execute'
 
