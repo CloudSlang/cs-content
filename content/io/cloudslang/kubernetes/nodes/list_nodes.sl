@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation list objects of kind Node.
 #!
-#! @input kubernetes_host: Kubernetes host..
+#! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #! @input kubernetes_auth_token: Kubernetes authorization token.

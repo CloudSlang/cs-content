@@ -13,13 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation get the specified node details.
+#! @description: This operation creates the pod.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
+#!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input node_name: Name of the node.
+#! @input namespace: Name of the namespace under pod to be created.
+#! @input pod_json_body: The JSON input of the pod.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -51,17 +53,19 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: The list of the data center locations that are valid for the specified subscription.
+#! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output pod_name: Name of the pod.
+#! @output pod_json: The details of created pod.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.nodes
+namespace: io.cloudslang.kubernetes.pods
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_node_details
+  name: create_pod
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -69,7 +73,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - node_name
+    - namespace
+    - pod_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -94,13 +99,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_kubernetes_node_details:
+    - api_to_create_kubernetes_pod:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/nodes/'+node_name}"
+          io.cloudslang.base.http.http_client_post:
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/pods'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -115,32 +120,62 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
+            - body: '${pod_json_body}'
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - return_result
+          - pod_json: '${return_result}'
           - status_code
+        navigate:
+          - SUCCESS: set_pod_name
+          - FAILURE: on_failure
+    - set_pod_name:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${pod_json}'
+            - json_path: 'metadata,name'
+        publish:
+          - pod_name: '${return_result}'
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: "${'Pod '+pod_name+' has been created successfully.'}"
+        publish:
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - pod_name
+    - pod_json
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      api_to_get_kubernetes_node_details:
+      api_to_create_kubernetes_pod:
+        x: 120
+        'y': 120
+      set_pod_name:
         x: 280
-        'y': 200
+        'y': 120
+      set_success_message:
+        x: 440
+        'y': 120
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          02459e3f-6017-3370-2a55-91fae1f2b329:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 600
+          'y': 120
