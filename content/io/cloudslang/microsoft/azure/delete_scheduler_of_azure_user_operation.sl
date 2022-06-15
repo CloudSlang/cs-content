@@ -15,7 +15,6 @@
 #!!
 #! @description: This workflow deletes the given scheduler.
 #!
-#! @input action_name: The name of the user operation.
 #! @input scheduler_id: The scheduler id to be deleted.
 #! @input start_vm_scheduler_id: Start VM scheduler ID. Optional
 #! @input start_vm_scheduler_time: Start VM scheduler time. Optional
@@ -47,7 +46,6 @@ imports:
 flow:
   name: delete_scheduler_of_azure_user_operation
   inputs:
-    - action_name
     - scheduler_id:
         required: true
     - start_vm_scheduler_id:
@@ -71,6 +69,8 @@ flow:
             - start_vm_scheduler_id_time: '${start_vm_scheduler_time}'
             - stop_and_deallocate_vm_scheduler_id: '${stop_and_deallocate_vm_scheduler_id}'
             - stop_and_deallocate_vm_scheduler_time: '${stop_and_deallocate_vm_scheduler_time}'
+            - scheduler_id_in: '${scheduler_id}'
+            - action_name: '${scheduler_id}'
         publish:
           - dnd_rest_user
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
@@ -78,6 +78,8 @@ flow:
           - updated_start_vm_scheduler_time: '${start_vm_scheduler_id_time}'
           - updated_stop_and_deallocate_vm_scheduler_id: '${stop_and_deallocate_vm_scheduler_id}'
           - updated_stop_and_deallocate_vm_scheduler_time: '${stop_and_deallocate_vm_scheduler_time}'
+          - scheduler_id: '${scheduler_id_in.split("::")[0]}'
+          - action_name: '${scheduler_id_in.split("::")[1]}'
         navigate:
           - SUCCESS: api_call_to_delete_scheduler
           - FAILURE: on_failure
@@ -147,7 +149,7 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${action_name}'
-            - second_string: Azure Stop and Deallocate VM
+            - second_string: Azure Stop VM and Deallocate Public IP
         navigate:
           - SUCCESS: set_scheduler_id_and_time_empty
           - FAILURE: on_failure

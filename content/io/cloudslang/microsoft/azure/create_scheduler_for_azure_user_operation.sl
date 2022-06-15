@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow creates scheduler for "azure start vm" and "azure stop and deallocate vm" operations.
+#! @description: This workflow creates scheduler for "azure start vm" and "azure stop vm and deallocate public ip" operations.
 #!
 #! @input schedule_time: Schedule time of the start VM.
 #!                       Optional
@@ -185,7 +185,7 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${action_name}'
-            - second_string: Azure Stop and Deallocate VM
+            - second_string: Azure Stop VM and Deallocate Public IP
             - ignore_case: 'true'
         navigate:
           - SUCCESS: check_stop_and_deallocate_vm_scheduler_is_present
@@ -193,7 +193,7 @@ flow:
     - stop_and_deallocate_vm_json_body:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - stop_and_deallocate_vm_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Stop and Deallocate VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - stop_and_deallocate_vm_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Stop VM and Deallocate Public IP\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
         publish:
           - scheduler_json_body: '${stop_and_deallocate_vm_json_body}'
         navigate:
@@ -213,7 +213,7 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${action_name}'
-            - second_string: Azure Stop and Deallocate VM
+            - second_string: Azure Stop VM and Deallocate Public IP
         navigate:
           - SUCCESS: get_scheduler_id_of_stop_and_deallocate_vm_scheduler
           - FAILURE: on_failure
@@ -260,7 +260,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.append:
-            - text: stop_and_deallocate_vm_v4 operation.
+            - text: stop_vm_and_deallocate_public_ip operation.
             - origin_string: 'Already scheduler is present for '
         publish:
           - error_message: '${new_string}'
