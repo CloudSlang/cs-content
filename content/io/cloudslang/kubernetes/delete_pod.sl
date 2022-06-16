@@ -130,7 +130,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
-            - json_input: '${pod_json}'
+            - json_input: '${return_result}'
             - json_path: reason
         publish:
           - pod_status: '${return_result}'
@@ -262,11 +262,11 @@ extensions:
             targetId: c9102be8-9863-2027-22f4-33ca633b909c
             port: NO_MORE
     results:
-      SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1000
-          'y': 120
       FAILURE:
         c9102be8-9863-2027-22f4-33ca633b909c:
           x: 560
           'y': 520
+      SUCCESS:
+        11a314fb-962f-5299-d0a5-ada1540d2904:
+          x: 1000
+          'y': 120
