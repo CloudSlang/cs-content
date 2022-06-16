@@ -91,7 +91,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.7-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-excel:0.0.8-SNAPSHOT'
     class_name: 'io.cloudslang.content.excel.actions.ModifyCell'
     method_name: 'execute'
 
