@@ -55,6 +55,7 @@
 #!                        Optional
 #!
 #! @output endpoint_json: The endpoint created  successfully.
+#! @output return_result: This will contain the response entity.
 #! @output endpoint_name: Name of the endpoint.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!!#
@@ -124,18 +125,30 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - endpoint_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
-          - SUCCESS: get_endpoint_name
+          - SUCCESS: set_endpoint_name
           - FAILURE: on_failure
-    - get_endpoint_name:
+    - set_endpoint_name:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${endpoint_json}'
+            - json_object: '${return_result}'
             - json_path: $.metadata.name
         publish:
           - endpoint_name: "${return_result.strip('\"')}"
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'Endpoint '+endpoint_name+' has been created successfully.'}"
+            - endpoint_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - endpoint_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -143,6 +156,7 @@ flow:
     - endpoint_json
     - endpoint_name
     - status_code
+    - return_result
   results:
     - SUCCESS
     - FAILURE
@@ -150,17 +164,20 @@ extensions:
   graph:
     steps:
       api_call_to_create_kubernetes_endpoint:
+        x: 80
+        'y': 160
+      set_endpoint_name:
         x: 240
-        'y': 200
-      get_endpoint_name:
+        'y': 160
+      set_success_message:
         x: 400
-        'y': 200
+        'y': 160
         navigate:
-          ced4344f-3e66-4b66-7fdb-eec6d6492ec6:
+          de36887a-7a20-4969-57d8-d05ee4340ba5:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 600
+          'y': 160

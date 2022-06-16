@@ -54,6 +54,7 @@
 #!                        Optional
 #!
 #! @output endpoint_json: The details of the given endpoint.
+#! @output return_result: This will contain the response entity (unless destinationFile is specified).
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result FAILURE: The operation failed to fetch the details of the given endpoint.
@@ -123,14 +124,27 @@ flow:
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
             - content_type: application/json
         publish:
-          - endpoint_json: '${return_result}'
           - status_code
+          - return_result
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'Endpoint '+endpoint_name+' has been created successfully.'}"
+            - endpoint_json: '${return_result}'
+        publish:
+          - endpoint_json
+          - return_result: '${message}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - endpoint_json
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -138,14 +152,17 @@ extensions:
   graph:
     steps:
       api_to_get_kubernetes_end_point_deatils:
+        x: 80
+        'y': 160
+      set_success_message:
         x: 280
-        'y': 200
+        'y': 160
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          1226144f-992c-ffe4-45e5-268efc97e267:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 520
+          'y': 160

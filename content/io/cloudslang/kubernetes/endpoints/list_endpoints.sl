@@ -122,10 +122,10 @@ flow:
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
             - content_type: application/json
         publish:
-          - endpoints_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
-          - SUCCESS: get_list_of_endpoints
+          - SUCCESS: set_success_message
           - FAILURE: on_failure
     - get_list_of_endpoints:
         do:
@@ -136,6 +136,18 @@ flow:
           - list_of_endpoints: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'Information about the endpoints under namespace  '+namespace+' has been successfully retrieved.'}"
+            - endpoints_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - endpoints_json
+        navigate:
+          - SUCCESS: get_list_of_endpoints
           - FAILURE: on_failure
   outputs:
     - list_of_endpoints
@@ -148,15 +160,18 @@ extensions:
   graph:
     steps:
       api_to_list_kubernetes_endpoints:
-        x: 200
+        x: 80
         'y': 200
       get_list_of_endpoints:
-        x: 400
+        x: 440
         'y': 200
         navigate:
           92876206-03c8-0dde-48b3-917528021231:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      set_success_message:
+        x: 240
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

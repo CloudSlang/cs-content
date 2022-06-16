@@ -127,6 +127,16 @@ flow:
           - return_result
           - status_code
         navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: "${'Endpoint '+endpoint_name+' has been successfully deleted.'}"
+        publish:
+          - return_result
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
@@ -141,12 +151,15 @@ extensions:
       api_call_to_delete_kubernetes_endpoint:
         x: 160
         'y': 200
+      set_success_message:
+        x: 320
+        'y': 200
         navigate:
-          1a5713bb-3c10-370a-de4f-ea109eed6f1b:
+          6de56230-64b6-97b8-5133-5c27ec1ac7a7:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
+          x: 520
           'y': 200
