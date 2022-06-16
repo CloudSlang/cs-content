@@ -121,7 +121,6 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - pods_json: '${return_result}'
           - status_code
           - return_result
         navigate:
@@ -131,9 +130,11 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - return_result: "${'Information about the pods under namespace  '+namespace+' has been successfully retrieved.'}"
+            - message: "${'Information about the pods under namespace  '+namespace+' has been successfully retrieved.'}"
+            - pods_json: '${return_result}'
         publish:
-          - return_result
+          - return_result: '${message}'
+          - pods_json
         navigate:
           - SUCCESS: json_path_query
           - FAILURE: on_failure

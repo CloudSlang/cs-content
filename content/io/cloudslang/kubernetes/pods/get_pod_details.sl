@@ -122,7 +122,6 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - pod_json: '${return_result}'
           - status_code
           - return_result
         navigate:
@@ -132,9 +131,11 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - return_result: "${'Information about the pod '+pod_name+' has been successfully retrieved.'}"
+            - message: "${'Information about the pod '+pod_name+' has been successfully retrieved.'}"
+            - pod_json: '${return_result}'
         publish:
-          - return_result
+          - return_result: '${message}'
+          - pod_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure

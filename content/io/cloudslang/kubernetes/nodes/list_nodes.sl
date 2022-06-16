@@ -118,7 +118,6 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - nodes_json: '${return_result}'
           - status_code
           - return_result
         navigate:
@@ -128,9 +127,11 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - return_result: Information about the nodes successfully retrieved.
+            - message: Information about the nodes successfully retrieved.
+            - nodes_json: '${return_result}'
         publish:
-          - return_result
+          - return_result: '${message}'
+          - nodes_json
         navigate:
           - SUCCESS: json_path_query
           - FAILURE: on_failure

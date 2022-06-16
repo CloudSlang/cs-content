@@ -125,7 +125,6 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - pod_json: '${return_result}'
           - status_code
           - return_result
         navigate:
@@ -135,7 +134,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
-            - json_input: '${pod_json}'
+            - json_input: '${return_result}'
             - json_path: 'metadata,name'
         publish:
           - pod_name: '${return_result}'
@@ -146,9 +145,11 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - return_result: "${'Pod '+pod_name+' has been successfully replaced.'}"
+            - message: "${'Pod '+pod_name+' has been successfully replaced.'}"
+            - pod_json: '${return_result}'
         publish:
-          - return_result
+          - return_result: '${message}'
+          - pod_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
