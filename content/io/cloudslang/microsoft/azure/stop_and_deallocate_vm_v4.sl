@@ -25,14 +25,8 @@
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
 #! @input enable_public_ip: The value of property will be true if the VM has public IP Address.
-#! @input schedule_time: Schedule time of the stop and deallocating the VM.
-#!                       Optional
 #! @input schedule_time_zone: Schedule time zone of the stop and deallocate VM.Optional
 #! @input stop_and_deallocate_vm_scheduler_id: Stop and deallocate VM scheduler ID.Optional
-#! @input cancel_scheduler: The value of property will be yes if the scheduler has to cancel, otherwise no.
-#!                          Optional
-#! @input stop_and_deallocate_vm_scheduler_time: Stop and deallocate VM scheduler time.Optional
-#! @input component_id: The service component ID.
 #! @input connect_timeout: Time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #!                         Optional
@@ -71,9 +65,9 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output scheduler_id: Stop and deallocate VM scheduler ID.
 #! @output public_ip_address: The primary IP Address of the VM.
 #! @output power_state: Power state of the Virtual Machine.
+#! @output updated_scheduler_id: Stop and deallocate VM scheduler ID.
 #! @output updated_stop_and_deallocate_vm_scheduler_time: Stop and deallocate VM scheduler time.
 #!
 #! @result FAILURE: There was an error while trying to run every step of the flow.
@@ -107,17 +101,9 @@ flow:
         required: true
         sensitive: true
     - enable_public_ip
-    - schedule_time:
-        required: false
-    - schedule_time_zone:
+    - scheduler_time_zone:
         required: false
     - stop_and_deallocate_vm_scheduler_id:
-        required: false
-    - cancel_scheduler:
-        required: false
-    - stop_and_deallocate_vm_scheduler_time:
-        required: false
-    - component_id:
         required: false
     - connect_timeout:
         default: '0'
@@ -179,285 +165,7 @@ flow:
           - error_message: '${exception}'
         navigate:
           - SUCCESS: get_tenant_id
-          - FAILURE: on_failure
-    - get_power_state:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.compute.virtual_machines.get_power_state:
-            - vm_name
-            - subscription_id
-            - resource_group_name
-            - auth_token
-            - connect_timeout
-            - socket_timeout: '0'
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
-        publish:
-          - power_state: '${power_state}'
-          - power_status: '${output}'
-          - status_code
-          - error_message
-        navigate:
-          - SUCCESS: check_power_state
-          - FAILURE: on_failure
-    - check_schedule_time_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${schedule_time}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: check_cancel_scheduler_empty
-          - FAILURE: check_schedule_time_zone_empty
-    - check_stop_and_deallocate_vm_scheduler_id_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${stop_and_deallocate_vm_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: scheduler_time
-          - FAILURE: FAILURE
-    - scheduler_time:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.schedule_time:
-            - scheduler_time: '${schedule_time}'
-            - scheduler_time_zone: '${schedule_time_zone}'
-        publish:
-          - scheduler_start_time
-          - trigger_expression
-          - time_zone
-          - exception
-        navigate:
-          - SUCCESS: get_optional_properties_json
-          - FAILURE: on_failure
-    - api_call_to_create_scheduler:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules'}"
-            - username: '${dnd_rest_user}'
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
-            - trust_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
-                sensitive: true
-            - connect_timeout: "${get_sp('io.cloudslang.microfocus.content.connect_timeout')}"
-            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
-            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.schedule_stop_and_deallocate_vm\",\"scheduleName\": \"Schedule Azure Stop and deallocate VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false},{\"name\": \"proxy_host\",\"value\": \"' + proxy_host + '\",\"sensitive\": false},{\"name\": \"proxy_port\", \"value\": \"' + proxy_port + '\",\"sensitive\": false},{\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' +x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
-            - content_type: application/json
-            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
-        publish:
-          - response_headers
-          - status_code
-          - error_message
-        navigate:
-          - SUCCESS: get_scheduler_id
-          - FAILURE: on_failure
-    - get_scheduler_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - input1: '${response_headers.split("Location: /schedules/")[1]}'
-            - scheduler_start_time: '${scheduler_start_time}'
-            - time_zone: '${time_zone}'
-        publish:
-          - scheduler_id: '${input1.split("X-Content-Type-Options:")[0]}'
-          - updated_stop_and_deallocate_vm_scheduler_time: "${scheduler_start_time + ' ' + time_zone}"
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - check_cancel_scheduler_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${cancel_scheduler}'
-            - second_string: 'yes'
-        navigate:
-          - SUCCESS: check_stop_and_deallocate_vm_scheduler_id
-          - FAILURE: stop_and_deallocate_vm_v3
-    - api_call_to_delete_scheduler:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip(\" \")}"
-            - username: '${dnd_rest_user}'
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
-            - trust_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
-                sensitive: true
-            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
-            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - check_stop_and_deallocate_vm_scheduler_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${stop_and_deallocate_vm_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: api_call_to_delete_scheduler
-    - check_schedule_time_zone:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${schedule_time_zone}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: check_stop_and_deallocate_vm_scheduler_id_empty
-    - check_schedule_time_zone_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${schedule_time_zone}'
-            - second_string: Not Applicable
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: check_schedule_time_zone
-    - check_enable_public_ip:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${enable_public_ip}'
-            - second_string: 'true'
-            - ignore_case: 'true'
-        navigate:
-          - SUCCESS: set_public_ip_address
-          - FAILURE: check_schedule_time_empty
-    - check_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${power_status}'
-            - json_path: 'statuses,1,code'
-        publish:
-          - expected_power_state: '${return_result}'
-        navigate:
-          - SUCCESS: compare_power_state
-          - FAILURE: on_failure
-    - compare_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${expected_power_state}'
-            - second_string: PowerState/deallocated
-        navigate:
-          - SUCCESS: check_enable_public_ip
-          - FAILURE: check_schedule_time_empty
-    - get_optional_properties_json:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.utils.set_optional_properties_json:
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - component_id: '${component_id}'
-        publish:
-          - optional_properties_json
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: check_optional_property_json_empty
-    - check_optional_property_json_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${optional_properties_json}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: api_call_to_create_scheduler
-          - FAILURE: api_call_to_create_scheduler_with_optional_values
-    - api_call_to_create_scheduler_with_optional_values:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules'}"
-            - username: '${dnd_rest_user}'
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
-            - trust_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
-                sensitive: true
-            - connect_timeout: "${get_sp('io.cloudslang.microfocus.content.connect_timeout')}"
-            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
-            - body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.schedule_stop_and_deallocate_vm\",\"scheduleName\": \"Schedule Azure Stop and deallocate VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"vm_name\", \"value\": \"' + vm_name + '\", \"sensitive\": false}, { \"name\": \"subscription_id\", \"value\": \"' + subscription_id + '\", \"sensitive\": false},{ \"name\": \"resource_group_name\", \"value\": \"' + resource_group_name +'\", \"sensitive\": false},{ \"name\": \"tenant_id\", \"value\": \"' + tenant_id + '\", \"sensitive\": false},{ \"name\": \"client_id\", \"value\": \"' + client_id + '\", \"sensitive\": false},{\"name\": \"client_secret\",\"value\": \"' + client_secret + '\", \"sensitive\": true},{\"name\": \"enable_public_ip\", \"value\": \"' + enable_public_ip + '\", \"sensitive\": false},{ \"name\": \"connect_timeout\", \"value\": \"' + connect_timeout + '\", \"sensitive\": false},{\"name\": \"polling_interval\", \"value\": \"' + polling_interval + '\", \"sensitive\": false}, ' + optional_properties_json +' {\"name\": \"trust_all_roots\",\"value\": \"' + trust_all_roots + '\",\"sensitive\": false},{\"name\":\"x_509_hostname_verifier\",\"value\": \"' + x_509_hostname_verifier + '\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
-            - content_type: application/json
-            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
-        publish:
-          - response_headers
-          - status_code
-          - error_message
-        navigate:
-          - SUCCESS: get_scheduler_id
-          - FAILURE: on_failure
-    - set_public_ip_address:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_name: '${vm_name}'
-        publish:
-          - public_ip_address: '${vm_name}'
-        navigate:
-          - SUCCESS: check_schedule_time_empty
-          - FAILURE: on_failure
+          - FAILURE: check_stop_and_deallocate_vm_scheduler_id_empty_1
     - stop_and_deallocate_vm_v3:
         worker_group:
           value: '${worker_group}'
@@ -489,132 +197,201 @@ flow:
           - power_state
           - public_ip_address
           - return_code
+          - error_message
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+          - SUCCESS: check_stop_and_deallocate_vm_scheduler_id_empty
+          - FAILURE: check_stop_and_deallocate_vm_scheduler_id_empty_1
     - get_tenant_id:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
             - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
             - scheduler_id: '${stop_and_deallocate_vm_scheduler_id}'
-            - updated_stop_and_deallocate_vm_scheduler_time: '${stop_and_deallocate_vm_scheduler_time}'
         publish:
           - dnd_rest_user
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
-          - scheduler_id
-          - updated_stop_and_deallocate_vm_scheduler_time
+          - updated_scheduler_id: '${scheduler_id}'
         navigate:
-          - SUCCESS: get_power_state
+          - SUCCESS: stop_and_deallocate_vm_v3
+          - FAILURE: check_stop_and_deallocate_vm_scheduler_id_empty_1
+    - check_stop_and_deallocate_vm_scheduler_id_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${stop_and_deallocate_vm_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: get_scheduler_details
+    - get_value:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: nextFireTime
+        publish:
+          - next_run_in_unix_time: '${return_result}'
+        navigate:
+          - SUCCESS: time_format
+          - FAILURE: on_failure
+    - time_format:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.time_format:
+            - time: '${next_run_in_unix_time}'
+            - timezone: '${scheduler_time_zone}'
+            - format: '%Y-%m-%dT%H:%M:%S'
+        publish:
+          - updated_stop_and_deallocate_vm_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
+        navigate:
+          - SUCCESS: SUCCESS
+    - get_scheduler_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_get:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip()}"
+            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+        publish:
+          - return_result
+          - error_message
+        navigate:
+          - SUCCESS: get_value
+          - FAILURE: on_failure
+    - check_stop_and_deallocate_vm_scheduler_id_empty_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${stop_and_deallocate_vm_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: get_scheduler_details_1
+    - get_value_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: nextFireTime
+        publish:
+          - next_run_in_unix_time: '${return_result}'
+        navigate:
+          - SUCCESS: time_format_1
+          - FAILURE: on_failure
+    - time_format_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.time_format:
+            - time: '${next_run_in_unix_time}'
+            - timezone: '${scheduler_time_zone}'
+            - format: '%Y-%m-%dT%H:%M:%S'
+        publish:
+          - updated_stop_and_deallocate_vm_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
+        navigate:
+          - SUCCESS: FAILURE
+    - get_scheduler_details_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_get:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip()}"
+            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+        publish:
+          - return_result
+          - error_message
+        navigate:
+          - SUCCESS: get_value_1
           - FAILURE: on_failure
   outputs:
-    - scheduler_id
     - public_ip_address
     - power_state
+    - updated_scheduler_id
     - updated_stop_and_deallocate_vm_scheduler_time
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
-      check_power_state:
-        x: 40
-        'y': 320
-      api_call_to_create_scheduler:
-        x: 1160
-        'y': 720
       get_auth_token_using_web_api:
         x: 40
-        'y': 120
+        'y': 80
       check_stop_and_deallocate_vm_scheduler_id_empty:
-        x: 1000
-        'y': 120
+        x: 360
+        'y': 280
         navigate:
-          b0e3a4b5-a772-78f7-dcc7-cd41ca4a55f4:
-            targetId: 982c534f-a49d-7b50-8804-eefbdb22843c
-            port: FAILURE
-      api_call_to_create_scheduler_with_optional_values:
-        x: 1000
-        'y': 520
+          734741f0-5e88-3f88-0d91-0f3444d5c30d:
+            targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
+            port: SUCCESS
+      get_scheduler_details_1:
+        x: 40
+        'y': 480
       get_tenant_id:
         x: 200
-        'y': 120
-      get_scheduler_id:
-        x: 1000
-        'y': 720
+        'y': 80
+      get_value:
+        x: 680
+        'y': 80
+      time_format:
+        x: 840
+        'y': 80
         navigate:
-          5eed7b79-c5a1-2f9b-58bf-286142b3ffbd:
+          4bd5ecf5-2f0e-014f-b077-8321576fb7ed:
             targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
             port: SUCCESS
       stop_and_deallocate_vm_v3:
-        x: 640
-        'y': 520
+        x: 360
+        'y': 80
+      check_stop_and_deallocate_vm_scheduler_id_empty_1:
+        x: 45.002540588378906
+        'y': 299.1111145019531
         navigate:
-          26ffdf57-c3af-f0d4-ef8c-1255b9cd0c32:
-            targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
+          56acfde7-2c80-7b4e-7004-db89cd33cecc:
+            targetId: 148c5d72-2a50-7b67-8096-2d705b954816
             port: SUCCESS
-      check_schedule_time_empty:
+      get_scheduler_details:
         x: 520
-        'y': 120
-      check_schedule_time_zone:
-        x: 840
-        'y': 120
-        navigate:
-          e2330162-e802-e4ca-d47d-4daf4d24a34c:
-            targetId: 982c534f-a49d-7b50-8804-eefbdb22843c
-            port: SUCCESS
-      get_power_state:
-        x: 360
-        'y': 120
-      api_call_to_delete_scheduler:
-        x: 840
-        'y': 520
-        navigate:
-          c30da958-a26c-5338-3400-ce2a68314d0e:
-            targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
-            port: SUCCESS
-      scheduler_time:
-        x: 1160
-        'y': 120
-      check_stop_and_deallocate_vm_scheduler_id:
-        x: 680
-        'y': 320
-        navigate:
-          9503230f-e28b-ad48-5e48-e372253abcd8:
-            targetId: 982c534f-a49d-7b50-8804-eefbdb22843c
-            port: SUCCESS
-      set_public_ip_address:
-        x: 360
-        'y': 520
-      check_optional_property_json_empty:
-        x: 1160
-        'y': 520
-      check_enable_public_ip:
-        x: 360
-        'y': 320
-      check_schedule_time_zone_empty:
-        x: 680
-        'y': 120
-        navigate:
-          e798600c-def0-c244-6b71-f9f5faafdd04:
-            targetId: 982c534f-a49d-7b50-8804-eefbdb22843c
-            port: SUCCESS
-      check_cancel_scheduler_empty:
-        x: 520
-        'y': 320
-      compare_power_state:
+        'y': 80
+      get_value_1:
         x: 200
-        'y': 320
-      get_optional_properties_json:
-        x: 1160
-        'y': 320
+        'y': 480
+      time_format_1:
+        x: 360
+        'y': 480
+        navigate:
+          10c1bc4e-c3b8-a49c-dcce-c76f221f7eda:
+            targetId: 148c5d72-2a50-7b67-8096-2d705b954816
+            port: SUCCESS
     results:
-      FAILURE:
-        982c534f-a49d-7b50-8804-eefbdb22843c:
-          x: 840
-          'y': 320
       SUCCESS:
         49f71b73-1825-42e1-f00c-2b1e4388e4f9:
           x: 840
-          'y': 720
+          'y': 280
+      FAILURE:
+        148c5d72-2a50-7b67-8096-2d705b954816:
+          x: 600
+          'y': 480
