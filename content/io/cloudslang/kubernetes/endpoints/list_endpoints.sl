@@ -53,7 +53,8 @@
 #!                        Optional
 #!
 #! @output endpoints_json: The list of enpoints.
-#! @output list_of_endpoints: The list of endpoints .
+#! @output list_of_endpoints: The list of endpoints.
+#! @output return_result: This will contain the response entity (unless destinationFile is specified).
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result FAILURE: The operation failed to list endpoints.
@@ -153,6 +154,7 @@ flow:
     - list_of_endpoints
     - endpoints_json
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
