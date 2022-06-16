@@ -21,7 +21,7 @@
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: The name of the namespace.
-#! @input endpointname: Name of the endpoint.
+#! @input endpoint_name: Name of the endpoint.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -75,7 +75,7 @@ flow:
     - kubernetes_auth_token:
         sensitive: true
     - namespace
-    - endpointname
+    - endpoint_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -106,7 +106,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/endpoints/'+endpointname}"
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/endpoints/'+endpoint_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -149,4 +149,3 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
-

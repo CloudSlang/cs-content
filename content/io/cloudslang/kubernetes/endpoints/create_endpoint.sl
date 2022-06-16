@@ -19,8 +19,10 @@
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace.
-#! @input endpointname: Name of the endpoint to be created.
+#! @input namespace: The name of the namespace.
+#! @input endpoint_json_body: Name of the endpoint to be created.
+#!                            Example: '{"kind": "Endpoints", "apiVersion": "v1", "metadata":
+#!                                      {"name":"'+endpoint_name+'","namespace": "'+namespace+'"}}'.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,6 +55,7 @@
 #!                        Optional
 #!
 #! @output endpoint_json: The endpoint created  successfully.
+#! @output endpoint_name: Name of the endpoint.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!!#
 ########################################################################################################################
@@ -71,7 +74,7 @@ flow:
     - kubernetes_auth_token:
         sensitive: true
     - namespace
-    - endpointname
+    - endpoint_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -117,17 +120,28 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - body: "${'{\"kind\": \"Endpoints\", \"apiVersion\": \"v1\", \"metadata\": {\"name\":\"'+endpointname+'\",\"namespace\": \"'+namespace+'\"}}'}"
+            - body: '${endpoint_json_body}'
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
           - endpoint_json: '${return_result}'
           - status_code
         navigate:
+          - SUCCESS: get_endpoint_name
+          - FAILURE: on_failure
+    - get_endpoint_name:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${endpoint_json}'
+            - json_path: $.metadata.name
+        publish:
+          - endpoint_name: "${return_result.strip('\"')}"
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - endpoint_json
+    - endpoint_name
     - status_code
   results:
     - SUCCESS
@@ -136,10 +150,13 @@ extensions:
   graph:
     steps:
       api_call_to_create_kubernetes_endpoint:
-        x: 280
+        x: 240
+        'y': 200
+      get_endpoint_name:
+        x: 400
         'y': 200
         navigate:
-          29724fb6-c300-9135-e811-dbbfd24f8eb2:
+          ced4344f-3e66-4b66-7fdb-eec6d6492ec6:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
@@ -147,4 +164,3 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
-

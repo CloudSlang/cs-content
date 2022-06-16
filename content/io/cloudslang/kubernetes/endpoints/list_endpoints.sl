@@ -53,6 +53,7 @@
 #!                        Optional
 #!
 #! @output endpoints_json: The list of enpoints.
+#! @output list_of_endpoints: The list of endpoints .
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result FAILURE: The operation failed to list endpoints.
@@ -124,9 +125,20 @@ flow:
           - endpoints_json: '${return_result}'
           - status_code
         navigate:
+          - SUCCESS: get_list_of_endpoints
+          - FAILURE: on_failure
+    - get_list_of_endpoints:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${endpoints_json}'
+            - json_path: '$.items[*].metadata.name'
+        publish:
+          - list_of_endpoints: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
+    - list_of_endpoints
     - endpoints_json
     - status_code
   results:
@@ -136,15 +148,17 @@ extensions:
   graph:
     steps:
       api_to_list_kubernetes_endpoints:
-        x: 280
+        x: 200
+        'y': 200
+      get_list_of_endpoints:
+        x: 400
         'y': 200
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          92876206-03c8-0dde-48b3-917528021231:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
+          x: 680
           'y': 200
-
