@@ -55,6 +55,7 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output pods_json: The details of all pods under given namespace.
+#! @output pod_list: The list of pods in following format ["pod1","pod2"]
 #!!#
 ########################################################################################################################
 
@@ -122,6 +123,7 @@ flow:
         publish:
           - pods_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -133,30 +135,45 @@ flow:
         publish:
           - return_result
         navigate:
+          - SUCCESS: json_path_query
+          - FAILURE: on_failure
+    - json_path_query:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${pods_json}'
+            - json_path: '$.items[*].metadata.name'
+        publish:
+          - pod_list: '${return_result}'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
     - pods_json
+    - pod_list
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      set_success_message:
-        x: 280
-        'y': 120
-        navigate:
-          02459e3f-6017-3370-2a55-91fae1f2b329:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       api_to_list_kubernetes_pods:
         x: 80
         'y': 120
+      set_success_message:
+        x: 280
+        'y': 120
+      json_path_query:
+        x: 480
+        'y': 120
+        navigate:
+          f829c79d-44ca-a106-b927-94141bb7eba0:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 480
+          x: 680
           'y': 120

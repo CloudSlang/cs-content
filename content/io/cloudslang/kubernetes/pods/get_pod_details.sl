@@ -124,6 +124,7 @@ flow:
         publish:
           - pod_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -147,6 +148,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_to_get_kubernetes_pod_details:
+        x: 80
+        'y': 120
       set_success_message:
         x: 280
         'y': 120
@@ -154,9 +158,6 @@ extensions:
           02459e3f-6017-3370-2a55-91fae1f2b329:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_get_kubernetes_pod_details:
-        x: 80
-        'y': 120
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

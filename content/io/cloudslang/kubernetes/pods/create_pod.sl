@@ -126,6 +126,7 @@ flow:
         publish:
           - pod_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
           - SUCCESS: set_pod_name
           - FAILURE: on_failure

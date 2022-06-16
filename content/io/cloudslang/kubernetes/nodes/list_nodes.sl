@@ -52,6 +52,8 @@
 #!
 #! @output return_result: The list of the data center locations that are valid for the specified subscription.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output node_list: The list of nodes in following format ["node1","node2"]
+#! @output nodes_json: The details of all the nodes.
 #!!#
 ########################################################################################################################
 
@@ -116,14 +118,38 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - return_result
+          - nodes_json: '${return_result}'
           - status_code
+          - return_result
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: Information about the nodes successfully retrieved.
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: json_path_query
+          - FAILURE: on_failure
+    - json_path_query:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${nodes_json}'
+            - json_path: '$.items[*].metadata.name'
+        publish:
+          - node_list: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - node_list
+    - nodes_json
   results:
     - FAILURE
     - SUCCESS
@@ -131,14 +157,20 @@ extensions:
   graph:
     steps:
       api_to_get_kubernetes_nodes:
-        x: 280
+        x: 40
+        'y': 200
+      set_success_message:
+        x: 240
+        'y': 200
+      json_path_query:
+        x: 440
         'y': 200
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          b5d42724-981c-7d16-fe78-2e6faa78e997:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 520
-          'y': 80
+          x: 640
+          'y': 200

@@ -51,7 +51,8 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: The list of the data center locations that are valid for the specified subscription.
+#! @output return_result: This will contain the response entity.
+#! @output node_json: The details of the node.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!!#
 ########################################################################################################################
@@ -118,14 +119,26 @@ flow:
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
-          - return_result
+          - node_json: '${return_result}'
           - status_code
+          - return_result
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: "${'Information about the node '+node_name+' has been successfully retrieved.'}"
+        publish:
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - node_json
   results:
     - FAILURE
     - SUCCESS
@@ -133,10 +146,13 @@ extensions:
   graph:
     steps:
       api_to_get_kubernetes_node_details:
+        x: 40
+        'y': 200
+      set_success_message:
         x: 280
         'y': 200
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          85ed397a-c9f2-6ed3-e5d8-b4d209eab81c:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:

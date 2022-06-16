@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation get the specified node details.
+#! @description: This operation replace the specified pod.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
@@ -127,6 +127,7 @@ flow:
         publish:
           - pod_json: '${return_result}'
           - status_code
+          - return_result
         navigate:
           - SUCCESS: set_pod_name
           - FAILURE: on_failure
