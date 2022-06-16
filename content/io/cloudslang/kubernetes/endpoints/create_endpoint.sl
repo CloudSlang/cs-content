@@ -20,7 +20,7 @@
 #!                         Default: '443'
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: The name of the namespace.
-#! @input endpoint_json_body: Name of the endpoint to be created.
+#! @input endpoint_json_body: JSON format for the Endpoint to be created.
 #!                            Example: '{"kind": "Endpoints", "apiVersion": "v1", "metadata":
 #!                                      {"name":"'+endpoint_name+'","namespace": "'+namespace+'"}}'.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
