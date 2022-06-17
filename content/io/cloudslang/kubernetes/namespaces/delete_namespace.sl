@@ -52,8 +52,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: The return result after deleting the namespace. It will contain error message if failure happens while deleting the namespace.
+#! @output namespace_json: The return result after triggering delete action. It will contain error message if failure happens while deleting the namespace.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: This will contain the message.
 #!
 #! @result FAILURE: The operation failed to delete the namespace.
 #! @result SUCCESS: The operation successfully deleted the namespace.
@@ -124,11 +125,24 @@ flow:
           - return_result
           - status_code
         navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'Namespace '+namespace+' deleted successfully.'}"
+            - namespace_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - namespace_json
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - return_result
+    - namespace_json
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -138,12 +152,15 @@ extensions:
       api_call_to_delete_kubernetes_namespace:
         x: 160
         'y': 200
+      set_success_message:
+        x: 360
+        'y': 200
         navigate:
-          1a5713bb-3c10-370a-de4f-ea109eed6f1b:
+          f65581b2-1ec5-4259-b44c-fdd9bfd52505:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
+          x: 560
           'y': 200

@@ -55,6 +55,7 @@
 #!
 #! @output namespace_json: The details of replaced namespace.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: This will contain the message.
 #!
 #! @result FAILURE: The operation failed to replace a namespace.
 #! @result SUCCESS: The operation successfully replaced the namespace.
@@ -105,20 +106,20 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_post:
+          io.cloudslang.base.http.http_client_put:
             - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace}"
             - auth_type: anonymous
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
             - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                value: '${proxy_password}'
                 sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
+                value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
             - body: '${namespace_json_body}'
@@ -127,11 +128,24 @@ flow:
           - namespace_json: '${return_result}'
           - status_code
         navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'The namespace '+namespace+' replaced successfully.'}"
+            - namespace_json: '${namespace_json}'
+        publish:
+          - return_result: '${message}'
+          - namespace_json
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - namespace_json
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -139,14 +153,17 @@ extensions:
   graph:
     steps:
       api_call_to_replace_kubernetes_namespace:
-        x: 160
+        x: 80
+        'y': 200
+      set_success_message:
+        x: 280
         'y': 200
         navigate:
-          96e5474c-1a7d-7828-e670-2efa59d26275:
+          9d45e41e-c509-4ccd-b112-51ac81145176:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
+          x: 480
           'y': 200
