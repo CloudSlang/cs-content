@@ -20,7 +20,7 @@
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace to be created.
+#! @input namespace_json_body: The JSON body of the namespace to be created.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,7 +53,9 @@
 #!                        Optional
 #!
 #! @output namespace_json: The details of created namespace.
+#! @output namespace: The name of the namespace created.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: This will contain the message.
 #!
 #! @result FAILURE: The operation failed to create the namespace.
 #! @result SUCCESS: The operation successfully created the namespace.
@@ -73,7 +75,7 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - namespace
+    - namespace_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -119,17 +121,42 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - body: "${'{\"kind\": \"Namespace\", \"apiVersion\": \"v1\", \"metadata\": {\"name\": \"'+namespace+'\"}}'}"
+            - body: '${namespace_json_body}'
             - content_type: application/json
         publish:
-          - namespace_json: '${return_result}'
           - status_code
+          - return_result
+        navigate:
+          - SUCCESS: set_namespace_name
+          - FAILURE: on_failure
+    - set_namespace_name:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: 'metadata,name'
+        publish:
+          - namespace: '${return_result}'
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'The namespace '+namespace+' created successfully.'}"
+            - namespace_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - namespace_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - namespace_json
+    - namespace
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -137,14 +164,20 @@ extensions:
   graph:
     steps:
       api_call_to_create_kubernetes_namespace:
-        x: 160
+        x: 80
+        'y': 200
+      set_namespace_name:
+        x: 280
+        'y': 200
+      set_success_message:
+        x: 480
         'y': 200
         navigate:
-          96e5474c-1a7d-7828-e670-2efa59d26275:
+          5b5bd353-de1e-37f5-0be1-47dc5f287430:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
+          x: 680
           'y': 200

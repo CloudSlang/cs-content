@@ -51,8 +51,10 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The list of namespaces.
+#! @output namespaces_json: The namespaces list in JSON format.
+#! @output namespace_list: The list of namespaces in following format ["namespace1","namespace2"]
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: This will contain the message.
 #!
 #! @result FAILURE: The operation failed to list namespaces.
 #! @result SUCCESS: The operation successfully retrieved the list of namespaces.
@@ -119,14 +121,39 @@ flow:
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
             - content_type: application/json
         publish:
-          - namespace_json: '${return_result}'
+          - namespaces_json: '${return_result}'
           - status_code
+        navigate:
+          - SUCCESS: set_list_of_namespaces
+          - FAILURE: on_failure
+    - set_list_of_namespaces:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${namespaces_json}'
+            - json_path: '$.items[*].metadata.name'
+        publish:
+          - namespace_list: '${return_result}'
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: The list of namespaces retrived successfully.
+            - namespaces_json: '${namespaces_json}'
+        publish:
+          - return_result: '${message}'
+          - namespaces_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - namespace_json
+    - namespaces_json
+    - namespace_list
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -134,14 +161,20 @@ extensions:
   graph:
     steps:
       api_to_list_kubernetes_namespaces:
-        x: 280
+        x: 80
+        'y': 200
+      set_success_message:
+        x: 480
         'y': 200
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          a87f6876-1007-c14e-765a-fdf1e6eaadca:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      set_list_of_namespaces:
+        x: 280
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
+          x: 680
           'y': 200

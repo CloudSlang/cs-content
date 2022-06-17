@@ -54,6 +54,7 @@
 #!
 #! @output namespace_json: The details of the given namespace.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: This will contain the message.
 #!
 #! @result FAILURE: The operation failed to fetch the details of the given namespace.
 #! @result SUCCESS: The operation successfully retrieved the namespace details.
@@ -124,11 +125,24 @@ flow:
           - return_result
           - status_code
         navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'The details of the namespace '+namespace+' retrieved successfully.'}"
+            - namespace_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - namespace_json
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - namespace_json
     - status_code
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -136,14 +150,17 @@ extensions:
   graph:
     steps:
       api_to_get_kubernetes_namespace_deatils:
+        x: 80
+        'y': 200
+      set_success_message:
         x: 280
         'y': 200
         navigate:
-          78f546b7-c7c6-d791-d859-595b34bedb3c:
+          e59e7275-5436-d17f-951c-399c9856cc0a:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
+          x: 480
           'y': 200
