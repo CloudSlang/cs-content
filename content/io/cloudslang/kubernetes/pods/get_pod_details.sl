@@ -13,13 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation get the specified node details.
+#! @description: This operation get the specified pod details.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
+#!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input node_name: Name of the node.
+#! @input namespace: Name of the namespace under pod to be created.
+#! @input pod_name: Name of the pod.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,17 +54,17 @@
 #!                        Optional
 #!
 #! @output return_result: This will contain the response entity.
-#! @output node_json: The details of the node.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output pod_json: The details of the pod.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.nodes
+namespace: io.cloudslang.kubernetes.pods
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_node_details
+  name: get_pod_details
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -70,7 +72,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - node_name
+    - namespace
+    - pod_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -95,13 +98,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_kubernetes_node_details:
+    - api_to_get_kubernetes_pod_details:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/nodes/'+node_name}"
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/pods/'+pod_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -128,36 +131,36 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'Information about the node '+node_name+' has been successfully retrieved.'}"
-            - node_json: '${return_result}'
+            - message: "${'Information about the pod '+pod_name+' has been successfully retrieved.'}"
+            - pod_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - node_json
+          - pod_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - node_json
+    - pod_json
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      api_to_get_kubernetes_node_details:
-        x: 40
-        'y': 200
+      api_to_get_kubernetes_pod_details:
+        x: 80
+        'y': 120
       set_success_message:
         x: 280
-        'y': 200
+        'y': 120
         navigate:
-          85ed397a-c9f2-6ed3-e5d8-b4d209eab81c:
+          02459e3f-6017-3370-2a55-91fae1f2b329:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 480
+          'y': 120

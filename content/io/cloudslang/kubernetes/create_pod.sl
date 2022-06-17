@@ -13,13 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation get the specified node details.
+#! @description: This flow creates the pod.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
+#!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input node_name: Name of the node.
+#! @input namespace: Name of the namespace under pod to be created.
+#! @input pod_json_body: The JSON input of the pod.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,17 +54,19 @@
 #!                        Optional
 #!
 #! @output return_result: This will contain the response entity.
-#! @output node_json: The details of the node.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output pod_name: Name of the pod.
+#! @output pod_uid: UID of the pod.
+#! @output pod_creation_time: Pod created time.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.nodes
+namespace: io.cloudslang.kubernetes
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_node_details
+  name: create_pod
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -70,7 +74,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - node_name
+    - namespace
+    - pod_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -95,14 +100,20 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_kubernetes_node_details:
+    - create_pod:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/nodes/'+node_name}"
-            - auth_type: anonymous
+          io.cloudslang.kubernetes.pods.create_pod:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - pod_json_body: '${pod_json_body}'
+            - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -115,49 +126,155 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - content_type: application/json
-            - worker_group: '${worker_group}'
         publish:
-          - status_code
+          - pod_name
+          - pod_json
           - return_result
+          - status_code
         navigate:
-          - SUCCESS: set_success_message
           - FAILURE: on_failure
-    - set_success_message:
+          - SUCCESS: get_pod_details
+    - get_pod_details:
+        do:
+          io.cloudslang.kubernetes.pods.get_pod_details:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - pod_name: '${pod_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - pod_json
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_pod_status
+    - get_pod_status:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.utils.do_nothing:
-            - message: "${'Information about the node '+node_name+' has been successfully retrieved.'}"
-            - node_json: '${return_result}'
+          io.cloudslang.base.json.get_value:
+            - json_input: '${pod_json}'
+            - json_path: 'status,phase'
         publish:
-          - return_result: '${message}'
-          - node_json
+          - pod_status: '${return_result}'
+        navigate:
+          - SUCCESS: compare_pod_status
+          - FAILURE: counter
+    - compare_pod_status:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${pod_status}'
+            - second_string: Running
+        navigate:
+          - SUCCESS: get_pod_creation_time
+          - FAILURE: on_failure
+    - wait_before_check:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_pod_status
+          - FAILURE: on_failure
+    - get_pod_creation_time:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${pod_json}'
+            - json_path: 'metadata,creationTimestamp'
+        publish:
+          - pod_creation_time: '${return_result}'
+        navigate:
+          - SUCCESS: get_pod_uid
+          - FAILURE: on_failure
+    - get_pod_uid:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${pod_json}'
+            - json_path: 'metadata,uid'
+        publish:
+          - pod_uid: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - counter:
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '60'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_before_check
+          - NO_MORE: FAILURE_1
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - node_json
+    - pod_name
+    - pod_uid
+    - pod_creation_time
   results:
     - FAILURE
     - SUCCESS
+    - FAILURE_1
 extensions:
   graph:
     steps:
-      api_to_get_kubernetes_node_details:
+      create_pod:
         x: 40
-        'y': 200
-      set_success_message:
-        x: 280
-        'y': 200
+        'y': 120
+      get_pod_details:
+        x: 200
+        'y': 120
+      get_pod_status:
+        x: 360
+        'y': 120
+      compare_pod_status:
+        x: 560
+        'y': 120
+      get_pod_uid:
+        x: 840
+        'y': 120
         navigate:
-          85ed397a-c9f2-6ed3-e5d8-b4d209eab81c:
+          ba506f47-a748-b9c2-60f9-ec15ac569659:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      wait_before_check:
+        x: 160
+        'y': 320
+      get_pod_creation_time:
+        x: 680
+        'y': 120
+      counter:
+        x: 360
+        'y': 320
+        navigate:
+          6c380319-97ac-a095-a64b-0f2734e2dba6:
+            targetId: c9102be8-9863-2027-22f4-33ca633b909c
+            port: NO_MORE
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 840
+          'y': 360
+      FAILURE_1:
+        c9102be8-9863-2027-22f4-33ca633b909c:
+          x: 360
+          'y': 520
