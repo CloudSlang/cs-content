@@ -22,8 +22,6 @@
 #! @input proxy_port: Optional - Proxy server port. You must either specify values for both proxyHost and proxyPort
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
-#! @input connect_timeout: Optional - The time to wait for a connection to be established.
-#! @input execution_timeout: Optional - The amount of time (in milliseconds) to allow the client.
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'
 #!!#
 ########################################################################################################################
