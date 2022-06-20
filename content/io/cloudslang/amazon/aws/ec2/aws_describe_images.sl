@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes all the instance types.
+#! @description: Describes all the images present.
 #!
 #! @input provider_sap: AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.htmlDefault: 'https://ec2.amazonaws.com'.
 #! @input access_key_id: The Amazon Access Key ID.
@@ -29,7 +29,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.ec2
 flow:
-  name: available_instance_type_offerings
+  name: aws_describe_images
   inputs:
     - provider_sap:
         default: 'https://ec2.amazonaws.com'
