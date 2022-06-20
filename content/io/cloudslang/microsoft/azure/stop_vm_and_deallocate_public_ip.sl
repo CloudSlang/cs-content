@@ -86,7 +86,7 @@ imports:
   vm: io.cloudslang.microsoft.azure.compute.virtual_machines
 
 flow:
-  name: stop_and_deallocate_vm_v4
+  name: stop_vm_and_deallocate_public_ip
   inputs:
     - vm_name
     - subscription_id
