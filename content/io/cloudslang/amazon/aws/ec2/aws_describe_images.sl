@@ -23,9 +23,11 @@
 #! @input proxy_username: Optional - Proxy server user name.
 #! @input proxy_password: Optional - Proxy server password associated with the proxyUsername input value.
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'
+#!
+#! @output images_xml: Returns image details in xml form.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.amazon.aws.ec2
+namespace: io.cloudslang.amazon.aws.ec2.images
 flow:
   name: aws_describe_images
   inputs:
@@ -46,7 +48,7 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
-workflow:
+  workflow:
     - do_nothing:
         worker_group: '${worker_group}'
         do:
@@ -76,6 +78,8 @@ workflow:
           - describe_images_xml: '${describe_images_list}'
         navigate:
           - SUCCESS: SUCCESS
+  outputs:
+    - images_xml: '${describe_images_xml}'
   results:
     - SUCCESS
     - FAILURE
@@ -100,3 +104,4 @@ extensions:
         7e810305-25a8-baf3-d65f-f2e50862e778:
           x: 400
           'y': 80
+

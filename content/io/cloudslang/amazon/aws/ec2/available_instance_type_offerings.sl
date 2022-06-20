@@ -25,6 +25,8 @@
 #! @input connect_timeout: Optional - The time to wait for a connection to be established.
 #! @input execution_timeout: Optional - The amount of time (in milliseconds) to allow the client.
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'
+#!
+#! @output InstanceTypeOfferingsXml: Returns all available instance types in xml form.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.ec2
