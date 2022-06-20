@@ -96,143 +96,44 @@ flow:
         publish:
           - return_result
         navigate:
-          - SUCCESS: get_describe_instance_type_offerings_array_list
+          - SUCCESS: create_available_instance_types_xml
           - FAILURE: on_failure
-    - get_describe_instance_type_offerings_array_list:
+    - create_available_instance_types_xml:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: DescribeInstanceTypeOfferingsResponse.instanceTypeOfferingSet.item
+          io.cloudslang.amazon.aws.ec2.instances.create_available_instance_types_xml:
+            - json_data: '${return_result}'
         publish:
-          - array_list: '${return_result}'
-        navigate:
-          - SUCCESS: is_list_null
-          - FAILURE: on_failure
-    - iterate_instance_type_offerings:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.array_iterator:
-            - array: '${array_list}'
-        publish:
-          - list_of_array: '${result_string}'
-          - return_code
-        navigate:
-          - HAS_MORE: get_vm_size_name
-          - NO_MORE: end_instance_type_xml_tag
-          - FAILURE: on_failure
-    - is_list_null:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.is_null:
-            - variable: '${array_list}'
-        publish:
-          - array_list: '${variable}'
-        navigate:
-          - IS_NULL: end_instance_type_xml_tag
-          - IS_NOT_NULL: iterate_instance_type_offerings
-    - get_vm_size_name:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${list_of_array}'
-            - json_path: instanceType
-        publish:
-          - vm_size_name: '${return_result}'
-        navigate:
-          - SUCCESS: set_xml_tags
-          - FAILURE: on_failure
-    - set_xml_tags:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_size_name: '${vm_size_name}'
-        publish:
-          - vm_size_name: "${\"<instanceType>\"+\"\\n\"+\"<Name>\"+vm_size_name+\"</Name>\"+\"\\n\"+\"</instanceType>\"}"
-        navigate:
-          - SUCCESS: set_empty_list_xml
-          - FAILURE: on_failure
-    - set_empty_list_xml:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - instance_type_final_xml: '${instance_type_final_xml}'
-        publish:
-          - instance_type_final_xml
-        navigate:
-          - SUCCESS: add_element
-          - FAILURE: on_failure
-    - add_element:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.add_element:
-            - list: '${instance_type_final_xml}'
-            - element: '${vm_size_name}'
-            - delimiter: "${' '+\"\\n\"}"
-        publish:
-          - instance_type_final_xml: '${return_result}'
-        navigate:
-          - SUCCESS: iterate_instance_type_offerings
-          - FAILURE: on_failure
-    - end_instance_type_xml_tag:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - instance_type_off_start: '${instance_type_off_start}'
-            - instance_type_off_stop: '${instance_type_off_stop}'
-            - instance_type_final_xml: '${instance_type_final_xml}'
-        publish:
-          - instancetypesxml: "${instance_type_off_start+\"\\n\"+instance_type_final_xml+\"\\n\"+instance_type_off_stop}"
+          - available_instance_types_xml: '${available_instance_types_list}'
         navigate:
           - SUCCESS: SUCCESS_1
-          - FAILURE: on_failure
   outputs:
-    - InstanceTypeOfferingsXml: '${instancetypesxml}'
+    - InstanceTypeOfferingsXml: '${available_instance_types_xml}'
   results:
     - FAILURE
     - SUCCESS_1
 extensions:
   graph:
     steps:
-      set_empty_list_xml:
-        x: 1040
-        'y': 280
       start_instance_type_offerings_xml_tag:
         x: 80
         'y': 80
-      get_vm_size_name:
-        x: 1040
-        'y': 80
-      iterate_instance_type_offerings:
-        x: 880
-        'y': 80
-      end_instance_type_xml_tag:
-        x: 560
-        'y': 280
-        navigate:
-          bc707cb8-5440-f329-fec5-314a179054e5:
-            targetId: 72b495c6-29ae-fe49-bc81-9543091c501a
-            port: SUCCESS
-      is_list_null:
-        x: 720
+      describe_instance_type_offerings:
+        x: 240
         'y': 80
       convert_xml_to_json:
         x: 400
         'y': 80
-      get_describe_instance_type_offerings_array_list:
-        x: 560
+      create_available_instance_types_xml:
+        x: 600
         'y': 80
-      add_element:
-        x: 880
-        'y': 280
-      describe_instance_type_offerings:
-        x: 240
-        'y': 80
-      set_xml_tags:
-        x: 1160
-        'y': 80
+        navigate:
+          b5d6340a-01d0-ab49-1559-61a367aa2516:
+            targetId: 72b495c6-29ae-fe49-bc81-9543091c501a
+            port: SUCCESS
     results:
       SUCCESS_1:
         72b495c6-29ae-fe49-bc81-9543091c501a:
           x: 400
           'y': 280
+
