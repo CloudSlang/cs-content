@@ -13,16 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates the namespace.
+#! @description: This flow creates service.
 #!
-#! @input kubernetes_host: Kubernetes host..
+#! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
-#!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
-#! @input namespace_json_body: The JSON body of the namespace to be created.
-#!                             Example: "{"kind": "Namespace", "apiVersion": "v1", "metadata": {"name": "+namespace+"}}"
+#! @input namespace: Name of the namespace.
+#! @input service_name: The name of the service to be created.
+#! @input service_json_body: The service json  should be in JSON format for the Service to be created. Example : {    "kind": "Service",    "apiVersion": "v1",    "metadata": {        "name": "+service_name+"    },    "spec": {        "type": "NodePort",        "selector": {            "app": "tomcat4"        },        "ports": [            {                "protocol": "TCP",                "port": 9090,                "targetPort": 8080,                "nodePort": 30003            }        ]    }}
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -54,15 +53,14 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The details of created namespace.
+#! @output service_json: The Json service response.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
-#! @output uid: Unique identifier of the deployment.
-#! @output namespace_creation_time_stamp: Timestamp when Deployment is created.
-#! @output status: status of the deployment.
-#! @output namespace_name: Name of the created namespace.
-#!
-#! @result SUCCESS: The operation successfully created the namespace.
+#! @output return_result: This will contain the response entity.
+#! @output servicename: The name of the created service.
+#! @output service_uid: uid of the service created.
+#! @output service_creation_time_stamp: Timestamp of the service created.
+#! @output service_cluster_ip: clusterIp of the service.
+#! @output service_type: Type of the service.
 #!!#
 ########################################################################################################################
 
@@ -71,7 +69,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_namespace
+  name: create_service
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -80,8 +78,8 @@ flow:
     - kubernetes_auth_token:
         sensitive: true
     - namespace
-    - namespace_json_body:
-        required: true
+    - service_name
+    - service_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -106,18 +104,16 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - read_namespace:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - get_service:
         do:
-          io.cloudslang.kubernetes.namespaces.read_namespace:
+          kubernates.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
             - namespace: '${namespace}'
+            - service_name: '${service_name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -132,59 +128,106 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
+          - service_json
           - status_code
-          - namespace_json
-          - namespace_name: '${namespace}'
+          - return_result
         navigate:
-          - FAILURE: check_namespace
-          - SUCCESS: set_success_message_if_namespace_exists
+          - FAILURE: create_service
+          - SUCCESS: set_service_name
+    - create_service:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          kubernates.services.create_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_json_body: '${service_json_body}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - service_json
+          - return_result
+          - servicename: '${service_name}'
+          - status_code
+        navigate:
+          - SUCCESS: check_service_is_created
+          - FAILURE: on_failure
     - set_uid:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${namespace_json}'
+            - json_object: '${service_json}'
             - json_path: metadata.uid
         publish:
-          - uid: "${return_result.strip('\"')}"
+          - service_uid: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: set_creation_time_stamp
           - FAILURE: on_failure
     - set_creation_time_stamp:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${namespace_json}'
+            - json_object: '${service_json}'
             - json_path: metadata.creationTimestamp
         publish:
-          - namespace_creation_time_stamp: "${return_result.strip('\"')}"
+          - service_creation_time_stamp: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: set_status
+          - SUCCESS: set_cluster_ip
           - FAILURE: on_failure
-    - set_status:
+    - set_service_type:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${namespace_json}'
-            - json_path: status.phase
+            - json_object: '${service_json}'
+            - json_path: spec.type
         publish:
-          - status: "${return_result.strip('\"')}"
+          - service_type: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - check_namespace:
+    - set_cluster_ip:
         do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${status_code}'
-            - second_string: '404'
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${service_json}'
+            - json_path: spec.clusterIP
+        publish:
+          - service_cluster_ip: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: create_namespace
+          - SUCCESS: set_service_type
           - FAILURE: on_failure
-    - create_namespace:
+    - set_service_name:
         do:
-          io.cloudslang.kubernetes.namespaces.create_namespace:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${service_json}'
+            - json_path: metadata.name
+        publish:
+          - servicename: "${return_result.strip('\"')}"
+        navigate:
+          - SUCCESS: set_uid
+          - FAILURE: on_failure
+    - check_service_is_created:
+        do:
+          kubernates.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
-            - namespace_json_body: '${namespace_json_body}'
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -199,65 +242,58 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - status_code
-          - namespace_json
-          - namespace_name: '${namespace}'
+          - service_json
           - return_result
+          - status_code
         navigate:
           - FAILURE: on_failure
           - SUCCESS: set_uid
-    - set_success_message_if_namespace_exists:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - message: "${'The namespace '+namespace_name+' already exists.'}"
-        publish:
-          - return_result: '${message}'
-        navigate:
-          - SUCCESS: set_uid
-          - FAILURE: on_failure
   outputs:
-    - namespace_json
+    - service_json
     - status_code
     - return_result
-    - uid
-    - namespace_creation_time_stamp
-    - status
-    - namespace_name
+    - servicename
+    - service_uid
+    - service_creation_time_stamp
+    - service_cluster_ip
+    - service_type
   results:
-    - SUCCESS
     - FAILURE
+    - SUCCESS
 extensions:
   graph:
     steps:
-      read_namespace:
-        x: 80
-        'y': 160
-      set_creation_time_stamp:
-        x: 600
-        'y': 160
+      get_service:
+        x: 40
+        'y': 120
+      create_service:
+        x: 40
+        'y': 440
       set_uid:
         x: 440
-        'y': 160
-      set_status:
-        x: 760
-        'y': 160
+        'y': 120
+      set_creation_time_stamp:
+        x: 600
+        'y': 120
+      set_service_type:
+        x: 920
+        'y': 120
         navigate:
-          9a20a149-3b12-1a25-1ad6-139314e88afa:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+          bb77f2f4-4cd5-e900-46c9-a0a87cbd7773:
+            targetId: 2a197e64-7870-d4f6-77fe-aca64a048eb4
             port: SUCCESS
-      check_namespace:
-        x: 80
-        'y': 360
-      create_namespace:
+      set_cluster_ip:
+        x: 760
+        'y': 120
+      set_service_name:
         x: 240
-        'y': 360
-      set_success_message_if_namespace_exists:
-        x: 240
-        'y': 160
+        'y': 120
+      check_service_is_created:
+        x: 242
+        'y': 342
     results:
       SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 960
-          'y': 160
+        2a197e64-7870-d4f6-77fe-aca64a048eb4:
+          x: 1080
+          'y': 120
 

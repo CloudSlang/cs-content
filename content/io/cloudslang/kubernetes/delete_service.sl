@@ -13,14 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all the services within the namespace.
+#! @description: This operation deletes the specified service.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace.
+#! @input namespace: The name of the namespace to be deleted.
+#! @input service_name: The name of the service to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,22 +53,21 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
+#! @output return_result: The return result after deleting the service. It will contain error message if failure happens while deleting the service.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output service_json: The list of services.
-#! @output return_result: This will contain the response entity.
-#! @output list_of_service: It will lists the services within the specified namespace.
+#! @output service_json: This will contain the response entity (unless destinationFile is specified). In case of an error this output will contain the error message.
 #!
-#! @result FAILURE: The operation failed to list services.
-#! @result SUCCESS: The operation successfully retrieved the list of services.
+#! @result FAILURE: The operation failed to delete the namespace.
+#! @result SUCCESS: The operation successfully deleted the namespace.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.services
+namespace: io.cloudslang.kubernetes
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_service
+  name: delete_service
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -76,6 +76,7 @@ flow:
     - kubernetes_auth_token:
         sensitive: true
     - namespace
+    - service_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,14 +101,20 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_list_kubernetes_services:
+    - get_service:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/services'}"
-            - auth_type: anonymous
+          kubernates.services.get_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -120,62 +127,108 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - content_type: application/json
         publish:
           - status_code
-          - return_result
+          - service_json
         navigate:
-          - SUCCESS: get_list_of_services
+          - FAILURE: set_success_message
+          - SUCCESS: delete_service
+    - delete_service:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          kubernates.services.delete_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - service_json
+          - status_code
+        navigate:
           - FAILURE: on_failure
+          - SUCCESS: get_status
     - set_success_message:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: Information about all the Services has been successfully retrieved.
-            - service_json: '${return_result}'
+            - return_result: "${'service '+service_name+' is not exists.'}"
         publish:
-          - return_result: '${message}'
-          - service_json
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - get_list_of_services:
+    - get_status:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
-            - json_path: '$.items[*].metadata.name'
+            - json_object: '${service_json}'
+            - json_path: status
         publish:
-          - list_of_service: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
+          - status: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: set_success_message
+          - SUCCESS: check_status
+          - FAILURE: on_failure
+    - check_status:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status}'
+            - second_string: Success
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
+    - return_result
     - status_code
     - service_json
-    - return_result
-    - list_of_service
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      api_to_list_kubernetes_services:
-        x: 80
-        'y': 200
+      get_service:
+        x: 40
+        'y': 120
+      delete_service:
+        x: 200
+        'y': 120
       set_success_message:
-        x: 400
-        'y': 200
+        x: 40
+        'y': 440
         navigate:
-          4a36e30b-d0b5-ebb3-066e-06941c64ecbe:
+          0bce0276-3fd9-bf70-e676-fe0657e7c340:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_list_of_services:
-        x: 240
-        'y': 200
+      check_status:
+        x: 526
+        'y': 120
+        navigate:
+          bae91d27-f88e-3366-9cb5-aef07d63f9ae:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+      get_status:
+        x: 360
+        'y': 120
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 600
-          'y': 200
+          x: 760
+          'y': 120
