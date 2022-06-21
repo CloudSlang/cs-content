@@ -166,9 +166,10 @@ flow:
           - servicename: '${service_name}'
           - status_code
         navigate:
-          - SUCCESS: check_service_is_created
+              - SUCCESS: check_service_is_created
           - FAILURE: on_failure
     - set_uid:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
@@ -179,6 +180,7 @@ flow:
           - SUCCESS: set_creation_time_stamp
           - FAILURE: on_failure
     - set_creation_time_stamp:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
@@ -189,6 +191,7 @@ flow:
           - SUCCESS: set_cluster_ip
           - FAILURE: on_failure
     - set_service_type:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
@@ -199,6 +202,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - set_cluster_ip:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
@@ -209,6 +213,7 @@ flow:
           - SUCCESS: set_service_type
           - FAILURE: on_failure
     - set_service_name:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
@@ -220,7 +225,7 @@ flow:
           - FAILURE: on_failure
     - check_service_is_created:
         do:
-          io.cloudslang.kubernetes.service.get_service:
+          io.cloudslang.kubernetes.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:

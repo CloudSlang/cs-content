@@ -106,7 +106,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.kubernetes.service.get_service:
+          io.cloudslang.kubernetes.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -138,7 +138,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.kubernetes.service.delete_service:
+          io.cloudslang.kubernetes.services.delete_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -177,6 +177,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'

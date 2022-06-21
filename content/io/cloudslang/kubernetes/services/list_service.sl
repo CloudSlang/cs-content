@@ -141,6 +141,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_list_of_services:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${return_result}'
