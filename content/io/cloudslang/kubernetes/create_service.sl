@@ -106,7 +106,7 @@ flow:
   workflow:
     - get_service:
         do:
-          kubernates.services.get_service:
+          io.cloudslang.kubernetes.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -139,7 +139,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          kubernates.services.create_service:
+          io.cloudslang.kubernetes.services.create_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -220,7 +220,7 @@ flow:
           - FAILURE: on_failure
     - check_service_is_created:
         do:
-          kubernates.services.get_service:
+          io.cloudslang.kubernetes.service.get_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
