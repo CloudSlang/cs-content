@@ -166,7 +166,7 @@ flow:
           - servicename: '${service_name}'
           - status_code
         navigate:
-              - SUCCESS: check_service_is_created
+          - SUCCESS: check_service_is_created
           - FAILURE: on_failure
     - set_uid:
         worker_group: '${worker_group}'
