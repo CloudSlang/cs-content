@@ -13,14 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the namespace.
+#! @description: This flow deletes the specified Kubernetes service.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace_json_body: The JSON body of the namespace to be created.
+#! @input namespace: The name of the Kubernetes namespace.
+#! @input service_name: The name of the Kubernetes service to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -36,7 +37,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -52,22 +53,21 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The details of created namespace.
-#! @output namespace: The name of the namespace created.
+#! @output return_result: This contains the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output service_json: The Kubernetes service details in JSON format.
 #!
-#! @result FAILURE: The operation failed to create the namespace.
-#! @result SUCCESS: The operation successfully created the namespace.
+#! @result FAILURE: The flow failed to delete the Kubernetes service.
+#! @result SUCCESS: The flow successfully deleted the Kubernetes service.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.namespaces
+namespace: io.cloudslang.kubernetes
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_namespace
+  name: delete_service
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -75,7 +75,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - namespace_json_body
+    - namespace
+    - service_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,14 +101,20 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_create_kubernetes_namespace:
+    - get_service:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'}"
-            - auth_type: anonymous
+          io.cloudslang.kubernetes.services.get_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -120,64 +127,109 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - body: '${namespace_json_body}'
-            - content_type: application/json
         publish:
           - status_code
-          - return_result
+          - service_json
         navigate:
-          - SUCCESS: set_namespace_name
-          - FAILURE: on_failure
-    - set_namespace_name:
-        worker_group: '${worker_group}'
+          - FAILURE: set_success_message
+          - SUCCESS: delete_service
+    - delete_service:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: 'metadata,name'
+          io.cloudslang.kubernetes.services.delete_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
-          - namespace: '${return_result}'
+          - return_result
+          - service_json
+          - status_code
         navigate:
-          - SUCCESS: set_success_message
           - FAILURE: on_failure
+          - SUCCESS: get_status
     - set_success_message:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The namespace '+namespace+' created successfully.'}"
-            - namespace_json: '${return_result}'
+            - return_result: "${'service '+service_name+' is not exists.'}"
         publish:
-          - return_result: '${message}'
-          - namespace_json
+          - return_result
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - get_status:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${service_json}'
+            - json_path: status
+        publish:
+          - status: "${return_result.strip('\"')}"
+        navigate:
+          - SUCCESS: check_status
+          - FAILURE: on_failure
+    - check_status:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status}'
+            - second_string: Success
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - namespace_json
-    - namespace
-    - status_code
     - return_result
+    - status_code
+    - service_json
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      api_call_to_create_kubernetes_namespace:
-        x: 80
-        'y': 200
-      set_namespace_name:
-        x: 280
-        'y': 200
+      get_service:
+        x: 40
+        'y': 120
+      delete_service:
+        x: 200
+        'y': 120
       set_success_message:
-        x: 480
-        'y': 200
+        x: 40
+        'y': 440
         navigate:
-          5b5bd353-de1e-37f5-0be1-47dc5f287430:
+          0bce0276-3fd9-bf70-e676-fe0657e7c340:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      check_status:
+        x: 526
+        'y': 120
+        navigate:
+          bae91d27-f88e-3366-9cb5-aef07d63f9ae:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+      get_status:
+        x: 360
+        'y': 120
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 680
-          'y': 200
+          x: 760
+          'y': 120

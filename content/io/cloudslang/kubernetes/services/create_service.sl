@@ -13,19 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the namespace.
+#! @description: This operation creates the kubernetes service.
 #!
-#! @input kubernetes_host: Kubernetes host.
+#! @input kubernetes_host: Kubernetes hostname.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
-#!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace_json_body: The JSON body of the namespace to be created.
+#! @input namespace: Name of the namespace.
+#! @input service_json_body: The service json that is needed to create the Kubernetes Service.
+#!                           Example : {"kind":"Service","apiVersion":"v1","metadata": {"name": "+service_name+"},
+#!                                      "spec": {"type":"NodePort","selector":{"app":"tomcat4"},
+#!                                      "ports":[{"protocol":"TCP","port": 9090,"targetPort":8080,"loadBalancer":30003}]}}
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
-#! @input proxy_host: Proxy server used to access the web site.
+#! @input proxy_host: Proxy server used to access the website.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Optional
@@ -36,38 +39,35 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        you trust to identify other parties. If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        and trust_keystore is empty, default trust_password will be used.
 #!                        Optional
 #!
-#! @output namespace_json: The details of created namespace.
-#! @output namespace: The name of the namespace created.
+#! @output service_json: The Kubernetes service details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
-#!
-#! @result FAILURE: The operation failed to create the namespace.
-#! @result SUCCESS: The operation successfully created the namespace.
+#! @output return_result: This contains the response entity.
+#! @output service_name: The name of the Kubernetes service.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.namespaces
+namespace: io.cloudslang.kubernetes.services
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_namespace
+  name: create_service
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -75,7 +75,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - namespace_json_body
+    - namespace
+    - service_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,13 +101,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_create_kubernetes_namespace:
+    - api_call_to_create_kubernetes_service:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'}"
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/services'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -121,22 +122,23 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - body: '${namespace_json_body}'
+            - body: '${service_json_body}'
             - content_type: application/json
+            - worker_group: '${worker_group}'
         publish:
           - status_code
           - return_result
         navigate:
-          - SUCCESS: set_namespace_name
+          - SUCCESS: get_service_name
           - FAILURE: on_failure
-    - set_namespace_name:
+    - get_service_name:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: 'metadata,name'
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: $.metadata.name
         publish:
-          - namespace: '${return_result}'
+          - service_name: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -144,40 +146,41 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The namespace '+namespace+' created successfully.'}"
-            - namespace_json: '${return_result}'
+            - message: "${'Service '+service_name+' has been created successfully.'}"
+            - service_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - namespace_json
+          - service_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - namespace_json
-    - namespace
+    - service_json
     - status_code
     - return_result
+    - service_name
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
-      api_call_to_create_kubernetes_namespace:
-        x: 80
+      api_call_to_create_kubernetes_service:
+        x: 40
         'y': 200
-      set_namespace_name:
-        x: 280
+      get_service_name:
+        x: 200
         'y': 200
       set_success_message:
-        x: 480
+        x: 360
         'y': 200
         navigate:
-          5b5bd353-de1e-37f5-0be1-47dc5f287430:
+          4bdd875e-bdbf-c4ca-2c30-ee5e246c8372:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 680
+          x: 560
           'y': 200
+

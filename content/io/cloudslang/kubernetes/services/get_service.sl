@@ -13,14 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the namespace.
+#! @description: This operation gets the specified Kubernetes service details.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace_json_body: The JSON body of the namespace to be created.
+#! @input namespace: The name of the Kubernetes namespace.
+#! @input service_name: The name of the Kubernetes service.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -36,7 +37,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -52,22 +53,21 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The details of created namespace.
-#! @output namespace: The name of the namespace created.
+#! @output service_json: The Kubernetes service details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This contains the response entity.
 #!
-#! @result FAILURE: The operation failed to create the namespace.
-#! @result SUCCESS: The operation successfully created the namespace.
+#! @result FAILURE: The operation failed to fetch the details of the given Kubernetes service.
+#! @result SUCCESS: The operation successfully retrieved the Kubernetes service details.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.namespaces
+namespace: io.cloudslang.kubernetes.services
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_namespace
+  name: get_service
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -75,7 +75,8 @@ flow:
         required: true
     - kubernetes_auth_token:
         sensitive: true
-    - namespace_json_body
+    - namespace
+    - service_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,13 +101,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_create_kubernetes_namespace:
+    - api_to_get_kubernetes_service_name_deatils:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'}"
+          io.cloudslang.base.http.http_client_get:
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace+'/services/'+service_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -121,22 +122,10 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
-            - body: '${namespace_json_body}'
             - content_type: application/json
         publish:
           - status_code
           - return_result
-        navigate:
-          - SUCCESS: set_namespace_name
-          - FAILURE: on_failure
-    - set_namespace_name:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: 'metadata,name'
-        publish:
-          - namespace: '${return_result}'
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -144,17 +133,16 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The namespace '+namespace+' created successfully.'}"
-            - namespace_json: '${return_result}'
+            - message: "${'Information about the Service '+service_name+' has been successfully retrieved.'}"
+            - service_json: '${return_result}'
         publish:
+          - service_json
           - return_result: '${message}'
-          - namespace_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - namespace_json
-    - namespace
+    - service_json
     - status_code
     - return_result
   results:
@@ -163,21 +151,19 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_create_kubernetes_namespace:
-        x: 80
-        'y': 200
-      set_namespace_name:
-        x: 280
-        'y': 200
       set_success_message:
-        x: 480
+        x: 320
         'y': 200
         navigate:
-          5b5bd353-de1e-37f5-0be1-47dc5f287430:
+          fb158d03-20e1-125b-9158-b16183738197:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      api_to_get_kubernetes_service_name_deatils:
+        x: 160
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 680
+          x: 560
           'y': 200
+
