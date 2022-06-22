@@ -13,15 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation gets the specified service details.
+#! @description: This operation gets the specified Kubernetes service details.
 #!
-#! @input kubernetes_host: Kubernetes host..
+#! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
-#! @input service_name: Name of the service.
+#! @input namespace: The name of the Kubernetes namespace.
+#! @input service_name: The name of the Kubernetes service.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -37,7 +37,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -53,12 +53,12 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output service_json: The details of the given service.
+#! @output service_json: The Kubernetes service details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the response entity.
+#! @output return_result: This contains the response entity.
 #!
-#! @result FAILURE: The operation failed to fetch the details of the given service.
-#! @result SUCCESS: The operation successfully retrieved the service details.
+#! @result FAILURE: The operation failed to fetch the details of the given Kubernetes service.
+#! @result SUCCESS: The operation successfully retrieved the Kubernetes service details.
 #!!#
 ########################################################################################################################
 

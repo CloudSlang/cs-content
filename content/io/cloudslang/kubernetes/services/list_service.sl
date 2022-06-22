@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all the services within the namespace.
+#! @description: This operation lists all the Kubernetes services within the namespace.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace.
+#! @input namespace: The name of the namespace.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -36,7 +36,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -53,9 +53,9 @@
 #!                        Optional
 #!
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output service_json: The list of services.
-#! @output return_result: This will contain the response entity.
-#! @output list_of_service: It will lists the services within the specified namespace.
+#! @output service_json: The Kubernetes service details in JSON format.
+#! @output return_result: This contain the response entity.
+#! @output list_of_service: It lists the Kubernetes services within the specified namespace.
 #!
 #! @result FAILURE: The operation failed to list services.
 #! @result SUCCESS: The operation successfully retrieved the list of services.

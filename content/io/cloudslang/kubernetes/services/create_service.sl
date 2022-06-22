@@ -13,22 +13,22 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the service.
+#! @description: This operation creates the kubernetes service.
 #!
-#! @input kubernetes_host: Kubernetes host.
+#! @input kubernetes_host: Kubernetes hostname.
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: Name of the namespace.
-#! @input service_json_body: The service json  should be in JSON format for the Service to be created.
+#! @input service_json_body: The service json that is needed to create the Kubernetes Service.
 #!                           Example : {"kind":"Service","apiVersion":"v1","metadata": {"name": "+service_name+"},
 #!                                      "spec": {"type":"NodePort","selector":{"app":"tomcat4"},
-#!                                      "ports":[{"protocol":"TCP","port": 9090,"targetPort":8080,"nodePort":30003}]}}
+#!                                      "ports":[{"protocol":"TCP","port": 9090,"targetPort":8080,"loadBalancer":30003}]}}
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
-#! @input proxy_host: Proxy server used to access the web site.
+#! @input proxy_host: Proxy server used to access the website.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Optional
@@ -39,26 +39,26 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        you trust to identify other parties. If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        and trust_keystore is empty, default trust_password will be used.
 #!                        Optional
 #!
-#! @output service_json: The Json service response.
+#! @output service_json: The Kubernetes service details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the response entity.
-#! @output service_name: The name of the created service.
+#! @output return_result: This contains the response entity.
+#! @output service_name: The name of the Kubernetes service.
 #!!#
 ########################################################################################################################
 
