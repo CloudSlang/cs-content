@@ -174,7 +174,7 @@ flow:
         publish:
           - return_result
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: FAILURE
           - FAILURE: on_failure
     - get_status:
         worker_group: '${worker_group}'
@@ -215,9 +215,12 @@ extensions:
         x: 40
         'y': 440
         navigate:
-          0bce0276-3fd9-bf70-e676-fe0657e7c340:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+          dfaba27a-4cf3-9676-18cc-08195f3a08c1:
+            targetId: 01c78642-fe9b-0883-d866-892cfc455992
             port: SUCCESS
+      get_status:
+        x: 360
+        'y': 120
       check_status:
         x: 526
         'y': 120
@@ -225,11 +228,12 @@ extensions:
           bae91d27-f88e-3366-9cb5-aef07d63f9ae:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_status:
-        x: 360
-        'y': 120
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 760
           'y': 120
+      FAILURE:
+        01c78642-fe9b-0883-d866-892cfc455992:
+          x: 280
+          'y': 440
