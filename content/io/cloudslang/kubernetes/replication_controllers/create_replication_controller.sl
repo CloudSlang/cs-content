@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the replication controller.
+#! @description: This operation creates the kubernetes replication controller.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input replication_controller_json_body: The JSON body of the replication controller that needs to be created.
+#! @input replication_controller_json_body: The replication controller json that is needed to create the kubernetes replication controller.
 #! @input namespace: The name of the namespace.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
@@ -53,10 +53,10 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output replication_controller_json: The details of created replication controller.
-#! @output replication_controller_name: The name of the replication controller created.
+#! @output replication_controller_json: The kubernetes replication controller details in JSON format.
+#! @output replication_controller_name: The name of the kubernetes replication controller created.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This will contain the success message.
 #!
 #! @result FAILURE: The operation failed to create the replication controller.
 #! @result SUCCESS: The operation successfully created the replication controller.

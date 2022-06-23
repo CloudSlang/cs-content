@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation replaces the namespace.
+#! @description: This operation replaces the kubernetes replication controller.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
@@ -21,8 +21,8 @@
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: The name of the namespace.
-#! @input replication_controller_name: The name of the replication controller to be replaced.
-#! @input replication_controller_json_body: The JSON input of the replication controller to be replaced.
+#! @input replication_controller_name: The name of the kubernetes replication controller to be replaced.
+#! @input replication_controller_json_body: The replication controller json that is needed to replace the kubernetes replication controller.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -54,9 +54,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output replication_controller_json: The details of replaced replication controller.
+#! @output replication_controller_json: The details of replaced kubernetes replication controller.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This will contain the success message.
 #!
 #! @result FAILURE: The operation failed to replace a replication controller.
 #! @result SUCCESS: The operation successfully replaced the replication controller.

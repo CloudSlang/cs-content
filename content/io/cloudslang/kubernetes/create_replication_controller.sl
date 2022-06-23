@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates the replication controller and retrieves details of the replication controller.
+#! @description: This flow creates the kubernetes replication controller and retrieves details of the replication controller.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
@@ -21,7 +21,7 @@
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: The name of the namespace.
-#! @input replication_controller_json_body: The JSON body of the replication controller that needs to be created.
+#! @input replication_controller_json_body: The replication controller json that is needed to create the kubernetes replication controller.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,14 +53,14 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output replication_controller_json: The details of created replication controller.
-#! @output replication_controller_name: The name of the replication controller created.
-#! @output replication_controller_uid: The unique identifier of the replication controller.
-#! @output replication_controller_type: The type of replication controller.
+#! @output replication_controller_json: The kubernetes replication controller details in JSON format.
+#! @output replication_controller_name: The name of the kubernetes replication controller created.
+#! @output replication_controller_uid: The unique identifier of the kubernetes replication controller.
+#! @output replication_controller_type: The type of kubernetes replication controller.
 #! @output replication_controller_replicas: The number of replicas created.
-#! @output replication_controller_creation_time: The replication controller creation time.
+#! @output replication_controller_creation_time: The kubernetes replication controller creation time.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This will contain the success message.
 #!
 #! @result FAILURE: The operation failed to create the replication controller.
 #! @result SUCCESS: The operation successfully created the replication controller.

@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation deletes the replication controller from the specified namespace.
+#! @description: This operation deletes the kubernetes replication controller from the specified namespace.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
@@ -21,7 +21,7 @@
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input namespace: The name of the namespace.
-#! @input replication_controller_name: The name of the replication controller that needs to be deleted.
+#! @input replication_controller_name: The name of the kubernetes replication controller that needs to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,9 +53,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output replication_controller_json: The return result after triggering delete action. It will contain error message if failure happens while deleting the replication controller.
+#! @output replication_controller_json: The return result after triggering the delete action. It will contain error message if failure happens while deleting the replication controller.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This will contain the success message.
 #!
 #! @result FAILURE: The operation failed to delete the replication controller.
 #! @result SUCCESS: The operation successfully deleted the replication controller.

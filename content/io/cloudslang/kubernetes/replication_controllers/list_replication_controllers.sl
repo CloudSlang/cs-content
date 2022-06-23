@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all the replication controllers within the specified namespace.
+#! @description: This operation lists all the kubernetes replication controllers within the specified namespace.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
@@ -52,10 +52,10 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output replication_controllers_json: The replication controllers list in JSON format.
-#! @output replication_controller_list: The list of replication controllers in following format ["rc1","rc2"]
+#! @output replication_controllers_json: The kubernetes replication controllers list in JSON format.
+#! @output replication_controller_list: The list of kubernetes replication controllers in following format ["rc1","rc2"]
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This will contain the success message.
 #!
 #! @result FAILURE: The operation failed to list replication controllers.
 #! @result SUCCESS: The operation successfully retrieved the list of replication controllers.
