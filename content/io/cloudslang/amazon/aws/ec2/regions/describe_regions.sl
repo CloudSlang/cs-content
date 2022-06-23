@@ -108,19 +108,19 @@ operation:
     - delimiter:
         required: false
         default: ','
-    - key_filters_string
+    - key_filters_string:
         required: false
     - keyFiltersString:
         default: ${get("key_filters_string", "")}
         required: false
         private: true
-    - value_filters_string
+    - value_filters_string:
         required: false
     - valueFiltersString:
         default: ${get("value_filters_string", "")}
         required: false
         private: true
-    - regions_string
+    - regions_string:
         required: false
     - regionsString:
         default: ${get("regions_string", "")}
