@@ -21,7 +21,7 @@
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
 #! @input replication_controller_json_body: The replication controller json that is needed to create the kubernetes replication controller.
-#! @input namespace: The name of the namespace.
+#! @input namespace: The name of the kubernetes namespace.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -37,7 +37,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
