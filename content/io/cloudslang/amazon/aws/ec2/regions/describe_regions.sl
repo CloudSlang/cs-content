@@ -44,7 +44,7 @@
 #! @input value_filters_string: Optional - String that contains one or more filter values separated by delimiter.
 #!                              Example: 'ec2.eu-central-1.amazonaws.com', 'us-east-1'
 #!                              Default: ''
-#! @input regions_string: String that contains one or more regions.
+#! @input regions_string: Optional - String that contains one or more regions.
 #!                        Example: 'us-east-1,eu-central-1'
 #!
 #! @output return_result: Contains the exception in case of failure, success message otherwise
@@ -103,22 +103,28 @@ operation:
         required: false
         private: true
     - version:
-        default: '2016-04-01'
+        default: '2016-11-15'
         required: false
     - delimiter:
         required: false
         default: ','
     - key_filters_string
+        required: false
     - keyFiltersString:
         default: ${get("key_filters_string", "")}
+        required: false
         private: true
     - value_filters_string
+        required: false
     - valueFiltersString:
         default: ${get("value_filters_string", "")}
+        required: false
         private: true
     - regions_string
+        required: false
     - regionsString:
         default: ${get("regions_string", "")}
+        required: false
         private: true
 
   java_action:
