@@ -114,7 +114,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC3'
     class_name: 'io.cloudslang.content.amazon.actions.rds.DescribeDBInstance'
     method_name: 'execute'
   
