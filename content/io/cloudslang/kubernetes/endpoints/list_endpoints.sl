@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all the endpoints within the namespace.
+#! @description: This operation lists all the Kubernetes endpoints within the namespace.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
@@ -36,7 +36,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -52,9 +52,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output endpoints_json: The list of enpoints.
-#! @output list_of_endpoints: The list of endpoints.
-#! @output return_result: This will contain the response entity (unless destinationFile is specified).
+#! @output endpoints_json: The Kubernetes endpoint details in JSON format.
+#! @output list_of_endpoints: It lists the Kubernetes endpoints within the specified namespace.
+#! @output return_result: This contains the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result FAILURE: The operation failed to list endpoints.

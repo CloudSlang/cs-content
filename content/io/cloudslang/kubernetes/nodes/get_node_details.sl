@@ -35,7 +35,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -52,7 +52,7 @@
 #!                        Optional
 #!
 #! @output return_result: This will contain the response entity.
-#! @output node_json: The details of the node.
+#! @output node_json: The Kubernetes node details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!!#
 ########################################################################################################################

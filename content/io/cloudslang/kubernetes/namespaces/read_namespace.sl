@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation gets the specified namespace details.
+#! @description: This operation gets the specified Kubernetes namespace details.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
+#! @input namespace: The name of the Kubernetes namespace.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -36,7 +36,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -52,9 +52,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The details of the given namespace.
+#! @output namespace_json: The Kubernetes namespace details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This contains the response entity.
 #!
 #! @result FAILURE: The operation failed to fetch the details of the given namespace.
 #! @result SUCCESS: The operation successfully retrieved the namespace details.
