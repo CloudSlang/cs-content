@@ -188,6 +188,7 @@ flow:
           - SUCCESS: check_status
           - FAILURE: on_failure
     - check_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${status}'
@@ -229,11 +230,11 @@ extensions:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
-      SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 760
-          'y': 120
       FAILURE:
         01c78642-fe9b-0883-d866-892cfc455992:
           x: 280
           'y': 440
+      SUCCESS:
+        11a314fb-962f-5299-d0a5-ada1540d2904:
+          x: 760
+          'y': 120

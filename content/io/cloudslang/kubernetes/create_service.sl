@@ -108,6 +108,9 @@ flow:
         sensitive: true
   workflow:
     - get_service:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.services.get_service:
             - kubernetes_host: '${kubernetes_host}'
@@ -227,6 +230,9 @@ flow:
           - SUCCESS: set_uid
           - FAILURE: on_failure
     - check_service_is_created:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.services.get_service:
             - kubernetes_host: '${kubernetes_host}'

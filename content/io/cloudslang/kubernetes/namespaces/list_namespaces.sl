@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation lists all the namespaces within the cluster.
+#! @description: This operation lists all the Kubernetes namespaces within the cluster.
 #!
 #! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
@@ -35,7 +35,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -51,10 +51,10 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespaces_json: The namespaces list in JSON format.
+#! @output namespaces_json: The Kubernetes namespace details in JSON format.
 #! @output namespace_list: The list of namespaces in following format ["namespace1","namespace2"]
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
+#! @output return_result: This contains the response entity.
 #!
 #! @result FAILURE: The operation failed to list namespaces.
 #! @result SUCCESS: The operation successfully retrieved the list of namespaces.

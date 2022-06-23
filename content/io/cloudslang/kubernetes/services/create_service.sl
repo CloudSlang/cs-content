@@ -19,7 +19,7 @@
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace.
+#! @input namespace: The name of the Kubernetes namespace.
 #! @input service_json_body: The service json that is needed to create the Kubernetes Service.
 #!                           Example : {"kind":"Service","apiVersion":"v1","metadata": {"name": "+service_name+"},
 #!                                      "spec": {"type":"NodePort","selector":{"app":"tomcat4"},
