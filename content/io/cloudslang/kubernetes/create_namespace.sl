@@ -53,12 +53,11 @@
 #!                        Optional
 #!
 #! @output namespace_json: The details of created namespace.
-#! @output namespace: The name of the namespace created.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output return_result: This will contain the message.
 #! @output uid: UID of the namespace:.
-#! @output creation_time: Namespace created time.
 #! @output status: Namespace status.
+#! @output creation_time: Namespace created time.
 #!
 #! @result FAILURE: The operation failed to create the namespace.
 #! @result SUCCESS: The operation successfully created the namespace.
@@ -169,6 +168,9 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - create_namespace:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.namespaces.create_namespace:
             - kubernetes_host: '${kubernetes_host}'
@@ -221,21 +223,15 @@ flow:
 extensions:
   graph:
     steps:
-      get_creation_time:
-        x: 400
+      read_namespace:
+        x: 40
         'y': 200
       get_uid:
         x: 240
         'y': 200
-      string_equals:
-        x: 40
-        'y': 440
-      read_namespace:
-        x: 40
+      get_creation_time:
+        x: 400
         'y': 200
-      create_namespace:
-        x: 240
-        'y': 440
       get_status:
         x: 600
         'y': 200
@@ -243,6 +239,12 @@ extensions:
           c9273b07-2c64-4021-cdf9-f7d5ae0a3d61:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      create_namespace:
+        x: 240
+        'y': 440
+      string_equals:
+        x: 40
+        'y': 440
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

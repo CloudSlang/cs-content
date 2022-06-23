@@ -98,6 +98,9 @@ flow:
         sensitive: true
   workflow:
     - get_pod_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.pods.get_pod_details:
             - kubernetes_host: '${kubernetes_host}'
@@ -155,6 +158,9 @@ flow:
           - SUCCESS: check_pod_details
           - FAILURE: on_failure
     - delete_pod:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.pods.delete_pod:
             - kubernetes_host: '${kubernetes_host}'
@@ -184,6 +190,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: check_pod_details
     - check_pod_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.pods.get_pod_details:
             - kubernetes_host: '${kubernetes_host}'
@@ -213,6 +222,7 @@ flow:
           - FAILURE: get_pod_status
           - SUCCESS: counter
     - counter:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.counter:
             - from: '1'

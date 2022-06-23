@@ -135,6 +135,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: get_pod_details
     - get_pod_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.kubernetes.pods.get_pod_details:
             - kubernetes_host: '${kubernetes_host}'
@@ -214,6 +217,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - counter:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.counter:
             - from: '1'
@@ -249,6 +253,12 @@ extensions:
       compare_pod_status:
         x: 560
         'y': 120
+      wait_before_check:
+        x: 160
+        'y': 320
+      get_pod_creation_time:
+        x: 680
+        'y': 120
       get_pod_uid:
         x: 840
         'y': 120
@@ -256,12 +266,6 @@ extensions:
           ba506f47-a748-b9c2-60f9-ec15ac569659:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      wait_before_check:
-        x: 160
-        'y': 320
-      get_pod_creation_time:
-        x: 680
-        'y': 120
       counter:
         x: 360
         'y': 320
