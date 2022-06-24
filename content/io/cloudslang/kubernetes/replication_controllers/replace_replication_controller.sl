@@ -13,14 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow creates the Kubernetes namespace.
+#! @description: This operation replaces the kubernetes replication controller.
 #!
-#! @input kubernetes_host: Kubernetes host.
+#! @input kubernetes_host: Kubernetes host..
 #! @input kubernetes_port: Kubernetes API Port.
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Namespace to be created.
+#! @input namespace: The name of the kubernetes namespace.
+#! @input replication_controller_name: The name of the kubernetes replication controller to be replaced.
+#! @input replication_controller_json_body: The replication controller json that is needed to replace the kubernetes replication controller.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,24 +54,21 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output namespace_json: The details of created namespace.
+#! @output replication_controller_json: The details of replaced kubernetes replication controller.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the message.
-#! @output uid: UID of the namespace:.
-#! @output status: Namespace status.
-#! @output creation_time: Namespace created time.
+#! @output return_result: This will contain the success message.
 #!
-#! @result FAILURE: The operation failed to create the namespace.
-#! @result SUCCESS: The operation successfully created the namespace.
+#! @result FAILURE: The operation failed to replace a replication controller.
+#! @result SUCCESS: The operation successfully replaced the replication controller.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes
+namespace: io.cloudslang.kubernetes.replication_controllers
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_namespace
+  name: replace_replication_controller
   inputs:
     - kubernetes_host
     - kubernetes_port:
@@ -78,6 +77,8 @@ flow:
     - kubernetes_auth_token:
         sensitive: true
     - namespace
+    - replication_controller_name
+    - replication_controller_json_body
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -102,19 +103,14 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - read_namespace:
+    - api_call_to_replace_replication_controller:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.kubernetes.namespaces.read_namespace:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - worker_group: '${worker_group}'
+          io.cloudslang.base.http.http_client_put:
+            - url: "${'https://'+kubernetes_host+':'+kubernetes_port+'/api/v1/namespaces/'+namespace + '/replicationcontrollers/' + replication_controller_name}"
+            - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -127,126 +123,49 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+            - headers: "${'Authorization: Bearer ' + kubernetes_auth_token}"
+            - body: '${replication_controller_json_body}'
+            - content_type: application/json
         publish:
-          - namespace_json
+          - replication_controller_json: '${return_result}'
           - status_code
-          - final_namespace: '${namespace}'
         navigate:
-          - FAILURE: string_equals
-          - SUCCESS: get_uid
-    - get_uid:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${namespace_json}'
-            - json_path: 'metadata,uid'
-        publish:
-          - uid: '${return_result}'
-        navigate:
-          - SUCCESS: get_creation_time
+          - SUCCESS: set_success_message
           - FAILURE: on_failure
-    - get_creation_time:
+    - set_success_message:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${namespace_json}'
-            - json_path: 'metadata,creationTimestamp'
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'The replication controller '+ replication_controller_name +' replaced successfully.'}"
+            - replication_controller_json: '${replication_controller_json}'
         publish:
-          - creation_time: '${return_result}'
-        navigate:
-          - SUCCESS: get_status
-          - FAILURE: on_failure
-    - get_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${namespace_json}'
-            - json_path: 'status,phase'
-        publish:
-          - status: '${return_result}'
+          - return_result: '${message}'
+          - replication_controller_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - create_namespace:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.namespaces.create_namespace:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace_json_body: "${'{\"kind\": \"Namespace\", \"apiVersion\": \"v1\", \"metadata\": {\"name\": \"'+namespace+'\"}}'}"
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - namespace_json
-          - final_namespace: '${namespace}'
-          - status_code
-          - return_result
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: get_uid
-    - string_equals:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${status_code}'
-            - second_string: '404'
-        navigate:
-          - SUCCESS: create_namespace
-          - FAILURE: on_failure
   outputs:
-    - namespace_json
-    - final_namespace
+    - replication_controller_json
     - status_code
     - return_result
-    - uid
-    - status
-    - creation_time
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      read_namespace:
-        x: 40
-        'y': 200
-      get_uid:
-        x: 240
-        'y': 200
-      get_creation_time:
-        x: 400
-        'y': 200
-      get_status:
-        x: 600
+      set_success_message:
+        x: 280
         'y': 200
         navigate:
-          c9273b07-2c64-4021-cdf9-f7d5ae0a3d61:
+          9d45e41e-c509-4ccd-b112-51ac81145176:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      create_namespace:
-        x: 240
-        'y': 440
-      string_equals:
-        x: 40
-        'y': 440
+      api_call_to_replace_replication_controller:
+        x: 80
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 800
+          x: 480
           'y': 200
