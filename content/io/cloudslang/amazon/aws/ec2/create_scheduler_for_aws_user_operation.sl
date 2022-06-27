@@ -27,8 +27,8 @@
 #!                               Optional
 #! @input start_instance_scheduler_time: Start instance scheduler time.
 #!                                 Optional
-#! @input stop_and_deallocate_instance_scheduler_id: Stop and deallocate instance scheduler ID.Optional
-#! @input stop_and_deallocate_instance_scheduler_time: Stop and deallocate instance scheduler time.Optional
+#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.Optional
+#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.Optional
 #! @input on_behalf_of_user: The user login name on behalf of whom request is submitted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -37,8 +37,8 @@
 #!
 #! @output updated_start_instance_scheduler_id: Start instance scheduler ID.
 #! @output updated_start_instance_scheduler_time: Start instance scheduler time.
-#! @output updated_stop_and_deallocate_instance_scheduler_id: Updated stop instance scheduler id
-#! @output updated_stop_and_deallocate_instance_scheduler_time: Updated stop instance scheduler time.
+#! @output updated_stop_instance_scheduler_id: Updated stop instance scheduler id
+#! @output updated_stop_instance_scheduler_time: Updated stop instance scheduler time.
 #! @output scheduler_time_zone: The scheduler time zone.
 #!
 #! @result SUCCESS: The flow completed successfully.
@@ -84,13 +84,13 @@ flow:
             - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
             - start_instance_scheduler_id: '${start_instance_scheduler_id}'
             - start_instance_scheduler_id_time: '${start_instance_scheduler_time}'
-            - stop_and_deallocate_instance_scheduler_id: '${stop_and_deallocate_instance_scheduler_id}'
-            - stop_and_deallocate_instance_scheduler_time: '${stop_and_deallocate_instance_scheduler_time}'
+            - stop_instance_scheduler_id: '${stop_instance_scheduler_id}'
+            - stop_instance_scheduler_time: '${stop_instance_scheduler_time}'
         publish:
           - dnd_rest_user
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
-          - updated_stop_and_deallocate_instance_scheduler_id: '${stop_and_deallocate_instance_scheduler_id}'
-          - updated_stop_and_deallocate_instance_scheduler_time: '${stop_and_deallocate_instance_scheduler_time}'
+          - updated_stop_instance_scheduler_id: '${stop_instance_scheduler_id}'
+          - updated_stop_instance_scheduler_time: '${stop_instance_scheduler_time}'
           - updated_start_instance_scheduler_id: '${start_instance_scheduler_id}'
           - updated_start_instance_scheduler_time: '${start_instance_scheduler_id_time}'
           - on_behalf_of_user: '${dnd_rest_user.split("/")[1]}'
@@ -243,7 +243,7 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${stop_instance_scheduler_id}'
         navigate:
-          - SUCCESS: stop_and_deallocate_instance_json_body
+          - SUCCESS: stop_instance_json_body
           - FAILURE: failure_message_stop_instance_scheduler_already_present
     - failure_message_start_instance_scheduler_already_present:
         worker_group: '${worker_group}'
@@ -294,8 +294,8 @@ flow:
   outputs:
     - updated_start_instance_scheduler_id
     - updated_start_instance_scheduler_time
-    - updated_stop_and_deallocate_instance_scheduler_id
-    - updated_stop_and_deallocate_instance_scheduler_time
+    - updated_stop_instance_scheduler_id
+    - updated_stop_instance_scheduler_time
     - scheduler_time_zone
   results:
     - SUCCESS
@@ -312,7 +312,7 @@ extensions:
       get_tenant_id:
         x: 40
         'y': 120
-      stop_and_deallocate_instance_json_body:
+      stop_instance_json_body:
         x: 840
         'y': 600
       set_given_on_behalf_of_user:
