@@ -16,10 +16,14 @@
 #! @description: This workflow deletes the given scheduler.
 #!
 #! @input scheduler_id: The scheduler id to be deleted.
-#! @input start_instance_scheduler_id: Start instance scheduler ID. Optional
-#! @input start_instance_scheduler_time: Start instance scheduler time. Optional
-#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.Optional
-#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.Optional
+#! @input start_instance_scheduler_id: Start instance scheduler ID.
+#!                                     Optional
+#! @input start_instance_scheduler_time: Start instance scheduler time.
+#!                                       Optional
+#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.
+#!                                    Optional
+#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.
+#!                                      Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'

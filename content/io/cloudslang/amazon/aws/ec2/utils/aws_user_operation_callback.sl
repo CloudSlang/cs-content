@@ -17,6 +17,12 @@
 #!
 #! @input component_id: The service component ID.
 #!                      Optional
+#! @input service_instance_id: The service instance ID.
+#!                             Optional
+#! @input on_behalf_of_user: The service on behalf user.
+#!                           Optional
+#! @input action_name: The AWS action name.
+#!                     Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'

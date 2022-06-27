@@ -24,11 +24,13 @@
 #! @input service_instance_id: The service instance ID.Optional
 #! @input action_name: The name of the user operation
 #! @input start_instance_scheduler_id: Start instance scheduler ID.
-#!                               Optional
+#!                                     Optional
 #! @input start_instance_scheduler_time: Start instance scheduler time.
-#!                                 Optional
-#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.Optional
-#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.Optional
+#!                                       Optional
+#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.
+#!                                    Optional
+#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.
+#!                                      Optional
 #! @input on_behalf_of_user: The user login name on behalf of whom request is submitted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
