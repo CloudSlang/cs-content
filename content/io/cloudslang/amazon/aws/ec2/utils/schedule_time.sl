@@ -44,8 +44,8 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC2'
-    class_name: 'io.cloudslang.content.azure.actions.utils.SchedulerTime'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.43-SNAPSHOT-2'
+    class_name: 'io.cloudslang.content.amazon.actions.utils.SchedulerTime'
     method_name: 'execute'
   
   outputs: 
