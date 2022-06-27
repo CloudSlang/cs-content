@@ -46,7 +46,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.final
+namespace: io.cloudslang.amazon.aws.ec2
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
