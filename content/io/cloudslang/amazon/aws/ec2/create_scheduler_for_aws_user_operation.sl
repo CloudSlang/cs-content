@@ -97,7 +97,7 @@ flow:
           - updated_start_instance_scheduler_time: '${start_instance_scheduler_id_time}'
           - on_behalf_of_user: '${dnd_rest_user.split("/")[1]}'
         navigate:
-          - SUCCESS: check_on_behalf_of_user_empty
+          - SUCCESS: get_user_identifier
           - FAILURE: on_failure
     - scheduler_time:
         worker_group: '${worker_group}'
@@ -175,7 +175,7 @@ flow:
     - start_instance_json_body:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - start_instance_json_body: "${'{ \"flowIdentifier\": \"io.cloudslang.amazon.aws.ec2.utils.aws_user_operation_callback\",\"scheduleName\": \"Execute AWS Start Instance\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - start_instance_json_body: "${'{ \"flowIdentifier\": \"io.cloudslang.amazon.aws.ec2.utils.aws_user_operation_callback\",\"scheduleName\": \"Execute AWS Start Instance\"+'+aws_instance_id+',\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
         publish:
           - scheduler_json_body: '${start_instance_json_body}'
         navigate:
@@ -194,7 +194,7 @@ flow:
     - stop_instance_json_body:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - aws_stop_instance_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.amazon.aws.ec2.utils.aws_user_operation_callback\",\"scheduleName\": \"Execute AWS Stop Instance\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - aws_stop_instance_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.amazon.aws.ec2.utils.aws_user_operation_callback\",\"scheduleName\": \"Execute AWS Stop Instance\"+'+aws_instance_id+',\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
         publish:
           - scheduler_json_body: '${aws_stop_instance_json_body}'
         navigate:
@@ -293,6 +293,25 @@ flow:
         navigate:
           - SUCCESS: scheduler_time
           - FAILURE: on_failure
+    - get_user_identifier:
+        do:
+          io.cloudslang.microfocus.content.get_user_identifier: []
+        publish:
+          - user_identifier: '${id}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_artifact_properties
+    - get_artifact_properties:
+        do:
+          io.cloudslang.microfocus.content.get_artifact_properties:
+            - user_identifier: '${user_identifier}'
+            - artifact_id: '${component_id}'
+            - property_names: cloud_instance_id
+        publish:
+          - aws_instance_id: '${property_value_list.split(";")[1]}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: check_on_behalf_of_user_empty
   outputs:
     - updated_start_instance_scheduler_id
     - updated_start_instance_scheduler_time
@@ -310,25 +329,32 @@ extensions:
         'y': 320
       check_on_behalf_of_user_empty:
         x: 40
-        'y': 480
+        'y': 640
       get_tenant_id:
         x: 40
+        'y': 120
+      set_given_on_behalf_of_user:
+        x: 200
+        'y': 600
+        navigate:
+          13b09adc-c7f4-6842-a335-c15251724c0e:
+            vertices:
+              - x: 360
+                'y': 360
+            targetId: scheduler_time
+            port: SUCCESS
+      start_instance_json_body:
+        x: 840
         'y': 120
       stop_instance_json_body:
         x: 840
         'y': 600
-      set_given_on_behalf_of_user:
-        x: 200
-        'y': 480
-      start_instance_json_body:
-        x: 840
-        'y': 120
       check_stop_instance_scheduler_is_present:
         x: 400
         'y': 600
       set_default_on_behalf_of_user:
-        x: 120
-        'y': 320
+        x: 200
+        'y': 360
       failure_message_start_instance_scheduler_already_present:
         x: 600
         'y': 320
@@ -345,6 +371,9 @@ extensions:
       check_action_name_start_instance:
         x: 400
         'y': 120
+      get_user_identifier:
+        x: 40
+        'y': 320
       failure_message_stop_instance_scheduler_already_present:
         x: 600
         'y': 520
@@ -355,6 +384,9 @@ extensions:
       check_action_name_aws_start_instance:
         x: 1160
         'y': 120
+      get_artifact_properties:
+        x: 40
+        'y': 480
       check_action_name_stop_instance_operation:
         x: 1160
         'y': 480
