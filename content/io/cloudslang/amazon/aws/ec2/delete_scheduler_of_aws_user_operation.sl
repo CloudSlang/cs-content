@@ -20,9 +20,9 @@
 #!                                     Optional
 #! @input start_instance_scheduler_time: Start instance scheduler time.
 #!                                       Optional
-#! @input stop_instance_scheduler_id: Stop and deallocate instance scheduler ID.
+#! @input stop_instance_scheduler_id: Stop instance scheduler ID.
 #!                                    Optional
-#! @input stop_instance_scheduler_time: Stop and deallocate instance scheduler time.
+#! @input stop_instance_scheduler_time: Stop instance scheduler time.
 #!                                      Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -31,8 +31,8 @@
 #!
 #! @output updated_start_instance_scheduler_id: Start instance scheduler ID.
 #! @output updated_start_instance_scheduler_time: Start instance scheduler time.
-#! @output updated_stop_instance_scheduler_id: Stop and Deallocate instance scheduler ID.
-#! @output updated_stop_instance_scheduler_time: Stop and Deallocate instance scheduler time.
+#! @output updated_stop_instance_scheduler_id: Stop instance scheduler ID.
+#! @output updated_stop_instance_scheduler_time: Stop instance scheduler time.
 #!
 #! @result FAILURE: There was an error while trying to run every step of the flow.
 #! @result SUCCESS: The flow completed successfully.
