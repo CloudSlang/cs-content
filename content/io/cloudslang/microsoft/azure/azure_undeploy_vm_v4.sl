@@ -882,7 +882,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip(\" \")}"
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_and_deallocate_vm_scheduler_id.strip()}"
             - username: '${dnd_rest_user}'
             - password:
                 value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
@@ -919,7 +919,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id.strip(\" \")}"
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id.strip()}"
             - username: '${dnd_rest_user}'
             - password:
                 value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"

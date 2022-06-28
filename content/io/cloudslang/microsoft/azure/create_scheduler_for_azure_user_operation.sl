@@ -97,7 +97,7 @@ flow:
           - updated_start_vm_scheduler_time: '${start_vm_scheduler_id_time}'
           - on_behalf_of_user: '${dnd_rest_user.split("/")[1]}'
         navigate:
-          - SUCCESS: check_on_behalf_of_user_empty
+          - SUCCESS: get_user_identifier
           - FAILURE: on_failure
     - scheduler_time:
         worker_group: '${worker_group}'
@@ -172,9 +172,10 @@ flow:
           - SUCCESS: check_start_vm_scheduler_already_present
           - FAILURE: check_action_name_stop_and_deallocate_vm
     - start_vm_json_body:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - start_vm_json_body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Start VM\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - start_vm_json_body: "${'{ \"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Start VM - '+vm_name+'\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
         publish:
           - scheduler_json_body: '${start_vm_json_body}'
         navigate:
@@ -191,9 +192,10 @@ flow:
           - SUCCESS: check_stop_and_deallocate_vm_scheduler_is_present
           - FAILURE: on_failure
     - stop_and_deallocate_vm_json_body:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - stop_and_deallocate_vm_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Stop VM and Deallocate Public IP\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
+            - stop_and_deallocate_vm_json_body: "${'{\"flowIdentifier\": \"io.cloudslang.microsoft.azure.utils.azure_user_operation_callback\",\"scheduleName\": \"Execute Azure Stop VM and Deallocate Public IP - '+vm_name+'\",\"triggerExpression\":\"' + trigger_expression + '\",\"timezone\":\"' + time_zone + '\",\"startDate\":\"' + scheduler_start_time + '\",\"enabled\": true,\"misfireInstruction\": 0,\"useEmptyValueForPrompts\": true,\"exclusions\": {\"dateTimeExclusionList\": null,\"dateExclusionList\": null,\"timeExclusionList\": null},\"runLogLevel\": \"STANDARD\", \"inputs\": [{\"name\": \"component_id\", \"value\": \"' + component_id + '\", \"sensitive\": false},{\"name\": \"service_instance_id\",\"value\": \"'+service_instance_id +'\",\"sensitive\": false},{\"name\": \"on_behalf_of_user\",\"value\": \"'+on_behalf_of_user +'\",\"sensitive\": false},{\"name\": \"action_name\",\"value\": \"'+action_name +'\",\"sensitive\": false},{\"name\": \"worker_group\",\"value\": \"' + worker_group + '\",\"sensitive\": false}],\"licenseType\": 0}'}"
         publish:
           - scheduler_json_body: '${stop_and_deallocate_vm_json_body}'
         navigate:
@@ -275,6 +277,7 @@ flow:
           - SUCCESS: set_default_on_behalf_of_user
           - FAILURE: set_given_on_behalf_of_user
     - set_given_on_behalf_of_user:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - on_behalf_of_user: '${on_behalf_of_user}'
@@ -284,6 +287,7 @@ flow:
           - SUCCESS: scheduler_time
           - FAILURE: on_failure
     - set_default_on_behalf_of_user:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - dnd_rest_user: '${dnd_rest_user}'
@@ -292,6 +296,31 @@ flow:
         navigate:
           - SUCCESS: scheduler_time
           - FAILURE: on_failure
+    - get_artifact_properties:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microfocus.content.get_artifact_properties:
+            - user_identifier: '${id}'
+            - artifact_id: '${component_id}'
+            - property_names: vmName
+        publish:
+          - vm_name: "${property_value_list.split(';')[1]}"
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: check_on_behalf_of_user_empty
+    - get_user_identifier:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microfocus.content.get_user_identifier: []
+        publish:
+          - id
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_artifact_properties
   outputs:
     - updated_start_vm_scheduler_id
     - updated_start_vm_scheduler_time
@@ -322,8 +351,8 @@ extensions:
             targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
             port: SUCCESS
       check_on_behalf_of_user_empty:
-        x: 40
-        'y': 480
+        x: 200
+        'y': 520
       get_tenant_id:
         x: 40
         'y': 120
@@ -341,8 +370,8 @@ extensions:
         x: 1160
         'y': 120
       set_given_on_behalf_of_user:
-        x: 200
-        'y': 480
+        x: 280
+        'y': 320
       stop_and_deallocate_vm_json_body:
         x: 840
         'y': 600
@@ -350,7 +379,7 @@ extensions:
         x: 840
         'y': 120
       set_default_on_behalf_of_user:
-        x: 120
+        x: 160
         'y': 320
       scheduler_time:
         x: 200
@@ -362,12 +391,18 @@ extensions:
           9725f4b6-0fbe-4ef5-a2bc-dbfdd2efb11c:
             targetId: c888ea14-3778-b642-bb37-c8006a95007a
             port: SUCCESS
+      get_user_identifier:
+        x: 40
+        'y': 320
       check_action_name_stop_and_deallocate_vm:
         x: 400
         'y': 320
       check_action_name_start_vm:
         x: 400
         'y': 120
+      get_artifact_properties:
+        x: 40
+        'y': 520
       check_start_vm_scheduler_already_present:
         x: 600
         'y': 120
