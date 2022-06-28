@@ -294,7 +294,7 @@ flow:
             - ignore_case: 'true'
         navigate:
           - SUCCESS: set_public_dns_name_empty
-          - FAILURE: check_stop_instance_scheduler_id_empty
+          - FAILURE: SUCCESS
     - set_public_dns_name_empty:
         worker_group: '${worker_group}'
         do:
@@ -302,7 +302,7 @@ flow:
         publish:
           - public_dns_name: '-'
         navigate:
-          - SUCCESS: check_stop_instance_scheduler_id_empty
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - set_tenant:
         worker_group: '${worker_group}'
@@ -315,64 +315,8 @@ flow:
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
           - updated_scheduler_id: '${scheduler_id}'
         navigate:
-          - SUCCESS: check_stop_instance_scheduler_id_empty_1
+          - SUCCESS: check_stop_instance_scheduler_id_empty
           - FAILURE: on_failure
-    - check_stop_instance_scheduler_id_empty_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${stop_instance_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: describe_instances
-          - FAILURE: get_scheduler_details_1
-    - get_scheduler_details_1:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_instance_scheduler_id.strip()}"
-            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-        publish:
-          - return_result
-          - error_message
-        navigate:
-          - SUCCESS: get_value_1
-          - FAILURE: on_failure
-    - get_value_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: nextFireTime
-        publish:
-          - next_run_in_unix_time: '${return_result}'
-        navigate:
-          - SUCCESS: time_format_1
-          - FAILURE: on_failure
-    - time_format_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.amazon.aws.ec2.utils.time_format:
-            - time: '${next_run_in_unix_time}'
-            - timezone: '${scheduler_time_zone}'
-            - format: '%Y-%m-%dT%H:%M:%S'
-        publish:
-          - updated_stop_instance_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
-        navigate:
-          - SUCCESS: describe_instances
     - check_stop_instance_scheduler_id_empty:
         worker_group: '${worker_group}'
         do:
@@ -380,7 +324,7 @@ flow:
             - first_string: '${stop_instance_scheduler_id}'
             - second_string: ''
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: describe_instances
           - FAILURE: get_scheduler_details
     - get_scheduler_details:
         worker_group:
@@ -428,7 +372,7 @@ flow:
         publish:
           - updated_stop_instance_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: describe_instances
   outputs:
     - return_result
     - instance_state
@@ -445,15 +389,9 @@ extensions:
       stop_instances:
         x: 400
         'y': 80
-      check_stop_instance_scheduler_id_empty_1:
-        x: 80
-        'y': 440
       parse_state:
         x: 840
         'y': 80
-      get_scheduler_details_1:
-        x: 80
-        'y': 600
       set_ip_address_empty:
         x: 840
         'y': 280
@@ -464,7 +402,7 @@ extensions:
         x: 1000
         'y': 80
       get_value:
-        x: 560
+        x: 240
         'y': 600
       is_ip_address_not_found:
         x: 1000
@@ -472,13 +410,13 @@ extensions:
       set_public_dns_name_empty:
         x: 1000
         'y': 600
-      time_format:
-        x: 400
-        'y': 600
         navigate:
-          cb499476-aafe-9131-f728-1a3840922a22:
+          68e626fa-b050-9833-9ec9-3b3b9006e4be:
             targetId: 518d97ad-29b7-d950-189b-c1bc43e7c82a
             port: SUCCESS
+      time_format:
+        x: 240
+        'y': 440
       parse_state_to_get_instance_status:
         x: 240
         'y': 80
@@ -489,35 +427,29 @@ extensions:
         x: 400
         'y': 280
       check_stop_instance_scheduler_id_empty:
-        x: 840
-        'y': 600
-        navigate:
-          86f272bf-018e-5456-feac-6e9d4a93d6f0:
-            targetId: 518d97ad-29b7-d950-189b-c1bc43e7c82a
-            port: SUCCESS
+        x: 80
+        'y': 440
       set_endpoint:
         x: 80
         'y': 80
       is_public_dns_name_not_present:
         x: 1000
         'y': 440
+        navigate:
+          fe6f6d7d-2e25-deb5-3a1d-a777866e6d90:
+            targetId: 518d97ad-29b7-d950-189b-c1bc43e7c82a
+            port: FAILURE
       search_and_replace:
         x: 680
         'y': 80
       get_scheduler_details:
-        x: 680
+        x: 80
         'y': 600
       set_failure_message_for_instance:
         x: 400
         'y': 440
-      get_value_1:
-        x: 240
-        'y': 600
       set_public_dns_name:
         x: 840
-        'y': 440
-      time_format_1:
-        x: 240
         'y': 440
       check_instance_state_v2:
         x: 520
@@ -525,5 +457,5 @@ extensions:
     results:
       SUCCESS:
         518d97ad-29b7-d950-189b-c1bc43e7c82a:
-          x: 640
-          'y': 440
+          x: 840
+          'y': 600

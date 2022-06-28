@@ -205,9 +205,9 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_if_instace_is_in_stopped_state_1
+          - SUCCESS: check_if_instace_is_in_stopped_state
           - FAILURE: on_failure
-    - check_if_instace_is_in_stopped_state_1:
+    - check_if_instace_is_in_stopped_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
@@ -269,7 +269,7 @@ flow:
             - ignore_case: 'true'
         navigate:
           - SUCCESS: set_public_dns_name_empty
-          - FAILURE: check_start_instance_scheduler_id_empty
+          - FAILURE: SUCCESS
     - set_public_dns_name_empty:
         worker_group: '${worker_group}'
         do:
@@ -277,7 +277,7 @@ flow:
         publish:
           - public_dns_name: '-'
         navigate:
-          - SUCCESS: check_start_instance_scheduler_id_empty
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - start_instances:
         worker_group: '${worker_group}'
@@ -309,7 +309,7 @@ flow:
             - first_string: '${start_instance_scheduler_id}'
             - second_string: ''
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: describe_instances
           - FAILURE: get_scheduler_details
     - get_scheduler_details:
         worker_group:
@@ -357,62 +357,6 @@ flow:
         publish:
           - updated_start_instance_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
         navigate:
-          - SUCCESS: SUCCESS
-    - check_start_instance_scheduler_id_empty_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${start_instance_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: describe_instances
-          - FAILURE: get_scheduler_details_1
-    - get_scheduler_details_1:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_instance_scheduler_id.strip()}"
-            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
-        publish:
-          - return_result
-          - error_message
-        navigate:
-          - SUCCESS: get_value_1
-          - FAILURE: on_failure
-    - get_value_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: nextFireTime
-        publish:
-          - next_run_in_unix_time: '${return_result}'
-        navigate:
-          - SUCCESS: time_format_1
-          - FAILURE: on_failure
-    - time_format_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.amazon.aws.ec2.utils.time_format:
-            - time: '${next_run_in_unix_time}'
-            - timezone: '${scheduler_time_zone}'
-            - format: '%Y-%m-%dT%H:%M:%S'
-        publish:
-          - updated_start_instance_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
-        navigate:
           - SUCCESS: describe_instances
     - set_tenant:
         worker_group: '${worker_group}'
@@ -425,7 +369,7 @@ flow:
           - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
           - updated_scheduler_id: '${scheduler_id}'
         navigate:
-          - SUCCESS: check_start_instance_scheduler_id_empty_1
+          - SUCCESS: check_start_instance_scheduler_id_empty
           - FAILURE: on_failure
     - on_failure:
         - do_nothing_1:
@@ -448,21 +392,14 @@ extensions:
         x: 480
         'y': 80
       check_start_instance_scheduler_id_empty:
-        x: 960
-        'y': 480
-        navigate:
-          5f9b5f76-7a92-56bc-05cc-6ae73b5be022:
-            targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
-            port: SUCCESS
+        x: 160
+        'y': 400
       parse_state:
         x: 960
         'y': 80
-      get_scheduler_details_1:
-        x: 160
-        'y': 640
       set_ip_address_empty:
-        x: 960
-        'y': 280
+        x: 1120
+        'y': 240
       set_tenant:
         x: 160
         'y': 240
@@ -470,62 +407,57 @@ extensions:
         x: 1120
         'y': 80
       get_value:
-        x: 720
+        x: 320
         'y': 640
       is_ip_address_not_found:
         x: 1280
         'y': 80
       set_public_dns_name_empty:
         x: 1280
-        'y': 440
-      time_format:
-        x: 960
         'y': 640
         navigate:
-          1076b3fe-b425-26b4-d93e-61a8c4bd4ff0:
+          7443fc93-c1fb-5ace-7df4-b4624d16220e:
             targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
             port: SUCCESS
+      time_format:
+        x: 320
+        'y': 400
       parse_state_to_get_instance_status:
         x: 320
         'y': 80
       describe_instances:
         x: 320
         'y': 240
+      check_if_instace_is_in_stopped_state:
+        x: 480
+        'y': 240
       set_endpoint:
         x: 160
         'y': 80
       is_public_dns_name_not_present:
         x: 1280
-        'y': 280
+        'y': 400
+        navigate:
+          f5032fa5-e0ac-df0b-d9b2-16f1526ca7ef:
+            targetId: d2ef709d-2cef-d264-0a6b-105705aa8c53
+            port: FAILURE
       search_and_replace:
         x: 800
         'y': 80
       get_scheduler_details:
-        x: 480
+        x: 160
         'y': 640
       set_failure_message_for_instance:
         x: 480
         'y': 400
-      check_start_instance_scheduler_id_empty_1:
-        x: 160
-        'y': 400
-      get_value_1:
-        x: 320
-        'y': 640
       set_public_dns_name:
-        x: 1120
-        'y': 280
-      time_format_1:
-        x: 320
-        'y': 400
+        x: 1280
+        'y': 240
       check_instance_state_v2:
         x: 640
         'y': 80
-      check_if_instace_is_in_stopped_state_1:
-        x: 480
-        'y': 240
     results:
       SUCCESS:
         d2ef709d-2cef-d264-0a6b-105705aa8c53:
-          x: 1280
-          'y': 640
+          x: 1000
+          'y': 480
