@@ -226,7 +226,7 @@ flow:
             - reset: 'false'
         navigate:
           - HAS_MORE: wait_before_check
-          - NO_MORE: FAILURE_1
+          - NO_MORE: FAILURE
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -237,7 +237,6 @@ flow:
   results:
     - FAILURE
     - SUCCESS
-    - FAILURE_1
 extensions:
   graph:
     steps:
@@ -278,7 +277,7 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 840
           'y': 360
-      FAILURE_1:
+      FAILURE:
         c9102be8-9863-2027-22f4-33ca633b909c:
           x: 360
           'y': 520
