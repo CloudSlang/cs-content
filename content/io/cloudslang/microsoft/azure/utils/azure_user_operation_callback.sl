@@ -16,7 +16,9 @@
 #! @description: This operation executes azure user operations.
 #!
 #! @input component_id: The service component ID.
-#!                      Optional
+#! @input service_instance_id: The ID of the service instance.
+#! @input on_behalf_of_user: The    login name of the user on behalf of whom the service is being requested.
+#! @input action_name: The public action name.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'

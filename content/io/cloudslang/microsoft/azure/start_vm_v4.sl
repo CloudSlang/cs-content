@@ -136,6 +136,15 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
+    - check_start_vm_scheduler_id_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${start_vm_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: get_auth_token_using_web_api
+          - FAILURE: get_tenant_id
     - get_auth_token_using_web_api:
         worker_group: '${worker_group}'
         do:
@@ -165,8 +174,8 @@ flow:
           - return_code
           - error_message: '${exception}'
         navigate:
-          - SUCCESS: get_tenant_id
-          - FAILURE: check_start_vm_scheduler_id_empty_1
+          - SUCCESS: start_vm_v3
+          - FAILURE: on_failure
     - start_vm_v3:
         worker_group:
           value: '${worker_group}'
@@ -201,21 +210,8 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_start_vm_scheduler_id_empty
-          - FAILURE: check_start_vm_scheduler_id_empty_1
-    - get_tenant_id:
-        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
-            - scheduler_id: '${start_vm_scheduler_id}'
-        publish:
-          - dnd_rest_user
-          - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
-          - updated_scheduler_id: '${scheduler_id}'
-        navigate:
-          - SUCCESS: start_vm_v3
-          - FAILURE: check_start_vm_scheduler_id_empty_1
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
     - get_scheduler_details:
         worker_group:
           value: '${worker_group}'
@@ -262,72 +258,20 @@ flow:
         publish:
           - updated_start_vm_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
         navigate:
-          - SUCCESS: SUCCESS
-    - check_start_vm_scheduler_id_empty:
-        worker_group: '${worker_group}'
+          - SUCCESS: get_auth_token_using_web_api
+    - get_tenant_id:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${start_vm_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: get_scheduler_details
-    - get_scheduler_details_1:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_vm_scheduler_id.strip()}"
-            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
-            - password:
-                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
-                sensitive: true
-            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
-            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
-            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
-            - proxy_password:
-                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
-                sensitive: true
-            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
-            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+          io.cloudslang.base.utils.do_nothing:
+            - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - start_vm_scheduler_id: '${start_vm_scheduler_id}'
         publish:
-          - return_result
-          - error_message
+          - dnd_rest_user
+          - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
+          - updated_scheduler_id: '${start_vm_scheduler_id}'
         navigate:
-          - SUCCESS: get_value_1
+          - SUCCESS: get_scheduler_details
           - FAILURE: on_failure
-    - get_value_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: nextFireTime
-        publish:
-          - next_run_in_unix_time: '${return_result}'
-        navigate:
-          - SUCCESS: time_format_1
-          - FAILURE: on_failure
-    - time_format_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.time_format:
-            - time: '${next_run_in_unix_time}'
-            - timezone: '${scheduler_time_zone}'
-            - format: '%Y-%m-%dT%H:%M:%S'
-        publish:
-          - updated_start_vm_scheduler_time: '${result_date + ".000" + timezone.split("UTC")[1].split(")")[0] + timezone.split(")")[1]}'
-        navigate:
-          - SUCCESS: FAILURE
-    - check_start_vm_scheduler_id_empty_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${start_vm_scheduler_id}'
-            - second_string: ''
-        navigate:
-          - SUCCESS: FAILURE
-          - FAILURE: get_scheduler_details_1
   outputs:
     - public_ip_address
     - power_state
@@ -340,60 +284,39 @@ extensions:
   graph:
     steps:
       get_auth_token_using_web_api:
-        x: 40
+        x: 400
         'y': 120
       check_start_vm_scheduler_id_empty:
-        x: 360
-        'y': 320
-        navigate:
-          30aa3dbc-5cbb-314a-b2ee-d8da281af1bd:
-            targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
-            port: SUCCESS
-      get_scheduler_details_1:
         x: 40
-        'y': 480
+        'y': 120
       get_tenant_id:
-        x: 200
-        'y': 120
+        x: 240
+        'y': 200
       start_vm_v3:
-        x: 360
-        'y': 120
-      get_value:
-        x: 680
-        'y': 120
-      time_format:
-        x: 840
+        x: 600
         'y': 120
         navigate:
-          672e556a-2998-8fb5-9576-ad4b859bd5a6:
+          b5f32fef-9700-6309-2661-07443488e851:
             targetId: 49f71b73-1825-42e1-f00c-2b1e4388e4f9
             port: SUCCESS
-      check_start_vm_scheduler_id_empty_1:
-        x: 40
-        'y': 320
+      get_value:
+        x: 240
+        'y': 360
+      time_format:
+        x: 400
+        'y': 360
         navigate:
-          a9f07cd7-ac41-9776-45d9-f974619e156e:
-            targetId: db3fb9bd-e7fc-3f5c-3d08-46133f54969a
+          be801907-3fd1-0009-88e1-d1afd120ec66:
+            vertices:
+              - x: 520
+                'y': 280
+            targetId: get_auth_token_using_web_api
             port: SUCCESS
       get_scheduler_details:
-        x: 520
-        'y': 120
-      get_value_1:
-        x: 200
-        'y': 480
-      time_format_1:
-        x: 360
-        'y': 480
-        navigate:
-          b12e43c5-68f0-52a4-ef4c-c00ca22cd653:
-            targetId: db3fb9bd-e7fc-3f5c-3d08-46133f54969a
-            port: SUCCESS
+        x: 40
+        'y': 360
     results:
       SUCCESS:
         49f71b73-1825-42e1-f00c-2b1e4388e4f9:
-          x: 840
-          'y': 320
-      FAILURE:
-        db3fb9bd-e7fc-3f5c-3d08-46133f54969a:
-          x: 600
-          'y': 480
+          x: 800
+          'y': 120
