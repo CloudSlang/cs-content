@@ -67,6 +67,10 @@ flow:
         sensitive: true
     - region
     - instance_id
+    - start_instance_scheduler_id:
+        required: false
+    - stop_instance_scheduler_id:
+        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -83,10 +87,6 @@ flow:
         required: false
     - polling_retries:
         default: '60'
-        required: false
-    - start_instance_scheduler_id:
-        required: false
-    - stop_instance_scheduler_id:
         required: false
   workflow:
     - set_endpoint:
