@@ -59,7 +59,7 @@
 #! @output service_json: The Kubernetes service details in JSON format.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output return_result: This will contain the response entity.
-#! @output servicename: The name of the Kubernetes service.
+#! @output final_service_name: The name of the Kubernetes service.
 #! @output service_uid: The uid of the Kubernetes service.
 #! @output service_creation_time_stamp: The creation time of the Kubernetes service.
 #! @output service_cluster_ip: The clusterIp of the Kubernetes service.
@@ -169,7 +169,7 @@ flow:
         publish:
           - service_json
           - return_result
-          - servicename: '${service_name}'
+          - final_service_name: '${service_name}'
           - status_code
         navigate:
           - SUCCESS: check_service_is_created
@@ -225,7 +225,7 @@ flow:
             - json_object: '${service_json}'
             - json_path: metadata.name
         publish:
-          - servicename: "${return_result.strip('\"')}"
+          - final_service_name: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: set_uid
           - FAILURE: on_failure
@@ -266,7 +266,7 @@ flow:
     - service_json
     - status_code
     - return_result
-    - servicename
+    - final_service_name
     - service_uid
     - service_creation_time_stamp
     - service_cluster_ip
