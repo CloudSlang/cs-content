@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow deletes the Cassandra Application.
+#! @description: This flow deletes the Cassandra application.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
@@ -96,6 +96,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_host.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - delete_service:
         worker_group:
           value: '${worker_group}'
@@ -169,6 +180,47 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: delete_service
+          - FAILURE: on_failure
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: delete_service
+          - FAILURE: on_failure
   outputs:
     - status_code
     - return_result
@@ -179,20 +231,35 @@ extensions:
   graph:
     steps:
       delete_service:
-        x: 40
-        'y': 120
+        x: 560
+        'y': 80
       delete_replication_controller:
-        x: 200
-        'y': 120
+        x: 720
+        'y': 80
       set_success_message:
-        x: 360
-        'y': 120
+        x: 880
+        'y': 80
         navigate:
           412b14e5-7efc-4ef2-b63a-003b4995f9d9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      set_kubernetes_host:
+        x: 40
+        'y': 80
+      is_port_provided:
+        x: 200
+        'y': 80
+      compare_numbers:
+        x: 200
+        'y': 280
+      set_kubernetes_port:
+        x: 400
+        'y': 280
+      set_default_kubernetes_port:
+        x: 400
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 520
-          'y': 120
+          x: 880
+          'y': 280

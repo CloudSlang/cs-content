@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow is used to create a Cassandra Application.
+#! @description: This flow is used to create a Cassandra application.
 #!
 #! @input kubernetes_host: Kubernetes host.
 #! @input kubernetes_port: Kubernetes API Port.
@@ -38,7 +38,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -60,8 +60,8 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output return_result: This will contain the success message.
 #!
-#! @result SUCCESS: The flow successfully deployed the cassandra application.
-#! @result FAILURE: The flow failed to deploy the cassandra application
+#! @result SUCCESS: The flow successfully deployed the Cassandra application.
+#! @result FAILURE: The flow failed to deploy the Cassandra application
 #!!#
 ########################################################################################################################
 
@@ -105,6 +105,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_host.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - create_namespace:
         worker_group:
           value: '${worker_group}'
@@ -266,6 +277,47 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_namespace
+          - FAILURE: on_failure
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_namespace
+          - FAILURE: on_failure
   outputs:
     - replication_controller_name
     - pod_list
@@ -278,27 +330,42 @@ flow:
 extensions:
   graph:
     steps:
-      create_namespace:
-        x: 40
-        'y': 120
-      create_service:
-        x: 200
-        'y': 120
       create_pod:
-        x: 360
-        'y': 120
-      create_replication_controller:
-        x: 520
-        'y': 120
+        x: 720
+        'y': 280
+      set_kubernetes_host:
+        x: 40
+        'y': 80
+      is_port_provided:
+        x: 200
+        'y': 80
       list_pods:
-        x: 680
-        'y': 120
+        x: 880
+        'y': 80
         navigate:
           8d22f839-f1c2-8f01-bb06-a93aff89a08c:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      compare_numbers:
+        x: 200
+        'y': 280
+      create_replication_controller:
+        x: 720
+        'y': 80
+      create_service:
+        x: 560
+        'y': 280
+      create_namespace:
+        x: 560
+        'y': 80
+      set_kubernetes_port:
+        x: 400
+        'y': 280
+      set_default_kubernetes_port:
+        x: 400
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 840
-          'y': 120
+          x: 1040
+          'y': 80
