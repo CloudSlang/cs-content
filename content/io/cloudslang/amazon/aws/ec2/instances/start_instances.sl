@@ -110,7 +110,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC4'
     class_name: io.cloudslang.content.amazon.actions.instances.StartInstancesAction
     method_name: execute
 

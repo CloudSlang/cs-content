@@ -108,19 +108,19 @@ operation:
     - delimiter:
         required: false
         default: ','
-    - key_filters_string
+    - key_filters_string:
         required: false
     - keyFiltersString:
         default: ${get("key_filters_string", "")}
         required: false
         private: true
-    - value_filters_string
+    - value_filters_string:
         required: false
     - valueFiltersString:
         default: ${get("value_filters_string", "")}
         required: false
         private: true
-    - regions_string
+    - regions_string:
         required: false
     - regionsString:
         default: ${get("regions_string", "")}
@@ -128,7 +128,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC3'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC4'
     class_name: io.cloudslang.content.amazon.actions.regions.DescribeRegionsAction
     method_name: execute
 
