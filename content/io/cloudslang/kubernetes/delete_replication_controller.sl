@@ -20,7 +20,7 @@
 #!                         Default: '443'
 #!                         Optional
 #! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
+#! @input namespace: The name of the kubernetes namespace.
 #! @input replication_controller_name: The name of the kubernetes replication controller that needs to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
@@ -37,7 +37,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: specifies the way the server hostname must match a domain name in
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
 #!                                 Default: 'strict'
@@ -125,11 +125,14 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+            - relevant_pod_list: ''
         publish:
           - pods_json
+          - pod_list: '${pod_list.strip("[").strip("]")}'
+          - relevant_pod_list: '${relevant_pod_list}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: delete_replication_controller
+          - SUCCESS: list_iterator
     - delete_replication_controller:
         worker_group:
           value: '${worker_group}'
@@ -223,7 +226,7 @@ flow:
             - first_string: '${status_code}'
             - second_string: '404'
         navigate:
-          - SUCCESS: get_array_of_pods
+          - SUCCESS: iterate_relevant_pods
           - FAILURE: on_failure
     - delete_pod:
         worker_group:
@@ -253,7 +256,7 @@ flow:
                 sensitive: true
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: pods_array_iterator
+          - SUCCESS: iterate_relevant_pods
     - string_equals_empty_array:
         worker_group: '${worker_group}'
         do:
@@ -262,63 +265,125 @@ flow:
             - second_string: '[]'
             - ignore_case: 'true'
         navigate:
-          - SUCCESS: pods_array_iterator
-          - FAILURE: get_pod_name
-    - pods_array_iterator:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.array_iterator:
-            - array: '${pods_array}'
-        publish:
-          - result_string
-          - return_result
-          - return_code
-        navigate:
-          - HAS_MORE: json_path_query
-          - NO_MORE: check_no_more
-          - FAILURE: on_failure
-    - get_array_of_pods:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${pods_json}'
-            - json_path: items
-        publish:
-          - pods_array: '${return_result}'
-        navigate:
-          - SUCCESS: pods_array_iterator
-          - FAILURE: on_failure
+          - SUCCESS: list_iterator
+          - FAILURE: is_relevant_pod_list_empty
     - json_path_query:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${result_string}'
+            - json_object: '${pod_json}'
             - json_path: "${\"$.metadata.ownerReferences[?(@.kind=='ReplicationController' && @.name=='\"+replication_controller_name+\"')]\"}"
         publish:
           - return_result
         navigate:
           - SUCCESS: string_equals_empty_array
-          - FAILURE: pods_array_iterator
-    - get_pod_name:
+          - FAILURE: list_iterator
+    - list_iterator:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${result_string}'
-            - json_path: 'metadata,name'
+          io.cloudslang.base.lists.list_iterator:
+            - list: '${pod_list}'
+            - relevant_pod_list: '${relevant_pod_list}'
         publish:
-          - pod_name: '${return_result}'
+          - pod_name: "${result_string.strip('\"')}"
+          - relevant_pod_list
         navigate:
-          - SUCCESS: delete_pod
+          - HAS_MORE: string_occurrence_counter
+          - NO_MORE: delete_replication_controller
           - FAILURE: on_failure
-    - check_no_more:
+    - string_occurrence_counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${pod_name}'
+            - string_to_find: '${replication_controller_name}'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: list_iterator
+    - string_equals:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${return_result}'
-            - second_string: no more
+            - second_string: '1'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: json_path_query
+          - SUCCESS: get_pod_details
+          - FAILURE: list_iterator
+    - get_pod_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.pods.get_pod_details:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - pod_name: '${pod_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - pod_json
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: json_path_query
+    - is_relevant_pod_list_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${relevant_pod_list}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: append_initial_pod_name
+          - FAILURE: append_pod_name
+    - append_pod_name:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: '${relevant_pod_list+","}'
+            - text: '${pod_name}'
+        publish:
+          - relevant_pod_list: '${new_string}'
+        navigate:
+          - SUCCESS: list_iterator
+    - append_initial_pod_name:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: '${relevant_pod_list}'
+            - text: '${pod_name}'
+        publish:
+          - relevant_pod_list: '${new_string}'
+        navigate:
+          - SUCCESS: list_iterator
+    - iterate_relevant_pods:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.lists.list_iterator:
+            - list: '${pod_list}'
+            - relevant_pod_list: '${relevant_pod_list}'
+        publish:
+          - pod_name: "${result_string.strip('\"')}"
+          - relevant_pod_list
+        navigate:
+          - HAS_MORE: delete_pod
+          - NO_MORE: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - status_code
     - return_result
@@ -329,44 +394,90 @@ extensions:
   graph:
     steps:
       check_replication_controller_status_code:
-        x: 520
+        x: 800
         'y': 80
       delete_replication_controller:
         x: 200
         'y': 80
-      pods_array_iterator:
-        x: 840
-        'y': 80
+        navigate:
+          cab81cef-21a2-f18a-6a7c-fdb36c8c839b:
+            vertices:
+              - x: 480
+                'y': 80
+            targetId: read_replication_controller
+            port: SUCCESS
+      append_initial_pod_name:
+        x: 400
+        'y': 120
       json_path_query:
-        x: 1000
-        'y': 480
-      get_array_of_pods:
-        x: 680
+        x: 200
+        'y': 640
+        navigate:
+          47a1b349-82c8-bad8-d95a-b636e4060a3e:
+            vertices:
+              - x: 360
+                'y': 600
+              - x: 240
+                'y': 360
+            targetId: list_iterator
+            port: FAILURE
+      iterate_relevant_pods:
+        x: 960
         'y': 80
-      get_pod_name:
-        x: 680
+        navigate:
+          babcd66e-093e-7220-e18e-245af54844f5:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: NO_MORE
+      append_pod_name:
+        x: 400
+        'y': 280
+      string_equals:
+        x: 40
         'y': 480
       list_pods:
         x: 40
         'y': 80
+      list_iterator:
+        x: 40
+        'y': 280
+      is_relevant_pod_list_empty:
+        x: 400
+        'y': 480
+        navigate:
+          fed9e19c-65f1-76f6-48e6-5023618d4662:
+            vertices:
+              - x: 560
+                'y': 320
+            targetId: append
+            port: SUCCESS
       delete_pod:
-        x: 680
+        x: 960
         'y': 280
       string_equals_empty_array:
-        x: 840
-        'y': 480
+        x: 400
+        'y': 640
+        navigate:
+          44553964-a68b-9c5f-40f8-7a73328e4891:
+            vertices:
+              - x: 280
+                'y': 360
+            targetId: list_iterator
+            port: SUCCESS
       sleep:
-        x: 440
+        x: 800
         'y': 280
         navigate:
           43954433-1cff-8e3a-a5f7-472b7e49f60c:
             targetId: 9f3c1b9e-2d98-75fc-79ba-7069939c5038
             port: FAILURE
       read_replication_controller:
-        x: 360
+        x: 600
         'y': 80
+      string_occurrence_counter:
+        x: 200
+        'y': 480
       counter:
-        x: 280
+        x: 600
         'y': 280
         navigate:
           c260deb1-d39b-7d4c-6081-233939033b8d:
@@ -375,19 +486,15 @@ extensions:
           cf7e4964-4e90-8d93-81d7-e99760f967f2:
             targetId: 9f3c1b9e-2d98-75fc-79ba-7069939c5038
             port: NO_MORE
-      check_no_more:
-        x: 1000
-        'y': 80
-        navigate:
-          a3723742-b1ff-a4ee-e599-900ad111629f:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+      get_pod_details:
+        x: 40
+        'y': 640
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1200
+          x: 1120
           'y': 80
       FAILURE:
         9f3c1b9e-2d98-75fc-79ba-7069939c5038:
-          x: 360
+          x: 600
           'y': 480
