@@ -15,13 +15,10 @@
 #!!
 #! @description: This flow is used to create a Cassandra application.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input namespace: The name of the kubernetes namespace.
-#! @input service_name_suffix: The suffix to the name of the Kubernetes service that needs to be created.
+#! @input service_name_suffix: The suffix to the name of the kubernetes service that needs to be created.
 #! @input number_of_replicas: The total number of replicas of pods that need to be created.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
@@ -56,6 +53,7 @@
 #!
 #! @output replication_controller_name: The name of the kubernetes replication controller.
 #! @output pod_list: The list of pods.
+#! @output cluster_ip: The IP address of the kubernetes cluster.
 #! @output service_name: The name of the kubernetes service.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output return_result: This will contain the success message.
@@ -72,10 +70,7 @@ imports:
 flow:
   name: deploy_cassandra_application
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -109,7 +104,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - kubernetes_host_with_port: "${kubernetes_host.split('//')[1].strip()}"
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
         publish:
           - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
           - kubernetes_host_with_port
@@ -177,7 +172,8 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-        publish: []
+        publish:
+          - cluster_ip: '${service_cluster_ip}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: create_pod
@@ -321,6 +317,7 @@ flow:
   outputs:
     - replication_controller_name
     - pod_list
+    - cluster_ip
     - service_name
     - status_code
     - return_result

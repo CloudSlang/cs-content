@@ -15,12 +15,9 @@
 #!!
 #! @description: This flow deletes the Cassandra application.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
+#! @input namespace: The name of the kubernetes namespace.
 #! @input service_name: The name of the kubernetes service name that needs to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
@@ -64,10 +61,7 @@ imports:
 flow:
   name: undeploy_cassandra_application
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -100,7 +94,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - kubernetes_host_with_port: "${kubernetes_host.split('//')[1].strip()}"
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
         publish:
           - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
           - kubernetes_host_with_port
@@ -230,6 +224,9 @@ flow:
 extensions:
   graph:
     steps:
+      set_kubernetes_host:
+        x: 40
+        'y': 80
       delete_service:
         x: 560
         'y': 80
@@ -243,9 +240,6 @@ extensions:
           412b14e5-7efc-4ef2-b63a-003b4995f9d9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      set_kubernetes_host:
-        x: 40
-        'y': 80
       is_port_provided:
         x: 200
         'y': 80
