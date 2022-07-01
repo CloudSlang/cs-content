@@ -13,15 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow creates the Kubernetes pod.
+#! @description: This flow deletes the Cassandra application.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: Name of the namespace under pod to be created.
-#! @input pod_json_body: The JSON input of the pod.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
+#! @input namespace: The name of the kubernetes namespace.
+#! @input service_name: The name of the kubernetes service name that needs to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -37,11 +34,7 @@
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
-#!                                 Default: 'strict'
-#!                                 Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name inthe subject's Common Name (CN) or subjectAltName field of the X.509 certificateValid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'Default: 'strict'Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -53,29 +46,26 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output pod_name: Name of the pod.
-#! @output pod_uid: UID of the pod.
-#! @output pod_creation_time: Pod created time.
+#! @output return_result: This will contain the success message.
+#!
+#! @result SUCCESS: The flow successfully deleted the Cassandra Application.
+#! @result FAILURE: The flow failed to delete the Cassandra Application.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes
+namespace: io.cloudslang.kubernetes.samples
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_pod
+  name: undeploy_cassandra_application
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
-    - pod_json_body
+    - service_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,19 +90,30 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - create_pod:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
+    - delete_service:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.kubernetes.pods.create_pod:
+          io.cloudslang.kubernetes.delete_service:
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
             - namespace: '${namespace}'
-            - pod_json_body: '${pod_json_body}'
+            - service_name: '${service_name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -127,157 +128,132 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - pod_name
-          - pod_json
+          - status_code
           - return_result
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_replication_controller
+    - delete_replication_controller:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - replication_controller_name: '${service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
           - status_code
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_pod_details
-    - get_pod_details:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+          - SUCCESS: set_success_message
+    - set_success_message:
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.kubernetes.pods.get_pod_details:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - pod_name: '${pod_name}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
+          io.cloudslang.base.utils.do_nothing:
+            - message: Cassandra Application deleted successfully
         publish:
-          - return_result
-          - pod_json
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: get_pod_status
-    - get_pod_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${pod_json}'
-            - json_path: 'status,phase'
-        publish:
-          - pod_status: '${return_result}'
-        navigate:
-          - SUCCESS: compare_pod_status
-          - FAILURE: counter
-    - compare_pod_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${pod_status}'
-            - second_string: Running
-        navigate:
-          - SUCCESS: get_pod_creation_time
-          - FAILURE: on_failure
-    - wait_before_check:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '20'
-        navigate:
-          - SUCCESS: get_pod_status
-          - FAILURE: on_failure
-    - get_pod_creation_time:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${pod_json}'
-            - json_path: 'metadata,creationTimestamp'
-        publish:
-          - pod_creation_time: '${return_result}'
-        navigate:
-          - SUCCESS: get_pod_uid
-          - FAILURE: on_failure
-    - get_pod_uid:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${pod_json}'
-            - json_path: 'metadata,uid'
-        publish:
-          - pod_uid: '${return_result}'
+          - return_result: '${message}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - counter:
+    - is_port_provided:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.utils.counter:
-            - from: '1'
-            - to: '60'
-            - increment_by: '1'
-            - reset: 'false'
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
         navigate:
-          - HAS_MORE: wait_before_check
-          - NO_MORE: FAILURE
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: delete_service
+          - FAILURE: on_failure
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: delete_service
           - FAILURE: on_failure
   outputs:
-    - return_result
     - status_code
-    - pod_name
-    - pod_uid
-    - pod_creation_time
+    - return_result
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
-      create_pod:
+      set_kubernetes_host:
         x: 40
-        'y': 120
-      get_pod_details:
-        x: 200
-        'y': 120
-      get_pod_status:
-        x: 360
-        'y': 120
-      compare_pod_status:
+        'y': 80
+      delete_service:
         x: 560
-        'y': 120
-      wait_before_check:
-        x: 160
-        'y': 320
-      get_pod_creation_time:
-        x: 680
-        'y': 120
-      get_pod_uid:
-        x: 840
-        'y': 120
+        'y': 80
+      delete_replication_controller:
+        x: 720
+        'y': 80
+      set_success_message:
+        x: 880
+        'y': 80
         navigate:
-          ba506f47-a748-b9c2-60f9-ec15ac569659:
+          412b14e5-7efc-4ef2-b63a-003b4995f9d9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      counter:
-        x: 360
-        'y': 320
-        navigate:
-          6c380319-97ac-a095-a64b-0f2734e2dba6:
-            targetId: c9102be8-9863-2027-22f4-33ca633b909c
-            port: NO_MORE
+      is_port_provided:
+        x: 200
+        'y': 80
+      compare_numbers:
+        x: 200
+        'y': 280
+      set_kubernetes_port:
+        x: 400
+        'y': 280
+      set_default_kubernetes_port:
+        x: 400
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 840
-          'y': 360
-      FAILURE:
-        c9102be8-9863-2027-22f4-33ca633b909c:
-          x: 360
-          'y': 520
+          x: 880
+          'y': 280
