@@ -15,11 +15,8 @@
 #!!
 #! @description: This flow deletes the kubernetes replication controller.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input namespace: The name of the kubernetes namespace.
 #! @input replication_controller_name: The name of the kubernetes replication controller that needs to be deleted.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -68,10 +65,7 @@ imports:
 flow:
   name: delete_replication_controller
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -100,6 +94,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - list_pods:
         worker_group:
           value: '${worker_group}'
@@ -384,6 +389,47 @@ flow:
           - HAS_MORE: delete_pod
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: list_pods
+          - FAILURE: on_failure
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: list_pods
+          - FAILURE: on_failure
   outputs:
     - status_code
     - return_result
@@ -394,55 +440,67 @@ extensions:
   graph:
     steps:
       check_replication_controller_status_code:
-        x: 800
-        'y': 80
+        x: 1320
+        'y': 120
       delete_replication_controller:
-        x: 200
-        'y': 80
+        x: 720
+        'y': 120
         navigate:
           cab81cef-21a2-f18a-6a7c-fdb36c8c839b:
             vertices:
-              - x: 480
+              - x: 880
                 'y': 80
             targetId: read_replication_controller
             port: SUCCESS
-      append_initial_pod_name:
-        x: 400
+      set_kubernetes_host:
+        x: 40
         'y': 120
+      append_initial_pod_name:
+        x: 920
+        'y': 160
       json_path_query:
-        x: 200
-        'y': 640
+        x: 720
+        'y': 680
         navigate:
-          47a1b349-82c8-bad8-d95a-b636e4060a3e:
+          db655ecf-2229-7021-98ab-66c8f066f54c:
             vertices:
-              - x: 360
+              - x: 840
                 'y': 600
-              - x: 240
-                'y': 360
+              - x: 760
+                'y': 400
             targetId: list_iterator
             port: FAILURE
+      append_pod_name:
+        x: 920
+        'y': 320
       iterate_relevant_pods:
-        x: 960
-        'y': 80
+        x: 1480
+        'y': 120
         navigate:
           babcd66e-093e-7220-e18e-245af54844f5:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: NO_MORE
-      append_pod_name:
-        x: 400
-        'y': 280
+      is_port_provided:
+        x: 200
+        'y': 120
       string_equals:
-        x: 40
-        'y': 480
+        x: 560
+        'y': 520
       list_pods:
-        x: 40
-        'y': 80
+        x: 560
+        'y': 120
       list_iterator:
-        x: 40
-        'y': 280
+        x: 560
+        'y': 320
+      compare_numbers:
+        x: 200
+        'y': 320
+      delete_pod:
+        x: 1480
+        'y': 320
       is_relevant_pod_list_empty:
-        x: 400
-        'y': 480
+        x: 920
+        'y': 520
         navigate:
           fed9e19c-65f1-76f6-48e6-5023618d4662:
             vertices:
@@ -450,35 +508,32 @@ extensions:
                 'y': 320
             targetId: append
             port: SUCCESS
-      delete_pod:
-        x: 960
-        'y': 280
       string_equals_empty_array:
-        x: 400
-        'y': 640
+        x: 920
+        'y': 680
         navigate:
-          44553964-a68b-9c5f-40f8-7a73328e4891:
+          17a4a3e9-f5cf-edd8-cfb7-35d1a0bc60ff:
             vertices:
-              - x: 280
-                'y': 360
+              - x: 800
+                'y': 400
             targetId: list_iterator
             port: SUCCESS
       sleep:
-        x: 800
-        'y': 280
+        x: 1320
+        'y': 320
         navigate:
           43954433-1cff-8e3a-a5f7-472b7e49f60c:
             targetId: 9f3c1b9e-2d98-75fc-79ba-7069939c5038
             port: FAILURE
       read_replication_controller:
-        x: 600
-        'y': 80
+        x: 1120
+        'y': 120
       string_occurrence_counter:
-        x: 200
-        'y': 480
+        x: 720
+        'y': 520
       counter:
-        x: 600
-        'y': 280
+        x: 1120
+        'y': 320
         navigate:
           c260deb1-d39b-7d4c-6081-233939033b8d:
             targetId: 9f3c1b9e-2d98-75fc-79ba-7069939c5038
@@ -486,15 +541,21 @@ extensions:
           cf7e4964-4e90-8d93-81d7-e99760f967f2:
             targetId: 9f3c1b9e-2d98-75fc-79ba-7069939c5038
             port: NO_MORE
+      set_kubernetes_port:
+        x: 400
+        'y': 320
       get_pod_details:
-        x: 40
-        'y': 640
+        x: 560
+        'y': 680
+      set_default_kubernetes_port:
+        x: 400
+        'y': 120
     results:
-      SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1120
-          'y': 80
       FAILURE:
         9f3c1b9e-2d98-75fc-79ba-7069939c5038:
-          x: 600
-          'y': 480
+          x: 1120
+          'y': 520
+      SUCCESS:
+        11a314fb-962f-5299-d0a5-ada1540d2904:
+          x: 1640
+          'y': 120
