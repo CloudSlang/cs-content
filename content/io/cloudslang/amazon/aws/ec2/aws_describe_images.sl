@@ -27,7 +27,7 @@
 #! @output images_xml: Returns image details in xml form.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.amazon.aws.ec2.images
+namespace: io.cloudslang.amazon.aws.ec2
 flow:
   name: aws_describe_images
   inputs:
