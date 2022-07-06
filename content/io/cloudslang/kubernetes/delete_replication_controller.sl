@@ -239,6 +239,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.delete_pod:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -559,3 +560,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 1640
           'y': 120
+

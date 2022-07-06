@@ -15,10 +15,8 @@
 #!!
 #! @description: This flow deploys the kubernetes service.
 #!
-#! @input kubernetes_host: Kubernetes hostname.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input service_name: The name of the Kubernetes service.
 #! @input namespace: The name of the Kubernetes namespace.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -71,10 +69,7 @@ imports:
 flow:
   name: deploy_service
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - service_name:
@@ -106,40 +101,17 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - create_replication_controller:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.kubernetes.replication_controllers.create_replication_controller:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - replication_controller_json_body: '${pod_json_body}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
         publish:
-          - replication_controller_json
-          - replication_controller_name
-          - status_code
-          - return_result
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
         navigate:
+          - SUCCESS: is_port_provided
           - FAILURE: on_failure
-          - SUCCESS: wait_for_pods_creation
     - wait_for_pods_creation:
         worker_group: '${worker_group}'
         do:
@@ -270,6 +242,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -300,6 +273,80 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: wait_for_pods_creation
+          - FAILURE: on_failure
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_replication_controller
+          - FAILURE: on_failure
+    - create_replication_controller:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.create_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - replication_controller_json_body: '${pod_json_body}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - replication_controller_json
+          - replication_controller_name
+          - status_code
+          - return_result
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: wait_for_pods_creation
   outputs:
     - status_code
     - return_result
@@ -315,51 +362,66 @@ flow:
 extensions:
   graph:
     steps:
+      set_kubernetes_host:
+        x: 0
+        'y': 80
       is_running:
-        x: 1000
-        'y': 320
+        x: 1200
+        'y': 280
+      is_port_provided:
+        x: 160
+        'y': 80
       list_pods:
-        x: 240
+        x: 560
         'y': 80
       list_iterator:
-        x: 480
+        x: 720
         'y': 80
         navigate:
           744a6cb7-6610-dabd-327f-082878f046f4:
             targetId: 6bbf337b-f452-88c0-9a03-5184d011fb3b
             port: NO_MORE
-      wait_for_pods_creation:
+      compare_numbers:
         x: 40
+        'y': 440
+      wait_for_pods_creation:
+        x: 400
         'y': 80
       create_replication_controller:
-        x: 40
+        x: 400
         'y': 280
       wait_for_pod_start_up:
-        x: 640
+        x: 880
         'y': 280
       create_service:
-        x: 640
+        x: 1000
         'y': 480
         navigate:
           ee720576-9af4-6c3f-7d58-7088d4a307c3:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       get_pod_status:
-        x: 800
+        x: 1040
         'y': 80
       is_releavant_pod:
-        x: 1000
+        x: 1200
         'y': 80
+      set_kubernetes_port:
+        x: 280
+        'y': 440
       get_pod_details:
-        x: 640
+        x: 880
+        'y': 80
+      set_default_kubernetes_port:
+        x: 280
         'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1000
+          x: 1240
           'y': 480
       FAILURE_1:
         6bbf337b-f452-88c0-9a03-5184d011fb3b:
-          x: 480
-          'y': 280
+          x: 600
+          'y': 440
 

@@ -16,7 +16,7 @@
 #! @description: This flow is used to create a Guestbook application.
 #!
 #! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input namespace: The name of the Kubernetes namespace.
 #! @input service_name_suffix: The name of the Kubernetes service.
 #! @input number_of_replicas: The total number of replicas of pods that need to be created.
@@ -216,6 +216,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_namespace:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -298,8 +299,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.samples.subflows.deploy_service:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
@@ -332,12 +332,11 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.samples.subflows.deploy_service:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
-            - service_name: '${service_name_slave}'
+            - service_name: '${service_name}'
             - namespace: '${namespace}'
             - worker_group: '${worker_group}'
             - pod_json_body: "${'{\"kind\":\"ReplicationController\",\"apiVersion\":\"v1\", \"id\":\"redis-slave\", \"metadata\":{ \"name\":\"'+service_name_slave+'\",\"labels\":{ \"app\":\"redis\", \"role\":\"slave\"}}, \"spec\":{ \"replicas\":'+number_of_replicas+',\"selector\":{ \"app\":\"redis\",\"role\":\"slave\" }, \"template\":{ \"metadata\":{\"labels\":{\"app\":\"redis\",\"role\":\"slave\" } },\"spec\":{\"containers\":[{\"name\":\"'+service_name_slave+'\",\"image\":\"gcr.io/google_samples/gb-redisslave:v1\", \"ports\":[{ \"name\":\"redis-server\", \"containerPort\":6379} ] }]}}}}'}"
@@ -354,6 +353,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish: []
         navigate:
           - SUCCESS: deploy_guestbook
           - FAILURE: on_failure
@@ -364,12 +364,11 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.samples.subflows.deploy_service:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
-            - service_name: '${service_name_guestbook}'
+            - service_name: '${service_name}'
             - namespace: '${namespace}'
             - worker_group: '${worker_group}'
             - pod_json_body: "${'{\"kind\":\"ReplicationController\", \"apiVersion\":\"v1\",\"metadata\":{ \"name\":\"'+service_name_guestbook+'\",\"labels\":{ \"app\":\"guestbook\"  } }, \"spec\":{\"replicas\":'+number_of_replicas+',\"selector\":{\"app\":\"'+service_name_guestbook+'\" },\"template\":{\"metadata\":{ \"labels\":{\"app\":\"'+service_name_guestbook+'\" } },\"spec\":{ \"containers\":[{ \"name\":\"'+service_name_guestbook+'\", \"image\":\"gcr.io/google-samples/gb-frontend:v4\", \"ports\":[{ \"name\":\"http-server\", \"containerPort\":80}  ]   }]  } }}}'}"
@@ -419,7 +418,7 @@ extensions:
         x: 840
         'y': 80
         navigate:
-          9c4c2db9-8412-ad03-3619-75918d80a1eb:
+          f650e6ed-d082-252e-1729-f9156ea249f6:
             targetId: e2fa2ca1-841c-cf82-4550-9d370c6be8fd
             port: FAILURE_1
       is_port_provided:
@@ -432,10 +431,10 @@ extensions:
         x: 200
         'y': 320
       deploy_redis_slave_service:
-        x: 680
+        x: 640
         'y': 80
         navigate:
-          23071aa2-97da-7c90-01cf-0aae0b02d260:
+          e808640e-e0de-a8b2-2dcf-8aec2e7ed756:
             targetId: e2fa2ca1-841c-cf82-4550-9d370c6be8fd
             port: FAILURE_1
       list_service:
@@ -445,7 +444,7 @@ extensions:
         x: 520
         'y': 320
         navigate:
-          9a764712-9e8e-43d9-9d29-44d1f50e8ba1:
+          b7802438-154a-ccff-bc7f-b1ea37a7364c:
             targetId: e2fa2ca1-841c-cf82-4550-9d370c6be8fd
             port: FAILURE_1
       get_cluster_ip:
