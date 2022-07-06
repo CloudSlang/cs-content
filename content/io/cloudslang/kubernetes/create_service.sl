@@ -15,16 +15,14 @@
 #!!
 #! @description: This flow creates a Kubernetes service.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input namespace: The name of the Kubernetes namespace.
 #! @input service_name: The name of the service to be created.
 #! @input service_json_body: The service json  should be in JSON format for the Service to be created.
 #!                           Example : {"kind":"Service","apiVersion":"v1","metadata": {"name": "+service_name+"},
-#!                                      "spec":{"type":"NodePort","selector":{"app":"tomcat4"},
-#!                                      "ports":[{"protocol":"TCP","port":9090,"targetPort":8080,"loadBalancer":30003}]}}
+#!                           "spec":{"type":"NodePort","selector":{"app":"tomcat4"},
+#!                           "ports":[{"protocol":"TCP","port":9090,"targetPort":8080,"loadBalancer":30003}]}}
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -74,10 +72,7 @@ imports:
 flow:
   name: create_service
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -107,6 +102,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - get_service:
         worker_group:
           value: '${worker_group}'
@@ -262,6 +268,47 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: set_uid
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: get_service
+          - FAILURE: on_failure
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: get_service
+          - FAILURE: on_failure
   outputs:
     - service_json
     - status_code
@@ -277,37 +324,52 @@ flow:
 extensions:
   graph:
     steps:
-      get_service:
-        x: 40
-        'y': 120
-      create_service:
-        x: 40
-        'y': 440
-      set_uid:
-        x: 440
-        'y': 120
-      set_creation_time_stamp:
-        x: 600
-        'y': 120
       set_service_type:
-        x: 920
+        x: 1280
         'y': 120
         navigate:
           bb77f2f4-4cd5-e900-46c9-a0a87cbd7773:
             targetId: 2a197e64-7870-d4f6-77fe-aca64a048eb4
             port: SUCCESS
-      set_cluster_ip:
-        x: 760
+      set_kubernetes_host:
+        x: 0
         'y': 120
+      set_cluster_ip:
+        x: 1120
+        'y': 120
+      is_port_provided:
+        x: 160
+        'y': 120
+      get_service:
+        x: 480
+        'y': 120
+      compare_numbers:
+        x: 40
+        'y': 400
+      create_service:
+        x: 480
+        'y': 400
       set_service_name:
-        x: 240
+        x: 640
+        'y': 120
+      set_uid:
+        x: 800
         'y': 120
       check_service_is_created:
-        x: 242
-        'y': 342
+        x: 800
+        'y': 400
+      set_creation_time_stamp:
+        x: 960
+        'y': 120
+      set_kubernetes_port:
+        x: 320
+        'y': 280
+      set_default_kubernetes_port:
+        x: 320
+        'y': 120
     results:
       SUCCESS:
         2a197e64-7870-d4f6-77fe-aca64a048eb4:
-          x: 1080
+          x: 1440
           'y': 120
 
