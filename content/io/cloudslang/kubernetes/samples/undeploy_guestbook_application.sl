@@ -137,6 +137,7 @@ flow:
     - delete_guestbook_service:
         do:
           io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -173,6 +174,7 @@ flow:
     - delete_redis_master_service:
         do:
           io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -199,6 +201,7 @@ flow:
     - delete_redis_slave:
         do:
           io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -225,6 +228,7 @@ flow:
     - delete_guestbook_replication_controller:
         do:
           io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -253,6 +257,7 @@ flow:
     - delete_service_master_replication_controller:
         do:
           io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
@@ -279,6 +284,7 @@ flow:
     - delete_service_slave_replication_controller:
         do:
           io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_host: '${kubernetes_host}'
             - kubernetes_port: '${kubernetes_port}'
             - kubernetes_auth_token:
