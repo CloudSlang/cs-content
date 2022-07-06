@@ -50,7 +50,7 @@ flow:
         required: false
   workflow:
     - describe_images_in_region:
-		    worker_group: '${worker_group}'
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.images.describe_images_in_region:
             - endpoint: '${provider_sap}'
