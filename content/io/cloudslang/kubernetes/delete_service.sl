@@ -41,7 +41,7 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties. If the protocol (specified by the 'url') is not
+#!                        you trust to identify other parties.If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
