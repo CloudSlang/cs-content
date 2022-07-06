@@ -117,8 +117,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_namespace:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
@@ -151,8 +150,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_service:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
@@ -183,8 +181,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_pod:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
@@ -214,8 +211,7 @@ flow:
           override: true
         do:
           io.cloudslang.kubernetes.create_replication_controller:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
             - kubernetes_auth_token:
                 value: '${kubernetes_auth_token}'
                 sensitive: true
@@ -328,7 +324,7 @@ extensions:
   graph:
     steps:
       create_pod:
-        x: 720
+        x: 680
         'y': 280
       set_kubernetes_host:
         x: 40
@@ -337,7 +333,7 @@ extensions:
         x: 200
         'y': 80
       list_pods:
-        x: 880
+        x: 840
         'y': 80
         navigate:
           8d22f839-f1c2-8f01-bb06-a93aff89a08c:
@@ -347,22 +343,22 @@ extensions:
         x: 200
         'y': 280
       create_replication_controller:
-        x: 720
+        x: 680
         'y': 80
       create_service:
-        x: 560
+        x: 520
         'y': 280
       create_namespace:
-        x: 560
+        x: 520
         'y': 80
       set_kubernetes_port:
-        x: 400
+        x: 360
         'y': 280
       set_default_kubernetes_port:
-        x: 400
+        x: 360
         'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1040
+          x: 1000
           'y': 80
