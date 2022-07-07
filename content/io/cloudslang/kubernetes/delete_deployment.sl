@@ -193,7 +193,7 @@ flow:
             - deployment_name: '${deployment_name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
-            - proxy_port: '${kubernetes_port}'
+            - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password:
                 value: '${proxy_password}'
