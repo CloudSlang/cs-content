@@ -58,7 +58,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.kubernetes.test
+namespace: io.cloudslang.kubernetes
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
