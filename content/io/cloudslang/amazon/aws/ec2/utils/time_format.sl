@@ -1,29 +1,15 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-#
 ########################################################################################################################
 #!!
 #! @description: This operation converts the unix time into given format.
 #!
-#! @input time: Python regex expression.
-#! @input timezone: The UTC timezone.
-#!                  Example: (UTC+05:30) Asia/Kolkata
-#! @input format: The format into which the unix time needs to be converted.
-#!                Example: '%Y-%m-%dT%H:%M:%S'
+#! @input epoch_time: Epoch time.
+#! @input time_zone: Scheduler timeZone.
 #!
-#! @output result_date: Date or time in given format.
+#! @output date_format: Date format.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: Always.
+#! @result SUCCESS: The product was successfully provisioned.
+#! @result FAILURE: An error has occurred while trying to provision the product.
 #!!#
 ########################################################################################################################
 
@@ -33,13 +19,15 @@ operation:
   name: time_format
 
   inputs:
-    - time
+    - epoch_time
     - epochTime:
-        default: ${get('time', '')}
+        default: ${get('epoch_time', '')}
+        required: false
         private: true
-    - timeZone
+    - time_zone
     - timeZone:
-        default: ${get('timeZone', '')}
+        default: ${get('time_zone', '')}
+        required: false
         private: true
 
   java_action:
@@ -48,7 +36,7 @@ operation:
     method_name: 'execute'
 
   outputs:
-    - result_date: ${get('dateFormat', '')}
+    - date_format: ${get('dateFormat', '')}
     - exception: ${get('exception', '')}
 
   results:
