@@ -34,27 +34,23 @@ operation:
 
   inputs:
     - time
-    - timezone
-    - format
+    - epochTime:
+        default: ${get('time', '')}
+        private: true
+    - timeZone
+    - timeZone:
+        default: ${get('timeZone', '')}
+        private: true
 
-  python_action:
-    script: |
-      import datetime
-      negative = "-"
-      result_date = ""
-      if negative in timezone:
-        milliseconds = (int(zone.split(")")[0].split('-')[1].split(':')[0])*60 + int(zone.split(")")[0].split('-')[1].split(':')[1]))*60*1000
-        ts = int(time) - milliseconds
-      else:
-        milliseconds = (int(timezone.split(")")[0].split('+')[1].split(':')[0])*60 + int(timezone.split(")")[0].split('+')[1].split(':')[1]))*60*1000
-        ts = int(time) + milliseconds
-      if(len(format) == 0):
-        result_date = datetime.datetime.utcfromtimestamp(int(ts)/1000)
-      else:
-        result_date = datetime.datetime.utcfromtimestamp(int(ts)/1000).strftime(format)
+  java_action:
+    gav: 'io.cloudslang.content:cs-amazon:1.0.43-RC5'
+    class_name: 'io.cloudslang.content.amazon.actions.utils.GetTimeFormat'
+    method_name: 'execute'
 
   outputs:
-    - result_date
+    - result_date: ${get('dateFormat', '')}
+    - exception: ${get('exception', '')}
 
   results:
-    - SUCCESS
+    - SUCCESS: ${returnCode=='0'}
+    - FAILURE
