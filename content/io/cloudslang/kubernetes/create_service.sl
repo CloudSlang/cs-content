@@ -62,6 +62,7 @@
 #! @output service_creation_time_stamp: The creation time of the Kubernetes service.
 #! @output service_cluster_ip: The clusterIp of the Kubernetes service.
 #! @output service_type: The service type of the Kubernetes service.
+#! @output external_ip: The external IP address of the kubernetes service.
 #!!#
 ########################################################################################################################
 
@@ -211,7 +212,7 @@ flow:
         publish:
           - service_type: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_external_ip
           - FAILURE: on_failure
     - set_cluster_ip:
         worker_group: '${worker_group}'
@@ -309,6 +310,25 @@ flow:
         navigate:
           - SUCCESS: get_service
           - FAILURE: on_failure
+    - get_external_ip:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${service_json}'
+            - json_path: 'status.loadBalancer.ingress[*].ip'
+        publish:
+          - external_ip: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: if_no_external_ip
+    - if_no_external_ip:
+        do:
+          io.cloudslang.base.utils.do_nothing: []
+        publish:
+          - external_ip: "${' '.replace(\"' '\",'')}"
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - service_json
     - status_code
@@ -318,6 +338,7 @@ flow:
     - service_creation_time_stamp
     - service_cluster_ip
     - service_type
+    - external_ip
   results:
     - FAILURE
     - SUCCESS
@@ -327,10 +348,6 @@ extensions:
       set_service_type:
         x: 1280
         'y': 120
-        navigate:
-          bb77f2f4-4cd5-e900-46c9-a0a87cbd7773:
-            targetId: 2a197e64-7870-d4f6-77fe-aca64a048eb4
-            port: SUCCESS
       set_kubernetes_host:
         x: 0
         'y': 120
@@ -352,6 +369,13 @@ extensions:
       set_service_name:
         x: 640
         'y': 120
+      get_external_ip:
+        x: 1280
+        'y': 320
+        navigate:
+          9a442848-b4f7-f632-c77b-287614e8c1b1:
+            targetId: 2a197e64-7870-d4f6-77fe-aca64a048eb4
+            port: SUCCESS
       set_uid:
         x: 800
         'y': 120
@@ -367,9 +391,16 @@ extensions:
       set_default_kubernetes_port:
         x: 320
         'y': 120
+      if_no_external_ip:
+        x: 1120
+        'y': 320
+        navigate:
+          0c471989-0aa8-5c88-3eb7-ac796e05feb2:
+            targetId: 2a197e64-7870-d4f6-77fe-aca64a048eb4
+            port: SUCCESS
     results:
       SUCCESS:
         2a197e64-7870-d4f6-77fe-aca64a048eb4:
-          x: 1440
-          'y': 120
+          x: 1280
+          'y': 560
 
