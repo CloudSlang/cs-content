@@ -15,12 +15,9 @@
 #!!
 #! @description: This flow creates the kubernetes replication controller and retrieves details of the replication controller.
 #!
-#! @input kubernetes_host: Kubernetes host..
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
-#! @input namespace: The name of the namespace.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
+#! @input namespace: The name of the kubernetes namespace.
 #! @input replication_controller_json_body: The replication controller json that is needed to create the kubernetes replication controller.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
@@ -74,10 +71,7 @@ imports:
 flow:
   name: create_replication_controller
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -106,6 +100,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - create_replication_controller:
         worker_group:
           value: '${worker_group}'
@@ -184,6 +189,47 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_replication_controller
+          - FAILURE: on_failure
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_replication_controller
+          - FAILURE: on_failure
   outputs:
     - replication_controller_json
     - replication_controller_name
@@ -199,27 +245,42 @@ flow:
 extensions:
   graph:
     steps:
-      create_replication_controller:
-        x: 80
-        'y': 200
-      get_replication_controller_creation_time:
-        x: 560
-        'y': 200
-      get_replication_controller_uid:
-        x: 240
-        'y': 200
-      get_replicas:
-        x: 400
-        'y': 200
       get_replication_controller_type:
-        x: 720
-        'y': 200
+        x: 840
+        'y': 280
         navigate:
           43086a37-3210-31b0-f1e6-51b2c0b5b7bf:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      set_kubernetes_host:
+        x: 40
+        'y': 80
+      get_replicas:
+        x: 680
+        'y': 80
+      get_replication_controller_creation_time:
+        x: 680
+        'y': 280
+      get_replication_controller_uid:
+        x: 520
+        'y': 280
+      is_port_provided:
+        x: 200
+        'y': 80
+      compare_numbers:
+        x: 200
+        'y': 280
+      create_replication_controller:
+        x: 520
+        'y': 80
+      set_kubernetes_port:
+        x: 360
+        'y': 280
+      set_default_kubernetes_port:
+        x: 360
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 880
-          'y': 200
+          x: 1000
+          'y': 280

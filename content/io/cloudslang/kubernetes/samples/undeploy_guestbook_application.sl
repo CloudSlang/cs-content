@@ -13,18 +13,17 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow is used to create a Cassandra application.
+#! @description: This flow deletes the Guestbook application.
 #!
 #! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
-#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
-#! @input namespace: The name of the kubernetes namespace.
-#! @input service_name_suffix: The suffix to the name of the kubernetes service that needs to be created.
-#! @input number_of_replicas: The total number of replicas of pods that need to be created.
+#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input namespace: The name of the Kubernetes namespace.
+#! @input service_name: The name of the Kubernetes service.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
-#! @input proxy_host: Proxy server used to access the web site.
+#! @input proxy_host: Proxy server used to access the website.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Optional
@@ -42,24 +41,17 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        you trust to identify other parties. If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
 #!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        and trust_keystore is empty, default trust_password will be used.
 #!                        Optional
 #!
-#! @output replication_controller_name: The name of the kubernetes replication controller.
-#! @output pod_list: The list of pods.
-#! @output cluster_ip: The IP address of the kubernetes cluster.
-#! @output service_name: The name of the kubernetes service.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output return_result: This will contain the success message.
-#!
-#! @result SUCCESS: The flow successfully deployed the Cassandra application.
-#! @result FAILURE: The flow failed to deploy the Cassandra application
+#! @output return_result: This contains the response entity.
 #!!#
 ########################################################################################################################
 
@@ -68,14 +60,14 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: deploy_cassandra_application
+  name: undeploy_guestbook_application
   inputs:
     - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
-    - service_name_suffix
-    - number_of_replicas
+    - service_name:
+        required: true
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -111,164 +103,6 @@ flow:
         navigate:
           - SUCCESS: is_port_provided
           - FAILURE: on_failure
-    - create_namespace:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.create_namespace:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - service_name: '${service_name_suffix}'
-        publish:
-          - return_result
-          - namespace_json
-          - final_namespace
-          - service_name: '${"cassandra-"+service_name}'
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: create_service
-    - create_service:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.create_service:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${final_namespace}'
-            - service_name: '${service_name}'
-            - service_json_body: "${'{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"},\"spec\":{\"type\":\"LoadBalancer\",\"ports\":[{\"port\":9042,\"nodePort\":31516}],\"selector\":{\"name\":\"'+service_name+'\"}}}'}"
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - cluster_ip: '${service_cluster_ip}'
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: create_pod
-    - create_pod:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.create_pod:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${final_namespace}'
-            - pod_json_body: "${'{\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"'+service_name+'\",\"env\":[{\"name\":\"MAX_HEAP_SIZE\",\"value\":\"512M\"},{\"name\":\"HEAP_NEWSIZE\",\"value\":\"100M\"},{\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.namespace\"}},\"name\":\"'+namespace+'\"}],\"image\":\"gcr.io/google_containers/cassandra:v6\",\"args\":[\"/run.sh\"],\"volumeMounts\":[{\"mountPath\":\"/'+service_name+'_data\",\"name\":\"data\"}],\"ports\":[{\"name\":\"cql\",\"containerPort\":9042},{\"name\":\"thrift\",\"containerPort\":9160}],\"resources\":{\"limits\":{\"cpu\":\"0.1\"}}}],\"volumes\":[{\"emptyDir\":{},\"name\":\"data\"}]},\"apiVersion\":\"v1\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"}}'}"
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - pod_name
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: create_replication_controller
-    - create_replication_controller:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.create_replication_controller:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${final_namespace}'
-            - replication_controller_json_body: "${'{\"kind\":\"ReplicationController\",\"spec\":{\"replicas\":'+number_of_replicas+',\"template\":{\"spec\":{\"containers\":[{\"command\":[\"/run.sh\"],\"name\":\"'+service_name+'\",\"env\":[{\"name\":\"MAX_HEAP_SIZE\",\"value\":\"512M\"},{\"name\":\"HEAP_NEWSIZE\",\"value\":\"100M\"},{\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.namespace\"}},\"name\":\"'+namespace+'\"}],\"image\":\"gcr.io/google_containers/cassandra:v6\",\"volumeMounts\":[{\"mountPath\":\"/'+service_name+'_data\",\"name\":\"data\"}],\"ports\":[{\"containerPort\":9042,\"name\":\"cql\"},{\"containerPort\":9160,\"name\":\"thrift\"}],\"resources\":{\"limits\":{\"cpu\":0.1}}}],\"volumes\":[{\"emptyDir\":{},\"name\":\"data\"}]},\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"}}},\"selector\":{\"name\":\"'+service_name+'\"}},\"apiVersion\":\"v1\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"}}'}"
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - replication_controller_name
-          - status_code
-          - return_result
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: list_pods
-    - list_pods:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.pods.list_pods:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${final_namespace}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - pod_list
-          - status_code
-          - return_result
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: SUCCESS
     - is_port_provided:
         worker_group: '${worker_group}'
         do:
@@ -298,8 +132,35 @@ flow:
         publish:
           - kubernetes_port
         navigate:
-          - SUCCESS: create_namespace
+          - SUCCESS: delete_guestbook_service
           - FAILURE: on_failure
+    - delete_guestbook_service:
+        do:
+          io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${"guestbook"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_redis_master_service
     - set_default_kubernetes_port:
         worker_group: '${worker_group}'
         do:
@@ -308,13 +169,155 @@ flow:
         publish:
           - kubernetes_port
         navigate:
-          - SUCCESS: create_namespace
+          - SUCCESS: delete_guestbook_service
+          - FAILURE: on_failure
+    - delete_redis_master_service:
+        do:
+          io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${"redis-master"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_redis_slave
+    - delete_redis_slave:
+        do:
+          io.cloudslang.kubernetes.delete_service:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${"redis-slave"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_guestbook_replication_controller
+    - delete_guestbook_replication_controller:
+        do:
+          io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - replication_controller_name: '${"guestbook"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - status_code
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_service_master_replication_controller
+    - delete_service_master_replication_controller:
+        do:
+          io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - replication_controller_name: '${"redis-master"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_service_slave_replication_controller
+    - delete_service_slave_replication_controller:
+        do:
+          io.cloudslang.kubernetes.delete_replication_controller:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - replication_controller_name: '${"redis-slave"+service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: set_success_message
+    - set_success_message:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: GuestBook Application deleted successfully
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - replication_controller_name
-    - pod_list
-    - cluster_ip
-    - service_name
     - status_code
     - return_result
   results:
@@ -323,42 +326,49 @@ flow:
 extensions:
   graph:
     steps:
-      create_pod:
+      delete_guestbook_replication_controller:
         x: 680
-        'y': 280
+        'y': 80
+      delete_guestbook_service:
+        x: 520
+        'y': 80
       set_kubernetes_host:
         x: 40
         'y': 80
       is_port_provided:
         x: 200
         'y': 80
-      list_pods:
+      delete_service_master_replication_controller:
         x: 840
         'y': 80
+      set_success_message:
+        x: 1000
+        'y': 320
         navigate:
-          8d22f839-f1c2-8f01-bb06-a93aff89a08c:
+          ed8280d6-a1f7-656e-b0f3-20238f42fdd0:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       compare_numbers:
         x: 200
-        'y': 280
-      create_replication_controller:
-        x: 680
-        'y': 80
-      create_service:
-        x: 520
-        'y': 280
-      create_namespace:
-        x: 520
-        'y': 80
+        'y': 320
+      delete_redis_master_service:
+        x: 560
+        'y': 320
+      delete_service_slave_replication_controller:
+        x: 840
+        'y': 320
       set_kubernetes_port:
-        x: 360
-        'y': 280
+        x: 400
+        'y': 320
+      delete_redis_slave:
+        x: 720
+        'y': 320
       set_default_kubernetes_port:
         x: 360
         'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1000
-          'y': 80
+          x: 1200
+          'y': 320
+

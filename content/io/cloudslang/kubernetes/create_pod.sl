@@ -15,11 +15,8 @@
 #!!
 #! @description: This flow creates the Kubernetes pod.
 #!
-#! @input kubernetes_host: Kubernetes host.
-#! @input kubernetes_port: Kubernetes API Port.
-#!                         Default: '443'
-#!                         Optional
-#! @input kubernetes_auth_token: Kubernetes authorization token.
+#! @input kubernetes_provider_sap: The service access point of the kubernetes provider.
+#! @input kubernetes_auth_token: The kubernetes service account token that is used for authentication.
 #! @input namespace: Name of the namespace under pod to be created.
 #! @input pod_json_body: The JSON input of the pod.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -68,10 +65,7 @@ imports:
 flow:
   name: create_pod
   inputs:
-    - kubernetes_host
-    - kubernetes_port:
-        default: '443'
-        required: true
+    - kubernetes_provider_sap
     - kubernetes_auth_token:
         sensitive: true
     - namespace
@@ -100,6 +94,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - set_kubernetes_host:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_host_with_port: "${kubernetes_provider_sap.split('//')[1].strip()}"
+        publish:
+          - kubernetes_host: "${kubernetes_host_with_port.split(':')[0]}"
+          - kubernetes_host_with_port
+        navigate:
+          - SUCCESS: is_port_provided
+          - FAILURE: on_failure
     - create_pod:
         worker_group:
           value: '${worker_group}'
@@ -228,6 +233,47 @@ flow:
           - HAS_MORE: wait_before_check
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - is_port_provided:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${kubernetes_host_with_port}'
+            - string_to_find: ':'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: compare_numbers
+          - FAILURE: set_default_kubernetes_port
+    - set_default_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: '443'
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_pod
+          - FAILURE: on_failure
+    - compare_numbers:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.math.compare_numbers:
+            - value1: '${return_result}'
+            - value2: '1'
+        navigate:
+          - GREATER_THAN: set_kubernetes_port
+          - EQUALS: set_kubernetes_port
+          - LESS_THAN: set_default_kubernetes_port
+    - set_kubernetes_port:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - kubernetes_port: "${kubernetes_host_with_port.split(':')[1]}"
+        publish:
+          - kubernetes_port
+        navigate:
+          - SUCCESS: create_pod
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
@@ -241,43 +287,59 @@ extensions:
   graph:
     steps:
       create_pod:
-        x: 40
+        x: 440
         'y': 120
-      get_pod_details:
-        x: 200
-        'y': 120
-      get_pod_status:
-        x: 360
+      set_kubernetes_host:
+        x: 0
         'y': 120
       compare_pod_status:
-        x: 560
+        x: 1000
         'y': 120
-      wait_before_check:
-        x: 160
-        'y': 320
       get_pod_creation_time:
-        x: 680
+        x: 1200
+        'y': 120
+      is_port_provided:
+        x: 160
         'y': 120
       get_pod_uid:
-        x: 840
+        x: 1360
         'y': 120
         navigate:
           ba506f47-a748-b9c2-60f9-ec15ac569659:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      compare_numbers:
+        x: 160
+        'y': 400
+      wait_before_check:
+        x: 600
+        'y': 320
+      get_pod_status:
+        x: 800
+        'y': 120
       counter:
-        x: 360
+        x: 800
         'y': 320
         navigate:
           6c380319-97ac-a095-a64b-0f2734e2dba6:
             targetId: c9102be8-9863-2027-22f4-33ca633b909c
             port: NO_MORE
+      set_kubernetes_port:
+        x: 440
+        'y': 320
+      get_pod_details:
+        x: 600
+        'y': 120
+      set_default_kubernetes_port:
+        x: 280
+        'y': 120
     results:
-      SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 840
-          'y': 360
       FAILURE:
         c9102be8-9863-2027-22f4-33ca633b909c:
-          x: 360
+          x: 800
           'y': 520
+      SUCCESS:
+        11a314fb-962f-5299-d0a5-ada1540d2904:
+          x: 1360
+          'y': 360
+
