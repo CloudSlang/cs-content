@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation converts the unix time into given format.
+#! @description: This operation converts the unix time into date format.
 #!
 #! @input epoch_time: Epoch time.
 #! @input time_zone: Scheduler timeZone.
@@ -8,8 +8,8 @@
 #! @output date_format: Date format.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: The product was successfully provisioned.
-#! @result FAILURE: An error has occurred while trying to provision the product.
+#! @result SUCCESS: Returns the date format.
+#! @result FAILURE: An error has occurred while trying to convert unix time to date format.
 #!!#
 ########################################################################################################################
 
