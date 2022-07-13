@@ -13,48 +13,45 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation converts the unix time into given format.
+#! @description: This operation converts the unix time into date format.
 #!
-#! @input time: Python regex expression.
-#! @input timezone: The UTC timezone.
-#!                  Example: (UTC+05:30) Asia/Kolkata
-#! @input format: The format into which the unix time needs to be converted.
-#!                Example: '%Y-%m-%dT%H:%M:%S'
+#! @input epoch_time: Epoch time.
+#! @input time_zone: Scheduler timeZone.
 #!
-#! @output result_date: Date or time in given format.
+#! @output date_format: Date format.
+#! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
-#! @result SUCCESS: Always.
+#! @result SUCCESS: Returns the date format.
+#! @result FAILURE: An error has occurred while trying to convert unix time to date format.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.azure.utils
+namespace: io.cloudslang.amazon.aws.ec2.utils
 
 operation:
   name: time_format
 
   inputs:
-    - time
-    - timezone
-    - format
+    - epoch_time
+    - epochTime:
+        default: ${get('epoch_time', '')}
+        required: false
+        private: true
+    - time_zone
+    - timeZone:
+        default: ${get('time_zone', '')}
+        required: false
+        private: true
 
-  python_action:
-    script: |
-       import datetime
-       negative = "-"
-       result_date = ""
-       if negative in timezone:
-         milliseconds = (int(zone.split(")")[0].split('-')[1].split(':')[0])*60 + int(zone.split(")")[0].split('-')[1].split(':')[1]))*60*1000
-         ts = int(time) - milliseconds
-       else:
-         milliseconds = (int(timezone.split(")")[0].split('+')[1].split(':')[0])*60 + int(timezone.split(")")[0].split('+')[1].split(':')[1]))*60*1000
-         ts = int(time) + milliseconds
-       if(len(format) == 0):
-         result_date = datetime.datetime.utcfromtimestamp(int(ts)/1000)
-       else:
-         result_date = datetime.datetime.utcfromtimestamp(int(ts)/1000).strftime(format)
+  java_action:
+    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC3'
+    class_name: 'io.cloudslang.content.azure.actions.utils.GetTimeFormat'
+    method_name: 'execute'
 
   outputs:
-    - result_date
+    - date_format: ${get('dateFormat', '')}
+    - exception: ${get('exception', '')}
 
   results:
-    - SUCCESS
+    - SUCCESS: ${returnCode=='0'}
+    - FAILURE
