@@ -26,7 +26,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2.utils
+namespace: io.cloudslang.microsoft.azure.utils
 
 operation:
   name: time_format
