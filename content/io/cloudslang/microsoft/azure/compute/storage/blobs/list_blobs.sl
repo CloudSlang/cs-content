@@ -78,7 +78,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC2'
+    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC3'
     class_name: io.cloudslang.content.azure.actions.storage.ListBlobs
     method_name: execute
 
