@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates the pod.
+#! @description: This operation is used to get access token using web api.
 #!
 #! @input client_id: The client ID for your application.
 #! @input client_secret: The client secret for your application.
