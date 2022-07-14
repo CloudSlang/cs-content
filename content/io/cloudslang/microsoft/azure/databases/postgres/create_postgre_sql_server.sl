@@ -232,7 +232,7 @@ flow:
           - FAILURE: on_failure
     - get_postgre_sql_server_name_info_1:
         do:
-          io.cloudslang.microsoft.azure.databases.postgreSQL.get_postgre_sql_server_name_info:
+          io.cloudslang.microsoft.azure.databases.postgres.get_postgre_sql_server_name_info:
             - subscription_id: '${subscription_id}'
             - resource_group_name: '${resource_group_name}'
             - auth_token: '${auth_token}'
@@ -264,7 +264,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.microsoft.azure.databases.postgreSQL.list_postgre_sql_databases_within_server:
+          io.cloudslang.microsoft.azure.databases.postgres.list_postgre_sql_databases_within_server:
             - subscription_id: '${subscription_id}'
             - resource_group_name: '${resource_group_name}'
             - auth_token: '${auth_token}'
