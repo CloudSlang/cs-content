@@ -90,7 +90,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.18-RC3'
+    gav: 'io.cloudslang.content:cs-azure:0.0.18'
     class_name: io.cloudslang.content.azure.actions.utils.GetAuthorizationToken
     method_name: execute
 
