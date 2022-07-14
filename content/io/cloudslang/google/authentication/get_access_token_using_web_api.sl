@@ -51,7 +51,7 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output auth_token: Name of the pod.
+#! @output auth_token: The authorization token for google cloud.
 #!!#
 ########################################################################################################################
 
@@ -64,7 +64,6 @@ flow:
   inputs:
     - client_id
     - client_secret:
-        default: '443'
         required: true
     - refresh_token:
         sensitive: true
@@ -127,7 +126,7 @@ flow:
             - json_input: '${return_result}'
             - json_path: access_token
         publish:
-          - auth_token: '${return_result}'
+          - auth_token: "${'Bearer '+return_result}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -141,6 +140,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_to_get_access_token:
+        x: 120
+        'y': 200
       get_token:
         x: 320
         'y': 200
@@ -148,9 +150,6 @@ extensions:
           05f4be7d-925e-d628-aadc-43ef469ae888:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_get_access_token:
-        x: 120
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
