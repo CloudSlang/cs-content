@@ -233,36 +233,6 @@ flow:
         navigate:
           - SUCCESS: iterate_relevant_pods
           - FAILURE: on_failure
-    - delete_pod:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.delete_pod:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - pod_name: '${pod_name}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: iterate_relevant_pods
     - string_equals_empty_array:
         worker_group: '${worker_group}'
         do:
@@ -431,6 +401,33 @@ flow:
         navigate:
           - SUCCESS: list_pods
           - FAILURE: on_failure
+    - delete_pod:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.kubernetes.pods.delete_pod:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - pod_name: '${pod_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: iterate_relevant_pods
   outputs:
     - status_code
     - return_result
