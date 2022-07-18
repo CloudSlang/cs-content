@@ -46,7 +46,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.18'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.19'
     class_name: io.cloudslang.content.utilities.actions.Base64DecoderToFile
     method_name: execute
 
