@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation can be used to retrieve the list of instances, as JSON array.
 #!
-#! @input access_token: The access token from get_access_token.
+#! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input zone: The name of the zone in which the instance lives.
