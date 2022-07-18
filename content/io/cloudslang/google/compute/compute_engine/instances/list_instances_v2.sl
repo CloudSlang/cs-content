@@ -118,7 +118,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Authorization: Bearer '+access_token}"
+            - headers: "${'Authorization: '+access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
