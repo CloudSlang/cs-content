@@ -13,7 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes one or more of your VPCs.
+#! @description: Returns information about your Amazon virtual private clouds (VPC). You can filter the results to return information
+#!               only about VPCs that match the criteria you specify.
 #!
 #! @input endpoint: Optional - Endpoint to which first request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
