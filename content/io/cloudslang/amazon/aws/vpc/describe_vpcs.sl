@@ -13,18 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Describes the security groups that you own. By default, this operation returns information about all of
-#!               your security groups, but you can specify a list of group names or group IDs to restrict the results to
-#!               only those specified.
+#! @description: Describes one or more of your VPCs.
 #!
-#! @input endpoint: Optional - Endpoint to which first request will be sent
+#! @input endpoint: Optional - Endpoint to which first request will be sent.
 #!                  Default: 'https://ec2.amazonaws.com'
 #! @input identity: ID of the secret access key associated with your Amazon AWS or IAM account.
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
 #! @input vpc_ids: Optional - The IDs of the groups that you want to describe. This input can be used
-#!                                   also for security groups in a nondefault VPC
+#!                                   also for security groups in a nondefault VPC.
 #!                                   Example: "sg-01234567,sg-7654321,sg-abcdef01"
 #!                                   Default: ""
 #! @input vpc_filter_names_string: Optional - String that contains one or more values that represents filters for the search.
@@ -36,12 +34,12 @@
 #! @input vpc_filter_values_string: Optional - String that contains one or more values that represents filters values.
 #!                              For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
 #!                              Default (describes all your security groups): ""
-#! @input proxy_host: Optional - Proxy server used to access the provider services
-#! @input proxy_port: Optional - Proxy server port used to access the provider services
+#! @input proxy_host: Optional - Proxy server used to access the provider services.
+#! @input proxy_port: Optional - Proxy server port used to access the provider services.
 #!                    Default: '8080'
 #! @input proxy_username: Optional - proxy server user name.
 #!                        Default: ''
-#! @input proxy_password: Optional - proxy server password associated with the proxy_username
+#! @input proxy_password: Optional - proxy server password associated with the proxy_username.
 #!                        input value.
 #!                        Default: ''
 #! @input headers: Optional - string containing the headers to use for the request separated
