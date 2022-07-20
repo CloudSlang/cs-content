@@ -22,19 +22,18 @@
 #!                  Example: "AKIAIOSFODNN7EXAMPLE"
 #! @input credential: Secret access key associated with your Amazon AWS or IAM account.
 #!                    Example: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-#! @input vpc_ids: Optional - The IDs of the groups that you want to describe. This input can be used
-#!                                   also for security groups in a nondefault VPC.
-#!                                   Example: "sg-01234567,sg-7654321,sg-abcdef01"
+#! @input vpc_ids: Optional - The ID of the VPC. Can also pass a multiple vpc ids. 
+#!                                   Example: "vpc-1234567890abcdef0"
 #!                                   Default: ""
 #! @input vpc_filter_names_string: Optional - String that contains one or more values that represents filters for the search.
-#!                             For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
-#!                             Example: "description,group-id,group-name,ip-permission.cidr,ip-permission.from-port,
-#!                                       ip-permission.group-id,ip-permission.group-name,ip-permission.protocol,
-#!                                       ip-permission.to-port,ip-permission.user-id,owner-id,tag-key,tag-value,vpc-id"
+#!                             For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpcs.html
+#!                             Example: "is-default,owner-id,state,tag,tag-key,vpc-id,cidr,
+#!                                       cidr-block-association.cidr-block,cidr-block-association.association-id,cidr-block-association.state,
+#!                                       dhcp-options-id,ipv6-cidr-block-association.ipv6-cidr-block,ipv6-cidr-block-association.ipv6-pool,ipv6-cidr-block-association.association-id,ipv6-cidr-block-association.state"
 #!                             Default: ""
 #! @input vpc_filter_values_string: Optional - String that contains one or more values that represents filters values.
-#!                              For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSecurityGroups.html
-#!                              Default (describes all your security groups): ""
+#!                              For a complete list of valid filters see: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpcs.html
+#!                              Default: ""
 #! @input proxy_host: Optional - Proxy server used to access the provider services.
 #! @input proxy_port: Optional - Proxy server port used to access the provider services.
 #!                    Default: '8080'
@@ -65,8 +64,8 @@
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise
 #! @output exception: exception if there was an error when executing, empty otherwise
 #!
-#! @result SUCCESS: The list with existing servers (instances) was successfully retrieved
-#! @result FAILURE: An error occurred when trying to retrieve servers (instances) list
+#! @result SUCCESS: The list with existing VPCs with their description was successfully retrieved
+#! @result FAILURE: An error occurred when trying to retrieve VPCs list and their descriptions.
 #!!#
 ########################################################################################################################
 
