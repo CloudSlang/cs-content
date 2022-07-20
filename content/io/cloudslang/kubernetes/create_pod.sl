@@ -191,7 +191,7 @@ flow:
             - second_string: Running
         navigate:
           - SUCCESS: get_pod_creation_time
-          - FAILURE: on_failure
+          - FAILURE: compare_pod_status_pending
     - wait_before_check:
         worker_group: '${worker_group}'
         do:
@@ -275,6 +275,23 @@ flow:
         navigate:
           - SUCCESS: create_pod
           - FAILURE: on_failure
+    - wait_before_check_pod_status:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_pod_status
+          - FAILURE: on_failure
+    - compare_pod_status_pending:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${pod_status}'
+            - second_string: Pending
+        navigate:
+          - SUCCESS: wait_before_check_pod_status
+          - FAILURE: FAILURE
   outputs:
     - return_result
     - status_code
@@ -319,6 +336,9 @@ extensions:
       get_pod_status:
         x: 840
         'y': 120
+      wait_before_check_pod_status:
+        x: 1000
+        'y': 320
       counter:
         x: 840
         'y': 320
@@ -329,6 +349,16 @@ extensions:
       set_kubernetes_port:
         x: 520
         'y': 320
+      compare_pod_status_pending:
+        x: 1160
+        'y': 320
+        navigate:
+          2a091168-834d-c8ca-a50b-cc228a90e26a:
+            targetId: c9102be8-9863-2027-22f4-33ca633b909c
+            port: FAILURE
+            vertices:
+              - x: 1200
+                'y': 520
       get_pod_details:
         x: 680
         'y': 120
