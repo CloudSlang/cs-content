@@ -36,7 +36,6 @@
 #!                              Default: ""
 #! @input proxy_host: Optional - Proxy server used to access the provider services.
 #! @input proxy_port: Optional - Proxy server port used to access the provider services.
-#!                    Default: '8080'
 #! @input proxy_username: Optional - proxy server user name.
 #!                        Default: ''
 #! @input proxy_password: Optional - proxy server password associated with the proxy_username.
