@@ -52,9 +52,10 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output pod_name: Name of the pod.
-#! @output pod_uid: UID of the pod.
-#! @output pod_creation_time: Pod created time.
+#! @output pod_name: The name of the pod.
+#! @output pod_uid: The UID of the pod.
+#! @output pod_creation_time: The pod created time.
+#! @output pod_status: The status of the pod.
 #!!#
 ########################################################################################################################
 
@@ -280,6 +281,7 @@ flow:
     - pod_name
     - pod_uid
     - pod_creation_time
+    - pod_status
   results:
     - FAILURE
     - SUCCESS
@@ -287,59 +289,58 @@ extensions:
   graph:
     steps:
       create_pod:
-        x: 440
+        x: 520
         'y': 120
       set_kubernetes_host:
-        x: 0
+        x: 40
         'y': 120
       compare_pod_status:
         x: 1000
         'y': 120
       get_pod_creation_time:
-        x: 1200
+        x: 1160
         'y': 120
       is_port_provided:
-        x: 160
+        x: 200
         'y': 120
       get_pod_uid:
-        x: 1360
+        x: 1320
         'y': 120
         navigate:
           ba506f47-a748-b9c2-60f9-ec15ac569659:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       compare_numbers:
-        x: 160
-        'y': 400
+        x: 200
+        'y': 320
       wait_before_check:
-        x: 600
+        x: 680
         'y': 320
       get_pod_status:
-        x: 800
+        x: 840
         'y': 120
       counter:
-        x: 800
+        x: 840
         'y': 320
         navigate:
           6c380319-97ac-a095-a64b-0f2734e2dba6:
             targetId: c9102be8-9863-2027-22f4-33ca633b909c
             port: NO_MORE
       set_kubernetes_port:
-        x: 440
+        x: 520
         'y': 320
       get_pod_details:
-        x: 600
+        x: 680
         'y': 120
       set_default_kubernetes_port:
-        x: 280
+        x: 360
         'y': 120
     results:
       FAILURE:
         c9102be8-9863-2027-22f4-33ca633b909c:
-          x: 800
-          'y': 520
+          x: 840
+          'y': 480
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1360
-          'y': 360
-
+          x: 1480
+          'y': 120
