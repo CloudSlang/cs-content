@@ -37,14 +37,14 @@
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
 #!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
 #!                                 Default: 'strict'
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
 #!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Default value: '..JAVA_HOME/java/lib/security/cacerts'
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
@@ -60,13 +60,13 @@
 #!
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute.compute_engine.instances
+namespace: io.cloudslang.google.compute_v2.instances
 
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_instances_v2
+  name: list_instances
   inputs:
     - access_token:
         sensitive: true
