@@ -70,7 +70,7 @@ flow:
   inputs:
     - access_token:
         sensitive: true
-    - project:
+    - project_id:
         sensitive: true
     - zone:
         required: true
@@ -104,7 +104,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project+'/zones/'+zone+'/disks'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
