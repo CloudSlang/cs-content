@@ -31,7 +31,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.43'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.44-SNAPSHOT-100'
     class_name: 'io.cloudslang.content.amazon.actions.utils.GetTimeFormat'
     method_name: 'execute'
 
