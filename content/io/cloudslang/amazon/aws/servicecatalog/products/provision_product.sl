@@ -237,7 +237,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.44-SNAPSHOT-100'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.44'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.ProvisionProductAction'
     method_name: 'execute'
   
