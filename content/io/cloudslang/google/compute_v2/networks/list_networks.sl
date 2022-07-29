@@ -98,7 +98,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project+'/global/networks'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/global/networks'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
