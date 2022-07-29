@@ -52,6 +52,7 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output networks_json: A JSON list containing the networks information.
+#! @output list_networks: This contains the list of network names.
 #!
 #! @result SUCCESS: The networks were found and successfully retrieved.
 #! @result FAILURE: The networks were not found or some inputs were given incorrectly.
@@ -131,12 +132,23 @@ flow:
           - return_result: '${message}'
           - networks_json
         navigate:
+          - SUCCESS: json_path_query
+          - FAILURE: on_failure
+    - json_path_query:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${networks_json}'
+            - json_path: '$.items[*].name'
+        publish:
+          - list_networks: '${return_result}'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
     - networks_json
+    - list_networks
   results:
     - SUCCESS
     - FAILURE
@@ -148,6 +160,9 @@ extensions:
         'y': 200
       set_success_message:
         x: 320
+        'y': 200
+      json_path_query:
+        x: 480
         'y': 200
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
