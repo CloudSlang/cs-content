@@ -8,12 +8,8 @@ operation:
     - term2
 
   java_action:
-<<<<<<< HEAD
     gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
-=======
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC9'
->>>>>>> origin/test_myself
-    class_name: io.cloudslang.content.cyberark.actions.SimpleAddition
+    class_name: io.cloudslang.content.cyberark.actions.cristi.SimpleAddition
     method_name: execute
 
   outputs:
