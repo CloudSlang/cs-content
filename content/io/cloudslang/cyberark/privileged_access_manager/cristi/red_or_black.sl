@@ -1,4 +1,4 @@
-namespace: io.cloudslang.cyberark.privileged_access_manager
+namespace: io.cloudslang.cyberark.privileged_access_manager.cristi
 
 operation:
   name: red_or_black
