@@ -18,7 +18,7 @@
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input resource_id: Name of the region resource to return.
+#! @input region_name: Name of the region resource to return.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -69,7 +69,7 @@ flow:
         sensitive: true
     - project_id:
         sensitive: true
-    - resource_id
+    - region_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -100,7 +100,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/regions/'+resource_id}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/regions/'+region_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
