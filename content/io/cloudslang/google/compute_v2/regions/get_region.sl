@@ -54,8 +54,8 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output region_json: A JSON containing the region information.
 #!
-#! @result SUCCESS: The region were found and successfully retrieved.
-#! @result FAILURE: The region were not found or some inputs were given incorrectly.
+#! @result SUCCESS: The region details retrieved successfully.
+#! @result FAILURE: The region was not found or some inputs were given incorrectly.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute_v2.regions
