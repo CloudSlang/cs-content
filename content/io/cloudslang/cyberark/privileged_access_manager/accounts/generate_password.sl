@@ -243,7 +243,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.4-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.5-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.accounts.GeneratePassword
     method_name: execute
 
