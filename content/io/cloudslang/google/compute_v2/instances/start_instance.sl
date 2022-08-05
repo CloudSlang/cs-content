@@ -66,7 +66,7 @@ imports:
 flow:
   name: start_instance
   inputs:
-    - project:
+    - project_id:
         sensitive: true
     - access_token:
         sensitive: true
@@ -102,7 +102,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
