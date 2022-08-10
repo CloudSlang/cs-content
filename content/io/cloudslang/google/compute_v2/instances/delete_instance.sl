@@ -60,12 +60,12 @@
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
-namespace: gcp
+namespace: io.cloudslang.google.compute_v2.instances
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: delete_instance_test
+  name: delete_instance
   inputs:
     - project_id:
         sensitive: true
