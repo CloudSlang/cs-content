@@ -100,7 +100,7 @@ flow:
     - api_call_to_restart_the_instance:
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/reset"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/reset'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
