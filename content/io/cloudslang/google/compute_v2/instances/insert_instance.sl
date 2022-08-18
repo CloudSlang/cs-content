@@ -137,7 +137,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: create_instance
+  name: insert_instance
   inputs:
     - project_id:
         sensitive: true
