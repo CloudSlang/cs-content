@@ -236,7 +236,6 @@ flow:
             - body: "${'{\"machineType\": \"'+machine_type+'\",\"name\": \"'+instance_name+'\",\"networkInterfaces\": [{\"network\": \"'+network+'\",\"subnetwork\": \"'+subnetwork+'\"}],\"disks\": [{\"autoDelete\": false,\"boot\": true,\"deviceName\": \"'+volume_disk_name+'\",\"diskSizeGb\": '+volume_disk_size+',\"mode\": \"READ_ONLY\",\"type\": \"'+volume_disk_type+'\", \"source\": \"'+volume_disk_source_image+'\"}],\"canIpForward\": '+can_ip_forward+',\"description\": \"'+instance_description+'\",'+tags_json+''+label_json+'}'}"
             - content_type: application/json
             - worker_group: '${worker_group}'
-            - instance_description: null
         publish:
           - return_result
           - error_message
