@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Getting details about plan in JSON format.
+#! @description: This operation can be used to retrieve information about terraform plan in JSON format.
 #!
 #! @input tf_plan_id: Plan ID.
 #! @input auth_token: The authorization token for terraform.
