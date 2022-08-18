@@ -114,7 +114,6 @@ flow:
             - socket_timeout: '${socket_timeout}'
             - headers: "${'content-type: application/vnd.api+json\\n'+'Authorization:Bearer '+auth_token}"
         publish:
-          - plan_details: '${return_result}'
           - return_result
           - return_code
           - status_code
@@ -125,7 +124,6 @@ flow:
     - return_result
     - status_code
     - return_code
-    - plan_details
   results:
     - SUCCESS
     - FAILURE
