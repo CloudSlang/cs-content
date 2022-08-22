@@ -125,6 +125,7 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
+#! @output instance_json: A JSON list containing the Instance information.
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
@@ -248,12 +249,15 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: "${'The instance '+ instance_name+' created successfully.'}"
+            - instance_json: '${return_result}'
         publish:
           - return_result: '${message}'
+          - instance_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
+    - instance_json
     - return_result
     - status_code
   results:
