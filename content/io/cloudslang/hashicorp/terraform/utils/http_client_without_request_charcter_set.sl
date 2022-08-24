@@ -144,7 +144,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.http
+namespace: io.cloudslang.hashicorp.terraform.utils
 
 operation:
   name: http_client_action
