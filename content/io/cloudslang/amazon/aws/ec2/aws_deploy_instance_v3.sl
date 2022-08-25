@@ -105,7 +105,6 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2
-
 imports:
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
@@ -135,6 +134,8 @@ flow:
     - volume_type:
         required: false
     - volume_size:
+        required: false
+    - security_group_ids_string:
         required: false
     - proxy_host:
         required: false
@@ -356,6 +357,7 @@ flow:
             - volume_sizes_string: '${volume_size}'
             - volume_types_string: '${volume_type}'
             - key_pair_name
+            - security_group_ids_string: '${security_group_ids_string}'
             - user_data
         publish:
           - return_result
@@ -748,7 +750,7 @@ extensions:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
       set_endpoint:
-        x: 100
+        x: 40
         'y': 240
       is_public_dns_name_not_present:
         x: 2206
@@ -810,3 +812,4 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 440
           'y': 560
+
