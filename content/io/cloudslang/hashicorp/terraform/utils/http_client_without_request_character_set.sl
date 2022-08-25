@@ -147,7 +147,7 @@
 namespace: io.cloudslang.hashicorp.terraform.utils
 
 operation:
-  name: http_client_without_request_charcter_set
+  name: http_client_without_request_character_set
 
   inputs:
     - url
