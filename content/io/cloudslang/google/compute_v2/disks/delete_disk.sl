@@ -13,18 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to create disk from a source.
+#! @description: This operation can be used to delete disk from a source.
 #!
 #! @input project_id: The Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
-#! @input zone: The name of the zone in which the instance lives.
+#! @input zone: The zone in which the instance resides.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input disk_name: Name of the Disk. Provided by the client when the Disk is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
-#! @input disk_type: URL of the disk type resource describing which disk type to use to create the disk. Provide this when creating the disk.
-#! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk.If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the size of the snapshot.
-#!                   Constraint: Number greater or equal with 10 Default: '10' Optional
-#! @input disk_description: The description of the new Disk. Optional
+#! @input disk_name: The name of the Disk.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -60,7 +56,7 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The request for the disk to create successfully sent.
+#! @result SUCCESS: The request for the disk to delete was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
@@ -69,7 +65,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: insert_disk
+  name: delete_disk
   inputs:
     - project_id:
         sensitive: true
@@ -77,13 +73,6 @@ flow:
         sensitive: true
     - zone
     - disk_name
-    - disk_type:
-        required: true
-    - disk_size:
-        default: '10'
-        required: false
-    - disk_description:
-        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -108,13 +97,10 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_insert_the_disk:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - api_call_to_delete_disk:
         do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks'}"
+          io.cloudslang.base.http.http_client_delete:
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks/'+disk_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -130,14 +116,11 @@ flow:
                 sensitive: true
             - request_character_set: UTF-8
             - headers: "${'Authorization: '+access_token}"
-            - query_params: null
-            - body: "${'{\"name\": \"'+disk_name+'\", \"sizeGb\": \"'+disk_size+'\",\"description\":\"'+disk_description+'\",\"type\":\"'+disk_type+'\"}'}"
-            - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
           - return_result
-          - error_message
           - status_code
+          - error_message
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -145,7 +128,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The disk '+disk_name+' is created successfully.'}"
+            - message: "${'The disk '+disk_name+' is deleted successfully.'}"
             - disk_json: '${return_result}'
         publish:
           - return_result: '${message}'
@@ -163,9 +146,6 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_insert_the_disk:
-        x: 80
-        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -173,6 +153,9 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      api_call_to_delete_disk:
+        x: 80
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
