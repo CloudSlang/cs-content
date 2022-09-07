@@ -1,0 +1,181 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This operation can be used to create disk from a source.
+#!
+#! @input project_id: The Google Cloud project name.
+#!                    Example: 'example-project-a'
+#! @input access_token: The authorization token for google cloud.
+#! @input zone: The name of the zone in which the instance lives.
+#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
+#! @input disk_name: Name of the Disk. Provided by the client when the Disk is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
+#! @input disk_type: URL of the disk type resource describing which disk type to use to create the disk. Provide this when creating the disk.
+#! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk.If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the size of the snapshot.
+#!                   Constraint: Number greater or equal with 10 Default: '10' Optional
+#! @input disk_description: The description of the new Disk. Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
+#!                      one group simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#! @input proxy_host: Proxy server used to access the provider services.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the provider services.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: '..JAVA_HOME/java/lib/security/cacerts'
+#!                        Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
+#!
+#! @output disk_json: A JSON containing the disk information.
+#! @output return_result: This will contain the response entity.
+#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#!
+#! @result SUCCESS: The request for the disk to create successfully sent.
+#! @result FAILURE: An error occurred while trying to send the request.
+#!!#
+########################################################################################################################
+namespace: io.cloudslang.google.compute_v2.disks
+imports:
+  http: io.cloudslang.base.http
+  json: io.cloudslang.base.json
+flow:
+  name: insert_disk
+  inputs:
+    - project_id:
+        sensitive: true
+    - access_token:
+        sensitive: true
+    - zone
+    - disk_name
+    - disk_type:
+        required: true
+    - disk_size:
+        default: '10'
+        required: false
+    - disk_description:
+        required: false
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+        sensitive: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
+  workflow:
+    - api_call_to_insert_the_disk:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_post:
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks'}"
+            - auth_type: anonymous
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - request_character_set: UTF-8
+            - headers: "${'Authorization: '+access_token}"
+            - query_params: null
+            - body: "${'{\"name\": \"'+disk_name+'\", \"sizeGb\": \"'+disk_size+'\",\"description\":\"'+disk_description+'\",\"type\":\"'+disk_type+'\"}'}"
+            - content_type: application/json
+            - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
+        navigate:
+          - SUCCESS: set_success_message
+          - FAILURE: on_failure
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: "${'The disk '+disk_name+' is created successfully.'}"
+            - disk_json: '${return_result}'
+        publish:
+          - return_result: '${message}'
+          - disk_json
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+  outputs:
+    - disk_json
+    - return_result
+    - status_code
+  results:
+    - SUCCESS
+    - FAILURE
+extensions:
+  graph:
+    steps:
+      api_call_to_insert_the_disk:
+        x: 80
+        'y': 200
+      set_success_message:
+        x: 320
+        'y': 200
+        navigate:
+          5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+    results:
+      SUCCESS:
+        11a314fb-962f-5299-d0a5-ada1540d2904:
+          x: 560
+          'y': 200
+
