@@ -1,4 +1,4 @@
-namespace: io.cloudslang.microfocus.content.utils
+namespace: io.cloudslang.hashicorp.terraform.sync.utils
 operation:
   name: get_ro_id_python
   inputs:

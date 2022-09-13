@@ -1,4 +1,4 @@
-namespace: io.cloudslang.microfocus.content.utils
+namespace: io.cloudslang.hashicorp.terraform.sync.utils
 flow:
   name: create_tf_input_variables_in_component_template
   inputs:

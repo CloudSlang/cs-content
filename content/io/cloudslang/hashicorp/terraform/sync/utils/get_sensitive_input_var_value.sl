@@ -1,4 +1,4 @@
-namespace: io.cloudslang.microfocus.content.utils
+namespace: io.cloudslang.hashicorp.terraform.sync.utils
 flow:
   name: get_sensitive_input_var_value
   inputs:

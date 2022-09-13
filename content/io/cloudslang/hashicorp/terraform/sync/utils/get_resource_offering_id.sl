@@ -1,4 +1,4 @@
-namespace: io.cloudslang.microfocus.content.utils
+namespace: io.cloudslang.hashicorp.terraform.sync.utils
 flow:
   name: get_resource_offering_id
   inputs:
