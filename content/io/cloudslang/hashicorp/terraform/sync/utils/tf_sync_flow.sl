@@ -155,19 +155,33 @@ flow:
             - tf_template_vcs_repo_identifier: '${tf_template_vcs_repo_identifier}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: associate_ro_in_template
+          - SUCCESS: get_resource_offering_id
     - associate_ro_in_template:
         do:
-          final.terra.test.associate_ro_in_template:
+          io.cloudslang.microfocus.content.associate_ro_in_template:
+            - dnd_host: '${host}'
+            - tenant_id: '${tenant_id}'
+            - dnd_auth_token:
+                value: '${dnd_auth_token}'
+                sensitive: true
+            - template_id: '${component_template_id}'
+            - resource_offering_id: '${striped_ro_id}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - get_resource_offering_id:
+        do:
+          io.cloudslang.microfocus.content.utils.get_resource_offering_id:
+            - x_auth_token: '${dnd_auth_token}'
             - host: '${host}'
             - tenant_id: '${tenant_id}'
-            - x_auth_token: '${dnd_auth_token}'
-            - component_template_id: '${component_template_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+        publish:
+          - striped_ro_id
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: SUCCESS
+          - SUCCESS: associate_ro_in_template
   outputs:
     - component_template_id: '${component_template_id}'
     - tf_source_vcs_repo_identifier: '${tf_source_vcs_repo_identifier}'
@@ -183,6 +197,9 @@ extensions:
       create_dnd_auth_token:
         x: 80
         'y': 360
+      get_resource_offering_id:
+        x: 800
+        'y': 480
       create_tf_input_variables_in_component_template:
         x: 800
         'y': 120
@@ -197,10 +214,10 @@ extensions:
         x: 160
         'y': 120
       associate_ro_in_template:
-        x: 840
-        'y': 360
+        x: 400
+        'y': 560
         navigate:
-          222cc478-30c8-48a8-41cb-730d04c20452:
+          0ca1b344-64ea-a525-43b4-faa050cea5dd:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
             port: SUCCESS
       create_component_template_property:
