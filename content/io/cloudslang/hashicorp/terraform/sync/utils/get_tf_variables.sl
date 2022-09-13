@@ -75,7 +75,7 @@ flow:
           - FAILURE: on_failure
     - list_runs_in_template_workspace:
         do:
-          HashiCorp.Terraform.utils.list_runs_in_template_workspace:
+          io.cloudslang.hashicorp.terraform.sync.utils.list_runs_in_template_workspace:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'
