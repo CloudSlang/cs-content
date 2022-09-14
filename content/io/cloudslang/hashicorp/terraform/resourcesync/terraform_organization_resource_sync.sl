@@ -143,7 +143,7 @@ flow:
           - FAILURE: on_failure
     - tf_sync_flow:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.tf_sync_flow:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.tf_sync_flow:
             - host: '${host}'
             - tenant_id: '${tenant_id}'
             - dnd_username: '${dnd_username}'
