@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: get_tf_variables
   inputs:
@@ -75,7 +75,7 @@ flow:
           - FAILURE: on_failure
     - list_runs_in_template_workspace:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.list_runs_in_template_workspace:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.list_runs_in_template_workspace:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'

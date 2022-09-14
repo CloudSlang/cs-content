@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: create_tf_output_variables_in_component_template
   inputs:

@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 operation:
   name: get_run_id_and_plan_id_python
   inputs:

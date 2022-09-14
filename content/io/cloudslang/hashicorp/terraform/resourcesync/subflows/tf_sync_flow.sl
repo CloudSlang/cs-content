@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: tf_sync_flow
   inputs:
@@ -36,7 +36,7 @@ flow:
           - FAILURE: on_failure
     - get_tf_variables:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_tf_variables:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_tf_variables:
             - tf_user_auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
@@ -127,7 +127,7 @@ flow:
           - FAILURE: on_failure
     - create_tf_input_variables_in_component_template:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.create_tf_input_variables_in_component_template:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_input_variables_in_component_template:
             - tf_variables_list: '${tf_variables_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
@@ -144,7 +144,7 @@ flow:
           - SUCCESS: create_tf_output_variables_in_component_template
     - create_tf_output_variables_in_component_template:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.create_tf_output_variables_in_component_template:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_output_variables_in_component_template:
             - tf_output_variable_key_list: '${tf_output_variable_key_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
@@ -171,7 +171,7 @@ flow:
           - FAILURE: on_failure
     - get_resource_offering_id:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_resource_offering_id:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_resource_offering_id:
             - x_auth_token: '${dnd_auth_token}'
             - host: '${host}'
             - tenant_id: '${tenant_id}'

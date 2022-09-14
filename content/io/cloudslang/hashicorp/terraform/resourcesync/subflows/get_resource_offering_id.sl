@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: get_resource_offering_id
   inputs:
@@ -35,7 +35,7 @@ flow:
           - FAILURE: on_failure
     - get_ro_id_python:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_ro_id_python:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_ro_id_python:
             - ro_list: '${ro_list}'
         publish:
           - ro_id: '${ro_id}'

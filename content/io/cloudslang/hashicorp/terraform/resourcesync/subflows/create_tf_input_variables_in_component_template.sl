@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: create_tf_input_variables_in_component_template
   inputs:
@@ -142,7 +142,7 @@ flow:
           - FAILURE: set_csa_confidential_value_false_1
     - get_sensitive_input_var_value:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_sensitive_input_var_value:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_input_var_value:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'
@@ -157,7 +157,7 @@ flow:
           - FAILURE: on_failure
     - get_sensitive_input_var_value_1:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_sensitive_input_var_value:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_input_var_value:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'
@@ -208,7 +208,7 @@ flow:
           - FAILURE: on_failure
     - get_sensitive_value_python_2:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_sensitive_value_python:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_value_python:
             - input_results_keyname: '${input_results_keyname}'
             - input_keyname_keyvalue_list: '${input_keyname_keyvalue_list}'
             - original_keyname: '${original_keyname}'
@@ -218,7 +218,7 @@ flow:
           - SUCCESS: create_component_template_property_1
     - get_sensitive_value_python:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_sensitive_value_python:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_value_python:
             - input_results_keyname: '${input_results_keyname}'
             - input_keyname_keyvalue_list: '${input_keyname_keyvalue_list}'
             - original_keyname: '${original_keyname}'

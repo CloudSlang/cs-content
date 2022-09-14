@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.sync.utils
+namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
 flow:
   name: get_sensitive_input_var_value
   inputs:
@@ -57,7 +57,7 @@ flow:
           - FAILURE: on_failure
     - get_run_id_and_plan_id_python:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_run_id_and_plan_id_python:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_run_id_and_plan_id_python:
             - run_list: '${run_list}'
         publish:
           - tf_run_id: '${tf_run_id}'
@@ -66,7 +66,7 @@ flow:
           - SUCCESS: show_plan_details
     - get_input_keyname_python:
         do:
-          io.cloudslang.hashicorp.terraform.sync.utils.get_input_keyname_python:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_input_keyname_python:
             - input_results: '${input_results}'
         publish:
           - input_keyname_keyalue_list: '${result}'
