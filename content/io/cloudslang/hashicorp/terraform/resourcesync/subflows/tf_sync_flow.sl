@@ -155,7 +155,7 @@ flow:
             - tf_template_vcs_repo_identifier: '${tf_template_vcs_repo_identifier}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_resource_offering_id
+          - SUCCESS: list_all_resource_offering_details
     - associate_ro_in_template:
         do:
           io.cloudslang.microfocus.content.associate_ro_in_template:
@@ -165,22 +165,29 @@ flow:
                 value: '${dnd_auth_token}'
                 sensitive: true
             - template_id: '${component_template_id}'
-            - resource_offering_id: '${striped_ro_id}'
+            - resource_offering_id: '${ro_id}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - get_resource_offering_id:
+    - list_all_resource_offering_details:
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_resource_offering_id:
-            - x_auth_token: '${dnd_auth_token}'
-            - host: '${host}'
+          io.cloudslang.microfocus.content.list_all_resource_offering_details:
+            - dnd_host: '${host}'
             - tenant_id: '${tenant_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
+            - x_auth_token: '${dnd_auth_token}'
         publish:
-          - striped_ro_id
+          - return_result
+          - status_code
         navigate:
           - FAILURE: on_failure
+          - SUCCESS: get_ro_id_python
+    - get_ro_id_python:
+        do:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_ro_id_python:
+            - ro_list: '${return_result}'
+        publish:
+          - ro_id: '${ro_id.split("/resource/offering/")[1]}'
+        navigate:
           - SUCCESS: associate_ro_in_template
   outputs:
     - component_template_id: '${component_template_id}'
@@ -192,16 +199,16 @@ extensions:
   graph:
     steps:
       create_component_template_property_1:
-        x: 640
+        x: 560
         'y': 120
+      get_ro_id_python:
+        x: 880
+        'y': 360
       create_dnd_auth_token:
         x: 80
         'y': 360
-      get_resource_offering_id:
-        x: 800
-        'y': 480
       create_tf_input_variables_in_component_template:
-        x: 800
+        x: 720
         'y': 120
       list_iterator:
         x: 400
@@ -211,29 +218,32 @@ extensions:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
             port: NO_MORE
       get_tf_variables:
-        x: 160
+        x: 80
         'y': 120
       associate_ro_in_template:
-        x: 400
-        'y': 560
+        x: 720
+        'y': 360
         navigate:
           0ca1b344-64ea-a525-43b4-faa050cea5dd:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
             port: SUCCESS
       create_component_template_property:
-        x: 480
+        x: 400
         'y': 120
       create_tf_output_variables_in_component_template:
-        x: 960
+        x: 880
+        'y': 120
+      list_all_resource_offering_details:
+        x: 1040
         'y': 120
       list_workspaces:
         x: 240
         'y': 360
       create_component_template:
-        x: 320
+        x: 240
         'y': 120
     results:
       SUCCESS:
         b79ac630-86cf-5ab0-94c1-93de1aa81b22:
-          x: 640
+          x: 560
           'y': 360
