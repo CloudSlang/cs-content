@@ -25,7 +25,7 @@ flow:
     - do_nothing:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - input_0: "${'tf_output_'+removed_keyname}"
+            - input_0: "${'tf_output_'+key_name}"
         publish:
           - updated_output_keyname: '${input_0}'
         navigate:
@@ -34,7 +34,7 @@ flow:
     - list_iterator:
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${striped_array_3}'
+            - list: '${tf_output_variable_key_list}'
         publish:
           - key_name: '${result_string}'
         navigate:
@@ -63,12 +63,12 @@ flow:
 extensions:
   graph:
     steps:
-      create_component_template_property_1:
-        x: 520
-        'y': 240
       array_value:
         x: 200
         'y': 40
+      do_nothing:
+        x: 360
+        'y': 240
       list_iterator:
         x: 360
         'y': 40
@@ -76,8 +76,8 @@ extensions:
           8b6965dd-57ad-a18d-07df-d5d132da4710:
             targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
             port: NO_MORE
-      do_nothing:
-        x: 360
+      create_component_template_property_1:
+        x: 520
         'y': 240
     results:
       SUCCESS:
