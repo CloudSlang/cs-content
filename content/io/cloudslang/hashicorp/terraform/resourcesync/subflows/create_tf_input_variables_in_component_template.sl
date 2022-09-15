@@ -26,7 +26,7 @@ flow:
           - output_0: '${result_string}'
         navigate:
           - HAS_MORE: get_keyname
-          - NO_MORE: get_keyname_1
+          - NO_MORE: string_equals
           - FAILURE: on_failure
     - get_keyname:
         do:
@@ -226,6 +226,13 @@ flow:
           - key_value: '${retrieved_keyvalue}'
         navigate:
           - SUCCESS: create_component_template_property
+    - string_equals:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${output_0}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: get_keyname_1
   results:
     - FAILURE
     - SUCCESS
@@ -233,8 +240,8 @@ extensions:
   graph:
     steps:
       get_keyname:
-        x: 600
-        'y': 280
+        x: 680
+        'y': 160
       is_sensitive:
         x: 960
         'y': 280
@@ -257,6 +264,13 @@ extensions:
       get_keyvalue_1:
         x: 280
         'y': 40
+      string_equals:
+        x: 560
+        'y': 440
+        navigate:
+          cd246734-e34b-78e4-b527-9a45192c5097:
+            targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
+            port: SUCCESS
       get_sensitive_value_python_2:
         x: 320
         'y': 360
@@ -273,7 +287,7 @@ extensions:
         x: 40
         'y': 200
       array_iterator:
-        x: 480
+        x: 560
         'y': 200
       create_component_template_property:
         x: 720
