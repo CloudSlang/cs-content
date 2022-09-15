@@ -59,16 +59,6 @@ flow:
                 value: '${proxy_password}'
                 sensitive: true
         publish:
-          - tf_template_workspace_variables: '${return_result}'
-        navigate:
-          - SUCCESS: get_template_variables_list
-          - FAILURE: on_failure
-    - get_template_variables_list:
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${tf_template_workspace_variables}'
-            - json_path: data
-        publish:
           - variables_list: '${return_result}'
         navigate:
           - SUCCESS: list_runs_in_template_workspace
@@ -101,6 +91,12 @@ extensions:
       get_workspace_details:
         x: 40
         'y': 160
+      get_template_vcs_repo_identifier:
+        x: 200
+        'y': 160
+      list_template_workspace_variables:
+        x: 360
+        'y': 160
       list_runs_in_template_workspace:
         x: 680
         'y': 160
@@ -108,15 +104,6 @@ extensions:
           c1717730-22d4-a484-d82b-3837c77191bb:
             targetId: 8a94a410-8ddd-3c39-6651-daa852ea17f7
             port: SUCCESS
-      get_template_vcs_repo_identifier:
-        x: 200
-        'y': 160
-      list_template_workspace_variables:
-        x: 360
-        'y': 160
-      get_template_variables_list:
-        x: 520
-        'y': 160
     results:
       SUCCESS:
         8a94a410-8ddd-3c39-6651-daa852ea17f7:
