@@ -105,8 +105,25 @@ flow:
           - key_value: '${result_string.split(":::")[1]}'
           - is_sensitive: '${result_string.split(":::")[2]}'
         navigate:
-          - HAS_MORE: is_sensitive_1
+          - HAS_MORE: string_equals
           - NO_MORE: SUCCESS
+          - FAILURE: on_failure
+    - string_equals:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${key_value}'
+            - second_string: empty
+        navigate:
+          - SUCCESS: do_nothing
+          - FAILURE: is_sensitive_1
+    - do_nothing:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - key_value: ''
+        publish:
+          - key_value
+        navigate:
+          - SUCCESS: is_sensitive_1
           - FAILURE: on_failure
   results:
     - FAILURE
@@ -123,6 +140,9 @@ extensions:
       input_variable_list:
         x: 40
         'y': 80
+      string_equals:
+        x: 40
+        'y': 240
       get_sensitive_value_python_2:
         x: 520
         'y': 400
@@ -130,12 +150,15 @@ extensions:
         x: 200
         'y': 80
         navigate:
-          23f76e84-630b-9aa9-041f-37a70c862cba:
+          aada2c1c-c18c-0951-2493-1b1d25407052:
             targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
             port: NO_MORE
       is_sensitive_1:
         x: 200
         'y': 240
+      do_nothing:
+        x: 40
+        'y': 440
       set_csa_confidential_value_true_1:
         x: 200
         'y': 400
