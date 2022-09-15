@@ -88,9 +88,9 @@ flow:
           - proxy_username: '${property_value_list.split("|")[2].split(";")[1]}'
           - proxy_password: '${property_value_list.split("|")[3].split(";")[1]}'
           - tf_user_auth_token: '${property_value_list.split("|")[5].split(";")[1]}'
-          - worker_group: '${property_value_list.split("|")[4]}'
-          - src_organization_name: '${property_value_list.split("|")[6]}'
-          - dest_organization_name: '${property_value_list.split("|")[7]}'
+          - worker_group: '${property_value_list.split("|")[4].split(";")[1]}'
+          - src_organization_name: '${property_value_list.split("|")[6].split(";")[1]}'
+          - dest_organization_name: '${property_value_list.split("|")[7].split(";")[1]}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: string_equals
@@ -149,7 +149,7 @@ flow:
             - tenant_id: '${tenant_id}'
             - dnd_username: '${dnd_username}'
             - dnd_password:
-                value: '${password}'
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
                 sensitive: true
             - tf_user_auth_token:
                 value: '${tf_user_auth_token}'
