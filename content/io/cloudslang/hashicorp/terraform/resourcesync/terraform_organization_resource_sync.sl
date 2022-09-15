@@ -80,7 +80,7 @@ flow:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${provider_id}'
-            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|excludedRegions|workerGroup|tf_user_auth_token|tf_template_organization_name'
+            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|excludedRegions|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName'
         publish:
           - property_value_string: '${property_value_list}'
           - proxy_host: '${property_value_list.split("|")[0].split(";")[1]}'
@@ -89,7 +89,8 @@ flow:
           - proxy_password: '${property_value_list.split("|")[3].split(";")[1]}'
           - tf_user_auth_token: '${property_value_list.split("|")[5].split(";")[1]}'
           - worker_group: '${property_value_list.split("|")[4]}'
-          - tf_template_organization_name: '${property_value_list.split("|")[6]}'
+          - src_organization_name: '${property_value_list.split("|")[6]}'
+          - dest_organization_name: '${property_value_list.split("|")[7]}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: string_equals
@@ -153,11 +154,12 @@ flow:
             - tf_user_auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - tf_template_organization_name: '${tf_template_organization_name}'
+            - tf_template_organization_name: '${src_organization_name}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - worker_group: '${worker_group}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS

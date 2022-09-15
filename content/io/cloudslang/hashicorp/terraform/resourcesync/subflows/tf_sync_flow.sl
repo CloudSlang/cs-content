@@ -19,6 +19,8 @@ flow:
     - proxy_password:
         required: false
     - component_id: bb9cb58417414d618ece96e43911dba2
+    - worker_group:
+        required: false
   workflow:
     - create_dnd_auth_token:
         do:
