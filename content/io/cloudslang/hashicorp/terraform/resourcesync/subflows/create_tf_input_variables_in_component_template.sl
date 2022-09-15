@@ -20,7 +20,7 @@ flow:
   workflow:
     - input_variable_list:
         do:
-          final.terra.15-9.input_variable_list:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.input_variable_list:
             - data: '${tf_variables_list}'
         publish:
           - return_result
