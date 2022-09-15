@@ -34,7 +34,7 @@ flow:
     - list_iterator:
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${tf_output_variable_key_list}'
+            - list: '${array_value_output}'
         publish:
           - key_name: '${result_string}'
         navigate:

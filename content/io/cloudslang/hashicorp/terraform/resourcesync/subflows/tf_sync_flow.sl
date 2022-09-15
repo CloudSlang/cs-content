@@ -169,7 +169,7 @@ flow:
             - template_id: '${component_template_id}'
             - resource_offering_id: '${ro_id}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: list_iterator
           - FAILURE: on_failure
     - list_all_resource_offering_details:
         do:
@@ -225,10 +225,6 @@ extensions:
       associate_ro_in_template:
         x: 720
         'y': 360
-        navigate:
-          0ca1b344-64ea-a525-43b4-faa050cea5dd:
-            targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
-            port: SUCCESS
       create_component_template_property:
         x: 400
         'y': 120
@@ -247,5 +243,5 @@ extensions:
     results:
       SUCCESS:
         b79ac630-86cf-5ab0-94c1-93de1aa81b22:
-          x: 560
-          'y': 360
+          x: 400
+          'y': 560
