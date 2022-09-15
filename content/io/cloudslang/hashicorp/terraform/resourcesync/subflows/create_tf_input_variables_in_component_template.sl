@@ -101,11 +101,8 @@ flow:
             - list: '${return_result}'
         publish:
           - result_string
-          - key_name: '${result_string.split(":::")[0]}'
-          - key_value: '${result_string.split(":::")[1]}'
-          - is_sensitive: '${result_string.split(":::")[2]}'
         navigate:
-          - HAS_MORE: string_equals
+          - HAS_MORE: do_nothing_1
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - string_equals:
@@ -125,6 +122,19 @@ flow:
         navigate:
           - SUCCESS: is_sensitive_1
           - FAILURE: on_failure
+    - do_nothing_1:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - key_name: '${result_string.split(":::")[0]}'
+            - key_value: '${result_string.split(":::")[1]}'
+            - is_sensitive: '${result_string.split(":::")[2]}'
+        publish:
+          - key_name
+          - key_value
+          - is_sensitive
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
@@ -137,6 +147,9 @@ extensions:
       create_component_template_property_1:
         x: 520
         'y': 240
+      do_nothing_1:
+        x: 160
+        'y': 160
       input_variable_list:
         x: 40
         'y': 80
@@ -147,10 +160,10 @@ extensions:
         x: 520
         'y': 400
       list_iterator:
-        x: 200
+        x: 320
         'y': 80
         navigate:
-          aada2c1c-c18c-0951-2493-1b1d25407052:
+          83ddc624-d1ca-5e2e-ed87-27bde196c653:
             targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
             port: NO_MORE
       is_sensitive_1:
