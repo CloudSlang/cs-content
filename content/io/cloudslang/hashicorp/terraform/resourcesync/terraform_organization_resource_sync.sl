@@ -80,7 +80,7 @@ flow:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${provider_id}'
-            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|excludedRegions|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName'
+            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName'
         publish:
           - property_value_string: '${property_value_list}'
           - proxy_host: '${property_value_list.split("|")[0].split(";")[1]}'
