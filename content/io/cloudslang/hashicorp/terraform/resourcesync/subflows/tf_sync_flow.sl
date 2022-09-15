@@ -79,7 +79,7 @@ flow:
           io.cloudslang.base.lists.list_iterator:
             - list: '${workspace_list}'
         publish:
-          - workspace_name: '${return_result}'
+          - workspace_name: '${result_string}'
         navigate:
           - HAS_MORE: get_tf_variables
           - NO_MORE: SUCCESS
