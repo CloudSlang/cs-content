@@ -20,7 +20,7 @@ flow:
   workflow:
     - input_variable_list:
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.input_variable_list:
+          final.terra.15-9.input_variable_list:
             - data: '${tf_variables_list}'
         publish:
           - return_result
@@ -35,7 +35,7 @@ flow:
             - trust_all_roots: 'true'
             - x_509_hostname_verifier: allow_all
             - headers: "${'content-type: application/json\\n'+'Accept: application/json\\n'+'X-Auth-Token:'+x_auth_token}"
-            - body: "${'{\"global_id\":\"\",\"@type\":\"\",\"name\": \"tf_input_'+key_name+'\",\"description\":null,\"property_type\":\"STRING\",\"property_value\":\"'+key_value+'\",\"ownership\": null,\"owner\":{\"global_id\":\"'+component_template_id+'\"},\"upgradeLocked\":false,\"bindings\":[],\"ext\":{\"csa_critical_system_object\":false,\"csa_name_key\":\"tf_input_'+key_name+'\",\"csa_consumer_visible\":false,\"csa_confidential\":'+is_sensitive+'},\"visibleWhenDeployDesign\":true,\"requiredWhenDeployDesign\": false}'}"
+            - body: "${'{\"global_id\":\"\",\"@type\":\"\",\"name\": \"tf_input_'+key_name+'\",\"description\":null,\"property_type\":\"STRING\",\"property_value\":\"'+key_value+'\",\"ownership\": null,\"owner\":{\"global_id\":\"'+component_template_id+'\"},\"upgradeLocked\":false,\"bindings\":[],\"ext\":{\"csa_critical_system_object\":false,\"csa_name_key\":\"tf_input_'+key_name+'\",\"csa_consumer_visible\":false,\"csa_confidential\":'+csa_confidential+'},\"visibleWhenDeployDesign\":true,\"requiredWhenDeployDesign\": false}'}"
             - content_type: application/json
         publish:
           - output_0: '${error_message}'
