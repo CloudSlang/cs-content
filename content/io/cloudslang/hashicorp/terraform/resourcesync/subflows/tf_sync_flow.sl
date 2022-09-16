@@ -34,7 +34,7 @@ flow:
         publish:
           - dnd_auth_token
         navigate:
-          - SUCCESS: list_workspaces
+          - SUCCESS: list_all_resource_offering_details
           - FAILURE: on_failure
     - get_tf_variables:
         do:
@@ -157,7 +157,7 @@ flow:
             - tf_template_vcs_repo_identifier: '${tf_template_vcs_repo_identifier}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: list_all_resource_offering_details
+          - SUCCESS: associate_ro_in_template
     - associate_ro_in_template:
         do:
           io.cloudslang.microfocus.content.associate_ro_in_template:
@@ -182,15 +182,15 @@ flow:
           - status_code
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_ro_id_python
-    - get_ro_id_python:
+          - SUCCESS: get_ro_id
+    - get_ro_id:
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_ro_id_python:
             - ro_list: '${return_result}'
         publish:
           - ro_id: '${ro_id.split("/resource/offering/")[1]}'
         navigate:
-          - SUCCESS: associate_ro_in_template
+          - SUCCESS: list_workspaces
   outputs:
     - component_template_id: '${component_template_id}'
     - tf_source_vcs_repo_identifier: '${tf_source_vcs_repo_identifier}'
@@ -203,18 +203,15 @@ extensions:
       create_component_template_property_1:
         x: 560
         'y': 120
-      get_ro_id_python:
-        x: 880
-        'y': 360
       create_dnd_auth_token:
         x: 80
-        'y': 360
+        'y': 320
       create_tf_input_variables_in_component_template:
         x: 720
         'y': 120
       list_iterator:
-        x: 400
-        'y': 360
+        x: 720
+        'y': 320
         navigate:
           740a6733-01ad-81c1-ba86-6b4c416a1acf:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
@@ -223,8 +220,11 @@ extensions:
         x: 80
         'y': 120
       associate_ro_in_template:
-        x: 720
-        'y': 360
+        x: 880
+        'y': 320
+      get_ro_id:
+        x: 400
+        'y': 320
       create_component_template_property:
         x: 400
         'y': 120
@@ -232,16 +232,16 @@ extensions:
         x: 880
         'y': 120
       list_all_resource_offering_details:
-        x: 1040
-        'y': 120
-      list_workspaces:
         x: 240
-        'y': 360
+        'y': 320
+      list_workspaces:
+        x: 520
+        'y': 320
       create_component_template:
         x: 240
         'y': 120
     results:
       SUCCESS:
         b79ac630-86cf-5ab0-94c1-93de1aa81b22:
-          x: 400
-          'y': 560
+          x: 720
+          'y': 520
