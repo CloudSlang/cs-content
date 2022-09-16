@@ -26,7 +26,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: list_iterator
-    - create_component_template_property_1:
+    - create_component_template_property:
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${'https://'+host+'/dnd/api/v1/'+tenant_id+'/property'}"
@@ -50,9 +50,9 @@ flow:
             - second_string: 'True'
             - ignore_case: 'true'
         navigate:
-          - SUCCESS: set_csa_confidential_value_true_1
-          - FAILURE: set_csa_confidential_value_false_1
-    - get_sensitive_input_var_value_1:
+          - SUCCESS: set_csa_confidential_value_true
+          - FAILURE: set_csa_confidential_value_false
+    - get_sensitive_input:
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_input_var_value:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
@@ -65,27 +65,27 @@ flow:
           - input_results_keyname
           - input_keyname_keyvalue_list
         navigate:
-          - SUCCESS: get_sensitive_value_python_2
+          - SUCCESS: get_sensitive_value
           - FAILURE: on_failure
-    - set_csa_confidential_value_true_1:
+    - set_csa_confidential_value_true:
         do:
           io.cloudslang.base.utils.do_nothing:
             - csa_confidential: 'true'
         publish:
           - csa_confidential
         navigate:
-          - SUCCESS: get_sensitive_input_var_value_1
+          - SUCCESS: get_sensitive_input
           - FAILURE: on_failure
-    - set_csa_confidential_value_false_1:
+    - set_csa_confidential_value_false:
         do:
           io.cloudslang.base.utils.do_nothing:
             - csa_confidential: 'false'
         publish:
           - csa_confidential
         navigate:
-          - SUCCESS: create_component_template_property_1
+          - SUCCESS: create_component_template_property
           - FAILURE: on_failure
-    - get_sensitive_value_python_2:
+    - get_sensitive_value:
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_value_python:
             - input_results_keyname: '${input_results_keyname}'
@@ -94,7 +94,7 @@ flow:
         publish:
           - key_value: '${retrieved_keyvalue}'
         navigate:
-          - SUCCESS: create_component_template_property_1
+          - SUCCESS: create_component_template_property
     - list_iterator:
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -141,11 +141,11 @@ flow:
 extensions:
   graph:
     steps:
-      get_sensitive_input_var_value_1:
-        x: 360
+      set_csa_confidential_value_true:
+        x: 200
         'y': 400
-      create_component_template_property_1:
-        x: 520
+      set_csa_confidential_value_false:
+        x: 360
         'y': 240
       do_nothing_1:
         x: 160
@@ -156,9 +156,6 @@ extensions:
       string_equals:
         x: 40
         'y': 240
-      get_sensitive_value_python_2:
-        x: 520
-        'y': 400
       list_iterator:
         x: 320
         'y': 80
@@ -169,15 +166,18 @@ extensions:
       is_sensitive_1:
         x: 200
         'y': 240
+      create_component_template_property:
+        x: 520
+        'y': 240
+      get_sensitive_input:
+        x: 360
+        'y': 400
       do_nothing:
         x: 40
         'y': 440
-      set_csa_confidential_value_true_1:
-        x: 200
+      get_sensitive_value:
+        x: 520
         'y': 400
-      set_csa_confidential_value_false_1:
-        x: 360
-        'y': 240
     results:
       SUCCESS:
         c24137a6-111f-83a4-cb98-ee4ece4c1920:

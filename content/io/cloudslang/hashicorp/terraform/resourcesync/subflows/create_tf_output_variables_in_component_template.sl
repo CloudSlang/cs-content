@@ -22,14 +22,14 @@ flow:
         navigate:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
-    - do_nothing:
+    - set_tf_output_property:
         do:
           io.cloudslang.base.utils.do_nothing:
             - input_0: "${'tf_output_'+key_name}"
         publish:
           - updated_output_keyname: '${input_0}'
         navigate:
-          - SUCCESS: create_component_template_property_1
+          - SUCCESS: create_component_template_property
           - FAILURE: on_failure
     - list_iterator:
         do:
@@ -38,10 +38,10 @@ flow:
         publish:
           - key_name: '${result_string}'
         navigate:
-          - HAS_MORE: do_nothing
+          - HAS_MORE: set_tf_output_property
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
-    - create_component_template_property_1:
+    - create_component_template_property:
         do:
           io.cloudslang.microfocus.content.create_component_template_property:
             - dnd_host: '${host}'
@@ -51,7 +51,6 @@ flow:
                 sensitive: true
             - template_id: '${component_template_id}'
             - property_name: '${updated_output_keyname}'
-            - property_value: default
         publish:
           - return_result
         navigate:
@@ -66,8 +65,8 @@ extensions:
       array_value:
         x: 200
         'y': 40
-      do_nothing:
-        x: 360
+      create_component_template_property:
+        x: 520
         'y': 240
       list_iterator:
         x: 360
@@ -76,8 +75,8 @@ extensions:
           8b6965dd-57ad-a18d-07df-d5d132da4710:
             targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
             port: NO_MORE
-      create_component_template_property_1:
-        x: 520
+      set_tf_output_property:
+        x: 360
         'y': 240
     results:
       SUCCESS:

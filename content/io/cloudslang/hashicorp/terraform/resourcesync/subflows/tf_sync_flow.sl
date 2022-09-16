@@ -124,7 +124,6 @@ flow:
                 sensitive: true
             - template_id: '${component_template_id}'
             - property_name: tf_instance_workspace_id
-            - property_value: default
         navigate:
           - SUCCESS: create_tf_input_variables_in_component_template
           - FAILURE: on_failure
