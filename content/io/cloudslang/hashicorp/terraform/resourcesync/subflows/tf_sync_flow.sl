@@ -94,6 +94,7 @@ flow:
                 sensitive: true
             - component_id: '${component_id}'
             - template_name: '${workspace_name}'
+            - template_icon: terraform.png?tag=library
         publish:
           - component_template_id
         navigate:
