@@ -168,7 +168,7 @@ flow:
             - template_id: '${component_template_id}'
             - property_name: tf_instance_workspace_id
         navigate:
-          - SUCCESS: create_tf_input_variables_in_component_template
+          - SUCCESS: create_component_template_property_templ_workspace_name
           - FAILURE: on_failure
     - create_tf_input_variables_in_component_template:
         worker_group:
@@ -255,6 +255,23 @@ flow:
           - ro_id: '${ro_id.split("/resource/offering/")[1]}'
         navigate:
           - SUCCESS: list_workspaces
+    - create_component_template_property_templ_workspace_name:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
+        do:
+          io.cloudslang.microfocus.content.create_component_template_property:
+            - dnd_host: '${host}'
+            - tenant_id: '${tenant_id}'
+            - dnd_auth_token:
+                value: '${dnd_auth_token}'
+                sensitive: true
+            - template_id: '${component_template_id}'
+            - property_name: tf_template_workspace_name
+            - property_value: '${workspace_name}'
+        navigate:
+          - SUCCESS: create_tf_input_variables_in_component_template
+          - FAILURE: on_failure
   outputs:
     - component_template_id: '${component_template_id}'
     - tf_source_vcs_repo_identifier: '${tf_source_vcs_repo_identifier}'
@@ -264,6 +281,9 @@ flow:
 extensions:
   graph:
     steps:
+      create_component_template_property_templ_workspace_name:
+        x: 560
+        'y': 280
       create_dnd_auth_token:
         x: 80
         'y': 120
