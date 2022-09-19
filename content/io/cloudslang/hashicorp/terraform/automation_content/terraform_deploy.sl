@@ -146,9 +146,9 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: add_or_update_service_component_property
-    - get_component_template_details_and_create_workspace:
+    - get_component_template_details_and_create_workspace_variables:
         do:
-          io.cloudslang.hashicorp.terraform.automation_content.utils.get_component_template_details_and_create_workspace:
+          io.cloudslang.hashicorp.terraform.automation_content.utils.get_component_template_details_and_create_workspace_variables:
             - component_template_id: '${service_component_id}'
             - proxy_host: '${proxy_host}'
             - tf_instance_workspace_id: '${tf_instance_workspace_id}'
@@ -240,7 +240,7 @@ flow:
           - tf_instance_workspace_id: '${workspace_id}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: get_component_template_details_and_create_workspace
+          - SUCCESS: get_component_template_details_and_create_workspace_variables
     - add_or_update_service_component_property:
         do:
           io.cloudslang.microfocus.content.add_or_update_service_component_property:
@@ -286,7 +286,7 @@ extensions:
       get_host:
         x: 40
         'y': 280
-      get_component_template_details_and_create_workspace:
+      get_component_template_details_and_create_workspace_variables:
         x: 840
         'y': 80
       set_workspace_name:
