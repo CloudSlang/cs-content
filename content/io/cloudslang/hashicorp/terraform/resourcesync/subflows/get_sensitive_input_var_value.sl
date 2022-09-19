@@ -107,14 +107,14 @@ flow:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_input_keyname_python:
             - input_results: '${input_results}'
         publish:
-          - input_keyname_keyalue_list: '${result}'
+          - input_keyname_keyvalue_list: '${result}'
           - input_results_keyname: '${input_results_keyname_list}'
           - input_results_keyvalue_list: '${input_results_keyvalue_list}'
         navigate:
           - SUCCESS: SUCCESS
   outputs:
     - input_results_keyname
-    - input_results_keyvalue
+    - input_results_keyvalue_list
     - input_keyname_keyvalue_list
   results:
     - SUCCESS
