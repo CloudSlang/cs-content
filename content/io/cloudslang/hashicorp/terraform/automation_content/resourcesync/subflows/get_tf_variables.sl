@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 flow:
   name: get_tf_variables
   inputs:
@@ -98,7 +98,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.list_runs_in_template_workspace:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.list_runs_in_template_workspace:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'

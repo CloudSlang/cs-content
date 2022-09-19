@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 operation:
   name: get_sensitive_value_python
   inputs:

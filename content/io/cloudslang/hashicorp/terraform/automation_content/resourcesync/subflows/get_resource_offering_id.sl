@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 flow:
   name: get_resource_offering_id
   inputs:
@@ -55,7 +55,7 @@ flow:
     - get_ro_id_python:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_ro_id_python:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.get_ro_id_python:
             - ro_list: '${ro_list}'
         publish:
           - ro_id: '${ro_id}'

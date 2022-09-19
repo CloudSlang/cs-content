@@ -1,6 +1,6 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 flow:
-  name: list_runs_in_template_workspace
+  name: get_sensitive_input_var_value
   inputs:
     - tf_template_workspace_id
     - tf_user_auth_token
@@ -26,6 +26,7 @@ flow:
         required: false
     - trust_password:
         required: false
+        sensitive: true
   workflow:
     - list_runs_in_template_workspace:
         worker_group:
@@ -42,7 +43,7 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_all_roots}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
@@ -66,44 +67,55 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
             - headers: "${'content-type: application/vnd.api+json\\n'+'Authorization:Bearer '+tf_user_auth_token}"
+            - worker_group: '${worker_group}'
         publish:
           - plan_details: '${return_result}'
         navigate:
-          - SUCCESS: get_tf_output_variable
+          - SUCCESS: get_all_input_variable
           - FAILURE: on_failure
-    - get_tf_output_variable:
+    - get_all_input_variable:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${plan_details}'
-            - json_path: 'planned_values,outputs'
+            - json_path: variables
         publish:
-          - output_variable_list: '${return_result}'
+          - input_results: '${return_result}'
         navigate:
-          - SUCCESS: get_output_variable_python
+          - SUCCESS: get_input_keyname_python
           - FAILURE: on_failure
     - get_run_id_and_plan_id_python:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_run_id_and_plan_id_python:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.get_run_id_and_plan_id_python:
             - run_list: '${run_list}'
         publish:
           - tf_run_id: '${tf_run_id}'
           - tf_plan_id: '${tf_plan_id}'
         navigate:
           - SUCCESS: show_plan_details
-    - get_output_variable_python:
+    - get_input_keyname_python:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_output_variable_python:
-            - output_variable_list: '${output_variable_list}'
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.get_input_keyname_python:
+            - input_results: '${input_results}'
         publish:
-          - output_variable_key_list: '${output_variable_key_list}'
+          - input_keyname_keyvalue_list: '${result}'
+          - input_results_keyname: '${input_results_keyname_list}'
+          - input_results_keyvalue_list: '${input_results_keyvalue_list}'
         navigate:
           - SUCCESS: SUCCESS
   outputs:
-    - output_variable_key_list
+    - input_results_keyname
+    - input_results_keyvalue_list
+    - input_keyname_keyvalue_list
   results:
     - SUCCESS
     - FAILURE
@@ -116,17 +128,17 @@ extensions:
       show_plan_details:
         x: 440
         'y': 120
-      get_tf_output_variable:
+      get_all_input_variable:
         x: 560
         'y': 120
       get_run_id_and_plan_id_python:
         x: 280
         'y': 120
-      get_output_variable_python:
+      get_input_keyname_python:
         x: 680
         'y': 120
         navigate:
-          f42f973e-8947-b0e3-5760-7ff3afe3f8de:
+          6acd93b8-9229-0a7c-3a84-cf9ac0ded55d:
             targetId: fb1b6ee0-e090-bf53-a6b8-3ce4a61afe14
             port: SUCCESS
     results:

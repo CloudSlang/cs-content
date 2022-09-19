@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync
 flow:
   name: terraform_organization_resource_sync
   inputs:

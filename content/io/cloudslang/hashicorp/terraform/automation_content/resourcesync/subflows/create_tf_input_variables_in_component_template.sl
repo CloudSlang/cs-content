@@ -1,4 +1,4 @@
-namespace: io.cloudslang.hashicorp.terraform.resourcesync.subflows
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 flow:
   name: create_tf_input_variables_in_component_template
   inputs:
@@ -25,7 +25,7 @@ flow:
     - input_variable_list:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.input_variable_list:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.input_variable_list:
             - data: '${tf_variables_list}'
         publish:
           - return_result
@@ -66,7 +66,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_input_var_value:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.get_sensitive_input_var_value:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
             - proxy_host: '${proxy_host}'
@@ -102,7 +102,7 @@ flow:
     - get_sensitive_value:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_value_python:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.get_sensitive_value_python:
             - input_results_keyname: '${input_results_keyname}'
             - input_keyname_keyvalue_list: '${input_keyname_keyvalue_list}'
             - original_keyname: '${key_name}'
