@@ -10,6 +10,7 @@ flow:
     - tf_user_auth_token:
         sensitive: true
     - tf_template_organization_name
+    - component_id: bb9cb58417414d618ece96e43911dba2
     - proxy_host:
         required: false
     - proxy_port:
@@ -18,11 +19,26 @@ flow:
         required: false
     - proxy_password:
         required: false
-    - component_id: bb9cb58417414d618ece96e43911dba2
+        sensitive: true
     - worker_group:
+        default: RAS_Operator_Path
         required: false
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
   workflow:
     - create_dnd_auth_token:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.create_dnd_auth_token:
             - dnd_host: '${host}'
@@ -37,8 +53,11 @@ flow:
           - SUCCESS: list_all_resource_offering_details
           - FAILURE: on_failure
     - get_tf_variables:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_tf_variables:
+          final.terra.19-9.get_tf_variables:
             - tf_user_auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
@@ -48,6 +67,13 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
           - tf_variables_list: '${tf_variables_list}'
           - tf_template_workspace_id
@@ -57,6 +83,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: create_component_template
     - list_workspaces:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.list_workspaces:
             - auth_token:
@@ -69,12 +96,19 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
           - workspace_list
         navigate:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${workspace_list}'
@@ -85,6 +119,9 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - create_component_template:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.create_component_template:
             - dnd_host: '${host}'
@@ -98,9 +135,12 @@ flow:
         publish:
           - component_template_id
         navigate:
-          - SUCCESS: create_component_template_property
+          - SUCCESS: create_component_template_property_template_workspace_is
           - FAILURE: on_failure
-    - create_component_template_property:
+    - create_component_template_property_template_workspace_is:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.create_component_template_property:
             - dnd_host: '${host}'
@@ -112,9 +152,12 @@ flow:
             - property_name: tf_template_workspace_id
             - property_value: '${tf_template_workspace_id}'
         navigate:
-          - SUCCESS: create_component_template_property_1
+          - SUCCESS: create_component_template_property_instance_workspace_is
           - FAILURE: on_failure
-    - create_component_template_property_1:
+    - create_component_template_property_instance_workspace_is:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.create_component_template_property:
             - dnd_host: '${host}'
@@ -128,8 +171,11 @@ flow:
           - SUCCESS: create_tf_input_variables_in_component_template
           - FAILURE: on_failure
     - create_tf_input_variables_in_component_template:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_input_variables_in_component_template:
+          final.terra.19-9.create_tf_input_variables_in_component_template:
             - tf_variables_list: '${tf_variables_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
@@ -137,28 +183,42 @@ flow:
             - x_auth_token: '${dnd_auth_token}'
             - tf_template_workspace_id: '${tf_template_workspace_id}'
             - tf_user_auth_token: '${tf_user_auth_token}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         navigate:
           - FAILURE: on_failure
           - SUCCESS: create_tf_output_variables_in_component_template
     - create_tf_output_variables_in_component_template:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_output_variables_in_component_template:
+          final.terra.19-9.create_tf_output_variables_in_component_template:
             - tf_output_variable_key_list: '${tf_output_variable_key_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
             - tenant_id: '${tenant_id}'
             - x_auth_token: '${dnd_auth_token}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
             - tf_template_vcs_repo_identifier: '${tf_template_vcs_repo_identifier}'
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         navigate:
           - FAILURE: on_failure
           - SUCCESS: associate_ro_in_template
     - associate_ro_in_template:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.associate_ro_in_template:
             - dnd_host: '${host}'
@@ -172,6 +232,9 @@ flow:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
     - list_all_resource_offering_details:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.list_all_resource_offering_details:
             - dnd_host: '${host}'
@@ -184,6 +247,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: get_ro_id
     - get_ro_id:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_ro_id_python:
             - ro_list: '${return_result}'
@@ -200,48 +264,48 @@ flow:
 extensions:
   graph:
     steps:
-      create_component_template_property_1:
-        x: 560
-        'y': 120
       create_dnd_auth_token:
         x: 80
-        'y': 320
+        'y': 120
+      create_component_template_property_template_workspace_is:
+        x: 400
+        'y': 480
       create_tf_input_variables_in_component_template:
         x: 720
-        'y': 120
+        'y': 480
       list_iterator:
         x: 720
-        'y': 320
+        'y': 120
         navigate:
           740a6733-01ad-81c1-ba86-6b4c416a1acf:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
             port: NO_MORE
       get_tf_variables:
         x: 80
-        'y': 120
+        'y': 480
       associate_ro_in_template:
         x: 880
-        'y': 320
+        'y': 280
+      create_component_template_property_instance_workspace_is:
+        x: 560
+        'y': 480
       get_ro_id:
-        x: 400
-        'y': 320
-      create_component_template_property:
         x: 400
         'y': 120
       create_tf_output_variables_in_component_template:
         x: 880
-        'y': 120
+        'y': 480
       list_all_resource_offering_details:
         x: 240
-        'y': 320
+        'y': 120
       list_workspaces:
-        x: 520
-        'y': 320
+        x: 560
+        'y': 120
       create_component_template:
         x: 240
-        'y': 120
+        'y': 480
     results:
       SUCCESS:
         b79ac630-86cf-5ab0-94c1-93de1aa81b22:
-          x: 720
-          'y': 520
+          x: 880
+          'y': 120

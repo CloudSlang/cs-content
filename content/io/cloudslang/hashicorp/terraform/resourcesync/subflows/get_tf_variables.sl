@@ -14,8 +14,24 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
   workflow:
     - get_workspace_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
@@ -29,6 +45,12 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
           - tf_template_workspace_id: '${workspace_id}'
           - workspace_info: '${return_result}'
@@ -36,6 +58,7 @@ flow:
           - SUCCESS: get_template_vcs_repo_identifier
           - FAILURE: on_failure
     - get_template_vcs_repo_identifier:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${workspace_info}'
@@ -46,6 +69,7 @@ flow:
           - SUCCESS: list_template_workspace_variables
           - FAILURE: on_failure
     - list_template_workspace_variables:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.variables.list_workspace_variable:
             - auth_token:
@@ -58,12 +82,21 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
           - variables_list: '${return_result}'
         navigate:
           - SUCCESS: list_runs_in_template_workspace
           - FAILURE: on_failure
     - list_runs_in_template_workspace:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.list_runs_in_template_workspace:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
@@ -98,7 +131,7 @@ extensions:
         x: 360
         'y': 160
       list_runs_in_template_workspace:
-        x: 680
+        x: 520
         'y': 160
         navigate:
           c1717730-22d4-a484-d82b-3837c77191bb:
@@ -107,5 +140,5 @@ extensions:
     results:
       SUCCESS:
         8a94a410-8ddd-3c39-6651-daa852ea17f7:
-          x: 840
+          x: 680
           'y': 160

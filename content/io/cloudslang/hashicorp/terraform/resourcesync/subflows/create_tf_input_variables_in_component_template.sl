@@ -17,8 +17,13 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
   workflow:
     - input_variable_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.input_variable_list:
             - data: '${tf_variables_list}'
@@ -27,6 +32,9 @@ flow:
         navigate:
           - SUCCESS: list_iterator
     - create_component_template_property:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${'https://'+host+'/dnd/api/v1/'+tenant_id+'/property'}"
@@ -43,7 +51,8 @@ flow:
         navigate:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
-    - is_sensitive_1:
+    - check_property_key_is_sensitive:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${is_sensitive}'
@@ -53,6 +62,9 @@ flow:
           - SUCCESS: set_csa_confidential_value_true
           - FAILURE: set_csa_confidential_value_false
     - get_sensitive_input:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_input_var_value:
             - tf_template_workspace_id: '${tf_template_workspace_id}'
@@ -68,6 +80,7 @@ flow:
           - SUCCESS: get_sensitive_value
           - FAILURE: on_failure
     - set_csa_confidential_value_true:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - csa_confidential: 'true'
@@ -77,6 +90,7 @@ flow:
           - SUCCESS: get_sensitive_input
           - FAILURE: on_failure
     - set_csa_confidential_value_false:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - csa_confidential: 'false'
@@ -86,6 +100,7 @@ flow:
           - SUCCESS: create_component_template_property
           - FAILURE: on_failure
     - get_sensitive_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_sensitive_value_python:
             - input_results_keyname: '${input_results_keyname}'
@@ -96,33 +111,37 @@ flow:
         navigate:
           - SUCCESS: create_component_template_property
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${return_result}'
         publish:
           - result_string
         navigate:
-          - HAS_MORE: do_nothing_1
+          - HAS_MORE: get_property_key_and_value
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
-    - string_equals:
+    - check_key_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${key_value}'
             - second_string: empty
         navigate:
-          - SUCCESS: do_nothing
-          - FAILURE: is_sensitive_1
-    - do_nothing:
+          - SUCCESS: set_key_value_empty
+          - FAILURE: check_property_key_is_sensitive
+    - set_key_value_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - key_value: ''
         publish:
           - key_value
         navigate:
-          - SUCCESS: is_sensitive_1
+          - SUCCESS: check_property_key_is_sensitive
           - FAILURE: on_failure
-    - do_nothing_1:
+    - get_property_key_and_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - key_name: '${result_string.split(":::")[0]}'
@@ -133,7 +152,7 @@ flow:
           - key_value
           - is_sensitive
         navigate:
-          - SUCCESS: string_equals
+          - SUCCESS: check_key_value
           - FAILURE: on_failure
   results:
     - FAILURE
@@ -141,21 +160,21 @@ flow:
 extensions:
   graph:
     steps:
+      set_key_value_empty:
+        x: 40
+        'y': 440
       set_csa_confidential_value_true:
         x: 200
         'y': 400
+      get_property_key_and_value:
+        x: 160
+        'y': 160
       set_csa_confidential_value_false:
         x: 360
         'y': 240
-      do_nothing_1:
-        x: 160
-        'y': 160
       input_variable_list:
         x: 40
         'y': 80
-      string_equals:
-        x: 40
-        'y': 240
       list_iterator:
         x: 320
         'y': 80
@@ -163,7 +182,7 @@ extensions:
           83ddc624-d1ca-5e2e-ed87-27bde196c653:
             targetId: c24137a6-111f-83a4-cb98-ee4ece4c1920
             port: NO_MORE
-      is_sensitive_1:
+      check_property_key_is_sensitive:
         x: 200
         'y': 240
       create_component_template_property:
@@ -172,9 +191,9 @@ extensions:
       get_sensitive_input:
         x: 360
         'y': 400
-      do_nothing:
+      check_key_value:
         x: 40
-        'y': 440
+        'y': 240
       get_sensitive_value:
         x: 520
         'y': 400
