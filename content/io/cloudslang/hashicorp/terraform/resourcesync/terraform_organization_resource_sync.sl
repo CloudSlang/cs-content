@@ -42,7 +42,7 @@ flow:
           - provider_id: '${resource_provider_id}'
           - pool_reference: '${resource_pool_reference}'
         navigate:
-          - FAILURE: do_nothing
+          - FAILURE: set_error_message
           - SUCCESS: get_resource_provider_access_details
     - get_resource_provider_access_details:
         worker_group:
@@ -60,9 +60,9 @@ flow:
           - protocol
           - provider_sap
         navigate:
-          - FAILURE: do_nothing
+          - FAILURE: set_error_message
           - SUCCESS: get_artifact_properties
-    - do_nothing:
+    - set_error_message:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -80,7 +80,7 @@ flow:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${provider_id}'
-            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName'
+            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName|trustAllRoots|trustKeystore|trustPassword|x509HostnameVerifier'
         publish:
           - property_value_string: '${property_value_list}'
           - proxy_host: '${property_value_list.split("|")[0].split(";")[1]}'
@@ -91,6 +91,10 @@ flow:
           - worker_group: '${property_value_list.split("|")[4]}'
           - src_organization_name: '${property_value_list.split("|")[6].split(";")[1]}'
           - dest_organization_name: '${property_value_list.split("|")[7].split(";")[1]}'
+          - trust_all_roots: '${property_value_list.split("|")[8].split(";")[1]}'
+          - trust_keystore: '${property_value_list.split("|")[9].split(";")[1]}'
+          - trust_password: '${property_value_list.split("|")[10].split(";")[1]}'
+          - x_509_hostname_verifier: '${property_value_list.split("|")[11].split(";")[1]}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: string_equals
@@ -143,6 +147,9 @@ flow:
           - SUCCESS: tf_sync_flow
           - FAILURE: on_failure
     - tf_sync_flow:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.resourcesync.subflows.tf_sync_flow:
             - host: '${host}'
@@ -160,6 +167,12 @@ flow:
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
             - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
@@ -194,19 +207,19 @@ extensions:
       get_host:
         x: 1120
         'y': 40
-      get_user_identifier:
-        x: 80
-        'y': 40
-      get_artifact_properties:
-        x: 560
-        'y': 40
-      do_nothing:
+      set_error_message:
         x: 400
         'y': 200
         navigate:
           d4a680ea-612c-8f10-e602-1d667635d56a:
             targetId: e322cc43-d07a-b464-08d9-a49b3b393c0d
             port: SUCCESS
+      get_user_identifier:
+        x: 80
+        'y': 40
+      get_artifact_properties:
+        x: 560
+        'y': 40
       set_default_worker_group:
         x: 760
         'y': 200

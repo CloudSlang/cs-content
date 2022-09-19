@@ -57,7 +57,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          final.terra.19-9.get_tf_variables:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.get_tf_variables:
             - tf_user_auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
@@ -175,7 +175,7 @@ flow:
           value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
           override: true
         do:
-          final.terra.19-9.create_tf_input_variables_in_component_template:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_input_variables_in_component_template:
             - tf_variables_list: '${tf_variables_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
@@ -198,7 +198,7 @@ flow:
           value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
           override: true
         do:
-          final.terra.19-9.create_tf_output_variables_in_component_template:
+          io.cloudslang.hashicorp.terraform.resourcesync.subflows.create_tf_output_variables_in_component_template:
             - tf_output_variable_key_list: '${tf_output_variable_key_list}'
             - component_template_id: '${component_template_id}'
             - host: '${host}'
