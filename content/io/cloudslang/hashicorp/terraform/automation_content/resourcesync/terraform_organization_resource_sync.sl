@@ -151,7 +151,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.hashicorp.terraform.resourcesync.subflows.tf_sync_flow:
+          io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.tf_sync_flow:
             - host: '${host}'
             - tenant_id: '${tenant_id}'
             - dnd_username: '${dnd_username}'

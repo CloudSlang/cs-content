@@ -30,7 +30,7 @@ flow:
           - SUCCESS: create_variables_json_python
     - create_variables_json_python:
         do:
-          io.cloudslang.hashicorp.terraform.automation_content.utils.python_operations.create_variables_json_python:
+          io.cloudslang.hashicorp.terraform.automation_content.utils.create_variables_json_python:
             - property_value_list: '${property_value_list}'
         publish:
           - sensitive_json

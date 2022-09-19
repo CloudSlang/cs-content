@@ -78,7 +78,7 @@ flow:
           - FAILURE: on_failure
     - get_output_keyname_python:
         do:
-          io.cloudslang.hashicorp.terraform.automation_content.utils.python_operations.get_output_keyname_python:
+          io.cloudslang.hashicorp.terraform.automation_content.utils.get_output_keyname_python:
             - output_results: '${output_results}'
         publish:
           - state_output_variables_list: '${result}'
