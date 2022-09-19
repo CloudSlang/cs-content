@@ -105,6 +105,11 @@ flow:
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password: '${trust_password}'
         publish:
           - output_variable_key_list: '${output_variable_key_list}'
         navigate:
