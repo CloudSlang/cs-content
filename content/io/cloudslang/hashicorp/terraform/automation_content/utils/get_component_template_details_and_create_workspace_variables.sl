@@ -20,7 +20,7 @@ flow:
   workflow:
     - get_artifact_properties:
         do:
-          final.terra.rajesh.utils.get_artifact_properties:
+          io.cloudslang.hashicorp.terraform.automation_content.utils.get_template_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${component_template_id}'
         publish:
