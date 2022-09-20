@@ -139,6 +139,16 @@ flow:
             - auto_apply: 'true'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
           - state_version_id
           - hosted_state_download_url
@@ -159,6 +169,10 @@ flow:
             - user_identifier: '${user_identifier}'
             - proxy_username: '${proxy_username}'
             - proxy_password: '${proxy_password}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password: '${trust_password}'
         publish:
           - property_value_list
         navigate:
