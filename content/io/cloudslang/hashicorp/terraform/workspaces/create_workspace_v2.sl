@@ -132,7 +132,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus
+namespace: io.cloudslang.hashicorp.terraform.workspaces
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
