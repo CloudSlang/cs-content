@@ -195,6 +195,7 @@ flow:
         do:
           io.cloudslang.microfocus.content.create_dnd_auth_token:
             - dnd_host: '${host}'
+            - dnd_username: '${dnd_username}'
             - tenant_id: '${tenant_id}'
         publish:
           - dnd_auth_token
