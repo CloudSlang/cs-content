@@ -215,7 +215,7 @@ flow:
           - SUCCESS: get_workspace_details
     - create_workspace_v2:
         do:
-          io.cloudslang.microfocus.create_workspace_v2:
+          io.cloudslang.hashicorp.terraform.workspaces.create_workspace_v2:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
