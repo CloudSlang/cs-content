@@ -260,7 +260,7 @@ flow:
           - status_code
           - return_code
         navigate:
-          - SUCCESS: get_workspace_id
+          - SUCCESS: get_value
           - FAILURE: on_failure
     - api_to_create_workspace_using_given_input_properties:
         worker_group: '${worker_group}'
@@ -291,13 +291,12 @@ flow:
           - status_code
           - return_code
         navigate:
-          - SUCCESS: get_workspace_id
+          - SUCCESS: get_value
           - FAILURE: on_failure
-    - get_workspace_id:
-        worker_group: '${worker_group}'
+    - get_value:
         do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
             - json_path: 'data,id'
         publish:
           - workspace_id: '${return_result}'
@@ -327,16 +326,15 @@ extensions:
       api_to_create_workspace_using_given_input_properties:
         x: 360
         'y': 320
-      get_workspace_id:
-        x: 560
+      get_value:
+        x: 520
         'y': 120
         navigate:
-          3ef892fb-c2c8-bc1e-6322-4c092ab34214:
+          7b8500d4-e1a7-9984-b5a0-1bd866f4c3bd:
             targetId: 11110857-8b44-be82-ae47-d2b98712cd15
             port: SUCCESS
     results:
       SUCCESS:
         11110857-8b44-be82-ae47-d2b98712cd15:
-          x: 560
+          x: 520
           'y': 320
-
