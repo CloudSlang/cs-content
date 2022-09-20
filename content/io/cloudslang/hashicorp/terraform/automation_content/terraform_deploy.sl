@@ -207,6 +207,7 @@ flow:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${service_component_id}'
+            - property_names: tf_template_workspace_name
         publish:
           - tf_template_workspace_name: '${property_value_list.split(";")[1]}'
         navigate:
