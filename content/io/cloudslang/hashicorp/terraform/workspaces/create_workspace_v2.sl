@@ -213,8 +213,8 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${request_body}'
         navigate:
-          - SUCCESS: api_to_create_workspace_with_request_body
-          - FAILURE: create_optional_property_json
+          - SUCCESS: create_optional_property_json
+          - FAILURE: api_to_create_workspace_with_request_body
     - create_optional_property_json:
         worker_group: '${worker_group}'
         do:
