@@ -5,7 +5,6 @@ flow:
     - tf_user_auth_token:
         sensitive: true
     - tf_template_organization_name
-    - tf_template_workspace_name
     - tf_instance_organization_name:
         required: true
     - tf_instance_workspace_name_prefix: HCMX_
@@ -271,6 +270,9 @@ extensions:
       tf_plan_apply:
         x: 840
         'y': 280
+      get_component_template_details_and_create_workspace_variables:
+        x: 840
+        'y': 80
       create_workspace_v2:
         x: 680
         'y': 280
@@ -286,9 +288,6 @@ extensions:
       get_host:
         x: 40
         'y': 280
-      get_component_template_details_and_create_workspace_variables:
-        x: 840
-        'y': 80
       set_workspace_name:
         x: 680
         'y': 80
