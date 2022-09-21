@@ -110,7 +110,7 @@ flow:
             - component_id: '${service_component_id}'
             - user_identifier: '${user_identifier}'
             - property_name: '${property_name}'
-            - property_values: '${property_value}'
+            - property_values: '${updated_keyvalue}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: list_iterator
