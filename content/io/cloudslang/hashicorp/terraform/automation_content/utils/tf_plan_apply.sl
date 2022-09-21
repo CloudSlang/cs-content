@@ -64,16 +64,17 @@ flow:
     - response_character_set:
         required: false
   workflow:
-    - create_run_v2:
+    - create_run_v3:
         do:
-          io.cloudslang.hashicorp.terraform.runs.create_run_v2:
+          io.cloudslang.hashicorp.terraform.runs.create_run_v3:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - workspace_id: '${tf_instance_workspace_id}'
+            - workspace_id:
+                value: '${tf_instance_workspace_id}'
+                sensitive: true
             - tf_run_message: '${tf_run_message}'
             - is_destroy: '${is_destroy}'
-            - request_body: null
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -86,17 +87,11 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
         publish:
           - tf_run_id
         navigate:
-          - SUCCESS: is_auto_apply_true
           - FAILURE: on_failure
+          - SUCCESS: is_auto_apply_true
     - is_auto_apply_true:
         do:
           io.cloudslang.base.utils.is_true:
@@ -150,7 +145,7 @@ flow:
             - first_string: '${plan_status}'
             - second_string: planned
         navigate:
-          - SUCCESS: apply_run_v2
+          - SUCCESS: apply_run_v3
           - FAILURE: counter_for_run_status
     - counter_for_run_status:
         do:
@@ -169,37 +164,6 @@ flow:
             - seconds: '20'
         navigate:
           - SUCCESS: get_run_details_v2
-          - FAILURE: on_failure
-    - apply_run_v2:
-        do:
-          io.cloudslang.hashicorp.terraform.runs.apply_run_v2:
-            - auth_token:
-                value: '${tf_user_auth_token}'
-                sensitive: true
-            - tf_run_id: '${tf_run_id}'
-            - tf_run_comment: '${tf_run_comment}'
-            - request_body: null
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
-        publish: []
-        navigate:
-          - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
     - get_current_state_version:
         do:
@@ -298,6 +262,31 @@ flow:
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
+    - apply_run_v3:
+        do:
+          io.cloudslang.hashicorp.terraform.runs.apply_run_v3:
+            - auth_token:
+                value: '${tf_user_auth_token}'
+                sensitive: true
+            - tf_run_id:
+                value: '${tf_run_id}'
+                sensitive: true
+            - tf_run_message: '${tf_run_message}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - SUCCESS: get_run_details_for_get_state_version_details
+          - FAILURE: on_failure
   outputs:
     - hosted_state_download_url: '${hosted_state_download_url}'
     - state_version_id: '${state_version_id}'
@@ -308,55 +297,55 @@ extensions:
   graph:
     steps:
       get_run_status_value:
-        x: 669
+        x: 240
         'y': 280
-      apply_run_v2:
-        x: 837
-        'y': 282
+      apply_run_v3:
+        x: 400
+        'y': 280
       wait_for_get_state_version_details:
-        x: 1017
-        'y': 278
+        x: 600
+        'y': 280
       run_status:
-        x: 880
+        x: 440
         'y': 440
       wait_for_plan_status:
-        x: 522
-        'y': 470
+        x: 80
+        'y': 480
       counter_for_get_state_version_details:
-        x: 1018
-        'y': 471
+        x: 600
+        'y': 480
         navigate:
           44a91456-5dde-6693-18b3-6a90f785ac5c:
             targetId: fabb57bb-b303-6dcd-b4cf-e667fa2870cd
             port: NO_MORE
       get_run_status_value_state_version:
-        x: 1006
-        'y': 110
-      create_run_v2:
-        x: 520
+        x: 560
         'y': 120
       get_run_details_for_get_state_version_details:
-        x: 835
-        'y': 109
+        x: 400
+        'y': 120
+      create_run_v3:
+        x: 80
+        'y': 120
       run_status_for_get_state_version_details:
-        x: 1207
-        'y': 268
+        x: 760
+        'y': 280
       get_run_details_v2:
-        x: 520
+        x: 80
         'y': 280
       is_auto_apply_true:
-        x: 713
-        'y': 98
+        x: 240
+        'y': 120
       get_current_state_version:
-        x: 1314
-        'y': 285
+        x: 880
+        'y': 280
         navigate:
           7a5d402b-8582-098f-e314-545a43a70854:
             targetId: 314e7f88-a400-c545-369a-d99c5cb2767c
             port: SUCCESS
       counter_for_run_status:
-        x: 671
-        'y': 472
+        x: 240
+        'y': 480
         navigate:
           efd7be8d-6f09-a3ee-7405-de433178e78d:
             targetId: fabb57bb-b303-6dcd-b4cf-e667fa2870cd
@@ -364,9 +353,9 @@ extensions:
     results:
       FAILURE:
         fabb57bb-b303-6dcd-b4cf-e667fa2870cd:
-          x: 841
-          'y': 615
+          x: 400
+          'y': 600
       SUCCESS:
         314e7f88-a400-c545-369a-d99c5cb2767c:
-          x: 1473
-          'y': 289
+          x: 1040
+          'y': 280
