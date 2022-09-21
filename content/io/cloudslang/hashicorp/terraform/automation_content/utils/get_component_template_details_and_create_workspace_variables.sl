@@ -47,18 +47,18 @@ flow:
           - sensitive_json
           - non_sensitive_json
         navigate:
-          - SUCCESS: create_workspace_variables
-    - create_workspace_variables:
+          - SUCCESS: create_workspace_variables_v2
+    - create_workspace_variables_v2:
         do:
-          io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables:
+          io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - workspace_id: '${tf_instance_workspace_id}'
-            - workspace_variables_json: '${non_sensitive_json}'
-            - sensitive_workspace_variables_json:
-                value: '${sensitive_json}'
+            - workspace_id:
+                value: '${tf_instance_workspace_id}'
                 sensitive: true
+            - sensitive_workspace_variables_json: '${sensitive_json}'
+            - workspace_variables_json: '${non_sensitive_json}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -72,12 +72,13 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - var_list: '${return_result}'
+          - create_workspace_variables_output
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - property_value_list: '${property_value_list}'
+    - property_value_list
   results:
     - FAILURE
     - SUCCESS
@@ -90,11 +91,11 @@ extensions:
       create_variables_json_python:
         x: 200
         'y': 160
-      create_workspace_variables:
+      create_workspace_variables_v2:
         x: 320
         'y': 160
         navigate:
-          87f991d0-0a92-3b1e-dc75-0a9957da7cb1:
+          f5ffce52-1899-2975-52db-d10900ad6a81:
             targetId: 8a42da71-eff6-fb01-3900-cb40d2bc4e36
             port: SUCCESS
     results:
