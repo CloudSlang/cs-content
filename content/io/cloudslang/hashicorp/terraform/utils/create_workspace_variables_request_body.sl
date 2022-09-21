@@ -19,7 +19,6 @@
 #!                           Default: '1.2.0'
 #! @input sensitive_workspace_variables_json: Sensitive workspace variables json.
 #!                               Optional
-
 #!
 #! @output return_result: Optional property JSON.
 #!!#
