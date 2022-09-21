@@ -70,39 +70,6 @@ flow:
         navigate:
           - SUCCESS: get_auto_apply_value
           - FAILURE: on_failure
-    - create_run_v2:
-        do:
-          io.cloudslang.hashicorp.terraform.runs.create_run_v2:
-            - auth_token:
-                value: '${tf_user_auth_token}'
-                sensitive: true
-            - workspace_id: '${workspace_id}'
-            - tf_run_message: '${tf_run_message}'
-            - is_destroy: 'true'
-            - request_body: null
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
-        publish:
-          - tf_run_id
-        navigate:
-          - SUCCESS: is_auto_apply_true
-          - FAILURE: on_failure
     - is_auto_apply_true:
         do:
           io.cloudslang.base.utils.is_true:
@@ -163,39 +130,8 @@ flow:
             - first_string: '${plan_status}'
             - second_string: planned
         navigate:
-          - SUCCESS: apply_run_v2
+          - SUCCESS: apply_run_v3
           - FAILURE: counter
-    - apply_run_v2:
-        do:
-          io.cloudslang.hashicorp.terraform.runs.apply_run_v2:
-            - auth_token:
-                value: '${tf_user_auth_token}'
-                sensitive: true
-            - tf_run_id: '${tf_run_id}'
-            - tf_run_comment: '${tf_run_comment}'
-            - request_body: null
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
-        publish: []
-        navigate:
-          - SUCCESS: get_run_details_for_get_state_version_details
-          - FAILURE: on_failure
     - delete_workspace:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
@@ -265,7 +201,7 @@ flow:
         publish:
           - auto_apply: '${return_result}'
         navigate:
-          - SUCCESS: create_workspace_variables
+          - SUCCESS: create_workspace_variables_v2
           - FAILURE: on_failure
     - counter:
         do:
@@ -344,13 +280,15 @@ flow:
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
-    - create_workspace_variables:
+    - create_workspace_variables_v2:
         do:
-          io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables:
+          io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - workspace_id: '${workspace_id}'
+            - workspace_id:
+                value: '${workspace_id}'
+                sensitive: true
             - workspace_variables_json: '[{"propertyName":"CONFIRM_DESTROY","propertyValue":"1","HCL":false,"Category":"env"}]'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -364,14 +302,58 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - keep_alive: '${keep_alive}'
-            - connections_max_per_route: '${connections_max_per_route}'
-            - connections_max_total: '${connections_max_total}'
-            - response_character_set: '${response_character_set}'
         navigate:
-          - SUCCESS: create_run_v2
+          - SUCCESS: create_run_v3
+          - FAILURE: on_failure
+    - create_run_v3:
+        do:
+          io.cloudslang.hashicorp.terraform.runs.create_run_v3:
+            - auth_token:
+                value: '${tf_user_auth_token}'
+                sensitive: true
+            - workspace_id:
+                value: '${workspace_id}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - tf_run_id
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: is_auto_apply_true
+    - apply_run_v3:
+        do:
+          io.cloudslang.hashicorp.terraform.runs.apply_run_v3:
+            - auth_token:
+                value: '${tf_user_auth_token}'
+                sensitive: true
+            - tf_run_id:
+                value: '${tf_run_id}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
   results:
     - FAILURE
@@ -382,12 +364,12 @@ extensions:
       get_run_status_value:
         x: 680
         'y': 280
-      apply_run_v2:
-        x: 808
-        'y': 278
       delete_workspace:
         x: 1286
         'y': 293
+      apply_run_v3:
+        x: 840
+        'y': 320
       wait_for_apply_status:
         x: 493
         'y': 451
@@ -404,9 +386,6 @@ extensions:
           37245234-d896-8513-2a44-c4ae6a309c0d:
             targetId: 8fdcd666-d9ef-4f4f-6ed2-36400100824c
             port: FAILURE
-      create_workspace_variables:
-        x: 354
-        'y': 108
       counter_for_get_state_version_details:
         x: 975
         'y': 450
@@ -420,12 +399,15 @@ extensions:
       get_workspace_details:
         x: 40
         'y': 120
-      create_run_v2:
-        x: 488
-        'y': 107
+      create_workspace_variables_v2:
+        x: 320
+        'y': 320
       get_run_details_for_get_state_version_details:
         x: 808
         'y': 108
+      create_run_v3:
+        x: 360
+        'y': 120
       run_status_for_get_state_version_details:
         x: 1165
         'y': 267
