@@ -93,6 +93,7 @@ flow:
     - tf_run_message:
         required: false
     - is_destroy:
+        default: 'false'
         required: false
     - request_body:
         required: false
@@ -169,7 +170,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + auth_token}"
-            - body: "${'{\"data\":{\"relationships\":{\"workspace\": {\"data\": {\"type\":\"workspaces\",\"id\":\"'+workspace_id+'\"}}},\"type\":\"runs\"}}'}"
+            - body: "${'{\"data\":{\"attributes\":{\"is-Destroy\":'+is_destroy+',relationships\":{\"workspace\": {\"data\": {\"type\":\"workspaces\",\"id\":\"'+workspace_id+'\"}}},\"type\":\"runs\"}}'}"
             - content_type: application/vnd.api+json
             - method: POST
         publish:
