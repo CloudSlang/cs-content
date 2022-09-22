@@ -70,9 +70,7 @@ flow:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - workspace_id:
-                value: '${tf_instance_workspace_id}'
-                sensitive: true
+            - workspace_id: '${tf_instance_workspace_id}'
             - tf_run_message: '${tf_run_message}'
             - is_destroy: '${is_destroy}'
             - proxy_host: '${proxy_host}'
