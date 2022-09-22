@@ -311,9 +311,7 @@ flow:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - workspace_id:
-                value: '${workspace_id}'
-                sensitive: true
+            - workspace_id: '${workspace_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -337,9 +335,7 @@ flow:
             - auth_token:
                 value: '${tf_user_auth_token}'
                 sensitive: true
-            - tf_run_id:
-                value: '${tf_run_id}'
-                sensitive: true
+            - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
