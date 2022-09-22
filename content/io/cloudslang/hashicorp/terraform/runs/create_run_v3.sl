@@ -170,7 +170,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: "${'Authorization: Bearer ' + auth_token}"
-            - body: "${'{\"data\":{\"attributes\":{\"is-Destroy\":'+is_destroy+',relationships\":{\"workspace\": {\"data\": {\"type\":\"workspaces\",\"id\":\"'+workspace_id+'\"}}},\"type\":\"runs\"}}'}"
+            - body: "${'{\"data\":{\"attributes\":{\"is-Destory\":'+is_destroy+'},relationships\":{\"workspace\": {\"data\": {\"type\":\"workspaces\",\"id\":\"'+workspace_id+'\"}}},\"type\":\"runs\"}}'}"
             - content_type: application/vnd.api+json
             - method: POST
         publish:
