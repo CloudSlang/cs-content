@@ -17,7 +17,6 @@
 #!
 #! @input auth_token: The authorization token for terraform
 #! @input workspace_id: The Id of created workspace
-#!                      Optional
 #! @input tf_run_message: Specifies the message to be associated with this run
 #!                     Optional
 #! @input is_destroy: Specifies if this plan is a destroy plan, which will destroy all provisioned resources.
@@ -90,7 +89,7 @@ flow:
     - auth_token:
         sensitive: true
     - workspace_id:
-        sensitive: true
+        sensitive: false
     - tf_run_message:
         required: false
     - is_destroy:

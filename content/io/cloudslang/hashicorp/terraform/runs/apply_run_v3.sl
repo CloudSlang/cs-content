@@ -73,7 +73,7 @@ flow:
     - auth_token:
         sensitive: true
     - tf_run_id:
-        sensitive: true
+        sensitive: false
     - tf_run_message:
         required: false
     - proxy_host:
