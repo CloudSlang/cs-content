@@ -130,7 +130,7 @@ flow:
                 value: '${dnd_auth_token}'
                 sensitive: true
             - component_id: '${component_id}'
-            - template_name: '${workspace_id}'
+            - template_name: '${tf_template_workspace_id}'
             - template_display_name: '${workspace_name}'
             - template_icon: terraform.png?tag=library
         publish:
