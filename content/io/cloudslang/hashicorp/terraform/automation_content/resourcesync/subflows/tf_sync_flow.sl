@@ -105,7 +105,7 @@ flow:
         publish:
           - workspace_list
         navigate:
-          - SUCCESS: list_iterator
+          - SUCCESS: list_templates_in_component
           - FAILURE: on_failure
     - list_iterator:
         worker_group: '${worker_group}'
@@ -115,7 +115,7 @@ flow:
         publish:
           - workspace_name: '${result_string}'
         navigate:
-          - HAS_MORE: get_tf_variables
+          - HAS_MORE: string_equals
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - create_component_template:
@@ -130,7 +130,8 @@ flow:
                 value: '${dnd_auth_token}'
                 sensitive: true
             - component_id: '${component_id}'
-            - template_name: '${workspace_name}'
+            - template_name: '${workspace_id}'
+            - template_display_name: '${workspace_name}'
             - template_icon: terraform.png?tag=library
         publish:
           - component_template_id
@@ -272,6 +273,101 @@ flow:
         navigate:
           - SUCCESS: create_tf_input_variables_in_component_template
           - FAILURE: on_failure
+    - get_workspace_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
+            - auth_token:
+                value: '${tf_user_auth_token}'
+                sensitive: true
+            - organization_name: '${tf_template_organization_name}'
+            - workspace_name: '${workspace_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - workspace_id
+        navigate:
+          - SUCCESS: check_template_exists
+          - FAILURE: on_failure
+    - list_templates_in_component:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
+        do:
+          io.cloudslang.microfocus.content.list_templates_in_component:
+            - dnd_host: '${host}'
+            - tenant_id: '${tenant_id}'
+            - dnd_auth_token:
+                value: '${dnd_auth_token}'
+                sensitive: true
+            - component_id: '${component_id}'
+        publish:
+          - templates_result: '${return_result}'
+          - template_count
+        navigate:
+          - SUCCESS: list_iterator
+          - FAILURE: on_failure
+    - string_equals:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${template_count}'
+            - second_string: '0'
+        navigate:
+          - SUCCESS: get_tf_variables
+          - FAILURE: get_workspace_details
+    - check_template_exists:
+        do:
+          io.cloudslang.microfocus.content.utils.check_template_exists:
+            - template_list_json: '${templates_result}'
+            - template_name: '${workspace_name}'
+            - template_key: '${workspace_id}'
+        publish:
+          - template_id
+          - result_string
+        navigate:
+          - SUCCESS: string_equals_1
+    - string_equals_1:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${template_id}'
+        navigate:
+          - SUCCESS: get_tf_variables
+          - FAILURE: string_equals_2
+    - string_equals_2:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${result_string}'
+            - second_string: same
+        navigate:
+          - SUCCESS: list_workspaces
+          - FAILURE: update_component_template
+    - update_component_template:
+        do:
+          io.cloudslang.microfocus.content.update_component_template:
+            - dnd_host: '${host}'
+            - tenant_id: '${tenant_id}'
+            - dnd_auth_token:
+                value: '${dnd_auth_token}'
+                sensitive: true
+            - template_id: '${template_id}'
+            - request_body: "${'{\"name\": \"'+workspace_name+'\"}'}"
+        publish:
+          - return_result
+          - status_code
+          - return_code
+        navigate:
+          - SUCCESS: list_templates_in_component
+          - FAILURE: on_failure
   outputs:
     - component_template_id: '${component_template_id}'
     - tf_source_vcs_repo_identifier: '${tf_source_vcs_repo_identifier}'
@@ -281,12 +377,24 @@ flow:
 extensions:
   graph:
     steps:
-      create_component_template_property_templ_workspace_name:
+      string_equals_2:
         x: 560
+        'y': 320
+      create_component_template_property_templ_workspace_name:
+        x: 760
         'y': 280
+      list_templates_in_component:
+        x: 760
+        'y': 120
+      check_template_exists:
+        x: 320
+        'y': 360
       create_dnd_auth_token:
         x: 80
         'y': 120
+      string_equals:
+        x: 80
+        'y': 280
       create_component_template_property_template_workspace_is:
         x: 400
         'y': 480
@@ -294,18 +402,24 @@ extensions:
         x: 720
         'y': 480
       list_iterator:
-        x: 720
-        'y': 120
+        x: 400
+        'y': 280
         navigate:
-          740a6733-01ad-81c1-ba86-6b4c416a1acf:
+          50aa2f9d-51db-6a5a-1d58-f5ca92e97cc0:
             targetId: b79ac630-86cf-5ab0-94c1-93de1aa81b22
             port: NO_MORE
+      get_workspace_details:
+        x: 200
+        'y': 360
+      update_component_template:
+        x: 640
+        'y': 320
       get_tf_variables:
         x: 80
         'y': 480
       associate_ro_in_template:
-        x: 880
-        'y': 280
+        x: 920
+        'y': 240
       create_component_template_property_instance_workspace_is:
         x: 560
         'y': 480
@@ -318,6 +432,9 @@ extensions:
       list_all_resource_offering_details:
         x: 240
         'y': 120
+      string_equals_1:
+        x: 480
+        'y': 360
       list_workspaces:
         x: 560
         'y': 120
@@ -327,5 +444,5 @@ extensions:
     results:
       SUCCESS:
         b79ac630-86cf-5ab0-94c1-93de1aa81b22:
-          x: 880
-          'y': 120
+          x: 800
+          'y': 200
