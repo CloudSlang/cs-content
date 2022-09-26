@@ -50,6 +50,8 @@
 #!                  Default: ''
 #! @input password: Optional - If SMTP authentication is needed, the password to use.
 #!                  Default: ''
+#! @input auth_token: Optional - The OAuth 2.0 token used for connecting to the email host. If given, the password input will be ignored.
+#!                    Default: ''
 #! @input character_set: Optional - The character set encoding for the entire email which includes subject, body,
 #!                                  attached file name and the attached file.
 #!                       Valid values: 'UTF-8', 'UTF-16', 'UTF-32', 'EUC-JP', 'ISO-2022-JP', 'Shift_JIS', 'Windows-31J'.
@@ -154,6 +156,12 @@ operation:
     - password:
         required: false
         sensitive: true
+    - auth_token:
+        required: false
+    - authToken:
+        default: ${get("auth_token", "")}
+        private: true
+        required: false
     - character_set:
         required: false
     - characterSet:
@@ -235,7 +243,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.55'
+    gav: 'io.cloudslang.content:cs-mail:0.0.56.1-SNAPSHOT'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
 
