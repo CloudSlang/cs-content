@@ -1,3 +1,31 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This flow is used to create templates from terraform workspace.
+#!
+#! @input CSA_CONTEXT_ID: CSA context ID.
+#!                        Optional
+#! @input CSA_PROCESS_ID: CSA process ID.
+#!                        Optional
+#! @input provider_id: Provider ID.
+#!                     Optional
+#!
+#! @result FAILURE: There was an error while creating the component properties using terraform variables.
+#! @result SUCCESS: The component properties are successfully created.
+#!!#
+########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync
 flow:
   name: terraform_organization_resource_sync
@@ -128,6 +156,7 @@ flow:
           - SUCCESS: get_dnd_credentials
           - FAILURE: on_failure
     - get_dnd_credentials:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
             - dnd_username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
@@ -138,11 +167,12 @@ flow:
           - SUCCESS: get_host
           - FAILURE: on_failure
     - get_host:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
             - host: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_uri')}"
         publish:
-          - host: '${host.split("//")[1].replace(":443/dnd/rest", "")}'
+          - host: '${host.split("//")[1].replace(":443", "").replace("/dnd/rest","")}'
         navigate:
           - SUCCESS: tf_sync_flow
           - FAILURE: on_failure
