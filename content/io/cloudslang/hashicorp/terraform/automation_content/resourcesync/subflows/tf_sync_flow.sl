@@ -16,7 +16,7 @@
 #! @description: This flow is used to create templates from terraform workspace.
 #!
 #! @input host: DND host.
-#! @input tenant_id: DND tenant id
+#! @input tenant_id: DND tenant id.
 #! @input dnd_user: The DND username.
 #! @input dnd_password: The DND password.
 #! @input tf_user_auth_token: The terraform user token.

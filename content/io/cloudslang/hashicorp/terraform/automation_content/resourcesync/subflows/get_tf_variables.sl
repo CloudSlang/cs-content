@@ -152,7 +152,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - variables_list: '${return_result}'
+          - tf_variables_list: '${return_result}'
         navigate:
           - SUCCESS: list_runs_in_template_workspace
           - FAILURE: on_failure
