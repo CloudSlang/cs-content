@@ -247,7 +247,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.56.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:0.0.56'
     class_name: io.cloudslang.content.mail.actions.GetMailAttachmentAction
     method_name: execute
 
