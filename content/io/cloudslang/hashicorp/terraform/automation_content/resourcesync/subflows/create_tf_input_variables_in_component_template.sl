@@ -77,7 +77,7 @@ flow:
     - x_auth_token:
         sensitive: true
     - tf_template_workspace_id
-    - tf_user_auth_token
+    - tf_user_auth_token:
         sensitive: true
     - proxy_host:
         required: false
