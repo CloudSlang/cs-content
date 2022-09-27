@@ -108,7 +108,7 @@ flow:
           io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows.input_variable_list:
             - data: '${tf_variables_list}'
         publish:
-          - return_result
+          - input_variable_list_return_result: '${return_result}'
         navigate:
           - SUCCESS: list_iterator
     - create_component_template_property:
@@ -211,7 +211,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
-            - list: '${return_result}'
+            - list: '${input_variable_list_return_result}'
         publish:
           - result_string
         navigate:
