@@ -210,7 +210,7 @@ operation:
     - encryption_algorithm:
         required: false
     - encryptionAlgorithm:
-        default: ${get("encryption_algorithm", "AES256_CBC")}
+        default: ${get("encryption_algorithm", "")}
         required: false
         private: true
     - timeout:
