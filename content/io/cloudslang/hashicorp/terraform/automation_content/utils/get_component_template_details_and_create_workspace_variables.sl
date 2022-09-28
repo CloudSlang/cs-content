@@ -1,4 +1,60 @@
-namespace: io.cloudslang.hashicorp.terraform.automation_content.utils
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This flow is used to terraform workspace variables in the given organization.
+#!
+#! @input component_template_id: The component template id.
+#! @input tf_user_auth_token: The authorization token for terraform.
+#! @input tf_instance_workspace_id: The terraform workspace ID of the instance org.
+#! @input dnd_username: The user name of DND.
+#! @input user_identifier: The user identifier value.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
+#!
+#! @output property_value_list: The list of property values.
+#!!#
+########################################################################################################################
+namespace: io.cloudslang.hashicorp.terraform.automation_content.utils.final
 flow:
   name: get_component_template_details_and_create_workspace_variables
   inputs:
@@ -17,6 +73,10 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
@@ -30,6 +90,9 @@ flow:
         sensitive: true
   workflow:
     - get_artifact_properties:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.get_template_properties:
             - user_identifier: '${user_identifier}'
@@ -40,6 +103,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: create_variables_json_python
     - create_variables_json_python:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.create_variables_json_python:
             - property_value_list: '${property_value_list}'
@@ -49,6 +113,9 @@ flow:
         navigate:
           - SUCCESS: create_workspace_variables_v2
     - create_workspace_variables_v2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:

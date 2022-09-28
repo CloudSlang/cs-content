@@ -1,3 +1,67 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This workflow is used to deploy the module in the destination organization based on the source organization blueprint.
+#!
+#! @input tf_user_auth_token: The user authorization token for terraform.
+#! @input tf_template_organization_name: The terraform template organization name.
+#! @input tf_instance_organization_name: The terraform instance organization name.
+#! @input tf_instance_workspace_name_prefix: The terraform instance workspace name prefix.
+#! @input service_component_id: The id of terraform service component.
+#! @input proxy_host: Proxy server used to access the Terraform service.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
+#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
+#!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#!
+#! @output tf_instance_workspace_name: The name of the terraform workspace name created in instance organization.
+#! @output tf_instance_workspace_id: The ID of the terraform workspace.
+#!
+#! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
+#!!#
+########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_deploy
@@ -128,6 +192,9 @@ flow:
           - SUCCESS: list_instance_org_oauth_client
           - FAILURE: on_failure
     - tf_plan_apply:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.tf_plan_apply:
             - tf_user_auth_token:
@@ -156,6 +223,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: add_or_update_service_component_property
     - get_component_template_details_and_create_workspace_variables:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.get_component_template_details_and_create_workspace_variables:
             - component_template_id: '${service_component_id}'
@@ -179,6 +249,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: tf_plan_apply
     - list_output_variables:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.list_output_variables:
             - property_value_list: '${property_value_list}'
@@ -217,6 +290,9 @@ flow:
           - SUCCESS: get_user_identifier
           - FAILURE: on_failure
     - get_artifact_properties:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
@@ -228,6 +304,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: get_workspace_details
     - create_workspace_v2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.workspaces.create_workspace_v2:
             - auth_token:
@@ -257,6 +336,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: get_component_template_details_and_create_workspace_variables
     - add_or_update_service_component_property:
+        worker_group:
+          value: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+          override: true
         do:
           io.cloudslang.microfocus.content.add_or_update_service_component_property:
             - component_id: '${service_component_id}'

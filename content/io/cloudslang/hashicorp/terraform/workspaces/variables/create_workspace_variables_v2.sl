@@ -17,11 +17,11 @@
 #!
 #! @input auth_token: The authorization token for terraform.
 #! @input workspace_id: The Id of the workspace
+#! @input sensitive_workspace_variables_json: List of sensitive workspace variables in json format.
+#!                                            Optional
 #! @input workspace_variables_json: List of workspace variables in json format.
 #!                                  Example: '[{"propertyName":"xxx","propertyValue":"xxxx","HCL":false,"Category":"terraform"}]'
 #!                                  Optional
-#! @input sensitive_workspace_variables_json: List of sensitive workspace variables in json format.
-#!                                            Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Terraform service.
@@ -53,9 +53,13 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #!
 #! @output create_workspace_variables_output: If successful, returns the complete API response. In case of an error this output will contain
-#!                        the error message.
+#!                                            the error message.
 #! @output status_code: The HTTP status code for Terraform API request.
 #!
 #! @result SUCCESS: The request was successfully executed.
@@ -95,8 +99,12 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
   workflow:
     - create_workspace_variables_request_body:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.utils.create_workspace_variables_request_body:
             - workspace_variables_json: '${workspace_variables_json}'
@@ -106,6 +114,7 @@ flow:
         navigate:
           - SUCCESS: list_iterator
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${return_result}'
@@ -116,6 +125,7 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - api_to_create_workspace_variables:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.utils.http_client_without_request_character_set:
             - url: "${'https://app.terraform.io/api/v2/workspaces/'+workspace_id+'/vars'}"

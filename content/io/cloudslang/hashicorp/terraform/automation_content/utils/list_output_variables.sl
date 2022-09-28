@@ -1,7 +1,55 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This flow is used to get the list of variables with updated values.
+#!
+#! @input user_identifier: The user identifier value.
+#! @input property_value_list: The list of property values.
+#! @input state_version_id: The ID of the desired state version.
+#! @input hosted_state_download_url: A url from which you can download the raw state.
+#! @input service_component_id: The ID of the service component id.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#! @input proxy_host: Proxy server used to access the web site.
+#!                    Optional
+#! @input proxy_port: Proxy server port.
+#!                    Optional
+#! @input proxy_username: Username used when connecting to the proxy.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#!                                 Optional
+#!
+#! @output striped_output_keyname: The output key name.
+#! @output updated_keyvalue: The updated key value.
+#!!#
+########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform.automation_content.utils
 flow:
   name: list_output_variables
   inputs:
+    - user_identifier
     - property_value_list
     - state_version_id
     - hosted_state_download_url
@@ -10,9 +58,25 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - user_identifier
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
   workflow:
     - extract_state_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_get:
             - url: '${hosted_state_download_url}'
@@ -31,6 +95,7 @@ flow:
           - SUCCESS: json_path_query
           - FAILURE: on_failure
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${tf_output_list}'
@@ -42,6 +107,7 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - remove_tf_output:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.remove:
             - origin_string: '${striped_key_name}'
@@ -51,6 +117,7 @@ flow:
         navigate:
           - SUCCESS: get_values_v2
     - json_path_query:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${state_result}'
@@ -61,6 +128,7 @@ flow:
           - SUCCESS: get_output_keyname_python
           - FAILURE: on_failure
     - get_values_v2:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.maps.get_values_v2:
             - map: '${state_output_variables_list}'
@@ -77,6 +145,7 @@ flow:
           - SUCCESS: add_or_update_service_component_property
           - FAILURE: on_failure
     - get_output_keyname_python:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.get_output_keyname_python:
             - output_results: '${output_results}'
@@ -85,6 +154,7 @@ flow:
         navigate:
           - SUCCESS: get_tf_output_list_python
     - get_tf_output_list_python:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.get_tf_output_list_python:
             - property_value_list: '${property_value_list}'
@@ -93,6 +163,7 @@ flow:
         navigate:
           - SUCCESS: list_iterator
     - get_keyname_and_keyvalue:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - key_name: '${list_items.split(";")[0]}'
@@ -105,6 +176,9 @@ flow:
           - SUCCESS: remove_tf_output
           - FAILURE: on_failure
     - add_or_update_service_component_property:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microfocus.content.add_or_update_service_component_property:
             - component_id: '${service_component_id}'
@@ -115,8 +189,8 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: list_iterator
   outputs:
-    - striped_output_keyname: '${striped_output_keyname}'
-    - updated_keyvalue: '${updated_keyvalue}'
+    - striped_output_keyname
+    - updated_keyvalue
   results:
     - FAILURE
     - SUCCESS

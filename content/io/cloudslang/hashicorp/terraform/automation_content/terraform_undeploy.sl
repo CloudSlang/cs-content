@@ -1,3 +1,62 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
+########################################################################################################################
+#!!
+#! @description: This workflow undeploy's the module from the given organization.
+#!
+#! @input tf_user_auth_token: The user authorization token for terraform.
+#! @input tf_instance_organization_name: The terraform instance organization name.
+#! @input tf_instance_workspace_name: The terraform instance workspace name.
+#! @input proxy_host: Proxy server used to access the Terraform service.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
+#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
+#!                        Optional
+#!
+#! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request was successfully executed.
+#!!#
+########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_undeploy
@@ -15,6 +74,9 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
@@ -26,18 +88,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - connect_timeout:
-        required: false
-    - socket_timeout:
-        required: false
-    - keep_alive:
-        required: false
-    - connections_max_per_route:
-        required: false
-    - connections_max_total:
-        required: false
-    - response_character_set:
-        required: false
   workflow:
     - get_workspace_details:
         do:
@@ -362,64 +412,64 @@ extensions:
         x: 680
         'y': 280
       delete_workspace:
-        x: 1286
-        'y': 293
+        x: 1280
+        'y': 280
       apply_run_v3:
         x: 840
-        'y': 320
+        'y': 280
       wait_for_apply_status:
-        x: 493
-        'y': 451
+        x: 520
+        'y': 480
       wait_for_get_state_version_details:
-        x: 974
-        'y': 279
+        x: 960
+        'y': 280
       run_status:
-        x: 847
-        'y': 433
+        x: 840
+        'y': 480
       check_workspace_is_present:
-        x: 1431
-        'y': 295
+        x: 1440
+        'y': 280
         navigate:
           37245234-d896-8513-2a44-c4ae6a309c0d:
             targetId: 8fdcd666-d9ef-4f4f-6ed2-36400100824c
             port: FAILURE
       counter_for_get_state_version_details:
-        x: 975
-        'y': 450
+        x: 960
+        'y': 480
         navigate:
           090c0377-8eaa-436b-ab07-e6c19834ad4b:
             targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
             port: NO_MORE
       get_run_status_value_state_version:
-        x: 975
-        'y': 105
+        x: 960
+        'y': 120
       get_workspace_details:
         x: 40
         'y': 120
       create_workspace_variables_v2:
-        x: 320
+        x: 200
         'y': 320
       get_run_details_for_get_state_version_details:
-        x: 808
-        'y': 108
+        x: 680
+        'y': 120
       create_run_v3:
         x: 360
         'y': 120
       run_status_for_get_state_version_details:
-        x: 1165
-        'y': 267
+        x: 1120
+        'y': 280
       get_run_details_v2:
-        x: 493
-        'y': 279
+        x: 520
+        'y': 280
       get_auto_apply_value:
-        x: 195
-        'y': 107
+        x: 200
+        'y': 120
       is_auto_apply_true:
-        x: 707
-        'y': 95
+        x: 520
+        'y': 120
       counter:
-        x: 670
-        'y': 455
+        x: 680
+        'y': 480
         navigate:
           b5902390-2619-3b22-c280-1d6c7ec9bdd4:
             targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
@@ -427,9 +477,9 @@ extensions:
     results:
       FAILURE:
         cb4ded66-a2a7-9760-786d-84926d356dd9:
-          x: 815
-          'y': 606
+          x: 840
+          'y': 640
       SUCCESS:
         8fdcd666-d9ef-4f4f-6ed2-36400100824c:
-          x: 1588
-          'y': 301
+          x: 1640
+          'y': 280
