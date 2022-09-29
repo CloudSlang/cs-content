@@ -29,7 +29,10 @@
 #!                             Valid values: 'pop3', 'imap4', 'imap'.
 #!                             Default: 'imap'
 #! @input username: The username for the mail host. Use the full email address as username.
-#! @input password: The password for the mail host.
+#! @input password: Optional - The password for the mail host.
+#!                  Default: ''
+#! @input auth_token: Optional - The OAuth 2.0 token used for connecting to the email host. If given, the password input will be ignored.
+#!                    Default: ''
 #! @input folder: Optional - The folder to read the message from (NOTE: POP3 only supports "INBOX").
 #!                           Default: 'INBOX'
 #! @input message_number: The number (starting at 1) of the message to retrieve.  Email ordering is a server
@@ -128,6 +131,13 @@ operation:
     - username
     - password:
         sensitive: true
+        required: false
+    - auth_token:
+        required: false
+    - authToken:
+        default: ${get("auth_token", "")}
+        private: true
+        required: false
     - folder:
         default: 'INBOX'
     - message_number:
@@ -256,7 +266,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.55'
+    gav: 'io.cloudslang.content:cs-mail:0.0.56'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageAction
     method_name: execute
 

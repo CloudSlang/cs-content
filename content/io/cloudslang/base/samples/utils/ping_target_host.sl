@@ -37,9 +37,7 @@ flow:
   name: ping_target_host
   inputs:
     - target_host:
-        prompt:
-          type: text
-        default: 127.0.0.1
+        default: '127.0.0.1'
     - packet_count: '4'
     - packet_size: '32'
     - timeout: '10000'

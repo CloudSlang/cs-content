@@ -26,7 +26,10 @@
 #!                             For other values for the "port" input, the protocol should be also specified.
 #!                             Valid values: 'pop3', 'imap4', 'imap'.
 #! @input username: The username for the mail host.
-#! @input password: The password for the mail host.
+#! @input password: Optional - The password for the mail host.
+#!                  Default: ''
+#! @input auth_token: Optional - The OAuth 2.0 token used for connecting to the email host. If given, the password input will be ignored.
+#!                    Default: ''
 #! @input folder: The folder to read the message from (NOTE: POP3 only supports "INBOX").
 #! @input proxy_host: Optional - The proxy server used.
 #!                                Default: ''
@@ -92,6 +95,13 @@ operation:
     - username
     - password:
         sensitive: true
+        required: false
+    - auth_token:
+        required: false
+    - authToken:
+        default: ${get("auth_token", "")}
+        private: true
+        required: false
     - folder
     - proxy_host:
         required: false
@@ -175,7 +185,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.55'
+    gav: 'io.cloudslang.content:cs-mail:0.0.56'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageCountAction
     method_name: execute
 
