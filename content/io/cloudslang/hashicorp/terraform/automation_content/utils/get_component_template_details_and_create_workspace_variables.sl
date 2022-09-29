@@ -54,7 +54,7 @@
 #! @output property_value_list: The list of property values.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.hashicorp.terraform.automation_content.utils.final
+namespace: io.cloudslang.hashicorp.terraform.automation_content.utils
 flow:
   name: get_component_template_details_and_create_workspace_variables
   inputs:
