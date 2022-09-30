@@ -127,7 +127,8 @@ flow:
         required: false
     - response_character_set:
         required: false
-    - worker_group: RAS_Operator_Path
+    - worker_group:
+        default: RAS_Operator_Path
         required: false
   workflow:
     - create_run_v3:
