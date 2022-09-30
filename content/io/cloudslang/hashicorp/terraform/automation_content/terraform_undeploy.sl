@@ -90,6 +90,7 @@ flow:
         sensitive: true
   workflow:
     - get_workspace_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
@@ -121,6 +122,7 @@ flow:
           - SUCCESS: get_auto_apply_value
           - FAILURE: on_failure
     - is_auto_apply_true:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_true:
             - bool_value: '${auto_apply}'
@@ -128,6 +130,7 @@ flow:
           - 'TRUE': get_run_details_for_get_state_version_details
           - 'FALSE': get_run_details_v2
     - wait_for_apply_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
@@ -135,6 +138,7 @@ flow:
           - SUCCESS: get_run_details_v2
           - FAILURE: on_failure
     - get_run_details_v2:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
@@ -165,6 +169,7 @@ flow:
           - SUCCESS: get_run_status_value
           - FAILURE: on_failure
     - get_run_status_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${return_result}'
@@ -175,6 +180,7 @@ flow:
           - SUCCESS: run_status
           - FAILURE: on_failure
     - run_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${plan_status}'
@@ -183,6 +189,7 @@ flow:
           - SUCCESS: apply_run_v3
           - FAILURE: counter
     - delete_workspace:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
             - auth_token:
@@ -213,6 +220,7 @@ flow:
           - SUCCESS: check_workspace_is_present
           - FAILURE: on_failure
     - check_workspace_is_present:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
@@ -244,6 +252,7 @@ flow:
           - SUCCESS: on_failure
           - FAILURE: SUCCESS
     - get_auto_apply_value:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${return_result}'
@@ -254,6 +263,7 @@ flow:
           - SUCCESS: create_workspace_variables_v2
           - FAILURE: on_failure
     - counter:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.utils.counter:
             - from: '1'
@@ -265,6 +275,7 @@ flow:
           - NO_MORE: FAILURE
           - FAILURE: on_failure
     - get_run_details_for_get_state_version_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
@@ -295,6 +306,7 @@ flow:
           - SUCCESS: get_run_status_value_state_version
           - FAILURE: on_failure
     - get_run_status_value_state_version:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${return_result}'
@@ -305,6 +317,7 @@ flow:
           - SUCCESS: run_status_for_get_state_version_details
           - FAILURE: on_failure
     - run_status_for_get_state_version_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${plan_status}'
@@ -313,6 +326,7 @@ flow:
           - SUCCESS: delete_workspace
           - FAILURE: counter_for_get_state_version_details
     - counter_for_get_state_version_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.utils.counter:
             - from: '1'
@@ -324,6 +338,7 @@ flow:
           - NO_MORE: FAILURE
           - FAILURE: on_failure
     - wait_for_get_state_version_details:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
@@ -331,6 +346,9 @@ flow:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
     - create_workspace_variables_v2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:
@@ -356,6 +374,9 @@ flow:
           - SUCCESS: create_run_v3
           - FAILURE: on_failure
     - create_run_v3:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.runs.create_run_v3:
             - auth_token:
@@ -381,6 +402,9 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: is_auto_apply_true
     - apply_run_v3:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.hashicorp.terraform.runs.apply_run_v3:
             - auth_token:

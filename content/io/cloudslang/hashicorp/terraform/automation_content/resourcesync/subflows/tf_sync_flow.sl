@@ -21,7 +21,7 @@
 #! @input dnd_password: The DND password.
 #! @input tf_user_auth_token: The terraform user token.
 #! @input tf_template_organization_name: The terraform organization name.
-#! @input tf_component_id: Component id.
+#! @input component_id: Component id.
 #!                         Default: 'bb9cb58417414d618ece96e43911dba2'
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -396,6 +396,7 @@ flow:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
     - string_equals:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${template_count}'

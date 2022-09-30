@@ -73,8 +73,7 @@ flow:
   inputs:
     - auth_token:
         sensitive: true
-    - workspace_id:
-        sensitive: true
+    - workspace_id
     - sensitive_workspace_variables_json:
         required: false
     - workspace_variables_json:

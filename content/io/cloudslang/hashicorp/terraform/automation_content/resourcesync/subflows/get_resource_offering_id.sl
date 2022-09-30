@@ -18,6 +18,40 @@
 #! @input dnd_host: The hostname of the DND.
 #! @input tenant_id: The tenant ID of the DND.
 #! @input x_auth_token: The auth token of the DND.
+#! @input proxy_host: Proxy server used to access the Terraform service.
+#!                    Optional
+#! @input proxy_port: Proxy server port used to access the Terraform service.
+#!                    Optional
+#! @input proxy_username: Proxy server user name.
+#!                        Optional
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
+#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
+#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
+#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
+#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
+#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
+#!                                 subdomains, including "a.b.foo.com".
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
+#!                        Optional
 #!
 #! @output ro_id: The terraform resource offering ID.
 #!
