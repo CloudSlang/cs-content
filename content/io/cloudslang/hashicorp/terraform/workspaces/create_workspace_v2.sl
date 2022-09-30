@@ -49,7 +49,7 @@
 #! @input speculative_enabled: Whether this workspace allows speculative plans. Setting this to false prevents Terraform
 #!                             Cloud from running plans on pull requests, which can improve security if the VCS
 #!                             repository is public or includes untrusted contributors.
-#!                               Default: 'true'
+#!                             Default: 'true'
 #!                             Optional
 #! @input ingress_submodules: Whether submodules should be fetched when cloning the VCS repository.
 #!                            Default: 'false'
@@ -57,13 +57,24 @@
 #! @input vcs_repo_id: A reference to your VCS repository in the format :org/:repo where :org and :repo refer to the
 #!                     organization and repository in your VCS provider.
 #!                     Optional
-#! @input vcs_branch_name: The repository branch that Terraform will execute from. If omitted or submitted as an empty
-#!                         string, this defaults to the repository's default branch (e.g. master) .
-#!                         Optional
 #! @input oauth_token_id: The VCS Connection (OAuth Connection + Token) to use. This ID can be obtained from the
 #!                        oauth-tokens endpoint.
 #!                        Optional
+#! @input vcs_branch_name: The repository branch that Terraform will execute from. If omitted or submitted as an empty
+#!                         string, this defaults to the repository's default branch (e.g. master) .
+#!                         Optional
 #! @input request_body: The request body of the workspace.
+#!                      Optional
+#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
+#!                         represents an infinite timeout.
+#!                         Default: '10000'
+#!                         Optional
+#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
+#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
+#!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -96,43 +107,19 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
-#!                         represents an infinite timeout.
-#!                         Default: '10000'
-#!                         Optional
-#! @input socket_timeout: The timeout for waiting for data (a maximum period inactivity between two consecutive data
-#!                        packets), in seconds. A socketTimeout value of '0' represents an infinite timeout.
-#!                        Optional
-#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
-#!                    Default: 'true'
-#!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default: '2'
-#!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.
-#!                               Default: '20'
-#!                               Optional
-#! @input response_character_set: The character encoding to be used for the HTTP response. If responseCharacterSet is
-#!                                empty, the charset from the 'Content-Type' HTTP response header will be used. If
-#!                                responseCharacterSet is empty and the charset from the HTTP response Content-Type
-#!                                header is empty, the default value will be used. You should not use this for
-#!                                method=HEAD or OPTIONS.
-#!                                Default: 'UTF-8'
-#!                                Optional
 #!
 #! @output return_result: If successful, returns the complete API response. In case of an error this output will contain
 #!                        the error message.
-#! @output return_code: If successful, returns 0. In case of an error returns -1.
 #! @output status_code: The HTTP status code for Terraform API request.
 #! @output workspace_id: The Id of created workspace
+#! @output return_code: If successful, returns 0. In case of an error returns -1.
 #!
-#! @result SUCCESS: The request is successfully executed.
 #! @result FAILURE: There was an error while executing the request.
+#! @result SUCCESS: The request is successfully executed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microfocus
+namespace: io.cloudslang.hashicorp.terraform.workspaces
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
@@ -213,8 +200,8 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${request_body}'
         navigate:
-          - SUCCESS: api_to_create_workspace_with_request_body
-          - FAILURE: create_optional_property_json
+          - SUCCESS: create_optional_property_json
+          - FAILURE: api_to_create_workspace_with_request_body
     - create_optional_property_json:
         worker_group: '${worker_group}'
         do:
@@ -260,7 +247,7 @@ flow:
           - status_code
           - return_code
         navigate:
-          - SUCCESS: get_workspace_id
+          - SUCCESS: get_value
           - FAILURE: on_failure
     - api_to_create_workspace_using_given_input_properties:
         worker_group: '${worker_group}'
@@ -291,13 +278,13 @@ flow:
           - status_code
           - return_code
         navigate:
-          - SUCCESS: get_workspace_id
+          - SUCCESS: get_value
           - FAILURE: on_failure
-    - get_workspace_id:
+    - get_value:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${return_result}'
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
             - json_path: 'data,id'
         publish:
           - workspace_id: '${return_result}'
@@ -327,16 +314,15 @@ extensions:
       api_to_create_workspace_using_given_input_properties:
         x: 360
         'y': 320
-      get_workspace_id:
-        x: 560
+      get_value:
+        x: 520
         'y': 120
         navigate:
-          3ef892fb-c2c8-bc1e-6322-4c092ab34214:
+          7b8500d4-e1a7-9984-b5a0-1bd866f4c3bd:
             targetId: 11110857-8b44-be82-ae47-d2b98712cd15
             port: SUCCESS
     results:
       SUCCESS:
         11110857-8b44-be82-ae47-d2b98712cd15:
-          x: 560
+          x: 520
           'y': 320
-
