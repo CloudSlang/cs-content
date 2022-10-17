@@ -63,7 +63,7 @@
 #! @result SUCCESS: The component properties are successfully created.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
+namespace: test.rajesh
 flow:
   name: create_tf_output_variables_in_component_template
   inputs:
@@ -104,7 +104,7 @@ flow:
           io.cloudslang.base.utils.do_nothing:
             - array_value: '${tf_output_variable_key_list}'
         publish:
-          - array_value_output: "${array_value.replace(\"[\",\"\").replace(\"]\",\"\").replace(\"'\",\"\")}"
+          - array_value_output: "${array_value.replace(\"[\",\"\").replace(\"]\",\"\").replace(\"'\",\"\").replace(\" \",\"\")}"
         navigate:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
