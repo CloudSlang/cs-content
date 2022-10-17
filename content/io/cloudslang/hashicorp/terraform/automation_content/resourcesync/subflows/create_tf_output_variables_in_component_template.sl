@@ -63,7 +63,7 @@
 #! @result SUCCESS: The component properties are successfully created.
 #!!#
 ########################################################################################################################
-namespace: test.rajesh
+namespace: io.cloudslang.hashicorp.terraform.automation_content.resourcesync.subflows
 flow:
   name: create_tf_output_variables_in_component_template
   inputs:
