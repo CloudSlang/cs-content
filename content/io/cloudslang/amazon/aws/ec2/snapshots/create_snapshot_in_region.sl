@@ -116,7 +116,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.45'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.46-RC1'
     class_name: io.cloudslang.content.amazon.actions.snapshots.CreateSnapshotAction
     method_name: execute
 
