@@ -82,7 +82,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.20-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-xml:0.0.20'
     class_name: io.cloudslang.content.xml.actions.SetValue
     method_name: execute
 
