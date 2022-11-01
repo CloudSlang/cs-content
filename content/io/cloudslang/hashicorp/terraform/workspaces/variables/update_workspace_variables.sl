@@ -209,7 +209,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.60-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.61-SNAPSHOT'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.workspaces.variables.UpdateWorkspaceVariables'
     method_name: 'execute'
   
