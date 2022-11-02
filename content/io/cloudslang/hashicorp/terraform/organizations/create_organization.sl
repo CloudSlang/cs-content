@@ -252,7 +252,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.5'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.6'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.organizations.CreateOrganization'
     method_name: 'execute'
 
