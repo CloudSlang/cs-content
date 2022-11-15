@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to delete disk from a source.
+#! @description: This operation can be used to delete disk.
 #!
 #! @input project_id: The Google Cloud project name.
 #!                    Example: 'example-project-a'
@@ -98,6 +98,9 @@ flow:
         sensitive: true
   workflow:
     - api_call_to_delete_disk:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_delete:
             - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks/'+disk_name}"
@@ -146,6 +149,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_call_to_delete_disk:
+        x: 80
+        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -153,9 +159,6 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_call_to_delete_disk:
-        x: 80
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
