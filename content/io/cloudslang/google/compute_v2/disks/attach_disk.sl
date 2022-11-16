@@ -53,6 +53,7 @@
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
+#! @input mode: The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
 #!
 #! @output disk_json: A JSON containing the disk information.
 #! @output return_result: This will contain the response entity.
@@ -102,6 +103,9 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - mode:
+        default: READ_WRITE
+        required: false
   workflow:
     - api_call_to_attach_disk:
         worker_group:
@@ -125,7 +129,7 @@ flow:
                 sensitive: true
             - request_character_set: UTF-8
             - headers: "${'Authorization: '+access_token}"
-            - body: "${'{\"autoDelete\": '+auto_delete+',\"source\": \"https://www.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks/'+disk_name+'\"}'}"
+            - body: "${'{\"autoDelete\": \"'+auto_delete+'\",\"source\": \"https://www.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks/'+disk_name+'\",\"mode\": \"'+mode+'\",\"deviceName\": \"'+disk_name+'\"}'}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
