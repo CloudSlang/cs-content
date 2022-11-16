@@ -38,9 +38,9 @@
 #! @result SUCCESS: The request to create tags has been successfully sent.
 #!!#
 ########################################################################################################################
-namespace: test.final
+namespace: io.cloudslang.microsoft.azure.compute.tags
 flow:
-  name: azure_create_tags_at_scope
+  name: create_azure_tags_at_scope
   inputs:
     - scope
     - auth_token:

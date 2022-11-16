@@ -22,7 +22,7 @@
 #! @result SUCCESS: The values were successfully returned.
 #!!#
 ########################################################################################################################
-namespace: test.tags
+namespace: io.cloudslang.microsoft.azure.compute.tags.utils
 operation:
   name: list_to_json
   inputs:
