@@ -1,0 +1,7 @@
+successTestGetEpochTime:
+  description: A successful test for get_epoch_time
+  testFlowPath: io.cloudslang.base.datetime.get_epoch_time
+  testSuites: [datetime-local]
+  outputs:
+    - return_code: '0'
+  result: SUCCESS
