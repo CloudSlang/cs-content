@@ -131,6 +131,7 @@ flow:
         sensitive: true
   workflow:
     - check_query_params:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.google.compute_v2.instances.subflows.check_query_parameters:
             - filter: '${filter}'
