@@ -53,7 +53,9 @@
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
-#! @input mode: The mode in which to attach this disk, either READ_WRITE or READ_ONLY. If not specified, the default is to attach the disk in READ_WRITE mode.
+#! @input mode: The mode in which to attach the disk
+#!              Allowed Values:'READ_WRITE', 'READ_ONLY'
+#!              Default: 'READ_WRITE'
 #!
 #! @output disk_json: A JSON containing the disk information.
 #! @output return_result: This will contain the response entity.
