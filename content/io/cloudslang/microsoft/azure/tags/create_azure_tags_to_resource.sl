@@ -10,45 +10,61 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This operation can be used to add tags to the given scope.
 #!
-#! @input scope: The resource scope
-#! @input auth_token: The authorization token for azure cloud.
-#! @input api_version: The API version to use for this operation.
-#! @input keys: The keys for the tags
-#! @input values: The values for the given keys
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more thanone group simultaneously.Default: 'RAS_Operator_Path'Optional
-#! @input proxy_host: Proxy server used to access the provider services.Optional
-#! @input proxy_port: Proxy server port used to access the provider services.Optional
-#! @input proxy_username: Proxy server user name.Optional
-#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL.Default: 'false'Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name inthe subject's Common Name (CN) or subjectAltName field of the X.509 certificateValid: 'strict', 'browser_compatible', 'allow_all'Default: 'strict'Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates fromother parties that you expect to communicate with, or from Certificate Authorities thatyou trust to identify other parties.  If the protocol (specified by the 'url') is not'https' or if trust_all_roots is 'true' this input is ignored.Default value: '..JAVA_HOME/java/lib/security/cacerts'Format: Java KeyStore (JKS)Optional
-#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is falseand trust_keystore is empty, trust_password default will be supplied.Optional
-#!
+#! @input resource_id: The resource id
+#! @input auth_token: Azure authorization Bearer token.
+#! @input api_version: The API version used to create calls to Azure
+#!                     Default: '2021-04-01'
+#! @input tag_name: The tag_name for the tags
+#! @input tag_value: The tag_value for the given tag_name
+#! @input worker_group: Optional - A worker group is a logical collection of workers.
+#!                      A worker may belong to more than one group simultaneously.
+                        Default: 'RAS_Operator_Path'
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port.
+#!                    Default: '8080'
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                       'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input operation: The operation to be performed on the tags
+#!                  Allowed values: "merge","replace","delete".
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output tags_json: A JSON containing the tags information.
-#! @output result: The output containing the JSON of the list input passed
+#! @output result: A JSON containing the tag_names and tag_values mapped.
 #!
 #! @result FAILURE: An error occurred while trying to send the request.
 #! @result SUCCESS: The request to create tags has been successfully sent.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microsoft.azure.compute.tags
+namespace: io.cloudslang.microsoft.azure.tags
 flow:
-  name: create_azure_tags_at_scope
+  name: create_azure_tags_to_resource
   inputs:
-    - scope
+    - resource_id
     - auth_token:
         sensitive: true
     - api_version:
         required: true
-    - keys
-    - values
+    - tag_name
+    - tag_value
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -76,9 +92,9 @@ flow:
     - list_to_json:
         worker_group: '${worker_group}'
         do:
-          test.tags.list_to_json:
-            - keys: '${keys}'
-            - values: '${values}'
+          io.cloudslang.microsoft.azure.tags.utils.list_to_json:
+            - tag_name: '${tag_name}'
+            - tag_value: '${tag_value}'
         publish:
           - result
         navigate:
@@ -89,7 +105,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_patch:
-            - url: "${'https://management.azure.com/'+scope+'/providers/Microsoft.Resources/tags/default?api-version='+api_version+''}"
+            - url: "${'https://management.azure.com/'+resource_id+'/providers/Microsoft.Resources/tags/default?api-version='+api_version+''}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

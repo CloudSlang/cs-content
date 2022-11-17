@@ -10,31 +10,31 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-#########################################################################################################################
+########################################################################################################################
 #!!
-#! @description: Python operation to map the comma separated values into JSON
+#! @description: Maps comma separated values to JSON
 #!
-#! @input keys: The list of keys separated by commas
-#! @input values: The values that have to mapped to the keys
+#! @input tag_names: The list of tag_names separated by commas
+#! @input tag_values: The values that have to be mapped to the tag_names
 #!
-#! @output result: The return result which have the json value (keys and values mapped)
+#! @output result: If successful, returns the json (tag_names and tag_values mapped)
 #!
 #! @result SUCCESS: The values were successfully returned.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microsoft.azure.compute.tags.utils
+namespace: io.cloudslang.microsoft.azure.tags.utils
 operation:
   name: list_to_json
   inputs:
-    - keys
-    - values
+    - tag_names
+    - tag_values
   python_action:
     use_jython: false
     script: |-
-      def execute(keys,values):
-          keys=keys.split(',')
-          values=values.split(',')
-          result = dict(zip(keys,values))
+      def execute(tag_names,tag_values):
+          tag_names=tag_names.split(',')
+          tag_values=tag_values.split(',')
+          result = dict(zip(tag_names,tag_values))
           return {"result":result}
   outputs:
     - result
