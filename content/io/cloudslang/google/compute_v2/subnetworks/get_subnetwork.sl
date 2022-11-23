@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve the information of subnetworks as JSON array.
+#! @description: This operation can be used to retrieve the information of subnetwork as JSON array.
 #!
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
@@ -51,9 +51,9 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
+#! @output return_result: This will contain the response message.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output subnetworks_json: A JSON containing the subnetworks information.
+#! @output subnetwork_json: A JSON containing the subnetwork information.
 #!
 #! @result SUCCESS: The network were found and successfully retrieved.
 #! @result FAILURE: The network were not found or some inputs were given incorrectly
@@ -64,7 +64,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_subnetworks
+  name: get_subnetwork
   inputs:
     - access_token:
         sensitive: true
@@ -96,7 +96,7 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_sub_networks:
+    - api_to_get_sub_network:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -130,17 +130,17 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: Information about the subnetworks has been successfully retrieved.
-            - subnetworks_json: '${return_result}'
+            - subnetwork_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - subnetworks_json
+          - subnetwork_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - subnetworks_json
+    - subnetwork_json
   results:
     - SUCCESS
     - FAILURE
@@ -154,7 +154,7 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_get_sub_networks:
+      api_to_get_sub_network:
         x: 80
         'y': 120
     results:
