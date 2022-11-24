@@ -62,6 +62,7 @@ flow:
     - auth_token:
         sensitive: true
     - api_version:
+        default: '2021-04-01'
         required: true
     - tag_name_list
     - tag_value_list
