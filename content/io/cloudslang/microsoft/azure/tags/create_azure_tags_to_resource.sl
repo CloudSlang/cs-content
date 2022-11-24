@@ -23,7 +23,7 @@
 #! @input tag_value: The tag_value for the given tag_name
 #! @input worker_group: Optional - A worker group is a logical collection of workers.
 #!                      A worker may belong to more than one group simultaneously.
-                        Default: 'RAS_Operator_Path'
+#!                      Default: 'RAS_Operator_Path'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
