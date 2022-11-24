@@ -116,7 +116,7 @@ flow:
     - create_request_body:
         worker_group: '${worker_group}'
         do:
-          gcp.create_request_body:
+          io.cloudslang.google.compute_v2.disks.utils.create_insert_disk_request_body:
             - disk_description: '${disk_description}'
             - disk_size: '${disk_size}'
             - disk_type: '${disk_type}'
