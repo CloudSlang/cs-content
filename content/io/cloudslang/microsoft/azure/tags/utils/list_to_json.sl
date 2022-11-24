@@ -14,8 +14,8 @@
 #!!
 #! @description: Maps comma separated values to JSON
 #!
-#! @input tag_names: The list of tag_names separated by commas
-#! @input tag_values: The values that have to be mapped to the tag_names
+#! @input tag_name_list: The list of tag_names separated by commas
+#! @input tag_value_list: The values that have to be mapped to the tag_names
 #!
 #! @output result: If successful, returns the json (tag_names and tag_values mapped)
 #!
@@ -26,15 +26,15 @@ namespace: io.cloudslang.microsoft.azure.tags.utils
 operation:
   name: list_to_json
   inputs:
-    - tag_names
-    - tag_values
+    - tag_name_list
+    - tag_value_list
   python_action:
     use_jython: false
     script: |-
-      def execute(tag_names,tag_values):
-          tag_names=tag_names.split(',')
-          tag_values=tag_values.split(',')
-          result = dict(zip(tag_names,tag_values))
+      def execute(tag_name_list,tag_value_list):
+          tag_name_list=tag_name_list.split(',')
+          tag_value_list=tag_value_list.split(',')
+          result = dict(zip(tag_name_list,tag_value_list))
           return {"result":result}
   outputs:
     - result

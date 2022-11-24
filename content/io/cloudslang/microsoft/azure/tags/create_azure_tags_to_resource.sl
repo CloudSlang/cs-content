@@ -19,8 +19,8 @@
 #! @input auth_token: Azure authorization Bearer token.
 #! @input api_version: The API version used to create calls to Azure
 #!                     Default: '2021-04-01'
-#! @input tag_name: The tag_name for the tags
-#! @input tag_value: The tag_value for the given tag_name
+#! @input tag_name_list: The list of tag_name for the tags
+#! @input tag_value_list: The list of tag_value for the given tag_name
 #! @input worker_group: Optional - A worker group is a logical collection of workers.
 #!                      A worker may belong to more than one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -63,8 +63,8 @@ flow:
         sensitive: true
     - api_version:
         required: true
-    - tag_name
-    - tag_value
+    - tag_name_list
+    - tag_value_list
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -93,8 +93,8 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.tags.utils.list_to_json:
-            - tag_names: '${tag_name}'
-            - tag_values: '${tag_value}'
+            - tag_name_list: '${tag_name_list}'
+            - tag_value_list: '${tag_value_list}'
         publish:
           - result
         navigate:
