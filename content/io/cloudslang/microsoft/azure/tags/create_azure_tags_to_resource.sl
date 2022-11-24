@@ -93,8 +93,8 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.tags.utils.list_to_json:
-            - tag_name: '${tag_name}'
-            - tag_value: '${tag_value}'
+            - tag_names: '${tag_name}'
+            - tag_values: '${tag_value}'
         publish:
           - result
         navigate:
