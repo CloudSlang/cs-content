@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to add tags to the given scope.
+#! @description: This operation can be used to create or update set of tags on a resource.
 #!
-#! @input resource_id: The resource id
+#! @input resource_id: The resource id.
 #! @input auth_token: Azure authorization Bearer token.
-#! @input api_version: The API version used to create calls to Azure
+#! @input api_version: The API version used to create calls to Azure.
 #!                     Default: '2021-04-01'
-#! @input tag_name_list: The list of tag_name for the tags
-#! @input tag_value_list: The list of tag_value for the given tag_name
+#! @input tag_name_list: The list of tag_name for the tags.
+#! @input tag_value_list: The list of tag_value for the given tag_name.
 #! @input worker_group: Optional - A worker group is a logical collection of workers.
 #!                      A worker may belong to more than one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -56,7 +56,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.microsoft.azure.tags
 flow:
-  name: create_azure_tags_to_resource
+  name: set_tag_on_a_resource
   inputs:
     - resource_id
     - auth_token:
