@@ -25,6 +25,8 @@
 #! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk.If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the size of the snapshot.
 #!                   Constraint: Number greater or equal with 10 Default: '10' Optional
 #! @input disk_description: The description of the new Disk. Optional
+#! @input label_keys: The labels key list separated by comma(,).
+#! @input label_values: The labels value list separated by comma(,).
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -57,7 +59,7 @@
 #!                        Optional
 #!
 #! @output disk_json: A JSON containing the disk information.
-#! @output return_result: This will contain the response entity.
+#! @output return_result: This will contain the response message.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result SUCCESS: The request for the disk to create successfully sent.
@@ -78,11 +80,14 @@ flow:
     - zone
     - disk_name
     - disk_type:
-        required: true
+        required: false
     - disk_size:
-        default: '10'
         required: false
     - disk_description:
+        required: false
+    - label_keys:
+        required: false
+    - label_values:
         required: false
     - worker_group:
         default: RAS_Operator_Path
@@ -108,6 +113,20 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - create_request_body:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.compute_v2.disks.utils.create_insert_disk_request_body:
+            - disk_description: '${disk_description}'
+            - disk_size: '${disk_size}'
+            - disk_type: '${disk_type}'
+            - disk_name: '${disk_name}'
+            - label_keys: '${label_keys}'
+            - label_values: '${label_values}'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: api_call_to_insert_the_disk
     - api_call_to_insert_the_disk:
         worker_group:
           value: '${worker_group}'
@@ -131,7 +150,7 @@ flow:
             - request_character_set: UTF-8
             - headers: "${'Authorization: '+access_token}"
             - query_params: null
-            - body: "${'{\"name\": \"'+disk_name+'\", \"sizeGb\": \"'+disk_size+'\",\"description\":\"'+disk_description+'\",\"type\":\"'+disk_type+'\"}'}"
+            - body: '${return_result}'
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
@@ -163,12 +182,15 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_insert_the_disk:
+      create_request_body:
         x: 80
-        'y': 200
+        'y': 120
+      api_call_to_insert_the_disk:
+        x: 240
+        'y': 120
       set_success_message:
-        x: 320
-        'y': 200
+        x: 400
+        'y': 120
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
@@ -177,5 +199,4 @@ extensions:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
-          'y': 200
-
+          'y': 120
