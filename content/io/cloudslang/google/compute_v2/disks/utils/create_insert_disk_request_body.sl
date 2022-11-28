@@ -44,9 +44,23 @@ operation:
         required: false
     - label_values:
         required: false
+    - source_snapshot:
+        required: false
+    - source_snapshot_encryption_key:
+        required: false
+    - source_image:
+        required: false
+    - image_encryption_key:
+        required: false
+    - licenses_list:
+        required: false
+    - source_disk:
+        required: false
+    - disk_encryption_key:
+        required: false
   python_action:
     use_jython: false
-    script: "# do not remove the execute function\r\nimport json\r\ndef execute(disk_description,disk_size,disk_type,disk_name,label_keys,label_values):\r\n    return_code = 0\r\n    return_result = '\"name\": \"'+disk_name+'\"'\r\n        \r\n    if (disk_description == '' and disk_size == '' and disk_type == ''):\r\n        return_code =-1\r\n        return_result = return_result\r\n    if disk_description != '':\r\n        return_result = return_result + ',\"description\": \"'+disk_description+'\"'\r\n    if disk_size != '':\r\n        return_result = return_result+',\"sizeGb\": \"'+disk_size+'\"'\r\n    if disk_type != '':\r\n        return_result = return_result+',\"type\": \"'+disk_type+'\"'\r\n    if label_keys != '':\r\n        label_keys=label_keys.split(',')\r\n        label_values=label_values.split(',')\r\n        return_result = return_result+',\"labels\": '+json.dumps(dict(zip(label_keys,label_values)))\r\n    return{\"return_code\": return_code, \"return_result\": '{'+return_result+'}'}"
+    script: "# do not remove the execute function\r\nimport json\r\ndef execute(disk_description,disk_size,disk_type,disk_name,label_keys,label_values,source_snapshot,source_snapshot_encryption_key,\r\nsource_image,image_encryption_key,licenses_list,source_disk,disk_encryption_key):\r\n    return_code = 0\r\n    return_result = '\"name\": \"'+disk_name+'\"'\r\n        \r\n    if (disk_description == '' and disk_size == '' and disk_type == ''):\r\n        return_code =-1\r\n        return_result = return_result\r\n    if disk_description != '':\r\n        return_result = return_result + ',\"description\": \"'+disk_description+'\"'\r\n    if disk_size != '':\r\n        return_result = return_result + ',\"sizeGb\": \"'+disk_size+'\"'\r\n    if disk_type != '':\r\n        return_result = return_result + ',\"type\": \"'+disk_type+'\"'\r\n    if source_snapshot != '':\r\n        return_result = return_result + ',\"sourceSnapshot\": \"'+source_snapshot+'\"'\r\n    if source_snapshot_encryption_key != '':\r\n        return_result = return_result + ',\"sourceSnapshotEncryptionKey\": { \"rawKey\" : \"'+ source_snapshot_encryption_key +'\"}'\r\n    if source_image != '':\r\n        return_result = return_result + ',\"sourceImage\": \"'+ source_image +'\"'\r\n    if image_encryption_key != '':\r\n        return_result = return_result + ',\"sourceImageEncryptionKey\": { \"rawKey\" : \"'+ image_encryption_key +'\"}'\r\n    if licenses_list != '':\r\n        license = licenses_list.split(',')\r\n        return_result = return_result + ',\"licenses\": ' + json.dumps(license)\r\n    if source_disk != '':\r\n        return_result = return_result + ',\"sourceDisk\": \"'+ source_disk +'\"'        \r\n    if disk_encryption_key != '':\r\n        return_result = return_result + ',\"diskEncryptionKey\": { \"rawKey\" : \"'+ disk_encryption_key +'\"}'        \r\n    if label_keys != '':\r\n        label_keys=label_keys.split(',')\r\n        label_values=label_values.split(',')\r\n        return_result = return_result+',\"labels\": '+json.dumps(dict(zip(label_keys,label_values)))\r\n    return{\"return_code\": return_code, \"return_result\": '{'+return_result+'}'}"
   outputs:
     - return_result
     - return_code
