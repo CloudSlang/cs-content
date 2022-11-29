@@ -25,6 +25,22 @@
 #! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk.If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the size of the snapshot.
 #!                   Constraint: Number greater or equal with 10 Default: '10' Optional
 #! @input disk_description: The description of the new Disk. Optional
+#! @input source_snapshot: The source snapshot used to create this disk. You can provide this as a partial or full URL to the resource. For example, the following are valid values:
+#!                         https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot
+#!                         projects/project/global/snapshots/snapshot
+#!                         global/snapshots/snapshot
+#! @input source_snapshot_encryption_key: The customer-supplied encryption key of the source snapshot. Required if the source snapshot is protected by a customer-supplied encryption key.
+#! @input source_image: Source image to restore onto a disk. This field is optional.
+#! @input image_encryption_key: The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key.
+#! @input licenses_list: A list of publicly visible licenses separated by comma(,). Reserved for Google's use.
+#! @input source_disk: The source disk used to create this disk. You can provide this as a partial or full URL to the resource. For example, the following are valid values:
+#!                     https://www.googleapis.com/compute/v1/projects/project/zones/zone/disks/disk
+#!                     https://www.googleapis.com/compute/v1/projects/project/regions/region/disks/disk
+#!                     projects/project/zones/zone/disks/disk
+#!                     projects/project/regions/region/disks/disk
+#!                     zones/zone/disks/disk
+#!                     regions/region/disks/disk
+#! @input disk_encryption_key: Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource. For example: "rawKey": "SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0="
 #! @input label_keys: The labels key list separated by comma(,).
 #! @input label_values: The labels value list separated by comma(,).
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
@@ -85,6 +101,20 @@ flow:
         required: false
     - disk_description:
         required: false
+    - source_snapshot:
+        required: false
+    - source_snapshot_encryption_key:
+        required: false
+    - source_image:
+        required: false
+    - image_encryption_key:
+        required: false
+    - licenses_list:
+        required: false
+    - source_disk:
+        required: false
+    - disk_encryption_key:
+        required: false
     - label_keys:
         required: false
     - label_values:
@@ -123,6 +153,13 @@ flow:
             - disk_name: '${disk_name}'
             - label_keys: '${label_keys}'
             - label_values: '${label_values}'
+            - source_snapshot: '${source_snapshot}'
+            - source_snapshot_encryption_key: '${source_snapshot_encryption_key}'
+            - source_image: '${source_image}'
+            - image_encryption_key: '${image_encryption_key}'
+            - licenses_list: '${licenses_list}'
+            - source_disk: '${source_disk}'
+            - disk_encryption_key: '${disk_encryption_key}'
         publish:
           - return_result
         navigate:

@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to start an instance resource.
+#! @description: This operation is used to start an instance resource.
 #!
 #! @input project: The Google Cloud project name.
 #!                 Example: 'example-project-a'
@@ -148,10 +148,10 @@ extensions:
     steps:
       api_call_to_stop_the_instance:
         x: 80
-        'y': 200
+        'y': 160
       set_success_message:
-        x: 320
-        'y': 200
+        x: 240
+        'y': 160
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
@@ -159,5 +159,5 @@ extensions:
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 400
+          'y': 160
