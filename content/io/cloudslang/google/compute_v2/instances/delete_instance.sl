@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to delete an instance.
+#! @description: This operation can be used to delete an instance.
 #!
 #! @input project_id: The Google Cloud project name.
 #!                    Example: 'example-project-a'
@@ -145,9 +145,6 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_delete_the_instance:
-        x: 120
-        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -155,8 +152,13 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      api_call_to_delete_the_instance:
+        x: 120
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
+
+
