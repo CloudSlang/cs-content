@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to restart an instance.
+#! @description: This operation is used to reset an instance resource.
 #!
 #! @input project_id: The Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
 #! @input zone: The zone in which the instance resides.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: The name of the Instance resource to restart.
+#! @input instance_name: The name of the Instance resource to reset.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -65,7 +65,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: restart_instance
+  name: reset_instance
   inputs:
     - project_id:
         sensitive: true
@@ -97,7 +97,7 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_restart_the_instance:
+    - api_call_to_reset_the_instance:
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/reset'}"
@@ -146,9 +146,6 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_restart_the_instance:
-        x: 120
-        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -156,6 +153,9 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      api_call_to_reset_the_instance:
+        x: 120
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

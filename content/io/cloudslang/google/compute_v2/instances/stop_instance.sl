@@ -13,10 +13,10 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to stop an instance resource.
+#! @description: This operation is used to stop an instance resource.
 #!
-#! @input project: The Google Cloud project name.
-#!                 Example: 'example-project-a'
+#! @input project_id: The Google Cloud project name.
+#!                    Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
@@ -66,7 +66,7 @@ imports:
 flow:
   name: stop_instance
   inputs:
-    - project:
+    - project_id:
         sensitive: true
     - access_token:
         sensitive: true
@@ -102,7 +102,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project+'/zones/'+zone+'/instances/'+instance_name+'/stop'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/stop'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
