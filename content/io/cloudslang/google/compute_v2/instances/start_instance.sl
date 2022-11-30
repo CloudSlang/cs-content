@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to start an instance resource.
+#! @description: This operation is used to start an instance resource.
 #!
-#! @input project: The Google Cloud project name.
+#! @input project_id: The Google Cloud project name.
 #!                 Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
 #! @input zone: The name of the zone in which the instance lives.
@@ -66,7 +66,7 @@ imports:
 flow:
   name: start_instance
   inputs:
-    - project:
+    - project_id:
         sensitive: true
     - access_token:
         sensitive: true
@@ -102,7 +102,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -148,10 +148,10 @@ extensions:
     steps:
       api_call_to_stop_the_instance:
         x: 80
-        'y': 200
+        'y': 160
       set_success_message:
-        x: 320
-        'y': 200
+        x: 240
+        'y': 160
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
@@ -159,5 +159,5 @@ extensions:
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 200
+          x: 400
+          'y': 160
