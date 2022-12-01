@@ -61,8 +61,8 @@
 #! @output status: The status of the instance.
 #! @output metadata: The metadata of the instance.
 #!
-#! @result SUCCESS: The instance were found and successfully retrieved.
-#! @result FAILURE: The instance were not found or some inputs were given incorrectly
+#! @result SUCCESS: The request for retrieving the instance details sent successfully.
+#! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute_v2.instances

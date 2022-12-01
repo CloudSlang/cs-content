@@ -23,8 +23,6 @@
 #! @output status: The status of the instance.
 #! @output metadata: The metadata of the instance.
 #!
-#! @result SUCCESS: The instance were found and successfully retrieved.
-#! @result FAILURE: The instance were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.compute_v2.instances.subflows
