@@ -182,7 +182,7 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_instance_details:
+      get_instance_details_python:
         x: 240
         'y': 200
     results:
