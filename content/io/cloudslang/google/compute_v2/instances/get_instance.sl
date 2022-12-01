@@ -130,7 +130,7 @@ flow:
           - return_result
           - status_code
         navigate:
-          - SUCCESS: get_instance_details
+          - SUCCESS: get_instance_details_python
           - FAILURE: on_failure
     - set_success_message:
         worker_group: '${worker_group}'
