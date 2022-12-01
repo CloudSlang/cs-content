@@ -144,7 +144,7 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - get_instance_details:
+    - get_instance_details_python:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.google.compute_v2.instances.subflows.get_instance_details_python:
