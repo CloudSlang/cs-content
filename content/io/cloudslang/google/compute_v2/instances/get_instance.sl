@@ -55,6 +55,11 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output instance_json: A JSON containing the instance information.
+#! @output instance_id: The id of the instance.
+#! @output internal_ips: The internal IPs of the instance.
+#! @output external_ips: The external IPs of the instance.
+#! @output status: The status of the instance.
+#! @output metadata: The metadata of the instance.
 #!
 #! @result SUCCESS: The instance were found and successfully retrieved.
 #! @result FAILURE: The instance were not found or some inputs were given incorrectly
@@ -65,7 +70,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_instances
+  name: get_instance
   inputs:
     - access_token:
         sensitive: true
@@ -125,7 +130,7 @@ flow:
           - return_result
           - status_code
         navigate:
-          - SUCCESS: set_success_message
+          - SUCCESS: get_instance_details
           - FAILURE: on_failure
     - set_success_message:
         worker_group: '${worker_group}'
@@ -139,29 +144,49 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - get_instance_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.compute_v2.instances.subflows.get_instance_details_python:
+            - instance_json: '${return_result}'
+        publish:
+          - metadata
+          - instance_id
+          - internal_ips
+          - external_ips
+          - status
+        navigate:
+          - SUCCESS: set_success_message
   outputs:
     - return_result
     - status_code
     - instance_json
+    - instance_id
+    - internal_ips
+    - external_ips
+    - metadata
+    - status
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
+      api_to_get_instance_details:
+        x: 80
+        'y': 200
       set_success_message:
-        x: 320
+        x: 400
         'y': 200
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_get_instance_details:
-        x: 80
+      get_instance_details:
+        x: 240
         'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
-
