@@ -135,7 +135,7 @@
 #! @output public_ip_address_name: Public IP Address name of the VM
 #! @output vm_id: Unique id of the VM.
 #! @output vm_resource_id: Resource Id of the VM.
-#! @output success_message: If number of tag names and tag values matches, it will give the success message
+#! @output return_result: If number of tag names and tag values matches, it will give the success message
 #!
 #! @result SUCCESS: The flow completed successfully.
 #! @result FAILURE: Something went wrong.
@@ -235,7 +235,7 @@ flow:
             - tag_name_list: '${tag_name_list}'
             - tag_value_list: '${tag_value_list}'
         publish:
-          - success_message: '${return_result}'
+          - return_result
           - error_message
         navigate:
           - SUCCESS: get_auth_token_using_web_api
@@ -1122,7 +1122,7 @@ flow:
     - public_ip_address_name
     - vm_id
     - vm_resource_id
-    - success_message
+    - return_result
   results:
     - SUCCESS
     - FAILURE
