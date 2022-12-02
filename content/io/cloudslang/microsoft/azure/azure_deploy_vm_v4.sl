@@ -122,7 +122,6 @@
 #!                        Optional
 #!
 #! @output vm_final_name: The final virtual machine name.
-#! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
 #! @output disk_name: Name of the data disk.
 #! @output primary_dns_name: Specifies the domain name of the VM.
 #! @output internal_fqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
@@ -135,7 +134,7 @@
 #! @output public_ip_address_name: Public IP Address name of the VM
 #! @output vm_id: Unique id of the VM.
 #! @output vm_resource_id: Resource Id of the VM.
-#! @output return_result: If number of tag names and tag values matches, it will give the success message
+#! @output return_result: It will contain the return result either success or failure
 #!
 #! @result SUCCESS: The flow completed successfully.
 #! @result FAILURE: Something went wrong.
@@ -235,8 +234,7 @@ flow:
             - tag_name_list: '${tag_name_list}'
             - tag_value_list: '${tag_value_list}'
         publish:
-          - return_result
-          - error_message
+          - return_result: '${error_message}'
         navigate:
           - SUCCESS: get_auth_token_using_web_api
           - FAILURE: FAILURE
@@ -294,7 +292,7 @@ flow:
         publish:
           - ip_state: '${output}'
           - status_code
-          - error_message
+          - return_result: '${error_message}'
           - public_ip_address_name
         navigate:
           - FAILURE: on_failure
@@ -328,7 +326,7 @@ flow:
         publish:
           - nic_state: '${output}'
           - status_code
-          - error_message: '${error_message}'
+          - return_result: '${error_message}'
           - nic_name
         navigate:
           - FAILURE: on_failure
@@ -407,7 +405,7 @@ flow:
             - origin_string: "${'A virtual machine with the name \"' + vm_name + '\" already exists.'}"
             - text: ''
         publish:
-          - error_message: '${new_string}'
+          - return_result: '${new_string}'
         navigate:
           - SUCCESS: FAILURE
     - create_vm:
@@ -459,7 +457,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - output_0: '${return_result}'
+          - return_result
         navigate:
           - SUCCESS: get_vm_info
           - FAILURE: FAILURE
@@ -506,7 +504,7 @@ flow:
         publish:
           - vm_info: '${output}'
           - status_code
-          - error_message
+          - return_result: '${error_message}'
         navigate:
           - SUCCESS: check_vm_state_1
           - FAILURE: on_failure
@@ -635,7 +633,7 @@ flow:
         publish:
           - ip_details: '${output}'
           - status_code
-          - error_message: '${error_message}'
+          - return_result: '${error_message}'
         navigate:
           - SUCCESS: update_public_ip_address
           - FAILURE: on_failure
@@ -1108,8 +1106,7 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
   outputs:
-    - vm_final_name: '${vm_name}'
-    - error_message: '${error_message}'
+    - vm_final_name
     - disk_name
     - primary_dns_name
     - internal_fqdn
@@ -1130,14 +1127,14 @@ extensions:
   graph:
     steps:
       get_auth_token_using_web_api:
-        x: 35
-        'y': 184
+        x: 40
+        'y': 200
       string_occurrence_counter_for_image:
         x: 200
         'y': 360
       check_if_null_else_add_tags_1:
-        x: 2665.666748046875
-        'y': 79.66666412353516
+        x: 2680
+        'y': 80
       get_nic_name_info:
         x: 4124
         'y': 421
