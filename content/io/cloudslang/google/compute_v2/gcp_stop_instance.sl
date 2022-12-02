@@ -35,6 +35,24 @@
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
+#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all' - Default: 'allow_all'
+#!                                 Default: 'strict'
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Default value: ..JAVA_HOME/java/lib/security/cacerts
+#!                        Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
+#!                        Optional
 #!
 #! @output external_ips: The external IP's of the instance.
 #! @output status: The current state of the instance.
@@ -59,6 +77,12 @@ flow:
         sensitive: true
     - zone
     - instance_name
+    - polling_interval:
+        default: '20'
+        required: false
+    - polling_retries:
+        default: '30'
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -83,6 +107,9 @@ flow:
         required: false
   workflow:
     - get_access_token_using_web_api:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.google.authentication.get_access_token_using_web_api:
             - client_id: '${client_id}'
@@ -141,14 +168,17 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${status}'
-            - second_string: RUNNING
+            - second_string: TERMINATED
             - ignore_case: 'true'
         publish:
           - status: Running
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: sleep
+          - FAILURE: counter
     - get_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.google.compute_v2.instances.get_instance:
             - access_token:
@@ -179,6 +209,9 @@ flow:
           - SUCCESS: check_if_instance_is_in_stopped_state
           - FAILURE: on_failure
     - get_instance_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.google.compute_v2.instances.get_instance:
             - access_token:
@@ -209,6 +242,9 @@ flow:
           - SUCCESS: compare_power_state
           - FAILURE: on_failure
     - stop_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.google.compute_v2.instances.stop_instance:
             - project_id:
@@ -238,6 +274,18 @@ flow:
         navigate:
           - SUCCESS: get_instance_details
           - FAILURE: on_failure
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - external_ips
     - status
@@ -250,18 +298,31 @@ flow:
 extensions:
   graph:
     steps:
-      get_access_token_using_web_api:
-        x: 40
+      get_instance_details:
+        x: 680
         'y': 160
-      check_if_instance_is_in_stopped_state:
-        x: 360
+      stop_instance:
+        x: 520
         'y': 160
       set_failure_message_for_instance:
         x: 360
         'y': 360
       sleep:
+        x: 680
+        'y': 360
+      check_if_instance_is_in_stopped_state:
+        x: 360
+        'y': 160
+      get_access_token_using_web_api:
+        x: 40
+        'y': 160
+      counter:
         x: 840
         'y': 360
+        navigate:
+          ffa7b1f2-6949-56af-0f21-cf13a29dccf7:
+            targetId: d936eeea-5cc9-d7fe-db69-2345f7db4695
+            port: NO_MORE
       compare_power_state:
         x: 840
         'y': 160
@@ -272,13 +333,11 @@ extensions:
       get_instance:
         x: 200
         'y': 160
-      get_instance_details:
-        x: 680
-        'y': 160
-      stop_instance:
-        x: 520
-        'y': 160
     results:
+      FAILURE:
+        d936eeea-5cc9-d7fe-db69-2345f7db4695:
+          x: 1040
+          'y': 360
       SUCCESS:
         e104c40a-d81e-dbcf-ed47-b859689c4260:
           x: 1040
