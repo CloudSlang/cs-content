@@ -43,11 +43,9 @@ operation:
               if(len(tag_name_list.split(','))==len(tag_value_list.split(','))):
                   return_result = "tag_name_list and tag_value_list matched"
               else:
-                  error_message = "Invalid input value. Number of comma separated values in tag_name_list should be
-                  equal to that of tag_value_list"
+                  error_message = "Invalid input value. Number of comma separated values in tag_name_list should be equal to that of tag_value_list"
       except:
-          error_message = "Invalid input value. Number of comma separated values in tag_name_list should be equal to
-          that of tag_value_list"
+          error_message = "Invalid input value. Number of comma separated values in tag_name_list should be equal to that of tag_value_list"
   outputs:
     - return_result
     - error_message
