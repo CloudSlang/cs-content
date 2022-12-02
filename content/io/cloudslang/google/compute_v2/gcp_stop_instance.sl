@@ -23,6 +23,12 @@
 #! @input zone: The name of the zone where the disk is located.
 #!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
 #! @input instance_name: The name of the instance.
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: '20'
+#!                          Optional
+#! @input polling_retries: The number of retries to check if the instance is started.
+#!                         Default: '30'
+#!                         Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
