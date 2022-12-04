@@ -224,8 +224,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - json_input_to_extract_res_id:
-        required: false
   workflow:
     - check_tagnames_tagvalues_equal:
         worker_group: RAS_Operator_Path
@@ -1106,7 +1104,7 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
   outputs:
-    - vm_final_name
+    - vm_final_name: '${vm_name}'
     - disk_name
     - primary_dns_name
     - internal_fqdn
