@@ -224,8 +224,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - json_input_to_extract_res_id:
-        required: false
   workflow:
     - check_tagnames_tagvalues_equal:
         worker_group: RAS_Operator_Path
@@ -860,6 +858,7 @@ flow:
             - vm_name: '${vm_name+random_number}'
         publish:
           - vm_name
+          - vm_final_name: '${vm_name}'
         navigate:
           - SUCCESS: check_azure_infra_type
           - FAILURE: on_failure
