@@ -858,6 +858,7 @@ flow:
             - vm_name: '${vm_name+random_number}'
         publish:
           - vm_name
+          - vm_final_name: '${vm_name}'
         navigate:
           - SUCCESS: check_azure_infra_type
           - FAILURE: on_failure
@@ -1104,7 +1105,7 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
   outputs:
-    - vm_final_name: '${vm_name}'
+    - vm_final_name
     - disk_name
     - primary_dns_name
     - internal_fqdn
