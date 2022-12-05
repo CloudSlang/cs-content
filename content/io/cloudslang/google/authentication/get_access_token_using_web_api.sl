@@ -64,7 +64,7 @@ flow:
   inputs:
     - client_id
     - client_secret:
-        required: true
+        sensitive: true
     - refresh_token:
         sensitive: true
     - worker_group:
