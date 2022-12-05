@@ -163,7 +163,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          gcp.get_access_token_using_web_api:
+          io.cloudslang.google.authentication.get_access_token_using_web_api:
             - client_id:
                 value: '${client_id}'
                 sensitive: true
