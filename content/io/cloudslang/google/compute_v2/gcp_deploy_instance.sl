@@ -182,6 +182,8 @@ flow:
                 sensitive: true
         publish:
           - access_token
+          - return_result
+          - status_code
         navigate:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
@@ -212,7 +214,7 @@ flow:
           io.cloudslang.base.utils.is_null:
             - variable: '${additional_disk_name}'
         navigate:
-          - IS_NULL: get_instance_1
+          - IS_NULL: get_instance
           - IS_NOT_NULL: check_disk_name_type_is_null
     - check_disk_name_type_is_null:
         worker_group: '${worker_group}'
@@ -404,7 +406,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         navigate:
-          - SUCCESS: get_instance_1
+          - SUCCESS: get_instance
           - FAILURE: delete_disk
     - delete_disk:
         worker_group:
@@ -423,7 +425,7 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
-    - get_instance_1:
+    - get_instance:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -493,7 +495,7 @@ flow:
           io.cloudslang.base.utils.sleep:
             - seconds: '${polling_interval}'
         navigate:
-          - SUCCESS: get_instance_1
+          - SUCCESS: get_instance
           - FAILURE: on_failure
     - get_image_type_list:
         worker_group: '${worker_group}'
@@ -583,7 +585,7 @@ extensions:
             vertices:
               - x: 880
                 'y': 120
-            targetId: get_instance_1
+            targetId: get_instance
             port: IS_NULL
       default_disk_type_url:
         x: 360
@@ -604,7 +606,7 @@ extensions:
                 'y': 440
             targetId: form_disk_type_url
             port: IS_NOT_NULL
-      get_instance_1:
+      get_instance:
         x: 960
         'y': 80
       form_disk_type_url:
