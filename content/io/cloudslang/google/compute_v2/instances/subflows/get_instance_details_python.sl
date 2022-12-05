@@ -25,7 +25,7 @@
 #! @output self_link: The server-defined URL for this resource.
 #!!#
 ########################################################################################################################
-namespace: gcp.checkin
+namespace: io.cloudslang.google.compute_v2.instances.subflows
 operation:
   name: get_instance_details_python
   inputs:
