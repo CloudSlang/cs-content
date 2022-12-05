@@ -85,7 +85,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.google.compute_v2
 flow:
-  name: gcp_deploy_instance_v2
+  name: gcp_deploy_instance
   inputs:
     - client_id:
         sensitive: false
