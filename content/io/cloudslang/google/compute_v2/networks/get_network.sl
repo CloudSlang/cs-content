@@ -18,7 +18,7 @@
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input network_name: Name of the network to return.
+#! @input network_name: Name of the network.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -50,7 +50,7 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
+#! @output return_result: This will contain the response message.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output network_json: A JSON containing the network information.
 #!
@@ -127,7 +127,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: Information about the network has been successfully retrieved.
+            - message: Information about the network successfully retrieved.
             - network_json: '${return_result}'
         publish:
           - return_result: '${message}'
@@ -160,4 +160,3 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
-

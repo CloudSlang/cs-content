@@ -13,40 +13,35 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation creates an instance in the specified project. The instance can be created using existing
-#!               disk and also creating new boot disk while deploying the instance by providing disk image details.
+#! @description: This operation is used to form the request body of the insert instance based on the provided inputs.
 #!
-#! @input project_id: Google Cloud project name.
-#!                    Example: 'example-project-a'
-#! @input access_token: The authorization token for google cloud.
-#! @input zone: The name of the zone in which the disks lives.
-#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'.
-#! @input instance_name: The name of the instance, provided while creating the instance.
+#! @input instance_name: The name of the resource, provided by the client when initially creating the resource. The
 #!                       resource name must be 1-63 characters long, and comply with RFC1035. Specifically, the name
 #!                       must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
 #!                       means the first character must be a lowercase letter, and all following characters must be a
 #!                       dash, lowercase letter, or digit, except the last character, which cannot be a dash.
-#!                       Example: 'instance-1234'
-#! @input machine_type: Full or partial URL of the machine type resource to use for this instance, in the format:
-#!                      'zones/zone/machineTypes/machine-type'.
-#!                      Example: 'zones/us-central1-f/machineTypes/n1-standard-1'.
-#! @input network: URL of the network resource for this instance. When creating an instance, if neither the
-#!                 network nor the subnetwork is specified, the default network global/networks/default is used;
-#!                 if the network is not specified but the subnetwork is specified, the network is inferred.
-#!                 This field is optional when creating a firewall rule. If not specified when creating a firewall
-#!                 rule, the default network global/networks/default is used.
-#!                 If you specify this property, you can specify the network as a full or partial URL. For
-#!                 example, the following are all valid URLs:
-#!                 - https://www.googleapis.com/compute/v1/projects/project/global/networks/network
-#!                 - projects/project/global/networks/network
-#!                 - global/networks/default
-#! @input subnetwork: The URL of the Subnetwork resource for this instance. If the network resource is in legacy
-#!                    mode, do not provide this property. If the network is in auto subnet mode, providing the
-#!                    subnetwork is optional. If the network is in custom subnet mode, then this field should be
-#!                    specified. If you specify this property, you can specify the subnetwork as a full or partial
-#!                    URL. For example, the following are all valid URLs:
-#!                    - https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
-#!                    - regions/region/subnetworks/subnetwork
+#! @input machine_type: Full or partial URL of the machine type resource to use for this instance,
+#!                      in the format: zones/zone/machineTypes/machine-type. This is provided by the client when the
+#!                      instance is created. For example, the following is a valid partial url to a predefined
+#!                      machine type: zones/us-central1-f/machineTypes/n1-standard-1
+#!                      To create a custom machine type, provide a URL to a machine type in the following format, where
+#!                      CPUS is 1 or an even number up to 32 (2, 4, 6, ... 24, etc), and MEMORY is the total memory for
+#!                      this instance. Memory must be a multiple of 256 MB and must be supplied in MB (e.g. 5 GB of memory is 5120 MB):
+#!                      zones/zone/machineTypes/custom-CPUS-MEMORY
+#!                      For example: zones/us-central1-f/machineTypes/custom-4-5120 For a full list of restrictions,
+#!                      read the Specifications for custom machine types.
+#! @input network: The URL of the VPC network resource for this instance. When creating an instance, if neither the
+#!                 network nor the subnetwork is specified, the default network global/networks/default is used. If the
+#!                 selected project doesn't have the default network, you must specify a network or subnet. If the
+#!                 network is not specified but the subnetwork is specified, the network is inferred.If you specify this
+#!                 property, you can specify the network as a full or partial URL. For example, the following are all
+#!                 valid URLs:https://www.googleapis.com/compute/v1/projects/project/global/networks/networkprojects/project/global/networks/networkglobal/networks/default
+#! @input subnetwork: The URL of the Subnetwork resource for this instance. If the network resource is in legacy mode,
+#!                    do not specify this field. If the network is in auto subnet mode, specifying the subnetwork is
+#!                    optional. If the network is in custom subnet mode, specifying the subnetwork is required. If you
+#!                    specify this field, you can specify the subnetwork as a full or partial URL. For example, the
+#!                    following are all valid URLs: https://www.googleapis.com/compute/v1/projects/project/regions/region/subnetworks/subnetwork
+#!                    regions/region/subnetworks/subnetwork
 #! @input instance_description: An optional description of this resource. Provide this property when you create the resource.
 #!                              Optional
 #! @input can_ip_forward: Allows this instance to send and receive packets with non-matching destination or source IPs.
@@ -151,66 +146,21 @@
 #!                   modified by the setTags method. Each tag within the list must comply with RFC1035. Multiple tags
 #!                   can be specified via the 'tags.items' field. The values should be separated by comma(,).
 #!                   Optional
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
-#!                      one group simultaneously.
-#!                      Default: 'RAS_Operator_Path'
-#!                      Optional
-#! @input proxy_host: Proxy server used to access the provider services.
-#!                    Optional
-#! @input proxy_port: Proxy server port used to access the provider services.
-#!                    Optional
-#! @input proxy_username: Proxy server user name.
-#!                        Optional
-#! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
-#!                        Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in
-#!                                 the subject's Common Name (CN) or subjectAltName field of the X.509 certificate
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
-#!                                 Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
-#!                        other parties that you expect to communicate with, or from Certificate Authorities that
-#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
-#!                        'https' or if trust_all_roots is 'true' this input is ignored.
-#!                        Default value: '..JAVA_HOME/java/lib/security/cacerts'
-#!                        Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
-#!                        Optional
 #!
-#! @output instance_json: A JSON list containing the Instance information.
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output return_result: The insert instance request body.
+#! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
 #!
-#! @result SUCCESS: The request for the Instance to start was successfully sent.
-#! @result FAILURE: An error occurred while trying to send the request.
+#! @result SUCCESS: The request body formed successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.instances
-imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
-flow:
-  name: insert_instance
+namespace: io.cloudslang.google.compute_v2.instances.subflows
+operation:
+  name: insert_instance_request_body
   inputs:
-    - project_id:
-        sensitive: true
-    - access_token:
-        sensitive: true
-    - zone:
-        required: true
-    - instance_name:
-        required: true
-    - machine_type:
-        required: true
-    - network:
-        required: true
-    - subnetwork:
-        required: true
+    - instance_name
+    - machine_type
+    - network
+    - subnetwork
     - instance_description:
         required: false
     - can_ip_forward:
@@ -222,12 +172,10 @@ flow:
     - auto_delete:
         required: false
     - is_boot_disk:
-        default: 'true'
         required: false
     - disk_device_name:
         required: false
     - disk_attachment_mode:
-        default: READ_WRITE
         required: false
     - existing_disk_path:
         required: false
@@ -244,7 +192,6 @@ flow:
     - licenses_list:
         required: false
     - label_keys:
-        private: false
         required: false
     - label_values:
         required: false
@@ -260,135 +207,11 @@ flow:
         required: false
     - tags_list:
         required: false
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
-    - proxy_host:
-        required: false
-    - proxy_port:
-        required: false
-    - proxy_username:
-        required: false
-    - proxy_password:
-        required: false
-        sensitive: true
-    - trust_all_roots:
-        default: 'false'
-        required: false
-    - x_509_hostname_verifier:
-        default: strict
-        required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
-  workflow:
-    - insert_instance_request_body:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.google.compute_v2.instances.subflows.insert_instance_request_body:
-            - instance_name: '${instance_name}'
-            - machine_type: '${machine_type}'
-            - network: '${network}'
-            - subnetwork: '${subnetwork}'
-            - instance_description: '${instance_description}'
-            - can_ip_forward: '${can_ip_forward}'
-            - access_config_network_tier: '${access_config_network_tier}'
-            - access_config_name: '${access_config_name}'
-            - auto_delete: '${auto_delete}'
-            - is_boot_disk: '${is_boot_disk}'
-            - disk_device_name: '${disk_device_name}'
-            - disk_attachment_mode: '${disk_attachment_mode}'
-            - existing_disk_path: '${existing_disk_path}'
-            - disk_source_image: '${disk_source_image}'
-            - disk_name: '${disk_name}'
-            - disk_description: '${disk_description}'
-            - disk_size: '${disk_size}'
-            - disk_type: '${disk_type}'
-            - licenses_list: '${licenses_list}'
-            - label_keys: '${label_keys}'
-            - label_values: '${label_values}'
-            - service_account_email: '${service_account_email}'
-            - service_account_scopes: '${service_account_scopes}'
-            - scheduling_preemptible: '${scheduling_preemptible}'
-            - metadata_keys: '${metadata_keys}'
-            - metadata_values: '${metadata_values}'
-            - tags_list: '${tags_list}'
-        publish:
-          - insert_instance_request_body: '${return_result}'
-        navigate:
-          - SUCCESS: api_call_to_create_the_instance
-    - api_call_to_create_the_instance:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances'}"
-            - auth_type: anonymous
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - request_character_set: UTF-8
-            - headers: "${'Authorization: '+access_token}"
-            - query_params: null
-            - body: '${insert_instance_request_body}'
-            - content_type: application/json
-            - worker_group: '${worker_group}'
-        publish:
-          - return_result
-          - error_message
-          - status_code
-        navigate:
-          - SUCCESS: set_success_message
-          - FAILURE: on_failure
-    - set_success_message:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - message: "${'The instance '+ instance_name+' created successfully.'}"
-            - instance_json: '${return_result}'
-        publish:
-          - return_result: '${message}'
-          - instance_json
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
+  python_action:
+    use_jython: false
+    script: "# do not remove the execute function\r\nimport json\r\ndef execute(machine_type,instance_name,instance_description,can_ip_forward,tags_list,label_keys,label_values,metadata_keys,metadata_values,\r\nnetwork,subnetwork,access_config_name,access_config_network_tier,scheduling_preemptible,\r\nservice_account_email,service_account_scopes,auto_delete,is_boot_disk,disk_attachment_mode,disk_device_name,existing_disk_path,\r\ndisk_source_image,disk_name,disk_description,disk_type,disk_size,licenses_list):\r\n    return_code = 0\r\n    return_result = '\"name\": \"'+instance_name+'\",\"machineType\": \"'+machine_type+'\"'\r\n    networkInterfaces = ',\"networkInterfaces\": [{\"network\": \"'+network+'\",\"subnetwork\": \"'+subnetwork+'\"'\r\n    \r\n    if instance_description != '':\r\n        return_result = return_result + ',\"description\": \"'+instance_description+'\"'\r\n    if can_ip_forward != '':\r\n        return_result = return_result + ',\"canIpForward\": \"'+can_ip_forward+'\"'\r\n    if access_config_name != '' or access_config_network_tier != '' :\r\n        return_result = return_result + networkInterfaces\r\n        if access_config_name != '':\r\n            return_result = return_result + ',\"accessConfigs\": [{\"type\":\"ONE_TO_ONE_NAT\",\"name\": \"'+ access_config_name + '\"'\r\n            if access_config_network_tier != '':\r\n                return_result = return_result + ',\"networkTier\": \"'+ access_config_network_tier + '\"}]}]'\r\n            else : return_result = return_result + '}]}]'\r\n        elif access_config_network_tier != '':\r\n            return_result = return_result + ',\"accessConfigs\": [{\"type\":\"ONE_TO_ONE_NAT\",\"networkTier\": \"'+ access_config_network_tier + '\"'\r\n            if access_config_name != '':\r\n                return_result = return_result + ',\"name\": \"'+ access_config_name + '\"}]}]'\r\n            else : return_result = return_result + '}]}]'\r\n    else : return_result = return_result + networkInterfaces +'}]'\r\n    if tags_list != '':\r\n        tags = tags_list.split(',')\r\n        return_result = return_result + ',\"tags\": {\"items\": '+json.dumps(tags)+'}'\r\n    if label_keys != '':\r\n        label_key=label_keys.split(',')\r\n        label_value=label_values.split(',')\r\n        return_result = return_result+',\"labels\": '+json.dumps(dict(zip(label_key,label_value)))\r\n    if metadata_keys != '' and metadata_values != '':\r\n        jsonList = []\r\n        metadata_key = metadata_keys.split(',')\r\n        metadata_value = metadata_values.split(',')     \r\n        for i in range(0,len(metadata_key)):\r\n           jsonList.append({\"key\" : metadata_key[i], \"value\" : metadata_value[i]})\r\n        return_result = return_result + ',\"metadata\": { \"items\": ' + json.dumps(jsonList) + '}'  \r\n    if scheduling_preemptible != '':\r\n        return_result = return_result + ',\"scheduling\": { \"preemptible\" : \"'+ scheduling_preemptible +'\"}'\r\n    if service_account_email != '':\r\n        return_result = return_result + ',\"serviceAccounts\": [{\"email\": \"'+ service_account_email +'\"'\r\n        if service_account_scopes != '':\r\n            scopes = service_account_scopes.split(',')\r\n            return_result = return_result + ',\"scopes\":'+ json.dumps(scopes) + '}]'\r\n        else : return_result = return_result + '}]'\r\n    if existing_disk_path != '' or disk_source_image != '':\r\n        if disk_attachment_mode != '':\r\n            return_result = return_result + ',\"disks\":[ {\"mode\": \"'+disk_attachment_mode+'\"'\r\n            if auto_delete != '':\r\n                return_result = return_result + ',\"autoDelete\": ' + auto_delete\r\n            if is_boot_disk != '':\r\n                return_result = return_result + ',\"boot\": ' + is_boot_disk\r\n            if disk_device_name != '':\r\n                return_result = return_result + ',\"deviceName\": \"' + disk_device_name +'\"'\r\n        if existing_disk_path != '':\r\n            return_result = return_result + ',\"source\": \"' + existing_disk_path + '\"}]'\r\n        if disk_source_image != '':\r\n            return_result = return_result + ',\"initializeParams\": { \"sourceImage\": \"' + disk_source_image + '\"'\r\n            if disk_description != '':\r\n                return_result = return_result + ',\"description\": \"' + disk_description + '\"'\r\n            if disk_type != '':\r\n                return_result = return_result + ',\"diskType\": \"' + disk_type + '\"'\r\n            if disk_size != '':\r\n                return_result = return_result + ',\"diskSizeGb\": \"' + disk_size + '\"'\r\n            if licenses_list != '':\r\n                license = licenses_list.split(',')\r\n                return_result = return_result + ',\"licenses\": ' + json.dumps(license)\r\n            if label_keys != '':\r\n                label_key=label_keys.split(',')\r\n                label_value=label_values.split(',')\r\n                return_result = return_result+',\"labels\": '+json.dumps(dict(zip(label_key,label_value)))\r\n            if disk_name != '':\r\n                return_result = return_result + ',\"diskName\": \"' + disk_name + '\"}}]'\r\n            else: return_result = return_result + '}}]'\r\n    return{\"return_code\": return_code, \"return_result\": '{'+return_result+'}'}"
   outputs:
-    - instance_json
     - return_result
-    - status_code
+    - return_code
   results:
     - SUCCESS
-    - FAILURE
-extensions:
-  graph:
-    steps:
-      insert_instance_request_body:
-        x: 80
-        'y': 160
-      api_call_to_create_the_instance:
-        x: 240
-        'y': 160
-      set_success_message:
-        x: 400
-        'y': 160
-        navigate:
-          5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
-    results:
-      SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
-          'y': 160

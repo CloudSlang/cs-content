@@ -21,18 +21,38 @@
 #! @input zone: The name of the zone in which the instance lives.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input disk_name: Name of the Disk. Provided by the client when the Disk is created. The name must be 1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a lowercase letter, and all following characters must be a dash, lowercase letter, or digit, except the last character, which cannot be a dash.
-#! @input disk_type: URL of the disk type resource describing which disk type to use to create the disk. Provide this when creating the disk.
+#! @input disk_type: Specifies the disk type to use to create the instance. If not specified, the default is pd-standard,
+#!                   specified using the full URL. For example:
+#!                   https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/pd-standard
+#!                   For a full list of acceptable values, see Persistent disk types. If you specify this field when
+#!                   creating a VM, you can provide either the full or partial URL. For example, the following values
+#!                   are valid: https://www.googleapis.com/compute/v1/projects/project/zones/zone/diskTypes/diskType
+#!                   projects/project/zones/zone/diskTypes/diskType
+#!                   zones/zone/diskTypes/diskType
+#!                   If you specify this field when creating or updating an instance template or all-instances
+#!                   configuration, specify the type of the disk, not the URL. For example: pd-standard.
+#!                   Optional
 #! @input disk_size: Size of the persistent disk, specified in GB. You can specify this field when creating a persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to create an empty persistent disk.If you specify this field along with sourceImage or sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the size of the snapshot.
-#!                   Constraint: Number greater or equal with 10 Default: '10' Optional
-#! @input disk_description: The description of the new Disk. Optional
+#!                   Constraint: Number greater or equal with 10
+#!                   Default: '500' (considered by API for Empty disk)
+#!                   Optional
+#! @input disk_description: The description of the new Disk.
+#!                          Optional
 #! @input source_snapshot: The source snapshot used to create this disk. You can provide this as a partial or full URL to the resource. For example, the following are valid values:
 #!                         https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot
 #!                         projects/project/global/snapshots/snapshot
 #!                         global/snapshots/snapshot
-#! @input source_snapshot_encryption_key: The customer-supplied encryption key of the source snapshot. Required if the source snapshot is protected by a customer-supplied encryption key.
-#! @input source_image: Source image to restore onto a disk. This field is optional.
-#! @input image_encryption_key: The customer-supplied encryption key of the source image. Required if the source image is protected by a customer-supplied encryption key.
+#!                         Optional
+#! @input source_snapshot_encryption_key: The customer-supplied encryption key of the source snapshot.
+#!                                        Required if the source snapshot is protected by a customer-supplied encryption key.
+#!                                        Optional
+#! @input source_image: Source image to restore onto a disk.
+#!                      Optional
+#! @input image_encryption_key: The customer-supplied encryption key of the source image.
+#!                              Required if the source image is protected by a customer-supplied encryption key.
+#!                              Optional
 #! @input licenses_list: A list of publicly visible licenses separated by comma(,). Reserved for Google's use.
+#!                       Optional
 #! @input source_disk: The source disk used to create this disk. You can provide this as a partial or full URL to the resource. For example, the following are valid values:
 #!                     https://www.googleapis.com/compute/v1/projects/project/zones/zone/disks/disk
 #!                     https://www.googleapis.com/compute/v1/projects/project/regions/region/disks/disk
@@ -40,9 +60,14 @@
 #!                     projects/project/regions/region/disks/disk
 #!                     zones/zone/disks/disk
 #!                     regions/region/disks/disk
-#! @input disk_encryption_key: Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either encrypt or decrypt this resource. For example: "rawKey": "SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0="
+#!                     Optional
+#! @input disk_encryption_key: Specifies a 256-bit customer-supplied encryption key, encoded in RFC 4648 base64 to either
+#!                             encrypt or decrypt this resource. For example: "rawKey": "SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0="
+#!                             Optional
 #! @input label_keys: The labels key list separated by comma(,).
+#!                    Optional
 #! @input label_values: The labels value list separated by comma(,).
+#!                      Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -161,9 +186,9 @@ flow:
             - source_disk: '${source_disk}'
             - disk_encryption_key: '${disk_encryption_key}'
         publish:
-          - return_result
+          - insert_disk_request_body: '${return_result}'
         navigate:
-          - SUCCESS: api_call_to_insert_the_disk
+          - SUCCESS: validate_json
     - api_call_to_insert_the_disk:
         worker_group:
           value: '${worker_group}'
@@ -187,7 +212,7 @@ flow:
             - request_character_set: UTF-8
             - headers: "${'Authorization: '+access_token}"
             - query_params: null
-            - body: '${return_result}'
+            - body: '${insert_disk_request_body}'
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
@@ -209,6 +234,18 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - validate_json:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.validate_json:
+            - json_input: '${insert_disk_request_body}'
+        publish:
+          - return_result
+          - error_message
+          - return_code
+        navigate:
+          - SUCCESS: api_call_to_insert_the_disk
+          - FAILURE: on_failure
   outputs:
     - disk_json
     - return_result
@@ -223,17 +260,20 @@ extensions:
         x: 80
         'y': 120
       api_call_to_insert_the_disk:
-        x: 240
+        x: 400
         'y': 120
       set_success_message:
-        x: 400
+        x: 560
         'y': 120
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      validate_json:
+        x: 240
+        'y': 120
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
+          x: 720
           'y': 120

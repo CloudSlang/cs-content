@@ -60,6 +60,7 @@
 #! @output external_ips: The external IPs of the instance.
 #! @output status: The status of the instance.
 #! @output metadata: The metadata of the instance.
+#! @output self_link: The server-defined URL for this resource.
 #!
 #! @result SUCCESS: The request for retrieving the instance details sent successfully.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -155,6 +156,7 @@ flow:
           - internal_ips
           - external_ips
           - status
+          - self_link
         navigate:
           - SUCCESS: set_success_message
   outputs:
@@ -166,6 +168,7 @@ flow:
     - external_ips
     - metadata
     - status
+    - self_link
   results:
     - SUCCESS
     - FAILURE
