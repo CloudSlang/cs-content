@@ -147,7 +147,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          gcp.checkin.get_instance:
+          io.cloudslang.google.compute_v2.instances.get_instance:
             - access_token:
                 value: '${access_token}'
                 sensitive: true
@@ -214,7 +214,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          gcp.checkin.get_instance:
+          io.cloudslang.google.compute_v2.instances.get_instance:
             - access_token:
                 value: '${access_token}'
                 sensitive: true
