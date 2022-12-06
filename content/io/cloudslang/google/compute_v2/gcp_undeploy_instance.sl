@@ -174,7 +174,8 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - output_0: output_0
+          - instance_json
+          - status_code
         navigate:
           - SUCCESS: get_instance_details
           - FAILURE: set_failure_message_for_instance
