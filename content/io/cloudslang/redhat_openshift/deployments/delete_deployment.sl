@@ -1,17 +1,15 @@
 ########################################################################################################################
 #!!
-#! @description: Read the status of the specified deployment.
+#! @description: Deletes the deployment from namespace.
 #!
-#! @input host: The host to which API calls are made.
-#!              Example: https://api.domain:6443
+#! @input hostname: HOST.
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input name: The name of the deployment.
-#!              Optional
-#! @input namespace: The object name and auth scope, such as for teams and projects.
-#!                   Optional
+#! @input namespace: Namespace to delete the deployment from.
+#! @input deployment: Name of the deployment to delete.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port.Default value: 8080.
+#! @input proxy_port: The proxy server port.
+#!                    Default value: 8080.
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -19,8 +17,9 @@
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
-#!                     Default value: TLSv1.2.  
+#!                     information.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2.
+#!                     Default value: TLSv1.2.
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
 #!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
@@ -39,6 +38,7 @@
 #!                         Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
+#!                         Default value: false
 #!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
@@ -48,6 +48,7 @@
 #!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
 #!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
 #!                                 subdomains, including "a.b.foo.com".
+#!                                 Default value: strict
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
@@ -67,65 +68,58 @@
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
+#!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
 #!                           call. A value of '0' disables this feature. 
-#!                           Default: 60
+#!                           Default value: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
+#!                    Default value: false
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
+#!                                   Default value: 2
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
+#!                               Default value: 20
 #!                               Optional
 #!
-#! @output return_result: A suggestive message both for the case of success and for the case of failure.
-#! @output status_code: The HTTP status code for Openshift API request.
+#! @output return_result: The deployment was successfully deleted.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while reading the deployment status.
-#! @output document: All the information related to a specific deployment in the json format.
-#! @output kind: The deployment kind.
-#! @output name_output: The deployment name.
-#! @output namespace_output: The deployment namespace.
-#! @output uid: The deployment uid.
-#! @output observed_generation: The observedGeneration status property of the deployment.
-#! @output replicas: The replicas status property of the deployment.
-#! @output updated_replicas: The updatedReplicas status property of the deployment.
-#! @output unavailable_replicas: The unavailableReplicas status property of the deployment.
-#! @output conditions: The conditions status properties of the deployment in the json format.
+#! @output exception: An error message in case there was an error while deleting the deployment.
+#! @output status_code: The HTTP status code for Openshift API request.
 #!
-#! @result SUCCESS: The request to read the status of the specified deployment was made successfully.
-#! @result FAILURE: There was an error while trying to get the status of the deployment.
+#! @result SUCCESS: Deployment was successfully deleted.
+#! @result FAILURE: There was an error while trying to delete the deployment.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift
+namespace: io.cloudslang.redhat_openshift.deployments
 
 operation: 
-  name: get_deployment_status
+  name: delete_deployment
   
   inputs: 
-    - host    
+    - hostname    
     - auth_token    
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - name:  
-        required: false  
-    - namespace:  
-        required: false  
+    - namespace    
+    - deployment    
     - proxy_host:  
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
-        required: false  
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxyPort: 
-        default: ${get('proxy_port', '')}  
+        default: ${get('proxy_port', '')}
         required: false 
         private: true 
     - proxy_username:  
@@ -136,16 +130,15 @@ operation:
         private: true 
     - proxy_password:  
         required: false  
-        sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
         private: true 
-        sensitive: true
-    - tls_version:  
+    - tls_version:
+        default: 'TLSv1.2'
         required: false  
     - tlsVersion: 
-        default: ${get('tls_version', '')}  
+        default: ${get('tls_version', '')}
         required: false 
         private: true 
     - allowed_ciphers:  
@@ -154,13 +147,15 @@ operation:
         default: ${get('allowed_ciphers', '')}  
         required: false 
         private: true 
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
+        default: ${get('trust_all_roots', '')}
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -174,47 +169,48 @@ operation:
         private: true 
     - trust_password:  
         required: false  
-        sensitive: true
     - trustPassword: 
         default: ${get('trust_password', '')}  
         required: false 
         private: true 
-        sensitive: true
     - keystore:  
         required: false  
     - keystore_password:  
         required: false  
-        sensitive: true
     - keystorePassword: 
         default: ${get('keystore_password', '')}  
         required: false 
         private: true 
-        sensitive: true
-    - connect_timeout:  
+    - connect_timeout:
+        default: '60'
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
+    - execution_timeout:
+        default: '60'
         required: false  
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
+        default: '2'
         required: false  
     - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:  
+    - connections_max_total:
+        default: '20'
         required: false  
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
@@ -223,25 +219,15 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.GetDeploymentStatusAction'
+    class_name: 'io.cloudslang.content.redhat.actions.DeleteDeployment'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - status_code: ${get('statusCode', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
-    - document: ${get('document', '')} 
-    - kind: ${get('kind', '')} 
-    - name_output: ${get('name', '')} 
-    - namespace_output: ${get('namespace', '')} 
-    - uid: ${get('uid', '')} 
-    - observed_generation: ${get('observedGeneration', '')} 
-    - replicas: ${get('replicas', '')} 
-    - updated_replicas: ${get('updatedReplicas', '')} 
-    - unavailable_replicas: ${get('unavailableReplicas', '')} 
-    - conditions: ${get('conditions', '')} 
-  
+    - status_code: ${get('statusCode', '')}
+
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
