@@ -218,7 +218,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.11'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.12'
     class_name: 'io.cloudslang.content.redhat.actions.DeleteDeployment'
     method_name: 'execute'
   
