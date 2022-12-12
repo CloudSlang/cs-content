@@ -88,6 +88,7 @@
 #! @output return_result: The deployment was successfully deleted.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while deleting the deployment.
+#! @output status_code: The HTTP status code for Openshift API request.
 #!
 #! @result SUCCESS: Deployment was successfully deleted.
 #! @result FAILURE: There was an error while trying to delete the deployment.
@@ -225,7 +226,8 @@ operation:
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
-  
+    - status_code: ${get('statusCode', '')}
+
   results: 
     - SUCCESS: ${returnCode=='0'} 
     - FAILURE
