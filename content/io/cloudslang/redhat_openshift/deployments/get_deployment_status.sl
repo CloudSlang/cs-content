@@ -15,14 +15,14 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
+#! @input proxy_password: The proxy server password associated with the 'proxy_username' input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.  
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
+#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tls_version' does not
 #!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
@@ -51,19 +51,20 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if 'trust_all_roots' is
 #!                        'true' this input is ignored. 
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#! @input trust_password: The password associated with the TrustStore file. If 'trust_all_roots' is false and 'trust_keystore'
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
 #! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
+#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if 'trust_all_roots' is
+#!                  'true' this input is ignored.
+#!                  Format: Java KeyStore (JKS)
 #!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
+#! @input keystore_password: The password associated with the KeyStore file. If 'trust_all_roots' is false and 'keystore' is
+#!                           empty, 'keystore_password' default will be supplied.
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
