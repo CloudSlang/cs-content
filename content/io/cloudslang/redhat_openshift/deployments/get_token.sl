@@ -1,12 +1,12 @@
 ########################################################################################################################
 #!!
-#! @description: Get Authorization Token
+#! @description: This operation returns an OpenShift API authentication token that can be used in subsequent operations.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://oauth-openshift.apps.domain
 #! @input username: The username used to authenticate to Openshift.
-#! @input password: The username used to authenticate to Openshift
-#! @input proxy_host: The password server used to access the web site.
+#! @input password: The password used to authenticate to Openshift
+#! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
 #!                    Default value: 8080.

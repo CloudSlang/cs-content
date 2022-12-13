@@ -1,8 +1,9 @@
 ########################################################################################################################
 #!!
-#! @description: Deletes the deployment from namespace.
+#! @description: Thsi operation deletes a deployment from a namespace.
 #!
-#! @input hostname: The url of the service to which API calls are made. Example: https://api.domain:6443
+#! @input hostname: The url of the service to which API calls are made.
+#!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input namespace: Namespace to delete the deployment from.
 #! @input deployment: Name of the deployment to delete.
@@ -85,7 +86,7 @@
 #!                               Default value: 20
 #!                               Optional
 #!
-#! @output return_result: The deployment was successfully deleted.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while deleting the deployment.
 #! @output status_code: The HTTP status code for Openshift API request.

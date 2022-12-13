@@ -12,7 +12,7 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: Returns a list of Pods.
+#! @description: This operation returns a list of pods present in a given namespace.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
@@ -90,15 +90,15 @@
 #!                               Optional
 #!
 #! @output return_result: A suggestive message in case of success or failure.
-#! @output status_code: The status code of the request.
+#! @output status_code: The HTTP status code for Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while retrieving the Pod list.
-#! @output document: All the information related to a the pod list in json format.
+#! @output document: All the information related to the pod list in json format.
 #! @output pod_list: A comma separated list of pod uids.
-#! @output pod_array: A list containing pairs of pod name and uids.
+#! @output pod_array: A list containing pairs of pod name and uids in JSON format.
 #!
-#! @result SUCCESS: The retrieval of the pod list was made successfully.
-#! @result FAILURE: There was an error while trying to retrieve the pod list.
+#! @result SUCCESS: The retrieval of the pod list was successful.
+#! @result FAILURE: There was an error while retrieving the pod list.
 #!!#
 ########################################################################################################################
 

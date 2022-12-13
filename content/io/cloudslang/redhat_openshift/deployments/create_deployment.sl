@@ -1,8 +1,9 @@
 ########################################################################################################################
 #!!
-#! @description: Deletes the deployment from namespace.
+#! @description: This operation creates a new deployment.
 #!
-#! @input hostname: HOST.
+#! @input hostname: The url of the service to which API calls are made.
+#!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input definition: Deployment description in YAML or JSON.
 #! @input namespace: Namespace to create the deployment into.
@@ -85,13 +86,13 @@
 #!                               Default value: 20
 #!                               Optional
 #!
-#! @output return_result: The deployment was successfully deleted.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while deleting the deployment.
+#! @output exception: An error message in case there was an error while creating the deployment.
 #! @output status_code: The HTTP status code for Openshift API request.
 #!
-#! @result SUCCESS: Deployment was successfully deleted.
-#! @result FAILURE: There was an error while trying to delete the deployment.
+#! @result SUCCESS: Deployment was successfully created.
+#! @result FAILURE: There was an error while trying to create the deployment.
 #!!#
 ########################################################################################################################
 
