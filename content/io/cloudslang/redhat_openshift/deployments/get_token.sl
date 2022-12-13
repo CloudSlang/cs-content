@@ -94,7 +94,7 @@ operation:
   name: get_token
   
   inputs: 
-    - host:
+    - host
     - username:
     - password:
         sensitive: true
