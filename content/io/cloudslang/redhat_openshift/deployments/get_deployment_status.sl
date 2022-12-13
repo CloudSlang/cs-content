@@ -106,11 +106,13 @@ operation:
   
   inputs: 
     - host    
-    - auth_token    
+    - auth_token
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - name
     - namespace
     - proxy_host:

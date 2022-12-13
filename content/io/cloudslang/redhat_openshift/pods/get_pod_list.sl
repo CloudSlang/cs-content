@@ -26,7 +26,7 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.
@@ -82,7 +82,7 @@
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and afterexecution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after the execution it will close it.
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Optional
@@ -90,7 +90,7 @@
 #!                               Optional
 #!
 #! @output return_result: A suggestive message in case of success or failure.
-#! @output status_code: The HTTP status code for Openshift API request.
+#! @output status_code: The HTTP status code of the Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while retrieving the Pod list.
 #! @output document: All the information related to the pod list in json format.
@@ -109,11 +109,13 @@ operation:
   
   inputs: 
     - host    
-    - auth_token    
+    - auth_token
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - namespace
     - proxy_host:  
         required: false  

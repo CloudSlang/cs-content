@@ -104,10 +104,12 @@ operation:
   inputs:
     - host
     - auth_token
+        sensitive: true
     - authToken:
         default: ${get('auth_token', '')}
         required: true
         private: true
+        sensitive: true
     - definition
     - namespace
     - proxy_host:
