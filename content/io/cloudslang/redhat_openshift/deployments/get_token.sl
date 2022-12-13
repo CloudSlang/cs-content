@@ -95,7 +95,7 @@ operation:
   
   inputs: 
     - host
-    - username:
+    - username
     - password:
         sensitive: true
     - proxy_host:  
