@@ -6,9 +6,7 @@
 #!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input name: The name of the deployment.
-#!              Optional
 #! @input namespace: The object name and auth scope, such as for teams and projects.
-#!                   Optional
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.Default value: 8080.
@@ -114,16 +112,15 @@ operation:
         required: false 
         private: true 
     - name:  
-        required: false  
-    - namespace:  
-        required: false  
-    - proxy_host:  
+    - namespace:
+    - proxy_host:
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
         required: false 
-        private: true 
-    - proxy_port:  
+        private: true
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -143,7 +140,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - tls_version:  
+    - tls_version:
+        default: 'TLSv1.2'
         required: false  
     - tlsVersion: 
         default: ${get('tls_version', '')}  
@@ -155,13 +153,15 @@ operation:
         default: ${get('allowed_ciphers', '')}  
         required: false 
         private: true 
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
-    - trustAllRoots: 
+    - trustAllRoots:
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -192,31 +192,36 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - connect_timeout:  
+    - connect_timeout:
+        default: '60'
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
+    - execution_timeout:
+        default: '60'
         required: false  
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
+        default: '2'
         required: false  
     - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:  
+    - connections_max_total:
+        default: '20'
         required: false  
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
