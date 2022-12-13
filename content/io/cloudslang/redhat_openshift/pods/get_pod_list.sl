@@ -14,7 +14,8 @@
 #!!
 #! @description: Returns a list of Pods.
 #!
-#! @input host: The OpenShift hostname.
+#! @input host: The url of the service to which API calls are made.
+#!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input namespace: The object name and auth scope, such as for teams and projects.
 #! @input proxy_host: The proxy server used to access the web site.
@@ -88,13 +89,13 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: A suggestive message both for the case of success and for the case of failure.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The status code of the request.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while retrieving the Pod list.
 #! @output document: All the information related to a the pod list in json format.
-#! @output pod_list: The comma separated list of pod uids.
-#! @output pod_array: The list containing pairs of pod name and uids.
+#! @output pod_list: A comma separated list of pod uids.
+#! @output pod_array: A list containing pairs of pod name and uids.
 #!
 #! @result SUCCESS: The retrieval of the pod list was made successfully.
 #! @result FAILURE: There was an error while trying to retrieve the pod list.

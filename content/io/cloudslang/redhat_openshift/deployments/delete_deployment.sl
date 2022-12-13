@@ -2,7 +2,7 @@
 #!!
 #! @description: Deletes the deployment from namespace.
 #!
-#! @input hostname: HOST.
+#! @input hostname: The url of the service to which API calls are made. Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input namespace: Namespace to delete the deployment from.
 #! @input deployment: Name of the deployment to delete.
