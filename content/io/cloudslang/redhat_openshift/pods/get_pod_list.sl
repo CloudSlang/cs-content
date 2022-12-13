@@ -101,7 +101,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat.actions
+namespace: io.cloudslang.redhat_openshift.pods
 
 operation: 
   name: get_pod_list
