@@ -181,8 +181,9 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - keystore:  
-        required: false  
+    - keystore:
+        required: false
+        default: ''
     - keystore_password:  
         required: false  
         sensitive: true
