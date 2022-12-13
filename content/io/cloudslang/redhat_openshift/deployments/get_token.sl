@@ -5,12 +5,11 @@
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://oauth-openshift.apps.domain
 #! @input username: The username used to authenticate to Openshift.
-#!                  Optional
-#! @input password: The password used to authenticate to Openshift.
-#!                  Optional
-#! @input proxy_host: The proxy server used to access the web site.
+#! @input password: The username used to authenticate to Openshift
+#! @input proxy_host: The password server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port.Default value: 8080.
+#! @input proxy_port: The proxy server port.
+#!                    Default value: 8080.
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -18,7 +17,7 @@
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2.
+#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
@@ -68,7 +67,7 @@
 #!                         represents an infinite timeout.
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature.
+#!                           call. A value of '0' disables this feature. 
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -95,12 +94,9 @@ operation:
   name: get_token
   
   inputs: 
-    - host:  
-        required: false  
-    - username:  
-        required: false  
-    - password:  
-        required: false  
+    - host:
+    - username:
+    - password:
         sensitive: true
     - proxy_host:  
         required: false  
@@ -108,7 +104,8 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
+    - proxy_port:
+        default: '8080'
         required: false  
     - proxyPort: 
         default: ${get('proxy_port', '')}  
@@ -121,30 +118,40 @@ operation:
         required: false 
         private: true 
     - proxy_password:  
-        required: false  
+        required: false
+        sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
-        private: true 
-    - tls_version:  
+        private: true
+        sensitive: true
+    - tls_version:
+        default: 'TLSv1.2'
         required: false  
     - tlsVersion: 
         default: ${get('tls_version', '')}  
         required: false 
         private: true 
     - allowed_ciphers:  
-        required: false  
+        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+        TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+        TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+        TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
+        TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
+        required: false
     - allowedCiphers: 
         default: ${get('allowed_ciphers', '')}  
         required: false 
         private: true 
-    - trust_all_roots:  
+    - trust_all_roots:
+        default: 'false'
         required: false  
     - trustAllRoots: 
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
+    - x_509_hostname_verifier:
+        default: 'strict'
         required: false  
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
@@ -157,44 +164,53 @@ operation:
         required: false 
         private: true 
     - trust_password:  
-        required: false  
+        required: false
+        sensitive: true
     - trustPassword: 
         default: ${get('trust_password', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - keystore:  
         required: false  
     - keystore_password:  
-        required: false  
+        required: false
+        sensitive: true
     - keystorePassword: 
         default: ${get('keystore_password', '')}  
         required: false 
-        private: true 
-    - connect_timeout:  
+        private: true
+        sensitive: true
+    - connect_timeout:
+        default: '60'
         required: false  
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
+    - execution_timeout:
+        default: '60'
         required: false  
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true 
-    - keep_alive:  
+    - keep_alive:
+        default: 'false'
         required: false  
     - keepAlive: 
         default: ${get('keep_alive', '')}  
         required: false 
         private: true 
-    - connections_max_per_route:  
+    - connections_max_per_route:
+        default: '2'
         required: false  
     - connectionsMaxPerRoute: 
         default: ${get('connections_max_per_route', '')}  
         required: false 
         private: true 
-    - connections_max_total:  
+    - connections_max_total:
+        default: '20'
         required: false  
     - connectionsMaxTotal: 
         default: ${get('connections_max_total', '')}  
