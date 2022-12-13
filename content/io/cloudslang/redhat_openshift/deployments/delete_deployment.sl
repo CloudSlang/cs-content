@@ -103,7 +103,7 @@ operation:
   
   inputs: 
     - host
-    - auth_token
+    - auth_token:
         sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
