@@ -52,8 +52,8 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output subnetworks_json: A JSON list containing the networks information.
-#! @output list_subnetworks: This contains the list of network names.
+#! @output sub_networks_json: A JSON list containing the networks information.
+#! @output list_sub_networks: This contains the list of network names.
 #!
 #! @result SUCCESS: The networks were found and successfully retrieved.
 #! @result FAILURE: The networks were not found or some inputs were given incorrectly.
@@ -129,28 +129,28 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: Information about the subnetworks has been successfully retrieved.
-            - subnetworks_json: '${return_result}'
+            - sub_networks_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - subnetworks_json
+          - sub_networks_json
         navigate:
           - SUCCESS: json_path_query
           - FAILURE: on_failure
     - json_path_query:
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${subnetworks_json}'
+            - json_object: '${sub_networks_json}'
             - json_path: '$.items[*].name'
         publish:
-          - list_subnetworks: '${return_result}'
+          - list_sub_networks: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - subnetworks_json
-    - list_subnetworks
+    - sub_networks_json
+    - list_sub_networks
   results:
     - SUCCESS
     - FAILURE
@@ -175,4 +175,3 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 640
           'y': 200
-
