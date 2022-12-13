@@ -129,11 +129,13 @@ operation:
         required: false 
         private: true 
     - proxy_password:  
-        required: false  
+        required: false
+        sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - tls_version:
         default: 'TLSv1.2'
         required: false  
@@ -168,19 +170,24 @@ operation:
         required: false 
         private: true 
     - trust_password:  
-        required: false  
+        required: false
+        sensitive: true
     - trustPassword: 
         default: ${get('trust_password', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - keystore:  
-        required: false  
+        required: false
+        default: ''
     - keystore_password:  
-        required: false  
+        required: false
+        sensitive: true
     - keystorePassword: 
         default: ${get('keystore_password', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - connect_timeout:
         default: '60'
         required: false  
