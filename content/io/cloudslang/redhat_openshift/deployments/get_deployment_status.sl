@@ -103,7 +103,7 @@
 
 namespace: io.cloudslang.redhat_openshift.deployments
 
-operation: 
+operation:
   name: get_deployment_status
   
   inputs: 
@@ -223,7 +223,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.11'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
     class_name: 'io.cloudslang.content.redhat.actions.GetDeploymentStatusAction'
     method_name: 'execute'
   
