@@ -113,7 +113,7 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - namespace:
+    - namespace
     - proxy_host:  
         required: false  
     - proxyHost: 
