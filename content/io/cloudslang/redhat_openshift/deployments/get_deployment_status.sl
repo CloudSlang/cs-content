@@ -111,8 +111,8 @@ operation:
         default: ${get('auth_token', '')}  
         required: false 
         private: true 
-    - name:  
-    - namespace:
+    - name
+    - namespace
     - proxy_host:
         required: false  
     - proxyHost: 
