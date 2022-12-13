@@ -101,7 +101,7 @@ operation:
   name: delete_deployment
   
   inputs: 
-    - hostname    
+    - host
     - auth_token    
     - authToken: 
         default: ${get('auth_token', '')}  
