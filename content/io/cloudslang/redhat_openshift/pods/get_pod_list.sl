@@ -183,7 +183,8 @@ operation:
         private: true 
         sensitive: true
     - keystore:  
-        required: false  
+        required: false
+        default: ''
     - keystore_password:  
         required: false  
         sensitive: true
