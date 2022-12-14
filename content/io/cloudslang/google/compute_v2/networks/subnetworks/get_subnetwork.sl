@@ -59,7 +59,7 @@
 #! @result FAILURE: The network were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.subnetworks
+namespace: io.cloudslang.google.compute_v2.networks.subnetworks
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json

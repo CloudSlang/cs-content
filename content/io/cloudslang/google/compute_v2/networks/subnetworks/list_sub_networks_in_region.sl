@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve the list of networks in specified region, as JSON array.
+#! @description: This operation can be used to retrieve the list of sub networks in regions, as JSON array.
 #!
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
@@ -52,14 +52,14 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output sub_networks_json: A JSON list containing the networks information.
-#! @output list_sub_networks: This contains the list of network names.
+#! @output sub_networks_json: A JSON list containing the sub networks information.
+#! @output list_sub_networks: This contains the list of sub network names.
 #!
 #! @result SUCCESS: The networks were found and successfully retrieved.
 #! @result FAILURE: The networks were not found or some inputs were given incorrectly.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.subnetworks
+namespace: io.cloudslang.google.compute_v2.networks.subnetworks
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
