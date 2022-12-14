@@ -240,8 +240,8 @@ operation:
     - exception: ${get('exception', '')} 
     - document: ${get('document', '')} 
     - kind: ${get('kind', '')} 
-    - deployment_name: ${get('name', '')}
-    - deployment_namespace: ${get('namespace', '')}
+    - deployment_name: ${get('deploymentName', '')}
+    - deployment_namespace: ${get('deploymentNamespace', '')}
     - uid: ${get('uid', '')} 
     - observed_generation: ${get('observedGeneration', '')} 
     - replicas: ${get('replicas', '')} 
