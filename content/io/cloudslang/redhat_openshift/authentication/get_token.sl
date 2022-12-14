@@ -132,12 +132,7 @@ operation:
         default: ${get('tls_version', '')}  
         required: false 
         private: true 
-    - allowed_ciphers:  
-        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-        TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-        TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-        TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-        TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
+    - allowed_ciphers:
         required: false
     - allowedCiphers: 
         default: ${get('allowed_ciphers', '')}  
@@ -172,7 +167,8 @@ operation:
         private: true
         sensitive: true
     - keystore:  
-        required: false  
+        required: false
+        default: ''
     - keystore_password:  
         required: false
         sensitive: true
