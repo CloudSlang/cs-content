@@ -88,7 +88,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.deployments
+namespace: io.cloudslang.redhat_openshift.authentication
 
 operation: 
   name: get_token
