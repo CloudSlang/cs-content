@@ -12,9 +12,10 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: Returns a list of Pods.
+#! @description: This operation returns a list of pods present in a given namespace.
 #!
-#! @input host: The OpenShift hostname.
+#! @input host: The url of the service to which API calls are made.
+#!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input namespace: The object name and auth scope, such as for teams and projects.
 #! @input proxy_host: The proxy server used to access the web site.
@@ -25,7 +26,7 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.
@@ -81,23 +82,23 @@
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and afterexecution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after the execution it will close it.
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: A suggestive message both for the case of success and for the case of failure.
-#! @output status_code: The status code of the request.
+#! @output return_result: A suggestive message in case of success or failure.
+#! @output status_code: The HTTP status code of the Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while retrieving the Pod list.
-#! @output document: All the information related to a the pod list in json format.
-#! @output pod_list: The comma separated list of pod uids.
-#! @output pod_array: The list containing pairs of pod name and uids.
+#! @output document: All the information related to the pod list in json format.
+#! @output pod_list: A comma separated list of pod uids.
+#! @output pod_array: A list containing pairs of pod name and uids in JSON format.
 #!
-#! @result SUCCESS: The retrieval of the pod list was made successfully.
-#! @result FAILURE: There was an error while trying to retrieve the pod list.
+#! @result SUCCESS: The retrieval of the pod list was successful.
+#! @result FAILURE: There was an error while retrieving the pod list.
 #!!#
 ########################################################################################################################
 
@@ -108,11 +109,13 @@ operation:
   
   inputs: 
     - host    
-    - auth_token    
+    - auth_token:
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - namespace
     - proxy_host:  
         required: false  

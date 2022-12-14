@@ -1,12 +1,12 @@
 ########################################################################################################################
 #!!
-#! @description: This operation deletes a deployment from a namespace.
+#! @description: This operation creates a new deployment.
 #!
 #! @input hostname: The url of the service to which API calls are made.
 #!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input namespace: Namespace to delete the deployment from.
-#! @input deployment: Name of the deployment to delete.
+#! @input definition: Deployment description in YAML or JSON.
+#! @input namespace: Namespace to create the deployment into.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -27,7 +27,7 @@
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -54,7 +54,7 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored. 
+#!                        'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
@@ -72,7 +72,7 @@
 #!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature. 
+#!                           call. A value of '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
@@ -86,158 +86,152 @@
 #!                               Default value: 20
 #!                               Optional
 #!
-#! @output return_result: The deleted deployment in case of success or a suggested message in case of failure.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while deleting the deployment.
+#! @output exception: An error message in case there was an error while creating the deployment.
 #! @output status_code: The HTTP status code for Openshift API request.
 #!
-#! @result SUCCESS: Deployment was successfully deleted.
-#! @result FAILURE: There was an error while trying to delete the deployment.
+#! @result SUCCESS: Deployment was successfully created.
+#! @result FAILURE: There was an error while trying to create the deployment.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.redhat_openshift.deployments
 
-operation: 
-  name: delete_deployment
-  
-  inputs: 
+operation:
+  name: create_deployment
+
+  inputs:
     - host
     - auth_token:
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+    - authToken:
+        default: ${get('auth_token', '')}
+        required: true
         private: true
         sensitive: true
-    - namespace    
-    - deployment    
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
+    - definition
+    - namespace
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
     - proxy_port:
         default: '8080'
         required: false
-    - proxyPort: 
+    - proxyPort:
         default: ${get('proxy_port', '')}
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
         required: false
-        sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
         private: true
-        sensitive: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
     - tls_version:
         default: 'TLSv1.2'
-        required: false  
-    - tlsVersion: 
+        required: false
+    - tlsVersion:
         default: ${get('tls_version', '')}
-        required: false 
-        private: true 
-    - allowed_ciphers:  
-        required: false  
-    - allowedCiphers: 
-        default: ${get('allowed_ciphers', '')}  
-        required: false 
-        private: true 
+        required: false
+        private: true
+    - allowed_ciphers:
+        required: false
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', '')}
+        required: false
+        private: true
     - trust_all_roots:
         default: 'false'
-        required: false  
-    - trustAllRoots: 
+        required: false
+    - trustAllRoots:
         default: ${get('trust_all_roots', '')}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
         required: false
-        sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
         private: true
-        sensitive: true
-    - keystore:  
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
+    - keystore:
         required: false
         default: ''
-    - keystore_password:  
+    - keystore_password:
         required: false
-        sensitive: true
-    - keystorePassword: 
-        default: ${get('keystore_password', '')}  
-        required: false 
+    - keystorePassword:
+        default: ${get('keystore_password', '')}
+        required: false
         private: true
-        sensitive: true
     - connect_timeout:
         default: '60'
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
     - execution_timeout:
         default: '60'
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
+        required: false
+    - executionTimeout:
+        default: ${get('execution_timeout', '')}
+        required: false
+        private: true
     - keep_alive:
         default: 'false'
-        required: false  
-    - keepAlive: 
-        default: ${get('keep_alive', '')}  
-        required: false 
-        private: true 
+        required: false
+    - keepAlive:
+        default: ${get('keep_alive', '')}
+        required: false
+        private: true
     - connections_max_per_route:
         default: '2'
-        required: false  
-    - connectionsMaxPerRoute: 
-        default: ${get('connections_max_per_route', '')}  
-        required: false 
-        private: true 
+        required: false
+    - connectionsMaxPerRoute:
+        default: ${get('connections_max_per_route', '')}
+        required: false
+        private: true
     - connections_max_total:
         default: '20'
-        required: false  
-    - connectionsMaxTotal: 
-        default: ${get('connections_max_total', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.DeleteDeployment'
+        required: false
+    - connectionsMaxTotal:
+        default: ${get('connections_max_total', '')}
+        required: false
+        private: true
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-openshift:0.0.13'
+    class_name: 'io.cloudslang.content.redhat.actions.CreateDeployment'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - exception: ${get('exception', '')} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
     - status_code: ${get('statusCode', '')}
 
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

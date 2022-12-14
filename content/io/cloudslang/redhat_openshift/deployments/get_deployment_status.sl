@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Read the status of the specified deployment.
+#! @description: This operation reads the status of a specified deployment.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
@@ -79,7 +79,7 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: A suggestive message both for the case of success and for the case of failure.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The HTTP status code for Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while reading the deployment status.
@@ -106,11 +106,13 @@ operation:
   
   inputs: 
     - host    
-    - auth_token    
+    - auth_token:
+        sensitive: true
     - authToken: 
         default: ${get('auth_token', '')}  
         required: false 
-        private: true 
+        private: true
+        sensitive: true
     - name
     - namespace
     - proxy_host:

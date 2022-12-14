@@ -1,21 +1,33 @@
+#   (c) Copyright 2022 Micro Focus, L.P.
+#   All rights reserved. This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: Get Authorization Token
+#! @description: This operation deletes a pod from a namespace.
 #!
 #! @input host: The url of the service to which API calls are made.
-#!              Example: https://oauth-openshift.apps.domain
-#! @input username: The username used to authenticate to Openshift.
-#! @input password: The username used to authenticate to Openshift
-#! @input proxy_host: The password server used to access the web site.
+#!              Example: https://api.domain:6443
+#! @input auth_token: Token used to authenticate to the openshift environment.
+#! @input namespace: The namespace from which to delete the pod.
+#! @input pod_name: Name of the pod to delete.
+#! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port.
-#!                    Default value: 8080.
+#! @input proxy_port: The proxy server port.Default value: 8080.
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2.
@@ -71,33 +83,43 @@
 #!                           Default: 60
 #!                           Optional
 #! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and afterexecution it will close it.
+#!                    keepAlive is false, the already open connection will be used and after the execution it will close it.
 #!                    Optional
 #! @input connections_max_per_route: The maximum limit of connections on a per route basis.
 #!                                   Optional
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: The authorization token for Openshift.
+#! @output return_result: The deleted pod in case of success or a suggestive message in case of failure.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output auth_token: Generated authentication token.
-#! @output exception: An error message in case there was an error while generating the token.
+#! @output exception: An error message in case there was an issue while deleting the pod.
+#! @output status_code: The HTTP status code of the Openshift API request.
 #!
-#! @result SUCCESS: Token generated successfully.
-#! @result FAILURE: There was an error while trying to retrieve token.
+#! @result SUCCESS: The pod was deleted successfully.
+#! @result FAILURE: There was an error while deleting the pod.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.deployments
+namespace: io.cloudslang.redhat_openshift.pods
 
 operation: 
-  name: get_token
+  name: delete_pod
   
   inputs: 
-    - host
-    - username
-    - password:
+    - host    
+    - auth_token:    
         sensitive: true
+    - authToken: 
+        default: ${get('auth_token', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - namespace    
+    - pod_name    
+    - podName: 
+        default: ${get('pod_name', '')}  
+        required: false 
+        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -118,12 +140,12 @@ operation:
         required: false 
         private: true 
     - proxy_password:  
-        required: false
+        required: false  
         sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
-        private: true
+        private: true 
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
@@ -133,12 +155,7 @@ operation:
         required: false 
         private: true 
     - allowed_ciphers:  
-        default: 'TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-        TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
-        TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-        TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384,
-        TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256'
-        required: false
+        required: false  
     - allowedCiphers: 
         default: ${get('allowed_ciphers', '')}  
         required: false 
@@ -164,22 +181,23 @@ operation:
         required: false 
         private: true 
     - trust_password:  
-        required: false
+        required: false  
         sensitive: true
     - trustPassword: 
         default: ${get('trust_password', '')}  
         required: false 
-        private: true
+        private: true 
         sensitive: true
-    - keystore:  
+    - keystore:
+        default: ''
         required: false  
     - keystore_password:  
-        required: false
+        required: false  
         sensitive: true
     - keystorePassword: 
         default: ${get('keystore_password', '')}  
         required: false 
-        private: true
+        private: true 
         sensitive: true
     - connect_timeout:
         default: '60'
@@ -219,14 +237,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.GetTokenAction'
+    class_name: 'io.cloudslang.content.redhat.actions.DeletePod'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
-    - auth_token: ${get('authToken', '')} 
     - exception: ${get('exception', '')} 
+    - status_code: ${get('statusCode', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
