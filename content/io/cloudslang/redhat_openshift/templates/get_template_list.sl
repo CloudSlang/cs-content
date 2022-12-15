@@ -12,13 +12,12 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: This operation deletes a pod from a namespace.
+#! @description: This operation returns a list of templates present in a given namespace.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
-#! @input auth_token: Token used to authenticate to the openshift environment.
-#! @input namespace: The namespace from which to delete the pod.
-#! @input pod_name: Name of the pod to delete.
+#! @input auth_token: Token used to authenticate to the Openshift environment.
+#! @input namespace: The namespace from which to retrieve the template list.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.Default value: 8080.
@@ -90,20 +89,23 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: The deleted pod in case of success or a suggestive message in case of failure.
-#! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an issue while deleting the pod.
+#! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The HTTP status code of the Openshift API request.
+#! @output return_code: 0 if success, -1 if failure.
+#! @output exception: An error message in case there was an error while retrieving the template list.
+#! @output document: All the information related to the template list in json format.
+#! @output template_list: A comma separated list of template uids.
+#! @output template_array: A list containing pairs of template name and uids in JSON format.
 #!
-#! @result SUCCESS: The pod was deleted successfully.
-#! @result FAILURE: There was an error while deleting the pod.
+#! @result SUCCESS: The retrieval of the template list was made successfully.
+#! @result FAILURE: There was an error while trying to retrieve the template list.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.pods
+namespace: io.cloudslang.redhat_openshift.templates
 
 operation: 
-  name: delete_pod
+  name: get_template_list
   
   inputs: 
     - host    
@@ -115,11 +117,6 @@ operation:
         private: true 
         sensitive: true
     - namespace    
-    - pod_name    
-    - podName: 
-        default: ${get('pod_name', '')}  
-        required: false 
-        private: true 
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -237,14 +234,17 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.DeletePod'
+    class_name: 'io.cloudslang.content.redhat.actions.GetTemplateList'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
+    - status_code: ${get('statusCode', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
-    - status_code: ${get('statusCode', '')} 
+    - document: ${get('document', '')} 
+    - template_list: ${get('templateList', '')} 
+    - template_array: ${get('templateArray', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
