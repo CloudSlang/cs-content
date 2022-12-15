@@ -17,7 +17,7 @@
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input namespace: The object name and auth scope, such as for teams and projects.
+#! @input namespace: The namespace from which to retrieve the route list.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.Default value: 8080.

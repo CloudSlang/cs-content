@@ -6,7 +6,7 @@
 #!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input name: The name of the deployment.
-#! @input namespace: The object name and auth scope, such as for teams and projects.
+#! @input namespace: The namespace where the specific deployment can be found.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.Default value: 8080.

@@ -12,12 +12,12 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: This operation returns a list of pod templates present in a given namespace.
+#! @description: This operation returns a list of templates present in a given namespace.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input namespace: The namespace from which to retrieve the pod template list.
+#! @input namespace: The namespace from which to retrieve the template list.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.Default value: 8080.
@@ -92,20 +92,20 @@
 #! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The HTTP status code of the Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while retrieving the pod template list.
-#! @output document: All the information related to the pod template list in json format.
-#! @output pod_template_list: A comma separated list of pod template uids.
-#! @output pod_template_array: A list containing pairs of pod template name and uids in JSON format.
+#! @output exception: An error message in case there was an error while retrieving the template list.
+#! @output document: All the information related to the template list in json format.
+#! @output template_list: A comma separated list of template uids.
+#! @output template_array: A list containing pairs of template name and uids in JSON format.
 #!
-#! @result SUCCESS: The retrieval of the pod template list was made successfully.
-#! @result FAILURE: There was an error while trying to retrieve the pod template list.
+#! @result SUCCESS: The retrieval of the template list was made successfully.
+#! @result FAILURE: There was an error while trying to retrieve the template list.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.redhat_openshift.templates
 
 operation: 
-  name: get_pod_template_list
+  name: get_template_list
   
   inputs: 
     - host    
@@ -233,8 +233,8 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.1.2-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.GetPodTemplateList'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
+    class_name: 'io.cloudslang.content.redhat.actions.GetTemplateList'
     method_name: 'execute'
   
   outputs: 
@@ -243,8 +243,8 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
     - document: ${get('document', '')} 
-    - pod_template_list: ${get('podTemplateList', '')} 
-    - pod_template_array: ${get('podTemplateArray', '')} 
+    - template_list: ${get('templateList', '')} 
+    - template_array: ${get('templateArray', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
