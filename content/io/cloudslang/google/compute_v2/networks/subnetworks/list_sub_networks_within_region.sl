@@ -64,7 +64,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_sub_networks_in_region
+  name: list_sub_networks_within_region
   inputs:
     - access_token:
         sensitive: true
