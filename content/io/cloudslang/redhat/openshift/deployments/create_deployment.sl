@@ -79,12 +79,6 @@
 #!                    keepAlive is false, the already open connection will be used and after execution it will close it.
 #!                    Default value: false
 #!                    Optional
-#! @input connections_max_per_route: The maximum limit of connections on a per route basis.
-#!                                   Default value: 2
-#!                                   Optional
-#! @input connections_max_total: The maximum limit of connections in total.
-#!                               Default value: 20
-#!                               Optional
 #!
 #! @output return_result: A suggestive message in case of success or failure.
 #! @output return_code: 0 if success, -1 if failure.
@@ -197,27 +191,6 @@ operation:
         required: false
     - executionTimeout:
         default: ${get('execution_timeout', '')}
-        required: false
-        private: true
-    - keep_alive:
-        default: 'false'
-        required: false
-    - keepAlive:
-        default: ${get('keep_alive', '')}
-        required: false
-        private: true
-    - connections_max_per_route:
-        default: '2'
-        required: false
-    - connectionsMaxPerRoute:
-        default: ${get('connections_max_per_route', '')}
-        required: false
-        private: true
-    - connections_max_total:
-        default: '20'
-        required: false
-    - connectionsMaxTotal:
-        default: ${get('connections_max_total', '')}
         required: false
         private: true
 
