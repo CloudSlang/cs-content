@@ -1,26 +1,15 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
-#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
-#
-#   The Apache License is available at
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: This operation returns a list of pods present in a given namespace.
+#! @description: This operation returns an OpenShift API authentication token that can be used in subsequent operations.
 #!
 #! @input host: The url of the service to which API calls are made.
-#!              Example: https://api.domain:6443
-#! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input namespace: The object name and auth scope, such as for teams and projects.
+#!              Example: https://oauth-openshift.apps.domain
+#! @input username: The username used to authenticate to Openshift.
+#! @input password: The password used to authenticate to Openshift
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
-#! @input proxy_port: The proxy server port.Default value: 8080.
+#! @input proxy_port: The proxy server port.
+#!                    Default value: 8080.
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -89,40 +78,32 @@
 #! @input connections_max_total: The maximum limit of connections in total.
 #!                               Optional
 #!
-#! @output return_result: A suggestive message in case of success or failure.
-#! @output status_code: The HTTP status code of the Openshift API request.
+#! @output return_result: The authorization token for Openshift.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while retrieving the Pod list.
-#! @output document: All the information related to the pod list in json format.
-#! @output pod_list: A comma separated list of pod uids.
-#! @output pod_array: A list containing pairs of pod name and uids in JSON format.
+#! @output auth_token: Generated authentication token.
+#! @output exception: An error message in case there was an error while generating the token.
 #!
-#! @result SUCCESS: The retrieval of the pod list was successful.
-#! @result FAILURE: There was an error while retrieving the pod list.
+#! @result SUCCESS: Token generated successfully.
+#! @result FAILURE: There was an error while trying to retrieve token.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.pods
+namespace: io.cloudslang.redhat.openshift.authentication
 
 operation: 
-  name: get_pod_list
+  name: get_token
   
   inputs: 
-    - host    
-    - auth_token:
+    - host
+    - username
+    - password:
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
-        private: true
-        sensitive: true
-    - namespace
     - proxy_host:  
         required: false  
     - proxyHost: 
         default: ${get('proxy_host', '')}  
         required: false 
-        private: true
+        private: true 
     - proxy_port:
         default: '8080'
         required: false  
@@ -137,12 +118,12 @@ operation:
         required: false 
         private: true 
     - proxy_password:  
-        required: false  
+        required: false
         sensitive: true
     - proxyPassword: 
         default: ${get('proxy_password', '')}  
         required: false 
-        private: true 
+        private: true
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
@@ -151,8 +132,8 @@ operation:
         default: ${get('tls_version', '')}  
         required: false 
         private: true 
-    - allowed_ciphers:  
-        required: false  
+    - allowed_ciphers:
+        required: false
     - allowedCiphers: 
         default: ${get('allowed_ciphers', '')}  
         required: false 
@@ -178,23 +159,23 @@ operation:
         required: false 
         private: true 
     - trust_password:  
-        required: false  
+        required: false
         sensitive: true
     - trustPassword: 
         default: ${get('trust_password', '')}  
         required: false 
-        private: true 
+        private: true
         sensitive: true
     - keystore:  
         required: false
         default: ''
     - keystore_password:  
-        required: false  
+        required: false
         sensitive: true
     - keystorePassword: 
         default: ${get('keystore_password', '')}  
         required: false 
-        private: true 
+        private: true
         sensitive: true
     - connect_timeout:
         default: '60'
@@ -234,17 +215,14 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.GetPodList'
+    class_name: 'io.cloudslang.content.redhat.actions.GetTokenAction'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - status_code: ${get('statusCode', '')} 
     - return_code: ${get('returnCode', '')} 
+    - auth_token: ${get('authToken', '')} 
     - exception: ${get('exception', '')} 
-    - document: ${get('document', '')} 
-    - pod_list: ${get('podList', '')} 
-    - pod_array: ${get('podArray', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

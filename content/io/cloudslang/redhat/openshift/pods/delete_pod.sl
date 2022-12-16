@@ -100,7 +100,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.pods
+namespace: io.cloudslang.redhat.openshift.pods
 
 operation: 
   name: delete_pod
