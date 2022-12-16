@@ -199,7 +199,7 @@ operation:
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
-        private: true 0.0.1-SNAPSHOT
+        private: true
     - execution_timeout:
         default: '60'
         required: false  
