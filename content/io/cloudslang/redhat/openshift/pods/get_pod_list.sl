@@ -199,7 +199,7 @@ operation:
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
-        private: true 
+        private: true 0.0.1-SNAPSHOT
     - execution_timeout:
         default: '60'
         required: false  
@@ -209,7 +209,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.1.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
     class_name: 'io.cloudslang.content.redhat.actions.GetPodList'
     method_name: 'execute'
   
