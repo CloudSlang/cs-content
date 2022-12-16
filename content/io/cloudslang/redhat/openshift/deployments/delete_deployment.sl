@@ -10,7 +10,7 @@
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
-#!                    Default value: 8080.
+#!                    Default value: 8080
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
@@ -19,8 +19,8 @@
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
 #!                     information.
-#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2.
-#!                     Default value: TLSv1.2.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2
+#!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
 #!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
@@ -228,7 +228,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.1.2-SNAPSHOT'
     class_name: 'io.cloudslang.content.redhat.actions.DeleteDeployment'
     method_name: 'execute'
   
