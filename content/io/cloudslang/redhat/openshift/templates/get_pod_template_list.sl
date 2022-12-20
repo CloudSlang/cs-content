@@ -99,7 +99,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat_openshift.templates
+namespace: io.cloudslang.redhat.openshift.templates
 
 operation: 
   name: get_pod_template_list
