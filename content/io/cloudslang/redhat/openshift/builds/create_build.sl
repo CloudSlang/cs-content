@@ -1,12 +1,13 @@
 ########################################################################################################################
 #!!
-#! @description: This operation creates a new deployment.
+#! @description: This operation starts a build from an already existing build config.
 #!
-#! @input hostname: The url of the service to which API calls are made.
-#!                  Example: https://api.domain:6443
+#! @input host: The url of the service to which API calls are made.
+#!              Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input definition: Deployment description in YAML or JSON.
-#! @input namespace: Namespace to create the deployment into.
+#! @input specification: The build specification in JSON format.
+#! @input namespace: The namespace where the build config is located.
+#! @input build_config: The build config that will be used as a template for the build.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -16,10 +17,9 @@
 #!                        Optional
 #! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
-#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
+#! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol'is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.
-#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2
+#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2. 
 #!                     Default value: TLSv1.2
 #!                     Optional
 #! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
@@ -27,7 +27,7 @@
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers.
+#!                         ciphers. 
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -54,7 +54,7 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
 #!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored.
+#!                        'true' this input is ignored. 
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
@@ -69,43 +69,44 @@
 #!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
-#!                         Default value: 60
+#!                         Default: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature.
-#!                           Default value: 60
+#!                           call. A value of '0' disables this feature. 
+#!                           Default: 60
 #!                           Optional
-#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
-#!                    Default value: false
-#!                    Optional
 #!
-#! @output return_result: A suggestive message in case of success or failure.
+#! @output return_result: The created build in case of success or a comprehensive message in case of failure.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while creating the deployment.
+#! @output exception: An error message in case there was an error while creating the build.
 #! @output status_code: The HTTP status code for Openshift API request.
 #!
-#! @result SUCCESS: Deployment was successfully created.
-#! @result FAILURE: There was an error while trying to create the deployment.
+#! @result SUCCESS: The build was created successfully.
+#! @result FAILURE: There was an error while creating the build.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.redhat.openshift.deployments
+namespace: io.cloudslang.redhat.openshift.builds
 
-operation:
-  name: create_deployment
-
-  inputs:
-    - host
-    - auth_token:
+operation: 
+  name: create_build
+  
+  inputs: 
+    - host    
+    - auth_token:    
         sensitive: true
-    - authToken:
-        default: ${get('auth_token', '')}
-        required: true
-        private: true
+    - authToken: 
+        default: ${get('auth_token', '')}  
+        required: false 
+        private: true 
         sensitive: true
-    - definition
-    - namespace
+    - specification    
+    - namespace    
+    - build_config    
+    - buildConfig: 
+        default: ${get('build_config', '')}  
+        required: false 
+        private: true 
     - proxy_host:
         required: false
     - proxyHost:
@@ -200,17 +201,17 @@ operation:
         required: false
         private: true
 
-  java_action:
+  java_action: 
     gav: 'io.cloudslang.content:cs-openshift:0.0.1-SNAPSHOT'
-    class_name: 'io.cloudslang.content.redhat.actions.CreateDeployment'
+    class_name: 'io.cloudslang.content.redhat.actions.CreateBuild'
     method_name: 'execute'
-
-  outputs:
-    - return_result: ${get('returnResult', '')}
-    - return_code: ${get('returnCode', '')}
-    - exception: ${get('exception', '')}
-    - status_code: ${get('statusCode', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - return_code: ${get('returnCode', '')} 
+    - exception: ${get('exception', '')} 
+    - status_code: ${get('statusCode', '')} 
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
