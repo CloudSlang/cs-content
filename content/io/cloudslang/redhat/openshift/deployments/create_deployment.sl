@@ -37,10 +37,6 @@
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
 #!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
 #!                         Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default value: false
-#!                         Optional
 #! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
 #!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
 #!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
@@ -133,13 +129,6 @@ operation:
         required: false
     - allowedCiphers:
         default: ${get('allowed_ciphers', '')}
-        required: false
-        private: true
-    - trust_all_roots:
-        default: 'false'
-        required: false
-    - trustAllRoots:
-        default: ${get('trust_all_roots', '')}
         required: false
         private: true
     - x_509_hostname_verifier:
