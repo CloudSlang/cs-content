@@ -60,13 +60,6 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input keystore: The pathname of the Java KeyStore file. You only need this if the server requires client
-#!                  authentication. If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                  'true' this input is ignored. Format: Java KeyStore (JKS)
-#!                  Optional
-#! @input keystore_password: The password associated with the KeyStore file. If trustAllRoots is false and keystore is
-#!                           empty, keystorePassword default will be supplied.
-#!                           Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default value: 60
@@ -75,10 +68,6 @@
 #!                           call. A value of '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
-#! @input keep_alive: Specifies whether to create a shared connection that will be used in subsequent calls. If
-#!                    keepAlive is false, the already open connection will be used and after execution it will close it.
-#!                    Default value: false
-#!                    Optional
 #!
 #! @output return_result: A suggestive message in case of success or failure.
 #! @output return_code: 0 if success, -1 if failure.
@@ -171,17 +160,6 @@ operation:
         sensitive: true
     - trustPassword:
         default: ${get('trust_password', '')}
-        required: false
-        private: true
-        sensitive: true
-    - keystore:
-        required: false
-        default: ''
-    - keystore_password:
-        required: false
-        sensitive: true
-    - keystorePassword:
-        default: ${get('keystore_password', '')}
         required: false
         private: true
         sensitive: true
