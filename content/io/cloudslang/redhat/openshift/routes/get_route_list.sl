@@ -175,7 +175,6 @@ operation:
         required: false 
         private: true 
         sensitive: true
-
     - connect_timeout:
         default: '60'
         required: false  
