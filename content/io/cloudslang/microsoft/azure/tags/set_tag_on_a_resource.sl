@@ -67,7 +67,7 @@ flow:
     - tag_name_list
     - tag_value_list
     - worker_group:
-        default: '${worker_group}'
+        default: RAS_Operator_Path
         required: false
     - proxy_host:
         required: false
