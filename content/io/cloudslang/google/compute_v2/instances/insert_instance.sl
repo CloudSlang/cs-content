@@ -19,7 +19,7 @@
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
-#! @input zone: The name of the zone in which the disks lives.
+#! @input zone: The name of the zone in which the instance resides.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'.
 #! @input instance_name: The name of the instance, provided while creating the instance.
 #!                       resource name must be 1-63 characters long, and comply with RFC1035. Specifically, the name
