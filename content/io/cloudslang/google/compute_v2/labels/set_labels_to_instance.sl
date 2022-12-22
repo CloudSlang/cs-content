@@ -18,7 +18,7 @@
 #! @input project_id: The Google Cloud project name.Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
 #! @input zone: The zone in which the disk resides.Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: The name of the Instance resource to attach tags.
+#! @input instance_name: The name of the Instance resource to attach labels.
 #! @input label_fingerprint: Latest Label fingerprint should be provided when updating or adding labels in the API ,
 #!                          to prevent any conflicts with other requests..
 #! @input labels: Labels are key-value pairs that can be used on Google Cloud to group related or associated resources.
