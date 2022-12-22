@@ -18,7 +18,7 @@
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input zone: The name of the zone in which the disks lives.
+#! @input zone: The name of the zone in which the instance resides.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
 #! @input resource_id: Name of the instance resource to return.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than

@@ -13,14 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to start an instance resource.
+#! @description: This operation can be used to set labels to the instance
 #!
-#! @input project_id: The Google Cloud project name.
-#!                 Example: 'example-project-a'
+#! @input project_id: The Google Cloud project name.Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
-#! @input zone: The name of the zone in which the instance resides.
-#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: The name of the Instance resource to start.
+#! @input zone: The zone in which the disk resides.Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
+#! @input instance_name: The name of the Instance resource to attach labels.
+#! @input label_fingerprint: Latest Label fingerprint should be provided when updating or adding labels in the API ,
+#!                          to prevent any conflicts with other requests..
+#! @input labels: Labels are key-value pairs that can be used on Google Cloud to group related or associated resources.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,18 +54,12 @@
 #!                        Optional
 #!
 #! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#!
-#! @result SUCCESS: The request for the Instance to start was successfully sent.
-#! @result FAILURE: An error occurred while trying to send the request.
+#! @output instance_json: A JSON containing the instance information.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.instances
-imports:
-  http: io.cloudslang.base.http
-  json: io.cloudslang.base.json
+namespace: io.cloudslang.google.compute_v2.labels
 flow:
-  name: start_instance
+  name: set_labels_to_instance
   inputs:
     - project_id:
         sensitive: true
@@ -72,9 +67,9 @@ flow:
         sensitive: true
     - zone
     - instance_name
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
+    - label_fingerprint
+    - labels
+    - worker_group: RAS_Operator_Path
     - proxy_host:
         required: false
     - proxy_port:
@@ -96,13 +91,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_stop_the_instance:
+    - set_labels_to_instance:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/setLabels'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -117,13 +112,12 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - request_character_set: UTF-8
-            - headers: "${'Content-Length: 0' + '\\n' +'Authorization: '+access_token}"
-            - query_params: null
+            - headers: "${'Authorization: '+ access_token}"
+            - body: "${'{\"labelFingerprint\":\"'+ label_fingerprint+'\",\"labels\":'+labels+'}'}"
+            - content_type: null
             - worker_group: '${worker_group}'
         publish:
           - return_result
-          - error_message
-          - status_code
         navigate:
           - SUCCESS: set_success_message
           - FAILURE: on_failure
@@ -131,33 +125,36 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The instance '+ instance_name+' stopped successfully.'}"
+            - message: Labels have been successfully set to the instance
+            - instance_json: '${return_result}'
         publish:
           - return_result: '${message}'
+          - instance_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
-    - status_code
+    - instance_json
   results:
-    - SUCCESS
     - FAILURE
+    - SUCCESS
 extensions:
   graph:
     steps:
-      api_call_to_stop_the_instance:
-        x: 80
-        'y': 160
-      set_success_message:
+      set_labels_to_instance:
         x: 240
-        'y': 160
+        'y': 120
+      set_success_message:
+        x: 400
+        'y': 120
         navigate:
-          5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+          5b29f2e6-1e1a-4795-2d9d-c881485bed90:
+            targetId: 2faf1bd5-78dc-f4c2-5a93-ffbd67284c7d
             port: SUCCESS
     results:
       SUCCESS:
-        11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
+        2faf1bd5-78dc-f4c2-5a93-ffbd67284c7d:
+          x: 600
           'y': 160
+

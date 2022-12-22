@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to start an instance resource.
+#! @description: This operation can be used to retrieve the information of disk, as JSON array.
 #!
-#! @input project_id: The Google Cloud project name.
-#!                 Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
-#! @input zone: The name of the zone in which the instance resides.
+#! @input project_id: Google Cloud project name.
+#!                    Example: 'example-project-a'
+#! @input zone: The name of the zone in which the disks resides.
 #!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: The name of the Instance resource to start.
+#! @input resource_id: Name of the instance resource to return.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -54,24 +54,26 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output disk_json: A JSON containing the disk information.
 #!
-#! @result SUCCESS: The request for the Instance to start was successfully sent.
-#! @result FAILURE: An error occurred while trying to send the request.
+#! @result SUCCESS: The instance were found and successfully retrieved.
+#! @result FAILURE: The instance were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.instances
+namespace: io.cloudslang.google.compute_v2.disks
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: start_instance
+  name: get_disk
   inputs:
-    - project_id:
-        sensitive: true
     - access_token:
         sensitive: true
-    - zone
-    - instance_name
+    - project_id:
+        sensitive: true
+    - zone:
+        required: true
+    - resource_id
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -96,13 +98,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_stop_the_instance:
+    - api_to_get_disk_details:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_post:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name+'/start'}"
+          io.cloudslang.base.http.http_client_get:
+            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/disks/'+resource_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -116,13 +118,11 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - request_character_set: UTF-8
-            - headers: "${'Content-Length: 0' + '\\n' +'Authorization: '+access_token}"
-            - query_params: null
+            - headers: "${'Authorization: '+access_token}"
+            - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
           - return_result
-          - error_message
           - status_code
         navigate:
           - SUCCESS: set_success_message
@@ -131,27 +131,30 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The instance '+ instance_name+' stopped successfully.'}"
+            - message: Information about the disk has been successfully retrieved.
+            - disk_json: '${return_result}'
         publish:
           - return_result: '${message}'
+          - disk_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - disk_json
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      api_call_to_stop_the_instance:
-        x: 80
-        'y': 160
-      set_success_message:
+      api_to_get_disk_details:
         x: 240
-        'y': 160
+        'y': 200
+      set_success_message:
+        x: 400
+        'y': 200
         navigate:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
@@ -159,5 +162,6 @@ extensions:
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 400
-          'y': 160
+          x: 560
+          'y': 200
+
