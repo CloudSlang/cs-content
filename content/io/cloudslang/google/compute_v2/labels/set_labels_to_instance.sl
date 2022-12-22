@@ -93,7 +93,7 @@ flow:
   workflow:
     - set_labels_to_instance:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_post:

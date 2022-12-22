@@ -226,7 +226,7 @@ flow:
         sensitive: true
   workflow:
     - check_tagnames_tagvalues_equal:
-        worker_group: RAS_Operator_Path
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.utils.check_tagnames_tagvalues_equal:
             - tag_name_list: '${tag_name_list}'
@@ -1019,7 +1019,7 @@ flow:
           - FAILURE: on_failure
     - check_if_null_else_add_tags:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           io.cloudslang.microsoft.azure.utils.check_if_null_else_add_tags:
@@ -1048,7 +1048,7 @@ flow:
           - FAILURE: on_failure
     - check_if_null_else_add_tags_1:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           io.cloudslang.microsoft.azure.utils.check_if_null_else_add_tags:
@@ -1077,7 +1077,7 @@ flow:
           - FAILURE: on_failure
     - check_if_null_else_add_tags_2:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           io.cloudslang.microsoft.azure.utils.check_if_null_else_add_tags:
