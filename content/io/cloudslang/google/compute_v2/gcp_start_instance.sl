@@ -20,6 +20,7 @@
 #! @input refresh_token: Refresh token.
 #! @input project_id: Google Cloud project id.
 #!                    Example: 'example-project-a'
+#! @input start_instance_scheduler_id: Start Instance scheduler ID.Optional
 #! @input zone: The name of the zone where the disk is located.
 #!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
 #! @input instance_name: The name of the instance.
@@ -65,6 +66,8 @@
 #! @output return_result: contains the exception in case of failure, success message otherwise.
 #! @output exception: exception if there was an error when executing, empty otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
+#! @output updated_scheduler_id: Start Instance scheduler ID.
+#! @output updated_start_instance_scheduler_time: Start Instance scheduler time.
 #!
 #! @result FAILURE: There was an error while trying to start the instance.
 #! @result SUCCESS: The instance started successfully.
@@ -81,6 +84,10 @@ flow:
         sensitive: true
     - project_id:
         sensitive: true
+    - start_instance_scheduler_id:
+        required: false
+    - scheduler_time_zone:
+        required: false
     - zone
     - instance_name
     - polling_interval:
@@ -112,6 +119,15 @@ flow:
     - trust_password:
         required: false
   workflow:
+    - check_start_instance_scheduler_id_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${start_instance_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
+          - FAILURE: get_tenant_id
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
@@ -292,12 +308,74 @@ flow:
           - HAS_MORE: sleep
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - time_format:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.time_format:
+            - epoch_time: '${next_run_in_unix_time}'
+            - time_zone: '${scheduler_time_zone}'
+        publish:
+          - updated_start_instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
+          - FAILURE: on_failure
+    - get_tenant_id:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - start_instance_scheduler_id: '${start_instance_scheduler_id}'
+        publish:
+          - dnd_rest_user
+          - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
+          - updated_scheduler_id: '${start_instance_scheduler_id}'
+        navigate:
+          - SUCCESS: get_scheduler_details
+          - FAILURE: on_failure
+    - get_scheduler_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_get:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_instance_scheduler_id.strip()}"
+            - username: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+        publish:
+          - return_result
+          - error_message
+        navigate:
+          - SUCCESS: get_value
+          - FAILURE: on_failure
+    - get_value:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${return_result}'
+            - json_path: nextFireTime
+        publish:
+          - next_run_in_unix_time: '${return_result}'
+        navigate:
+          - SUCCESS: time_format
+          - FAILURE: on_failure
   outputs:
     - external_ips
     - status
     - return_result
     - exception
     - return_code
+    - updated_scheduler_id
+    - updated_start_instance_scheduler_time
   results:
     - FAILURE
     - SUCCESS
@@ -305,47 +383,62 @@ extensions:
   graph:
     steps:
       get_instance_details:
-        x: 720
+        x: 1000
         'y': 160
-      check_if_instance_is_in_running_state:
-        x: 360
-        'y': 160
-      start_instance:
-        x: 520
-        'y': 160
-      set_failure_message_for_instance:
-        x: 360
-        'y': 360
-      sleep:
-        x: 720
-        'y': 360
-      get_access_token_using_web_api:
+      check_start_instance_scheduler_id_empty:
         x: 40
         'y': 160
+      get_tenant_id:
+        x: 200
+        'y': 280
+      get_value:
+        x: 200
+        'y': 440
+      time_format:
+        x: 360
+        'y': 440
+      check_if_instance_is_in_running_state:
+        x: 680
+        'y': 160
+      start_instance:
+        x: 840
+        'y': 160
+      get_scheduler_details:
+        x: 40
+        'y': 440
+      set_failure_message_for_instance:
+        x: 800
+        'y': 360
+      sleep:
+        x: 1000
+        'y': 360
+      get_access_token_using_web_api:
+        x: 320
+        'y': 160
       counter:
-        x: 880
+        x: 1240
         'y': 360
         navigate:
           a36867e4-59a2-c080-63f0-f5650f907d74:
             targetId: f610fb9f-08b4-2adc-e2c7-9439f62d77cb
             port: NO_MORE
       compare_power_state:
-        x: 880
+        x: 1240
         'y': 160
         navigate:
           649043f8-1950-152b-2ddf-858591e896eb:
             targetId: e104c40a-d81e-dbcf-ed47-b859689c4260
             port: SUCCESS
       get_instance:
-        x: 200
+        x: 480
         'y': 160
     results:
       FAILURE:
         f610fb9f-08b4-2adc-e2c7-9439f62d77cb:
-          x: 1040
+          x: 1440
           'y': 360
       SUCCESS:
         e104c40a-d81e-dbcf-ed47-b859689c4260:
-          x: 1040
+          x: 1440
           'y': 160
 
