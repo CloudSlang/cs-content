@@ -21,6 +21,7 @@
 #! @input project_id: Google Cloud project id.
 #!                    Example: 'example-project-a'
 #! @input start_instance_scheduler_id: Start Instance scheduler ID.Optional
+#! @input scheduler_time_zone: Scheduler Time Zone . Optional
 #! @input zone: The name of the zone where the disk is located.
 #!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
 #! @input instance_name: The name of the instance.
@@ -308,17 +309,6 @@ flow:
           - HAS_MORE: sleep
           - NO_MORE: FAILURE
           - FAILURE: on_failure
-    - time_format:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.time_format:
-            - epoch_time: '${next_run_in_unix_time}'
-            - time_zone: '${scheduler_time_zone}'
-        publish:
-          - updated_start_instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
-        navigate:
-          - SUCCESS: get_access_token_using_web_api
-          - FAILURE: on_failure
     - get_tenant_id:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -366,7 +356,18 @@ flow:
         publish:
           - next_run_in_unix_time: '${return_result}'
         navigate:
-          - SUCCESS: time_format
+          - SUCCESS: convert_epoch_time
+          - FAILURE: on_failure
+    - convert_epoch_time:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.convert_epoch_time:
+            - epoch_time: '${next_run_in_unix_time}'
+            - time_zone: '${scheduler_time_zone}'
+        publish:
+          - updated_start_Instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
           - FAILURE: on_failure
   outputs:
     - external_ips
@@ -394,12 +395,12 @@ extensions:
       get_value:
         x: 200
         'y': 440
-      time_format:
-        x: 360
-        'y': 440
       check_if_instance_is_in_running_state:
         x: 680
         'y': 160
+      convert_epoch_time:
+        x: 400
+        'y': 440
       start_instance:
         x: 840
         'y': 160

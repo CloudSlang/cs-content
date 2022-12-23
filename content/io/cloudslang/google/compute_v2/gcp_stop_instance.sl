@@ -20,6 +20,7 @@
 #! @input refresh_token: Refresh token.
 #! @input project_id: Google Cloud project id.
 #!                    Example: 'example-project-a'
+#! @input scheduler_time_zone: scheduler Time Zone.Optional
 #! @input stop_instance_scheduler_id: Stop  Instance scheduler ID.Optional
 #! @input zone: The name of the zone where the disk is located.
 #!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
@@ -317,18 +318,7 @@ flow:
         publish:
           - next_run_in_unix_time: '${return_result}'
         navigate:
-          - SUCCESS: time_format
-          - FAILURE: on_failure
-    - time_format:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.microsoft.azure.utils.time_format:
-            - epoch_time: '${next_run_in_unix_time}'
-            - time_zone: '${scheduler_time_zone}'
-        publish:
-          - updated_stop_instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
-        navigate:
-          - SUCCESS: get_access_token_using_web_api
+          - SUCCESS: convert_epoch_time
           - FAILURE: on_failure
     - get_scheduler_details:
         worker_group:
@@ -356,7 +346,7 @@ flow:
           - SUCCESS: get_value
           - FAILURE: on_failure
     - set_tenant:
-        worker_group: '${worker_group}'
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
             - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
@@ -367,6 +357,17 @@ flow:
           - updated_scheduler_id: '${stop_instance_scheduler_id}'
         navigate:
           - SUCCESS: get_scheduler_details
+          - FAILURE: on_failure
+    - convert_epoch_time:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.convert_epoch_time:
+            - epoch_time: '${next_run_in_unix_time}'
+            - time_zone: '${scheduler_time_zone}'
+        publish:
+          - updated_stop_Instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
           - FAILURE: on_failure
   outputs:
     - external_ips
@@ -391,7 +392,7 @@ extensions:
       get_value:
         x: 200
         'y': 480
-      time_format:
+      convert_epoch_time:
         x: 360
         'y': 480
       check_stop_instance_scheduler_id_empty:
