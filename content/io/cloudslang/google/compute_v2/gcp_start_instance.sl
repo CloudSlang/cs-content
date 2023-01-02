@@ -365,7 +365,7 @@ flow:
             - epoch_time: '${next_run_in_unix_time}'
             - time_zone: '${scheduler_time_zone}'
         publish:
-          - updated_start_Instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
+          - updated_start_instance_scheduler_time: '${date_format + ".000" + time_zone.split("UTC")[1].split(")")[0] + time_zone.split(")")[1]}'
         navigate:
           - SUCCESS: get_access_token_using_web_api
           - FAILURE: on_failure
