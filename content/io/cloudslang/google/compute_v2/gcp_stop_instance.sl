@@ -194,7 +194,7 @@ flow:
             - second_string: TERMINATED
             - ignore_case: 'true'
         publish:
-          - status: Running
+          - status: TERMINATED
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: counter
