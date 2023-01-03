@@ -10,7 +10,7 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
-#########################################################################################################################
+########################################################################################################################
 #!!
 #! @description: This workflow is used to Undeploy an instance in Google cloud.
 #!
@@ -22,6 +22,8 @@
 #! @input zone: The name of the zone where the disk is located.
 #!              Examples: 'us-central1-a, us-central1-b, us-central1-c'
 #! @input instance_name: The name of the instance.
+#! @input start_instance_scheduler_id: Start Instance scheduler ID.Optional
+#! @input stop_instance_scheduler_id: Stop Instance scheduler ID.Optional
 #! @input polling_interval: The number of seconds to wait until performing another check.
 #!                          Default: '20'
 #!                          Optional
@@ -83,6 +85,10 @@ flow:
         sensitive: true
     - zone
     - instance_name
+    - start_instance_scheduler_id:
+        required: false
+    - stop_instance_scheduler_id:
+        required: false
     - polling_interval:
         default: '20'
         required: false
@@ -300,7 +306,7 @@ flow:
             - second_string: '404'
             - ignore_case: 'false'
         navigate:
-          - SUCCESS: set_success_message_for_instance
+          - SUCCESS: get_tenant_id
           - FAILURE: on_failure
     - set_success_message_for_instance:
         worker_group: '${worker_group}'
@@ -324,6 +330,95 @@ flow:
           - HAS_MORE: wait_before_check
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - get_tenant_id:
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - dnd_rest_user: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_user')}"
+            - start_instance_scheduler_id: '${start_instance_scheduler_id}'
+            - stop_instance_scheduler_id: '${stop_instance_scheduler_id}'
+        publish:
+          - dnd_rest_user
+          - dnd_tenant_id: '${dnd_rest_user.split("/")[0]}'
+          - start_instance_scheduler_id
+          - stop_instance_scheduler_id
+        navigate:
+          - SUCCESS: check_stop_instance_scheduler_id
+          - FAILURE: on_failure
+    - check_start_vm_scheduler_id:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${start_instance_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: set_success_message_for_instance
+          - FAILURE: api_call_to_delete_start_vm_scheduler
+    - check_stop_instance_scheduler_id:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${stop_instance_scheduler_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: check_start_vm_scheduler_id
+          - FAILURE: api_call_to_delete_stop_instance_scheduler
+    - api_call_to_delete_stop_instance_scheduler:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_delete:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+stop_instance_scheduler_id.strip()}"
+            - username: '${dnd_rest_user}'
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
+            - trust_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
+                sensitive: true
+            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
+            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+        navigate:
+          - SUCCESS: check_start_vm_scheduler_id
+          - FAILURE: on_failure
+    - api_call_to_delete_start_vm_scheduler:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_delete:
+            - url: "${get_sp('io.cloudslang.microfocus.content.oo_rest_uri')+'/scheduler/rest/v1/'+dnd_tenant_id+'/schedules/'+start_instance_scheduler_id.strip()}"
+            - username: '${dnd_rest_user}'
+            - password:
+                value: "${get_sp('io.cloudslang.microfocus.content.dnd_rest_password')}"
+                sensitive: true
+            - proxy_host: "${get_sp('io.cloudslang.microfocus.content.proxy_host')}"
+            - proxy_port: "${get_sp('io.cloudslang.microfocus.content.proxy_port')}"
+            - proxy_username: "${get_sp('io.cloudslang.microfocus.content.proxy_username')}"
+            - proxy_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.proxy_password')}"
+                sensitive: true
+            - trust_all_roots: "${get_sp('io.cloudslang.microfocus.content.trust_all_roots')}"
+            - x_509_hostname_verifier: "${get_sp('io.cloudslang.microfocus.content.x_509_hostname_verifier')}"
+            - trust_keystore: "${get_sp('io.cloudslang.microfocus.content.trust_keystore')}"
+            - trust_password:
+                value: "${get_sp('io.cloudslang.microfocus.content.trust_password')}"
+                sensitive: true
+            - socket_timeout: "${get_sp('io.cloudslang.microfocus.content.socket_timeout')}"
+            - worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
+        navigate:
+          - SUCCESS: set_success_message_for_instance
+          - FAILURE: on_failure
   outputs:
     - status
     - return_result
@@ -337,7 +432,7 @@ extensions:
   graph:
     steps:
       get_instance_details:
-        x: 640
+        x: 520
         'y': 80
       set_failure_message_for_to_get_instance:
         x: 200
@@ -346,15 +441,27 @@ extensions:
           572f3742-25f6-1645-41e9-057db372476c:
             targetId: 2a8e1762-d81b-3723-74a1-9f4a27bc2ab0
             port: SUCCESS
+      api_call_to_delete_stop_instance_scheduler:
+        x: 1280
+        'y': 80
+      check_stop_instance_scheduler_id:
+        x: 1080
+        'y': 80
       is_status_code:
         x: 880
         'y': 80
+      get_tenant_id:
+        x: 1000
+        'y': 240
       delete_instance:
         x: 360
         'y': 80
       wait_before_check:
         x: 520
         'y': 360
+      check_start_vm_scheduler_id:
+        x: 1200
+        'y': 240
       set_failure_message_for_instance:
         x: 360
         'y': 280
@@ -372,23 +479,26 @@ extensions:
       get_access_token_using_web_api:
         x: 40
         'y': 80
+      api_call_to_delete_start_vm_scheduler:
+        x: 1200
+        'y': 440
       set_success_message_for_instance:
-        x: 1080
-        'y': 80
+        x: 1400
+        'y': 240
         navigate:
           1dd3cb8e-5adb-9da3-bc9c-4e1a101e8e2c:
             targetId: 3754bc18-f158-2264-152a-0148a17c1171
             port: SUCCESS
       counter:
-        x: 760
+        x: 720
         'y': 360
         navigate:
           0eab0170-33cb-3e37-881b-1a419b651d86:
             targetId: f8501923-9451-6871-f819-a386c8a10e05
             port: NO_MORE
       compare_power_state:
-        x: 920
-        'y': 240
+        x: 720
+        'y': 200
       get_instance:
         x: 200
         'y': 80
@@ -398,10 +508,10 @@ extensions:
           x: 200
           'y': 480
         f8501923-9451-6871-f819-a386c8a10e05:
-          x: 1000
+          x: 880
           'y': 360
       SUCCESS:
         3754bc18-f158-2264-152a-0148a17c1171:
-          x: 1080
-          'y': 320
+          x: 1560
+          'y': 240
 
