@@ -134,7 +134,7 @@ flow:
     - key_pair_name:
         required: true
     - security_group_id:
-        required: true
+        required: false
     - volume_type:
         required: false
     - volume_size:
