@@ -1,17 +1,25 @@
 ########################################################################################################################
 #!!
-#! @description: Generated description.
+#! @description: Adds rows or columns of data to a CSV document. This operation can be used to add/insert/update data to CSV files.
+#!               A least one of the following must be provided: row_data or column_data.
+#!               CSV formats are supported.
 #!
 #! @input csv_file_name: The absolute path to the new CSV document.
 #!                       Examples: c:\temp\test.csv
-#! @input row_data: A delimited list of data.
-#! @input row_index: A row index where the new row should be inserted.
+#! @input row_data: A delimited list of data on rows.
+#!                  Optional
+#! @input row_index: A row index where the new rows should be inserted.
 #!                   Examples: 1, 5
-#!                   Default Value: after the last row of the CSV file.
+#!                   Default Value: after the last row
+#!                   of the CSV file.
 #!                   Optional
-#! @input row_delimiter: The delimiter used to separate the rows of the input csv file and of the returnResult.
-#!                       Default value: \n (new line)
-#!                       Optional
+#! @input column_data: A delimited list of data on columns.
+#!                     Optional
+#! @input column_index: A column index where the new columns should be inserted.
+#!                      Examples: 1, 5
+#!                      Default Value: after the
+#!                      last column of the CSV file.
+#!                      Optional
 #! @input column_delimiter: The delimiter used to separate the columns of the returnResult.
 #!                          Default value: , (comma)
 #!                          Optional
@@ -39,7 +47,8 @@ operation:
         default: ${get('csv_file_name', '')}
         required: false
         private: true
-    - row_data
+    - row_data:
+        required: false
     - rowData:
         default: ${get('row_data', '')}
         required: false
@@ -50,10 +59,16 @@ operation:
         default: ${get('row_index', '')}
         required: false
         private: true
-    - row_delimiter:
+    - column_data:
         required: false
-    - rowDelimiter:
-        default: ${get('row_delimiter', '')}
+    - columnData:
+        default: ${get('column_data', '')}
+        required: false
+        private: true
+    - column_index:
+        required: false
+    - columnIndex:
+        default: ${get('column_index', '')}
         required: false
         private: true
     - column_delimiter:
