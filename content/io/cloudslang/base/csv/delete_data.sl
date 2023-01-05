@@ -52,7 +52,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-csv:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-csv:0.0.2-SNAPSHOT'
     class_name: 'io.cloudslang.content.csv.actions.DeleteData'
     method_name: 'execute'
 
