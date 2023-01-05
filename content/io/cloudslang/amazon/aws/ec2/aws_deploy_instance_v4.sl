@@ -50,9 +50,16 @@
 #!                       d2.4xlarge | d2.8xlarge
 #!                       Default: 't2.micro'
 #!                       Optional
-#! @input volume_type:  Type of Volume.
-#!                      Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
-#!                      Default: 'Standard'
+#! @input key_pair_name: The name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
+#!                       Important: If you do not specify a key pair, you can't connect to the instance unless you choose
+#!                       an AMI that is configured to allow users another way to log in.
+#!                       Default: ''
+#!                       Optional
+#! @input security_group_id: IDs of the security groups for the instance.
+#!                           Example: "sg-01234567"
+#! @input volume_type: Type of Volume.
+#!                     Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
+#!                     Default: 'Standard'
 #! @input volume_size: Volume size in GB.
 #!                     Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),
 #!                     500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 for
@@ -60,11 +67,6 @@
 #!                     larger than the snapshot size. If you are creating the volume from a snapshot and don't specify
 #!                     a volume size, the default is the snapshot size.
 #!                     Default: '10'
-#! @input key_pair_name: The name of the key pair. You can create a key pair using <CreateKeyPair> or <ImportKeyPair>.
-#!                       Important: If you do not specify a key pair, you can't connect to the instance unless you choose
-#!                       an AMI that is configured to allow users another way to log in.
-#!                       Default: ''
-#!                       Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: The proxy server port used to access the provider services.
@@ -105,7 +107,6 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.amazon.aws.ec2
-
 imports:
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
@@ -114,7 +115,7 @@ imports:
   instances: io.cloudslang.amazon.aws.ec2.instances
   utils: io.cloudslang.amazon.aws.ec2.utils
 flow:
-  name: aws_deploy_instance_v3
+  name: aws_deploy_instance_v4
   inputs:
     - provider_sap:
         default: 'https://ec2.amazonaws.com'
@@ -132,6 +133,8 @@ flow:
         required: true
     - key_pair_name:
         required: true
+    - security_group_id:
+        required: false
     - volume_type:
         required: false
     - volume_size:
@@ -356,6 +359,7 @@ flow:
             - volume_sizes_string: '${volume_size}'
             - volume_types_string: '${volume_type}'
             - key_pair_name
+            - security_group_ids_string: '${security_group_id}'
             - user_data
         publish:
           - return_result
@@ -748,8 +752,8 @@ extensions:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
       set_endpoint:
-        x: 100
-        'y': 240
+        x: 40
+        'y': 320
       is_public_dns_name_not_present:
         x: 2206
         'y': 53
@@ -810,3 +814,4 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 440
           'y': 560
+
