@@ -158,6 +158,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - check_label_keys_values_equal:
+        worker_group: '${worker_group}'
+        do:
+          new_jan5.check_label_keys_values_equal:
+            - label_keys: '${label_keys}'
+            - label_values: '${label_values}'
+        publish:
+          - return_result: '${error_message}'
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
+          - FAILURE: on_failure
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
@@ -549,6 +560,9 @@ flow:
 extensions:
   graph:
     steps:
+      check_label_keys_values_equal:
+        x: 40
+        'y': 440
       check_disk_name_type_is_null:
         x: 640
         'y': 280
@@ -606,9 +620,6 @@ extensions:
                 'y': 440
             targetId: form_disk_type_url
             port: IS_NOT_NULL
-      get_instance:
-        x: 960
-        'y': 80
       form_disk_type_url:
         x: 360
         'y': 480
@@ -666,6 +677,9 @@ extensions:
             port: NO_MORE
       compare_power_state:
         x: 1480
+        'y': 80
+      get_instance:
+        x: 960
         'y': 80
     results:
       SUCCESS:
