@@ -161,7 +161,7 @@ flow:
     - check_label_keys_values_equal:
         worker_group: '${worker_group}'
         do:
-          new_jan5.check_label_keys_values_equal:
+          io.cloudslang.google.compute_v2.utils.check_label_keys_values_equal:
             - label_keys: '${label_keys}'
             - label_values: '${label_values}'
         publish:
