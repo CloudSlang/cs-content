@@ -231,10 +231,10 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
-            - variable: '${additional_disk_size}'
+            - variable: '${additional_disk_type}'
         navigate:
           - IS_NULL: default_additional_disk_type_url
-          - IS_NOT_NULL: random_number_generator_for_vm_disk_name
+          - IS_NOT_NULL: form_additional_disk_type_url
     - random_number_generator_for_vm_disk_name:
         worker_group: '${worker_group}'
         do:
@@ -542,6 +542,18 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - form_additional_disk_type_url:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - additional_disk_type: '${additional_disk_type}'
+            - project_id: '${project_id}'
+            - zone: '${zone}'
+        publish:
+          - additional_disk_type: "${'https://www.googleapis.com/compute/v1/projects/'+str(project_id)+'/zones/'+str(zone)+'/diskTypes/'+str(additional_disk_type)+''}"
+        navigate:
+          - SUCCESS: random_number_generator_for_vm_disk_name
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -591,19 +603,24 @@ extensions:
         navigate:
           0e5001f7-877d-ac64-4f05-ca773bdbcc08:
             vertices:
-              - x: 800
+              - x: 760
                 'y': 200
             targetId: check_disk_name_type_is_null
             port: IS_NOT_NULL
           7bca4121-e58c-258f-657d-acc4c438879a:
             vertices:
+              - x: 800
+                'y': 80
               - x: 880
-                'y': 120
+                'y': 80
             targetId: get_instance
             port: IS_NULL
       default_disk_type_url:
         x: 360
         'y': 80
+      form_additional_disk_type_url:
+        x: 800
+        'y': 120
       is_disk_type_is_empty:
         x: 360
         'y': 280
