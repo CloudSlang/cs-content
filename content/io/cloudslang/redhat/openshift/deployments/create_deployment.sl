@@ -2,7 +2,7 @@
 #!!
 #! @description: This operation creates a new deployment.
 #!
-#! @input hostname: The url of the service to which API calls are made.
+#! @input host: The url of the service to which API calls are made.
 #!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input definition: Deployment description in YAML or JSON.
