@@ -85,7 +85,101 @@
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.azure
-SS: random_number_generator
+flow:
+  name: azure_create_database_v1
+  inputs:
+    - provider_sap: 'https://management.azure.com'
+    - subscription_id
+    - tenant_id
+    - client_secret:
+        sensitive: true
+    - client_id
+    - database_name
+    - db_server_name
+    - resource_group_name
+    - location
+    - db_server_password:
+        sensitive: true
+    - db_server_username
+    - db_service_level:
+        default: S0
+        required: false
+    - database_edition:
+        default: Standard
+        required: false
+    - tag_name_list:
+        required: false
+    - tag_value_list:
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: false
+    - proxy_username:
+        required: false
+    - proxy_password:
+        required: false
+        sensitive: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
+    - connect_timeout:
+        default: '10'
+        required: false
+    - socket_timeout:
+        default: '0'
+        required: false
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
+  workflow:
+    - check_tagnames_tagvalues_equal:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.check_tagnames_tagvalues_equal:
+            - tag_name_list: '${tag_name_list}'
+            - tag_value_list: '${tag_value_list}'
+        publish:
+          - return_result: '${error_message}'
+        navigate:
+          - SUCCESS: get_auth_token_using_web_api
+          - FAILURE: on_failure
+    - get_auth_token_using_web_api:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.authorization.get_auth_token_using_web_api:
+            - tenant_id: '${tenant_id}'
+            - client_id: '${client_id}'
+            - client_secret:
+                value: '${client_secret}'
+                sensitive: true
+            - resource: 'https://management.azure.com'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - auth_token:
+              value: '${auth_token}'
+              sensitive: true
+        navigate:
+          - SUCCESS: random_number_generator
           - FAILURE: on_failure
     - create_sql_database_server:
         worker_group:
