@@ -74,8 +74,8 @@
 #! @output exception: An error message in case there was an error while reading the deployment status.
 #! @output document: All the information related to a specific deployment in the json format.
 #! @output kind: The deployment kind.
-#! @output name_output: The deployment name.
-#! @output namespace_output: The deployment namespace.
+#! @output deployment_name: The deployment name.
+#! @output deployment_namespace: The deployment namespace.
 #! @output uid: The deployment uid.
 #! @output spec: The spec of the deployment in JSON format.
 #! @output status: The status of the deployment in JSON format.
