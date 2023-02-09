@@ -77,7 +77,6 @@
 #! @output name_output: The deployment name.
 #! @output namespace_output: The deployment namespace.
 #! @output uid: The deployment uid.
-#! @output metadata: The metadata of the deployment in JSON format.
 #! @output spec: The spec of the deployment in JSON format.
 #! @output status: The status of the deployment in JSON format.
 #!
@@ -186,7 +185,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.1-RC2'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.1-RC3'
     class_name: 'io.cloudslang.content.redhat.actions.GetDeploymentDetails'
     method_name: 'execute'
   
@@ -200,7 +199,6 @@ operation:
     - deployment_name: ${get('deploymentName', '')}
     - deployment_namespace: ${get('deploymentNamespace', '')}
     - uid: ${get('uid', '')} 
-    - metadata: ${get('metadata', '')}
     - spec: ${get('spec', '')}
     - status: ${get('status', '')}
   
