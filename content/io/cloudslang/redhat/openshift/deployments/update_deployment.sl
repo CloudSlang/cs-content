@@ -83,7 +83,7 @@
 namespace: io.cloudslang.redhat.openshift.deployments
 
 operation:
-  name: create_deployment
+  name: update_deployment
 
   inputs:
     - host
