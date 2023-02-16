@@ -14,12 +14,10 @@
 ########################################################################################################################
 #!!
 #! @description: This flow launches one new instance. EBS volumes may be configured, created and attached to the instance.
-#!               Existent network interfaces can be attached or, if desired, one or more new network interfaces can be
-#!               created and attached to the instance. If you want these resources to be deleted when the instance is
-#!               terminated, set the delete_on_terminations_string and network_interface_delete_on_termination inputs
-#!               properly. After the instance is created and running, a tag is added to the instance. In case there is
-#!               something wrong during the execution of run instance, the resources created will be deleted.
-#!
+#!               and attached to the instance. If you want these resources to be deleted when the instance is
+#!               terminated, set the delete_on_terminations_string . After the instance is created and running,  
+#!               tags can be  added to the instance and  resources which are attached to it.In case there is something
+#!                wrong during the execution of run instance, the resources created will be deleted.
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -63,7 +61,7 @@
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
 #!                          Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 forMagnetic ("standard") volumes. 
 #!                          If you specify a snapshot, the volume size must be equal to orlarger than the snapshot size. If you are creating the volume from a snapshot and don't specifya volume size, the default is the snapshot size. 
-#!                          Optional: '10'
+#!                          Optional
 #! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
 #!                      Optional
 #! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
@@ -163,7 +161,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - check_keytaglist_valuelist_equal:
+    - check_keytaglist_valuetaglist_equal:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.check_keytaglist_valuetaglist_equal:
@@ -528,7 +526,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: is_os_type_windows
+          - SUCCESS: check_key_tag_is_null_1_1
           - FAILURE: on_failure
     - is_ip_address_not_found:
         worker_group: '${worker_group}'
@@ -808,6 +806,37 @@ flow:
         navigate:
           - IS_NULL: is_ip_address_not_found
           - IS_NOT_NULL: describe_instances_1
+    - create_tags_2_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.ec2.tags.create_tags:
+            - endpoint: '${provider_sap}'
+            - identity: '${access_key_id}'
+            - credential:
+                value: '${access_key}'
+                sensitive: true
+            - proxy_host
+            - proxy_port
+            - proxy_username
+            - proxy_password
+            - resource_ids_string: '${volume_id_list}'
+            - key_tags_string: '${key_tag_list}'
+            - value_tags_string: '${value_tag_list}'
+        publish:
+          - return_result
+          - return_code
+          - exception
+        navigate:
+          - SUCCESS: is_os_type_windows
+          - FAILURE: on_failure
+    - check_key_tag_is_null_1_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.is_null:
+            - variable: '${key_tag_list}'
+        navigate:
+          - IS_NULL: is_os_type_windows
+          - IS_NOT_NULL: create_tags_2_1
   outputs:
     - instance_id
     - availability_zone_out
@@ -835,6 +864,9 @@ extensions:
       list_iterator_for_volume_size:
         x: 1400
         'y': 440
+      create_tags_2_1:
+        x: 960
+        'y': 40
       create_and_attach_single_volume:
         x: 1240
         'y': 640
@@ -854,12 +886,12 @@ extensions:
       check_volumetypelist_volumesizelist_equal:
         x: 1240
         'y': 120
-      check_keytaglist_volumetaglist_equal:
-        x: 40
-        'y': 560
+      check_key_tag_is_null_1_1:
+        x: 880
+        'y': 160
       is_os_type_windows:
         x: 960
-        'y': 40
+        'y': 320
       set_mac_address:
         x: 2360
         'y': 40
@@ -887,9 +919,12 @@ extensions:
       describe_instances:
         x: 520
         'y': 80
+      check_keytaglist_valuetaglist_equal:
+        x: 40
+        'y': 560
       set_os_type_linux:
         x: 960
-        'y': 240
+        'y': 440
       is_instance_name_empty:
         x: 360
         'y': 80
@@ -942,7 +977,7 @@ extensions:
         'y': 410
       volume_size_list:
         x: 960
-        'y': 440
+        'y': 560
       convert_xml_to_json:
         x: 1560
         'y': 640
@@ -990,7 +1025,7 @@ extensions:
             port: FAILURE
       volume_type_list:
         x: 1120
-        'y': 440
+        'y': 560
     results:
       SUCCESS:
         576dec96-8f7c-fa7a-5ec4-69f50e183dff:
