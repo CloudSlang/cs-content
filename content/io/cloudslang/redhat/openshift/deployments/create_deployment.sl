@@ -6,7 +6,7 @@
 #!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
 #! @input definition: Deployment description in YAML or JSON.
-#! @input namespace: Namespace to create the deployment into.
+#! @input namespace: The namespace in which the deployment will be created.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -179,7 +179,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-openshift:0.0.2-RC1'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.2'
     class_name: 'io.cloudslang.content.redhat.actions.CreateDeployment'
     method_name: 'execute'
 

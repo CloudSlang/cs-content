@@ -1,11 +1,13 @@
 ########################################################################################################################
 #!!
-#! @description: This operation returns a list of deployment present in a given namespace.
+#! @description: This operation partially updates the specified given deployment.
 #!
 #! @input host: The url of the service to which API calls are made.
-#!              Example: https://api.domain:6443
+#!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input namespace: The namespace where the specific deployment can be found.
+#! @input definition: Deployment description in YAML or JSON.
+#! @input name: The name of the deployment to be updated.
+#! @input namespace: The namespace in which the deployment will be updated.
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -13,19 +15,20 @@
 #!                    Optional
 #! @input proxy_username: The username used when connecting to the proxy.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the 'proxy_username' input value.
+#! @input proxy_password: The proxy server password associated with the 'proxyUsername' input value.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
-#!                     information.Valid values: TLSv1, TLSv1.1, TLSv1.2
+#!                     information.
+#!                     Valid values: TLSv1, TLSv1.1, TLSv1.2
 #!                     Default value: TLSv1.2
 #!                     Optional
-#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tls_version' does not
+#! @input allowed_ciphers: A list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not
 #!                         contain 'TLSv1.2'. This capability is provided “as is”, please see product documentation for
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -51,11 +54,11 @@
 #!                                 Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
 #!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if 'trust_all_roots' is
-#!                        'true' this input is ignored. 
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored.
 #!                        Format: Java KeyStore (JKS)
 #!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If 'trust_all_roots' is false and 'trust_keystore'
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
@@ -63,137 +66,131 @@
 #!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature. 
+#!                           call. A value of '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
 #!
 #! @output return_result: A suggestive message in case of success or failure.
-#! @output status_code: The HTTP status code for Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while reading the deployment status.
-#! @output document: All the information related to a specific deployment in the json format.
-#! @output kind: The deployment kind.
-#! @output name_output: The deployment name.
-#! @output deployment_list: A comma separated list of deployments uids.
-#! @output deployment_array: A list containing pairs of deployments name and uids in JSON format.
+#! @output exception: An error message in case there was an error while updating the deployment.
+#! @output status_code: The HTTP status code for Openshift API request.
 #!
-#! @result SUCCESS: The retrieval of the deployment list was successful.
-#! @result FAILURE: There was an error while retrieving the deployment list.
+#! @result SUCCESS: Deployment was successfully updated.
+#! @result FAILURE: There was an error while trying to update the deployment.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.redhat.openshift.deployments
 
-operation: 
-  name: get_deployment_list
-  
-  inputs: 
-    - host    
+operation:
+  name: update_deployment
+
+  inputs:
+    - host
     - auth_token:
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
+    - authToken:
+        default: ${get('auth_token', '')}
+        required: true
         private: true
         sensitive: true
+    - name
     - namespace
+    - definition
     - proxy_host:
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
         private: true
     - proxy_port:
         default: '8080'
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
-        required: false  
-    - tlsVersion: 
-        default: ${get('tls_version', '')}  
-        required: false 
-        private: true 
-    - allowed_ciphers:  
-        required: false  
-    - allowedCiphers: 
-        default: ${get('allowed_ciphers', '')}  
-        required: false 
-        private: true 
+        required: false
+    - tlsVersion:
+        default: ${get('tls_version', '')}
+        required: false
+        private: true
+    - allowed_ciphers:
+        required: false
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', '')}
+        required: false
+        private: true
     - trust_all_roots:
         default: 'false'
-        required: false  
+        required: false
     - trustAllRoots:
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
-        required: false  
-    - x509HostnameVerifier: 
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+        required: false
+    - x509HostnameVerifier:
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
     - connect_timeout:
         default: '60'
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
     - execution_timeout:
         default: '60'
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
+        required: false
+    - executionTimeout:
+        default: ${get('execution_timeout', '')}
+        required: false
+        private: true
 
-  java_action: 
+  java_action:
     gav: 'io.cloudslang.content:cs-openshift:0.0.2'
-    class_name: 'io.cloudslang.content.redhat.actions.GetDeploymentList'
+    class_name: 'io.cloudslang.content.redhat.actions.UpdateDeployment'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - exception: ${get('exception', '')} 
-    - document: ${get('document', '')} 
-    - deployment_list: ${get('deploymentList', '')}
-    - deployment_array: ${get('deploymentArray', '')}
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
+    - status_code: ${get('statusCode', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
