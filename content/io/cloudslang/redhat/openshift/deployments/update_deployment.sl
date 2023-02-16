@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation partially update the specified given deployment.
+#! @description: This operation partially updates the specified given deployment.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!                  Example: https://api.domain:6443
@@ -181,7 +181,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-openshift:0.0.2-RC2'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.2'
     class_name: 'io.cloudslang.content.redhat.actions.UpdateDeployment'
     method_name: 'execute'
 
