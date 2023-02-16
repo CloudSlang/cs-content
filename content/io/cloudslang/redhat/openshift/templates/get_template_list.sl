@@ -191,7 +191,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.2'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.3'
     class_name: 'io.cloudslang.content.redhat.actions.GetTemplateList'
     method_name: 'execute'
   
