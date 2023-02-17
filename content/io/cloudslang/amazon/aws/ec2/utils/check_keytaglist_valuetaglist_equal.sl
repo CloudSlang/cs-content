@@ -13,10 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Checks if number of comma separated values in tag name list is equal to that of tag value list.
+#! @description: Checks if number of comma separated values in key tag list is equal to that of  value tag list.
 #!
-#! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.Optional
-#! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.Optional
+#! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
+#!                      Optional
+#! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
+#!                        Optional
 #!
 #! @output return_result: If successful, returns a message
 #! @output error_message: If there is an exception or error message.
