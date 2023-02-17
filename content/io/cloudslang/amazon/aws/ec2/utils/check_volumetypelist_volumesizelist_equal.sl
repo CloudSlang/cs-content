@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Checks if number of comma separated values in tag name list is equal to that of tag value list.
+#! @description: Checks if number of comma separated values in volume type list is equal to that of volume size list.
 #!
 #! @input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
