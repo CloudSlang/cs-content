@@ -133,8 +133,8 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.detach_security_group_condition_check.sl:
-            - existing_security_grps: '${existing_security_group_ids}'
-            - security_grps_to_delete: '${security_group_ids_to_detach}'
+            - existing_security_groups: '${existing_security_group_ids}'
+            - security_groups_to_delete: '${security_group_ids_to_detach}'
         publish:
           - final_security_groups_present: '${result}'
           - return_result: '${error_message}'

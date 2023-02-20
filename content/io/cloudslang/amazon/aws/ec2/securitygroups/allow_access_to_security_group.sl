@@ -136,8 +136,8 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check.sl:
-            - security_grp_ids_new: '${security_group_ids_to_attach}'
-            - security_grp_ids_old: '${existing_security_group_ids}'
+            - security_group_ids_new: '${security_group_ids_to_attach}'
+            - security_group_ids_old: '${existing_security_group_ids}'
         publish:
           - return_result: '${error_message}'
         navigate:

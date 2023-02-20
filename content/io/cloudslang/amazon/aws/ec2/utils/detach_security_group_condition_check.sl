@@ -17,8 +17,8 @@
 #!               at least one security group present after detaching. It returns the string of comma-separated
 #!               security group IDs after removing the IDs of security groups to be detached.
 #!
-#! @input security_grps_to_delete: The security group Ids which are to be detached from the instance.
-#! @input existing_security_grps: The security group Ids which are already attached to the instance.
+#! @input security_groups_to_delete: The security group Ids which are to be detached from the instance.
+#! @input existing_security_groups: The security group Ids which are already attached to the instance.
 #!
 #! @output result: The security group Ids present after removing the Ids to detach
 #! @output error_message: If there is an exception or error message.
@@ -33,26 +33,26 @@ namespace: io.cloudslang.amazon.aws.ec2.utils
 operation:
   name: detach_security_group_condition_check
   inputs:
-    - security_grps_to_delete:
+    - security_groups_to_delete:
         required: true
-    - existing_security_grps:
+    - existing_security_groups:
         required: false
   python_action:
     script: |-
       try:
           error_message = ""
-          if(security_grps_to_delete):
-              security_grps_to_delete=security_grps_to_delete.split(',')
-              existing_security_grps=existing_security_grps.split(',')
-              for secgrp in security_grps_to_delete:
-                  if secgrp in existing_security_grps:
-                      existing_security_grps.remove(secgrp)
+          if(security_groups_to_delete):
+              security_groups_to_delete=security_groups_to_delete.split(',')
+              existing_security_groups=existing_security_groups.split(',')
+              for secgroup in security_groups_to_delete:
+                  if secgroup in existing_security_groups:
+                      existing_security_groups.remove(secgroup)
                   else:
                       error_message="Security Group to be detached is not attached to the instance"
                       break
-              if((len(existing_security_grps))<1):
+              if((len(existing_security_groups))<1):
                   error_message = "Atleast one security group should be present"
-              result=','.join(existing_security_grps)
+              result=','.join(existing_security_groups)
       except:
           error_message = "Invalid"
   outputs:

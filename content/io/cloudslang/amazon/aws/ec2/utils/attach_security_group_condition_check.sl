@@ -16,8 +16,8 @@
 #! @description: This operation returns success, If the number of security groups is less than or equal to 5 and
 #!               the security group to be added does not already exist.
 #!
-#! @input security_grp_ids_new: The security group Ids which are to be attached to the instance.
-#! @input security_grp_ids_old: The security group Ids which are already attached to the instance.
+#! @input security_group_ids_new: The security group Ids which are to be attached to the instance.
+#! @input security_group_ids_old: The security group Ids which are already attached to the instance.
 #!
 #! @output return_result: If successful, returns a message
 #! @output error_message: If there is an exception or error message.
@@ -32,24 +32,24 @@ namespace: io.cloudslang.amazon.aws.ec2.utils
 operation:
   name: attach_security_group_condition_check
   inputs:
-    - security_grp_ids_new:
+    - security_group_ids_new:
         required: true
-    - security_grp_ids_old:
+    - security_group_ids_old:
         required: false
   python_action:
     script: |-
       try:
           error_message = ""
           return_result = ""
-          if(security_grp_ids_new):
-              if((len(security_grp_ids_new.split(',')))+(len(security_grp_ids_old.split(',')))>5):
+          if(security_group_ids_new):
+              if((len(security_group_ids_new.split(',')))+(len(security_group_ids_old.split(',')))>5):
                   error_message = "Security Group limit exceeded.Number of security groups for an instance should be less than or equal to 5."
               else:
                   common_security_group=0
-                  security_grp_ids_new=security_grp_ids_new.split(',')
-                  security_grp_ids_old=security_grp_ids_old.split(',')
-                  for i in security_grp_ids_new:
-                      if i in security_grp_ids_old:
+                  security_group_ids_new=security_group_ids_new.split(',')
+                  security_group_ids_old=security_group_ids_old.split(',')
+                  for i in security_group_ids_new:
+                      if i in security_group_ids_old:
                           common_security_group=1
                           break
                   if(not common_security_group):
