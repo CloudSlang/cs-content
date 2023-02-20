@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation partially updates the specified given deployment.
+#! @description: This operation partially updates the specified deployment.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!                  Example: https://api.domain:6443
