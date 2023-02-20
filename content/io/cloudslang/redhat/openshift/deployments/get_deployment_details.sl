@@ -71,8 +71,8 @@
 #! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The HTTP status code for Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while reading the deployment status.
-#! @output document: All the information related to a specific deployment in the json format.
+#! @output exception: An error message in case there was an error while reading the deployment details.
+#! @output document: All the information related to a specific deployment in JSON format.
 #! @output kind: The deployment kind.
 #! @output deployment_name: The deployment name.
 #! @output deployment_namespace: The deployment namespace.

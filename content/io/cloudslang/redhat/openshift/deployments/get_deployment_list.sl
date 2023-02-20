@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation returns a list of deployment present in a given namespace.
+#! @description: This operation returns a list of deployments present in a given namespace.
 #!
 #! @input host: The url of the service to which API calls are made.
 #!              Example: https://api.domain:6443
@@ -70,10 +70,10 @@
 #! @output return_result: A suggestive message in case of success or failure.
 #! @output status_code: The HTTP status code for Openshift API request.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output exception: An error message in case there was an error while reading the deployment status.
-#! @output document: All the information related to a specific deployment in the json format.
-#! @output deployment_list: A comma separated list of deployments uids.
-#! @output deployment_array: A list containing pairs of deployments name and uids in JSON format.
+#! @output exception: An error message in case there was an error while getting the deployment list.
+#! @output document: All the information related to the deployment list.
+#! @output deployment_list: A comma separated list of deployment uids.
+#! @output deployment_array: A list containing pairs of deployment names and uids in JSON format.
 #!
 #! @result SUCCESS: The retrieval of the deployment list was successful.
 #! @result FAILURE: There was an error while retrieving the deployment list.

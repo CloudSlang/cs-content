@@ -5,7 +5,7 @@
 #! @input host: The url of the service to which API calls are made.
 #!                  Example: https://api.domain:6443
 #! @input auth_token: Token used to authenticate to the Openshift environment.
-#! @input definition: Deployment description in YAML or JSON.
+#! @input definition: Deployment description in JSON format.
 #! @input name: The name of the deployment to be updated.
 #! @input namespace: The namespace in which the deployment will be updated.
 #! @input proxy_host: The proxy server used to access the web site.
