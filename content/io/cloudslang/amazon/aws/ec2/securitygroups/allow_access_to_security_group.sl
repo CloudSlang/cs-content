@@ -131,8 +131,8 @@ flow:
         publish:
           - existing_security_group_ids: '${result}'
         navigate:
-          - SUCCESS: attach_sec_grp_condition_check
-    - attach_sec_grp_condition_check:
+          - SUCCESS: attach_security_group_condition_check
+    - attach_security_group_condition_check:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check.sl:
@@ -168,7 +168,7 @@ extensions:
       extract_security_groupIds_from_json:
         x: 240
         'y': 360
-      attach_sec_grp_condition_check:
+      attach_security_group_condition_check:
         x: 240
         'y': 160
     results:
