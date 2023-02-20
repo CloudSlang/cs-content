@@ -123,7 +123,7 @@ flow:
     - extract_security_groupIds_from_json:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.extract_from_json.sl:
+          io.cloudslang.amazon.aws.ec2.utils.extract_from_json:
             - json_response: '${instance_json}'
         publish:
           - existing_security_group_ids: '${result}'
