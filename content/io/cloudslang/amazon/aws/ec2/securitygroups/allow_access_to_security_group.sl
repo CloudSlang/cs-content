@@ -37,7 +37,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output return_result: The Security Groups currently attached to the instance.
+#! @output  security_group_list: The Security Groups currently attached to the instance.
 #! @output error_message: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result FAILURE: There was an error while trying to attach the security group to the instance.
@@ -108,8 +108,9 @@ flow:
             - security_group_ids_string: '${existing_security_group_ids+","+security_group_ids_to_attach}'
             - instance_id: '${instance_id}'
         publish:
-          - return_result: '${security_group_ids_string}'
+          - return_result
           - error_message: '${exception}'
+          - security_groups_list: '${security_group_ids_string}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -144,7 +145,7 @@ flow:
           - SUCCESS: modify_instance_attribute
           - FAILURE: on_failure
   outputs:
-    - return_result
+    - security_group_list
     - error_message
   results:
     - FAILURE

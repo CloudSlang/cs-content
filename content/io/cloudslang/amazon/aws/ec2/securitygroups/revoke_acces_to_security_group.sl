@@ -38,7 +38,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output return_result: Returns the security groups which are currently attached to the instance after detaching
+#! @output security_group_list: Returns the security groups which are currently attached to the instance after detaching
 #! @output error_message: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result FAILURE: There was an error while trying to detach the security group from the instance.
@@ -105,8 +105,9 @@ flow:
             - security_group_ids_string: '${final_security_groups_present}'
             - instance_id: '${instance_id}'
         publish:
-          - return_result: '${security_group_ids_string}'
+          - return_result
           - error_message: '${exception}'
+          - security_group_list: '${security_group_ids_string}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -142,7 +143,7 @@ flow:
           - SUCCESS: modify_instance_attribute
           - FAILURE: on_failure
   outputs:
-    - return_result
+    - security_group_list
     - error_message
   results:
     - FAILURE
