@@ -37,7 +37,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output  security_group_list: The Security Groups currently attached to the instance.
+#! @output security_group_list: The Security Groups currently attached to the instance.
 #! @output return_result: Contains the details in case of success, error message otherwise.
 #!
 #! @result FAILURE: There was an error while trying to attach the security group to the instance.
