@@ -135,7 +135,7 @@ flow:
     - attach_security_group_condition_check:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check.sl:
+          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check:
             - security_group_ids_new: '${security_group_ids_to_attach}'
             - security_group_ids_old: '${existing_security_group_ids}'
         publish:
