@@ -14,9 +14,9 @@
 ########################################################################################################################
 #!!
 #! @description: This flow revokes access to the security groups given in the inputs.
-#!              If the number of security groups after detaching is less than 1, this flow will fail. Additionally,
-#!              if the security group to be detached is not attached to the instance or if the security group id is invalid,
-#!              an error will occur.
+#!               If the number of security groups after detaching is less than 1, this flow will fail. Additionally,
+#!               if the security group to be detached is not attached to the instance or if the security group id
+#!               is invalid, an error will occur.
 #!
 #! @input endpoint: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                  Default: 'https://ec2.amazonaws.com'
@@ -39,7 +39,7 @@
 #!                      Optional
 #!
 #! @output security_group_list: Returns the security groups which are currently attached to the instance after detaching
-#! @output error_message: Exception if there was an error when executing, empty otherwise.
+#! @output return_result: Contains the details in case of success, error message otherwise.
 #!
 #! @result FAILURE: There was an error while trying to detach the security group from the instance.
 #! @result SUCCESS: The security groups have been successfully detached from the instance.
@@ -106,7 +106,6 @@ flow:
             - instance_id: '${instance_id}'
         publish:
           - return_result
-          - error_message: '${exception}'
           - security_group_list: '${security_group_ids_string}'
         navigate:
           - SUCCESS: SUCCESS
@@ -129,22 +128,22 @@ flow:
         publish:
           - existing_security_group_ids: '${result}'
         navigate:
-          - SUCCESS: detach_sec_grp_pre_test
-    - detach_sec_grp_pre_test:
+          - SUCCESS: detach_sec_grp_condition_check
+    - detach_sec_grp_condition_check:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.detach_security_group_pre_test.sl:
+          io.cloudslang.amazon.aws.ec2.utils.detach_security_group_condition_check.sl:
             - existing_security_grps: '${existing_security_group_ids}'
             - security_grps_to_delete: '${security_group_ids_to_detach}'
         publish:
           - final_security_groups_present: '${result}'
-          - error_message
+          - return_result: '${error_message}'
         navigate:
           - SUCCESS: modify_instance_attribute
           - FAILURE: on_failure
   outputs:
     - security_group_list
-    - error_message
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -167,7 +166,7 @@ extensions:
       extract_security_groupIds_from_json:
         x: 240
         'y': 360
-      detach_sec_grp_pre_test:
+      detach_sec_grp_condition_check:
         x: 240
         'y': 120
     results:

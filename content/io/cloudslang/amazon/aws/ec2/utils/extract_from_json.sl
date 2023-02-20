@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: From the input json response, this flow extracts and returns a string of comma-separated 
-#!              security group ids that are attached to the instance.
+#! @description: From the input json response, this flow extracts and returns a string of comma-separated
+#!               security group ids that are attached to the instance.
 #!
 #! @input json_response: The input Json response from which security group Ids are to be extracted.
 #!

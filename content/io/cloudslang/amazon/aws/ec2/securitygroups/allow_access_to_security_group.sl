@@ -14,8 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: This flow attaches up to a maximum of five security groups to the instance. An error will be generated
-#!              if the number of security groups is greater than 5, if the security group to be added is already present,
-#!              or if the security group ID is invalid.
+#!               if the number of security groups is greater than 5, if the security group to be added is already
+#!               present,or if the security group ID is invalid.
 #!
 #! @input endpoint: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                  Default: 'https://ec2.amazonaws.com'
@@ -38,7 +38,7 @@
 #!                      Optional
 #!
 #! @output  security_group_list: The Security Groups currently attached to the instance.
-#! @output error_message: Exception if there was an error when executing, empty otherwise.
+#! @output return_result: Contains the details in case of success, error message otherwise.
 #!
 #! @result FAILURE: There was an error while trying to attach the security group to the instance.
 #! @result SUCCESS: The security groups have been successfully attached to the instance
@@ -109,7 +109,6 @@ flow:
             - instance_id: '${instance_id}'
         publish:
           - return_result
-          - error_message: '${exception}'
           - security_groups_list: '${security_group_ids_string}'
         navigate:
           - SUCCESS: SUCCESS
@@ -132,21 +131,21 @@ flow:
         publish:
           - existing_security_group_ids: '${result}'
         navigate:
-          - SUCCESS: attach_sec_grp_pre_test
-    - attach_sec_grp_pre_test:
+          - SUCCESS: attach_sec_grp_condition_check
+    - attach_sec_grp_condition_check:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_pre_test.sl:
+          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check.sl:
             - security_grp_ids_new: '${security_group_ids_to_attach}'
             - security_grp_ids_old: '${existing_security_group_ids}'
         publish:
-          - error_message
+          - return_result: '${error_message}'
         navigate:
           - SUCCESS: modify_instance_attribute
           - FAILURE: on_failure
   outputs:
     - security_group_list
-    - error_message
+    - return_result
   results:
     - FAILURE
     - SUCCESS
@@ -169,7 +168,7 @@ extensions:
       extract_security_groupIds_from_json:
         x: 240
         'y': 360
-      attach_sec_grp_pre_test:
+      attach_sec_grp_condition_check:
         x: 240
         'y': 160
     results:

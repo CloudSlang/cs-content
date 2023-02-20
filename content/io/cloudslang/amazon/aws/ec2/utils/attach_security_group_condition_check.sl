@@ -14,7 +14,7 @@
 ########################################################################################################################
 #!!
 #! @description: This operation returns success, If the number of security groups is less than or equal to 5 and
-#!              the security group to be added does not already exist.
+#!               the security group to be added does not already exist.
 #!
 #! @input security_grp_ids_new: The security group Ids which are to be attached to the instance.
 #! @input security_grp_ids_old: The security group Ids which are already attached to the instance.
@@ -30,7 +30,7 @@
 
 namespace: io.cloudslang.amazon.aws.ec2.utils
 operation:
-  name: attach_security_group_pre_test
+  name: attach_security_group_condition_check
   inputs:
     - security_grp_ids_new:
         required: true

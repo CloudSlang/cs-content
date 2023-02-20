@@ -14,8 +14,8 @@
 ########################################################################################################################
 #!!
 #! @description: This flow checks if the security group to be detached is not attached to the instance and if there is
-#!                  at least one security group present after detaching. It returns the string of comma-separated
-#!                  security group IDs after removing the IDs of security groups to be detached.
+#!               at least one security group present after detaching. It returns the string of comma-separated
+#!               security group IDs after removing the IDs of security groups to be detached.
 #!
 #! @input security_grps_to_delete: The security group Ids which are to be detached from the instance.
 #! @input existing_security_grps: The security group Ids which are already attached to the instance.
@@ -31,7 +31,7 @@
 
 namespace: io.cloudslang.amazon.aws.ec2.utils
 operation:
-  name: detach_security_group_pre_test
+  name: detach_security_group_condition_check
   inputs:
     - security_grps_to_delete:
         required: true
