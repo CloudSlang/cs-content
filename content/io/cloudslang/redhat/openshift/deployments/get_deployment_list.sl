@@ -72,8 +72,6 @@
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while reading the deployment status.
 #! @output document: All the information related to a specific deployment in the json format.
-#! @output kind: The deployment kind.
-#! @output name_output: The deployment name.
 #! @output deployment_list: A comma separated list of deployments uids.
 #! @output deployment_array: A list containing pairs of deployments name and uids in JSON format.
 #!
