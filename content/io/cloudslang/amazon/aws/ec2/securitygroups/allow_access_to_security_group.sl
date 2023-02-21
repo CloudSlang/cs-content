@@ -37,7 +37,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output  security_group_list: The Security Groups currently attached to the instance.
+#! @output security_group_list: The Security Groups currently attached to the instance.
 #! @output return_result: Contains the details in case of success, error message otherwise.
 #!
 #! @result FAILURE: There was an error while trying to attach the security group to the instance.
@@ -126,7 +126,7 @@ flow:
     - extract_security_groupIds_from_json:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.extract_from_json.sl:
+          io.cloudslang.amazon.aws.ec2.utils.extract_from_json:
             - json_response: '${instance_json}'
         publish:
           - existing_security_group_ids: '${result}'
@@ -135,7 +135,7 @@ flow:
     - attach_security_group_condition_check:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check.sl:
+          io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check:
             - security_group_ids_new: '${security_group_ids_to_attach}'
             - security_group_ids_old: '${existing_security_group_ids}'
         publish:
