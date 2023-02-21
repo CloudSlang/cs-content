@@ -81,6 +81,10 @@ flow:
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
             - instance_ids_string: '${instance_id}'
         publish:
           - instance_xml: '${return_result}'
@@ -106,9 +110,8 @@ flow:
             - instance_id: '${instance_id}'
         publish:
           - return_result
-          - security_group_list: '${security_group_ids_string}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: updated_security_group_list
           - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
@@ -126,20 +129,30 @@ flow:
           io.cloudslang.amazon.aws.ec2.utils.extract_from_json:
             - json_response: '${instance_json}'
         publish:
-          - existing_security_group_ids: '${result}'
+          - security_group_list: '${result}'
         navigate:
           - SUCCESS: detach_security_group_condition_check
     - detach_security_group_condition_check:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.detach_security_group_condition_check:
-            - existing_security_groups: '${existing_security_group_ids}'
+            - existing_security_groups: '${security_group_list}'
             - security_groups_to_delete: '${security_group_ids_to_detach}'
         publish:
           - final_security_groups_present: '${result}'
           - return_result: '${error_message}'
         navigate:
           - SUCCESS: modify_instance_attribute
+          - FAILURE: on_failure
+    - updated_security_group_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - security_group_list: '${final_security_groups_present}'
+        publish:
+          - security_group_list
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - security_group_list
@@ -156,10 +169,6 @@ extensions:
       modify_instance_attribute:
         x: 400
         'y': 120
-        navigate:
-          3df73323-d476-a637-4ea5-5155d3d363f3:
-            targetId: 5dc00d9d-0360-962d-86fd-396c7abd0b76
-            port: SUCCESS
       convert_xml_to_json:
         x: 40
         'y': 360
@@ -169,6 +178,13 @@ extensions:
       detach_security_group_condition_check:
         x: 240
         'y': 120
+      updated_security_group_list:
+        x: 600
+        'y': 120
+        navigate:
+          83d0a6be-5059-f479-529a-19140d19fb12:
+            targetId: 5dc00d9d-0360-962d-86fd-396c7abd0b76
+            port: SUCCESS
     results:
       SUCCESS:
         5dc00d9d-0360-962d-86fd-396c7abd0b76:
