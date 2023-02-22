@@ -14,10 +14,9 @@
 ########################################################################################################################
 #!!
 #! @description: This flow launches one new instance. EBS volumes may be configured, created and attached to the instance.
-#!               and attached to the instance. If you want these resources to be deleted when the instance is
-#!               terminated, set the delete_on_terminations_string . After the instance is created and running,  
-#!               tags can be  added to the instance and  resources which are attached to it.In case there is something
-#!                wrong during the execution of run instance, the resources created will be deleted.
+#!                If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
+#!                After the instance is created and running,tags can be  added to the instance and resources which are attached
+#!                to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -55,9 +54,9 @@
 #!                       Optional
 #! @input security_group_id: IDs of the security groups for the instance.
 #!                           Example: "sg-01234567"
-#! @input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
+#!@input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
-#!                            Optional
+#!                          Optional
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
 #!                          Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 forMagnetic ("standard") volumes. 
 #!                          If you specify a snapshot, the volume size must be equal to orlarger than the snapshot size. If you are creating the volume from a snapshot and don't specifya volume size, the default is the snapshot size. 
@@ -161,6 +160,15 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
+    - check_volumetypelist_volumesizelist_equal:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.amazon.aws.ec2.utils.check_volumetypelist_volumesizelist_equal:
+            - volume_type_list: '${volume_type_list}'
+            - volume_size_list: '${volume_size_list}'
+        navigate:
+          - SUCCESS: check_keytaglist_valuetaglist_equal
+          - FAILURE: on_failure
     - check_keytaglist_valuetaglist_equal:
         worker_group: '${worker_group}'
         do:
@@ -227,7 +235,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_key_tag_is_null_1
+          - SUCCESS: is_ip_address_not_found
           - FAILURE: on_failure
     - check_instance_state_v2:
         worker_group:
@@ -426,7 +434,7 @@ flow:
           - volume_id_list: '${device_name_list+"::"+volume_id_list}'
         navigate:
           - IS_NULL: set_ip_address
-          - IS_NOT_NULL: check_volumetypelist_volumesizelist_equal
+          - IS_NOT_NULL: is_volume_size_0
     - is_volume_size_0:
         worker_group: '${worker_group}'
         do:
@@ -689,15 +697,6 @@ flow:
         navigate:
           - SUCCESS: is_volume_size_null
           - FAILURE: on_failure
-    - check_volumetypelist_volumesizelist_equal:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.amazon.aws.ec2.utils.check_volumetypelist_volumesizelist_equal:
-            - volume_type_list: '${volume_type_list}'
-            - volume_size_list: '${volume_type_list}'
-        navigate:
-          - SUCCESS: is_volume_size_0
-          - FAILURE: on_failure
     - list_iterator_for_volume_size:
         worker_group: '${worker_group}'
         do:
@@ -707,7 +706,7 @@ flow:
           - volume_size: '${result_string}'
         navigate:
           - HAS_MORE: list_iterator_for_volume_type
-          - NO_MORE: set_ip_address
+          - NO_MORE: check_key_tag_list_is_null
           - FAILURE: on_failure
     - list_iterator_for_volume_type:
         worker_group: '${worker_group}'
@@ -752,9 +751,9 @@ flow:
         publish:
           - volumeId_list: "${return_result.replace(\"[\",\"\").replace(\"]\",\"\").replace(\"\\\"\",\"\")}"
         navigate:
-          - SUCCESS: list_iterator_for_data_disks_2
+          - SUCCESS: list_iterator_for_volume_id
           - FAILURE: on_failure
-    - create_tags_2:
+    - create_tags_for_volumeid_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -775,7 +774,7 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: list_iterator_for_data_disks_2
+          - SUCCESS: list_iterator_for_volume_id
           - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
@@ -787,7 +786,7 @@ flow:
         navigate:
           - SUCCESS: volumeId_list
           - FAILURE: on_failure
-    - list_iterator_for_data_disks_2:
+    - list_iterator_for_volume_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -795,18 +794,18 @@ flow:
         publish:
           - aws_volume_Id: '${result_string}'
         navigate:
-          - HAS_MORE: create_tags_2
-          - NO_MORE: is_ip_address_not_found
+          - HAS_MORE: create_tags_for_volumeid_list
+          - NO_MORE: set_ip_address
           - FAILURE: on_failure
-    - check_key_tag_is_null_1:
+    - check_key_tag_list_is_null:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${key_tag_list}'
         navigate:
-          - IS_NULL: is_ip_address_not_found
+          - IS_NULL: set_ip_address
           - IS_NOT_NULL: describe_instances_1
-    - create_tags_2_1:
+    - create_tags_for_volume:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -836,7 +835,7 @@ flow:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: is_os_type_windows
-          - IS_NOT_NULL: create_tags_2_1
+          - IS_NOT_NULL: create_tags_for_volume
   outputs:
     - instance_id
     - availability_zone_out
@@ -864,9 +863,6 @@ extensions:
       list_iterator_for_volume_size:
         x: 1400
         'y': 440
-      create_tags_2_1:
-        x: 960
-        'y': 40
       create_and_attach_single_volume:
         x: 1240
         'y': 640
@@ -884,14 +880,14 @@ extensions:
         x: 2378
         'y': 240
       check_volumetypelist_volumesizelist_equal:
-        x: 1240
-        'y': 120
+        x: 200
+        'y': 560
       check_key_tag_is_null_1_1:
         x: 880
         'y': 160
       is_os_type_windows:
         x: 960
-        'y': 320
+        'y': 280
       set_mac_address:
         x: 2360
         'y': 40
@@ -934,9 +930,6 @@ extensions:
       set_vpc_id:
         x: 2381
         'y': 397
-      create_tags_2:
-        x: 1760
-        'y': 440
       generate_unique_name:
         x: 200
         'y': 80
@@ -951,14 +944,17 @@ extensions:
           3491ebeb-bf40-677d-045a-54ddfc67438d:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
-      check_key_tag_is_null_1:
-        x: 1560
-        'y': 280
+      create_tags_for_volumeid_list:
+        x: 1760
+        'y': 440
       set_endpoint:
         x: 40
         'y': 400
       is_public_dns_name_not_present:
         x: 2200
+        'y': 40
+      create_tags_for_volume:
+        x: 960
         'y': 40
       parse_volume_id:
         x: 800
@@ -975,6 +971,9 @@ extensions:
       is_linux_vm:
         x: 2536
         'y': 410
+      check_key_tag_list_is_null:
+        x: 1560
+        'y': 280
       volume_size_list:
         x: 960
         'y': 560
@@ -987,15 +986,15 @@ extensions:
       list_iterator_for_volume_type:
         x: 1240
         'y': 440
-      list_iterator_for_data_disks_2:
-        x: 1960
-        'y': 440
       set_private_dns_name:
         x: 2080
         'y': 40
       set_public_dns_name:
         x: 2080
         'y': 240
+      list_iterator_for_volume_id:
+        x: 1960
+        'y': 440
       append_volume_id:
         x: 1400
         'y': 640
@@ -1033,6 +1032,6 @@ extensions:
           'y': 403
       FAILURE:
         f31809d7-ee75-1d88-2683-192373df394e:
-          x: 200
+          x: 400
           'y': 640
 
