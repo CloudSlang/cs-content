@@ -165,7 +165,7 @@ flow:
         do:
           io.cloudslang.amazon.aws.ec2.utils.check_volumetypelist_volumesizelist_equal:
             - volume_type_list: '${volume_type_list}'
-            - volume_size_list: '${volume_type_list}'
+            - volume_size_list: '${volume_size_list}'
         navigate:
           - SUCCESS: check_keytaglist_valuetaglist_equal
           - FAILURE: on_failure
