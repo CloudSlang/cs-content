@@ -105,13 +105,12 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
-            - security_group_ids_string: '${existing_security_group_ids+","+security_group_ids_to_attach}'
+            - security_group_ids_string: '${security_group_list+","+security_group_ids_to_attach}'
             - instance_id: '${instance_id}'
         publish:
           - return_result
-          - security_groups_list: '${security_group_ids_string}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: updated_security_group_list
           - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
@@ -129,7 +128,7 @@ flow:
           io.cloudslang.amazon.aws.ec2.utils.extract_from_json:
             - json_response: '${instance_json}'
         publish:
-          - existing_security_group_ids: '${result}'
+          - security_group_list: '${result}'
         navigate:
           - SUCCESS: attach_security_group_condition_check
     - attach_security_group_condition_check:
@@ -137,11 +136,21 @@ flow:
         do:
           io.cloudslang.amazon.aws.ec2.utils.attach_security_group_condition_check:
             - security_group_ids_new: '${security_group_ids_to_attach}'
-            - security_group_ids_old: '${existing_security_group_ids}'
+            - security_group_ids_old: '${security_group_list}'
         publish:
           - return_result: '${error_message}'
         navigate:
           - SUCCESS: modify_instance_attribute
+          - FAILURE: on_failure
+    - updated_security_group_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - security_group_list: '${security_group_list+","+security_group_ids_to_attach}'
+        publish:
+          - security_group_list
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - security_group_list
@@ -158,10 +167,6 @@ extensions:
       modify_instance_attribute:
         x: 440
         'y': 160
-        navigate:
-          3df73323-d476-a637-4ea5-5155d3d363f3:
-            targetId: 5dc00d9d-0360-962d-86fd-396c7abd0b76
-            port: SUCCESS
       convert_xml_to_json:
         x: 40
         'y': 360
@@ -171,9 +176,15 @@ extensions:
       attach_security_group_condition_check:
         x: 240
         'y': 160
+      updated_security_group_list:
+        x: 640
+        'y': 160
+        navigate:
+          d96adca9-b6ed-3c02-303f-0c9dfbc3565a:
+            targetId: 5dc00d9d-0360-962d-86fd-396c7abd0b76
+            port: SUCCESS
     results:
       SUCCESS:
         5dc00d9d-0360-962d-86fd-396c7abd0b76:
           x: 440
           'y': 360
-
