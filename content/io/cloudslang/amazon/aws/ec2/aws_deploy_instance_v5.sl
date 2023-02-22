@@ -706,7 +706,7 @@ flow:
           - volume_size: '${result_string}'
         navigate:
           - HAS_MORE: list_iterator_for_volume_type
-          - NO_MORE: check_key_tag_is_null_1
+          - NO_MORE: check_key_tag_list_is_null
           - FAILURE: on_failure
     - list_iterator_for_volume_type:
         worker_group: '${worker_group}'
@@ -751,9 +751,9 @@ flow:
         publish:
           - volumeId_list: "${return_result.replace(\"[\",\"\").replace(\"]\",\"\").replace(\"\\\"\",\"\")}"
         navigate:
-          - SUCCESS: list_iterator_for_data_disks_2
+          - SUCCESS: list_iterator_for_volume_id
           - FAILURE: on_failure
-    - create_tags_2:
+    - create_tags_for_volumeid_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -774,7 +774,7 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: list_iterator_for_data_disks_2
+          - SUCCESS: list_iterator_for_volume_id
           - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
@@ -786,7 +786,7 @@ flow:
         navigate:
           - SUCCESS: volumeId_list
           - FAILURE: on_failure
-    - list_iterator_for_data_disks_2:
+    - list_iterator_for_volume_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -794,10 +794,10 @@ flow:
         publish:
           - aws_volume_Id: '${result_string}'
         navigate:
-          - HAS_MORE: create_tags_2
+          - HAS_MORE: create_tags_for_volumeid_list
           - NO_MORE: set_ip_address
           - FAILURE: on_failure
-    - check_key_tag_is_null_1:
+    - check_key_tag_list_is_null:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
@@ -805,7 +805,7 @@ flow:
         navigate:
           - IS_NULL: set_ip_address
           - IS_NOT_NULL: describe_instances_1
-    - create_tags_2_1:
+    - create_tags_for_volume:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -835,7 +835,7 @@ flow:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: is_os_type_windows
-          - IS_NOT_NULL: create_tags_2_1
+          - IS_NOT_NULL: create_tags_for_volume
   outputs:
     - instance_id
     - availability_zone_out
@@ -863,9 +863,6 @@ extensions:
       list_iterator_for_volume_size:
         x: 1400
         'y': 440
-      create_tags_2_1:
-        x: 960
-        'y': 40
       create_and_attach_single_volume:
         x: 1240
         'y': 640
@@ -933,9 +930,6 @@ extensions:
       set_vpc_id:
         x: 2381
         'y': 397
-      create_tags_2:
-        x: 1760
-        'y': 440
       generate_unique_name:
         x: 200
         'y': 80
@@ -950,14 +944,17 @@ extensions:
           3491ebeb-bf40-677d-045a-54ddfc67438d:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
-      check_key_tag_is_null_1:
-        x: 1560
-        'y': 280
+      create_tags_for_volumeid_list:
+        x: 1760
+        'y': 440
       set_endpoint:
         x: 40
         'y': 400
       is_public_dns_name_not_present:
         x: 2200
+        'y': 40
+      create_tags_for_volume:
+        x: 960
         'y': 40
       parse_volume_id:
         x: 800
@@ -974,6 +971,9 @@ extensions:
       is_linux_vm:
         x: 2536
         'y': 410
+      check_key_tag_list_is_null:
+        x: 1560
+        'y': 280
       volume_size_list:
         x: 960
         'y': 560
@@ -986,15 +986,15 @@ extensions:
       list_iterator_for_volume_type:
         x: 1240
         'y': 440
-      list_iterator_for_data_disks_2:
-        x: 1960
-        'y': 440
       set_private_dns_name:
         x: 2080
         'y': 40
       set_public_dns_name:
         x: 2080
         'y': 240
+      list_iterator_for_volume_id:
+        x: 1960
+        'y': 440
       append_volume_id:
         x: 1400
         'y': 640
