@@ -795,7 +795,7 @@ flow:
           - aws_volume_Id: '${result_string}'
         navigate:
           - HAS_MORE: create_tags_2
-          - NO_MORE: is_ip_address_not_found
+          - NO_MORE: set_ip_address
           - FAILURE: on_failure
     - check_key_tag_is_null_1:
         worker_group: '${worker_group}'
@@ -803,7 +803,7 @@ flow:
           io.cloudslang.base.utils.is_null:
             - variable: '${key_tag_list}'
         navigate:
-          - IS_NULL: is_ip_address_not_found
+          - IS_NULL: set_ip_address
           - IS_NOT_NULL: describe_instances_1
     - create_tags_2_1:
         worker_group: '${worker_group}'
