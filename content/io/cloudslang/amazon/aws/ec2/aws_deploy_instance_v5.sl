@@ -52,8 +52,8 @@
 #!                       an AMI that is configured to allow users another way to log in.
 #!                       Default: ''
 #!                       Optional
-#! @input security_group_id: IDs of the security groups for the instance.
-#!                           Example: "sg-01234567"
+#! @input security_group_id_list: IDs of the security groups for the instance.
+#!                                Example: "sg-01234567"
 #!@input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
@@ -131,7 +131,7 @@ flow:
         required: true
     - key_pair_name:
         required: true
-    - security_group_id:
+    - security_group_id_list:
         required: false
     - volume_type_list:
         required: false
@@ -379,7 +379,7 @@ flow:
             - volume_sizes_string: '${volume_size_list}'
             - volume_types_string: '${volume_type_list}'
             - key_pair_name
-            - security_group_ids_string: '${security_group_id}'
+            - security_group_ids_string: '${security_group_id_list}'
             - user_data
         publish:
           - return_result
