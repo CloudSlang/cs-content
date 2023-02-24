@@ -43,7 +43,8 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output security_group_list: Returns the security groups which are currently attached to the instance after detaching
+#! @output security_group_id_list: Returns the security groups which are currently attached to the instance after
+#!                                 detaching
 #! @output return_result: Contains the details in case of success, error message otherwise.
 #!
 #! @result FAILURE: There was an error while trying to detach the security group from the instance.
@@ -145,14 +146,14 @@ flow:
           io.cloudslang.amazon.aws.ec2.utils.extract_from_json:
             - json_response: '${instance_json}'
         publish:
-          - security_group_list: '${result}'
+          - security_group_id_list: '${result}'
         navigate:
           - SUCCESS: detach_security_group_condition_check
     - detach_security_group_condition_check:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.utils.detach_security_group_condition_check:
-            - existing_security_groups: '${security_group_list}'
+            - existing_security_groups: '${security_group_id_list}'
             - security_groups_to_delete: '${security_group_ids_to_detach}'
         publish:
           - final_security_groups_present: '${result}'
@@ -164,14 +165,14 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - security_group_list: '${final_security_groups_present}'
+            - security_group_id_list: '${final_security_groups_present}'
         publish:
-          - security_group_list
+          - security_group_id_list
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - security_group_list
+    - security_group_id_list
     - return_result
   results:
     - FAILURE
