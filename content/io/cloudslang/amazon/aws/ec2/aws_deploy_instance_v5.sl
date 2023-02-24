@@ -14,9 +14,10 @@
 ########################################################################################################################
 #!!
 #! @description: This flow launches one new instance. EBS volumes may be configured, created and attached to the instance.
-#!                If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
-#!                After the instance is created and running,tags can be  added to the instance and resources which are attached
-#!                to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!               If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
+#!               After the instance is created and running,tags can be  added to the instance and resources which are attached
+#!               to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -52,9 +53,9 @@
 #!                       an AMI that is configured to allow users another way to log in.
 #!                       Default: ''
 #!                       Optional
-#! @input security_group_id: IDs of the security groups for the instance.
-#!                           Example: "sg-01234567"
-#!@input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
+#! @input security_group_id_list: IDs of the security groups for the instance.
+#!                                Example: "sg-01234567"
+#! @input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
@@ -64,7 +65,7 @@
 #! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
 #!                      Optional
 #! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
-#!                         Optional
+#!                        Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: The proxy server port used to access the provider services.
@@ -131,7 +132,7 @@ flow:
         required: true
     - key_pair_name:
         required: true
-    - security_group_id:
+    - security_group_id_list:
         required: false
     - volume_type_list:
         required: false
@@ -379,7 +380,7 @@ flow:
             - volume_sizes_string: '${volume_size_list}'
             - volume_types_string: '${volume_type_list}'
             - key_pair_name
-            - security_group_ids_string: '${security_group_id}'
+            - security_group_ids_string: '${security_group_id_list}'
             - user_data
         publish:
           - return_result
@@ -534,7 +535,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_key_tag_is_null_1_1
+          - SUCCESS: check_key_tag_is_null_for_tagging
           - FAILURE: on_failure
     - is_ip_address_not_found:
         worker_group: '${worker_group}'
@@ -653,8 +654,8 @@ flow:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: search_and_replace
-          - IS_NOT_NULL: create_tags_1
-    - create_tags_1:
+          - IS_NOT_NULL: create_tags_for_instance
+    - create_tags_for_instance:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -805,7 +806,7 @@ flow:
         navigate:
           - IS_NULL: is_ip_address_not_found
           - IS_NOT_NULL: describe_instances_1
-    - create_tags_2_1:
+    - create_tags_for_volume_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -828,14 +829,14 @@ flow:
         navigate:
           - SUCCESS: is_os_type_windows
           - FAILURE: on_failure
-    - check_key_tag_is_null_1_1:
+    - check_key_tag_is_null_for_tagging:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: is_os_type_windows
-          - IS_NOT_NULL: create_tags_2_1
+          - IS_NOT_NULL: create_tags_for_volume_id
   outputs:
     - instance_id
     - availability_zone_out
@@ -863,9 +864,9 @@ extensions:
       list_iterator_for_volume_size:
         x: 1400
         'y': 440
-      create_tags_2_1:
-        x: 960
-        'y': 40
+      check_key_tag_is_null_for_tagging:
+        x: 880
+        'y': 160
       create_and_attach_single_volume:
         x: 1240
         'y': 640
@@ -885,9 +886,6 @@ extensions:
       check_volumetypelist_volumesizelist_equal:
         x: 200
         'y': 560
-      check_key_tag_is_null_1_1:
-        x: 880
-        'y': 160
       is_os_type_windows:
         x: 960
         'y': 280
@@ -897,6 +895,9 @@ extensions:
       set_ip_address_empty:
         x: 1920
         'y': 240
+      create_tags_for_volume_id:
+        x: 960
+        'y': 40
       volumeId_list:
         x: 1960
         'y': 640
@@ -924,12 +925,12 @@ extensions:
       set_os_type_linux:
         x: 960
         'y': 440
+      create_tags_for_instance:
+        x: 680
+        'y': 240
       is_instance_name_empty:
         x: 360
         'y': 80
-      create_tags_1:
-        x: 680
-        'y': 240
       set_vpc_id:
         x: 2381
         'y': 397
