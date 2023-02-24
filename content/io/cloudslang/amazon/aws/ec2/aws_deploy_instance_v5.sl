@@ -14,9 +14,10 @@
 ########################################################################################################################
 #!!
 #! @description: This flow launches one new instance. EBS volumes may be configured, created and attached to the instance.
-#!                If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
-#!                After the instance is created and running,tags can be  added to the instance and resources which are attached
-#!                to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!               If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
+#!               After the instance is created and running,tags can be  added to the instance and resources which are attached
+#!               to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -52,9 +53,9 @@
 #!                       an AMI that is configured to allow users another way to log in.
 #!                       Default: ''
 #!                       Optional
-#! @input security_group_id: IDs of the security groups for the instance.
-#!                           Example: "sg-01234567"
-#!@input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
+#! @input security_group_id_list: IDs of the security groups for the instance.
+#!                                Example: "sg-01234567"
+#! @input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
@@ -64,7 +65,7 @@
 #! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
 #!                      Optional
 #! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
-#!                         Optional
+#!                        Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: The proxy server port used to access the provider services.
@@ -131,7 +132,7 @@ flow:
         required: true
     - key_pair_name:
         required: true
-    - security_group_id:
+    - security_group_id_list:
         required: false
     - volume_type_list:
         required: false
@@ -379,7 +380,7 @@ flow:
             - volume_sizes_string: '${volume_size_list}'
             - volume_types_string: '${volume_type_list}'
             - key_pair_name
-            - security_group_ids_string: '${security_group_id}'
+            - security_group_ids_string: '${security_group_id_list}'
             - user_data
         publish:
           - return_result
@@ -534,7 +535,7 @@ flow:
           - error_message
           - return_code
         navigate:
-          - SUCCESS: check_key_tag_is_null_1_1
+          - SUCCESS: check_key_tag_is_null_creating_tags
           - FAILURE: on_failure
     - is_ip_address_not_found:
         worker_group: '${worker_group}'
@@ -653,8 +654,8 @@ flow:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: search_and_replace
-          - IS_NOT_NULL: create_tags_1
-    - create_tags_1:
+          - IS_NOT_NULL: create_tags_for_instance
+    - create_tags_for_instance:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -706,7 +707,7 @@ flow:
           - volume_size: '${result_string}'
         navigate:
           - HAS_MORE: list_iterator_for_volume_type
-          - NO_MORE: check_key_tag_list_is_null
+          - NO_MORE: check_key_tag_is_null_for_taging
           - FAILURE: on_failure
     - list_iterator_for_volume_type:
         worker_group: '${worker_group}'
@@ -751,9 +752,9 @@ flow:
         publish:
           - volumeId_list: "${return_result.replace(\"[\",\"\").replace(\"]\",\"\").replace(\"\\\"\",\"\")}"
         navigate:
-          - SUCCESS: list_iterator_for_volume_id
+          - SUCCESS: list_iterator_for_volume_ids
           - FAILURE: on_failure
-    - create_tags_for_volumeid_list:
+    - create_tags_for_volumes:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -774,7 +775,7 @@ flow:
           - return_code
           - exception
         navigate:
-          - SUCCESS: list_iterator_for_volume_id
+          - SUCCESS: list_iterator_for_volume_ids
           - FAILURE: on_failure
     - convert_xml_to_json:
         worker_group: '${worker_group}'
@@ -786,7 +787,7 @@ flow:
         navigate:
           - SUCCESS: volumeId_list
           - FAILURE: on_failure
-    - list_iterator_for_volume_id:
+    - list_iterator_for_volume_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -794,10 +795,10 @@ flow:
         publish:
           - aws_volume_Id: '${result_string}'
         navigate:
-          - HAS_MORE: create_tags_for_volumeid_list
+          - HAS_MORE: create_tags_for_volumes
           - NO_MORE: set_ip_address
           - FAILURE: on_failure
-    - check_key_tag_list_is_null:
+    - check_key_tag_is_null_for_taging:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
@@ -805,7 +806,7 @@ flow:
         navigate:
           - IS_NULL: set_ip_address
           - IS_NOT_NULL: describe_instances_1
-    - create_tags_for_volume:
+    - create_tags_for_volume_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.amazon.aws.ec2.tags.create_tags:
@@ -828,14 +829,14 @@ flow:
         navigate:
           - SUCCESS: is_os_type_windows
           - FAILURE: on_failure
-    - check_key_tag_is_null_1_1:
+    - check_key_tag_is_null_creating_tags:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${key_tag_list}'
         navigate:
           - IS_NULL: is_os_type_windows
-          - IS_NOT_NULL: create_tags_for_volume
+          - IS_NOT_NULL: create_tags_for_volume_id
   outputs:
     - instance_id
     - availability_zone_out
@@ -857,9 +858,15 @@ flow:
 extensions:
   graph:
     steps:
+      check_key_tag_is_null_creating_tags:
+        x: 880
+        'y': 160
       check_key_tag_is_null:
         x: 680
         'y': 80
+      create_tags_for_volumes:
+        x: 1760
+        'y': 440
       list_iterator_for_volume_size:
         x: 1400
         'y': 440
@@ -882,9 +889,6 @@ extensions:
       check_volumetypelist_volumesizelist_equal:
         x: 200
         'y': 560
-      check_key_tag_is_null_1_1:
-        x: 880
-        'y': 160
       is_os_type_windows:
         x: 960
         'y': 280
@@ -894,6 +898,9 @@ extensions:
       set_ip_address_empty:
         x: 1920
         'y': 240
+      create_tags_for_volume_id:
+        x: 960
+        'y': 40
       volumeId_list:
         x: 1960
         'y': 640
@@ -921,12 +928,12 @@ extensions:
       set_os_type_linux:
         x: 960
         'y': 440
+      create_tags_for_instance:
+        x: 680
+        'y': 240
       is_instance_name_empty:
         x: 360
         'y': 80
-      create_tags_1:
-        x: 680
-        'y': 240
       set_vpc_id:
         x: 2381
         'y': 397
@@ -944,17 +951,11 @@ extensions:
           3491ebeb-bf40-677d-045a-54ddfc67438d:
             targetId: 576dec96-8f7c-fa7a-5ec4-69f50e183dff
             port: SUCCESS
-      create_tags_for_volumeid_list:
-        x: 1760
-        'y': 440
       set_endpoint:
         x: 40
         'y': 400
       is_public_dns_name_not_present:
         x: 2200
-        'y': 40
-      create_tags_for_volume:
-        x: 960
         'y': 40
       parse_volume_id:
         x: 800
@@ -971,15 +972,15 @@ extensions:
       is_linux_vm:
         x: 2536
         'y': 410
-      check_key_tag_list_is_null:
-        x: 1560
-        'y': 280
       volume_size_list:
         x: 960
         'y': 560
       convert_xml_to_json:
         x: 1560
         'y': 640
+      list_iterator_for_volume_ids:
+        x: 1960
+        'y': 440
       set_ip_address:
         x: 1560
         'y': 40
@@ -992,9 +993,6 @@ extensions:
       set_public_dns_name:
         x: 2080
         'y': 240
-      list_iterator_for_volume_id:
-        x: 1960
-        'y': 440
       append_volume_id:
         x: 1400
         'y': 640
@@ -1022,6 +1020,9 @@ extensions:
           10a23166-237b-6d26-f9bd-89865a0b3a93:
             targetId: f31809d7-ee75-1d88-2683-192373df394e
             port: FAILURE
+      check_key_tag_is_null_for_taging:
+        x: 1560
+        'y': 280
       volume_type_list:
         x: 1120
         'y': 560
