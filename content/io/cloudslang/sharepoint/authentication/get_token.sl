@@ -6,8 +6,8 @@
 #!                         by the input is "https://login.microsoftonline.com/TENANT_NAME/oauth2/v2.0/token"
 #!                         where TENANT_NAME is your application tenant.
 #! @input login_type: The Login method according to Microsoft application type. Chose "API" for applications with application permissions and "Native" for applications with delegated permissions.
-#                     Valid values: 'API', 'Native'
-#                     Default: 'Native'
+#!                    Valid values: 'API', 'Native'
+#!                    Default: 'Native'
 #! @input scope: Resource URl for which the Authentication Token is intended.
 #!                  Default: 'https://graph.microsoft.com/.default'
 #!                  Optional
