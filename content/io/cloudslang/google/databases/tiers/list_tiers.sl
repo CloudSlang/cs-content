@@ -57,7 +57,7 @@
 #! @result FAILURE: The Tiers were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases
+namespace: io.cloudslang.google.databases.tiers
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
