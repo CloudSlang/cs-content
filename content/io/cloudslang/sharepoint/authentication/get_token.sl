@@ -59,6 +59,7 @@ operation:
         default: ${get('client_id', '')}
         private: true
     - client_secret:
+        required: false
         sensitive: true
     - clientSecret:
         default: ${get('client_secret', '')}
