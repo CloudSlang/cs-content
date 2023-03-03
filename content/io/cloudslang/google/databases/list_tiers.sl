@@ -51,7 +51,7 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output instances_json: A JSON list containing the Instances information.
+#! @output tiers_json: A JSON list containing the Tiers information.
 #!
 #! @result SUCCESS: The Tiers were found and successfully retrieved.
 #! @result FAILURE: The Tiers were not found or some inputs were given incorrectly
@@ -126,17 +126,17 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: The list of all available machine types (tiers) has been successfully retrieved.
-            - instances_json: '${return_result}'
+            - tiers_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - instances_json
+          - tiers_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - instances_json
+    - tiers_json
   results:
     - SUCCESS
     - FAILURE
