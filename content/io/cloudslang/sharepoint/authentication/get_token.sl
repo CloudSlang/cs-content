@@ -26,7 +26,7 @@
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
 #!
-#! @output return_result: This will contain the authorization token for Office 365 Sharepoint.
+#! @output return_result: This will contain the authorization token for Microsoft 365 Sharepoint.
 #! @output auth_token: The authorization token.
 #! @output return_code: 0 if success, -1 if failure.
 #! @output exception: An error message in case there was an error while executing the request.
