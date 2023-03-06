@@ -66,6 +66,7 @@ operation:
         sensitive: true
     - clientSecret:
         default: ${get('client_secret', '')}
+        required: false
         private: true
         sensitive: true
     - username:
