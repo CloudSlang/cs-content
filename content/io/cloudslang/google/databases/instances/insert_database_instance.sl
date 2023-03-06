@@ -202,7 +202,7 @@ flow:
     - insert_instance_request_body:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.google.databases.utils.insert_database_instance_request_body:
+          io.cloudslang.google.databases.instances.utils.insert_database_instance_request_body:
             - instance_name_prefix: '${instance_name_prefix}'
             - root_password: '${root_password}'
             - region: '${region}'

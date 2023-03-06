@@ -80,7 +80,7 @@
 #! @result SUCCESS: The request body formed successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases.utils
+namespace: io.cloudslang.google.databases.instances.utils
 operation:
   name: insert_instance_request_body
   inputs:
