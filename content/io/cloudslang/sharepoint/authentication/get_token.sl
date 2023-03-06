@@ -50,10 +50,13 @@ operation:
     - scope:
         required: false
         default: 'https://graph.microsoft.com/.default'
-    - login_type
-    - loginType:
-        default: ${get('login_type', 'Native')}
+    - login_type:
         required: false
+        default: 'Native'
+    - loginType:
+        default: ${get('login_type', '')}
+        required: false
+        private: true
     - client_id
     - clientId:
         default: ${get('client_id', '')}
@@ -63,6 +66,7 @@ operation:
         sensitive: true
     - clientSecret:
         default: ${get('client_secret', '')}
+        required: false
         private: true
         sensitive: true
     - username:
@@ -78,8 +82,9 @@ operation:
         private: true
     - proxy_port:
         required: false
+        default: '8080'
     - proxyPort:
-        default: ${get('proxy_port', '8080')}
+        default: ${get('proxy_port', '')}
         required: false
         private: true
     - proxy_username:
@@ -98,7 +103,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC1'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC2'
     class_name: 'io.cloudslang.content.sharepoint.actions.GetAuthorizationToken'
     method_name: 'execute'
 
