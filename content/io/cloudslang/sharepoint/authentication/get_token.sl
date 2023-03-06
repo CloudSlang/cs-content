@@ -56,6 +56,7 @@ operation:
     - loginType:
         default: ${get('login_type', '')}
         required: false
+        private: true
     - client_id
     - clientId:
         default: ${get('client_id', '')}
