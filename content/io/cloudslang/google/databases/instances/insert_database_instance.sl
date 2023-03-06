@@ -116,7 +116,7 @@
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases
+namespace: io.cloudslang.google.databases.instances
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
