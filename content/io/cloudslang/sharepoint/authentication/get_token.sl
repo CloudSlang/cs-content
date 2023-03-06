@@ -50,9 +50,11 @@ operation:
     - scope:
         required: false
         default: 'https://graph.microsoft.com/.default'
-    - login_type
+    - login_type:
+        required: false
+        default: 'Native'
     - loginType:
-        default: ${get('login_type', 'Native')}
+        default: ${get('login_type', '')}
         required: false
     - client_id
     - clientId:
@@ -78,8 +80,9 @@ operation:
         private: true
     - proxy_port:
         required: false
+        default: '8080'
     - proxyPort:
-        default: ${get('proxy_port', '8080')}
+        default: ${get('proxy_port', '')}
         required: false
         private: true
     - proxy_username:
