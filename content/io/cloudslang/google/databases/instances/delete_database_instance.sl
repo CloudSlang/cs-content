@@ -1,4 +1,4 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
+#   (c) Copyright 2023 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -94,7 +94,7 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_delete_the_instance:
+    - api_call_to_delete_database_instance:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -145,7 +145,7 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_delete_the_instance:
+      api_call_to_delete_database_instance:
         x: 120
         'y': 200
       set_success_message:
