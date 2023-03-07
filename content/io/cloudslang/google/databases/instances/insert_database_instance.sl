@@ -129,7 +129,7 @@ flow:
         sensitive: true
     - instance_name_prefix:
         required: true
-        sensitive: true
+        sensitive: false
     - root_password:
         sensitive: true
     - region
