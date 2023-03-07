@@ -82,7 +82,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.google.databases.instances.utils
 operation:
-  name: insert_instance_request_body
+  name: insert_database_instance_request_body
   inputs:
     - instance_name_prefix
     - root_password:
