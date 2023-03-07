@@ -35,10 +35,10 @@
 #! @input tier: The tier (or machine type) for this instance.
 #!              Example:'db-custom-1-3840'.
 #! @input data_disk_type: The type of data disk.
-#!                       Default: 'PD_SSD'.
-#!                       Valid Values: 'PD_SSD', 'PD_HDD'.
+#!                        Default: 'PD_SSD'.
+#!                        Valid Values: 'PD_SSD', 'PD_HDD'.
 #! @input data_disk_size_gb: The size of data disk, in GB. The data disk size minimum is 10GB.
-#!                          Default: '10'.
+#!                           Default: '10'.
 #! @input storage_autoresize: The configuration to increase storage size automatically.
 #!                            Default: 'true'.
 #! @input availability_type: Availability type.
@@ -65,14 +65,6 @@
 #!                         Optional
 #! @input deletion_protection_enabled: Configuration to protect against accidental instance deletion.
 #!                                     Default: 'false'.
-#! @input label_keys: The labels key list separated by comma(,).
-#!                    Keys must conform to the following regexp: [a-zA-Z0-9-_]+, and be less than 128 bytes in
-#!                    length. This is reflected as part of a URL in the metadata server. Additionally,
-#!                    to avoid ambiguity, keys must not conflict with any other metadata keys for the project.
-#!                    The length of the itemsKeysList must be equal with the length of the itemsValuesList.
-#!                    Optional
-#! @input label_values: The labels value list separated by comma(,).
-#!                      Optional
 #!
 #! @output return_result: The insert instance request body.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
@@ -120,30 +112,7 @@ operation:
         required: false
   python_action:
     use_jython: false
-    script: "import json\r\ndef execute(instance_name_prefix,region,zone,database_version,instance_type,tier,
-    root_password,availability_type,activation_policy,storage_autoresize,data_disk_type,data_disk_size_gb,
-    deletion_protection_enabled,label_keys_list,label_values_list,ipv4_enabled,private_network,maintenance_window_day,
-    maintenance_window_hour):\r\n    return_code = 0\r\n    return_result = '\"name\": \"'+instance_name_prefix+'\",
-    \"region\": \"'+region+'\",\"gceZone\": \"'+zone+'\"'\r\n    if database_version != '':\r\n        return_result =
-    return_result + ',\"databaseVersion\": \"'+database_version+'\"'\r\n    if instance_type != '':\r\n
-    return_result = return_result + ',\"instanceType\": \"'+instance_type+'\"'\r\n    if root_password != '':\r\n
-      return_result = return_result + ',\"rootPassword\": \"'+root_password+'\"'\r\n    return_result = return_result
-      +',\"settings\": {\"tier\": \"'+tier+'\"'\r\n    if availability_type != '':\r\n        return_result =
-      return_result + ',\"availabilityType\": \"'+availability_type+'\"'\r\n    if activation_policy != '':\r\n
-      return_result = return_result + ',\"activationPolicy\": \"'+activation_policy+'\"'\r\n    if storage_autoresize
-      != '':\r\n        return_result = return_result + ',\"storageAutoResize\": '+storage_autoresize+','\r\n    if
-      data_disk_type != '':\r\n        return_result = return_result + '\"dataDiskType\": \"'+data_disk_type+'\"'\r\n
-        if data_disk_size_gb != '':\r\n        return_result = return_result + ',\"dataDiskSizeGb\":
-        '+data_disk_size_gb+','\r\n    if deletion_protection_enabled != '':\r\n        return_result = return_result +
-         '\"deletionProtectionEnabled\": '+deletion_protection_enabled+','\r\n    if label_keys_list != '':\r\n
-         label_key=label_keys_list.split(',')\r\n        label_value=label_values_list.split(',')\r\n
-         return_result = return_result+'\"userLabels\": '+json.dumps(dict(zip(label_key,label_value)))\r\n    if
-         ipv4_enabled != '':\r\n        return_result = return_result +',\"ipConfiguration\":
-         {\"ipv4Enabled\":'+ipv4_enabled+'}}'\r\n    if private_network != '':\r\n        return_result = return_result
-          +',\"ipConfiguration\": {\"privateNetwork\":'+private_network+'}},'\r\n    if maintenance_window_day != ''
-          and maintenance_window_hour != '':\r\n        return_result = return_result +',\"maintenanceWindow\":
-          {\"day\":'+maintenance_window_day+',\"hour\":'+maintenance_window_hour+'}'\r\n    return{\"return_code\":
-          return_code, \"return_result\": '{'+return_result+'}'}"
+    script: "import json\r\ndef execute(instance_name_prefix,region,zone,database_version,instance_type,tier,root_password,availability_type,activation_policy,storage_autoresize,data_disk_type,data_disk_size_gb,deletion_protection_enabled,label_keys_list,label_values_list,ipv4_enabled,private_network,maintenance_window_day,maintenance_window_hour):\r\n    return_code = 0\r\n    return_result = '\"name\": \"'+instance_name_prefix+'\",\"region\": \"'+region+'\",\"gceZone\": \"'+zone+'\"'\r\n    if database_version != '':\r\n        return_result = return_result + ',\"databaseVersion\": \"'+database_version+'\"'\r\n    if instance_type != '':\r\n        return_result = return_result + ',\"instanceType\": \"'+instance_type+'\"'\r\n    if root_password != '':\r\n        return_result = return_result + ',\"rootPassword\": \"'+root_password+'\"'\r\n    return_result = return_result +',\"settings\": {\"tier\": \"'+tier+'\"'\r\n    if availability_type != '':\r\n        return_result = return_result + ',\"availabilityType\": \"'+availability_type+'\"'\r\n    if activation_policy != '':\r\n        return_result = return_result + ',\"activationPolicy\": \"'+activation_policy+'\"'\r\n    if storage_autoresize != '':\r\n        return_result = return_result + ',\"storageAutoResize\": '+storage_autoresize+','\r\n    if data_disk_type != '':\r\n        return_result = return_result + '\"dataDiskType\": \"'+data_disk_type+'\"'\r\n    if data_disk_size_gb != '':\r\n        return_result = return_result + ',\"dataDiskSizeGb\": '+data_disk_size_gb+','\r\n    if deletion_protection_enabled != '':\r\n        return_result = return_result + '\"deletionProtectionEnabled\": '+deletion_protection_enabled+','\r\n    if label_keys_list != '':\r\n        label_key=label_keys_list.split(',')\r\n        label_value=label_values_list.split(',')\r\n        return_result = return_result+'\"userLabels\": '+json.dumps(dict(zip(label_key,label_value)))\r\n    if ipv4_enabled != '':\r\n        return_result = return_result +',\"ipConfiguration\": {\"ipv4Enabled\":'+ipv4_enabled+'}}'\r\n    if private_network != '':\r\n        return_result = return_result +',\"ipConfiguration\": {\"privateNetwork\":'+private_network+'}},'\r\n    if maintenance_window_day != '' and maintenance_window_hour != '':\r\n        return_result = return_result +',\"maintenanceWindow\": {\"day\":'+maintenance_window_day+',\"hour\":'+maintenance_window_hour+'}'\r\n    return{\"return_code\": return_code, \"return_result\": '{'+return_result+'}'}"
   outputs:
     - return_result
     - return_code
