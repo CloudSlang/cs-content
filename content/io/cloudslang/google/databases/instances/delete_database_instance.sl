@@ -1,4 +1,4 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
+#   (c) Copyright 2023 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -13,14 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to delete an instance.
+#! @description: This operation is used to delete a database instance.
 #!
 #! @input project_id: The Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input access_token: The authorization token for google cloud.
-#! @input zone: The zone in which the instance resides.
-#!              Examples: 'us-central1-a', 'us-central1-b', 'us-central1-c'
-#! @input instance_name: The name of the Instance resource to delete.
+#! @input instance_name: The name of the database Instance to delete.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -54,24 +52,23 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output instance_json: This JSON will contain the details of the deleted instance.
+#! @output database_instance_json: This JSON will contain the details of the deleted database instance.
 #!
 #! @result SUCCESS: The request for the Instance to start was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.compute_v2.instances
+namespace: io.cloudslang.google.databases.instances
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: delete_instance
+  name: delete_database_instance
   inputs:
     - project_id:
         sensitive: true
     - access_token:
         sensitive: true
-    - zone
     - instance_name
     - worker_group:
         default: RAS_Operator_Path
@@ -97,13 +94,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_call_to_delete_the_instance:
+    - api_call_to_delete_database_instance:
         worker_group:
-          value: RAS_Operator_Path
+          value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${'https://compute.googleapis.com/compute/v1/projects/'+project_id+'/zones/'+zone+'/instances/'+instance_name}"
+            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -130,25 +127,25 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: "${'The instance '+ instance_name+' deleted successfully.'}"
-            - instance_json: '${return_result}'
+            - message: "${'The database instance '+ instance_name+' has been deleted successfully.'}"
+            - database_instance_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - instance_json
+          - database_instance_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - instance_json
+    - database_instance_json
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      api_call_to_delete_the_instance:
+      api_call_to_delete_database_instance:
         x: 120
         'y': 200
       set_success_message:
@@ -163,3 +160,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 200
+
