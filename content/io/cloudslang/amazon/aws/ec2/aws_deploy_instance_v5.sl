@@ -17,7 +17,6 @@
 #!               If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
 #!               After the instance is created and running,tags can be  added to the instance and resources which are attached
 #!               to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
-#!
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
