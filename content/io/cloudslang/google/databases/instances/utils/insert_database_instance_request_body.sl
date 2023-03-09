@@ -65,6 +65,14 @@
 #!                         Optional
 #! @input deletion_protection_enabled: Configuration to protect against accidental instance deletion.
 #!                                     Default: 'false'.
+#! @input label_keys: The labels key list separated by comma(,).
+#!                    Keys must conform to the following regexp: [a-zA-Z0-9-_]+, and be less than 128 bytes in
+#!                    length. This is reflected as part of a URL in the metadata server. Additionally,
+#!                    to avoid ambiguity, keys must not conflict with any other metadata keys for the project.
+#!                    The length of the itemsKeysList must be equal with the length of the itemsValuesList.
+#!                    Optional
+#! @input label_values: The labels value list separated by comma(,).
+#!                      Optional
 #!
 #! @output return_result: The insert instance request body.
 #! @output return_code: '0' if operation was successfully executed, '-1' otherwise.
