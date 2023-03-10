@@ -22,7 +22,7 @@
 #! @output database_version: The database engine type and version.
 #! @output connection_name: The database engine type and version. The databaseVersion field cannot be changed after instance creation.
 #! @output instance_state: The current serving state of the Cloud SQL instance.
-#! @output availability_type: The instance serves data from only one zone. 
+#! @output availability_type: ZONAL: The instance serves data from only one zone. REGIONAL: The instance can serve data from more than one zone in a region.
 #! @output data_disk_size_gb: The size of data disk, in GB.
 #! @output data_disk_type: The type of data disk.
 #! @output region: The geographical region where the instance has to be created.
@@ -33,7 +33,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.google.databases.instances.utils
 operation:
-  name: get_database_details
+  name: get_database_details_extract
   inputs:
     - instance_json
   python_action:

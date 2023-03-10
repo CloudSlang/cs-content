@@ -155,7 +155,7 @@ flow:
     - get_database_details:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.google.databases.instances.utils.get_database_details:
+          io.cloudslang.google.databases.instances.utils.get_database_details_extract:
             - instance_json: '${return_result}'
         publish:
           - instance_name
