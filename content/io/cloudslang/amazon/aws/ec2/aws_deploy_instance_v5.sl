@@ -14,9 +14,9 @@
 ########################################################################################################################
 #!!
 #! @description: This flow launches one new instance. EBS volumes may be configured, created and attached to the instance.
-#!                If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
-#!                After the instance is created and running,tags can be  added to the instance and resources which are attached
-#!                to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!               If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
+#!               After the instance is created and running,tags can be  added to the instance and resources which are attached
+#!               to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -54,7 +54,7 @@
 #!                       Optional
 #! @input security_group_id_list: IDs of the security groups for the instance.
 #!                                Example: "sg-01234567"
-#!@input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
+#! @input volume_type_list: The volume_type_list separated by comma(,)The length of the items volume_type_list must be equal with the length of the items volume_size_list .
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
@@ -64,7 +64,7 @@
 #! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
 #!                      Optional
 #! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
-#!                         Optional
+#!                        Optional
 #! @input proxy_host: The proxy server used to access the provider services.
 #!                    Optional
 #! @input proxy_port: The proxy server port used to access the provider services.
@@ -98,6 +98,7 @@
 #! @output return_result: Contains the instance details in case of success, error message otherwise.
 #! @output return_code: "0" if operation was successfully executed, "-1" otherwise.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
+#! @output security_group_ids: IDs of the security groups for the instance.Example: "sg-01234567"
 #!
 #! @result SUCCESS: The server (instance) was successfully deployed.
 #! @result FAILURE: There was an error while trying to deploy the instance.
@@ -386,6 +387,7 @@ flow:
           - return_code
           - exception
           - instance_id: '${instance_id_result}'
+          - security_group_ids: '${security_group_ids_string}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: check_instance_state_v2
@@ -851,6 +853,7 @@ flow:
     - return_result
     - return_code
     - exception
+    - security_group_ids
   results:
     - SUCCESS
     - FAILURE
@@ -1034,4 +1037,3 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 400
           'y': 640
-
