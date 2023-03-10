@@ -22,10 +22,7 @@
 #! @output database_version: The database engine type and version.
 #! @output connection_name: The database engine type and version. The databaseVersion field cannot be changed after instance creation.
 #! @output instance_state: The current serving state of the Cloud SQL instance.
-#! @output availability_type: Availability type.
-#!                           Valid values: - ZONAL: The instance serves data from only one zone.
-#!                                                  Outages in that zone affect data accessibility.
-#!                                         - REGIONAL: The instance can serve data from more than one zone in a region.
+#! @output availability_type: ZONAL: The instance serves data from only one zone. REGIONAL: The instance can serve data from more than one zone in a region.
 #! @output data_disk_size_gb: The size of data disk, in GB.
 #! @output data_disk_type: The type of data disk.
 #! @output region: The geographical region where the instance has to be created.
