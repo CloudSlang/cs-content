@@ -2,7 +2,7 @@
 #!!
 #! @description: This operation retrieves the site id for which the name was provided.
 #!
-#! @input auth_token: Token used to authenticate to the Openshift environment.
+#! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input site_name: Name of the site from which ID can be obtained.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
