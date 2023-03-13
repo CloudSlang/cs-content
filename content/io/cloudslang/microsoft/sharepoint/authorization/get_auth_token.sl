@@ -36,10 +36,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.sharepoint.authentication
+namespace: io.cloudslang.microsoft.sharepoint.authorization
 
 operation:
-  name: get_token
+  name: get_auth_token
 
   inputs:
     - login_authority
@@ -102,8 +102,8 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC2'
-    class_name: 'io.cloudslang.content.sharepoint.actions.GetAuthorizationToken'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC3'
+    class_name: 'io.cloudslang.content.sharepoint.actions.authorization.GetAuthorizationToken'
     method_name: 'execute'
 
   outputs:
