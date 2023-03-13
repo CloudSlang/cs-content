@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to retrieve the Database instance details.
+#! @description: This operation is used to retrieve the database instance details.
 #!
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input instance_name_prefix: The name of the database instance
+#! @input instance_name: The name of the database instance
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,12 +53,11 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output instances_json: A JSON list containing the Instances information.
-#! @output instance_name: The name of the database instance.
-#! @output instance_state: The current state of the database instance.
-#! @output availability_type: ZONAL: The instance serves data from only one zone. REGIONAL: The instance can serve data from more than one zone in a region.
+#! @output instance_state: The current current state of the database instance.
+#! @output availability_type: The availability type of the Cloud SQL instance, high availability (REGIONAL) or single zone (ZONAL).
 #! @output data_disk_size_gb: The size of data disk, in GB.
 #! @output data_disk_type: The type of data disk.
-#! @output region: The name of the zone in which the disks has to be created.
+#! @output region: The geographical region where the instance has to be created.
 #! @output database_version: The database engine type and version.
 #! @output self_link: The URI of this resource.
 #! @output connection_name: Connection name of the Cloud SQL instance used in connection strings.
@@ -66,8 +65,8 @@
 #! @output public_ip_address: The public ip address of the instance.
 #! @output private_ip_address: The private ip address of the instance.
 #!
-#! @result SUCCESS: The Database instance details successfully retrieved.
-#! @result FAILURE: The Database instance details were not found or some inputs were given incorrectly
+#! @result SUCCESS: The database instance details successfully retrieved.
+#! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases.instances
@@ -81,7 +80,7 @@ flow:
         sensitive: true
     - project_id:
         sensitive: true
-    - instance_name_prefix
+    - instance_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -112,7 +111,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name_prefix}"
+            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -129,7 +128,7 @@ flow:
             - headers: "${'Authorization: '+access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
-            - instance: '${instance_name_prefix}'
+            - instance: '${instance_name}'
         publish:
           - return_result
           - status_code
@@ -171,7 +170,6 @@ flow:
     - return_result
     - status_code
     - instances_json
-    - instance_name
     - instance_state
     - availability_type
     - data_disk_size_gb
