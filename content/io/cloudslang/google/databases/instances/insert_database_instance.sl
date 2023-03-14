@@ -43,7 +43,7 @@
 #!                       Valid Values: 'PD_SSD', 'PD_HDD'.
 #! @input data_disk_size_gb: The size of data disk, in GB. The data disk size minimum is 10GB.
 #!                          Default: '10'.
-#! @input storage_autoresize: The configuration to increase storage size automatically.
+#! @input storage_auto_resize: The configuration to increase storage size automatically.
 #!                            Default: 'true'.
 #! @input availability_type: Availability type.
 #!                           Valid values: - ZONAL: The instance serves data from only one zone.
@@ -147,7 +147,7 @@ flow:
     - data_disk_size_gb:
         default: '10'
         required: false
-    - storage_autoresize:
+    - storage_auto_resize:
         default: 'true'
         required: false
     - availability_type:
@@ -212,7 +212,7 @@ flow:
             - tier: '${tier}'
             - data_disk_type: '${data_disk_type}'
             - data_disk_size_gb: '${data_disk_size_gb}'
-            - storage_autoresize: '${storage_autoresize}'
+            - storage_auto_resize: '${storage_auto_resize}'
             - availability_type: '${availability_type}'
             - maintenance_window_day: '${maintenance_window_day}'
             - maintenance_window_hour: '${maintenance_window_hour}'
