@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the site id for which the name was provided.
+#! @description: This operation retrieves the site display name for which the id was provided.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -76,19 +76,19 @@
 #!
 #! @output return_result: Information related to the specific site in JSON format.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output site_id: The id of the site for which the name was provided.
-#! @output exception: An error message in case there was an error while retrieving the site id.
+#! @output site_name: The display name of the site for which the id was provided.
+#! @output exception: An error message in case there was an error while retrieving the site display name.
 #! @output status_code: The HTTP status code for the Sharepoint request.
 #!
-#! @result SUCCESS: Site id was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve site id.
+#! @result SUCCESS: Site name was returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve site display name.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.sharepoint.sites
 
 operation:
-  name: get_site_id_by_name
+  name: get_site_name_by_id
 
   inputs:
     - auth_token:
@@ -98,9 +98,9 @@ operation:
         required: false
         private: true
         sensitive: true
-    - site_name
-    - siteName:
-        default: ${get('site_name', '')}
+    - site_id
+    - siteId:
+        default: ${get('site_id', '')}
         private: true
     - proxy_host:
         required: false
@@ -187,13 +187,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC5'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteIdByName'
+    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteNameById'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - site_id: ${get('siteId', '')}
+    - site_name: ${get('siteName', '')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
 
