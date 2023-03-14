@@ -1,11 +1,14 @@
 ########################################################################################################################
 #!!
 #! @description: Get the root drive metadata by site id.
-#!               Note:
-#!               One of the following permissions is required to call this API:
-#!               Delegated (work or school account): Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!               Delegated (personal Microsoft account): Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!               Application: Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!               Note: Permissions
+#!                     One of the following permissions is required to call this API.
+#!
+#!                     Permission type	                            Permissions (from least to most privileged)
+#!
+#!                     Delegated (work or school account)	        Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)       Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application	                                Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input site_id: The id of the site from which to retrieve the root drive.
