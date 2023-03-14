@@ -83,7 +83,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.sharepoint.drives
+namespace: io.cloudslang.microsoft.sharepoint.drives
 
 operation: 
   name: get_root_drive
