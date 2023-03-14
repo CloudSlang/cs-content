@@ -1,6 +1,7 @@
 ########################################################################################################################
 #!!
 #! @description: Get the root drive metadata by site id.
+#!               Note:
 #!               One of the following permissions is required to call this API:
 #!               Delegated (work or school account): Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!               Delegated (personal Microsoft account): Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
