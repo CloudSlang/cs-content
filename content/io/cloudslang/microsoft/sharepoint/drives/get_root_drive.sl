@@ -181,7 +181,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1.0-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC4'
     class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetRootDrive'
     method_name: 'execute'
   
