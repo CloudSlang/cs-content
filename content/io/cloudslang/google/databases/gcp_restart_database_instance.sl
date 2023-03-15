@@ -60,10 +60,10 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output database_instance_json: A JSON list containing the database instances information.
+#! @output database_instance_json: A JSON containing the database instances information.
 #!
-#! @result SUCCESS: The database instance details successfully retrieved.
-#! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
+#! @result SUCCESS: The database instance restarted successfully.
+#! @result FAILURE: The database instance fail to restart.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases
