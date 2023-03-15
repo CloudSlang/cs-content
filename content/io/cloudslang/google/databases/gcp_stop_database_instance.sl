@@ -61,7 +61,7 @@
 #! @output private_ip_address: The private ip address of the instance.
 #!
 #! @result SUCCESS: The database instance has been  successfully stopped.
-#! @result FAILURE: There was an error while trying to stop the database instance.
+#! @result FAILURE: There was an error while trying to stop the databese instance.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases
@@ -72,26 +72,20 @@ flow:
   name: gcp_stop_database_instance
   inputs:
     - client_id:
-        default: 345553139177-57e163h8fopqu9sp7oldk0idqts52n5p.apps.googleusercontent.com
         sensitive: false
     - client_secret:
-        default: ********
         sensitive: true
     - refresh_token:
-        default: ********
         sensitive: true
     - project_id:
-        default: ********
         sensitive: true
-    - instance_name: lakshithtest
+    - instance_name
     - worker_group:
         default: RAS_Operator_Path
         required: false
     - proxy_host:
-        default: web-proxy.us.softwaregrp.net
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - polling_interval: '20'
     - polling_retries: '30'
