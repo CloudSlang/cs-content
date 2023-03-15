@@ -173,7 +173,7 @@ flow:
           - instances_json
         navigate:
           - SUCCESS: delete_database_instance
-          - FAILURE: FAILURE_2
+          - FAILURE: FAILURE
     - delete_database_instance:
         worker_group:
           value: '${worker_group}'
@@ -215,7 +215,7 @@ flow:
         publish:
           - return_result: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: FAILURE_2
+          - SUCCESS: FAILURE
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -223,7 +223,6 @@ flow:
   results:
     - SUCCESS
     - FAILURE
-    - FAILURE_2
 extensions:
   graph:
     steps:
@@ -257,8 +256,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 80
-      FAILURE_2:
-        ac59fb97-4c4d-9009-9964-335fd9886213:
-          x: 240
-          'y': 280
 
