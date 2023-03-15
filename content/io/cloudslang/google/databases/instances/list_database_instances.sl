@@ -54,8 +54,8 @@
 #! @output instances_json: A JSON list containing the instance information.
 #! @output list_database_instance_names: List of database instance names.
 #!
-#! @result SUCCESS: The database instance details successfully retrieved.
-#! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
+#! @result SUCCESS: The list of database instance details successfully retrieved.
+#! @result FAILURE: The list of database instance details were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases.instances
