@@ -99,7 +99,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_patch:
-            - url: "${'https://sqladmin.googleapis.com/sql/v1beta4/projects/'+project_id+'/instances/'+instance_name}"
+            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -140,6 +140,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_call_to_stop_database_instance:
+        x: 160
+        'y': 200
       set_success_message:
         x: 360
         'y': 200
@@ -147,9 +150,6 @@ extensions:
           07fcb95b-c35b-4733-c816-ea61f64cc0ee:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_call_to_stop_database_instance:
-        x: 160
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

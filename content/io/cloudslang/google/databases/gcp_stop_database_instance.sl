@@ -20,7 +20,7 @@
 #! @input refresh_token: Refresh token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input instance_name: Name of the database Instance
+#! @input instance_name: Name of the database instance
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
