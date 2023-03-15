@@ -30,7 +30,7 @@
 #!                              must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
 #!                              means the first character must be a lowercase letter, and all following characters must be a
 #!                              dash, lowercase letter, or digit, except the last character, which cannot be a dash.
-#!                              Example: 'instance-1234'
+#!                              Example: 'instance-12345'
 #! @input database_version: The database engine type and version. The databaseVersion field cannot be changed after
 #!                          instance creation.
 #!                          Examples: 'MYSQL_8_0','POSTGRES_10'.
@@ -205,6 +205,12 @@ flow:
         required: false
     - label_values_list:
         required: false
+    - polling_interval:
+        default: '20'
+        required: false
+    - polling_retries:
+        default: '30'
+        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -228,12 +234,6 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - polling_interval:
-        default: '20'
-        required: false
-    - polling_retries:
-        default: '30'
-        required: false
   workflow:
     - get_access_token_using_web_api:
         worker_group:
@@ -401,7 +401,7 @@ flow:
           - connection_name
           - public_ip_address
           - private_ip_address
-          - instance_json
+          - database_instance_json
         navigate:
           - SUCCESS: get_db_instance_state
           - FAILURE: FAILURE
@@ -491,7 +491,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
-            - json_input: '${instance_json}'
+            - json_input: '${database_instance_json}'
             - json_path: state
         publish:
           - db_instance_state: '${return_result}'
@@ -502,7 +502,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${instance_json}'
+            - json_object: '${database_instance_json}'
             - json_path: settings.pricingPlan
         publish:
           - pricing_plan: "${return_result.strip('\"')}"
@@ -513,7 +513,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${instance_json}'
+            - json_object: '${database_instance_json}'
             - json_path: settings.replicationType
         publish:
           - replication_type: "${return_result.strip('\"')}"
