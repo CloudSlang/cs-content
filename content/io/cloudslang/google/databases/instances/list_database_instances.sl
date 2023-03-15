@@ -51,7 +51,7 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output instances_json: A JSON list containing the Instances information.
+#! @output instances_json: A JSON list containing the instance information.
 #! @output list_database_instance_names: List of database instance names.
 #!
 #! @result SUCCESS: The database instance details successfully retrieved.
