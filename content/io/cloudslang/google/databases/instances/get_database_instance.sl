@@ -52,7 +52,7 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output instances_json: A JSON list containing the Instances information.
+#! @output instance_json: A JSON list containing the Instances information.
 #! @output instance_state: The current current state of the database instance.
 #! @output availability_type: The availability type of the Cloud SQL instance, high availability (REGIONAL) or single zone (ZONAL).
 #! @output data_disk_size_gb: The size of data disk, in GB.
@@ -130,8 +130,9 @@ flow:
             - worker_group: '${worker_group}'
             - instance: '${instance_name}'
         publish:
-          - return_result
+          - instance_json: '${return_result}'
           - status_code
+          - output_0: output_0
         navigate:
           - SUCCESS: get_database_details_extract
           - FAILURE: on_failure
@@ -140,17 +141,17 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: Information about the DB Instance has been successfully retrieved.
-            - instances_json: '${return_result}'
+            - instance_json: '${instance_json}'
         publish:
           - return_result: '${message}'
-          - instances_json
+          - instance_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_database_details_extract:
         do:
           io.cloudslang.google.databases.instances.utils.get_database_details_extract:
-            - instance_json: '${return_result}'
+            - instance_json: '${instance_json}'
         publish:
           - instance_name
           - self_link
@@ -169,7 +170,7 @@ flow:
   outputs:
     - return_result
     - status_code
-    - instances_json
+    - instance_json
     - instance_state
     - availability_type
     - data_disk_size_gb
