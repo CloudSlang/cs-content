@@ -141,7 +141,7 @@ flow:
             - json_object: '${instances_json}'
             - json_path: '$.items[*].name'
         publish:
-          - list_database_instance_names: '${return_result.lstrip("["). rstrip("]")}'
+          - list_database_instance_names: "${return_result.lstrip(\"[\"). rstrip(\"]\").replace(\"\\\"\",\"\")}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
