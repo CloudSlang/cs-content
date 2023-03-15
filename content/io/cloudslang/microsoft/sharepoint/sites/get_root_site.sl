@@ -81,8 +81,8 @@
 #! @output status_code: The HTTP status code for the Sharepoint request.
 #! @output exception: An error message in case there was an error while retrieving the site id.
 #!
-#! @result SUCCESS: Site id was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve site id.
+#! @result SUCCESS: Root site was returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve root site.
 #!!#
 ########################################################################################################################
 
