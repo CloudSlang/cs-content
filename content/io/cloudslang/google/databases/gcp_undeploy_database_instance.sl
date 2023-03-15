@@ -13,12 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to retrieve the database instance details.
+#! @description: This workflow is used to delete the database instance.
 #!
-#! @input access_token: The authorization token for google cloud.
-#! @input project_id: Google Cloud project name.
+#! @input client_id: The client ID of your application.
+#! @input client_secret: The client secret of your application.
+#! @input refresh_token: The refresh token of the client ID.
+#! @input project_id: The name of the project in the Google Cloud.
 #!                    Example: 'example-project-a'
-#! @input instance_name: The name of the database instance
+#! @input instance_name: The name of the resource, provided by the client when initially creating the resource.
+#!                       Example: 'instance123456'
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,35 +55,29 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output database_instance_json: A JSON list containing the Instances information.
-#! @output instance_state: The current current state of the database instance.
-#! @output availability_type: The availability type of the Cloud SQL instance, high availability (REGIONAL) or single zone (ZONAL).
-#! @output data_disk_size_gb: The size of data disk, in GB.
-#! @output data_disk_type: The type of data disk.
-#! @output region: The geographical region where the instance has to be created.
-#! @output database_version: The database engine type and version.
-#! @output self_link: The URI of this resource.
-#! @output connection_name: Connection name of the Cloud SQL instance used in connection strings.
-#! @output zone: The name of the zone in which the disks has to be created.
-#! @output public_ip_address: The public ip address of the instance.
-#! @output private_ip_address: The private ip address of the instance.
 #!
-#! @result SUCCESS: The database instance details successfully retrieved.
-#! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
+#! @result SUCCESS: The database instance deleted successfully.
+#! @result FAILURE: An error occurred while deleting the database instance.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases.instances
+namespace: io.cloudslang.google.databases
+
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_database_instance
+  name: google_undeploy_database_instance
   inputs:
-    - access_token:
+    - client_id
+    - client_secret:
+        sensitive: true
+    - refresh_token:
         sensitive: true
     - project_id:
         sensitive: true
-    - instance_name
+    - instance_name:
+        required: true
+        sensitive: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -105,14 +102,20 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_instance:
+    - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name}"
-            - auth_type: anonymous
+          io.cloudslang.google.authentication.get_access_token_using_web_api:
+            - client_id: '${client_id}'
+            - client_secret:
+                value: '${client_secret}'
+                sensitive: true
+            - refresh_token:
+                value: '${refresh_token}'
+                sensitive: true
+            - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -125,83 +128,137 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Authorization: '+access_token}"
-            - content_type: application/json
+        publish:
+          - access_token
+          - return_result
+        navigate:
+          - SUCCESS: get_database_instance
+          - FAILURE: on_failure
+    - get_database_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.databases.instances.get_database_instance:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - instance_name: '${instance_name}'
             - worker_group: '${worker_group}'
-            - instance: '${instance_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         publish:
-          - database_instance_json: '${return_result}'
-          - status_code
-        navigate:
-          - SUCCESS: get_database_details_extract
-          - FAILURE: on_failure
-    - set_success_message:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - message: Information about the DB Instance has been successfully retrieved.
-            - instance_json: '${database_instance_json}'
-        publish:
-          - return_result: '${message}'
-          - database_instance_json: '${instance_json}'
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - get_database_details_extract:
-        do:
-          io.cloudslang.google.databases.instances.utils.get_database_details_extract:
-            - instance_json: '${database_instance_json}'
-        publish:
-          - instance_name
-          - self_link
-          - database_version
-          - connection_name
           - instance_state
           - availability_type
           - data_disk_size_gb
           - data_disk_type
-          - region
-          - zone
+          - database_version
+          - self_link
+          - connection_name
           - public_ip_address
           - private_ip_address
+          - instances_json
         navigate:
-          - SUCCESS: set_success_message
+          - SUCCESS: delete_database_instance
+          - FAILURE: FAILURE_2
+    - delete_database_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.databases.instances.delete_database_instance:
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - instance_name: '${instance_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - status_code
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: get_error_message
+    - get_error_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: error.message
+        publish:
+          - return_result: "${return_result.strip('\"')}"
+        navigate:
+          - SUCCESS: FAILURE_2
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - database_instance_json
-    - instance_state
-    - availability_type
-    - data_disk_size_gb
-    - data_disk_type
-    - region
-    - database_version
-    - self_link
-    - connection_name
-    - zone
-    - public_ip_address
-    - private_ip_address
   results:
     - SUCCESS
     - FAILURE
+    - FAILURE_2
 extensions:
   graph:
     steps:
-      api_to_get_instance:
-        x: 160
-        'y': 200
-      set_success_message:
-        x: 520
-        'y': 200
+      get_access_token_using_web_api:
+        x: 80
+        'y': 80
+      get_database_instance:
+        x: 240
+        'y': 80
         navigate:
-          07fcb95b-c35b-4733-c816-ea61f64cc0ee:
+          02480ac0-40ef-8d4d-4812-9db16b531ae4:
+            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+            port: FAILURE
+            vertices: []
+      delete_database_instance:
+        x: 400
+        'y': 80
+        navigate:
+          c8966d36-f0a5-1cec-d398-682b2da1e9aa:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_database_details_extract:
-        x: 360
-        'y': 200
+      get_error_message:
+        x: 400
+        'y': 280
+        navigate:
+          e047fdfb-0206-8580-ac01-28bdd33bd391:
+            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+            port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
-          'y': 200
+          x: 560
+          'y': 80
+      FAILURE_2:
+        ac59fb97-4c4d-9009-9964-335fd9886213:
+          x: 240
+          'y': 280
+
