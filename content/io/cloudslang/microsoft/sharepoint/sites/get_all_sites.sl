@@ -75,8 +75,8 @@
 #!
 #! @output return_result: Information related to the sites in JSON format.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output site_ids: An array of pairs: displayName and id.
-#! @output site_urls: An array of pairs: displayName and url.
+#! @output site_ids: An array of pairs: display name and id.
+#! @output site_urls: An array of pairs: display name and web url.
 #! @output status_code: The HTTP status code for the Sharepoint request.
 #! @output exception: An error message in case there was an error while retrieving the sites.
 #!
@@ -182,7 +182,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC3'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC6'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetAllSites'
     method_name: 'execute'
 
