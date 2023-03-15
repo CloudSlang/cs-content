@@ -11,7 +11,7 @@
 #!                     Application	                              Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_name: Name of the site from which ID can be obtained.
+#! @input site_name: The display name of the site from which ID can be obtained.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
