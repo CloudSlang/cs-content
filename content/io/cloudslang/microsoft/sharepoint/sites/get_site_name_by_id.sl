@@ -76,7 +76,8 @@
 #!
 #! @output return_result: Information related to the specific site in JSON format.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output site_name: The display name of the site for which the id was provided.
+#! @output site_name: The name of the site for which the id was provided.
+#! @output site_display_name: The display name of the site for which the id was provided.
 #! @output exception: An error message in case there was an error while retrieving the site display name.
 #! @output status_code: The HTTP status code for the Sharepoint request.
 #!
@@ -194,6 +195,7 @@ operation:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
     - site_name: ${get('siteName', '')}
+    - site_display_name: ${get('siteDisplayName', '')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
 
