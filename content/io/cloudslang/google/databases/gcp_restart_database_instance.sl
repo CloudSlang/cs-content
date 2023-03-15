@@ -260,7 +260,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.google.databases.restart_database_instance:
+          io.cloudslang.google.databases.instances.restart_database_instance:
             - access_token:
                 value: '${access_token}'
                 sensitive: true
