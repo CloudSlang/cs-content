@@ -66,7 +66,7 @@
 #! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases.instances
+namespace: io.cloudslang.google.databases
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
@@ -260,7 +260,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          gcp-db.final.restart_database_instance:
+          io.cloudslang.google.databases.restart_database_instance:
             - access_token:
                 value: '${access_token}'
                 sensitive: true
