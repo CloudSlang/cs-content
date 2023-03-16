@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to retrieve the database instance details.
+#! @description: This operation is used to stop the database  instance.
 #!
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input instance_name: The name of the database instance
+#! @input instance_name: Name of the database Instance
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -52,21 +52,9 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output database_instance_json: A JSON list containing the Instances information.
-#! @output instance_state: The current current state of the database instance.
-#! @output availability_type: The availability type of the Cloud SQL instance, high availability (REGIONAL) or single zone (ZONAL).
-#! @output data_disk_size_gb: The size of data disk, in GB.
-#! @output data_disk_type: The type of data disk.
-#! @output region: The geographical region where the instance has to be created.
-#! @output database_version: The database engine type and version.
-#! @output self_link: The URI of this resource.
-#! @output connection_name: Connection name of the Cloud SQL instance used in connection strings.
-#! @output zone: The name of the zone in which the disks has to be created.
-#! @output public_ip_address: The public ip address of the instance.
-#! @output private_ip_address: The private ip address of the instance.
 #!
-#! @result SUCCESS: The database instance details successfully retrieved.
-#! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
+#! @result SUCCESS: The database instance has been  successfully stopped.
+#! @result FAILURE: There was an error while trying to stop the database instance.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases.instances
@@ -74,7 +62,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_database_instance
+  name: stop_database_instance
   inputs:
     - access_token:
         sensitive: true
@@ -105,104 +93,66 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_instance:
+    - api_call_to_stop_database_instance:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
+          io.cloudslang.base.http.http_client_patch:
             - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/instances/'+instance_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
+            - request_character_set: utf-8
             - headers: "${'Authorization: '+access_token}"
+            - body: |-
+                ${{
+                  "settings": {
+                    "activationPolicy": "NEVER"
+                  }
+                }}
             - content_type: application/json
             - worker_group: '${worker_group}'
-            - instance: '${instance_name}'
         publish:
-          - database_instance_json: '${return_result}'
+          - return_result
           - status_code
         navigate:
-          - SUCCESS: get_database_details_extract
+          - SUCCESS: set_success_message
           - FAILURE: on_failure
     - set_success_message:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: Information about the DB Instance has been successfully retrieved.
-            - instance_json: '${database_instance_json}'
+            - message: "${'Database Instance '+ instance_name+' stopped successfully.'}"
         publish:
           - return_result: '${message}'
-          - database_instance_json: '${instance_json}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - get_database_details_extract:
-        do:
-          io.cloudslang.google.databases.instances.utils.get_database_details_extract:
-            - instance_json: '${database_instance_json}'
-        publish:
-          - instance_name
-          - self_link
-          - database_version
-          - connection_name
-          - instance_state
-          - availability_type
-          - data_disk_size_gb
-          - data_disk_type
-          - region
-          - zone
-          - public_ip_address
-          - private_ip_address
-        navigate:
-          - SUCCESS: set_success_message
   outputs:
     - return_result
     - status_code
-    - database_instance_json
-    - instance_state
-    - availability_type
-    - data_disk_size_gb
-    - data_disk_type
-    - region
-    - database_version
-    - self_link
-    - connection_name
-    - zone
-    - public_ip_address
-    - private_ip_address
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      api_to_get_instance:
+      api_call_to_stop_database_instance:
         x: 160
         'y': 200
       set_success_message:
-        x: 520
+        x: 360
         'y': 200
         navigate:
           07fcb95b-c35b-4733-c816-ea61f64cc0ee:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_database_details_extract:
-        x: 360
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
+          x: 560
           'y': 200
 
