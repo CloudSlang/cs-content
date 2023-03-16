@@ -89,8 +89,6 @@ flow:
         required: false
     - proxy_port:
         required: false
-    - polling_interval: '20'
-    - polling_retries: '30'
     - proxy_username:
         required: false
     - proxy_password:
