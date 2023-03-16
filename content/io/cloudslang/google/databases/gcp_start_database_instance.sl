@@ -13,14 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used to restart the database instance.
+#! @description: This workflow is used to start the database instance.
 #!
 #! @input client_id: The client ID for your application.
 #! @input client_secret: The client secret for your application.
 #! @input refresh_token: Refresh token.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input instance_name: The name of the database instance
+#! @input instance_name: Name of the database Instance
+#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
+#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -33,12 +35,6 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
-#! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: '20'
-#!                          Optional
-#! @input polling_retries: The number of retries to check if the instance is started.
-#!                         Default: '30'
-#!                         Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
@@ -60,10 +56,12 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output database_instance_json: A JSON containing the database instances information.
+#! @output instance_state: The current serving state of the Cloud SQL instance.
+#! @output public_ip_address: The public ip address of the instance.
+#! @output private_ip_address: The private ip address of the instance.
 #!
-#! @result SUCCESS: The database instance restarted successfully.
-#! @result FAILURE: The database instance fail to restart.
+#! @result SUCCESS: The database instance has been successfully started.
+#! @result FAILURE: There was an error while trying to start the instance.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases
@@ -71,7 +69,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: gcp_restart_database_instance
+  name: gcp_start_database_instance
   inputs:
     - client_id:
         sensitive: false
@@ -201,25 +199,26 @@ flow:
           - public_ip_address
           - private_ip_address
         navigate:
-          - SUCCESS: check_if_instance_is_in_stopped_state
+          - SUCCESS: check_if_instance_is_in_running_state
           - FAILURE: on_failure
-    - check_if_instance_is_in_stopped_state:
+    - check_if_instance_is_in_running_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${instance_state}'
-            - second_string: STOPPED
+            - second_string: RUNNING
             - ignore_case: 'true'
+        publish: []
         navigate:
           - SUCCESS: set_message
-          - FAILURE: restart_database_instance
+          - FAILURE: start_database_instance
     - set_message:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - instance_name: '${instance_name}'
         publish:
-          - return_result: "${\"SQL instance \\\"\"+instance_name+\"\\\"  is in stopped state and hence cannot be restarted.\"}"
+          - return_result: "${\"SQL instance \\\"\"+instance_name+\"\\\"  is already in running state, it cannot be started.\"}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -254,17 +253,17 @@ flow:
         navigate:
           - SUCCESS: get_database_instance_details
           - FAILURE: on_failure
-    - restart_database_instance:
+    - start_database_instance:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.google.databases.instances.restart_database_instance:
-            - access_token:
-                value: '${access_token}'
-                sensitive: true
+          io.cloudslang.google.databases.instances.start_database_instance:
             - project_id:
                 value: '${project_id}'
+                sensitive: true
+            - access_token:
+                value: '${access_token}'
                 sensitive: true
             - instance_name: '${instance_name}'
             - worker_group: '${worker_group}'
@@ -298,9 +297,6 @@ flow:
 extensions:
   graph:
     steps:
-      restart_database_instance:
-        x: 480
-        'y': 160
       set_message:
         x: 280
         'y': 400
@@ -308,6 +304,9 @@ extensions:
           afa96346-a53b-2187-d714-77b060d1af47:
             targetId: be71f743-d67c-f681-04df-7ff71079985d
             port: SUCCESS
+      check_if_instance_is_in_running_state:
+        x: 280
+        'y': 160
       get_database_instance:
         x: 80
         'y': 160
@@ -317,8 +316,8 @@ extensions:
       sleep:
         x: 680
         'y': 400
-      check_if_instance_is_in_stopped_state:
-        x: 280
+      start_database_instance:
+        x: 480
         'y': 160
       get_access_token_using_web_api:
         x: 80
@@ -349,3 +348,4 @@ extensions:
         969ae540-7184-6ea5-dd13-488958a5715f:
           x: 1120
           'y': 400
+
