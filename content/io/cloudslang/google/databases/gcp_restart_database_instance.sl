@@ -82,6 +82,8 @@ flow:
     - project_id:
         sensitive: true
     - instance_name
+    - polling_interval: '20'
+    - polling_retries: '30'
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -94,8 +96,6 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - polling_interval: '20'
-    - polling_retries: '30'
     - trust_all_roots:
         default: 'false'
         required: false
@@ -230,8 +230,7 @@ flow:
             - first_string: '${instance_state}'
             - second_string: RUNNING
             - ignore_case: 'true'
-        publish:
-          - status: stopped
+        publish: []
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: counter
