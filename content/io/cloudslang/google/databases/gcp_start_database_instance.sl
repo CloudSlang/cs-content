@@ -21,6 +21,8 @@
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input instance_name: Name of the database Instance
+#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
+#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -29,8 +31,6 @@
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the provider services.
 #!                    Optional
-#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
-#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
@@ -80,6 +80,8 @@ flow:
     - project_id:
         sensitive: true
     - instance_name
+    - polling_interval: '20'
+    - polling_retries: '30'
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -229,8 +231,7 @@ flow:
             - first_string: '${instance_state}'
             - second_string: RUNNING
             - ignore_case: 'true'
-        publish:
-          - status: started
+        publish: []
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: counter
