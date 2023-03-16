@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation returns success, If the number of security groups is less than or equal to 5 and
+#! @description: This operation returns success, If the number of security groups is less than or equal to 16 and
 #!               the security group to be added does not already exist.
 #!
 #! @input security_group_ids_new: The security group Ids which are to be attached to the instance.
@@ -22,7 +22,7 @@
 #! @output return_result: If successful, returns a message
 #! @output error_message: If there is an exception or error message.
 #!
-#! @result SUCCESS: If the number of security groups is less than or equal to 5 and
+#! @result SUCCESS: If the number of security groups is less than or equal to 16 and
 #!                  the security group to be added does not already exist, success is returned.
 #! @result FAILURE: Something went wrong.
 #!!#
@@ -42,8 +42,8 @@ operation:
           error_message = ""
           return_result = ""
           if(security_group_ids_new):
-              if((len(security_group_ids_new.split(',')))+(len(security_group_ids_old.split(',')))>5):
-                  error_message = "Security Group limit exceeded.Number of security groups for an instance should be less than or equal to 5."
+              if((len(security_group_ids_new.split(',')))+(len(security_group_ids_old.split(',')))>16):
+                  error_message = "Security Group limit exceeded.Number of security groups for an instance should be less than or equal to 16."
               else:
                   common_security_group=0
                   security_group_ids_new=security_group_ids_new.split(',')

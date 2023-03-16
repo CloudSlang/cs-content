@@ -13,8 +13,8 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow attaches up to a maximum of five security groups to the instance. An error will be generated
-#!               if the number of security groups is greater than 5, if the security group to be added is already
+#! @description: This flow attaches up to a maximum of 16 security groups to the instance. An error will be generated
+#!               if the number of security groups is greater than 16, if the security group to be added is already
 #!               present,or if the security group ID is invalid.
 #!
 #! @input endpoint: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
