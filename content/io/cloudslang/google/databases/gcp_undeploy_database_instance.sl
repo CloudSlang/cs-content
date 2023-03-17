@@ -52,6 +52,12 @@
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: '10'
+#!                          Optional
+#! @input polling_retries: The number of retries to check if the instance is stopped.
+#!                         Default: '60'
+#!                         Optional
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
@@ -101,6 +107,12 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - polling_interval:
+        default: '20'
+        required: false
+    - polling_retries:
+        default: '30'
+        required: false
   workflow:
     - get_access_token_using_web_api:
         worker_group:
@@ -204,7 +216,7 @@ flow:
           - return_result
           - status_code
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_database_instance_post_delete_operation
           - FAILURE: get_error_message
     - get_error_message:
         worker_group: '${worker_group}'
@@ -217,6 +229,68 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
+    - counter_for_db_instance_deletion:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+        publish:
+          - result
+        navigate:
+          - HAS_MORE: wait_for_db_instance_deletion
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_for_db_instance_deletion:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '${polling_interval}'
+        navigate:
+          - SUCCESS: get_database_instance_post_delete_operation
+          - FAILURE: on_failure
+    - get_database_instance_post_delete_operation:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.databases.instances.get_database_instance:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - instance_name: '${instance_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - status_code
+        navigate:
+          - SUCCESS: is_db_instance_not_found
+          - FAILURE: on_failure
+    - is_db_instance_not_found:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status_code}'
+            - second_string: '404'
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: counter_for_db_instance_deletion
   outputs:
     - return_result
     - status_code
@@ -233,27 +307,50 @@ extensions:
         x: 240
         'y': 80
         navigate:
-          02480ac0-40ef-8d4d-4812-9db16b531ae4:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+          6b3d8cfe-ad0a-3191-80f6-41b0dbaaa3a3:
+            targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
             port: FAILURE
-            vertices: []
       delete_database_instance:
         x: 400
         'y': 80
-        navigate:
-          c8966d36-f0a5-1cec-d398-682b2da1e9aa:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       get_error_message:
         x: 400
         'y': 280
         navigate:
-          e047fdfb-0206-8580-ac01-28bdd33bd391:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+          fef872a0-4cc4-43ee-30da-c5e93db6e38b:
+            targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
             port: SUCCESS
+      is_db_instance_not_found:
+        x: 720
+        'y': 80
+        navigate:
+          e49e1ff1-d905-08bf-a458-694edc28d4e7:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+      counter_for_db_instance_deletion:
+        x: 720
+        'y': 280
+        navigate:
+          9ab23209-ac46-9112-e2a2-bb37ac20e7f0:
+            targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
+            port: NO_MORE
+            vertices:
+              - x: 680
+                'y': 480
+              - x: 360
+                'y': 480
+      get_database_instance_post_delete_operation:
+        x: 560
+        'y': 80
+      wait_for_db_instance_deletion:
+        x: 560
+        'y': 280
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 560
+          x: 880
           'y': 80
-
+      FAILURE:
+        6a738976-2b46-3b67-a9ff-09eddf569dfa:
+          x: 240
+          'y': 280

@@ -34,9 +34,6 @@
 #! @input database_version: The database engine type and version. The databaseVersion field cannot be changed after
 #!                          instance creation.
 #!                          Examples: 'MYSQL_8_0','POSTGRES_10'.
-#! @input instance_type: The instance type.
-#!                       Examples: 'CLOUD_SQL_INSTANCE','ON_PREMISES_INSTANCE'
-#!                       Optional
 #! @input machine_type: The tier (or machine type) for this instance.
 #!                      Example:'db-custom-1-3840'.
 #!                      Optional
@@ -53,7 +50,7 @@
 #! @input data_disk_size_gb: The size of data disk, in GB. The data disk size minimum is 10GB.
 #!                           Default: '10'.
 #! @input storage_auto_resize: The configuration to increase storage size automatically.
-#!                            Default: 'true'.
+#!                             Default: 'true'.
 #! @input availability_type: The availability type.
 #!                           Valid values:- ZONAL: The instance serves data from only one zone.
 #!                           Outages in that zone affect data accessibility.
@@ -125,12 +122,12 @@
 #!
 #! @output instance_name: The name of the database instance.
 #! @output instance_state: The current current state of the database instance.
-#! @output self_link: The URI of this resource.
+#! @output self_link: The URI of database instance resource.
 #! @output connection_name: Connection name of the Cloud SQL instance used in connection strings.
 #! @output public_ip_address: The public ip address of the instance.
 #! @output private_ip_address: The private ip address of the instance.
 #! @output pricing_plan: The pricing plan for this instance. This can be either PER_USE or PACKAGE.
-#! @output replication_type:  The type of replication this instance uses. This can be either ASYNCHRONOUS or SYNCHRONOUS.
+#! @output replication_type: The type of replication this instance uses. This can be either ASYNCHRONOUS or SYNCHRONOUS.
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
@@ -161,8 +158,6 @@ flow:
         sensitive: false
     - database_version:
         required: true
-    - instance_type:
-        required: false
     - machine_type:
         required: false
     - cores:
@@ -266,7 +261,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: is_machine_type_null
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - is_machine_type_null:
         worker_group: '${worker_group}'
         do:
@@ -281,7 +276,7 @@ flow:
           io.cloudslang.base.utils.is_null:
             - variable: '${cores}'
         navigate:
-          - IS_NULL: set_failure_message
+          - IS_NULL: set_failure_message_due_to_missing_input_values
           - IS_NOT_NULL: is_memory_null
     - is_memory_null:
         worker_group: '${worker_group}'
@@ -289,9 +284,9 @@ flow:
           io.cloudslang.base.utils.is_null:
             - variable: '${memory}'
         navigate:
-          - IS_NULL: set_failure_message
+          - IS_NULL: set_failure_message_due_to_missing_input_values
           - IS_NOT_NULL: form_custom_machine_type_value
-    - set_failure_message:
+    - set_failure_message_due_to_missing_input_values:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -300,7 +295,7 @@ flow:
           - return_result: '${message}'
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - random_number_generator:
         worker_group: '${worker_group}'
         do:
@@ -330,7 +325,7 @@ flow:
                 sensitive: true
             - region: '${region}'
             - zone: '${zone}'
-            - instance_type: '${instance_type}'
+            - instance_type: CLOUD_SQL_INSTANCE
             - database_version: '${database_version}'
             - tier: '${machine_type}'
             - data_disk_type: '${data_disk_type}'
@@ -364,7 +359,7 @@ flow:
           - status_code
         navigate:
           - SUCCESS: get_database_instance
-          - FAILURE: set_failure_message_1
+          - FAILURE: set_failure_message_of_create_database_instance
     - get_database_instance:
         worker_group:
           value: '${worker_group}'
@@ -404,8 +399,8 @@ flow:
           - database_instance_json
         navigate:
           - SUCCESS: get_db_instance_state
-          - FAILURE: FAILURE
-    - set_failure_message_1:
+          - FAILURE: on_failure
+    - set_failure_message_of_create_database_instance:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -414,7 +409,7 @@ flow:
           - return_result: '${message}'
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - form_custom_machine_type_value:
         worker_group: '${worker_group}'
         do:
@@ -448,7 +443,7 @@ flow:
         navigate:
           - HAS_MORE: wait_for_db_instance_running_state
           - NO_MORE: FAILURE
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - wait_for_db_instance_running_state:
         worker_group: '${worker_group}'
         do:
@@ -508,7 +503,7 @@ flow:
           - pricing_plan: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: get_replication_type_of_db_instance
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - get_replication_type_of_db_instance:
         worker_group: '${worker_group}'
         do:
@@ -519,7 +514,7 @@ flow:
           - replication_type: "${return_result.strip('\"')}"
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: FAILURE
+          - FAILURE: on_failure
     - form_instance_name:
         worker_group: '${worker_group}'
         do:
@@ -547,36 +542,22 @@ flow:
 extensions:
   graph:
     steps:
-      get_pricing_plan_of_db_instance:
-        x: 1520
-        'y': 80
-        navigate:
-          d4483b60-7675-b151-cf63-777a8e82bbf4:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: FAILURE
-            vertices:
-              - x: 1480
-                'y': 400
       is_db_instance_in_unknown_state:
         x: 1200
         'y': 240
         navigate:
-          b72b637a-cbd2-8b61-a168-28fbe4b05442:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+          c61935ec-6de4-d935-5b51-ec20169d391b:
+            targetId: 1e4f50be-4426-3e75-353f-3e957bcc5105
             port: SUCCESS
+            vertices:
+              - x: 1240
+                'y': 480
+      get_pricing_plan_of_db_instance:
+        x: 1520
+        'y': 80
       is_cores_null:
         x: 240
         'y': 240
-      set_failure_message_1:
-        x: 560
-        'y': 400
-        navigate:
-          0284cd8c-c0ee-e625-a278-d9cf010cd9b7:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: FAILURE
-          f4f46b6c-6eed-d915-5224-1ad5b0b6f66c:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: SUCCESS
       wait_for_db_instance_running_state:
         x: 880
         'y': 240
@@ -587,31 +568,22 @@ extensions:
         x: 1360
         'y': 240
         navigate:
-          aad41ab2-861e-b958-2772-23fbadcaaee2:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+          fd19b817-72e0-cb7d-df23-3e6b461feaaa:
+            targetId: 1e4f50be-4426-3e75-353f-3e957bcc5105
             port: SUCCESS
+            vertices:
+              - x: 1400
+                'y': 560
       counter_for_db_instance_state:
         x: 1040
         'y': 240
         navigate:
-          96e48367-7206-a88e-3d0d-f2880c10ec45:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
+          1f99efb2-139e-e6d6-1e7c-bd186a1a70c8:
+            targetId: 1e4f50be-4426-3e75-353f-3e957bcc5105
             port: NO_MORE
-          d646236b-ad72-f3e0-d291-163de2521f34:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: FAILURE
       get_database_instance:
         x: 880
         'y': 80
-        navigate:
-          02480ac0-40ef-8d4d-4812-9db16b531ae4:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: FAILURE
-            vertices:
-              - x: 840
-                'y': 240
-              - x: 840
-                'y': 440
       is_memory_null:
         x: 240
         'y': 400
@@ -624,30 +596,24 @@ extensions:
         navigate:
           8a164750-c8c4-b67c-8b21-cc982433ff77:
             vertices:
-              - x: 600
-                'y': 200
+              - x: 680
+                'y': 280
             targetId: set_failure_message_1
             port: FAILURE
-      set_failure_message:
-        x: 80
-        'y': 400
+      set_failure_message_of_create_database_instance:
+        x: 560
+        'y': 280
         navigate:
-          38ec358f-f28d-b1d3-9678-6162ea962a7d:
-            targetId: d1116aa1-a98f-14f8-1c66-cf7b2ec78783
-            port: FAILURE
-          4b60ef25-0162-4a40-21ad-8339bb60d936:
-            targetId: d1116aa1-a98f-14f8-1c66-cf7b2ec78783
+          3e7879fb-d2ea-1c16-c9c3-abe32a229df4:
+            targetId: 1e4f50be-4426-3e75-353f-3e957bcc5105
             port: SUCCESS
       get_replication_type_of_db_instance:
         x: 1520
         'y': 400
         navigate:
-          f5318a35-d0e2-425a-0dfc-6d08706b1871:
+          caeb6ad2-6935-0600-9015-89d58517db0a:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-          28940c90-109f-562d-386d-3f8681013ef7:
-            targetId: ac59fb97-4c4d-9009-9964-335fd9886213
-            port: FAILURE
       form_custom_machine_type_value:
         x: 400
         'y': 400
@@ -660,18 +626,30 @@ extensions:
       get_access_token_using_web_api:
         x: 80
         'y': 80
-        navigate:
-          f989a9db-57a1-2e37-6c2a-4e73145bec8a:
-            targetId: d1116aa1-a98f-14f8-1c66-cf7b2ec78783
-            port: FAILURE
       get_db_instance_state:
         x: 1040
         'y': 80
       is_machine_type_null:
         x: 240
         'y': 80
+      set_failure_message_due_to_missing_input_values:
+        x: 80
+        'y': 400
+        navigate:
+          78fccac2-5a1e-453d-e935-8ab45418897a:
+            targetId: 1e4f50be-4426-3e75-353f-3e957bcc5105
+            port: SUCCESS
+            vertices:
+              - x: 160
+                'y': 520
+              - x: 480
+                'y': 560
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 1720
           'y': 240
+      FAILURE:
+        1e4f50be-4426-3e75-353f-3e957bcc5105:
+          x: 800
+          'y': 520
