@@ -136,7 +136,8 @@ flow:
     - zone:
         required: false
     - instance_type:
-        required: false
+        default: CLOUD_SQL_INSTANCE
+        required: true
     - database_version:
         required: true
     - tier:
@@ -281,6 +282,12 @@ flow:
 extensions:
   graph:
     steps:
+      insert_instance_request_body:
+        x: 80
+        'y': 160
+      api_call_to_create_the_instance:
+        x: 240
+        'y': 160
       set_success_message:
         x: 400
         'y': 160
@@ -288,14 +295,9 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_call_to_create_the_instance:
-        x: 240
-        'y': 160
-      insert_instance_request_body:
-        x: 80
-        'y': 160
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 560
           'y': 160
+
