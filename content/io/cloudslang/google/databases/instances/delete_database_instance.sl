@@ -54,7 +54,7 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output database_instance_json: This JSON will contain the details of the deleted database instance.
 #!
-#! @result SUCCESS: The request for the Instance to start was successfully sent.
+#! @result SUCCESS: The request for the database instance deletion successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
