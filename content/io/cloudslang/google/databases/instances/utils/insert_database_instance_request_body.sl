@@ -94,7 +94,7 @@ operation:
     - database_version:
         required: true
     - tier:
-        required: false
+        required: true
     - data_disk_type:
         required: false
     - data_disk_size_gb:
