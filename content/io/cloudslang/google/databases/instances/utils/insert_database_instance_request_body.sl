@@ -88,7 +88,7 @@ operation:
     - root_password:
         sensitive: true
     - region
-    - zone
+    - zone:
         required: false
     - instance_type
     - database_version:
