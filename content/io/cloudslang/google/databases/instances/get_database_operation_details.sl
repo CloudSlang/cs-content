@@ -59,7 +59,7 @@
 #! @result FAILURE: The database operation details were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.google.databases
+namespace: io.cloudslang.google.databases.instances
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
