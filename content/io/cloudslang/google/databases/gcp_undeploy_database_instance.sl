@@ -183,9 +183,10 @@ flow:
           - public_ip_address
           - private_ip_address
           - instances_json
+          - status_code
         navigate:
           - SUCCESS: delete_database_instance
-          - FAILURE: FAILURE
+          - FAILURE: check_instance_available
     - delete_database_instance:
         worker_group:
           value: '${worker_group}'
@@ -291,6 +292,14 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: counter_for_db_instance_deletion
+    - check_instance_available:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status_code}'
+            - second_string: '404'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
   outputs:
     - return_result
     - status_code
@@ -300,16 +309,9 @@ flow:
 extensions:
   graph:
     steps:
-      get_access_token_using_web_api:
-        x: 80
+      get_database_instance_post_delete_operation:
+        x: 560
         'y': 80
-      get_database_instance:
-        x: 240
-        'y': 80
-        navigate:
-          6b3d8cfe-ad0a-3191-80f6-41b0dbaaa3a3:
-            targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
-            port: FAILURE
       delete_database_instance:
         x: 400
         'y': 80
@@ -319,13 +321,6 @@ extensions:
         navigate:
           fef872a0-4cc4-43ee-30da-c5e93db6e38b:
             targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
-            port: SUCCESS
-      is_db_instance_not_found:
-        x: 720
-        'y': 80
-        navigate:
-          e49e1ff1-d905-08bf-a458-694edc28d4e7:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       counter_for_db_instance_deletion:
         x: 720
@@ -339,17 +334,40 @@ extensions:
                 'y': 480
               - x: 360
                 'y': 480
-      get_database_instance_post_delete_operation:
-        x: 560
+      get_database_instance:
+        x: 240
         'y': 80
+      check_instance_available:
+        x: 80
+        'y': 280
+        navigate:
+          5f7453c7-b52a-d3e8-ede5-8f8659f695b1:
+            targetId: 51423660-45ab-1c9d-353a-481bc99923c4
+            port: SUCCESS
+          0cd26f61-399b-a5cf-8a3b-83f84e7970bd:
+            targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
+            port: FAILURE
       wait_for_db_instance_deletion:
         x: 560
         'y': 280
+      is_db_instance_not_found:
+        x: 720
+        'y': 80
+        navigate:
+          e49e1ff1-d905-08bf-a458-694edc28d4e7:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+      get_access_token_using_web_api:
+        x: 80
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 880
           'y': 80
+        51423660-45ab-1c9d-353a-481bc99923c4:
+          x: 80
+          'y': 480
       FAILURE:
         6a738976-2b46-3b67-a9ff-09eddf569dfa:
           x: 240
