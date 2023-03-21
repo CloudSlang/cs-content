@@ -128,7 +128,7 @@ flow:
     - get_operation_details:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.google.databeses.utils.get_operation_details:
+          io.cloudslang.google.databases.instances.get_database_operation_details:
             - instance_json: '${database_json}'
         publish:
           - status
