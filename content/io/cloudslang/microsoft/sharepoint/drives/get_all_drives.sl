@@ -183,7 +183,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC10'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC11'
     class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetAllDrives'
     method_name: 'execute'
   
