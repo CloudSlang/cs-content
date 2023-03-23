@@ -130,13 +130,13 @@
 #! @output replication_type: The type of replication this instance uses. This can be either ASYNCHRONOUS or SYNCHRONOUS.
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output tier: The tier (or machine type) for this instance.
 #!
 #! @result SUCCESS: The request to create a database instance was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.google.databases
-
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
@@ -397,6 +397,7 @@ flow:
           - public_ip_address
           - private_ip_address
           - database_instance_json
+          - tier
         navigate:
           - SUCCESS: get_db_instance_state
           - FAILURE: on_failure
@@ -536,6 +537,7 @@ flow:
     - replication_type
     - return_result
     - status_code
+    - tier
   results:
     - SUCCESS
     - FAILURE
