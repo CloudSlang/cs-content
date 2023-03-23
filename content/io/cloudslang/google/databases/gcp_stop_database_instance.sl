@@ -155,38 +155,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - stop_database_instance:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.google.databases.instances.stop_database_instance:
-            - access_token:
-                value: '${access_token}'
-                sensitive: true
-            - project_id:
-                value: '${project_id}'
-                sensitive: true
-            - instance_name: '${instance_name}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - return_result
-          - status_code
-        navigate:
-          - SUCCESS: get_database_operation_details
-          - FAILURE: on_failure
     - compare_operation_state:
         worker_group: '${worker_group}'
         do:
@@ -299,7 +267,7 @@ flow:
             - project_id:
                 value: '${project_id}'
                 sensitive: true
-            - name: '${instance_name}'
+            - name: '${name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -320,6 +288,50 @@ flow:
         navigate:
           - SUCCESS: compare_operation_state
           - FAILURE: on_failure
+    - stop_database_instance:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.databases.instances.stop_database_instance:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - instance_name: '${instance_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - database_instance_json
+          - return_result
+          - status_code
+        navigate:
+          - SUCCESS: get_operation_details
+          - FAILURE: on_failure
+    - get_operation_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.databases.instances.utils.get_operation_details:
+            - instance_json: '${database_instance_json}'
+        publish:
+          - self_link
+          - status
+          - name
+        navigate:
+          - SUCCESS: get_database_operation_details
   outputs:
     - return_result
     - status_code
@@ -332,8 +344,11 @@ flow:
 extensions:
   graph:
     steps:
+      get_operation_details:
+        x: 600
+        'y': 160
       get_database_operation_details:
-        x: 680
+        x: 760
         'y': 160
       get_database_instance:
         x: 80
@@ -346,7 +361,7 @@ extensions:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       sleep:
-        x: 680
+        x: 760
         'y': 400
       check_if_instance_is_in_stopped_state:
         x: 280
@@ -362,17 +377,17 @@ extensions:
             targetId: be71f743-d67c-f681-04df-7ff71079985d
             port: SUCCESS
       counter:
-        x: 880
+        x: 920
         'y': 400
         navigate:
           af2a4be5-2551-a0e9-66e4-1fc2651400a6:
             targetId: 969ae540-7184-6ea5-dd13-488958a5715f
             port: NO_MORE
       stop_database_instance:
-        x: 480
+        x: 440
         'y': 160
       compare_operation_state:
-        x: 880
+        x: 920
         'y': 160
     results:
       SUCCESS:

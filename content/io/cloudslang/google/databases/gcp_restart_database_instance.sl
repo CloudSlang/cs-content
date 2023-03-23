@@ -283,8 +283,9 @@ flow:
         publish:
           - return_result
           - status_code
+          - database_instance_json
         navigate:
-          - SUCCESS: get_database_operation_details
+          - SUCCESS: get_operation_details
           - FAILURE: on_failure
     - get_database_operation_details:
         worker_group:
@@ -298,7 +299,7 @@ flow:
             - project_id:
                 value: '${project_id}'
                 sensitive: true
-            - name: '${instance_name}'
+            - name: '${name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -319,6 +320,17 @@ flow:
         navigate:
           - SUCCESS: compare_operation_state
           - FAILURE: on_failure
+    - get_operation_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.databases.instances.utils.get_operation_details:
+            - instance_json: '${database_instance_json}'
+        publish:
+          - self_link
+          - status
+          - name
+        navigate:
+          - SUCCESS: get_database_operation_details
   outputs:
     - return_result
     - status_code
@@ -331,8 +343,11 @@ flow:
 extensions:
   graph:
     steps:
+      get_operation_details:
+        x: 600
+        'y': 160
       restart_database_instance:
-        x: 480
+        x: 440
         'y': 160
       set_message:
         x: 280
@@ -342,7 +357,7 @@ extensions:
             targetId: be71f743-d67c-f681-04df-7ff71079985d
             port: SUCCESS
       get_database_operation_details:
-        x: 640
+        x: 760
         'y': 160
       get_database_instance:
         x: 80
