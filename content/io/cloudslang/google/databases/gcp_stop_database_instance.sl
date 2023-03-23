@@ -159,11 +159,10 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${instance_state}'
+            - first_string: '${status}'
             - second_string: DONE
             - ignore_case: 'true'
-        publish:
-          - status: stopped
+        publish: []
         navigate:
           - SUCCESS: get_database_instance_details
           - FAILURE: counter
