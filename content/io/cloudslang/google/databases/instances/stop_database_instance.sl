@@ -126,14 +126,17 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - message: "${'Database Instance '+ instance_name+' stopped successfully.'}"
+            - database_instance_json: '${return_result}'
         publish:
           - return_result: '${message}'
+          - database_instance_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - database_instance_json
   results:
     - SUCCESS
     - FAILURE
