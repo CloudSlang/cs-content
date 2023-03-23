@@ -166,7 +166,7 @@ flow:
           - public_ip_address
           - private_ip_address
         navigate:
-          - SUCCESS: compare_power_state
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_database_instance:
         worker_group:
@@ -222,16 +222,16 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - compare_power_state:
+    - compare_operation_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${instance_state}'
-            - second_string: RUNNING
+            - first_string: '${status}'
+            - second_string: DONE
             - ignore_case: 'true'
         publish: []
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_database_instance_details
           - FAILURE: counter
     - counter:
         worker_group: '${worker_group}'
@@ -251,7 +251,7 @@ flow:
           io.cloudslang.base.utils.sleep:
             - seconds: '${polling_interval}'
         navigate:
-          - SUCCESS: get_database_instance_details
+          - SUCCESS: get_database_operation_details
           - FAILURE: on_failure
     - start_database_instance:
         worker_group:
@@ -282,9 +282,54 @@ flow:
         publish:
           - return_result
           - status_code
+          - database_instance_json
         navigate:
-          - SUCCESS: get_database_instance_details
+          - SUCCESS: get_operation_details
           - FAILURE: on_failure
+    - get_database_operation_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.databases.instances.get_database_operation_details:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - name: '${name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - status_code
+          - status
+          - return_result
+        navigate:
+          - SUCCESS: compare_operation_state
+          - FAILURE: on_failure
+    - get_operation_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.databases.instances.utils.get_operation_details:
+            - instance_json: '${database_instance_json}'
+        publish:
+          - self_link
+          - status
+          - name
+        navigate:
+          - SUCCESS: get_database_operation_details
   outputs:
     - return_result
     - status_code
@@ -297,6 +342,9 @@ flow:
 extensions:
   graph:
     steps:
+      get_operation_details:
+        x: 600
+        'y': 160
       set_message:
         x: 280
         'y': 400
@@ -307,39 +355,42 @@ extensions:
       check_if_instance_is_in_running_state:
         x: 280
         'y': 160
+      get_database_operation_details:
+        x: 760
+        'y': 160
       get_database_instance:
         x: 80
         'y': 160
       get_database_instance_details:
-        x: 680
+        x: 1120
         'y': 160
+        navigate:
+          d9e8885c-ac59-e4f7-7e81-b382ac45511e:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       sleep:
-        x: 680
+        x: 760
         'y': 400
       start_database_instance:
-        x: 480
+        x: 440
         'y': 160
       get_access_token_using_web_api:
         x: 80
         'y': 400
       counter:
-        x: 880
+        x: 960
         'y': 400
         navigate:
-          2b6c0394-dfc4-3631-f796-c783f895153e:
+          c8c2974f-835d-e9b8-88ac-66f915118c29:
             targetId: 969ae540-7184-6ea5-dd13-488958a5715f
             port: NO_MORE
-      compare_power_state:
-        x: 880
+      compare_operation_state:
+        x: 960
         'y': 160
-        navigate:
-          8da2eab9-23bb-179a-3d04-d25fa2da1db3:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1120
+          x: 1360
           'y': 160
         be71f743-d67c-f681-04df-7ff71079985d:
           x: 480
@@ -348,4 +399,3 @@ extensions:
         969ae540-7184-6ea5-dd13-488958a5715f:
           x: 1120
           'y': 400
-
