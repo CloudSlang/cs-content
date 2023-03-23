@@ -114,7 +114,7 @@ flow:
     - list_to_json:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.google.databases.utils.list_to_json:
+          io.cloudslang.google.databases.instances.utils.list_to_json:
             - hcmx_ci_instance_id: '${hcmx_ci_instance_id}'
             - hcmx_service_instance_id: '${hcmx_service_instance_id}'
             - hcmx_subscription_owner: '${hcmx_subscription_owner}'
