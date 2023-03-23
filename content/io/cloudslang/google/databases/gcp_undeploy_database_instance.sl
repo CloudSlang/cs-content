@@ -279,8 +279,8 @@ flow:
         publish:
           - status_code
         navigate:
-          - SUCCESS: is_db_instance_not_found
-          - FAILURE: on_failure
+          - SUCCESS: counter_for_db_instance_deletion
+          - FAILURE: is_db_instance_not_found
     - is_db_instance_not_found:
         worker_group: '${worker_group}'
         do:
@@ -320,13 +320,6 @@ extensions:
           fef872a0-4cc4-43ee-30da-c5e93db6e38b:
             targetId: 6a738976-2b46-3b67-a9ff-09eddf569dfa
             port: SUCCESS
-      is_db_instance_not_found:
-        x: 720
-        'y': 80
-        navigate:
-          e49e1ff1-d905-08bf-a458-694edc28d4e7:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       counter_for_db_instance_deletion:
         x: 720
         'y': 280
@@ -339,12 +332,19 @@ extensions:
                 'y': 480
               - x: 360
                 'y': 480
-      get_database_instance_post_delete_operation:
-        x: 560
-        'y': 80
       wait_for_db_instance_deletion:
         x: 560
         'y': 280
+      get_database_instance_post_delete_operation:
+        x: 560
+        'y': 80
+      is_db_instance_not_found:
+        x: 720
+        'y': 80
+        navigate:
+          e49e1ff1-d905-08bf-a458-694edc28d4e7:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
