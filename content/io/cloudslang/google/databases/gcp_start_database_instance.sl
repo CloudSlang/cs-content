@@ -165,6 +165,7 @@ flow:
           - instance_state
           - public_ip_address
           - private_ip_address
+          - return_result: "${\"SQL instance \\\"\"+instance_name+\"\\\"  is started.\"}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure

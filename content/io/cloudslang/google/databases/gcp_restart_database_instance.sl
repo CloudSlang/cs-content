@@ -21,6 +21,12 @@
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input instance_name: The name of the database instance
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: '20'
+#!                          Optional
+#! @input polling_retries: The number of retries to check if the instance is started.
+#!                         Default: '30'
+#!                         Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -33,12 +39,6 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
-#! @input polling_interval: The number of seconds to wait until performing another check.
-#!                          Default: '20'
-#!                          Optional
-#! @input polling_retries: The number of retries to check if the instance is started.
-#!                         Default: '30'
-#!                         Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
@@ -60,7 +60,6 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output database_instance_json: A JSON containing the database instances information.
 #!
 #! @result SUCCESS: The database instance restarted successfully.
 #! @result FAILURE: The database instance fail to restart.
@@ -167,6 +166,7 @@ flow:
           - instance_state
           - public_ip_address
           - private_ip_address
+          - return_result: "${\"SQL instance \\\"\"+instance_name+\"\\\"  is restarted.\"}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
