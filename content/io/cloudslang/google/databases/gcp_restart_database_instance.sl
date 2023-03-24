@@ -60,9 +60,6 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output instance_state: The current serving state of the Cloud SQL instance.
-#! @output public_ip_address: The public ip address of the instance.
-#! @output private_ip_address: The private ip address of the instance.
 #!
 #! @result SUCCESS: The database instance restarted successfully.
 #! @result FAILURE: The database instance fail to restart.
@@ -169,7 +166,7 @@ flow:
           - instance_state
           - public_ip_address
           - private_ip_address
-          - return_result
+          - return_result: "${\"SQL instance \\\"\"+instance_name+\"\\\"  is restarted.\"}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
