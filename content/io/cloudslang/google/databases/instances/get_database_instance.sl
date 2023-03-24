@@ -64,6 +64,7 @@
 #! @output zone: The name of the zone in which the disks has to be created.
 #! @output public_ip_address: The public ip address of the instance.
 #! @output private_ip_address: The private ip address of the instance.
+#! @output tier: The Machine type of the instance.
 #!
 #! @result SUCCESS: The database instance details successfully retrieved.
 #! @result FAILURE: The database instance details were not found or some inputs were given incorrectly
@@ -164,6 +165,7 @@ flow:
           - zone
           - public_ip_address
           - private_ip_address
+          - tier
         navigate:
           - SUCCESS: set_success_message
   outputs:
@@ -181,6 +183,7 @@ flow:
     - zone
     - public_ip_address
     - private_ip_address
+    - tier
   results:
     - SUCCESS
     - FAILURE
