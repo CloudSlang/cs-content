@@ -21,8 +21,12 @@
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
 #! @input instance_name: Name of the database Instance
-#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
-#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
+#! @input polling_interval: The number of seconds to wait until performing another check.
+#!                          Default: '20'
+#!                          Optional
+#! @input polling_retries: The number of retries to check if the instance is started.
+#!                         Default: '30'
+#!                         Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -165,6 +169,7 @@ flow:
           - instance_state
           - public_ip_address
           - private_ip_address
+          - return_result
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
