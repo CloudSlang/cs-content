@@ -88,10 +88,10 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.folders
 
 operation:
-  name: get_root_site
+  name: create_folder
 
   inputs:
     - auth_token:
@@ -101,14 +101,14 @@ operation:
         required: false
         private: true
         sensitive: true
-    - folder_name
-    - folderName:
-        default: ${get('folder_name', '')}
-        required: false
-        private: true
     - site_id
     - siteId:
         default: ${get('site_id', '')}
+        required: false
+        private: true
+    - folder_name
+    - folderName:
+        default: ${get('folder_name', '')}
         required: false
         private: true
     - body
