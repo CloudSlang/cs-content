@@ -1,8 +1,16 @@
 ########################################################################################################################
 #!!
 #! @description: This operation creates a new sharing link for the item or returns an existing link if it already exists.
+#!               Note: Permissions
+#!                     One of the following permissions is required to call this API.
 #!
-#! @input auth_token: The authentication token
+#!                     Permission type 	                          Permissions (from least to most privileged)
+#!
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.ReadWrite, Files.ReadWrite.All
+#!                     Application	                              Files.ReadWrite.All, Sites.ReadWrite.All
+#!
+#! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input item_id: The id of the item for which to generate the share link.
 #! @input drive_id: The id of the drive where the item is located. Mutually exclusive with the site Id input.
 #!                  Optional
