@@ -1,17 +1,43 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the site display name for which the id was provided.
-#!               Note: Permissions
-#!                     One of the following permissions is required to call this API.
+#! @description: This operation creates a new sharing link for the item or returns an existing link if it already exists.
 #!
-#!                     Permission type	                          Permissions (from least to most privileged)
-#!
-#!                     Delegated (work or school account)	      Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Not supported.
-#!                     Application	                              Sites.Read.All, Sites.ReadWrite.All
-#!
-#! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: Id of the site from which display name can be obtained.
+#! @input auth_token: The authentication token
+#! @input item_id: The id of the item for which to generate the share link.
+#! @input drive_id: The id of the drive where the item is located. Mutually exclusive with the site Id input.
+#!                  Optional
+#! @input site_id: The id of the site where the item is located. Mutually exclusive with the drive Id input. Ignored if
+#!                 the drive Id was provided.
+#!                 Optional
+#! @input type: The type of sharing link to create.
+#!              view: Creates a read-only link to the DriveItem.
+#!              edit: Creates a read-write link to the DriveItem.
+#!              embed: Creates an embeddable link to the DriveItem. This option is
+#!              only available for files in OneDrive personal.
+#!              Valid values: view, edit, embed.
+#!              Optional
+#! @input password: The password of the sharing link that is set by the creator. Optional and OneDrive Personal only.
+#!                  Optional
+#! @input expiration_date_time: A String with format of yyyy-MM-ddTHH:mm:ssZ of DateTime indicates the expiration time
+#!                              of the permission.
+#!                              Optional
+#! @input retain_inherited_permissions: If true, any existing inherited permissions are retained on the shared item when
+#!                                      sharing this item for the first time. If false, all existing permissions are
+#!                                      removed when sharing for the first time.
+#!                                      Valid value: true, false
+#!                                      Default value: true
+#!                                      Optional
+#! @input scope: The scope of link to create. If the scope parameter is not specified, the default link type for the
+#!               organization is created.
+#!               anonymous: Anyone with the link has access, without needing to sign in. This
+#!               may include people outside of your organization. Anonymous link support may be disabled by an
+#!               administrator.
+#!               organization: Anyone signed into your organization (tenant) can use the link to get
+#!               access. Only available in OneDrive for Business and SharePoint.
+#!               users: Share only with people you
+#!               choose inside or outside the organization.
+#!               Valid values: anonymous, organization, users.
+#!               Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -74,35 +100,67 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific site in JSON format.
-#! @output return_code: 0 if success, -1 if failure.
-#! @output site_name: The name of the site for which the id was provided.
-#! @output site_display_name: The display name of the site for which the id was provided.
-#! @output exception: An error message in case there was an error while retrieving the site display name.
-#! @output status_code: The HTTP status code for the Sharepoint request.
+#! @output return_result: Details related to the generated share link.
+#! @output return_code: 0 if success, -1 otherwise.
+#! @output status_code: The HTTP status code for the request.
+#! @output exception: There was an error while trying to get the share link.
+#! @output share_link: The web URL of the share link.
+#! @output share_id: The id of the share link.
 #!
-#! @result SUCCESS: Site name was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve site display name.
+#! @result SUCCESS: Share link was returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve the share link.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.files
 
-operation:
-  name: get_site_name_by_id
-
-  inputs:
-    - auth_token:
+operation: 
+  name: get_item_share_link
+  
+  inputs: 
+    - auth_token:    
         sensitive: true
-    - authToken:
-        default: ${get('auth_token', '')}
+    - authToken: 
+        default: ${get('auth_token', '')}  
+        required: false 
+        private: true 
+        sensitive: true
+    - item_id    
+    - itemId: 
+        default: ${get('item_id', '')}  
+        required: false 
+        private: true 
+    - drive_id:  
+        required: false  
+    - driveId: 
+        default: ${get('drive_id', '')}  
+        required: false 
+        private: true 
+    - site_id:  
+        required: false  
+    - siteId: 
+        default: ${get('site_id', '')}  
+        required: false 
+        private: true 
+    - type:  
+        required: false  
+    - password:  
+        required: false  
+    - expiration_date_time:  
+        required: false  
+    - expirationDateTime: 
+        default: ${get('expiration_date_time', '')}  
+        required: false 
+        private: true 
+    - retain_inherited_permissions:
+        default: 'true'
+        required: false  
+    - retainInheritedPermissions: 
+        default: ${get('retain_inherited_permissions', '')}  
+        required: false 
+        private: true 
+    - scope:  
         required: false
-        private: true
-        sensitive: true
-    - site_id
-    - siteId:
-        default: ${get('site_id', '')}
-        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -185,20 +243,20 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-
+    
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC15'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteNameById'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.GetItemShareLink'
     method_name: 'execute'
-
-  outputs:
-    - return_result: ${get('returnResult', '')}
-    - return_code: ${get('returnCode', '')}
-    - site_name: ${get('siteName', '')}
-    - site_display_name: ${get('siteDisplayName', '')}
-    - status_code: ${get('statusCode','')}
-    - exception: ${get('exception', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - return_code: ${get('returnCode', '')} 
+    - status_code: ${get('statusCode', '')} 
+    - exception: ${get('exception', '')} 
+    - share_link: ${get('shareLink', '')} 
+    - share_id: ${get('shareId', '')} 
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
