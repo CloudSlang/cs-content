@@ -18,8 +18,7 @@
 #! @input access_token: The authorization token for google cloud.
 #! @input project_id: Google Cloud project name.
 #!                    Example: 'example-project-a'
-#! @input name: The server-assigned name, which is only unique within the same service that originally returns it.
-#!              Example: 'bd79d403-f8af-40ef-b3d0-802000000032'
+#! @input database_instance_name: The name of the database instance.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -53,10 +52,8 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output status: The current current state of the database instance.
-#! @output self_link: The URI of this resource.
 #!
-#! @result SUCCESS: The databse operation details were found and successfully retrieved.
+#! @result SUCCESS: The database operation details were found and successfully retrieved.
 #! @result FAILURE: The database operation details were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
@@ -65,13 +62,14 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: get_database_operation_details
+  name: list_operations_for_instance
   inputs:
     - access_token:
         sensitive: true
     - project_id:
         sensitive: true
-    - name
+    - database_instance_name:
+        required: true
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -96,13 +94,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_get_operation_details:
+    - api_to_list_operation_details:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/operations/'+name}"
+            - url: "${'https://sqladmin.googleapis.com/v1/projects/'+project_id+'/operations?instance='+database_instance_name}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -122,43 +120,30 @@ flow:
             - self_link: '${self_link}'
             - name: '${name}'
         publish:
-          - database_json: '${return_result}'
-        navigate:
-          - SUCCESS: get_operation_details
-          - FAILURE: on_failure
-    - get_operation_details:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.google.databases.instances.utils.get_operation_details:
-            - instance_json: '${database_json}'
-        publish:
-          - status
+          - return_result
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - status
-    - self_link
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      get_operation_details:
-        x: 520
-        'y': 240
-        navigate:
-          4fc9a99b-5449-11ed-03a7-41dc87584814:
-            targetId: 8b36ac92-0640-ddc4-874b-c676765a6572
-            port: SUCCESS
-      api_to_get_operation_details:
+      api_to_list_operation_details:
         x: 320
         'y': 240
+        navigate:
+          59e13438-e575-df0e-653b-05bc88df4e43:
+            targetId: 8b36ac92-0640-ddc4-874b-c676765a6572
+            port: SUCCESS
     results:
       SUCCESS:
         8b36ac92-0640-ddc4-874b-c676765a6572:
-          x: 760
+          x: 520
           'y': 240
 
