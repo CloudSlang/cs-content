@@ -1,18 +1,23 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the id of a drive using the drive name and the corresponding siteId.
+#! @description: This operation uploads a file on Microsoft 365 Sharepoint
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
+#!                     Application                                Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input drive_name: The name of the drive for which to retrieve the id.
-#! @input site_id: The id of the site from which to retrieve the drive id.
+#! @input file_path: The absolute path to the file that will be uploaded.
+#! @input site_id: The site id where to upload the file. If this input is empty the file will be uploaded on the root site.
+#!                 Optional
+#! @input drive_id: The drive id where to upload the file. If this input is empty the file will be uploaded on the root drive.
+#!                  Optional
+#! @input folder_id: The folder id where to upload the file within the drive.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -70,21 +75,21 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Details of the drives of the given site.
+#! @output return_result: Details of the drive.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to retrieve the drive id.
-#! @output drive_id: Id of the drive.
-#!
-#! @result SUCCESS: Drive id was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the drive id.
+#! @output file_id: The id of the file that was uploaded.
+#! @output web_url: Web url of the uploaded file.
+#! @output exception: There was an error while trying to upload the file.
+#! @result SUCCESS: Drive name was returned successfully.
+#! @result FAILURE: There was an error while trying to upload the file.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.drives
+namespace: io.cloudslang.microsoft.sharepoint.files
 
 operation:
-  name: get_drive_id_by_name
+  name: upload_file
 
   inputs:
     - auth_token:
@@ -94,14 +99,28 @@ operation:
         required: false
         private: true
         sensitive: true
-    - drive_name
-    - driveName:
-        default: ${get('drive_name', '')}
+    - file_path
+    - filePath:
+        default: ${get('file_path', '')}
         required: false
         private: true
-    - site_id
+        sensitive: true
+    - site_id:
+        required: false
     - siteId:
         default: ${get('site_id', '')}
+        required: false
+        private: true
+    - drive_id:
+        required: false
+    - driveId:
+        default: ${get('drive_id', '')}
+        required: false
+        private: true
+    - folder_id:
+        required: false
+    - folderId:
+        default: ${get('folder_id', '')}
         required: false
         private: true
     - proxy_host:
@@ -189,15 +208,16 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC16'
-    class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetDriveIdByName'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.UploadFile'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
+    - file_id:  ${get('fileId', '')}
+    - web_url: ${get('webUrl', '')}
     - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')}
-    - drive_id: ${get('driveId', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}
