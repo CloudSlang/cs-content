@@ -1,16 +1,28 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves all SharePoint sites within a tenant.
+#! @description: This operation downloads a file from sharepoint on the local machine.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account) 	      Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)     Not supported.
-#!                     Application 	                              Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
+#! @input file_id: The id of the file to download.
+#! @input path: The folder where the file will be downloaded.
+#! @input drive_id: The id of the drive where the file is located. Mutually exclusive with the site Id input.
+#!                  Optional
+#! @input site_id: The id of the site where the file is located. Mutually exclusive with the drive Id input. Ignored if
+#!                 the drive Id was provided.
+#!                 Optional
+#! @input overwrite: If this input is true and a file with the same name already exists in the specified path, overwrite
+#!                   it with the downloaded file. Create a new file without overwriting if false.
+#!                   Valid values: true, false
+#!                   Default value: true
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -73,31 +85,56 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the sites in JSON format.
-#! @output return_code: 0 if success, -1 if failure.
-#! @output site_ids: An array of pairs: display name and id.
-#! @output site_urls: An array of pairs: display name and web url.
-#! @output status_code: The HTTP status code for the Sharepoint request.
-#! @output exception: An error message in case there was an error while retrieving the sites.
+#! @output return_result: Details related to the downloaded file.
+#! @output return_code: 0 if success, -1 otherwise.
+#! @output status_code: The HTTP status code for the request.
+#! @output exception: There was an error while trying to download the file.
+#! @output size: Size of the downloaded file.
+#! @output created_date_time: Created date and time of the downloaded file.
+#! @output last_modified_date_time: Last modified date and time of the downloaded file.
+#! @output last_modified_by: Last user that modified the downloaded file.
+#! @output file_type: Type of the downloaded file.
+#! @output file_name: Name of the downloaded file
 #!
-#! @result SUCCESS: All sites were returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the sites.
+#! @result SUCCESS: File downloaded successfully.
+#! @result FAILURE: There was an error while trying to download the file.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.files
 
-operation:
-  name: get_all_sites
-
-  inputs:
-    - auth_token:
+operation: 
+  name: download_file
+  
+  inputs: 
+    - auth_token:    
         sensitive: true
-    - authToken:
-        default: ${get('auth_token', '')}
-        required: false
-        private: true
+    - authToken: 
+        default: ${get('auth_token', '')}  
+        required: false 
+        private: true 
         sensitive: true
+    - file_id    
+    - fileId: 
+        default: ${get('file_id', '')}  
+        required: false 
+        private: true 
+    - path    
+    - drive_id:  
+        required: false  
+    - driveId: 
+        default: ${get('drive_id', '')}  
+        required: false 
+        private: true 
+    - site_id:  
+        required: false  
+    - siteId: 
+        default: ${get('site_id', '')}  
+        required: false 
+        private: true 
+    - overwrite:
+        default: 'true'
+        required: false  
     - proxy_host:
         required: false
     - proxyHost:
@@ -180,20 +217,24 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-
-  java_action:
+    
+  java_action: 
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC18'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetAllSites'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.DownloadFile'
     method_name: 'execute'
-
-  outputs:
-    - return_result: ${get('returnResult', '')}
-    - return_code: ${get('returnCode', '')}
-    - site_ids: ${get('siteIds', '')}
-    - site_urls: ${get('siteUrls', '')}
-    - status_code: ${get('statusCode','')}
-    - exception: ${get('exception', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - return_code: ${get('returnCode', '')} 
+    - status_code: ${get('statusCode', '')} 
+    - exception: ${get('exception', '')} 
+    - size: ${get('size', '')} 
+    - created_date_time: ${get('createdDateTime', '')} 
+    - last_modified_date_time: ${get('lastModifiedDateTime', '')} 
+    - last_modified_by: ${get('lastModifiedBy', '')} 
+    - file_type: ${get('fileType', '')} 
+    - file_name: ${get('fileName', '')} 
+  
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE
