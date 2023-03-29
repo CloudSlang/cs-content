@@ -1,17 +1,23 @@
 ########################################################################################################################
 #!!
-#! @description: Get the root drive metadata by site id.
+#! @description: This operation uploads a file on Microsoft 365 Sharepoint
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
-#!                     Permission type	                          Permissions (from least to most privileged)
+#!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)     Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
+#!                     Application                                Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The id of the site from which to retrieve the root drive.
+#! @input file_path: The absolute path to the file that will be uploaded.
+#! @input site_id: The site id where to upload the file. If this input is empty the file will be uploaded on the root site.
+#!                 Optional
+#! @input drive_id: The drive id where to upload the file. If this input is empty the file will be uploaded on the root drive.
+#!                  Optional
+#! @input folder_id: The folder id where to upload the file within the drive.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -50,7 +56,7 @@
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -65,140 +71,154 @@
 #!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution. A value of
-#!                           '0' disables this feature. 
+#!                           '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific root drive metadata in json format.
+#! @output return_result: Details of the drive.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to retrieve the root drive.
-#! @output web_url: Root drive's web url.
-#! @output drive_name: Root drive's name.
-#! @output drive_type: Root drive's type.
-#! @output drive_id: Root drive's id.
-#!
-#! @result SUCCESS: Root drive was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the root drive.
+#! @output file_id: The id of the file that was uploaded.
+#! @output web_url: Web url of the uploaded file.
+#! @output exception: There was an error while trying to upload the file.
+#! @result SUCCESS: Drive name was returned successfully.
+#! @result FAILURE: There was an error while trying to upload the file.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.drives
+namespace: io.cloudslang.microsoft.sharepoint.files
 
-operation: 
-  name: get_root_drive
-  
-  inputs: 
-    - auth_token:    
+operation:
+  name: upload_file
+
+  inputs:
+    - auth_token:
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
-        private: true 
+    - authToken:
+        default: ${get('auth_token', '')}
+        required: false
+        private: true
         sensitive: true
-    - site_id    
-    - siteId: 
-        default: ${get('site_id', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
+    - file_path
+    - filePath:
+        default: ${get('file_path', '')}
+        required: false
+        private: true
+        sensitive: true
+    - site_id:
+        required: false
+    - siteId:
+        default: ${get('site_id', '')}
+        required: false
+        private: true
+    - drive_id:
+        required: false
+    - driveId:
+        default: ${get('drive_id', '')}
+        required: false
+        private: true
+    - folder_id:
+        required: false
+    - folderId:
+        default: ${get('folder_id', '')}
+        required: false
+        private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
         required: false
         default: '8080'
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
         required: false
         default: 'false'
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
         default: 'strict'
     - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - tls_version:  
+    - tls_version:
         required: false
         default: 'TLSv1.2'
-    - tlsVersion: 
-        default: ${get('tls_version', '')}  
-        required: false 
-        private: true 
-    - allowed_ciphers:  
-        required: false  
-    - allowedCiphers: 
-        default: ${get('allowed_ciphers', '')}  
-        required: false 
-        private: true 
-    - connect_timeout:  
+    - tlsVersion:
+        default: ${get('tls_version', '')}
+        required: false
+        private: true
+    - allowed_ciphers:
+        required: false
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', '')}
+        required: false
+        private: true
+    - connect_timeout:
         required: false
         default: '60'
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - execution_timeout:  
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - execution_timeout:
         required: false
         default: '60'
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    
-  java_action: 
+    - executionTimeout:
+        default: ${get('execution_timeout', '')}
+        required: false
+        private: true
+
+  java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC17'
-    class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetRootDrive'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.UploadFile'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - exception: ${get('exception', '')} 
-    - web_url: ${get('webUrl', '')} 
-    - drive_name: ${get('driveName', '')} 
-    - drive_type: ${get('driveType', '')} 
-    - drive_id: ${get('driveId', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - file_id:  ${get('fileId', '')}
+    - web_url: ${get('webUrl', '')}
+    - status_code: ${get('statusCode', '')}
+    - exception: ${get('exception', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
