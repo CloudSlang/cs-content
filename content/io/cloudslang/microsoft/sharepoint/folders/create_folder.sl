@@ -9,9 +9,14 @@
 #!                     Delegated (work or school account) 	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
 #!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
 #!                     Application 	                              Files.ReadWrite.All, Sites.ReadWrite.All
+#!               Note: Providing input to only one of the following: drive_id, group_id, site_id, user_id, the url of the request to the corresponding endpoint will set.
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
+#! @input drive_id: The id of the drive where the folder will be created.
+#! @input group_id: The id of the group where the folder will be created.
 #! @input site_id: The id of the site where the folder will be created.
+#! @input user_id: The id of the user for which the folder will be created.
+#! @input parent_item_id: The id of the parent item for which the folder will be created.
 #! @input folder_name: The name of the folder to be created. If body input is not empty, this input is ignored.
 #! @input body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
@@ -101,9 +106,29 @@ operation:
         required: false
         private: true
         sensitive: true
+    - drive_id
+    - driveId:
+        default: ${get('drive_id', '')}
+        required: false
+        private: true
+    - group_id
+    - groupId:
+        default: ${get('group_id', '')}
+        required: false
+        private: true
     - site_id
     - siteId:
         default: ${get('site_id', '')}
+        required: false
+        private: true
+    - user_id
+    - userId:
+        default: ${get('user_id', '')}
+        required: false
+        private: true
+    - parent_item_id
+    - parentItemId:
+        default: ${get('parent_item_id', '')}
         required: false
         private: true
     - folder_name
