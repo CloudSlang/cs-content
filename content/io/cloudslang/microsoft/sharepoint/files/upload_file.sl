@@ -1,17 +1,23 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves all the drives from a site identified by the site id.
+#! @description: This operation uploads a file on Microsoft 365 Sharepoint
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
+#!                     Application                                Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The id of the site from which to retrieve the drives.
+#! @input file_path: The absolute path to the file that will be uploaded.
+#! @input site_id: The site id where to upload the file. If this input is empty the file will be uploaded on the root site.
+#!                 Optional
+#! @input drive_id: The drive id where to upload the file. If this input is empty the file will be uploaded on the root drive.
+#!                  Optional
+#! @input folder_id: The folder id where to upload the file within the drive.
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -69,36 +75,54 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: List of all drives that can be found on the site with the specified id.
+#! @output return_result: Details of the drive.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to retrieve the drives.
-#! @output drive_ids: List of pairs containing the drive's name and the corresponding id.
-#! @output drive_urls: List of pairs containing the drive's name and the corresponding url.
-#!
-#! @result SUCCESS: Drives were returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the drives.
+#! @output file_id: The id of the file that was uploaded.
+#! @output web_url: Web url of the uploaded file.
+#! @output exception: There was an error while trying to upload the file.
+#! @result SUCCESS: Drive name was returned successfully.
+#! @result FAILURE: There was an error while trying to upload the file.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.drives
+namespace: io.cloudslang.microsoft.sharepoint.files
 
-operation: 
-  name: get_all_drives
-  
-  inputs: 
-    - auth_token:    
+operation:
+  name: upload_file
+
+  inputs:
+    - auth_token:
         sensitive: true
-    - authToken: 
-        default: ${get('auth_token', '')}  
-        required: false 
-        private: true 
+    - authToken:
+        default: ${get('auth_token', '')}
+        required: false
+        private: true
         sensitive: true
-    - site_id    
-    - siteId: 
-        default: ${get('site_id', '')}  
-        required: false 
-        private: true 
+    - file_path
+    - filePath:
+        default: ${get('file_path', '')}
+        required: false
+        private: true
+        sensitive: true
+    - site_id:
+        required: false
+    - siteId:
+        default: ${get('site_id', '')}
+        required: false
+        private: true
+    - drive_id:
+        required: false
+    - driveId:
+        default: ${get('drive_id', '')}
+        required: false
+        private: true
+    - folder_id:
+        required: false
+    - folderId:
+        default: ${get('folder_id', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -181,20 +205,20 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-    
-  java_action: 
+
+  java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC20'
-    class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetAllDrives'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.UploadFile'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - status_code: ${get('statusCode', '')} 
-    - exception: ${get('exception', '')} 
-    - drive_ids: ${get('driveIds', '')} 
-    - drive_urls: ${get('driveUrls', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - file_id:  ${get('fileId', '')}
+    - web_url: ${get('webUrl', '')}
+    - status_code: ${get('statusCode', '')}
+    - exception: ${get('exception', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
