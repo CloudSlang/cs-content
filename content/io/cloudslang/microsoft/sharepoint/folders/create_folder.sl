@@ -231,7 +231,7 @@ operation:
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - site_id: ${get('id', '')}
+    - id: ${get('id', '')}
     - web_url: ${get('webUrl','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
