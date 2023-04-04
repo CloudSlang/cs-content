@@ -1,51 +1,28 @@
 ########################################################################################################################
 #!!
-#! @description: This operation creates a new sharing link for the item or returns an existing link if it already exists.
+#! @description: This operation downloads a file from sharepoint on the local machine.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Files.ReadWrite, Files.ReadWrite.All
-#!                     Application	                              Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input item_id: The id of the item for which to generate the share link.
-#! @input drive_id: The id of the drive where the item is located. Mutually exclusive with the site Id input.
+#! @input file_id: The id of the file to download.
+#! @input path: The folder where the file will be downloaded.
+#! @input drive_id: The id of the drive where the file is located. Mutually exclusive with the site Id input.
 #!                  Optional
-#! @input site_id: The id of the site where the item is located. Mutually exclusive with the drive Id input. Ignored if
+#! @input site_id: The id of the site where the file is located. Mutually exclusive with the drive Id input. Ignored if
 #!                 the drive Id was provided.
 #!                 Optional
-#! @input type: The type of sharing link to create.
-#!              view: Creates a read-only link to the DriveItem.
-#!              edit: Creates a read-write link to the DriveItem.
-#!              embed: Creates an embeddable link to the DriveItem. This option is
-#!              only available for files in OneDrive personal.
-#!              Valid values: view, edit, embed.
-#!              Optional
-#! @input password: The password of the sharing link that is set by the creator. Optional and OneDrive Personal only.
-#!                  Optional
-#! @input expiration_date_time: A String with format of yyyy-MM-ddTHH:mm:ssZ of DateTime indicates the expiration time
-#!                              of the permission.
-#!                              Optional
-#! @input retain_inherited_permissions: If true, any existing inherited permissions are retained on the shared item when
-#!                                      sharing this item for the first time. If false, all existing permissions are
-#!                                      removed when sharing for the first time.
-#!                                      Valid value: true, false
-#!                                      Default value: true
-#!                                      Optional
-#! @input scope: The scope of link to create. If the scope parameter is not specified, the default link type for the
-#!               organization is created.
-#!               anonymous: Anyone with the link has access, without needing to sign in. This
-#!               may include people outside of your organization. Anonymous link support may be disabled by an
-#!               administrator.
-#!               organization: Anyone signed into your organization (tenant) can use the link to get
-#!               access. Only available in OneDrive for Business and SharePoint.
-#!               users: Share only with people you
-#!               choose inside or outside the organization.
-#!               Valid values: anonymous, organization, users.
-#!               Optional
+#! @input overwrite: If this input is true and a file with the same name already exists in the specified path, overwrite
+#!                   it with the downloaded file. Create a new file without overwriting if false.
+#!                   Valid values: true, false
+#!                   Default value: true
+#!                   Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -108,22 +85,26 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Details related to the generated share link.
+#! @output return_result: Details related to the downloaded file.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to get the share link.
-#! @output share_link: The web URL of the share link.
-#! @output share_id: The id of the share link.
+#! @output exception: There was an error while trying to download the file.
+#! @output size: Size of the downloaded file.
+#! @output created_date_time: Created date and time of the downloaded file.
+#! @output last_modified_date_time: Last modified date and time of the downloaded file.
+#! @output last_modified_by: Last user that modified the downloaded file.
+#! @output file_type: Type of the downloaded file.
+#! @output file_name: Name of the downloaded file
 #!
-#! @result SUCCESS: Share link was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the share link.
+#! @result SUCCESS: File downloaded successfully.
+#! @result FAILURE: There was an error while trying to download the file.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.sharepoint.files
 
 operation: 
-  name: get_item_share_link
+  name: download_file
   
   inputs: 
     - auth_token:    
@@ -133,11 +114,12 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - item_id    
-    - itemId: 
-        default: ${get('item_id', '')}  
+    - file_id    
+    - fileId: 
+        default: ${get('file_id', '')}  
         required: false 
         private: true 
+    - path    
     - drive_id:  
         required: false  
     - driveId: 
@@ -150,25 +132,9 @@ operation:
         default: ${get('site_id', '')}  
         required: false 
         private: true 
-    - type:  
-        required: false  
-    - password:  
-        required: false  
-    - expiration_date_time:  
-        required: false  
-    - expirationDateTime: 
-        default: ${get('expiration_date_time', '')}  
-        required: false 
-        private: true 
-    - retain_inherited_permissions:
+    - overwrite:
         default: 'true'
         required: false  
-    - retainInheritedPermissions: 
-        default: ${get('retain_inherited_permissions', '')}  
-        required: false 
-        private: true 
-    - scope:  
-        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -252,9 +218,9 @@ operation:
         required: false
         private: true
     
-  java_action:
+  java_action: 
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC20'
-    class_name: 'io.cloudslang.content.sharepoint.actions.files.GetItemShareLink'
+    class_name: 'io.cloudslang.content.sharepoint.actions.files.DownloadFile'
     method_name: 'execute'
   
   outputs: 
@@ -262,8 +228,12 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
     - exception: ${get('exception', '')} 
-    - share_link: ${get('shareLink', '')} 
-    - share_id: ${get('shareId', '')} 
+    - size: ${get('size', '')} 
+    - created_date_time: ${get('createdDateTime', '')} 
+    - last_modified_date_time: ${get('lastModifiedDateTime', '')} 
+    - last_modified_by: ${get('lastModifiedBy', '')} 
+    - file_type: ${get('fileType', '')} 
+    - file_name: ${get('fileName', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
