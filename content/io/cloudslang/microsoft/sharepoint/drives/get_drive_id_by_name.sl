@@ -188,7 +188,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-sharepoint:1.0.2-SNAPSHOT'
     class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetDriveIdByName'
     method_name: 'execute'
 
