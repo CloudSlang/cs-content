@@ -136,7 +136,6 @@ operation:
         default: ${get('folder_name', '')}
         required: false
         private: true
-    - body
     - body:
         default: ${get('body', '')}
         required: false
