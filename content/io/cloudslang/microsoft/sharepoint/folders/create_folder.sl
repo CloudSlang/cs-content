@@ -109,36 +109,43 @@ operation:
         private: true
         sensitive: true
     - drive_id
+        required: false
     - driveId:
         default: ${get('drive_id', '')}
         required: false
         private: true
     - group_id
+        required: false
     - groupId:
         default: ${get('group_id', '')}
         required: false
         private: true
     - site_id
+        required: false
     - siteId:
         default: ${get('site_id', '')}
         required: false
         private: true
     - user_id
+        required: false
     - userId:
         default: ${get('user_id', '')}
         required: false
         private: true
     - parent_item_id
+        required: false
     - parentItemId:
         default: ${get('parent_item_id', '')}
         required: false
         private: true
     - folder_name
+        required: false
     - folderName:
         default: ${get('folder_name', '')}
         required: false
         private: true
     - json_body
+        required: false
     - jsonBody:
         default: ${get('json_body', '')}
         required: false
