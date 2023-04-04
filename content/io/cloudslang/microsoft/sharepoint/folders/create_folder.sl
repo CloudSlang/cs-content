@@ -1,6 +1,9 @@
 ########################################################################################################################
 #!!
 #! @description: This operation creates a SharePoint folder within a site.
+#!               Input should be provided to only one of the following: drive_id, group_id, site_id, user_id. The url of the request will be set to the corresponding endpoint.
+#!               Providing more than one input to any of the 4 mentioned inputs will lead to an exception.
+#!               Other mutual exclusive inputs: folder_name and json_body. If json_body input is not empty, folder_name is ignored.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -9,7 +12,6 @@
 #!                     Delegated (work or school account) 	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
 #!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
 #!                     Application 	                              Files.ReadWrite.All, Sites.ReadWrite.All
-#!               Note: Providing input to only one of the following: drive_id, group_id, site_id, user_id, the url of the request to the corresponding endpoint will set.
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input drive_id: The id of the drive where the folder will be created.
@@ -18,7 +20,7 @@
 #! @input user_id: The id of the user for which the folder will be created.
 #! @input parent_item_id: The id of the parent item for which the folder will be created.
 #! @input folder_name: The name of the folder to be created. If body input is not empty, this input is ignored.
-#! @input body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
+#! @input json_body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
