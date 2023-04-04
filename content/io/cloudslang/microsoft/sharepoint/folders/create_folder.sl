@@ -136,8 +136,9 @@ operation:
         default: ${get('folder_name', '')}
         required: false
         private: true
-    - body:
-        default: ${get('body', '')}
+    - json_body
+    - jsonBody:
+        default: ${get('json_body', '')}
         required: false
         private: true
     - proxy_host:
