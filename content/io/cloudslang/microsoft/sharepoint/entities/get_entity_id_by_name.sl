@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves all the entities from a drive identified by the drive id.
+#! @description: This operation retrieves the id of an entity identified by name and parent folder or by full path.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -11,12 +11,23 @@
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input drive_id: The id of the drive from which to retrieve the entities.
-#! @input path: The path to drive entities relative to the root. Leave empty for root.
-#!              Optional
-#! @input entities_type: Type of retrieved drive entities. Valid values: 'folders', 'files', 'all'.
-#!                       Default value: all
+#! @input entity_name: The name of the entity from which to retrieve the id. Only works with the drive Id input
+#!                     provided. Mutually exclusive with the entity path input. Ignored if entity path was provided.
+#!                     Optional
+#! @input parent_folder: The parent folder of the entity from which to retrieve the id. Use this in case there are
+#!                       multiple entities with the same name, but with different parent folders. Only works with the
+#!                       drive Id input provided. Mutually exclusive with the entity path input. Ignored if entity path
+#!                       was provided.
 #!                       Optional
+#! @input entity_path: The full path of the entity from which to retrieve the id. Mutually exclusive with the entity
+#!                     name and parent folder inputs.
+#!                     Optional
+#! @input drive_id: The id of the drive where the entity is located. Mutually exclusive with the site Id input.
+#!                  Optional
+#! @input site_id: The id of the site where the entity is located. Site Id only allows full path searches, so the entity
+#!                 name and parent folder inputs will be ignored. Mutually exclusive with the drive Id input. Ignored if
+#!                 the drive Id was provided.
+#!                 Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -79,23 +90,22 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Json containing a list of all retrieved drive entities.
+#! @output return_result: Details related to the retrieved entity.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to retrieve the drive entities.
-#! @output entity_ids: List of pairs containing the entity's name and the corresponding id.
-#! @output entity_urls: List of pairs containing the entity's name and the corresponding url.
-#! @output entity_types: List of pairs containing the entity's name and the corresponding type.
+#! @output entity_id: The id of the entity.
+#! @output web_url: The URL of the entity.
+#! @output status_code: The HTTP status code for the request
+#! @output exception: There was an error while trying to retrieve the entity id.
 #!
-#! @result SUCCESS: Drive entities were returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the drive entities.
+#! @result SUCCESS: Entity id was returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve the entity id.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.files
+namespace: io.cloudslang.microsoft.sharepoint.entities
 
 operation: 
-  name: get_entities_from_drive
+  name: get_entity_id_by_name
   
   inputs: 
     - auth_token:    
@@ -105,18 +115,34 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - drive_id    
+    - entity_name:  
+        required: false  
+    - entityName: 
+        default: ${get('entity_name', '')}  
+        required: false 
+        private: true 
+    - parent_folder:  
+        required: false  
+    - parentFolder: 
+        default: ${get('parent_folder', '')}  
+        required: false 
+        private: true 
+    - entity_path:  
+        required: false  
+    - entityPath: 
+        default: ${get('entity_path', '')}  
+        required: false 
+        private: true 
+    - drive_id:  
+        required: false  
     - driveId: 
         default: ${get('drive_id', '')}  
         required: false 
         private: true 
-    - path:  
+    - site_id:  
         required: false  
-    - entities_type:
-        default: 'all'
-        required: false  
-    - entitiesType: 
-        default: ${get('entities_type', '')}  
+    - siteId: 
+        default: ${get('site_id', '')}  
         required: false 
         private: true 
     - proxy_host:
@@ -202,19 +228,18 @@ operation:
         required: false
         private: true
     
-  java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC21'
-    class_name: 'io.cloudslang.content.sharepoint.actions.files.GetEntitiesFromDrive'
+  java_action: 
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC22'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.GeEntityIdByName'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
     - return_code: ${get('returnCode', '')} 
+    - entity_id: ${get('entityId', '')} 
+    - web_url: ${get('webUrl', '')} 
     - status_code: ${get('statusCode', '')} 
     - exception: ${get('exception', '')} 
-    - entity_ids: ${get('entityIds', '')} 
-    - entity_urls: ${get('entityUrls', '')} 
-    - entity_types: ${get('entityTypes', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 
