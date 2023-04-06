@@ -1,6 +1,9 @@
 ########################################################################################################################
 #!!
 #! @description: This operation creates a SharePoint folder within a site.
+#!               Input should be provided to only one of the following: drive_id, group_id, site_id, user_id. The url of the request will be set to the corresponding endpoint.
+#!               Providing more than one input to any of the 4 mentioned inputs will lead to an exception.
+#!               Other mutual exclusive inputs: folder_name and json_body. If json_body input is not empty, folder_name is ignored.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!

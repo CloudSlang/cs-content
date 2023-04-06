@@ -1,6 +1,8 @@
 ########################################################################################################################
 #!!
 #! @description: This operation retrieves all drive items in SharePoint that match the search query.
+#!               Input should be provided to only one of the following: drive_id, group_id, site_id, user_id. The url of the request will be set to the corresponding endpoint.
+##!              Providing more than one input to any of the 4 mentioned inputs will lead to an exception.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
