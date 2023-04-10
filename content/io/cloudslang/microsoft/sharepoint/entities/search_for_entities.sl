@@ -1,26 +1,24 @@
 ########################################################################################################################
 #!!
-#! @description: This operation creates a SharePoint folder within a site.
+#! @description: This operation retrieves all drive items in SharePoint that match the search query.
 #!               Input should be provided to only one of the following: drive_id, group_id, site_id, user_id. The url of the request will be set to the corresponding endpoint.
 #!               Providing more than one input to any of the 4 mentioned inputs will lead to an exception.
-#!               Other mutual exclusive inputs: folder_name and json_body. If json_body input is not empty, folder_name is ignored.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account) 	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
-#!                     Application 	                              Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account) 	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)     Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application 	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input drive_id: The id of the drive where the folder will be created.
-#! @input group_id: The id of the group where the folder will be created.
-#! @input site_id: The id of the site where the folder will be created.
-#! @input user_id: The id of the user for which the folder will be created.
-#! @input parent_item_id: The id of the parent item for which the folder will be created.
-#! @input folder_name: The name of the folder to be created. If body input is not empty, this input is ignored.
-#! @input json_body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
+#! @input drive_id: The id of the drive where the entities will be searched.
+#! @input group_id: The id of the group where the entities will be searched.
+#! @input site_id: The id of the site where the entities will be searched.
+#! @input user_id: The id of the user for which the entities will be searched.
+#! @input search_text: The search query text to search for entities.
+#! @input optional_parameters: The optional query parameters to search for entities.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -83,22 +81,22 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the created folder in JSON format.
+#! @output return_result: Information related to the searched entities in JSON format.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output id: The id of the created folder.
-#! @output web_url: The web url of the created folder.
+#! @output entity_ids: List of pairs containing the entity's name and the corresponding id.
+#! @output next_link: The link to the next page of results in case there are too many matches.
 #! @output status_code: The HTTP status code for the Sharepoint request.
-#! @output exception: An error message in case there was an error while creating the folder.
+#! @output exception: An error message in case there was an error while trying to search for entities.
 #!
-#! @result SUCCESS: The folder was created successfully.
-#! @result FAILURE: There was an error while trying to create the folder.
+#! @result SUCCESS: Entities were found successfully.
+#! @result FAILURE: There was an error while trying to search for entities.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.folders
+namespace: io.cloudslang.microsoft.sharepoint.entities
 
 operation:
-  name: create_folder
+  name: search_for_entities
 
   inputs:
     - auth_token:
@@ -108,7 +106,8 @@ operation:
         required: false
         private: true
         sensitive: true
-    - drive_id
+    - drive_id:
+        required: false
     - driveId:
         default: ${get('drive_id', '')}
         required: false
@@ -131,22 +130,16 @@ operation:
         default: ${get('user_id', '')}
         required: false
         private: true
-    - parent_item_id:
-        required: false
-    - parentItemId:
-        default: ${get('parent_item_id', '')}
-        required: false
-        private: true
-    - folder_name:
-        required: false
-    - folderName:
-        default: ${get('folder_name', '')}
+    - search_text:
+        required: true
+    - searchText:
+        default: ${get('search_text', '')}
         required: false
         private: true
-    - json_body:
+    - optional_parameters:
         required: false
-    - jsonBody:
-        default: ${get('json_body', '')}
+    - optionalParameters:
+        default: ${get('optional_parameters', '')}
         required: false
         private: true
     - proxy_host:
@@ -234,14 +227,14 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC24'
-    class_name: 'io.cloudslang.content.sharepoint.actions.folders.CreateFolder'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.SearchForEntities'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - id: ${get('id', '')}
-    - web_url: ${get('webUrl','')}
+    - entity_ids: ${get('entityIds', '')}
+    - next_link: ${get('nextLink','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
 
