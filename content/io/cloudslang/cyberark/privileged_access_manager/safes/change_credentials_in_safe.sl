@@ -252,7 +252,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC10'
     class_name: io.cloudslang.content.cyberark.actions.safes.ChangeCredentialsInSafe
     method_name: execute
 
