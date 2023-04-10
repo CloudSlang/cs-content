@@ -307,7 +307,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-RC9'
+    gav: 'io.cloudslang.content:cs-cyberark:0.0.1-SNAPSHOT'
     class_name: io.cloudslang.content.cyberark.actions.safes.AddSafe
     method_name: execute
   
