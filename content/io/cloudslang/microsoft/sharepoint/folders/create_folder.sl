@@ -109,6 +109,7 @@ operation:
         private: true
         sensitive: true
     - drive_id
+        required: false
     - driveId:
         default: ${get('drive_id', '')}
         required: false
@@ -234,7 +235,7 @@ operation:
 
   java_action:
 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC26'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC27'
     class_name: 'io.cloudslang.content.sharepoint.actions.folders.CreateFolder'
     method_name: 'execute'
 

@@ -133,8 +133,9 @@ operation:
         default: ${get('proxy_host', '')}  
         required: false 
         private: true 
-    - proxy_port:  
-        required: false  
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxyPort: 
         default: ${get('proxy_port', '')}  
         required: false 
@@ -159,8 +160,9 @@ operation:
         default: ${get('trust_all_roots', '')}  
         required: false 
         private: true 
-    - x_509_hostname_verifier:  
-        required: false  
+    - x_509_hostname_verifier:
+        default: 'strict'
+        required: false
     - x509HostnameVerifier: 
         default: ${get('x_509_hostname_verifier', '')}  
         required: false 
@@ -179,7 +181,8 @@ operation:
         required: false 
         private: true 
         sensitive: true
-    - tls_version:  
+    - tls_version:
+        default: 'TLSv1.2'
         required: false  
     - tlsVersion: 
         default: ${get('tls_version', '')}  
@@ -191,21 +194,23 @@ operation:
         default: ${get('allowed_ciphers', '')}  
         required: false 
         private: true 
-    - connect_timeout:  
-        required: false  
+    - connect_timeout:
+        default: '60'
+        required: false
     - connectTimeout: 
         default: ${get('connect_timeout', '')}  
         required: false 
         private: true 
-    - execution_timeout:  
-        required: false  
+    - execution_timeout:
+        default: '60'
+        required: false
     - executionTimeout: 
         default: ${get('execution_timeout', '')}  
         required: false 
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC26'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC27'
     class_name: 'io.cloudslang.content.sharepoint.actions.folders.DeleteFolder'
     method_name: 'execute'
   
