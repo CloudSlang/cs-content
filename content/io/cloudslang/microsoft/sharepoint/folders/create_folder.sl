@@ -108,7 +108,7 @@ operation:
         required: false
         private: true
         sensitive: true
-    - drive_id
+    - drive_id:
         required: false
     - driveId:
         default: ${get('drive_id', '')}
