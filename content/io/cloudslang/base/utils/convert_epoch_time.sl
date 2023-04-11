@@ -17,7 +17,7 @@
 #!
 #! @input epoch_time: The epoch time in milliseconds.
 #!                    Example: 1675660713000
-#! @input time_zone: Scheduler timeZone in UTC format.
+#! @input time_zone: The scheduler timeZone in UTC format.
 #!                   Example: (UTC+05:30) Asia/Kolkata
 #!
 #! @output date_format: The converted date.
