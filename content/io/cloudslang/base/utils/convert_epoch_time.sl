@@ -15,10 +15,13 @@
 #!!
 #! @description: This operation converts the unix/epoch time into date format.
 #!
-#! @input epoch_time: Epoch time.
-#! @input time_zone: Scheduler timeZone.
+#! @input epoch_time: The epoch time in milliseconds.
+#!                    Example: 1675660713000
+#! @input time_zone: Scheduler timeZone in UTC format.
+#!                   Example: (UTC+05:30) Asia/Kolkata
 #!
-#! @output date_format: Date format.
+#! @output date_format: The converted date.
+#!                      Example: 2023-02-06T10:48:33:00
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: Returns the date format.
