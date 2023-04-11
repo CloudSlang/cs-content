@@ -121,8 +121,7 @@ operation:
         default: ${get('user_id', '')}  
         required: false 
         private: true
-    - folder_id:  
-        required: false  
+    - folder_id
     - folderId: 
         default: ${get('folder_id', '')}  
         required: false 
@@ -210,7 +209,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC27'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC28'
     class_name: 'io.cloudslang.content.sharepoint.actions.folders.DeleteFolder'
     method_name: 'execute'
   
