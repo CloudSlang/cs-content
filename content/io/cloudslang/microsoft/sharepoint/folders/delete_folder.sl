@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Deletes an Office 365 Sharepoint folder.
+#! @description: This operation deletes a SharePoint folder within a site.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -10,14 +10,14 @@
 #!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
 #!                     Application 	                              Files.ReadWrite.All, Sites.ReadWrite.All
 #!               Note: Providing input to only one of the following: drive_id, group_id, site_id, user_id, the url of the request to the corresponding endpoint will set.
+#!                     Note that deleting items using this method will move the items to the recycle bin instead of permanently deleting the item.
 #!
-#!
-#! @input auth_token: The authentication token
+#! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input site_id: The id of the site from where the folder will be deleted.
 #!                 Optional
 #! @input drive_id: The id of the drive from where the folder will be deleted.
 #!                  Optional
-#! @input group_id: The id of the group where the folder will be deleted.
+#! @input group_id: The id of the group from where the folder will be deleted.
 #!                  Optional
 #! @input user_id: The id of the user for which the folder will be deleted.
 #!                 Optional
@@ -74,13 +74,13 @@
 #!                           Default: 60
 #!                           Optional
 #!
-#! @output return_result: List of all drives that can be found on the site with the specified id.
+#! @output return_result: A message is returned in case of success, an error message is returned in case of failure.
 #! @output return_code: 0 if success, -1 otherwise.
-#! @output exception: There was an error while trying to delete the folder.
+#! @output exception: An error message in case there was an error while deleting the folder.
 #! @output status_code: The HTTP status code for the request
 #!
-#! @result SUCCESS: Drives were returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the drive.
+#! @result SUCCESS: The folder was deleted successfully.
+#! @result FAILURE: There was an error while trying to delete the folder.
 #!!#
 ########################################################################################################################
 
@@ -98,37 +98,29 @@ operation:
         private: true 
         sensitive: true
     - site_id:  
-        required: false  
-        sensitive: true
+        required: false
     - siteId: 
         default: ${get('site_id', '')}  
         required: false 
-        private: true 
-        sensitive: true
+        private: true
     - drive_id:  
-        required: false  
-        sensitive: true
+        required: false
     - driveId: 
         default: ${get('drive_id', '')}  
         required: false 
-        private: true 
-        sensitive: true
+        private: true
     - group_id:  
-        required: false  
-        sensitive: true
+        required: false
     - groupId: 
         default: ${get('group_id', '')}  
         required: false 
-        private: true 
-        sensitive: true
+        private: true
     - user_id:  
-        required: false  
-        sensitive: true
+        required: false
     - userId: 
         default: ${get('user_id', '')}  
         required: false 
-        private: true 
-        sensitive: true
+        private: true
     - folder_id:  
         required: false  
     - folderId: 
