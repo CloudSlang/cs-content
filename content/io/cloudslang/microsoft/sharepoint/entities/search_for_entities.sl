@@ -226,7 +226,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC28'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC29'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.SearchForEntities'
     method_name: 'execute'
 
