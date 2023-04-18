@@ -184,7 +184,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.7-SNAPSHOT'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetRootSite'
     method_name: 'execute'
 
