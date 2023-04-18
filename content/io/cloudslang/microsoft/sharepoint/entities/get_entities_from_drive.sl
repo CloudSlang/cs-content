@@ -204,7 +204,7 @@ operation:
         private: true
     
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC29'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC30'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.GetEntitiesFromDrive'
     method_name: 'execute'
   

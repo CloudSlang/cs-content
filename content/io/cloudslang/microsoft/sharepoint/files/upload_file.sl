@@ -207,7 +207,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC29'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC30'
     class_name: 'io.cloudslang.content.sharepoint.actions.files.UploadFile'
     method_name: 'execute'
 
