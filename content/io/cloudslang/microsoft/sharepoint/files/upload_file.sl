@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation uploads a file on Microsoft 365 Sharepoint
+#! @description: This operation uploads a file on Microsoft 365 Sharepoint.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -207,7 +207,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC30'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
     class_name: 'io.cloudslang.content.sharepoint.actions.files.UploadFile'
     method_name: 'execute'
 

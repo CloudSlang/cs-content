@@ -235,14 +235,14 @@ operation:
 
   java_action:
 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC30'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
     class_name: 'io.cloudslang.content.sharepoint.actions.folders.CreateFolder'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - id: ${get('id', '')}
+    - folder_id: ${get('folderId', '')}
     - web_url: ${get('webUrl','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
