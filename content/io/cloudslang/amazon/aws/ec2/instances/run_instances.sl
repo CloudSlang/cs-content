@@ -291,10 +291,10 @@ operation:
    -  identity
    -  credential:
          sensitive: true
-    - security_token:
+   - security_token:
         required: false
         sensitive: true
-    - securityToken:
+   - securityToken:
         default: ${get("security_token", "")}
         required: false
         private: true
