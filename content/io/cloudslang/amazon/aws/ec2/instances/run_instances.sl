@@ -291,6 +291,14 @@ operation:
    -  identity
    -  credential:
          sensitive: true
+    - security_token:
+        required: false
+        sensitive: true
+    - securityToken:
+        default: ${get("security_token", "")}
+        required: false
+        private: true
+        sensitive: true
    -  proxy_host:
          required: false
    -  proxyHost:
@@ -548,7 +556,7 @@ operation:
          private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.47-SNAPSHOT-100'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.47-SNAPSHOT-102'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
