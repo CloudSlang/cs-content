@@ -77,6 +77,7 @@
 #! @output return_code: 0 if success, -1 if failure.
 #! @output site_id: The id of the root site.
 #! @output site_name: The name of the root site.
+#! @output site_display_name: The display name of the root site.
 #! @output web_url: The web url of the root site.
 #! @output status_code: The HTTP status code for the Sharepoint request.
 #! @output exception: An error message in case there was an error while retrieving the site id.
@@ -183,7 +184,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC6'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetRootSite'
     method_name: 'execute'
 
@@ -192,6 +193,7 @@ operation:
     - return_code: ${get('returnCode', '')}
     - site_id: ${get('siteId', '')}
     - site_name: ${get('siteName', '')}
+    - site_display_name: ${get('siteDisplayName', '')}
     - web_url: ${get('webUrl','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}

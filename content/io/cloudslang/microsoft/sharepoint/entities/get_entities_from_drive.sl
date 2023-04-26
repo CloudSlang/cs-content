@@ -1,17 +1,22 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the site id for which the name was provided.
+#! @description: This operation retrieves all the entities from a drive identified by the drive id.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
-#!                     Permission type	                          Permissions (from least to most privileged)
+#!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Not supported.
-#!                     Application	                              Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_name: The display name of the site from which ID can be obtained.
+#! @input drive_id: The id of the drive from which to retrieve the entities.
+#! @input path: The path to drive entities relative to the root. Leave empty for root.
+#!              Optional
+#! @input entities_type: Type of retrieved drive entities. Valid values: 'folders', 'files', 'all'.
+#!                       Default value: all
+#!                       Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -74,34 +79,47 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific site in JSON format.
-#! @output return_code: 0 if success, -1 if failure.
-#! @output site_id: The id of the site for which the name was provided.
-#! @output exception: An error message in case there was an error while retrieving the site id.
-#! @output status_code: The HTTP status code for the Sharepoint request.
+#! @output return_result: Json containing a list of all retrieved drive entities.
+#! @output return_code: 0 if success, -1 otherwise.
+#! @output status_code: The HTTP status code for the request.
+#! @output exception: There was an error while trying to retrieve the drive entities.
+#! @output entity_ids: List of pairs containing the entity's name and the corresponding id.
+#! @output entity_urls: List of pairs containing the entity's name and the corresponding url.
+#! @output entity_types: List of pairs containing the entity's name and the corresponding type.
+#! @output entity_paths: List of pairs containing the entity's name and the corresponding path.
 #!
-#! @result SUCCESS: Site id was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve site id.
+#! @result SUCCESS: Drive entities were returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve the drive entities.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.entities
 
-operation:
-  name: get_site_id_by_name
-
-  inputs:
-    - auth_token:
+operation: 
+  name: get_entities_from_drive
+  
+  inputs: 
+    - auth_token:    
         sensitive: true
-    - authToken:
-        default: ${get('auth_token', '')}
-        required: false
-        private: true
+    - authToken: 
+        default: ${get('auth_token', '')}  
+        required: false 
+        private: true 
         sensitive: true
-    - site_name
-    - siteName:
-        default: ${get('site_name', '')}
-        private: true
+    - drive_id    
+    - driveId: 
+        default: ${get('drive_id', '')}  
+        required: false 
+        private: true 
+    - path:  
+        required: false  
+    - entities_type:
+        default: 'all'
+        required: false  
+    - entitiesType: 
+        default: ${get('entities_type', '')}  
+        required: false 
+        private: true 
     - proxy_host:
         required: false
     - proxyHost:
@@ -184,19 +202,22 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-
+    
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteIdByName'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.GetEntitiesFromDrive'
     method_name: 'execute'
+  
+  outputs: 
+    - return_result: ${get('returnResult', '')} 
+    - return_code: ${get('returnCode', '')} 
+    - status_code: ${get('statusCode', '')} 
+    - exception: ${get('exception', '')} 
+    - entity_ids: ${get('entityIds', '')} 
+    - entity_urls: ${get('entityUrls', '')} 
+    - entity_types: ${get('entityTypes', '')} 
+    - entity_paths: ${get('entityPaths', '')}
 
-  outputs:
-    - return_result: ${get('returnResult', '')}
-    - return_code: ${get('returnCode', '')}
-    - site_id: ${get('siteId', '')}
-    - status_code: ${get('statusCode','')}
-    - exception: ${get('exception', '')}
-
-  results:
-    - SUCCESS: ${returnCode=='0'}
+  results: 
+    - SUCCESS: ${returnCode=='0'} 
     - FAILURE

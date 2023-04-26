@@ -1,17 +1,17 @@
 ########################################################################################################################
 #!!
-#! @description: Get the root drive metadata by site id.
+#! @description: This operation retrieves all the drives from a site identified by the site id.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
-#!                     Permission type	                          Permissions (from least to most privileged)
+#!                     Permission type 	                          Permissions (from least to most privileged)
 #!
 #!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)     Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The id of the site from which to retrieve the root drive.
+#! @input site_id: The id of the site from which to retrieve the drives.
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -50,7 +50,7 @@
 #!                         further security considerations.In order to connect successfully to the target host, it
 #!                         should accept at least one of the following ciphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed
-#!                         ciphers. 
+#!                         ciphers.
 #!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
@@ -65,28 +65,26 @@
 #!                         Default value: 60
 #!                         Optional
 #! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution. A value of
-#!                           '0' disables this feature. 
+#!                           '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific root drive metadata in json format.
+#! @output return_result: List of all drives that can be found on the site with the specified id.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to retrieve the root drive.
-#! @output web_url: Root drive's web url.
-#! @output drive_name: Root drive's name.
-#! @output drive_type: Root drive's type.
-#! @output drive_id: Root drive's id.
+#! @output exception: There was an error while trying to retrieve the drives.
+#! @output drive_ids: List of pairs containing the drive's name and the corresponding id.
+#! @output drive_urls: List of pairs containing the drive's name and the corresponding url.
 #!
-#! @result SUCCESS: Root drive was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve the root drive.
+#! @result SUCCESS: Drives were returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve the drives.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.sharepoint.drives
 
 operation: 
-  name: get_root_drive
+  name: get_all_drives
   
   inputs: 
     - auth_token:    
@@ -101,92 +99,92 @@ operation:
         default: ${get('site_id', '')}  
         required: false 
         private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
         required: false
         default: '8080'
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - trust_all_roots:  
+    - trust_all_roots:
         required: false
         default: 'false'
-    - trustAllRoots: 
-        default: ${get('trust_all_roots', '')}  
-        required: false 
-        private: true 
-    - x_509_hostname_verifier:  
-        required: false  
+    - trustAllRoots:
+        default: ${get('trust_all_roots', '')}
+        required: false
+        private: true
+    - x_509_hostname_verifier:
+        required: false
         default: 'strict'
     - x509HostnameVerifier:
-        default: ${get('x_509_hostname_verifier', '')}  
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
-        default: ${get('trust_keystore', '')}  
-        required: false 
-        private: true 
-    - trust_password:  
-        required: false  
+        default: ${get('x_509_hostname_verifier', '')}
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
+        default: ${get('trust_keystore', '')}
+        required: false
+        private: true
+    - trust_password:
+        required: false
         sensitive: true
-    - trustPassword: 
-        default: ${get('trust_password', '')}  
-        required: false 
-        private: true 
+    - trustPassword:
+        default: ${get('trust_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - tls_version:  
+    - tls_version:
         required: false
         default: 'TLSv1.2'
-    - tlsVersion: 
-        default: ${get('tls_version', '')}  
-        required: false 
-        private: true 
-    - allowed_ciphers:  
-        required: false  
-    - allowedCiphers: 
-        default: ${get('allowed_ciphers', '')}  
-        required: false 
-        private: true 
-    - connect_timeout:  
+    - tlsVersion:
+        default: ${get('tls_version', '')}
+        required: false
+        private: true
+    - allowed_ciphers:
+        required: false
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', '')}
+        required: false
+        private: true
+    - connect_timeout:
         required: false
         default: '60'
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - execution_timeout:  
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - execution_timeout:
         required: false
         default: '60'
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
+    - executionTimeout:
+        default: ${get('execution_timeout', '')}
+        required: false
+        private: true
     
   java_action: 
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
-    class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetRootDrive'
+    class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetAllDrives'
     method_name: 'execute'
   
   outputs: 
@@ -194,10 +192,8 @@ operation:
     - return_code: ${get('returnCode', '')} 
     - status_code: ${get('statusCode', '')} 
     - exception: ${get('exception', '')} 
-    - web_url: ${get('webUrl', '')} 
-    - drive_name: ${get('driveName', '')} 
-    - drive_type: ${get('driveType', '')} 
-    - drive_id: ${get('driveId', '')} 
+    - drive_ids: ${get('driveIds', '')} 
+    - drive_urls: ${get('driveUrls', '')} 
   
   results: 
     - SUCCESS: ${returnCode=='0'} 

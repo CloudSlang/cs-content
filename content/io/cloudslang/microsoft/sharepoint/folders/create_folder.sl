@@ -1,17 +1,26 @@
 ########################################################################################################################
 #!!
-#! @description: This operation retrieves the site id for which the name was provided.
+#! @description: This operation creates a SharePoint folder within a site.
+#!               Input should be provided to only one of the following: drive_id, group_id, site_id, user_id. The url of the request will be set to the corresponding endpoint.
+#!               Providing more than one input to any of the 4 mentioned inputs will lead to an exception.
+#!               Other mutual exclusive inputs: folder_name and json_body. If json_body input is not empty, folder_name is ignored.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
-#!                     Permission type	                          Permissions (from least to most privileged)
+#!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Not supported.
-#!                     Application	                              Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account) 	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)     Files.ReadWrite, Files.ReadWrite.All
+#!                     Application 	                              Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_name: The display name of the site from which ID can be obtained.
+#! @input drive_id: The id of the drive where the folder will be created.
+#! @input group_id: The id of the group where the folder will be created.
+#! @input site_id: The id of the site where the folder will be created.
+#! @input user_id: The id of the user for which the folder will be created.
+#! @input parent_item_id: The id of the parent item for which the folder will be created.
+#! @input folder_name: The name of the folder to be created. If body input is not empty, this input is ignored.
+#! @input json_body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -74,21 +83,22 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific site in JSON format.
+#! @output return_result: Information related to the created folder in JSON format.
 #! @output return_code: 0 if success, -1 if failure.
-#! @output site_id: The id of the site for which the name was provided.
-#! @output exception: An error message in case there was an error while retrieving the site id.
+#! @output id: The id of the created folder.
+#! @output web_url: The web url of the created folder.
 #! @output status_code: The HTTP status code for the Sharepoint request.
+#! @output exception: An error message in case there was an error while creating the folder.
 #!
-#! @result SUCCESS: Site id was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve site id.
+#! @result SUCCESS: The folder was created successfully.
+#! @result FAILURE: There was an error while trying to create the folder.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.folders
 
 operation:
-  name: get_site_id_by_name
+  name: create_folder
 
   inputs:
     - auth_token:
@@ -98,9 +108,47 @@ operation:
         required: false
         private: true
         sensitive: true
-    - site_name
-    - siteName:
-        default: ${get('site_name', '')}
+    - drive_id:
+        required: false
+    - driveId:
+        default: ${get('drive_id', '')}
+        required: false
+        private: true
+    - group_id:
+        required: false
+    - groupId:
+        default: ${get('group_id', '')}
+        required: false
+        private: true
+    - site_id:
+        required: false
+    - siteId:
+        default: ${get('site_id', '')}
+        required: false
+        private: true
+    - user_id:
+        required: false
+    - userId:
+        default: ${get('user_id', '')}
+        required: false
+        private: true
+    - parent_item_id:
+        required: false
+    - parentItemId:
+        default: ${get('parent_item_id', '')}
+        required: false
+        private: true
+    - folder_name:
+        required: false
+    - folderName:
+        default: ${get('folder_name', '')}
+        required: false
+        private: true
+    - json_body:
+        required: false
+    - jsonBody:
+        default: ${get('json_body', '')}
+        required: false
         private: true
     - proxy_host:
         required: false
@@ -186,14 +234,16 @@ operation:
         private: true
 
   java_action:
+
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteIdByName'
+    class_name: 'io.cloudslang.content.sharepoint.actions.folders.CreateFolder'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - site_id: ${get('siteId', '')}
+    - folder_id: ${get('folderId', '')}
+    - web_url: ${get('webUrl','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
 
