@@ -182,7 +182,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.9-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.10-SNAPSHOT'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetAllSites'
     method_name: 'execute'
 

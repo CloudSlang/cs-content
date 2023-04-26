@@ -138,13 +138,7 @@ operation:
     - driveId: 
         default: ${get('drive_id', '')}  
         required: false 
-        private: true 
-    - site_id:  
-        required: false  
-    - siteId: 
-        default: ${get('site_id', '')}  
-        required: false 
-        private: true 
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -229,8 +223,8 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.9-SNAPSHOT'
-    class_name: 'io.cloudslang.content.sharepoint.actions.entities.GeEntityIdByName'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.10-SNAPSHOT'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.GetEntityIdByName'
     method_name: 'execute'
   
   outputs: 
