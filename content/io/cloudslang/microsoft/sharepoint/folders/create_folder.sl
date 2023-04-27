@@ -242,7 +242,7 @@ operation:
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - id: ${get('folderId', '')}
+    - folder_id: ${get('folderId', '')}
     - web_url: ${get('webUrl','')}
     - status_code: ${get('statusCode','')}
     - exception: ${get('exception', '')}
