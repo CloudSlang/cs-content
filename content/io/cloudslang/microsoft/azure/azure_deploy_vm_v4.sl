@@ -189,7 +189,6 @@ flow:
     - ssh_publicKey_name:
         required: false
     - disk_size:
-        default: '10'
         required: false
     - os_disk_name:
         required: false
