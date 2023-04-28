@@ -25,7 +25,8 @@
 #!                   Optional
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Office 365 service.Default: '8080'
+#! @input proxy_port: Proxy server port used to access the Office 365 service.
+#!                    Default: '8080'
 #!                    Optional
 #! @input proxy_username: Proxy server user name.
 #!                        Optional
@@ -154,6 +155,7 @@ operation:
         private: true
         sensitive: true
     - trust_all_roots:
+        default: 'false'
         required: false
     - trustAllRoots:
         default: ${get('trust_all_roots', '')}
@@ -209,7 +211,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC31'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.1-RC34'
     class_name: 'io.cloudslang.content.sharepoint.actions.files.DeleteFile'
     method_name: 'execute'
 
