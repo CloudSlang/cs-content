@@ -19,6 +19,7 @@
 #! @input site_id: The id of the site where the folder will be created.
 #! @input user_id: The id of the user for which the folder will be created.
 #! @input parent_item_id: The id of the parent item for which the folder will be created.
+#!                        Default value: root
 #! @input folder_name: The name of the folder to be created. If body input is not empty, this input is ignored.
 #! @input json_body: The body to be sent in the request. If empty, folder_name input must contain a name for the folder.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
@@ -133,6 +134,7 @@ operation:
         required: false
         private: true
     - parent_item_id:
+        default: 'root'
         required: false
     - parentItemId:
         default: ${get('parent_item_id', '')}
