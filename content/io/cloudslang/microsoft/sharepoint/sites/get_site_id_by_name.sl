@@ -184,21 +184,21 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-    - http_client_cookie_session:
+    - get_site_id_by_name_cookie_session:
         required: false
-    - httpClientCookieSession:
-        default: ${get("http_client_cookie_session", "")}
+    - getSiteIdByNameCookieSession:
+        default: ${get("get_site_id_by_name_cookie_session", "")}
         required: false
         private: true
-    - http_client_pooling_connection_manager:
+    - get_site_id_by_name_pooling_connection_manager:
         required: false
-    - httpClientPoolingConnectionManager:
-        default: ${get("http_client_pooling_connection_manager", "")}
+    - getSiteIdByNamePoolingConnectionManager:
+        default: ${get("get_site_id_by_name_pooling_connection_manager", "")}
         required: false
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.3'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.4'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteIdByName'
     method_name: 'execute'
 
