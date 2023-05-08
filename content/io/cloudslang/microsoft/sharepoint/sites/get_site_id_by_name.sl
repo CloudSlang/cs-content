@@ -184,9 +184,21 @@ operation:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
+    - http_client_cookie_session:
+        required: false
+    - httpClientCookieSession:
+        default: ${get("http_client_cookie_session", "")}
+        required: false
+        private: true
+    - http_client_pooling_connection_manager:
+        required: false
+    - httpClientPoolingConnectionManager:
+        default: ${get("http_client_pooling_connection_manager", "")}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.2'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.3'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteIdByName'
     method_name: 'execute'
 
