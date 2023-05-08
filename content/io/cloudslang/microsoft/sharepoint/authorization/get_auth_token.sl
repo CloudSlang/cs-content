@@ -102,7 +102,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.4'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
     class_name: 'io.cloudslang.content.sharepoint.actions.authorization.GetAuthorizationToken'
     method_name: 'execute'
 
