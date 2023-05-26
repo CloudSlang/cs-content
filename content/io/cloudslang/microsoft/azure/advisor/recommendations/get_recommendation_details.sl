@@ -34,7 +34,7 @@
 #! @result SUCCESS: The Recommendation details for particular Recommendation ID is fetched successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microsoft.azure.recommendations
+namespace: io.cloudslang.microsoft.azure.advisor.recommendations
 flow:
   name: get_recommendation_details
   inputs:
