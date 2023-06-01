@@ -80,32 +80,42 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - api_call_to_list_all_recommendations:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - api_call_to_list_recommendations:
+        worker_group: "${get('worker_group', 'RAS_Operator_Path')}"
         do:
-          io.cloudslang.base.http.http_client_get:
+          io.cloudslang.base.http.http_client_action:
             - url: "${'https://management.azure.com/subscriptions/'+subscription_id+'/providers/Microsoft.Advisor/recommendations?api-version=2022-10-01'}"
             - auth_type: anonymous
+            - username
+            - password
+            - tls_version
+            - allowed_cyphers
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
+            - proxy_username
+            - proxy_password
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
+            - trust_keystore
+            - trust_password
+            - keystore
+            - keystore_password
+            - execution_timeout
+            - connect_timeout
+            - socket_timeout
+            - keep_alive
+            - connections_max_per_route
+            - connections_max_total
             - headers: "${'Authorization: ' + auth_token}"
-            - worker_group: '${worker_group}'
+            - query_params
+            - content_type
+            - method: GET
+            - request_character_set: utf-8
+            - response_character_set: utf-8
         publish:
-          - return_result
-          - status_code
           - error_message
+          - status_code
+          - return_result
         navigate:
           - SUCCESS: get_recommendation_id_list
           - FAILURE: on_failure
@@ -141,8 +151,8 @@ flow:
 extensions:
   graph:
     steps:
-      get_recommendation_id_list:
-        x: 200
+      api_call_to_list_recommendations:
+        x: 40
         'y': 240
       set_success_message:
         x: 360
@@ -151,8 +161,8 @@ extensions:
           8ae983b7-334d-8dff-bc05-dd9a68302f6b:
             targetId: 336280f1-4a0b-157f-ffeb-4d461839dcc0
             port: SUCCESS
-      api_call_to_list_all_recommendations:
-        x: 40
+      get_recommendation_id_list:
+        x: 200
         'y': 240
     results:
       SUCCESS:
