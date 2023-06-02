@@ -37,6 +37,10 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - the password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
+#!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrieved.
+#!                        Default: '0' (infinite)
 #! @input worker_group: Optional - A worker group is a logical collection of workers. A worker may belong to more one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'.
 #!
@@ -76,6 +80,12 @@ flow:
     - x_509_hostname_verifier:
         default: strict
         required: false
+    - connect_timeout:
+        default: '10'
+        required: false
+    - socket_timeout:
+        default: '0'
+        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -101,8 +111,8 @@ flow:
             - keystore
             - keystore_password
             - execution_timeout
-            - connect_timeout
-            - socket_timeout
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
             - keep_alive
             - connections_max_per_route
             - connections_max_total
