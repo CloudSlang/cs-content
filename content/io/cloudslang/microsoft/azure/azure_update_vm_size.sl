@@ -157,7 +157,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.microsoft.azure.compute.resize_vm:
+          io.cloudslang.microsoft.azure.compute.virtual_machines.resize_vm:
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
