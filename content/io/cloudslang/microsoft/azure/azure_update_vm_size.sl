@@ -1,4 +1,4 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
+#   (c) Copyright 2023 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -54,8 +54,7 @@
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
 #!
-#! @output output: Information about the virtual machine that has been restarted
-#! @output power_state: Power state of the Virtual Machine.
+#! @output output: Information about the virtual machine that has been resized
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
@@ -76,7 +75,9 @@ imports:
 flow:
   name: azure_update_vm_size
   inputs:
+    - vm_name
     - subscription_id
+    - resource_group_name
     - tenant_id:
         required: true
         sensitive: false
@@ -86,11 +87,12 @@ flow:
     - client_secret:
         required: true
         sensitive: true
-    - vm_name
     - location
-    - resource_group_name
     - vm_size
     - connect_timeout:
+        default: '0'
+        required: false
+    - socket_timeout:
         default: '0'
         required: false
     - polling_interval:
@@ -148,17 +150,52 @@ flow:
           - return_code
           - error_message: '${exception}'
         navigate:
-          - SUCCESS: update_vm_size
+          - SUCCESS: resize_vm
           - FAILURE: on_failure
-    - get_power_state:
+    - resize_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          vm.get_power_state:
-            - vm_name
+          io.cloudslang.microsoft.azure.compute.resize_vm:
+            - auth_token:
+                value: '${auth_token}'
+                sensitive: true
+            - resource_group_name: '${resource_group_name}'
+            - subscription_id: '${subscription_id}'
+            - vm_name: '${vm_name}'
+            - location: '${location}'
+            - vm_size: '${vm_size}'
+            - api_version: null
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - status_code
+          - json
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_vm_info
+    - get_vm_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.compute.virtual_machines.get_vm_details:
             - subscription_id
             - resource_group_name
+            - vm_name: '${vm_name}'
             - auth_token
             - connect_timeout
             - socket_timeout: '0'
@@ -171,70 +208,63 @@ flow:
             - trust_keystore
             - trust_password
         publish:
-          - power_state: '${power_state}'
-          - power_status: '${output}'
+          - vm_info: '${output}'
           - status_code
-          - error_message
+          - return_result: '${error_message}'
         navigate:
-          - SUCCESS: check_power_state
+          - SUCCESS: check_vm_state
           - FAILURE: on_failure
-    - check_power_state:
+    - check_vm_state:
         worker_group: '${worker_group}'
         do:
-          json.get_value:
-            - json_input: '${power_status}'
-            - json_path: 'statuses,1,code'
+          io.cloudslang.base.json.get_value:
+            - json_input: '${vm_info}'
+            - json_path: 'properties,provisioningState'
         publish:
-          - expected_power_state: '${return_result}'
+          - expected_vm_state: '${return_result}'
         navigate:
-          - SUCCESS: compare_power_state
+          - SUCCESS: compare_power_state_succeded
           - FAILURE: on_failure
+    - compare_power_state_succeded:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${expected_vm_state}'
+            - second_string: Succeeded
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: compare_power_state
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
-          strings.string_equals:
-            - first_string: '${expected_power_state}'
-            - second_string: PowerState/running
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${expected_vm_state}'
+            - second_string: Failed
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: sleep
-    - sleep:
+          - FAILURE: counter
+    - counter:
         worker_group: '${worker_group}'
         do:
-          flow.sleep:
-            - seconds: '${polling_interval}'
+          io.cloudslang.microsoft.azure.utils.counter:
+            - from: '1'
+            - to: '60'
+            - increment_by: '1'
+            - reset: 'false'
         navigate:
-          - SUCCESS: get_power_state
+          - HAS_MORE: wait_before_check
+          - NO_MORE: FAILURE
           - FAILURE: on_failure
-    - update_vm_size:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - wait_before_check:
+        worker_group: '${worker_group}'
         do:
-          vm.update_vm_size:
-            - subscription_id: '${subscription_id}'
-            - auth_token:
-                value: '${auth_token}'
-                sensitive: true
-            - vm_name: '${vm_name}'
-            - location: '${location}'
-            - resource_group_name: '${resource_group_name}'
-            - vm_size: '${vm_size}'
-            - proxy_port: '${proxy_port}'
-            - proxy_host: '${proxy_host}'
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
         navigate:
-          - SUCCESS: get_power_state
+          - SUCCESS: get_vm_info
           - FAILURE: on_failure
   outputs:
     - output
-    - power_state: '${power_state}'
     - status_code
     - return_code
     - error_message
@@ -245,30 +275,48 @@ extensions:
   graph:
     steps:
       get_auth_token_using_web_api:
-        x: 40
-        'y': 200
-      get_power_state:
-        x: 360
-        'y': 200
-      check_power_state:
+        x: 80
+        'y': 80
+      resize_vm:
+        x: 80
+        'y': 320
+      get_vm_info:
+        x: 240
+        'y': 320
+      check_vm_state:
+        x: 240
+        'y': 80
+      compare_power_state_succeded:
         x: 520
-        'y': 120
+        'y': 80
+        navigate:
+          db1b5306-af0f-15b5-c492-a2ace6fe84c1:
+            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
+            port: SUCCESS
       compare_power_state:
         x: 680
-        'y': 200
+        'y': 160
         navigate:
-          6a405a7e-c912-12d8-349a-05f59e4d684f:
-            targetId: dfed90c1-0b8a-3e02-18c7-09c971a719f7
+          82fb8784-16d7-1d0c-d35a-925649fc1717:
+            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
             port: SUCCESS
-      sleep:
-        x: 520
+      counter:
+        x: 680
         'y': 320
-      update_vm_size:
-        x: 200
-        'y': 200
+        navigate:
+          3aaf1dd4-9ce4-76fc-829e-defb2b23f92d:
+            targetId: 49187da1-453b-9f14-f9cc-38356cca1fff
+            port: NO_MORE
+      wait_before_check:
+        x: 400
+        'y': 320
     results:
       SUCCESS:
-        dfed90c1-0b8a-3e02-18c7-09c971a719f7:
-          x: 840
-          'y': 200
+        c04448b4-a5b6-9697-3e88-ed8cb683af22:
+          x: 880
+          'y': 80
+      FAILURE:
+        49187da1-453b-9f14-f9cc-38356cca1fff:
+          x: 880
+          'y': 320
 

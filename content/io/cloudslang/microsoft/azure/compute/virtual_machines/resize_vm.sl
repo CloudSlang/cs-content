@@ -54,7 +54,7 @@
 #! @result SUCCESS: The request to resize vm has been successfully sent.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.microsoft.azure.compute.resize_vm
+namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 flow:
   name: resize_vm
   inputs:
