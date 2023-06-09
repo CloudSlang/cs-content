@@ -15,20 +15,21 @@
 #!!
 #! @description: This workflow is used to update or resize the virtual machine.
 #!
+#! @input vm_name: The name of the virtual machine to be restarted.
+#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input subscription_id: The ID of the Azure Subscription on which the VM should be restarted.
+#! @input resource_group_name: The name of the Azure Resource Group that should be used to restart the VM.
 #! @input tenant_id: The tenantId value used to control who can sign into the application.
 #! @input client_id: The Application ID assigned to your app when you registered it with Azure AD.
 #! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
 #!                       devices. It is required for web apps and web APIs (all confidential clients), which have the
 #!                       ability to store the client_secret securely on the server side.
-#! @input vm_name: The name of the virtual machine to be restarted.
-#!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input location: The location in which VM resides.
-#! @input resource_group_name: The name of the Azure Resource Group that should be used to restart the VM.
 #! @input vm_size: The new size of the VM.
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
+#! @input socket_timeout: Optional - time in seconds to wait for data to be retrievedDefault: '0' (infinite)
 #! @input polling_interval: Time to wait between checks
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
@@ -150,7 +151,7 @@ flow:
           - return_code
           - error_message: '${exception}'
         navigate:
-          - SUCCESS: resize_vm
+          - SUCCESS: get_power_state
           - FAILURE: on_failure
     - resize_vm:
         worker_group:
@@ -263,6 +264,79 @@ flow:
         navigate:
           - SUCCESS: get_vm_info
           - FAILURE: on_failure
+    - get_power_state:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.compute.virtual_machines.get_power_state:
+            - vm_name
+            - subscription_id
+            - resource_group_name
+            - auth_token
+            - proxy_host
+            - proxy_port
+            - connect_timeout
+            - socket_timeout: '0'
+            - proxy_username
+            - proxy_password
+            - trust_all_roots
+            - x_509_hostname_verifier
+            - trust_keystore
+            - trust_password
+        publish:
+          - power_state: '${power_state}'
+          - power_status: '${output}'
+          - status_code
+          - error_message
+        navigate:
+          - SUCCESS: check_power_state
+          - FAILURE: on_failure
+    - check_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${power_status}'
+            - json_path: 'statuses,1,code'
+        publish:
+          - expected_power_state: '${return_result}'
+        navigate:
+          - SUCCESS: compare_power_state_1
+          - FAILURE: on_failure
+    - stop_vm_v2:
+        do:
+          io.cloudslang.microsoft.azure.stop_vm_v2:
+            - vm_name: '${vm_name}'
+            - subscription_id: '${subscription_id}'
+            - resource_group_name: '${resource_group_name}'
+            - tenant_id: '${tenant_id}'
+            - client_id: '${client_id}'
+            - client_secret:
+                value: '${client_secret}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - SUCCESS: resize_vm
+          - FAILURE: on_failure
+    - compare_power_state_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${expected_power_state}'
+            - second_string: PowerState/stopped
+        navigate:
+          - SUCCESS: resize_vm
+          - FAILURE: stop_vm_v2
   outputs:
     - output
     - status_code
@@ -274,49 +348,61 @@ flow:
 extensions:
   graph:
     steps:
+      check_power_state:
+        x: 80
+        'y': 480
       get_auth_token_using_web_api:
         x: 80
         'y': 80
-      resize_vm:
-        x: 80
-        'y': 320
-      get_vm_info:
-        x: 240
-        'y': 320
       check_vm_state:
-        x: 240
+        x: 360
         'y': 80
       compare_power_state_succeded:
-        x: 520
+        x: 640
         'y': 80
         navigate:
           db1b5306-af0f-15b5-c492-a2ace6fe84c1:
             targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
             port: SUCCESS
+      resize_vm:
+        x: 400
+        'y': 480
+      stop_vm_v2:
+        x: 240
+        'y': 80
+      get_vm_info:
+        x: 480
+        'y': 240
+      get_power_state:
+        x: 80
+        'y': 240
+      compare_power_state_1:
+        x: 240
+        'y': 480
+      wait_before_check:
+        x: 600
+        'y': 360
+      counter:
+        x: 800
+        'y': 360
+        navigate:
+          3aaf1dd4-9ce4-76fc-829e-defb2b23f92d:
+            targetId: 49187da1-453b-9f14-f9cc-38356cca1fff
+            port: NO_MORE
       compare_power_state:
-        x: 680
+        x: 800
         'y': 160
         navigate:
           82fb8784-16d7-1d0c-d35a-925649fc1717:
             targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
             port: SUCCESS
-      counter:
-        x: 680
-        'y': 320
-        navigate:
-          3aaf1dd4-9ce4-76fc-829e-defb2b23f92d:
-            targetId: 49187da1-453b-9f14-f9cc-38356cca1fff
-            port: NO_MORE
-      wait_before_check:
-        x: 400
-        'y': 320
     results:
       SUCCESS:
         c04448b4-a5b6-9697-3e88-ed8cb683af22:
-          x: 880
+          x: 960
           'y': 80
       FAILURE:
         49187da1-453b-9f14-f9cc-38356cca1fff:
-          x: 880
-          'y': 320
+          x: 960
+          'y': 360
 
