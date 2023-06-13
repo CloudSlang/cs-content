@@ -27,6 +27,7 @@
 #!                       ability to store the client_secret securely on the server side.
 #! @input location: The location in which VM resides.
 #! @input vm_size: The new size of the VM.
+#! @input enable_public_ip: The value of property will be true if the VM has public IP Address
 #! @input connect_timeout: Optional - time in seconds to wait for a connection to be established
 #!                         Default: '0' (infinite)
 #! @input socket_timeout: Optional - time in seconds to wait for data to be retrievedDefault: '0' (infinite)
@@ -59,6 +60,8 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong
 #! @output return_code: 0 if success, -1 if failure
 #! @output error_message: If there is any error while running the flow, it will be populated, empty otherwise
+#! @output power_state: Power state of the Virtual Machine
+#! @output public_ip_address: The primary IP Address of the VM
 #!
 #! @result SUCCESS: The flow completed successfully.
 #! @result FAILURE: There was an error while trying to run every step of the flow.
@@ -90,6 +93,7 @@ flow:
         sensitive: true
     - location
     - vm_size
+    - enable_public_ip
     - connect_timeout:
         default: '0'
         required: false
@@ -233,7 +237,7 @@ flow:
             - first_string: '${expected_vm_state}'
             - second_string: Succeeded
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: start_vm_v3
           - FAILURE: compare_power_state
     - compare_power_state:
         worker_group: '${worker_group}'
@@ -242,7 +246,7 @@ flow:
             - first_string: '${expected_vm_state}'
             - second_string: Failed
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: start_vm_v3
           - FAILURE: counter
     - counter:
         worker_group: '${worker_group}'
@@ -304,6 +308,9 @@ flow:
           - SUCCESS: compare_power_state_1
           - FAILURE: on_failure
     - stop_vm_v2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.microsoft.azure.stop_vm_v2:
             - vm_name: '${vm_name}'
@@ -337,11 +344,45 @@ flow:
         navigate:
           - SUCCESS: resize_vm
           - FAILURE: stop_vm_v2
+    - start_vm_v3:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.start_vm_v3:
+            - vm_name: '${vm_name}'
+            - subscription_id: '${subscription_id}'
+            - resource_group_name: '${resource_group_name}'
+            - tenant_id: '${tenant_id}'
+            - client_id: '${client_id}'
+            - client_secret:
+                value: '${client_secret}'
+                sensitive: true
+            - enable_public_ip: '${enable_public_ip}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password: '${proxy_password}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        publish:
+          - public_ip_address
+          - power_state
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - output
     - status_code
     - return_code
     - error_message
+    - power_state: '${power_state}'
+    - public_ip_address
   results:
     - SUCCESS
     - FAILURE
@@ -360,19 +401,22 @@ extensions:
       compare_power_state_succeded:
         x: 640
         'y': 80
-        navigate:
-          db1b5306-af0f-15b5-c492-a2ace6fe84c1:
-            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
-            port: SUCCESS
       resize_vm:
         x: 400
         'y': 480
       stop_vm_v2:
         x: 240
         'y': 80
+      start_vm_v3:
+        x: 960
+        'y': 80
+        navigate:
+          cc4e5fe1-230d-5f1f-8041-3322f4efdf0b:
+            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
+            port: SUCCESS
       get_vm_info:
         x: 480
-        'y': 240
+        'y': 280
       get_power_state:
         x: 80
         'y': 240
@@ -392,14 +436,10 @@ extensions:
       compare_power_state:
         x: 800
         'y': 160
-        navigate:
-          82fb8784-16d7-1d0c-d35a-925649fc1717:
-            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
-            port: SUCCESS
     results:
       SUCCESS:
         c04448b4-a5b6-9697-3e88-ed8cb683af22:
-          x: 960
+          x: 1160
           'y': 80
       FAILURE:
         49187da1-453b-9f14-f9cc-38356cca1fff:
