@@ -237,7 +237,7 @@ flow:
             - first_string: '${expected_vm_state}'
             - second_string: Succeeded
         navigate:
-          - SUCCESS: start_vm_v3
+          - SUCCESS: compare_power_state_for_starting_vm
           - FAILURE: compare_power_state
     - compare_power_state:
         worker_group: '${worker_group}'
@@ -246,7 +246,7 @@ flow:
             - first_string: '${expected_vm_state}'
             - second_string: Failed
         navigate:
-          - SUCCESS: start_vm_v3
+          - SUCCESS: compare_power_state_for_starting_vm
           - FAILURE: counter
     - counter:
         worker_group: '${worker_group}'
@@ -303,7 +303,7 @@ flow:
             - json_input: '${power_status}'
             - json_path: 'statuses,1,code'
         publish:
-          - expected_power_state: '${return_result}'
+          - original_power_state: '${return_result}'
         navigate:
           - SUCCESS: compare_power_state_1
           - FAILURE: on_failure
@@ -339,11 +339,11 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${expected_power_state}'
-            - second_string: PowerState/stopped
+            - first_string: '${original_power_state}'
+            - second_string: PowerState/running
         navigate:
-          - SUCCESS: resize_vm
-          - FAILURE: stop_vm_v2
+          - SUCCESS: stop_vm_v2
+          - FAILURE: resize_vm
     - start_vm_v3:
         worker_group:
           value: '${worker_group}'
@@ -376,6 +376,15 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - compare_power_state_for_starting_vm:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${original_power_state}'
+            - second_string: PowerState/running
+        navigate:
+          - SUCCESS: start_vm_v3
+          - FAILURE: SUCCESS
   outputs:
     - output
     - status_code
@@ -408,7 +417,7 @@ extensions:
         x: 240
         'y': 80
       start_vm_v3:
-        x: 960
+        x: 1040
         'y': 80
         navigate:
           cc4e5fe1-230d-5f1f-8041-3322f4efdf0b:
@@ -434,13 +443,20 @@ extensions:
             targetId: 49187da1-453b-9f14-f9cc-38356cca1fff
             port: NO_MORE
       compare_power_state:
-        x: 800
-        'y': 160
+        x: 760
+        'y': 200
+      compare_power_state_for_starting_vm:
+        x: 880
+        'y': 80
+        navigate:
+          1517e41e-0fe2-f269-cd8b-36354fd8ecbd:
+            targetId: c04448b4-a5b6-9697-3e88-ed8cb683af22
+            port: FAILURE
     results:
       SUCCESS:
         c04448b4-a5b6-9697-3e88-ed8cb683af22:
-          x: 1160
-          'y': 80
+          x: 1000
+          'y': 240
       FAILURE:
         49187da1-453b-9f14-f9cc-38356cca1fff:
           x: 960
