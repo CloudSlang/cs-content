@@ -19,7 +19,7 @@
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input subscription_id: The ID of the azure subscription on which the VM should be restarted.
 #! @input resource_group_name: The name of the azure resource group that should be used to restart the VM.
-#! @input tenant_id: The tenantId value used to control who can sign into the application.
+#! @input tenant_id: The tenant id value used to control who can sign into the application.
 #! @input client_id: The Application ID assigned to your app when you registered it with azure AD.
 #! @input client_secret: The application secret that you created in the app registration portal for your app. It cannot
 #!                       be used in a native app (public client), because client_secrets cannot be reliably stored on
