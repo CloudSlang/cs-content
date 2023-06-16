@@ -15,7 +15,7 @@
 #!!
 #! @description: This workflow is used to resize the virtual machine.
 #!
-#! @input vm_name: The name of the virtual machine to be restarted.
+#! @input vm_name: The name of the virtual machine to be resized.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
 #! @input subscription_id: The ID of the azure subscription on which the VM should be restarted.
 #! @input resource_group_name: The name of the azure resource group that should be used to restart the VM.
