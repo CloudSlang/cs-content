@@ -94,7 +94,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - api_call_to_list_recommendations:
+    - api_call_to_list_suppressions:
         worker_group: "${get('worker_group', 'RAS_Operator_Path')}"
         do:
           io.cloudslang.base.http.http_client_action:
@@ -186,8 +186,8 @@ flow:
 extensions:
   graph:
     steps:
-      api_call_to_list_recommendations:
-        x: 40
+      extract_resource_id:
+        x: 200
         'y': 240
       set_success_message:
         x: 760
@@ -196,14 +196,14 @@ extensions:
           8ae983b7-334d-8dff-bc05-dd9a68302f6b:
             targetId: 336280f1-4a0b-157f-ffeb-4d461839dcc0
             port: SUCCESS
-      extract_resource_id:
-        x: 200
-        'y': 240
       extract_dismissed_recommendation_id:
         x: 400
         'y': 240
       extract_postponed_recommendation_id:
         x: 600
+        'y': 240
+      api_call_to_list_suppressions:
+        x: 40
         'y': 240
     results:
       SUCCESS:
