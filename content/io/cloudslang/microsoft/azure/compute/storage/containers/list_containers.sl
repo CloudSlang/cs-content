@@ -72,7 +72,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.18'
+    gav: 'io.cloudslang.content:cs-azure:0.0.20'
     class_name: io.cloudslang.content.azure.actions.storage.ListContainers
     method_name: execute
 
