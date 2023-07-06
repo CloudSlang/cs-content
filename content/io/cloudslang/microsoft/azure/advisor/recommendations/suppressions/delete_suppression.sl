@@ -13,14 +13,13 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to create suppression.
+#! @description: This operation can be used to delete suppression.
 #!
 #! @input auth_token: Azure authorization Bearer token.
 #! @input name: The name of the Azure Resource Group that should be used to create the VM.
 #! @input recommendation_id: The ID of the Azure Subscription on which the VM should be created.
 #! @input resource_uri: Specifies the name of the virtual machine. This name should be unique within the resource group.
 #! @input api_version: The API version used to create calls to Azure.Default: '2023-01-01'
-#! @input ttl: The duration for which the suppression is valid.
 #! @input worker_group: Optional - A worker group is a logical collection of workers.
 #!                      A worker may belong to more than one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -48,12 +47,12 @@
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
 #! @result FAILURE: An error occurred while trying to send the request.
-#! @result SUCCESS: The request to create suppression has been successfully sent.
+#! @result SUCCESS: The request to delete suppression has been successfully sent.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microsoft.azure.advisor.recommendations.suppressions
 flow:
-  name: create_suppression
+  name: delete_suppression
   inputs:
     - auth_token:
         sensitive: true
@@ -63,8 +62,6 @@ flow:
     - api_version:
         default: '2023-01-01'
         required: true
-    - ttl:
-        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -89,21 +86,12 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - string_equals:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${ttl}'
-        publish: []
-        navigate:
-          - SUCCESS: api_to_dismiss_suppression
-          - FAILURE: api_to_postpone_suppression
-    - api_to_postpone_suppression:
+    - api_call_to_delete_suppression:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_put:
+          io.cloudslang.base.http.http_client_delete:
             - url: "${'https://management.azure.com/'+resource_uri+'/providers/Microsoft.Advisor/recommendations/'+recommendation_id+'/suppressions/'+name+'?api-version='+api_version}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
@@ -114,10 +102,9 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - headers: "${'Authorization: ' + auth_token}"
-            - body: "${'{\"properties\": {\"ttl\": \"'+ttl+'\"}}'}"
-            - content_type: application/json
             - request_character_set: utf-8
+            - headers: "${'Authorization: ' + auth_token}"
+            - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
           - return_result
@@ -128,43 +115,12 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: The supression creation has been successfully done
+            - message: The delete suppression has been successfully done
             - json: '${return_result}'
         publish:
           - return_result: '${json}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
-    - api_to_dismiss_suppression:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.base.http.http_client_put:
-            - url: "${'https://management.azure.com/'+resource_uri+'/providers/Microsoft.Advisor/recommendations/'+recommendation_id+'/suppressions/'+name+'?api-version='+api_version}"
-            - auth_type: anonymous
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - headers: "${'Authorization: ' + auth_token}"
-            - body: |-
-                {
-                  "properties": {
-                    "state": "Dismissed"
-                  }
-                }
-            - content_type: application/json
-            - request_character_set: utf-8
-            - worker_group: '${worker_group}'
-        publish:
-          - return_result
-        navigate:
-          - SUCCESS: set_success_message
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -175,25 +131,19 @@ flow:
 extensions:
   graph:
     steps:
-      string_equals:
-        x: 120
-        'y': 280
-      api_to_postpone_suppression:
-        x: 360
-        'y': 200
       set_success_message:
-        x: 640
-        'y': 280
+        x: 560
+        'y': 200
         navigate:
           ed7c7b38-df18-5e0f-78ce-9be99fa19bb9:
             targetId: f1f62123-69ac-dd17-a1d9-3209ada7e80a
             port: SUCCESS
-      api_to_dismiss_suppression:
-        x: 360
-        'y': 360
+      api_call_to_delete_suppression:
+        x: 320
+        'y': 200
     results:
       SUCCESS:
         f1f62123-69ac-dd17-a1d9-3209ada7e80a:
-          x: 920
-          'y': 280
+          x: 760
+          'y': 200
 
