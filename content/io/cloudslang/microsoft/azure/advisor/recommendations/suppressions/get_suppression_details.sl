@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: The operation is used to fetch the details of suppression for particular recommendation.
+#! @description: This operation is used to fetch the details of suppression for particular recommendation.
 #!
 #! @input auth_token: The authorization token for azure cloud.
 #! @input name: The name of suppression.
