@@ -44,7 +44,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.20'
+    gav: 'io.cloudslang.content:cs-azure:0.0.18'
     class_name: 'io.cloudslang.content.azure.actions.utils.GetTimeFormat'
     method_name: 'execute'
 
