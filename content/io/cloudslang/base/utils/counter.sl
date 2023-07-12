@@ -52,7 +52,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-100'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-101'
     class_name: 'io.cloudslang.content.utilities.actions.Counter'
     method_name: 'execute'
   
