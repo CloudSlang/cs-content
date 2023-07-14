@@ -40,9 +40,14 @@ operation:
         default: ${get('epoch_time', '')}
         required: false
         private: true
+    - time_zone
+    - timeZone:
+        default: ${get('time_zone', '')}
+        required: false
+        private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-102'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-103'
     class_name: 'io.cloudslang.content.utilities.actions.ConvertEpochTimeWithoutTimezone'
     method_name: 'execute'
 
