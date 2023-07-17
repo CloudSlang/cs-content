@@ -47,7 +47,7 @@ operation:
     - expiry
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.22-RC1'
+    gav: 'io.cloudslang.content:cs-azure:0.0.22-RC2'
     class_name: io.cloudslang.content.azure.actions.utils.GetSharedAccessKeyToken
     method_name: execute
 
