@@ -55,7 +55,6 @@ operation:
     - date_format: ${get('dateFormat', '')}
     - utc_zone_offset: ${get('utcZoneOffset', '')}
     - time_difference: ${get('timeDifference', '')}
-    - time_zone: ${get('timeZone', '')}
     - exception: ${get('exception', '')}
 
   results:
