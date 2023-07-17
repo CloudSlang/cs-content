@@ -150,7 +150,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.21'
+    gav: 'io.cloudslang.content:cs-azure:0.0.22-RC1'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.streamingjobs.StopStreamingJob'
     method_name: 'execute'
   
