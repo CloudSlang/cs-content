@@ -1,5 +1,5 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
+#   Copyright 2023 Open Text
+#   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
@@ -44,7 +44,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.47'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.49'
     class_name: 'io.cloudslang.content.amazon.actions.utils.SchedulerTime'
     method_name: 'execute'
   
