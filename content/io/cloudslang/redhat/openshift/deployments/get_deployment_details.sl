@@ -185,7 +185,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.4'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.5'
     class_name: 'io.cloudslang.content.redhat.actions.GetDeploymentDetails'
     method_name: 'execute'
   

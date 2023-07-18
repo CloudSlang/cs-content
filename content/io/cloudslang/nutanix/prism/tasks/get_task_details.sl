@@ -1,5 +1,5 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
+#   Copyright 2023 Open Text
+#   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
@@ -201,7 +201,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.3'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.5'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.tasks.GetTaskDetails'
     method_name: 'execute'
   
