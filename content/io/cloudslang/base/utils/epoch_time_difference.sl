@@ -32,7 +32,7 @@
 namespace: io.cloudslang.base.utils
 
 operation:
-  name: convert_epoch_time_without_timezone
+  name: epoch_time_difference
 
   inputs:
     - epoch_time
@@ -47,8 +47,8 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-103'
-    class_name: 'io.cloudslang.content.utilities.actions.ConvertEpochTimeWithoutTimezone'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.23-SNAPSHOT-110'
+    class_name: 'io.cloudslang.content.utilities.actions.EpochTimeDifference'
     method_name: 'execute'
 
   outputs:
