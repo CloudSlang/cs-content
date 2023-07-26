@@ -13,15 +13,16 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation converts the unix/epoch time into date format.
+#! @description: This operation converts the unix/epoch time into date format and calculate the time difference.
 #!
 #! @input epoch_time: The epoch time in milliseconds.
 #!                    Example: 1675660713000
 #! @input time_zone: The scheduler timeZone in UTC format.
-#!                   Example: (UTC+05:30) Asia/Kolkata
+#!                   Example: Asia/Kolkata
 #!
 #! @output date_format: The converted date.
-#!                      Example: 2023-02-06T10:48:33:00
+#! @output utc_zone_offset: UTC offset value.
+#! @output time_difference: Time difference.
 #! @output exception: Exception if there was an error when executing, empty otherwise.
 #!
 #! @result SUCCESS: Returns the date format.
@@ -32,7 +33,7 @@
 namespace: io.cloudslang.base.utils
 
 operation:
-  name: convert_epoch_time
+  name: epoch_time_difference
 
   inputs:
     - epoch_time
@@ -48,11 +49,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-utilities:0.1.24-RC1'
-    class_name: 'io.cloudslang.content.utilities.actions.ConvertEpochTime'
+    class_name: 'io.cloudslang.content.utilities.actions.EpochTimeDifference'
     method_name: 'execute'
 
   outputs:
     - date_format: ${get('dateFormat', '')}
+    - utc_zone_offset: ${get('utcZoneOffset', '')}
+    - time_difference: ${get('timeDifference', '')}
     - exception: ${get('exception', '')}
 
   results:
