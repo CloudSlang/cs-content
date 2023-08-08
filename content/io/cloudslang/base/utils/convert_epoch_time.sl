@@ -47,7 +47,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.24-RC2'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.24-SNAPSHOT-130'
     class_name: 'io.cloudslang.content.utilities.actions.ConvertEpochTime'
     method_name: 'execute'
 
