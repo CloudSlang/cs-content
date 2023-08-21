@@ -17,7 +17,7 @@
 #!
 #! @input scheduler_time: Scheduler time in HH:MM:SS format.
 #! @input scheduler_time_zone: Scheduler timeZone.
-#!                             Example: (UTC+05:30) Asia/Kolkata
+#!                             Example: Asia/Kolkata
 #!
 #! @output scheduler_start_time: Scheduler start time.
 #! @output trigger_expression: Scheduler trigger expression.
