@@ -17,7 +17,7 @@
 #!
 #! @input scheduler_time: Scheduler time in HH:MM:SS format.
 #! @input scheduler_time_zone: Scheduler timeZone.
-#!                             Example: (UTC+05:30) Asia/Kolkata
+#!                             Example: Asia/Kolkata
 #!
 #! @output scheduler_start_time: Scheduler start time.
 #! @output trigger_expression: Scheduler trigger expression.
@@ -32,12 +32,12 @@
 namespace: io.cloudslang.base.utils
 
 operation: 
-  name: schedule_time
+  name: schedule_time_by_hours
   
   inputs: 
-    - scheduler_time    
-    - schedulerTime: 
-        default: ${get('scheduler_time', '')}
+    - number_of_hours
+    - numberOfHours:
+        default: ${get('number_of_hours', '')}
         private: true 
     - scheduler_time_zone    
     - schedulerTimeZone: 
@@ -46,7 +46,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-utilities:0.1.24-RC3'
-    class_name: 'io.cloudslang.content.utilities.actions.SchedulerTime'
+    class_name: 'io.cloudslang.content.utilities.actions.SchedulerTimeByHours'
     method_name: 'execute'
   
   outputs: 
