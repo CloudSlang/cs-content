@@ -45,7 +45,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.24-RC4'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.24-SNAPSHOT-120'
     class_name: 'io.cloudslang.content.utilities.actions.SchedulerTimeByHours'
     method_name: 'execute'
   
