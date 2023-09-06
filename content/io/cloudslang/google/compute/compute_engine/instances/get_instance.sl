@@ -117,7 +117,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.10-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-google:0.4.10'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesGet
     method_name: execute
 
