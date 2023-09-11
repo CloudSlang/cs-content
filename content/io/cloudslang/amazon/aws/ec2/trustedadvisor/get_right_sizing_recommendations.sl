@@ -50,7 +50,7 @@
 namespace: io.cloudslang.amazon.aws.ec2.trustedadvisor
 
 operation:
-  name: get_recommendations
+  name: get_right_sizing_recommendations
 
   inputs:
     - access_key_id
