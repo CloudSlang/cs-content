@@ -140,7 +140,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.49'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-1'
     class_name: 'io.cloudslang.content.amazon.actions.rds.DeleteDBInstance'
     method_name: 'execute'
   
