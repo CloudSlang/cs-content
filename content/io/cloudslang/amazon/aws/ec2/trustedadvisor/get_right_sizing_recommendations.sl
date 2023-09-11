@@ -106,7 +106,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-2'
     class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.GetRightsizingRecommendations'
     method_name: 'execute'
 
