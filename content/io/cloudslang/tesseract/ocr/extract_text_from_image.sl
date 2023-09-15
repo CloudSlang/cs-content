@@ -77,7 +77,7 @@ operation:
       required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-tesseract:1.0.4'
+    gav: 'io.cloudslang.content:cs-tesseract:1.0.5-SNAPSHOT'
     class_name: 'io.cloudslang.content.tesseract.actions.ExtractTextFromImage'
     method_name: 'execute'
 
