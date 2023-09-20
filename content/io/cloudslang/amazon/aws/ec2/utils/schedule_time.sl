@@ -44,7 +44,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50-RC2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.50-RC3'
     class_name: 'io.cloudslang.content.amazon.actions.utils.SchedulerTime'
     method_name: 'execute'
   
