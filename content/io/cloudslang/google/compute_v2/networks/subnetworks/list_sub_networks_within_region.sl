@@ -134,18 +134,18 @@ flow:
           - return_result: '${message}'
           - sub_networks_json
         navigate:
-          - SUCCESS: json_path_query
+          - SUCCESS: gcp_get_json_path_values
           - FAILURE: on_failure
-    - json_path_query:
+    - gcp_get_json_path_values:
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${sub_networks_json}'
-            - json_path: '$.items[*].name'
+          io.cloudslang.google.compute_v2.networks.subnetworks.utils.gcp_get_json_path_values:
+            - json_body: '${sub_networks_json}'
+            - path_variable: name
         publish:
           - list_sub_networks: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
@@ -163,11 +163,11 @@ extensions:
       set_success_message:
         x: 320
         'y': 200
-      json_path_query:
+      gcp_get_json_path_values:
         x: 480
         'y': 200
         navigate:
-          5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
+          c8fa7b3b-b3c3-49fc-ede6-46f8055598dd:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
@@ -175,3 +175,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 640
           'y': 200
+
