@@ -1,4 +1,4 @@
-#   (c) Copyright 2023 Open Text
+#   Copyright 2023 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -138,7 +138,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.8'
+    gav: 'io.cloudslang.content:cs-google:0.4.11'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.DisksList
     method_name: execute
 

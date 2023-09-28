@@ -1,5 +1,5 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
+#   Copyright 2023 Open Text
+#   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
@@ -197,7 +197,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-couchbase:0.1.2'
+    gav: 'io.cloudslang.content:cs-couchbase:0.1.3'
     class_name: 'io.cloudslang.content.couchbase.actions.cluster.GetClusterDetails'
     method_name: 'execute'
   

@@ -1,5 +1,5 @@
-#   (c) Copyright 2022 Micro Focus, L.P.
-#   All rights reserved. This program and the accompanying materials
+#   Copyright 2023 Open Text
+#   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
 #   The Apache License is available at
@@ -29,10 +29,10 @@
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
-#!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2.
+#!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
 #!                     Default: 'TLSv1.2'
 #! @input allowed_cyphers: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
-#!                         if 'tlsVersion' does not contain 'TLSv1.2'.This capability is provided “as is”, please see product
+#!                         if 'tlsVersion' does not contain 'TLSv1.2' or 'TLSv1.3'.This capability is provided “as is”, please see product
 #!                         documentation for further security considerations. In order to connect successfully to the target
 #!                         host, it should accept at least one of the following cyphers. If this is not the case, it is the
 #!                         user's responsibility to configure the host accordingly or to update the list of allowed cyphers.
@@ -40,6 +40,7 @@
 #!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
 #!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256
+#!                         Valid values for TLSv1.3 : TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
