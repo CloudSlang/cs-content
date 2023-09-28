@@ -52,7 +52,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.23-RC3'
+    gav: 'io.cloudslang.content:cs-azure:0.0.23'
     class_name: 'io.cloudslang.content.azure.actions.utils.Counter'
     method_name: 'execute'
   
