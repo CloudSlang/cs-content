@@ -51,7 +51,7 @@
 namespace: io.cloudslang.amazon.aws.ec2.trustedadvisor
 
 operation:
-  name: get_recommendations
+  name: cost_optimization_recommendations
 
   inputs:
     - access_key_id
@@ -112,7 +112,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-2'
-    class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.GetRecommendations'
+    class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.CostOptimizationRecommendations'
     method_name: 'execute'
 
   outputs:
