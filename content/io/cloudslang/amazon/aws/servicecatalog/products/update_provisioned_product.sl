@@ -237,7 +237,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.51-RC1'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UpdateProvisionedProduct'
     method_name: 'execute'
   

@@ -124,7 +124,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.51-RC1'
     class_name: io.cloudslang.content.amazon.actions.tags.CreateTagsAction
     method_name: execute
 

@@ -13,13 +13,15 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Returns information about AWS right sizing recommendations.
+#! @description: Returns information about AWS cost explorer recommendations.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS or IAM account.Example:
 #!                       'AKIAIOSFODNN7EXAMPLE'
 #! @input access_key: Secret access key associated with your Amazon AWS or IAM account.Example:
 #!                    'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input region: String that contains the Amazon AWS region name.
+#! @input service_name: Service name.
+#!                    Optional
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
@@ -50,7 +52,7 @@
 namespace: io.cloudslang.amazon.aws.ec2.trustedadvisor
 
 operation:
-  name: get_right_sizing_recommendations
+  name: cost_explorer_recommendations
 
   inputs:
     - access_key_id
@@ -64,6 +66,12 @@ operation:
         private: true
         sensitive: true
     - region
+    - service_name:
+        required: false
+    - serviceName:
+        default: ${get('service_name', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -106,8 +114,8 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50-SNAPSHOT-2'
-    class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.GetRightsizingRecommendations'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.51-RC1'
+    class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.CostExplorerRecommendations'
     method_name: 'execute'
 
   outputs:
