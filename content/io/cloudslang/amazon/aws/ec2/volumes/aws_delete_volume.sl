@@ -31,7 +31,7 @@
 #! @result SUCCESS: The volume has been successfully deleted
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.amazon.aws.ec2
+namespace: io.cloudslang.amazon.aws.ec2.volumes
 flow:
   name: aws_delete_volume
   inputs:
