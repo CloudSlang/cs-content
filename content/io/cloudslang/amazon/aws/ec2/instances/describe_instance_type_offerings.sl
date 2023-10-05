@@ -145,7 +145,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.50'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.51-RC1'
     class_name: io.cloudslang.content.amazon.actions.instances.DescribeInstanceTypeOfferingsAction
     method_name: execute
 
