@@ -64,7 +64,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.amazon.aws.ec2
 flow:
-  name: aws_resize_instance_workflow
+  name: aws_resize_instance
   inputs:
     - access_key_id
     - access_key:
