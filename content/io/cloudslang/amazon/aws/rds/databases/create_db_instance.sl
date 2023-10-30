@@ -162,7 +162,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.51-RC1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.51'
     class_name: 'io.cloudslang.content.amazon.actions.rds.CreateDBInstance'
     method_name: 'execute'
   
