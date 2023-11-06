@@ -392,7 +392,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.13-RC5'
+    gav: 'io.cloudslang.content:cs-winrm:0.0.13-RC6'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
   
