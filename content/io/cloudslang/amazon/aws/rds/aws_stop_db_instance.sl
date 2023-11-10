@@ -136,10 +136,10 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${db_instance_status}'
-            - second_string: deleting
+            - second_string: stopped
         navigate:
-          - SUCCESS: counter
-          - FAILURE: SUCCESS
+          - SUCCESS: SUCCESS
+          - FAILURE: counter
     - counter:
         worker_group: '${worker_group}'
         do:
@@ -181,9 +181,9 @@ extensions:
         x: 560
         'y': 200
         navigate:
-          60948d1c-f921-4c8c-18cc-f8c6dc6eda38:
+          ff1bf22f-46ff-6392-21c3-c233fd9d4ee9:
             targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
-            port: FAILURE
+            port: SUCCESS
       counter:
         x: 560
         'y': 600
