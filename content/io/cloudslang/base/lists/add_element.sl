@@ -41,7 +41,7 @@ operation:
     - delimiter
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.7'
+    gav: 'io.cloudslang.content:cs-lists:0.0.12-SNAPSHOT'
     class_name: io.cloudslang.content.actions.ListAppenderAction
     method_name: appendElement
 
