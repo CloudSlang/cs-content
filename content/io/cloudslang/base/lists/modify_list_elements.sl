@@ -47,7 +47,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-lists:0.0.11'
+    gav: 'io.cloudslang.content:cs-lists:0.0.12-SNAPSHOT'
     class_name: io.cloudslang.content.actions.ModifyListElementsAction
     method_name: execute
   
