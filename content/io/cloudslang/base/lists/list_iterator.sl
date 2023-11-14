@@ -47,7 +47,7 @@ operation:
       default: ','
 
   java_action:
-    gav: 'io.cloudslang.content:cs-lists:0.0.11'
+    gav: 'io.cloudslang.content:cs-lists:0.0.13-SNAPSHOT'
     class_name: 'io.cloudslang.content.actions.ListIteratorAction'
     method_name: 'execute'
 
