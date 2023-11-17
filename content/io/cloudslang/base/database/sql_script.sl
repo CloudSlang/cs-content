@@ -34,6 +34,9 @@
 #! @input delimiter: The delimiter to use <sql_command>
 #!                   Default: ';'
 #! @input sql_commands: All the SQL commands that you want to run using the <delimiter>
+#! @input timeout:  Seconds to wait before timing out the SQL command execution. When the default value is used, there
+#!                  is no limit on the amount of time allowed for a running command to complete.
+#!                  Default: '0'
 #! @input script_file_name: SQL script file name. The command in the file need to have ';' to indicate the end of the command
 #!                          Note: this is mutual exclusive with <sqlCommands>
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no t
@@ -136,6 +139,9 @@ operation:
         default: ${get('sql_commands', '')}
         required: false
         private: true
+    - timeout:
+        default: '0'
+        required: false
     - script_file_name:
         required: false
     - scriptFileName:
@@ -190,7 +196,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.24'
+    gav: 'io.cloudslang.content:cs-database:0.0.25'
     class_name: io.cloudslang.content.database.actions.SQLScript
     method_name: execute
 
