@@ -33,6 +33,9 @@
 #!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
 #! @input command: The command to execute.
 #!                 Example: 'INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...)'
+#! @input timeout:  Seconds to wait before timing out the SQL command execution. When the default value is used, there
+#!                  is no limit on the amount of time allowed for a running command to complete.
+#!                  Default: '0'
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no t
 #!                         rusted certification authority issued it.
 #!                         Valid: true, false
@@ -126,6 +129,9 @@ operation:
         required: false
         private: true
     - command
+    - timeout:
+        default: '0'
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
@@ -174,7 +180,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.24'
+    gav: 'io.cloudslang.content:cs-database:0.0.25'
     class_name: io.cloudslang.content.database.actions.SQLCommand
     method_name: execute
 
