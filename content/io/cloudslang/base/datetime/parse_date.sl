@@ -78,7 +78,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.8'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.9'
     class_name: io.cloudslang.content.datetime.actions.ParseDate
     method_name: execute
 

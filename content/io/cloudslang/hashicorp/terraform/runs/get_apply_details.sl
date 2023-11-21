@@ -190,7 +190,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.9'
+    gav: 'io.cloudslang.content:cs-hashicorp-terraform:1.0.10'
     class_name: 'io.cloudslang.content.hashicorp.terraform.actions.runs.ApplyDetails'
     method_name: 'execute'
   

@@ -377,7 +377,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.24'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.25'
     class_name: 'io.cloudslang.content.utilities.actions.OsDetector'
     method_name: 'execute'
   

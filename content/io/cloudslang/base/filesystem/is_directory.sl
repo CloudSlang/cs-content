@@ -35,7 +35,7 @@ operation:
     - source
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.4'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.5'
     class_name: io.cloudslang.content.filesystem.actions.IsDirectoryAction
     method_name: execute
 

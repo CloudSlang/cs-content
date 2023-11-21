@@ -101,7 +101,7 @@ operation:
         private: true
 
   java_action:
-    gav: "io.cloudslang.content:cs-maps:0.0.2"
+    gav: "io.cloudslang.content:cs-maps:0.0.3"
     class_name: io.cloudslang.content.maps.actions.RemoveEmptyKeysAction
     method_name: execute
 

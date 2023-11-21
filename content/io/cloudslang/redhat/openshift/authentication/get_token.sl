@@ -171,7 +171,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.5'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.6'
     class_name: 'io.cloudslang.content.redhat.actions.GetTokenAction'
     method_name: 'execute'
   

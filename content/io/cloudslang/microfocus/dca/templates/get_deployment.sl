@@ -241,7 +241,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.9'
+    gav: 'io.cloudslang.content:cs-microfocus-dca:1.1.10'
     class_name: 'io.cloudslang.content.dca.actions.templates.GetDeployment'
     method_name: 'execute'
   
