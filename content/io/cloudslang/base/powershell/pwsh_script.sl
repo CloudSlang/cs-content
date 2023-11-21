@@ -265,7 +265,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'c'
+    gav: 'io.cloudslang.content:cs-powershell:0.0.15'
     class_name: io.cloudslang.content.actions.PwshScriptAction
     method_name: execute
 
