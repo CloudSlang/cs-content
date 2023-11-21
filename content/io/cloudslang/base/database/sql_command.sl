@@ -180,7 +180,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.25'
+    gav: 'io.cloudslang.content:cs-database:0.0.26'
     class_name: io.cloudslang.content.database.actions.SQLCommand
     method_name: execute
 

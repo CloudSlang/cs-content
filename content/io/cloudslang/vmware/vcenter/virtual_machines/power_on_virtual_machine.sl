@@ -82,7 +82,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-vmware:0.0.29'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.30'
     class_name: io.cloudslang.content.vmware.actions.vm.PowerOnVM
     method_name: powerOnVM
 

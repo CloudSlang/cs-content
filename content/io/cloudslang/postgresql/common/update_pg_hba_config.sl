@@ -42,7 +42,7 @@ operation:
     - allowed_users:
         required: false
   java_action:
-    gav: 'io.cloudslang.content:cs-postgres:1.0.4'
+    gav: 'io.cloudslang.content:cs-postgres:1.0.5'
     class_name: io.cloudslang.content.postgres.actions.UpdatePgHbaConfigAction
     method_name: execute
   outputs:

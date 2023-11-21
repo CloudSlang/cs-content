@@ -96,7 +96,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-alibaba:0.0.3'
+    gav: 'io.cloudslang.content:cs-alibaba:0.0.4'
     class_name: 'io.cloudslang.content.alibaba.actions.instances.GetInstanceStatus'
     method_name: 'execute'
   

@@ -93,7 +93,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.88'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.93'
     class_name: io.cloudslang.content.httpclient.HttpClientAction
     method_name: execute
 

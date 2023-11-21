@@ -161,7 +161,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.4'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.5'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.GetInstanceDefaultCredentials'
     method_name: 'execute'
   

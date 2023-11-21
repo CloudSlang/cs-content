@@ -227,7 +227,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-couchbase:0.1.3'
+    gav: 'io.cloudslang.content:cs-couchbase:0.1.4'
     class_name: 'io.cloudslang.content.couchbase.actions.cluster.RebalancingNodes'
     method_name: 'execute'
   

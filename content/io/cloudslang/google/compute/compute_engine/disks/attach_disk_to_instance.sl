@@ -170,7 +170,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-google:0.4.11'
+    gav: 'io.cloudslang.content:cs-google:0.4.12'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.disks.AttachDisk
     method_name: execute
   

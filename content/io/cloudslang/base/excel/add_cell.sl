@@ -115,7 +115,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-excel:0.0.7'
+    gav: 'io.cloudslang.content:cs-excel:0.0.8'
     class_name: 'io.cloudslang.content.excel.actions.AddCell'
     method_name: 'execute'
   
