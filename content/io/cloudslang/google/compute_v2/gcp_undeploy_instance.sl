@@ -247,7 +247,7 @@ flow:
           - instance_json
           - status_code
         navigate:
-          - SUCCESS: compare_power_state
+          - SUCCESS: counter
           - FAILURE: is_status_code
     - set_failure_message_for_authentication:
         worker_group: '${worker_group}'
@@ -277,18 +277,6 @@ flow:
           - return_result: "${\"Unable to delete instance \\\"\"+instance_name+\"\\\".\"}"
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: on_failure
-    - compare_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${status}'
-            - second_string: STOPPING
-            - ignore_case: 'true'
-        publish:
-          - status: STOPPING
-        navigate:
-          - SUCCESS: counter
           - FAILURE: on_failure
     - wait_before_check:
         worker_group: '${worker_group}'
@@ -496,9 +484,6 @@ extensions:
           0eab0170-33cb-3e37-881b-1a419b651d86:
             targetId: f8501923-9451-6871-f819-a386c8a10e05
             port: NO_MORE
-      compare_power_state:
-        x: 720
-        'y': 200
       get_instance:
         x: 200
         'y': 80
