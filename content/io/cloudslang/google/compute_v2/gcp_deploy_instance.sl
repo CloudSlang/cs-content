@@ -384,8 +384,9 @@ flow:
                 sensitive: true
         publish:
           - status_code
+          - disk_json: '${return_result}'
         navigate:
-          - SUCCESS: attach_disk
+          - SUCCESS: json_path_query
           - FAILURE: delete_disk
     - attach_disk:
         worker_group:
@@ -554,6 +555,87 @@ flow:
         navigate:
           - SUCCESS: random_number_generator_for_vm_disk_name
           - FAILURE: on_failure
+    - get_disk:
+        do:
+          io.cloudslang.google.compute_v2.disks.get_disk:
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - zone: '${zone}'
+            - resource_id: '${disk_resource_id}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - disk_json
+        navigate:
+          - SUCCESS: json_path_query_1
+          - FAILURE: on_failure
+    - json_path_query:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${disk_json}'
+            - json_path: targetLink
+        publish:
+          - disk_resource_id: '${return_result}'
+        navigate:
+          - SUCCESS: get_disk
+          - FAILURE: on_failure
+    - json_path_query_1:
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${disk_json}'
+            - json_path: status
+        publish:
+          - disk_status: '${return_result}'
+        navigate:
+          - SUCCESS: compare_power_state_1
+          - FAILURE: on_failure
+    - compare_power_state_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${disk_status}'
+            - second_string: READY
+            - ignore_case: 'true'
+        publish: []
+        navigate:
+          - SUCCESS: attach_disk
+          - FAILURE: counter_1
+    - counter_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep_1
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - sleep_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '${polling_interval}'
+        navigate:
+          - SUCCESS: get_disk
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -591,9 +673,18 @@ extensions:
       insert_disk:
         x: 960
         'y': 280
+      json_path_query:
+        x: 1000
+        'y': 200
+      get_disk:
+        x: 1080
+        'y': 320
       get_image_type:
         x: 1640
         'y': 280
+      sleep_1:
+        x: 1605.7777099609375
+        'y': 429.5555419921875
       append_vm_disk_name:
         x: 800
         'y': 480
@@ -618,9 +709,19 @@ extensions:
       default_disk_type_url:
         x: 360
         'y': 80
+      counter_1:
+        x: 1400
+        'y': 360
+        navigate:
+          d5596f52-6a7b-0f04-0bb2-dafa3cc01111:
+            targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
+            port: NO_MORE
       form_additional_disk_type_url:
         x: 800
         'y': 120
+      compare_power_state_1:
+        x: 1320
+        'y': 440
       is_disk_type_is_empty:
         x: 360
         'y': 280
@@ -656,12 +757,15 @@ extensions:
       get_image_type_list:
         x: 1640
         'y': 80
+      json_path_query_1:
+        x: 1200
+        'y': 440
       sleep:
         x: 1320
         'y': 280
       attach_disk:
-        x: 1160
-        'y': 280
+        x: 1240
+        'y': 320
       get_disk_device_names:
         x: 1800
         'y': 280
