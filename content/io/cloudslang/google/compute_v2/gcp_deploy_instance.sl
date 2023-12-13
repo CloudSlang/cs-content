@@ -565,7 +565,7 @@ flow:
                 value: '${project_id}'
                 sensitive: true
             - zone: '${zone}'
-            - resource_id: '${disk_resource_id}'
+            - resource_id: '${additional_disk_name}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
