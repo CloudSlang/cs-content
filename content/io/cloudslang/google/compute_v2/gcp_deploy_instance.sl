@@ -384,7 +384,7 @@ flow:
                 sensitive: true
         publish:
           - status_code
-          - disk_json: '${return_result}'
+          - disk_json
         navigate:
           - SUCCESS: json_path_query
           - FAILURE: delete_disk
