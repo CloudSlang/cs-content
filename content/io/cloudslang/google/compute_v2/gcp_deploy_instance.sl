@@ -386,7 +386,7 @@ flow:
           - status_code
           - disk_json
         navigate:
-          - SUCCESS: json_path_query
+          - SUCCESS: get_disk
           - FAILURE: delete_disk
     - attach_disk:
         worker_group:
@@ -419,7 +419,7 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: get_instance
-          - FAILURE: delete_disk
+          - FAILURE: delete_disk_for_attach_disk
     - delete_disk:
         worker_group:
           value: '${worker_group}'
@@ -583,19 +583,9 @@ flow:
           - return_result
           - disk_json
         navigate:
-          - SUCCESS: json_path_query_1
+          - SUCCESS: disk_status
           - FAILURE: on_failure
-    - json_path_query:
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${disk_json}'
-            - json_path: targetLink
-        publish:
-          - disk_resource_id: '${return_result}'
-        navigate:
-          - SUCCESS: get_disk
-          - FAILURE: on_failure
-    - json_path_query_1:
+    - disk_status:
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${disk_json}'
@@ -603,9 +593,9 @@ flow:
         publish:
           - disk_status: "${return_result.replace(\"\\\"\",\"\")}"
         navigate:
-          - SUCCESS: compare_power_state_1
+          - SUCCESS: check_disk_status
           - FAILURE: on_failure
-    - compare_power_state_1:
+    - check_disk_status:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
@@ -615,8 +605,8 @@ flow:
         publish: []
         navigate:
           - SUCCESS: attach_disk
-          - FAILURE: counter_1
-    - counter_1:
+          - FAILURE: counter_for_disk_status
+    - counter_for_disk_status:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.counter:
@@ -625,16 +615,33 @@ flow:
             - increment_by: '1'
             - reset: 'false'
         navigate:
-          - HAS_MORE: sleep_1
-          - NO_MORE: FAILURE
+          - HAS_MORE: sleep_for_disk_status
+          - NO_MORE: delete_disk
           - FAILURE: on_failure
-    - sleep_1:
+    - sleep_for_disk_status:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '${polling_interval}'
         navigate:
           - SUCCESS: get_disk
+          - FAILURE: on_failure
+    - delete_disk_for_attach_disk:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.google.compute_v2.disks.delete_disk:
+            - project_id:
+                value: '${project_id}'
+                sensitive: true
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - zone: '${zone}'
+            - disk_name: '${additional_disk_name}'
+        navigate:
+          - SUCCESS: FAILURE
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -672,19 +679,13 @@ extensions:
         'y': 280
       insert_disk:
         x: 960
-        'y': 280
-      json_path_query:
-        x: 1000
-        'y': 200
+        'y': 480
       get_disk:
-        x: 1080
-        'y': 320
+        x: 1120
+        'y': 480
       get_image_type:
         x: 1640
         'y': 280
-      sleep_1:
-        x: 1605.7777099609375
-        'y': 429.5555419921875
       append_vm_disk_name:
         x: 800
         'y': 480
@@ -709,19 +710,9 @@ extensions:
       default_disk_type_url:
         x: 360
         'y': 80
-      counter_1:
-        x: 1400
-        'y': 360
-        navigate:
-          d5596f52-6a7b-0f04-0bb2-dafa3cc01111:
-            targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
-            port: NO_MORE
       form_additional_disk_type_url:
         x: 800
         'y': 120
-      compare_power_state_1:
-        x: 1320
-        'y': 440
       is_disk_type_is_empty:
         x: 360
         'y': 280
@@ -743,7 +734,7 @@ extensions:
         'y': 480
       delete_disk:
         x: 960
-        'y': 480
+        'y': 600
         navigate:
           a4f90d1f-2309-1f46-f9f7-08a260c1614b:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
@@ -751,21 +742,31 @@ extensions:
       default_additional_disk_type_url:
         x: 640
         'y': 480
+      delete_disk_for_attach_disk:
+        x: 960
+        'y': 320
+        navigate:
+          03f5f3d4-b67c-51fe-9c31-1fb745aa6ddf:
+            targetId: e2aa7df7-b2a8-01a7-6952-5b752deb0e42
+            port: SUCCESS
+      disk_status:
+        x: 1120
+        'y': 360
       append_vm_prefix:
         x: 200
         'y': 280
+      sleep_for_disk_status:
+        x: 1240
+        'y': 480
       get_image_type_list:
         x: 1640
         'y': 80
-      json_path_query_1:
-        x: 1200
-        'y': 440
       sleep:
         x: 1320
-        'y': 280
+        'y': 160
       attach_disk:
-        x: 1240
-        'y': 320
+        x: 1120
+        'y': 200
       get_disk_device_names:
         x: 1800
         'y': 280
@@ -783,6 +784,9 @@ extensions:
                 'y': 240
             targetId: append_vm_prefix
             port: SUCCESS
+      counter_for_disk_status:
+        x: 1400
+        'y': 520
       insert_instance:
         x: 520
         'y': 280
@@ -796,6 +800,9 @@ extensions:
           36d38ce3-c08c-a034-fb91-464be8ba08da:
             targetId: 155c7a8a-b77e-2249-630e-4322fa93b234
             port: NO_MORE
+      check_disk_status:
+        x: 1240
+        'y': 280
       compare_power_state:
         x: 1480
         'y': 80
@@ -810,4 +817,7 @@ extensions:
       FAILURE:
         155c7a8a-b77e-2249-630e-4322fa93b234:
           x: 1480
-          'y': 480
+          'y': 600
+        e2aa7df7-b2a8-01a7-6952-5b752deb0e42:
+          x: 960
+          'y': 200
