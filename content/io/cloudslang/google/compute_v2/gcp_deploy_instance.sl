@@ -601,7 +601,7 @@ flow:
             - json_object: '${disk_json}'
             - json_path: status
         publish:
-          - disk_status: '${return_result}'
+          - disk_status: "${return_result.replace(\"\\\"\",\"\")}"
         navigate:
           - SUCCESS: compare_power_state_1
           - FAILURE: on_failure
