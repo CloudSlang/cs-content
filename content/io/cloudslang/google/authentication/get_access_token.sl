@@ -103,7 +103,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.13-RC1'
+    gav: 'io.cloudslang.content:cs-google:0.4.13'
     class_name: io.cloudslang.content.google.actions.authentication.GetAccessToken
     method_name: execute
 
