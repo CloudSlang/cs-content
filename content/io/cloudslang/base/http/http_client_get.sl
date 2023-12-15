@@ -107,10 +107,8 @@ namespace: io.cloudslang.base.http
 
 imports:
   http: io.cloudslang.base.http
-
 flow:
   name: http_client_get
-
   inputs:
     - url
     - auth_type:
@@ -138,20 +136,20 @@ flow:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: 'strict'
+        default: strict
         required: false
     - trust_keystore:
-        default: ${get_sp('io.cloudslang.base.http.trust_keystore')}
+        default: "${get_sp('io.cloudslang.base.http.trust_keystore')}"
         required: false
     - trust_password:
-        default: ${get_sp('io.cloudslang.base.http.trust_password')}
+        default: "${get_sp('io.cloudslang.base.http.trust_password')}"
         required: false
         sensitive: true
     - keystore:
-        default: ${get_sp('io.cloudslang.base.http.keystore')}
+        default: "${get_sp('io.cloudslang.base.http.keystore')}"
         required: false
     - keystore_password:
-        default: ${get_sp('io.cloudslang.base.http.keystore_password')}
+        default: "${get_sp('io.cloudslang.base.http.keystore_password')}"
         required: false
         sensitive: true
     - execution_timeout:
@@ -175,18 +173,20 @@ flow:
         required: false
     - query_params:
         required: false
+    - request_character_set:
+        default: ISO-8859-1
+        required: false
     - content_type:
-        default: 'text/plain'
+        default: text/plain
         required: false
     - method:
-        default: 'GET'
+        default: GET
         private: true
     - worker_group:
         required: false
-
   workflow:
     - http_client_action_get:
-        worker_group: ${get('worker_group', 'RAS_Operator_Path')}
+        worker_group: "${get('worker_group', 'RAS_Operator_Path')}"
         do:
           http.http_client_action:
             - url
@@ -214,6 +214,7 @@ flow:
             - headers
             - query_params
             - content_type
+            - request_character_set: '${request_character_set}'
             - method
         publish:
           - return_result
@@ -221,11 +222,32 @@ flow:
           - return_code
           - status_code
           - response_headers
-
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - return_result
     - error_message
     - return_code
     - status_code
     - response_headers
+  results:
+    - SUCCESS
+    - FAILURE
+extensions:
+  graph:
+    steps:
+      http_client_action_get:
+        x: 100
+        'y': 150
+        navigate:
+          75b52f15-792c-8473-dfbe-aefa2941bc73:
+            targetId: b8289d86-1db5-78dc-5091-01517aab1c67
+            port: SUCCESS
+    results:
+      SUCCESS:
+        b8289d86-1db5-78dc-5091-01517aab1c67:
+          x: 400
+          'y': 150
+
 
