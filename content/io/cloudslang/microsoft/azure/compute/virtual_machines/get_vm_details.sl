@@ -65,23 +65,21 @@ namespace: io.cloudslang.microsoft.azure.compute.virtual_machines
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
-
 flow:
   name: get_vm_details
-
   inputs:
     - subscription_id
     - resource_group_name
     - auth_token
     - api_version:
-        required: false
         default: '2015-06-15'
+        required: false
     - vm_name
     - connect_timeout:
-        default: "0"
+        default: '0'
         required: false
     - socket_timeout:
-        default: "0"
+        default: '0'
         required: false
     - worker_group:
         default: RAS_Operator_Path
@@ -92,73 +90,105 @@ flow:
         required: false
         sensitive: true
     - proxy_port:
-        default: "8080"
+        default: '8080'
         required: false
     - proxy_host:
         required: false
     - trust_all_roots:
-        default: "false"
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: "strict"
+        default: strict
         required: false
     - trust_keystore:
         required: false
     - trust_password:
-        default: ''
+        default: ********
         required: false
         sensitive: true
-
   workflow:
     - get_vm_details:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+        worker_group: '${worker_group}'
         do:
-          http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' +
-                vm_name + '?api-version=' + api_version}
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+          io.cloudslang.base.http.http_client_action:
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Compute/virtualMachines/' +vm_name + '?api-version=' + api_version}"
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
-            - connect_timeout
-            - socket_timeout
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: "${get_sp('io.cloudslang.base.http.keystore')}"
+            - keystore_password:
+                value: "${get_sp('io.cloudslang.base.http.keystore_password')}"
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: 'false'
+            - connections_max_per_route: '2'
+            - connections_max_total: '20'
+            - headers: "${'Authorization: ' + auth_token}"
+            - content_type: application/json
+            - request_character_set: UTF-8
+            - method: GET
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      get_vm_details:
+        x: 80
+        'y': 200
+        navigate:
+          07680823-f278-5b3d-2416-2afb3adf1740:
+            targetId: 7590fb35-28e7-0169-5c6e-59a5e5023601
+            port: SUCCESS
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          547e21e4-88f6-8179-0b66-fcdf87a9b6cb:
+            targetId: 066c1904-c6e8-6fda-bdfc-24a65483eba5
+            port: SUCCESS
+          5d3bdcaf-0e63-7f31-0b75-b5f92d2590a8:
+            targetId: 066c1904-c6e8-6fda-bdfc-24a65483eba5
+            port: FAILURE
+    results:
+      SUCCESS:
+        7590fb35-28e7-0169-5c6e-59a5e5023601:
+          x: 400
+          'y': 125
+      FAILURE:
+        066c1904-c6e8-6fda-bdfc-24a65483eba5:
+          x: 700
+          'y': 250
