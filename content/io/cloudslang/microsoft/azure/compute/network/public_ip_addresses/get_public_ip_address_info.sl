@@ -121,55 +121,88 @@ flow:
 
   workflow:
     - get_public_ip_address_info:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+        worker_group: '${worker_group}'
         do:
-          http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name +
-                '?api-version=' + api_version}
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+          io.cloudslang.base.http.http_client_action:
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Network/publicIPAddresses/' + public_ip_address_name +'?api-version=' + api_version}"
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
-            - connect_timeout
-            - socket_timeout
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: "${get_sp('io.cloudslang.base.http.keystore')}"
+            - keystore_password:
+                value: "${get_sp('io.cloudslang.base.http.keystore_password')}"
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: 'false'
+            - connections_max_per_route: '2'
+            - connections_max_total: '20'
+            - headers: "${'Authorization: ' + auth_token}"
+            - content_type: application/json
+            - request_character_set: UTF-8
+            - method: GET
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-
   results:
     - SUCCESS
     - FAILURE
+extensions:
+  graph:
+    steps:
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          40a3a966-a2d3-7114-0862-9add0d06d760:
+            targetId: 7dc464f3-f9dc-b6b8-8569-d725059d7b6d
+            port: SUCCESS
+          2dcfc37f-9a2e-6105-e05c-352724a9f348:
+            targetId: 7dc464f3-f9dc-b6b8-8569-d725059d7b6d
+            port: FAILURE
+      get_public_ip_address_info:
+        x: 80
+        'y': 240
+        navigate:
+          99ba5427-7e36-bc46-6720-87ae4ce1d8a1:
+            targetId: 3dd45d46-5f6a-fb85-8ed3-485e08d467d8
+            port: SUCCESS
+    results:
+      SUCCESS:
+        3dd45d46-5f6a-fb85-8ed3-485e08d467d8:
+          x: 400
+          'y': 125
+      FAILURE:
+        7dc464f3-f9dc-b6b8-8569-d725059d7b6d:
+          x: 700
+          'y': 250
 

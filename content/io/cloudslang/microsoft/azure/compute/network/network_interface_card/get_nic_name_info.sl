@@ -120,57 +120,90 @@ flow:
         required: false
         sensitive: true
 
-  workflow: 
+  workflow:
     - get_nic_info:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+        worker_group: '${worker_group}'
         do:
-          http.http_client_get:
-            - url: >
-                ${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +
-                resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name +
-                '?api-version=' + api_version}
-            - headers: "${'Authorization: ' + auth_token}"
-            - auth_type: 'anonymous'
+          io.cloudslang.base.http.http_client_action:
+            - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Network/networkInterfaces/' + nic_name +'?api-version=' + api_version}"
+            - auth_type: anonymous
             - preemptive_auth: 'true'
-            - content_type: 'application/json'
-            - request_character_set: 'UTF-8'
-            - connect_timeout
-            - socket_timeout
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: "${get_sp('io.cloudslang.base.http.keystore')}"
+            - keystore_password:
+                value: "${get_sp('io.cloudslang.base.http.keystore_password')}"
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: 'false'
+            - connections_max_per_route: '2'
+            - connections_max_total: '20'
+            - headers: "${'Authorization: ' + auth_token}"
+            - content_type: application/json
+            - request_character_set: UTF-8
+            - method: GET
         publish:
-          - output: ${return_result}
+          - output: '${return_result}'
           - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
-
     - retrieve_error:
         worker_group: '${worker_group}'
         do:
           json.get_value:
-            - json_input: ${output}
+            - json_input: '${output}'
             - json_path: 'error,message'
         publish:
-          - error_message: ${return_result}
+          - error_message: '${return_result}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: FAILURE
-
   outputs:
     - output
     - status_code
     - error_message
-  
-  results: 
-      - SUCCESS
-      - FAILURE
+  results:
+    - SUCCESS
+    - FAILURE
+extensions:
+  graph:
+    steps:
+      retrieve_error:
+        x: 400
+        'y': 375
+        navigate:
+          642c279e-a958-2ff7-661b-f83267674976:
+            targetId: af4569cf-6aee-8c4f-1029-43fea8ff8ae8
+            port: SUCCESS
+          82ebcb32-d70e-d453-439a-3f8077989aa4:
+            targetId: af4569cf-6aee-8c4f-1029-43fea8ff8ae8
+            port: FAILURE
+      get_nic_info:
+        x: 80
+        'y': 240
+        navigate:
+          6aa28d25-8d2d-98e0-e670-a044337fd2e7:
+            targetId: eeed5cca-ded3-0ca3-00f5-765198b512a9
+            port: SUCCESS
+    results:
+      SUCCESS:
+        eeed5cca-ded3-0ca3-00f5-765198b512a9:
+          x: 400
+          'y': 125
+      FAILURE:
+        af4569cf-6aee-8c4f-1029-43fea8ff8ae8:
+          x: 700
+          'y': 250
 
