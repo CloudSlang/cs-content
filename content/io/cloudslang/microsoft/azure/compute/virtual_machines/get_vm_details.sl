@@ -139,6 +139,9 @@ flow:
             - content_type: application/json
             - request_character_set: UTF-8
             - method: GET
+        publish:
+          - output: '${return_result}'
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: retrieve_error
@@ -163,6 +166,13 @@ flow:
 extensions:
   graph:
     steps:
+      get_vm_details:
+        x: 80
+        'y': 200
+        navigate:
+          07680823-f278-5b3d-2416-2afb3adf1740:
+            targetId: 7590fb35-28e7-0169-5c6e-59a5e5023601
+            port: SUCCESS
       retrieve_error:
         x: 400
         'y': 375
@@ -173,13 +183,6 @@ extensions:
           5d3bdcaf-0e63-7f31-0b75-b5f92d2590a8:
             targetId: 066c1904-c6e8-6fda-bdfc-24a65483eba5
             port: FAILURE
-      get_vm_details:
-        x: 80
-        'y': 200
-        navigate:
-          07680823-f278-5b3d-2416-2afb3adf1740:
-            targetId: 7590fb35-28e7-0169-5c6e-59a5e5023601
-            port: SUCCESS
     results:
       SUCCESS:
         7590fb35-28e7-0169-5c6e-59a5e5023601:
