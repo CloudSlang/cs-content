@@ -546,6 +546,19 @@ operation:
          default: ${get("secondary_private_ip_address_count", "")}
          required: false
          private: true
+   -  tag_key_list:
+           required: false
+   -  tagKeyList:
+         default: ${get("tag_key_list", "")}
+         required: false
+         private: true
+   -  tag_value_list:
+           required: false
+   -  tagValueList:
+         default: ${get("tag_value_list", "")}
+         required: false
+         private: true
+
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT'
