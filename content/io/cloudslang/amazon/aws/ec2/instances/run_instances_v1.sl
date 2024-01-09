@@ -567,7 +567,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-300'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-302'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
