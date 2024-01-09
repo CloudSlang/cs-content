@@ -128,7 +128,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.54-SNAPSHOT-2'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-300'
     class_name: io.cloudslang.content.amazon.actions.images.AddLaunchPermissionsToImageAction
     method_name: execute
 
