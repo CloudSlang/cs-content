@@ -17,6 +17,7 @@
 #!               If you want these resources to be deleted when the instance is terminated, set the delete_on_terminations_string .
 #!               After the instance is created and running,tags can be  added to the instance and resources which are attached
 #!               to it.In case there is something wrong during the execution of run instance, the resources created will be deleted.
+#!
 #! @input provider_sap: The AWS endpoint as described here: https://docs.aws.amazon.com/general/latest/gr/rande.html
 #!                      Default: 'https://ec2.amazonaws.com'
 #! @input access_key_id: The ID of the secret access key associated with your Amazon AWS account.
@@ -58,8 +59,8 @@
 #!                          Valid Values: "gp2", "gp3" "io1", "io2", "st1", "sc1", or "standard".
 #!                          Optional
 #! @input volume_size_list: Volume size in GB ,The volume_size_list separated by comma(,)The length of the items volume_size_list  must be equal with the length of the items .
-#!                          Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 forMagnetic ("standard") volumes. 
-#!                          If you specify a snapshot, the volume size must be equal to orlarger than the snapshot size. If you are creating the volume from a snapshot and don't specifya volume size, the default is the snapshot size. 
+#!                          Constraints: 1-16384 for General Purpose SSD ("gp2"), 4-16384 for Provisioned IOPS SSD ("io1"),500-16384 for Throughput Optimized HDD ("st1"), 500-16384 for Cold HDD ("sc1"), and 1-1024 forMagnetic ("standard") volumes.
+#!                          If you specify a snapshot, the volume size must be equal to orlarger than the snapshot size. If you are creating the volume from a snapshot and don't specifya volume size, the default is the snapshot size.
 #!                          Optional
 #! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
 #!                      Optional
@@ -105,7 +106,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.amazon.aws.ec2
+namespace: io.aws
 imports:
   xml: io.cloudslang.base.xml
   strings: io.cloudslang.base.strings
@@ -382,6 +383,8 @@ flow:
             - key_pair_name
             - security_group_ids_string: '${security_group_id_list}'
             - user_data
+            - tag_key_list: '${key_tag_list}'
+            - tag_value_list: '${value_tag_list}'
         publish:
           - return_result
           - return_code
@@ -1037,3 +1040,4 @@ extensions:
         f31809d7-ee75-1d88-2683-192373df394e:
           x: 400
           'y': 640
+
