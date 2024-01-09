@@ -111,7 +111,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.54-SNAPSHOT-2'
     class_name: io.cloudslang.content.amazon.actions.instances.RebootInstancesAction
     method_name: execute
 
