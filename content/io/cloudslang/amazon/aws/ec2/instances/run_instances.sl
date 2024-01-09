@@ -570,6 +570,8 @@ operation:
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
     - instance_id_result: ${get("instanceIdResult", "")}
+    - query_param: ${get("queryParam","")}
+    - final_location: ${get("finalLocation","")}
 
   results:
     - SUCCESS: ${returnCode == "0"}
