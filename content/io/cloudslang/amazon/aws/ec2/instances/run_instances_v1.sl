@@ -286,7 +286,7 @@
 namespace: io.cloudslang.amazon.aws.ec2.instances
 
 operation:
-  name: run_instances
+  name: run_instances_v1
 
   inputs:
    -  endpoint:
