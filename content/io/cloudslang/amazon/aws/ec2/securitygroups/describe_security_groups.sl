@@ -173,7 +173,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-302'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.54-SNAPSHOT-4'
     class_name: io.cloudslang.content.amazon.actions.securitygroups.DescribeSecurityGroupsAction
     method_name: execute
 

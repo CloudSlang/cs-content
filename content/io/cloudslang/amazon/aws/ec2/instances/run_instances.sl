@@ -41,8 +41,8 @@
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
 #! @input version: Optional - version of the web service to make the call against it.
-#!                 Example: "2016-04-01"
-#!                 Default: "2016-04-01"
+#!                 Example: "2016-11-15"
+#!                 Default: "2016-11-15"
 #! @input delimiter: Optional - delimiter that will be used.
 #!                   Default: ","
 #! @input availability_zone: Optional - Specifies the placement constraints for launching instance. Amazon automatically
@@ -326,7 +326,7 @@ operation:
          required: false
          private: true
    -  version:
-         default: "2016-04-01"
+         default: "2016-11-15"
          required: false
    -  delimiter:
          default: ","
@@ -561,7 +561,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.53-SNAPSHOT-302'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.54-SNAPSHOT-4'
     class_name: io.cloudslang.content.amazon.actions.instances.RunInstancesAction
     method_name: execute
 
@@ -570,8 +570,6 @@ operation:
     - return_code: ${returnCode}
     - exception: ${get("exception", "")}
     - instance_id_result: ${get("instanceIdResult", "")}
-    - query_param: ${get("queryParam","")}
-    - final_location: ${get("finalLocation","")}
 
   results:
     - SUCCESS: ${returnCode == "0"}
