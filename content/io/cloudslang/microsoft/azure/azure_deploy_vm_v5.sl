@@ -1110,7 +1110,7 @@ flow:
           - FAILURE: on_failure
     - form_tags_json:
         do:
-          io.cloudslang.ortags.subflows.form_tags_json:
+          io.cloudslang.microsoft.azure.utils.form_tags_json:
             - tag_key_list: '${tag_name_list}'
             - tag_value_list: '${tag_value_list}'
             - organizational_key_list: 'business_unit,product_id,product_name,environment'
