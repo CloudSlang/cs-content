@@ -55,7 +55,13 @@
 #! @input image: This is a custom property that contains the operating system and application configuration name that
 #!               is used to create the virtual machine. You can enter either public image or private image name.
 #! @input enable_public_ip: Create public ip for the VM if the value is true.
-#! @input api_version: The API version used to create calls to Azure.Default: '2021-04-01'
+#! @input api_version: The API version used to create calls to Azure.
+#!                     Default: '2021-04-01'
+#! @input business_unit: Business unit name.
+#! @input product_id: Id of the product.
+#! @input product_name: Name of the product.
+#! @input environment: Type of environment.
+#!                     Example: production, development, stagging, testing
 #! @input dns_name: Specifies the domain name of the VM.
 #!                  Optional
 #! @input os_platform: Name of the operating system that will be installed
@@ -134,6 +140,7 @@
 #! @output public_ip_address_name: Public IP Address name of the VM
 #! @output vm_id: Unique id of the VM.
 #! @output vm_resource_id: Resource Id of the VM.
+#! @output tags_json: List of tags in json format.
 #! @output return_result: It will contain the return result either success or failure
 #!
 #! @result SUCCESS: The flow completed successfully.
