@@ -1116,6 +1116,7 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
     - form_tags_json:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.utils.form_tags_json:
             - tag_key_list: '${tag_name_list}'
