@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2024 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -243,7 +243,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:0.0.60'
+    gav: 'io.cloudslang.content:cs-mail:0.0.61'
     class_name: io.cloudslang.content.mail.actions.SendMailAction
     method_name: execute
 

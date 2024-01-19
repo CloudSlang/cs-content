@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2024 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -35,7 +35,7 @@ operation:
     - source
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.5'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.6'
     class_name: io.cloudslang.content.filesystem.actions.IsDirectoryAction
     method_name: execute
 
