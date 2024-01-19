@@ -57,7 +57,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.9'
+    gav: 'io.cloudslang.content:cs-date-time:0.0.11'
     class_name: io.cloudslang.content.datetime.actions.GetCurrentDateTime
     method_name: execute
 

@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2024 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -194,7 +194,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.6'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.7'
     class_name: 'io.cloudslang.content.active_directory.actions.groups.DeleteGroupAction'
     method_name: 'execute'
   

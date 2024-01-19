@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2024 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -55,7 +55,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-utilities:0.1.25'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.26'
     class_name: 'io.cloudslang.content.utilities.actions.DefaultIfEmpty'
     method_name: 'execute'
   
