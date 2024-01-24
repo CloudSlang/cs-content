@@ -569,6 +569,9 @@ flow:
           - SUCCESS: random_number_generator_for_vm_disk_name
           - FAILURE: on_failure
     - get_disk:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.google.compute_v2.disks.get_disk:
             - access_token:
@@ -599,6 +602,7 @@ flow:
           - SUCCESS: disk_status
           - FAILURE: on_failure
     - disk_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${disk_json}'
@@ -657,6 +661,7 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
     - list_to_json_for_labels:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.google.compute_v2.utils.list_to_json_for_labels:
             - label_keys: '${label_keys}'
@@ -670,6 +675,7 @@ flow:
         navigate:
           - SUCCESS: insert_instance
     - list_to_json_for_labels_to_disk:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.google.compute_v2.utils.list_to_json_for_labels:
             - label_keys: '${label_keys}'
