@@ -976,7 +976,7 @@ flow:
         publish:
           - power_state
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: do_nothing
           - FAILURE: on_failure
     - string_occurrence_counter_for_image:
         worker_group: '${worker_group}'
@@ -1116,7 +1116,6 @@ flow:
           - SUCCESS: set_public_ip_address
           - FAILURE: on_failure
     - form_tags_json:
-        worker_group: '${worker_group}'
         do:
           io.cloudslang.microsoft.azure.utils.form_tags_json:
             - tag_key_list: '${tag_name_list}'
@@ -1129,6 +1128,15 @@ flow:
           - value_list
         navigate:
           - SUCCESS: get_auth_token_using_web_api
+    - do_nothing:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tags_json: null
+        publish:
+          - tags_json
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - vm_final_name
     - disk_name
@@ -1217,10 +1225,6 @@ extensions:
       get_power_state:
         x: 4989
         'y': 421
-        navigate:
-          d94e7007-27f0-efd5-326e-39456a688257:
-            targetId: 82c1913f-cdac-2e76-7f3e-2101ef8159b2
-            port: SUCCESS
       compare_power_state_1:
         x: 3120
         'y': 280
@@ -1293,6 +1297,13 @@ extensions:
       set_os_type:
         x: 3471
         'y': 72
+      do_nothing:
+        x: 5080
+        'y': 640
+        navigate:
+          82b6bb11-62fa-a0ed-82e1-6bba5af544e6:
+            targetId: 82c1913f-cdac-2e76-7f3e-2101ef8159b2
+            port: SUCCESS
       random_number_generator:
         x: 680
         'y': 520
