@@ -1131,7 +1131,7 @@ flow:
     - do_nothing:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - tags_json: null
+            - tags_json: '{}'
         publish:
           - tags_json
         navigate:
