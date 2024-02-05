@@ -1,4 +1,4 @@
-#   (c) Copyright 2023 Micro Focus, L.P.
+#   (c) Copyright 2024 Micro Focus, L.P.
 #   All rights reserved. This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -31,6 +31,10 @@
 #!                  Example: eastasia, westus, westeurope, japanwest.
 #! @input db_server_password: Password value for the DB Server username.
 #! @input db_server_username: Username for the newly created SQL DB Server.
+#! @input product_id: The product Id.
+#! @input product_name: The product name.
+#! @input business_unit: The business unit.
+#! @input environment: The environment type.
 #! @input db_service_level: Optional - This property specifies the requested service level of the database.
 #!                          Accepted values: 'Basic','S0','S1','S2','S3','P1','P2','P4','P6','P11' or 'ElasticPool'.
 #!                          Default: 'S0'.
@@ -78,6 +82,7 @@
 #! @output database_resource_id: The resource id of the database.
 #! @output database_id: The unique identifier associated with the database.
 #! @output db_server_resource_id: The unique identifier associated with the database server.
+#! @output tags_json: The JSON containing both organizational tags and the custom tags.
 #!
 #! @result FAILURE: There was an error while trying to create the database.
 #! @result SUCCESS: Database created successfully.
@@ -86,7 +91,7 @@
 
 namespace: io.cloudslang.microsoft.azure
 flow:
-  name: azure_create_database_v1
+  name: azure_create_database_v2
   inputs:
     - provider_sap: 'https://management.azure.com'
     - subscription_id
@@ -101,6 +106,10 @@ flow:
     - db_server_password:
         sensitive: true
     - db_server_username
+    - product_id
+    - product_name
+    - business_unit
+    - environment
     - db_service_level:
         default: S0
         required: false
@@ -150,7 +159,7 @@ flow:
         publish:
           - return_result: '${error_message}'
         navigate:
-          - SUCCESS: get_auth_token_using_web_api
+          - SUCCESS: form_tags_json
           - FAILURE: on_failure
     - get_auth_token_using_web_api:
         worker_group: '${worker_group}'
@@ -181,39 +190,6 @@ flow:
         navigate:
           - SUCCESS: random_number_generator
           - FAILURE: on_failure
-    - create_sql_database_server:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.databases.create_sql_database_server:
-            - subscription_id: '${subscription_id}'
-            - auth_token: '${auth_token}'
-            - location: '${location}'
-            - db_server_name: '${db_server_name}'
-            - resource_group_name: '${resource_group_name}'
-            - db_server_password: '${db_server_password}'
-            - db_server_username: '${db_server_username}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - worker_group: '${worker_group}'
-        publish:
-          - db_server_name: '${output}'
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: check_tags_applicable_to_db_server
     - random_number_generator:
         worker_group: '${worker_group}'
         do:
@@ -328,7 +304,7 @@ flow:
             - second_string: Online
             - ignore_case: 'true'
         navigate:
-          - SUCCESS: check_tags_applicable_to_db
+          - SUCCESS: get_database_resource_id
           - FAILURE: on_failure
     - sleep:
         worker_group: '${worker_group}'
@@ -346,44 +322,6 @@ flow:
         navigate:
           - SUCCESS: get_sql_database_info
           - FAILURE: on_failure
-    - create_sql_database:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.databases.create_sql_database:
-            - subscription_id: '${subscription_id}'
-            - auth_token: '${auth_token}'
-            - location: '${location}'
-            - db_server_name: '${database_server_name}'
-            - database_name: '${db_name}'
-            - resource_group_name: '${resource_group_name}'
-            - db_server_password: '${db_server_password}'
-            - db_server_username: '${db_server_username}'
-            - db_service_level: '${db_service_level}'
-            - database_edition: '${database_edition}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - connect_timeout: '${connect_timeout}'
-            - socket_timeout: '${socket_timeout}'
-            - worker_group: '${worker_group}'
-        publish:
-          - database_status_code: '${status_code}'
-          - error_message
-          - status_code
-        navigate:
-          - FAILURE: delete_sql_database_server
-          - SUCCESS: sleep_for_to_get_the_status_of_database
     - get_database_resource_id:
         worker_group: '${worker_group}'
         do:
@@ -445,64 +383,6 @@ flow:
         navigate:
           - FAILURE: FAILURE
           - SUCCESS: FAILURE
-    - check_tags_applicable_to_db_server:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.utils.check_if_null_else_add_tags:
-            - auth_token:
-                value: '${auth_token}'
-                sensitive: true
-            - api_version: '${api_version}'
-            - json_input_to_extract_res_id: '${db_server_name}'
-            - tag_name_list: '${tag_name_list}'
-            - tag_value_list: '${tag_value_list}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        navigate:
-          - SUCCESS: get_db_server_resource_id
-          - FAILURE: on_failure
-    - check_tags_applicable_to_db:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.microsoft.azure.utils.check_if_null_else_add_tags:
-            - auth_token:
-                value: '${auth_token}'
-                sensitive: true
-            - api_version: '${api_version}'
-            - json_input_to_extract_res_id: '${db_sql_name_json}'
-            - tag_name_list: '${tag_name_list}'
-            - tag_value_list: '${tag_value_list}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        navigate:
-          - SUCCESS: get_database_resource_id
-          - FAILURE: on_failure
     - get_db_server_resource_id:
         worker_group: '${worker_group}'
         do:
@@ -514,6 +394,94 @@ flow:
         navigate:
           - SUCCESS: get_db_server_name
           - FAILURE: on_failure
+    - form_tags_json:
+        do:
+          io.cloudslang.microsoft.azure.utils.form_tags_json:
+            - tag_key_list: '${tag_name_list}'
+            - tag_value_list: '${tag_value_list}'
+            - organizational_key_list: 'business_unit,product_id,product_name,environment'
+            - organizational_value_list: "${business_unit+','+product_id+','+product_name+','+environment}"
+        publish:
+          - tags_json
+        navigate:
+          - SUCCESS: get_auth_token_using_web_api
+    - create_sql_database:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.databases.create_sql_database_v1:
+            - subscription_id: '${subscription_id}'
+            - auth_token: '${auth_token}'
+            - location: '${location}'
+            - db_server_name: '${database_server_name}'
+            - database_name: '${database_name}'
+            - resource_group_name: '${resource_group_name}'
+            - db_server_password:
+                value: '${db_server_password}'
+                sensitive: true
+            - db_server_username: '${db_server_username}'
+            - db_service_level: '${db_service_level}'
+            - database_edition: '${database_edition}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - worker_group: '${worker_group}'
+            - tags_json: '${tags_json}'
+        publish:
+          - database_status_code: '${output}'
+          - status_code
+          - error_message
+        navigate:
+          - FAILURE: delete_sql_database_server
+          - SUCCESS: sleep_for_to_get_the_status_of_database
+    - create_sql_database_server:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.databases.create_sql_database_server_v1:
+            - subscription_id: '${subscription_id}'
+            - auth_token: '${auth_token}'
+            - location: '${location}'
+            - db_server_name: '${db_server_name}'
+            - resource_group_name: '${resource_group_name}'
+            - db_server_password:
+                value: '${db_server_password}'
+                sensitive: true
+            - db_server_username: '${db_server_username}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - worker_group: '${worker_group}'
+            - tags_json: '${tags_json}'
+        publish:
+          - db_server_name: '${output}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_db_server_resource_id
   outputs:
     - output
     - status_code
@@ -523,6 +491,7 @@ flow:
     - database_resource_id
     - database_id
     - db_server_resource_id
+    - tags_json
   results:
     - FAILURE
     - SUCCESS
@@ -531,7 +500,7 @@ extensions:
     steps:
       get_auth_token_using_web_api:
         x: 80
-        'y': 320
+        'y': 520
       delete_sql_database_server:
         x: 720
         'y': 320
@@ -544,7 +513,7 @@ extensions:
             port: SUCCESS
       set_db_server_name:
         x: 240
-        'y': 320
+        'y': 120
       get_db_server_resource_id:
         x: 560
         'y': 480
@@ -566,12 +535,6 @@ extensions:
       get_database_resource_id:
         x: 1160
         'y': 520
-      check_tags_applicable_to_db:
-        x: 1000
-        'y': 520
-      check_tags_applicable_to_db_server:
-        x: 400
-        'y': 320
       set_database_name:
         x: 720
         'y': 120
@@ -581,6 +544,9 @@ extensions:
       sleep_for_to_get_the_status_of_database:
         x: 1040
         'y': 120
+      form_tags_json:
+        x: 80
+        'y': 320
       get_database_id:
         x: 1320
         'y': 520
@@ -599,7 +565,7 @@ extensions:
         'y': 120
       random_number_generator:
         x: 240
-        'y': 120
+        'y': 520
       counter:
         x: 1200
         'y': 320

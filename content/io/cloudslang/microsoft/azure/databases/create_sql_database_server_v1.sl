@@ -64,7 +64,7 @@
 namespace: io.cloudslang.microsoft.azure.databases
 
 flow:
-  name: create_sql_database_server
+  name: create_sql_database_server_v1
   inputs:
     - subscription_id
     - auth_token
@@ -107,6 +107,8 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
+    - tags_json:
+        required: false
   workflow:
     - create_sql_database_server:
         worker_group:
@@ -131,7 +133,7 @@ flow:
             - connect_timeout: '${connect_timeout}'
             - socket_timeout: '${socket_timeout}'
             - headers: "${'Authorization: ' + auth_token}"
-            - body: "${'{\"location\":\"' + location + '\",\"properties\":{\"version\":\"12.0\",\"administratorLogin\":\"' + db_server_username + '\",\"administratorLoginPassword\":\"' + db_server_password + '\"}}'}"
+            - body: "${'{\"location\":\"' + location + '\",\"tags\":'+tags_json+',\"properties\":{\"version\":\"12.0\",\"administratorLogin\":\"' + db_server_username + '\",\"administratorLoginPassword\":\"' + db_server_password + '\"}}'}"
             - content_type: application/json
             - request_character_set: UTF-8
             - worker_group: '${worker_group}'
