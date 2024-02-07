@@ -98,26 +98,38 @@ flow:
         sensitive: true
 
   workflow:
-    - get_information_about_availability_set:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - get_av_details:
+        worker_group: '${worker_group}'
         do:
-          http.http_client_get:
+          io.cloudslang.base.http.http_client_action:
             - url: "${'https://management.azure.com/subscriptions/' + subscription_id + '/resourceGroups/' +resource_group_name + '/providers/Microsoft.Compute/availabilitySets/' + availability_set_name +'?api-version=' + api_version}"
-            - headers: "${'Authorization: ' + auth_token}"
             - auth_type: anonymous
             - preemptive_auth: 'true'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - keystore: "${get_sp('io.cloudslang.base.http.keystore')}"
+            - keystore_password:
+                value: "${get_sp('io.cloudslang.base.http.keystore_password')}"
+                sensitive: true
+            - connect_timeout: '${connect_timeout}'
+            - socket_timeout: '${socket_timeout}'
+            - keep_alive: 'false'
+            - connections_max_per_route: '2'
+            - connections_max_total: '20'
+            - headers: "${'Authorization: ' + auth_token}"
             - content_type: application/json
             - request_character_set: UTF-8
-            - proxy_host
-            - proxy_port
-            - proxy_username
-            - proxy_password
-            - trust_all_roots
-            - x_509_hostname_verifier
-            - trust_keystore
-            - trust_password
+            - method: GET
         publish:
           - output: '${return_result}'
           - status_code
@@ -145,13 +157,6 @@ flow:
 extensions:
   graph:
     steps:
-      get_information_about_availability_set:
-        x: 100
-        'y': 250
-        navigate:
-          cdee64f0-f453-18fc-5a6e-0d0f65dbe30b:
-            targetId: cdb7c897-4524-40ac-9560-874b8940f662
-            port: SUCCESS
       retrieve_error:
         x: 400
         'y': 375
@@ -162,6 +167,13 @@ extensions:
           0284fad2-b9e9-0ac8-e7cb-cd55ff9d88ed:
             targetId: 430d7508-642a-e521-f94c-97b9a596de97
             port: FAILURE
+      get_av_details:
+        x: 149.11111450195312
+        'y': 73.11111450195312
+        navigate:
+          6313e2fc-8a54-28e8-f424-7843a073782c:
+            targetId: cdb7c897-4524-40ac-9560-874b8940f662
+            port: SUCCESS
     results:
       SUCCESS:
         cdb7c897-4524-40ac-9560-874b8940f662:
