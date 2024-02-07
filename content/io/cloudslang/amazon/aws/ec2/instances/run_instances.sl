@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2023 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -41,8 +41,8 @@
 #!                      Examples: "parameterName1=parameterValue1&parameterName2=parameterValue2"
 #!                      Default: ""
 #! @input version: Optional - version of the web service to make the call against it.
-#!                 Example: "2016-04-01"
-#!                 Default: "2016-04-01"
+#!                 Example: "2016-11-15"
+#!                 Default: "2016-11-15"
 #! @input delimiter: Optional - delimiter that will be used.
 #!                   Default: ","
 #! @input availability_zone: Optional - Specifies the placement constraints for launching instance. Amazon automatically
@@ -268,6 +268,10 @@
 #!                                            specify this option and specify more than one private IP address
 #!                                            using the private IP addresses option. Minimum valid number is 2.
 #!                                            Default: ""
+#! @input key_tag_list: The key tag list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
+#!                      Optional
+#! @input value_tag_list: The value_tag_list separated by comma(,)The length of the items KeysList must be equal with the length of the items ValuesList.
+#!                        Optional
 #!
 #! @output return_result: contains the exception in case of failure, success message otherwise
 #! @output instance_id_result: id of the instance in case of success
@@ -326,7 +330,7 @@ operation:
          required: false
          private: true
    -  version:
-         default: "2016-04-01"
+         default: "2016-11-15"
          required: false
    -  delimiter:
          default: ","
@@ -546,6 +550,19 @@ operation:
          default: ${get("secondary_private_ip_address_count", "")}
          required: false
          private: true
+   -  tag_key_list:
+         required: false
+   -  tagKeyList:
+         default: ${get("tag_key_list", "")}
+         required: false
+         private: true
+   -  tag_value_list:
+         required: false
+   -  tagValueList:
+         default: ${get("tag_value_list", "")}
+         required: false
+         private: true
+
 
   java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.55-RC1'
