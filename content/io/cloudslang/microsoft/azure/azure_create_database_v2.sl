@@ -415,7 +415,7 @@ flow:
             - auth_token: '${auth_token}'
             - location: '${location}'
             - db_server_name: '${database_server_name}'
-            - database_name: '${database_name}'
+            - database_name: '${db_name}'
             - resource_group_name: '${resource_group_name}'
             - db_server_password:
                 value: '${db_server_password}'
