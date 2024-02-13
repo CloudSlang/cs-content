@@ -57,7 +57,7 @@
 namespace: io.cloudslang.amazon.aws.rds.databases
 
 operation:
-  name: create_db_instance
+  name: add_tags_to_db_instance
 
   inputs:
     - access_key_id
