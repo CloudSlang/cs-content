@@ -65,13 +65,16 @@
 #!                  Format: a URL or the local path to it.
 #!                  This input is empty if no HTTPS client authentication is used
 #! @input keystore_password: Optional - Password associated with the KeyStore file.
-#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing.
-#!                         Default: '0' (infinite timeout)
-#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite timeout)
+#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is
+#!                           used, there is no limit on the amount of time allowed for the operation to finish executing.
+#!                         Default: '300'
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is
+#!                         used, there is no limit on the amount of time allowed for the connection to be established.
+#!                         Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity.
-#!                        between two consecutive data packets)
-#!                        Default: '0' (infinite timeout)
+#!                        between two consecutive data packets) When 0 value is used, there is no limit on the amount
+#!                        of time allowed for the data to be retrieved.
+#!                        Default: '300'
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not.
 #!                     Default: 'true'
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
@@ -258,19 +261,19 @@ operation:
     - execution_timeout:
         required: false
     - executionTimeout:
-        default: ${get("execution_timeout", "0")}
+        default: ${get("execution_timeout", "300")}
         required: false
         private: true
     - connect_timeout:
         required: false
     - connectTimeout:
-        default: ${get("connect_timeout", "0")}
+        default: ${get("connect_timeout", "300")}
         required: false
         private: true
     - socket_timeout:
         required: false
     - socketTimeout:
-        default: ${get("socket_timeout", "0")}
+        default: ${get("socket_timeout", "300")}
         private: true
     - use_cookies:
         required: false

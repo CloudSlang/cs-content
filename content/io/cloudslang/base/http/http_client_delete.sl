@@ -64,11 +64,11 @@
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing.
-#!                         Default: '0' (infinite timeout)
+#!                         Default: '300'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established
-#!                         Default: '0' (infinite)
+#!                         Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved
-#!                        Default: '0' (infinite)
+#!                        Default: '300'
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
 #!                    Default: 'false'
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis.
@@ -157,10 +157,10 @@ flow:
     - execution_timeout:
         required: false
     - connect_timeout:
-        default: '0'
+        default: '300'
         required: false
     - socket_timeout:
-        default: '0'
+        default: '300'
         required: false
     - keep_alive:
         default: 'false'

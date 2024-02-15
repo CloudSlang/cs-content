@@ -163,10 +163,10 @@ flow:
     - execution_timeout:
         required: false
     - connect_timeout:
-        default: '0'
+        default: '300'
         required: false
     - socket_timeout:
-        default: '0'
+        default: '300'
         required: false
     - keep_alive:
         default: 'false'

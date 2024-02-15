@@ -53,9 +53,9 @@
 #! @input delimiter: The delimiter to use between resulted values in 'returnResult' and column names in 'columnNames'.
 #!                   Default: ','
 #! @input key: The key to help keep multiple query results distinct.
-#! @input timeout:  Seconds to wait before timing out the SQL command execution. When the default value is used, there
+#! @input timeout:  Seconds to wait before timing out the SQL command execution. When 0 value is used, there
 #!                  is no limit on the amount of time allowed for a running command to complete.
-#!                  Default: '0'
+#!                  Default: '300'
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: 'db.pooling.enable=false'
 #!                                     Example: 'db.pooling.enable=true'
@@ -172,7 +172,7 @@ operation:
         sensitive: false
         required: true
     - timeout:
-        default: '0'
+        default: '300'
         required: false
     - database_pooling_properties:
         required: false
