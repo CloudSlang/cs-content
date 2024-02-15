@@ -259,6 +259,7 @@ operation:
         private: true
         sensitive: true
     - execution_timeout:
+        default: '300'
         required: false
     - executionTimeout:
         default: ${get("execution_timeout", "300")}
