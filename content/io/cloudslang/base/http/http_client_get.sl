@@ -30,6 +30,11 @@
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used.
 #!                     Valid: SSLv3, TLSv1, TLSv1.1, TLSv1.2, TLSv1.3.
 #!                     Default: 'TLSv1.2'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response.
+#!                                Default: 'ISO-8859-1'
+#! @input request_character_set: Optional - Character encoding to be used for the HTTP request body; should not be provided
+#!                               for method=GET, HEAD, TRACE.
+#!                               Default: 'ISO-8859-1'
 #! @input allowed_cyphers: Optional - A comma delimited list of cyphers to use. The value of this input will be ignored
 #!                         if 'tlsVersion' does not contain 'TLSv1.2' or 'TlSv1.3'.This capability is provided “as is”, please see product
 #!                         documentation for further security considerations. In order to connect successfully to the target
@@ -157,6 +162,16 @@ flow:
         default: ${get_sp('io.cloudslang.base.http.keystore_password')}
         required: false
         sensitive: true
+    - request_character_set:
+        required: false
+    - requestCharacterSet:
+        default: ${get("request_character_set", "ISO-8859-1")}
+        private: true
+    - response_character_set:
+        required: false
+    - responseCharacterSet:
+        default: ${get("response_character_set", "ISO-8859-1")}
+        private: true
     - execution_timeout:
         default: '300'
         required: false
