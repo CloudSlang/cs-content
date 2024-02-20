@@ -146,7 +146,7 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: gcp_deploy_database_instance
+  name: gcp_deploy_database_instance_v1
   inputs:
     - client_id
     - client_secret:
