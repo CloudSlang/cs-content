@@ -44,6 +44,10 @@
 #!                Example: 3.75
 #!                Optional
 #! @input database_instance_root_password: The initial root password. Use only on creation.
+#! @input product_id: The product Id.
+#! @input product_name: The product name.
+#! @input business_unit: The business unit.
+#! @input environment: The environment type.
 #! @input data_disk_type: The type of data disk.
 #!                        Default: 'PD_SSD'.
 #!                        Valid Values: 'PD_SSD', 'PD_HDD'.
@@ -131,6 +135,7 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output tier: The tier (or machine type) for this instance.
+#! @output label_json: The JSON containing both organizational tags and custom tags.
 #!
 #! @result SUCCESS: The request to create a database instance was successfully sent.
 #! @result FAILURE: An error occurred while trying to send the request.
@@ -166,6 +171,10 @@ flow:
         required: false
     - database_instance_root_password:
         sensitive: true
+    - product_id
+    - product_name
+    - business_unit
+    - environment
     - data_disk_type:
         default: PD_SSD
         required: false
@@ -260,7 +269,7 @@ flow:
           - access_token
           - return_result
         navigate:
-          - SUCCESS: is_machine_type_null
+          - SUCCESS: list_to_json_for_labels
           - FAILURE: on_failure
     - is_machine_type_null:
         worker_group: '${worker_group}'
@@ -526,6 +535,20 @@ flow:
           - instance_name: '${new_string}'
         navigate:
           - SUCCESS: insert_database_instance
+    - list_to_json_for_labels:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.google.databases.instances.utils.list_to_json_for_labels:
+            - label_keys: '${label_keys_list}'
+            - label_values: '${label_values_list}'
+            - organizational_key_list: 'business_unit,product_id,product_name,environment'
+            - organizational_value_list: "${business_unit+','+product_id+','+product_name+','+environment}"
+        publish:
+          - label_json
+          - label_keys_list: '${key_list}'
+          - label_values_list: '${value_list}'
+        navigate:
+          - SUCCESS: is_machine_type_null
   outputs:
     - instance_name
     - instance_state
@@ -538,6 +561,7 @@ flow:
     - return_result
     - status_code
     - tier
+    - label_json
   results:
     - SUCCESS
     - FAILURE
@@ -563,6 +587,9 @@ extensions:
       wait_for_db_instance_running_state:
         x: 880
         'y': 240
+      list_to_json_for_labels:
+        x: 80
+        'y': 80
       is_db_instance_in_runnable_state:
         x: 1360
         'y': 80
@@ -627,7 +654,7 @@ extensions:
         'y': 80
       get_access_token_using_web_api:
         x: 80
-        'y': 80
+        'y': 240
       get_db_instance_state:
         x: 1040
         'y': 80
