@@ -32,6 +32,12 @@
 #!                       Optional
 #! @input availability_zone: The Availability Zone (AZ) where the database will be created.
 #!                           Optional
+#! @input tag_key_list: The list of key's of tags separated by comma(,)The length of the items in tag_key_list must be
+#!                      equal with the length of the items in tag_value_list.
+#!                      Optional
+#! @input tag_value_list: The list of value's of tags separated by comma(,)The length of the items in tag_key_list must be
+#!                        equal with the length of the items in tag_value_list.
+#!                        Optional
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
@@ -119,7 +125,19 @@ operation:
     - availabilityZone: 
         default: ${get('availability_zone', '')}  
         required: false 
-        private: true 
+        private: true
+    -  tag_key_list:
+         required: false
+    -  tagKeyList:
+         default: ${get("tag_key_list", "")}
+         required: false
+         private: true
+    -  tag_value_list:
+         required: false
+    -  tagValueList:
+         default: ${get("tag_value_list", "")}
+         required: false
+         private: true
     - proxy_host:  
         required: false  
     - proxyHost: 
@@ -162,7 +180,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.55-RC1'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.55-RC2'
     class_name: 'io.cloudslang.content.amazon.actions.rds.CreateDBInstance'
     method_name: 'execute'
   
