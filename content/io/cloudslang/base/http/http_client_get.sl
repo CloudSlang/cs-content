@@ -164,14 +164,8 @@ flow:
         sensitive: true
     - request_character_set:
         required: false
-    - requestCharacterSet:
-        default: 'ISO-8859-1'
-        private: true
     - response_character_set:
         required: false
-    - responseCharacterSet:
-        default: 'ISO-8859-1'
-        private: true
     - execution_timeout:
         default: '300'
         required: false
