@@ -165,12 +165,12 @@ flow:
     - request_character_set:
         required: false
     - requestCharacterSet:
-        default: ${get("request_character_set", "ISO-8859-1")}
+        default: 'ISO-8859-1'
         private: true
     - response_character_set:
         required: false
     - responseCharacterSet:
-        default: ${get("response_character_set", "ISO-8859-1")}
+        default: 'ISO-8859-1'
         private: true
     - execution_timeout:
         default: '300'
@@ -224,6 +224,8 @@ flow:
             - trust_password
             - keystore
             - keystore_password
+            - response_character_set
+            - request_character_set
             - execution_timeout
             - connect_timeout
             - socket_timeout
