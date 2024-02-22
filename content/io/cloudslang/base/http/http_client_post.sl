@@ -66,12 +66,15 @@
 #! @input keystore_password: Optional - The password associated with the KeyStore file. If trust_all_roots is false and
 #!                           keystore is empty, keystore_password default will be supplied.
 #!                           Default value: ''
-#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing.
-#!                         Default: '0' (infinite timeout)
-#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established.
-#!                         Default: '0' (infinite)
-#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved.
-#!                        Default: '0' (infinite)
+#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is
+#!                           used, there is no limit on the amount of time allowed for the operation to finish executing.
+#!                         Default: '300'
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is
+#!                         used, there is no limit on the amount of time allowed for the connection to be established.
+#!                         Default: '300'
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved. When 0 value is used, there is
+#!                        no limit on the amount of time allowed for the data to be retrieved.
+#!                        Default: '300'
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls.
 #!                    Default: 'false'
 #! @input connections_max_per_root: Optional - Maximum limit of connections on a per route basis.
@@ -161,12 +164,13 @@ flow:
     - request_character_set:
         required: false
     - execution_timeout:
+        default: '300'
         required: false
     - connect_timeout:
-        default: '0'
+        default: '300'
         required: false
     - socket_timeout:
-        default: '0'
+        default: '300'
         required: false
     - keep_alive:
         default: 'false'
