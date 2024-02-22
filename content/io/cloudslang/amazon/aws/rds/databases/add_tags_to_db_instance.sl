@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Delete a new DB instance.
+#! @description: Adds metadata tags to an Amazon DB instance.
 #!
 #! @input access_key_id: ID of the secret access key associated with your Amazon AWS or IAM account.Example:
 #!                       'AKIAIOSFODNN7EXAMPLE'
@@ -21,17 +21,12 @@
 #!                    'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY'
 #! @input region: String that contains the Amazon AWS region name.
 #! @input db_instance_identifier: Name of the RDS DB instance identifier.
-#! @input skip_final_snapshot: A value that indicates whether to skip the creation of a final DB snapshot before
-#!                             deleting the instance. If you enable this parameter, RDS doesn't create a DB snapshot. If
-#!                             you don't enable this parameter, RDS creates a DB snapshot before the DB instance is
-#!                             deleted.
-#!                             Optional
-#! @input final_db_snapshot_identifier: The DBSnapshotIdentifier of the new DBSnapshot created when the
-#!                                      SkipFinalSnapshot parameter is disabled.
-#!                                      Optional
-#! @input delete_automated_backups: A value that indicates whether to remove automated backups immediately after the DB
-#!                                  instance is deleted.
-#!                                  Optional
+#! @input tag_key_list: The list of key's of tags separated by comma(,)The length of the items in tag_key_list must be
+#!                      equal with the length of the items in tag_value_list.
+#!                      Optional
+#! @input tag_value_list: The list of value's of tags separated by comma(,)The length of the items in tag_key_list must be
+#!                        equal with the length of the items in tag_value_list.
+#!                        Optional
 #! @input proxy_host: Proxy server used to connect to Amazon API. If empty no proxy will be used.
 #!                    Optional
 #! @input proxy_port: Proxy server port. You must either specify values for both proxyHost and proxyPort inputs or leave
@@ -61,94 +56,88 @@
 
 namespace: io.cloudslang.amazon.aws.rds.databases
 
-operation: 
-  name: delete_db_instance
-  
-  inputs: 
-    - access_key_id    
-    - accessKeyID: 
+operation:
+  name: add_tags_to_db_instance
+
+  inputs:
+    - access_key_id
+    - accessKeyID:
         default: ${get('access_key_id', '')}
-        private: true 
-    - access_key:    
+        private: true
+    - access_key:
         sensitive: true
-    - accessKey: 
+    - accessKey:
         default: ${get('access_key', '')}
-        private: true 
+        private: true
         sensitive: true
-    - region    
-    - db_instance_identifier    
-    - dbInstanceIdentifier: 
+    - region
+    - db_instance_identifier
+    - dbInstanceIdentifier:
         default: ${get('db_instance_identifier', '')}
-        private: true 
-    - skip_final_snapshot:  
-        required: false  
-    - skipFinalSnapshot: 
-        default: ${get('skip_final_snapshot', '')}  
-        required: false 
-        private: true 
-    - final_db_snapshot_identifier:  
-        required: false  
-    - finalDBSnapshotIdentifier: 
-        default: ${get('final_db_snapshot_identifier', '')}  
-        required: false 
-        private: true 
-    - delete_automated_backups:  
-        required: false  
-    - deleteAutomatedBackups: 
-        default: ${get('delete_automated_backups', '')}  
-        required: false 
-        private: true 
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
-    - proxy_port:  
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        private: true
+    -  tag_key_list:
+         required: false
+    -  tagKeyList:
+         default: ${get("tag_key_list", "")}
+         required: false
+         private: true
+    -  tag_value_list:
+         required: false
+    -  tagValueList:
+         default: ${get("tag_value_list", "")}
+         required: false
+         private: true
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
+    - proxy_port:
+        required: false
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
-    - connect_timeout:  
-        required: false  
-    - connectTimeout: 
-        default: ${get('connect_timeout', '')}  
-        required: false 
-        private: true 
-    - execution_timeout:  
-        required: false  
-    - executionTimeout: 
-        default: ${get('execution_timeout', '')}  
-        required: false 
-        private: true 
-    - async:  
-        required: false  
-    
-  java_action: 
+    - connect_timeout:
+        required: false
+    - connectTimeout:
+        default: ${get('connect_timeout', '')}
+        required: false
+        private: true
+    - execution_timeout:
+        required: false
+    - executionTimeout:
+        default: ${get('execution_timeout', '')}
+        required: false
+        private: true
+    - async:
+        required: false
+
+  java_action:
     gav: 'io.cloudslang.content:cs-amazon:1.0.55-RC2'
-    class_name: 'io.cloudslang.content.amazon.actions.rds.DeleteDBInstance'
+    class_name: 'io.cloudslang.content.amazon.actions.rds.tags.AddTagsToDBInstance'
     method_name: 'execute'
-  
-  outputs: 
-    - return_code: ${get('returnCode', '')} 
+
+  outputs:
+    - return_code: ${get('returnCode', '')}
     - return_result: ${get('returnResult', '')}
-    - exception: ${get('exception', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+    - exception: ${get('exception', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE
