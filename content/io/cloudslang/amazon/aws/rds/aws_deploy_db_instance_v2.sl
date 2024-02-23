@@ -232,7 +232,7 @@ flow:
             - first_string: '${db_instance_status}'
             - second_string: available
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: set_success_message
           - FAILURE: counter
     - counter:
         worker_group: '${worker_group}'
@@ -270,6 +270,16 @@ flow:
           - value_list
         navigate:
           - SUCCESS: create_db_instance
+    - set_success_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - message: The AWS DB have been successfully created
+        publish:
+          - return_result: '${message}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - return_result
     - return_code
@@ -301,6 +311,13 @@ extensions:
       check_keytaglist_valuetaglist_equal:
         x: 80
         'y': 480
+      set_success_message:
+        x: 893.111083984375
+        'y': 208.3333282470703
+        navigate:
+          81dcfdcc-f232-290e-89b8-4788a7acf7a7:
+            targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
+            port: SUCCESS
       wait_before_check:
         x: 560
         'y': 360
@@ -316,19 +333,16 @@ extensions:
       compare_power_state:
         x: 720
         'y': 200
-        navigate:
-          3f378b3c-6acd-36de-02e2-91f18cdaf887:
-            targetId: 7c1ba9a1-e160-ac97-8ffb-45652629a992
-            port: SUCCESS
       form_tag_list:
         x: 240
         'y': 480
     results:
       SUCCESS:
         7c1ba9a1-e160-ac97-8ffb-45652629a992:
-          x: 880
+          x: 1040
           'y': 200
       FAILURE:
         e37946a9-8c96-f57c-3189-a1ec899693fd:
           x: 400
           'y': 680
+
