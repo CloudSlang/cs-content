@@ -104,9 +104,9 @@ operation:
         default: ${get('site_id', '')}
         required: false
         private: true
-    - driver_id:
+    - drive_id:
         required: false
-    - driverId:
+    - driveId:
         default: ${get('driver_id', '')}
         required: false
         private: true
