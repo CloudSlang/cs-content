@@ -98,12 +98,14 @@ operation:
         required: false
         private: true
         sensitive: true
-    - site_id
+    - site_id:
+        required: false
     - siteId:
         default: ${get('site_id', '')}
         required: false
         private: true
-    - driver_id
+    - driver_id:
+        required: false
     - driverId:
         default: ${get('driver_id', '')}
         required: false
@@ -113,7 +115,6 @@ operation:
         default: ${get('file_id', '')}
         required: false
         private: true
-    -
     - proxy_host:
         required: false
     - proxyHost:
