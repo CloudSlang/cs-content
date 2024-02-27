@@ -1,24 +1,49 @@
 ########################################################################################################################
 #!!
-#! @description: This operation accesses the root SharePoint site within a tenant.
+#! @description: This operation lists the effective sharing permissions of a driveItem (file).
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account) 	      Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)     Not supported.
-#!                     Application 	                              Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
+#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input proxy_host: Proxy server used to access the Sharepoint.
+#! @input site_id: The id of the site from which to retrieve the permissions.
+#!                 Optional
+#! @input drive_id: The id of the drive from which to retrieve the permissions. If this input is empty then the default
+#!                  drive will be taken.
+#!                  Optional
+#! @input file_id: The ID of the file (driveItem) from which to retrieve the permissions. If both site_id and drive_id inputs are empty,
+#!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
+#! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
-#! @input proxy_port: Proxy server port used to access the Sharepoint.
+#! @input proxy_port: Proxy server port used to access the Office 365 service.
 #!                    Default value: 8080
 #!                    Optional
-#! @input proxy_username: The username used when connecting to the proxy.
+#! @input proxy_username: Proxy server user name.
 #!                        Optional
-#! @input proxy_password: The proxy server password associated with the 'proxy_username' input value.
+#! @input proxy_password: Proxy server password associated with the proxy_username input value.
+#!                        Optional
+#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
+#!                         trusted certification authority issued it.
+#!                         Default value: false
+#!                         Optional
+#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
+#!                                 "allow_all" to skip any checking.
+#!                                 Default value: strict
+#!                                 Optional
+#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
+#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
+#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
+#!                        'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Optional
+#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
+#!                        is empty, trustPassword default will be supplied.
 #!                        Optional
 #! @input tls_version: The version of TLS to use. The value of this input will be ignored if 'protocol' is set to 'HTTP'.
 #!                     This capability is provided “as is”, please see product documentation for further
@@ -41,56 +66,29 @@
 #!                         TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
 #!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
 #!                         Optional
-#! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
-#!                         trusted certification authority issued it.
-#!                         Default value: false
-#!                         Optional
-#! @input x_509_hostname_verifier: Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate. Set this to
-#!                                 "allow_all" to skip any checking. For the value "browser_compatible" the hostname
-#!                                 verifier works the same way as Curl and Firefox. The hostname must match either the
-#!                                 first CN, or any of the subject-alts. A wildcard can occur in the CN, and in any of
-#!                                 the subject-alts. The only difference between "browser_compatible" and "strict" is
-#!                                 that a wildcard (such as "*.foo.com") with "browser_compatible" matches all
-#!                                 subdomains, including "a.b.foo.com".
-#!                                 Default value: strict
-#!                                 Optional
-#! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from other parties that
-#!                        you expect to communicate with, or from Certificate Authorities that you trust to identify
-#!                        other parties.  If the protocol (specified by the 'url') is not 'https' or if trustAllRoots is
-#!                        'true' this input is ignored.
-#!                        Format: Java KeyStore (JKS)
-#!                        Optional
-#! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
-#!                        is empty, trustPassword default will be supplied.
-#!                        Optional
 #! @input connect_timeout: The time to wait for a connection to be established, in seconds. A timeout value of '0'
 #!                         represents an infinite timeout.
 #!                         Default value: 60
 #!                         Optional
-#! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution of an API
-#!                           call. A value of '0' disables this feature.
+#! @input execution_timeout: The amount of time (in seconds) to allow the client to complete the execution. A value of
+#!                           '0' disables this feature.
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the specific site in JSON format.
-#! @output return_code: 0 if success, -1 if failure.
-#! @output site_id: The id of the root site.
-#! @output site_name: The name of the root site.
-#! @output site_display_name: The display name of the root site.
-#! @output web_url: The web url of the root site.
-#! @output status_code: The HTTP status code for the Sharepoint request.
-#! @output exception: An error message in case there was an error while retrieving the site id.
+#! @output return_result: Information related to the file permissions in JSON format.
+#! @output return_code: 0 if success, -1 otherwise.
+#! @output status_code: The HTTP status code for the request.
+#! @output exception: There was an error while trying to retrieve the drives.
 #!
-#! @result SUCCESS: Root site was returned successfully.
-#! @result FAILURE: There was an error while trying to retrieve root site.
+#! @result SUCCESS: Drives were returned successfully.
+#! @result FAILURE: There was an error while trying to retrieve the drives.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.sites
+namespace: io.cloudslang.microsoft.sharepoint.permissions
 
 operation:
-  name: get_root_site
+  name: list_permissions
 
   inputs:
     - auth_token:
@@ -100,6 +98,22 @@ operation:
         required: false
         private: true
         sensitive: true
+    - site_id
+    - siteId:
+        default: ${get('site_id', '')}
+        required: false
+        private: true
+    - driver_id
+    - driverId:
+        default: ${get('driver_id', '')}
+        required: false
+        private: true
+    - file_id
+    - fileId:
+        default: ${get('file_id', '')}
+        required: false
+        private: true
+    -
     - proxy_host:
         required: false
     - proxyHost:
@@ -107,8 +121,8 @@ operation:
         required: false
         private: true
     - proxy_port:
-        default: '8080'
         required: false
+        default: '8080'
     - proxyPort:
         default: ${get('proxy_port', '')}
         required: false
@@ -127,29 +141,16 @@ operation:
         required: false
         private: true
         sensitive: true
-    - tls_version:
-        default: 'TLSv1.2'
-        required: false
-    - tlsVersion:
-        default: ${get('tls_version', '')}
-        required: false
-        private: true
-    - allowed_ciphers:
-        required: false
-    - allowedCiphers:
-        default: ${get('allowed_ciphers', '')}
-        required: false
-        private: true
     - trust_all_roots:
-        default: 'false'
         required: false
+        default: 'false'
     - trustAllRoots:
         default: ${get('trust_all_roots', '')}
         required: false
         private: true
     - x_509_hostname_verifier:
-        default: 'strict'
         required: false
+        default: 'strict'
     - x509HostnameVerifier:
         default: ${get('x_509_hostname_verifier', '')}
         required: false
@@ -168,16 +169,29 @@ operation:
         required: false
         private: true
         sensitive: true
-    - connect_timeout:
-        default: '60'
+    - tls_version:
         required: false
+        default: 'TLSv1.2'
+    - tlsVersion:
+        default: ${get('tls_version', '')}
+        required: false
+        private: true
+    - allowed_ciphers:
+        required: false
+    - allowedCiphers:
+        default: ${get('allowed_ciphers', '')}
+        required: false
+        private: true
+    - connect_timeout:
+        required: false
+        default: '60'
     - connectTimeout:
         default: ${get('connect_timeout', '')}
         required: false
         private: true
     - execution_timeout:
-        default: '60'
         required: false
+        default: '60'
     - executionTimeout:
         default: ${get('execution_timeout', '')}
         required: false
@@ -185,17 +199,13 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.5-SNAPSHOT'
-    class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetRootSite'
+    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.ListPermissions'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
-    - site_id: ${get('siteId', '')}
-    - site_name: ${get('siteName', '')}
-    - site_display_name: ${get('siteDisplayName', '')}
-    - web_url: ${get('webUrl','')}
-    - status_code: ${get('statusCode','')}
+    - status_code: ${get('statusCode', '')}
     - exception: ${get('exception', '')}
 
   results:
