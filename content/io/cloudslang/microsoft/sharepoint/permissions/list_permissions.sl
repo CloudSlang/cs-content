@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation lists the effective sharing permissions of a driveItem (file).
+#! @description: This operation lists the effective sharing permissions of a driveItem.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -16,7 +16,7 @@
 #! @input drive_id: The id of the drive from which to retrieve the permissions. If this input is empty then the default
 #!                  drive will be taken.
 #!                  Optional
-#! @input file_id: The ID of the file (driveItem) from which to retrieve the permissions. If both site_id and drive_id inputs are empty,
+#! @input item_id: The ID of the drive item from which to retrieve the permissions. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
@@ -110,8 +110,8 @@ operation:
         default: ${get('driver_id', '')}
         required: false
         private: true
-    - file_id
-    - fileId:
+    - item_id
+    - itemId:
         default: ${get('file_id', '')}
         required: false
         private: true
