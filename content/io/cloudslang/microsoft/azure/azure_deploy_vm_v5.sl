@@ -1196,7 +1196,7 @@ flow:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: check_pip_state
+          - SUCCESS: get_public_ip_address_info
           - FAILURE: on_failure
   outputs:
     - vm_final_name
@@ -1326,8 +1326,8 @@ extensions:
         x: 2560
         'y': 240
       check_pip_state:
-        x: 4880
-        'y': 80
+        x: 4800
+        'y': 160
       check_vm_state_1:
         x: 3000
         'y': 360
