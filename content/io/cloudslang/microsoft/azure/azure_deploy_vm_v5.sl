@@ -684,7 +684,7 @@ flow:
           - public_ip_json: '${update_public_ip_json}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: check_if_null_else_add_tags_2
+          - SUCCESS: get_public_ip_address_info
     - set_dns_name:
         worker_group: '${worker_group}'
         do:
@@ -1129,6 +1129,75 @@ flow:
           - value_list
         navigate:
           - SUCCESS: get_auth_token_using_web_api
+    - get_public_ip_address_info:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.microsoft.azure.compute.network.public_ip_addresses.get_public_ip_address_info:
+            - subscription_id: '${subscription_id}'
+            - resource_group_name: '${resource_group_name}'
+            - auth_token: '${auth_token}'
+            - public_ip_address_name: '${vm_name}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - public_ip_details: '${output}'
+          - error_message
+          - status_code
+        navigate:
+          - SUCCESS: check_pip_state
+          - FAILURE: on_failure
+    - check_pip_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${public_ip_details}'
+            - json_path: 'properties,provisioningState'
+        publish:
+          - pip_state: '${return_result}'
+        navigate:
+          - SUCCESS: compare_pip_state
+          - FAILURE: on_failure
+    - compare_pip_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${pip_state}'
+            - second_string: Succeeded
+        navigate:
+          - SUCCESS: check_if_null_else_add_tags_2
+          - FAILURE: counter_1
+    - counter_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.microsoft.azure.utils.counter:
+            - from: '1'
+            - to: '60'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: wait_before_check_1
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - wait_before_check_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '20'
+        navigate:
+          - SUCCESS: get_public_ip_address_info
+          - FAILURE: on_failure
   outputs:
     - vm_final_name
     - disk_name
@@ -1164,7 +1233,13 @@ extensions:
         x: 4124
         'y': 421
       check_if_null_else_add_tags_2:
-        x: 4600
+        x: 4720
+        'y': 320
+      wait_before_check_1:
+        x: 5080
+        'y': 80
+      get_public_ip_address_info:
+        x: 4560
         'y': 80
       get_azure_image_details:
         x: 575
@@ -1176,8 +1251,8 @@ extensions:
         x: 3276
         'y': 72
       set_mac_address:
-        x: 4384
-        'y': 428
+        x: 4360
+        'y': 640
       set_av_type:
         x: 1296
         'y': 63
@@ -1209,21 +1284,31 @@ extensions:
         x: 1501
         'y': 266
       get_vm_info:
-        x: 2880
-        'y': 360
+        x: 2840
+        'y': 240
       string_equals:
         x: 360
         'y': 160
       get_power_state:
-        x: 4989
-        'y': 421
+        x: 5000
+        'y': 640
         navigate:
           d94e7007-27f0-efd5-326e-39456a688257:
             targetId: 82c1913f-cdac-2e76-7f3e-2101ef8159b2
             port: SUCCESS
+      counter_1:
+        x: 5080
+        'y': 320
+        navigate:
+          7072585e-dfdf-1650-853f-30f30276ce2a:
+            targetId: a5733b5a-12c4-c225-dfd8-fa03cc6535bc
+            port: NO_MORE
       compare_power_state_1:
         x: 3120
         'y': 280
+      compare_pip_state:
+        x: 4880
+        'y': 320
       same_name_error_msg:
         x: 1200
         'y': 640
@@ -1240,12 +1325,15 @@ extensions:
       check_if_null_else_add_tags:
         x: 2560
         'y': 240
+      check_pip_state:
+        x: 4800
+        'y': 160
       check_vm_state_1:
         x: 3000
         'y': 360
       wait_before_check:
-        x: 2880
-        'y': 560
+        x: 2840
+        'y': 480
       get_vm_public_ip_address:
         x: 4121
         'y': 74
@@ -1256,8 +1344,8 @@ extensions:
         x: 800
         'y': 400
       set_private_ip_address:
-        x: 4790
-        'y': 419
+        x: 4800
+        'y': 640
       get_vm_details_1:
         x: 1507
         'y': 462
@@ -1269,8 +1357,8 @@ extensions:
             targetId: check_if_vm_name_alerady_exists
             port: SUCCESS
       set_public_ip_address:
-        x: 4800
-        'y': 240
+        x: 4560
+        'y': 320
       set_data_disk_name:
         x: 3120
         'y': 80
@@ -1307,8 +1395,8 @@ extensions:
             targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: FAILURE
       set_internal_fqdn:
-        x: 4592
-        'y': 420
+        x: 4600
+        'y': 640
       create_public_ip:
         x: 2200
         'y': 40
@@ -1326,8 +1414,8 @@ extensions:
             targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
             port: FAILURE
       counter:
-        x: 2200
-        'y': 720
+        x: 2680
+        'y': 640
         navigate:
           d4c201c2-c085-ab46-f1b1-1fda0c1e7ed6:
             targetId: 71542ed1-a12e-a78a-93dc-0ab395ab81dd
@@ -1347,8 +1435,8 @@ extensions:
             port: SUCCESS
           939940be-dea1-2294-459e-7a36f75baaa4:
             vertices:
-              - x: 2640
-                'y': 800
+              - x: 2960
+                'y': 760
             targetId: counter
             port: FAILURE
       check_os_type:
@@ -1356,15 +1444,15 @@ extensions:
         'y': 247
       set_dns_name:
         x: 4360
-        'y': 240
+        'y': 320
       set_storage_account_type_1:
         x: 1124
         'y': 263
     results:
       SUCCESS:
         82c1913f-cdac-2e76-7f3e-2101ef8159b2:
-          x: 5153
-          'y': 421
+          x: 5240
+          'y': 640
       FAILURE:
         71542ed1-a12e-a78a-93dc-0ab395ab81dd:
           x: 1702
@@ -1375,4 +1463,7 @@ extensions:
         5a2a4ebe-486b-725e-ecac-a9a93fd49521:
           x: 320
           'y': 640
+        a5733b5a-12c4-c225-dfd8-fa03cc6535bc:
+          x: 5280
+          'y': 320
 
