@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow starts the virtual machine.
+#! @description: This workflow refreshes the virtual machine.
 #!
 #! @input vm_name: The name of the virtual machine that needs to start.
 #!                 Virtual machine name cannot contain non-ASCII or special characters.
