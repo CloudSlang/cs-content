@@ -264,4 +264,3 @@ extensions:
         af3bd09b-4b93-4183-82cc-6be0c013c935:
           x: 280
           'y': 200
-
