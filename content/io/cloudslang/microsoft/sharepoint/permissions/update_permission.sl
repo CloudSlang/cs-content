@@ -101,7 +101,7 @@
 namespace: io.cloudslang.microsoft.sharepoint.permissions
 
 operation:
-  name: list_permissions
+  name: update_permission
 
   inputs:
     - auth_token:
