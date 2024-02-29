@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation lists the effective sharing permissions of a drive item.
+#! @description: This operation adds permissions to an drive item.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -11,13 +11,25 @@
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The Id of the site from which to retrieve the permissions.
+#! @input site_id: The Id of the site associated with the item where permissions are to be added.
 #!                 Optional
-#! @input drive_id: The Id of the drive from which to retrieve the permissions. If this input is empty then the default
+#! @input drive_id: The Id of the drive associated with the item where permissions are to be added.. If this input is empty then the default
 #!                  drive will be taken.
 #!                  Optional
-#! @input item_id: The Id of the drive item from which to retrieve the permissions. If both site_id and drive_id inputs are empty,
+#! @input item_id: The Id of the item where to add the permissions. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
+#! @input json_body: The body to be sent in the request. In the request body, provide a JSON object with the following parameters.
+#! More examples can be found in the documentation: https://learn.microsoft.com/en-us/graph/api/driveitem-invite?view=graph-rest-1.0&tabs=http
+#!{
+#!  "requireSignIn": false,
+#!  "sendInvitation": false,
+#!  "roles": [ "read | write"],
+#!  "recipients": [
+#!    { "@odata.type": "microsoft.graph.driveRecipient" },
+#!    { "@odata.type": "microsoft.graph.driveRecipient" }
+#!  ],
+#!  "message": "string"
+#!}
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -75,20 +87,20 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Information related to the file permissions in JSON format.
+#! @output return_result: If successful returns permission collection object.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to list permissions.
+#! @output exception: There was an error while trying to add permissions.
 #!
-#! @result SUCCESS: List of permissions was returned successfully..
-#! @result FAILURE: There was an error while trying to list permissions.
+#! @result SUCCESS: Drives were returned successfully.
+#! @result FAILURE: There was an error while trying to add permissions.
 #!!#
 ########################################################################################################################
 
 namespace: io.cloudslang.microsoft.sharepoint.permissions
 
 operation:
-  name: list_permissions
+  name: add_permissions
 
   inputs:
     - auth_token:
@@ -113,6 +125,11 @@ operation:
     - item_id
     - itemId:
         default: ${get('file_id', '')}
+        required: false
+        private: true
+    - json_body
+    - jsonBody:
+        default: ${get('json_body', '')}
         required: false
         private: true
     - proxy_host:
@@ -200,7 +217,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.51-SNAPSHOT'
-    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.ListPermissions'
+    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.AddPermissions'
     method_name: 'execute'
 
   outputs:
