@@ -119,12 +119,12 @@ operation:
     - drive_id:
         required: false
     - driveId:
-        default: ${get('driver_id', '')}
+        default: ${get('drive_id', '')}
         required: false
         private: true
     - item_id
     - itemId:
-        default: ${get('file_id', '')}
+        default: ${get('item_id', '')}
         required: false
         private: true
     - json_body
