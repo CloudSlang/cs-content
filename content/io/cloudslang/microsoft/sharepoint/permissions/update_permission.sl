@@ -19,18 +19,10 @@
 #! @input item_id: The Id of the item where to update the permission. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
 #! @input permission_id: The Id of the permission that will be updated.
-#! @input json_body: The body to be sent in the request. In the request body, provide a JSON object with the following parameters.
-#! More examples can be found in the documentation: https://learn.microsoft.com/en-us/graph/api/driveitem-invite?view=graph-rest-1.0&tabs=http
-#!{
-#!  "requireSignIn": false,
-#!  "sendInvitation": false,
-#!  "roles": [ "read | write"],
-#!  "recipients": [
-#!    { "@odata.type": "microsoft.graph.driveRecipient" },
-#!    { "@odata.type": "microsoft.graph.driveRecipient" }
-#!  ],
-#!  "message": "string"
-#!}
+#! @input json_body: The body to be sent in the request. Here is an example of the request that changes the role on the sharing permission to read-only.
+#!  {
+#!    "roles": [ "read" ]
+#!  }
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -222,7 +214,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.51-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5-RC1'
     class_name: 'io.cloudslang.content.sharepoint.actions.permissions.UpdatePermission'
     method_name: 'execute'
 
