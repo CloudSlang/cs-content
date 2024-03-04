@@ -185,7 +185,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.3'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteDetails'
     method_name: 'execute'
   
