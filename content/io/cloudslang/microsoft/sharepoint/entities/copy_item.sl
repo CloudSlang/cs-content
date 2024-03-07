@@ -1,24 +1,43 @@
 ########################################################################################################################
 #!!
-#! @description: This operation deletes a permission from a drive item.
+#! @description: This operation creates a copy of a drive item (including any children), under a new parent item or with a new name.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.ReadWrite, Files.ReadWrite.All
+#!                     Application	                              Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The id of the site associated with the item where the permission will be deleted..
+#! @input site_id: The id of the site associated with the item that will be copied.
 #!                 Optional
-#! @input drive_id: The id of the drive associated with the item where the permission will be deleted. If this input is empty then the default(root)
+#! @input drive_id: The id of the drive associated with the item that will be copied. If this input is empty then the default(root)
 #!                  drive will be taken.
 #!                  Optional
-#! @input item_id: The id of the item where to delete the permission. If both site_id and drive_id inputs are empty,
+#! @input item_id: The id of the item to be moved. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
-#! @input permission_id: The id of the permission that will be deleted.
+#! @input json_body: In the request body, provide a JSON object with the following parameters.
+#!                   Name	            Description
+#!                   parentReference	Optional. Reference to the parent item the copy will be created in.
+#!                   name		        Optional. The new name for the copy. If this isn't provided, the same name will be used as the original.
+#!                   This example copies a file identified by {item-id} into a folder identified with a driveId and id value.
+#!                   The new copy of the file will be named document (copy).txt.
+#!{
+#!    "parentReference": {
+#!      "driveId": "{6F7D00BF-FC4D-4E62-9769-6AEA81F3A21B}",
+#!      "id": "DCD0D3AD-8989-4F23-A5A2-2C086050513F"
+#!    },
+#!    "name": "document (copy).txt"
+#!}
+#! @input optional_parameters: The optional query parameters to copy the item. This method supports the
+#!                             @microsoft.graph.conflictBehavior query parameter to customize the behavior when a conflict occurs.
+#!                             Value	Description
+#!                             fail     Default behavior is to report the failure.
+#!                             replace	Overwrite existing item at the target site.
+#!                             rename	Rename the item.
+#!                             Example: @microsoft.graph.conflictBehavior=replace&@microsoft.graph.conflictBehavior=rename
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -76,20 +95,20 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code otherwise error message in case of failure.
+#! @output return_result: If successful returns details about how to monitor the progress of the copy, upon accepting the request.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to delete the permission.
+#! @output exception: There was an error while trying to copy the item.
 #!
-#! @result SUCCESS: The permission was deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the permission.
+#! @result SUCCESS: The item was moved successfully.
+#! @result FAILURE: There was an error while trying copy the item.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.permissions
+namespace: io.cloudslang.microsoft.sharepoint.entities
 
 operation:
-  name: delete_permission
+  name: copy_item
 
   inputs:
     - auth_token:
@@ -116,9 +135,15 @@ operation:
         default: ${get('item_id', '')}
         required: false
         private: true
-    - permission_id
-    - permissionId:
-        default: ${get('permission_id', '')}
+    - json_body
+    - jsonBody:
+        default: ${get('json_body', '')}
+        required: false
+        private: true
+    - optional_parameters:
+        required: false
+    - optionalParameters:
+        default: ${get('optional_parameters', '')}
         required: false
         private: true
     - proxy_host:
@@ -206,7 +231,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
-    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.DeletePermission'
+    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.CopyItem'
     method_name: 'execute'
 
   outputs:

@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: This operation adds permissions to an drive item.
+#! @description: This operation adds permissions to a drive item.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
@@ -11,15 +11,15 @@
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The Id of the site associated with the item where permissions are to be added.
+#! @input site_id: The id of the site associated with the item where permissions are to be added.
 #!                 Optional
-#! @input drive_id: The Id of the drive associated with the item where permissions are to be added.. If this input is empty then the default
+#! @input drive_id: The id of the drive associated with the item where permissions are to be added. If this input is empty then the default(root)
 #!                  drive will be taken.
 #!                  Optional
-#! @input item_id: The Id of the item where to add the permissions. If both site_id and drive_id inputs are empty,
+#! @input item_id: The id of the item where to add the permissions. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
 #! @input json_body: The body to be sent in the request. In the request body, provide a JSON object with the following parameters.
-#! More examples can be found in the documentation: https://learn.microsoft.com/en-us/graph/api/driveitem-invite?view=graph-rest-1.0&tabs=http
+#!              For more information on how to construct this body you can consult the Microsoft SharePoint documentation.
 #!{
 #!  "requireSignIn": false,
 #!  "sendInvitation": false,
@@ -216,7 +216,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.permissions.AddPermissions'
     method_name: 'execute'
 

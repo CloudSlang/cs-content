@@ -11,14 +11,14 @@
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The Id of the site associated with the item where the permission will be updated.
+#! @input site_id: The id of the site associated with the item where the permission will be updated.
 #!                 Optional
-#! @input drive_id: The Id of the drive associated with the item where the permission will be updated. If this input is empty then the default
+#! @input drive_id: The id of the drive associated with the item where the permission will be updated. If this input is empty then the default(root)
 #!                  drive will be taken.
 #!                  Optional
-#! @input item_id: The Id of the item where to update the permission. If both site_id and drive_id inputs are empty,
+#! @input item_id: The id of the item where to update the permission. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
-#! @input permission_id: The Id of the permission that will be updated.
+#! @input permission_id: The id of the permission that will be updated.
 #! @input json_body: The body to be sent in the request. Here is an example of the request that changes the role on the sharing permission to read-only.
 #!  {
 #!    "roles": [ "read" ]
@@ -214,7 +214,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.permissions.UpdatePermission'
     method_name: 'execute'
 

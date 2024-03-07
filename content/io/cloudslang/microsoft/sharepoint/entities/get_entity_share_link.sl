@@ -12,10 +12,10 @@
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input entity_id: The id of the entity for which to generate the share link.
-#! @input drive_id: The id of the drive where the entity is located. Mutually exclusive with the site Id input.
+#! @input drive_id: The id of the drive where the entity is located. Mutually exclusive with the site id input.
 #!                  Optional
-#! @input site_id: The id of the site where the entity is located. Mutually exclusive with the drive Id input. Ignored if
-#!                 the drive Id was provided.
+#! @input site_id: The id of the site where the entity is located. Mutually exclusive with the drive id input. Ignored if
+#!                 the drive id was provided.
 #!                 Optional
 #! @input type: The type of sharing link to create.
 #!              view: Creates a read-only link to the DriveItem.
@@ -253,7 +253,7 @@ operation:
         private: true
     
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.GetEntityShareLink'
     method_name: 'execute'
   

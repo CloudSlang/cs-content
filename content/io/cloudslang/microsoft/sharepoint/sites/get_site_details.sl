@@ -74,7 +74,7 @@
 #! @output status_code: The HTTP status code for the request.
 #! @output exception: There was an error while trying to retrieve the site details.
 #! @output web_url: Web url of the site.
-#! @output site_id_output: Id of the site.
+#! @output site_id_output: id of the site.
 #! @output site_name: Name of the site.
 #! @output site_display_name: Display name of the site.
 #!
@@ -185,7 +185,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteDetails'
     method_name: 'execute'
   
