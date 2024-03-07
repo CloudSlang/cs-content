@@ -231,7 +231,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
-    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.CopyItem'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.CopyItem'
     method_name: 'execute'
 
   outputs:

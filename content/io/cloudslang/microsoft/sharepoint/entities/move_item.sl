@@ -30,7 +30,7 @@
 #!    "id": "{new-parent-folder-id}"
 #!  },
 #!  "name": "new-item-name.txt"
-#}
+#!}
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -218,7 +218,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
-    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.MoveItem'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.MoveItem'
     method_name: 'execute'
 
   outputs:
