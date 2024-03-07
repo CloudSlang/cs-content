@@ -11,7 +11,7 @@
 #!                     Application	                              Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: Id of the site from which display name can be obtained.
+#! @input site_id: id of the site from which display name can be obtained.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -187,7 +187,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.sites.GetSiteNameById'
     method_name: 'execute'
 
