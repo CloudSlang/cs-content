@@ -318,7 +318,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.27-SNAPSHOT-100'
+    gav: 'io.cloudslang.content:cs-azure:0.0.27-RC1'
     class_name: 'io.cloudslang.content.azure.actions.compute.virtualmachines.CreateVM'
     method_name: 'execute'
   
