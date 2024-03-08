@@ -13,10 +13,10 @@
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
 #! @input file_id: The id of the file to download.
 #! @input path: The folder where the file will be downloaded.
-#! @input drive_id: The id of the drive where the file is located. Mutually exclusive with the site Id input.
+#! @input drive_id: The id of the drive where the file is located. Mutually exclusive with the site id input.
 #!                  Optional
-#! @input site_id: The id of the site where the file is located. Mutually exclusive with the drive Id input. Ignored if
-#!                 the drive Id was provided.
+#! @input site_id: The id of the site where the file is located. Mutually exclusive with the drive id input. Ignored if
+#!                 the drive id was provided.
 #!                 Optional
 #! @input overwrite: If this input is true and a file with the same name already exists in the specified path, overwrite
 #!                   it with the downloaded file. Create a new file without overwriting if false.
@@ -219,7 +219,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.files.DownloadFile'
     method_name: 'execute'
   

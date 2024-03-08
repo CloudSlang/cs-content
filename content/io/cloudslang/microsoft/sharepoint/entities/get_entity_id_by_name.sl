@@ -11,22 +11,22 @@
 #!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input entity_name: The name of the entity from which to retrieve the id. Only works with the drive Id input
+#! @input entity_name: The name of the entity from which to retrieve the id. Only works with the drive id input
 #!                     provided. Mutually exclusive with the entity path input. Ignored if entity path was provided.
 #!                     Optional
 #! @input parent_folder: The parent folder of the entity from which to retrieve the id. Use this in case there are
 #!                       multiple entities with the same name, but with different parent folders. Only works with the
-#!                       drive Id input provided. Mutually exclusive with the entity path input. Ignored if entity path
+#!                       drive id input provided. Mutually exclusive with the entity path input. Ignored if entity path
 #!                       was provided.
 #!                       Optional
 #! @input entity_path: The full path of the entity from which to retrieve the id. Mutually exclusive with the entity
 #!                     name and parent folder inputs.
 #!                     Optional
-#! @input drive_id: The id of the drive where the entity is located. Mutually exclusive with the site Id input.
+#! @input drive_id: The id of the drive where the entity is located. Mutually exclusive with the site id input.
 #!                  Optional
-#! @input site_id: The id of the site where the entity is located. Site Id only allows full path searches, so the entity
-#!                 name and parent folder inputs will be ignored. Mutually exclusive with the drive Id input. Ignored if
-#!                 the drive Id was provided.
+#! @input site_id: The id of the site where the entity is located. Site id only allows full path searches, so the entity
+#!                 name and parent folder inputs will be ignored. Mutually exclusive with the drive id input. Ignored if
+#!                 the drive id was provided.
 #!                 Optional
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
@@ -229,7 +229,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.GeEntityIdByName'
     method_name: 'execute'
   

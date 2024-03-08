@@ -1,24 +1,36 @@
 ########################################################################################################################
 #!!
-#! @description: This operation deletes a permission from a drive item.
+#! @description: This operation moves a drive item to a new parent item. To move a DriveItem to a new parent item, your
+#!               app requests to update the parentReference of the DriveItem to move. Items cannot be moved between Drives.
 #!               Note: Permissions
 #!                     One of the following permissions is required to call this API.
 #!
 #!                     Permission type 	                          Permissions (from least to most privileged)
 #!
-#!                     Delegated (work or school account)	      Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
-#!                     Delegated (personal Microsoft account)	  Files.Read, Files.ReadWrite, Files.Read.All, Files.ReadWrite.All
-#!                     Application	                              Files.Read.All, Files.ReadWrite.All, Sites.Read.All, Sites.ReadWrite.All
+#!                     Delegated (work or school account)	      Files.ReadWrite, Files.ReadWrite.All, Sites.ReadWrite.All
+#!                     Delegated (personal Microsoft account)	  Files.ReadWrite, Files.ReadWrite.All
+#!                     Application	                              Files.ReadWrite.All, Sites.ReadWrite.All
 #!
 #! @input auth_token: Token used to authenticate to Microsoft 365 Sharepoint.
-#! @input site_id: The id of the site associated with the item where the permission will be deleted..
+#! @input site_id: The id of the site associated with the item that will be moved.
 #!                 Optional
-#! @input drive_id: The id of the drive associated with the item where the permission will be deleted. If this input is empty then the default(root)
+#! @input drive_id: The id of the drive associated with the item that will be moved. If this input is empty then the default(root)
 #!                  drive will be taken.
 #!                  Optional
-#! @input item_id: The id of the item where to delete the permission. If both site_id and drive_id inputs are empty,
+#! @input item_id: The id of the item to be moved. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
-#! @input permission_id: The id of the permission that will be deleted.
+#! @input json_body: In the request body, supply the new value for the parentReference property. Existing properties
+#!                   that are not included in the request body will maintain their previous values or be recalculated
+#!                   based on changes to other property values. For best performance you shouldn't include existing values that haven't changed.
+#!                   Note: When moving items to the root of a drive your app cannot use the "id:" "root" syntax.
+#!                         Your app needs to provide the actual ID of the root folder for the parent reference.
+#!                   Example:
+#!{
+#!  "parentReference": {
+#!    "id": "{new-parent-folder-id}"
+#!  },
+#!  "name": "new-item-name.txt"
+#!}
 #! @input proxy_host: Proxy server used to access the Office 365 service.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Office 365 service.
@@ -76,20 +88,20 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: If successful, this method returns 204 No Content response code otherwise error message in case of failure.
+#! @output return_result: If successful returns the JSON response for the move request.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
-#! @output exception: There was an error while trying to delete the permission.
+#! @output exception: There was an error while trying to move the item.
 #!
-#! @result SUCCESS: The permission was deleted successfully.
-#! @result FAILURE: There was an error while trying to delete the permission.
+#! @result SUCCESS: The item was moved successfully.
+#! @result FAILURE: There was an error while trying move the item.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.microsoft.sharepoint.permissions
+namespace: io.cloudslang.microsoft.sharepoint.entities
 
 operation:
-  name: delete_permission
+  name: move_item
 
   inputs:
     - auth_token:
@@ -116,9 +128,9 @@ operation:
         default: ${get('item_id', '')}
         required: false
         private: true
-    - permission_id
-    - permissionId:
-        default: ${get('permission_id', '')}
+    - json_body
+    - jsonBody:
+        default: ${get('json_body', '')}
         required: false
         private: true
     - proxy_host:
@@ -206,7 +218,7 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
-    class_name: 'io.cloudslang.content.sharepoint.actions.permissions.DeletePermission'
+    class_name: 'io.cloudslang.content.sharepoint.actions.entities.MoveItem'
     method_name: 'execute'
 
   outputs:

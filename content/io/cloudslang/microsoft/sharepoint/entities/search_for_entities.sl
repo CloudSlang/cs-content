@@ -18,7 +18,8 @@
 #! @input site_id: The id of the site where the entities will be searched.
 #! @input user_id: The id of the user for which the entities will be searched.
 #! @input search_text: The search query text to search for entities.
-#! @input optional_parameters: The optional query parameters to search for entities.
+#! @input optional_parameters: The optional query parameters to search for entities. This method supports the $expand,
+#!                             $select, $skipToken, $top, and $orderby OData query parameters to customize the response.
 #! @input proxy_host: Proxy server used to access the Sharepoint.
 #!                    Optional
 #! @input proxy_port: Proxy server port used to access the Sharepoint.
@@ -226,7 +227,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.SearchForEntities'
     method_name: 'execute'
 

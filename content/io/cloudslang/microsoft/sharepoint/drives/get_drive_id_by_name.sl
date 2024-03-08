@@ -74,7 +74,7 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output status_code: The HTTP status code for the request.
 #! @output exception: There was an error while trying to retrieve the drive id.
-#! @output drive_id: Id of the drive.
+#! @output drive_id: id of the drive.
 #!
 #! @result SUCCESS: Drive id was returned successfully.
 #! @result FAILURE: There was an error while trying to retrieve the drive id.
@@ -188,7 +188,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.5'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.6'
     class_name: 'io.cloudslang.content.sharepoint.actions.drives.GetDriveIdByName'
     method_name: 'execute'
 
