@@ -24,6 +24,7 @@
 #!                   based on changes to other property values. For best performance you shouldn't include existing values that haven't changed.
 #!                   Note: When moving items to the root of a drive your app cannot use the "id:" "root" syntax.
 #!                         Your app needs to provide the actual ID of the root folder for the parent reference.
+#!                   For more information on how to construct this body you can consult the Microsoft Graph REST API v1.0
 #!                   Example:
 #!{
 #!  "parentReference": {

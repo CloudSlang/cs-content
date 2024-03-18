@@ -24,6 +24,8 @@
 #!                   name		        Optional. The new name for the copy. If this isn't provided, the same name will be used as the original.
 #!                   This example copies a file identified by {item-id} into a folder identified with a driveId and id value.
 #!                   The new copy of the file will be named document (copy).txt.
+#!                   For more information on how to construct this body you can consult the Microsoft Graph REST API v1.0
+#!                   Example:
 #!{
 #!    "parentReference": {
 #!      "driveId": "{6F7D00BF-FC4D-4E62-9769-6AEA81F3A21B}",
@@ -31,6 +33,7 @@
 #!    },
 #!    "name": "document (copy).txt"
 #!}
+#!
 #! @input optional_parameters: The optional query parameters to copy the item. This method supports the
 #!                             @microsoft.graph.conflictBehavior query parameter to customize the behavior when a conflict occurs.
 #!                             Value	Description

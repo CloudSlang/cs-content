@@ -19,7 +19,8 @@
 #! @input item_id: The id of the item where to add the permissions. If both site_id and drive_id inputs are empty,
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
 #! @input json_body: The body to be sent in the request. In the request body, provide a JSON object with the following parameters.
-#!              For more information on how to construct this body you can consult the Microsoft SharePoint documentation.
+#!                   For more information on how to construct this body you can consult the Microsoft Graph REST API v1.0
+#!                   Example:
 #!{
 #!  "requireSignIn": false,
 #!  "sendInvitation": false,
