@@ -20,6 +20,8 @@
 #!                 the operation will look for permissions of the item in the signed-in user's drive, where delegated authentication is required.
 #! @input permission_id: The id of the permission that will be updated.
 #! @input json_body: The body to be sent in the request. Here is an example of the request that changes the role on the sharing permission to read-only.
+#!                   For more information on how to construct this body you can consult the Microsoft Graph REST API v1.0
+#!                   Example:
 #!  {
 #!    "roles": [ "read" ]
 #!  }
