@@ -223,7 +223,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.6'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.9'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.virtualmachines.SetVMPowerState'
     method_name: 'execute'
 

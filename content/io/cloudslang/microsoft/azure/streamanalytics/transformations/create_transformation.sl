@@ -171,7 +171,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.27'
+    gav: 'io.cloudslang.content:cs-azure:0.0.28'
     class_name: 'io.cloudslang.content.azure.actions.streamanalytics.transformations.CreateTransformation'
     method_name: 'execute'
   
