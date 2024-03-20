@@ -285,7 +285,7 @@ flow:
             - vm_name: '${vm_name}'
             - location
             - subscription_id
-            - resource_group_name
+            - resource_group_name: '${vn_rg_name}'
             - public_ip_address_name: '${vm_name}'
             - auth_token
             - connect_timeout
@@ -316,7 +316,7 @@ flow:
             - nic_name: '${vm_name}'
             - location
             - subscription_id
-            - resource_group_name
+            - resource_group_name: '${vn_rg_name}'
             - public_ip_address_name: '${public_ip_address_name}'
             - virtual_network_name
             - subnet_name
@@ -903,7 +903,7 @@ flow:
         publish:
           - dns_name
         navigate:
-          - SUCCESS: check_enable_public_ip
+          - SUCCESS: do_nothing
           - FAILURE: on_failure
     - set_public_ip_address:
         worker_group: '${worker_group}'
@@ -923,7 +923,7 @@ flow:
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.create_nic_without_public_ip:
             - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_group_name}'
+            - resource_group_name: '${vn_rg_name}'
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
@@ -1026,7 +1026,7 @@ flow:
         publish:
           - dns_name
         navigate:
-          - SUCCESS: check_enable_public_ip
+          - SUCCESS: do_nothing
           - FAILURE: on_failure
     - check_if_null_else_add_tags:
         worker_group:
@@ -1197,6 +1197,16 @@ flow:
             - seconds: '20'
         navigate:
           - SUCCESS: get_public_ip_address_info
+          - FAILURE: on_failure
+    - do_nothing:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - input_0: '${virtual_network_name}'
+        publish:
+          - virtual_network_name: '${input_0.split("#")[1]}'
+          - vn_rg_name: '${input_0.split("#")[0]}'
+        navigate:
+          - SUCCESS: check_enable_public_ip
           - FAILURE: on_failure
   outputs:
     - vm_final_name
@@ -1381,6 +1391,9 @@ extensions:
       set_os_type:
         x: 3471
         'y': 72
+      do_nothing:
+        x: 1960
+        'y': 280
       random_number_generator:
         x: 680
         'y': 520
@@ -1466,4 +1479,3 @@ extensions:
         a5733b5a-12c4-c225-dfd8-fa03cc6535bc:
           x: 5280
           'y': 320
-
