@@ -704,7 +704,7 @@ flow:
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.get_nic_name_info:
             - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_group_name}'
+            - resource_group_name: '${vn_rg_name}'
             - auth_token: '${auth_token}'
             - nic_name: '${nic_name}'
             - proxy_host: '${proxy_host}'
