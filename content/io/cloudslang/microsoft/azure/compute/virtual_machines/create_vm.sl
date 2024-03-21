@@ -159,7 +159,12 @@ operation:
     - resource_group_name    
     - resourceGroupName: 
         default: ${get('resource_group_name', '')}
-        private: true 
+        private: true
+    - nic_resource_group_name:
+        required: false
+    - nicResourceGroupName:
+        default: ${get('nic_resource_group_name', '')}
+        private: true
     - nic_name    
     - nicName: 
         default: ${get('nic_name', '')}
@@ -318,7 +323,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.28'
+    gav: 'io.cloudslang.content:cs-azure:0.0.27-SNAPSHOT-101'
     class_name: 'io.cloudslang.content.azure.actions.compute.virtualmachines.CreateVM'
     method_name: 'execute'
   

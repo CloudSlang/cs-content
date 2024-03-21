@@ -168,7 +168,7 @@ operation:
         sensitive: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-azure:0.0.28'
+    gav: 'io.cloudslang.content:cs-azure:0.0.27-SNAPSHOT-101'
     class_name: 'io.cloudslang.content.azure.actions.compute.virtualmachines.DeleteVM'
     method_name: 'execute'
   

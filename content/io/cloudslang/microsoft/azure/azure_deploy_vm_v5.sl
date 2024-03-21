@@ -430,6 +430,7 @@ flow:
             - api_version: '2019-07-01'
             - location: '${location}'
             - resource_group_name: '${resource_group_name}'
+            - nic_resource_group_name: '${vn_rg_name}'
             - nic_name: '${nic_name}'
             - vm_size: '${vm_size}'
             - vm_name: '${vm_name}'
