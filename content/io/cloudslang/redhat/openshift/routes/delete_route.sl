@@ -174,7 +174,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.6'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.8'
     class_name: 'io.cloudslang.content.redhat.actions.DeleteRoute'
     method_name: 'execute'
   
