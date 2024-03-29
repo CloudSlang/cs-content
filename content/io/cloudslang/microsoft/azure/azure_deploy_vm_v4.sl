@@ -274,7 +274,7 @@ flow:
             - vm_name: '${vm_name}'
             - location
             - subscription_id
-            - resource_group_name
+            - resource_group_name: '${vn_rg_name}'
             - public_ip_address_name: '${vm_name}'
             - auth_token
             - connect_timeout
@@ -305,7 +305,7 @@ flow:
             - nic_name: '${vm_name}'
             - location
             - subscription_id
-            - resource_group_name
+            - resource_group_name: '${vn_rg_name}'
             - public_ip_address_name: '${public_ip_address_name}'
             - virtual_network_name
             - subnet_name
@@ -419,6 +419,7 @@ flow:
             - api_version: '2019-07-01'
             - location: '${location}'
             - resource_group_name: '${resource_group_name}'
+            - nic_resource_group_name: '${vn_rg_name}'
             - nic_name: '${nic_name}'
             - vm_size: '${vm_size}'
             - vm_name: '${vm_name}'
@@ -692,7 +693,7 @@ flow:
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.get_nic_name_info:
             - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_group_name}'
+            - resource_group_name: '${vn_rg_name}'
             - auth_token: '${auth_token}'
             - nic_name: '${nic_name}'
             - proxy_host: '${proxy_host}'
@@ -892,7 +893,7 @@ flow:
         publish:
           - dns_name
         navigate:
-          - SUCCESS: check_enable_public_ip
+          - SUCCESS: do_nothing
           - FAILURE: on_failure
     - set_public_ip_address:
         worker_group: '${worker_group}'
@@ -912,7 +913,7 @@ flow:
         do:
           io.cloudslang.microsoft.azure.compute.network.network_interface_card.create_nic_without_public_ip:
             - subscription_id: '${subscription_id}'
-            - resource_group_name: '${resource_group_name}'
+            - resource_group_name: '${vn_rg_name}'
             - auth_token:
                 value: '${auth_token}'
                 sensitive: true
@@ -1015,7 +1016,7 @@ flow:
         publish:
           - dns_name
         navigate:
-          - SUCCESS: check_enable_public_ip
+          - SUCCESS: do_nothing
           - FAILURE: on_failure
     - check_if_null_else_add_tags:
         worker_group:
@@ -1103,6 +1104,16 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: set_public_ip_address
+          - FAILURE: on_failure
+    - do_nothing:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - input_0: '${virtual_network_name}'
+        publish:
+          - virtual_network_name: '${input_0.split("#")[1]}'
+          - vn_rg_name: '${input_0.split("#")[0]}'
+        navigate:
+          - SUCCESS: check_enable_public_ip
           - FAILURE: on_failure
   outputs:
     - vm_final_name
@@ -1264,6 +1275,9 @@ extensions:
       set_os_type:
         x: 3471
         'y': 72
+      do_nothing:
+        x: 1960
+        'y': 280
       random_number_generator:
         x: 680
         'y': 520
