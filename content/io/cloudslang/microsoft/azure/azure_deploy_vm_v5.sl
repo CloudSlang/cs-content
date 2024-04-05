@@ -236,6 +236,16 @@ flow:
     - trust_keystore:
         required: false
   workflow:
+    - string_occurrence_counter_1:
+        do:
+          io.cloudslang.base.strings.string_occurrence_counter:
+            - string_in_which_to_search: '${vm_size}'
+            - string_to_find: '|'
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: string_equals_1
+          - FAILURE: on_failure
     - check_tagnames_tagvalues_equal:
         worker_group: '${worker_group}'
         do:
@@ -1198,6 +1208,23 @@ flow:
         navigate:
           - SUCCESS: get_public_ip_address_info
           - FAILURE: on_failure
+    - do_nothing:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - input_0: '${vm_size}'
+        publish:
+          - vm_size: '${input_0.split("|")[1]}'
+        navigate:
+          - SUCCESS: check_tagnames_tagvalues_equal
+          - FAILURE: on_failure
+    - string_equals_1:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${return_result}'
+            - second_string: '1'
+        navigate:
+          - SUCCESS: do_nothing
+          - FAILURE: on_failure
   outputs:
     - vm_final_name
     - disk_name
@@ -1289,6 +1316,9 @@ extensions:
       string_equals:
         x: 360
         'y': 160
+      string_occurrence_counter_1:
+        x: 440
+        'y': 680
       get_power_state:
         x: 5000
         'y': 640
@@ -1381,6 +1411,9 @@ extensions:
       set_os_type:
         x: 3471
         'y': 72
+      do_nothing:
+        x: 200
+        'y': 520
       random_number_generator:
         x: 680
         'y': 520
@@ -1445,6 +1478,9 @@ extensions:
       set_dns_name:
         x: 4360
         'y': 320
+      string_equals_1:
+        x: 320
+        'y': 480
       set_storage_account_type_1:
         x: 1124
         'y': 263
