@@ -72,8 +72,16 @@ operation:
     - policyARN
     - tag_key_list:
         required: false
+    - tagKeyList:
+        default: ${get('tag_key_list', '')}
+        required: false
+        private: true
     - tag_value_list:
         required: false
+    - tagValueList:
+        default: ${get('tag_value_list', '')}
+        required: false
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
