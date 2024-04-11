@@ -245,7 +245,7 @@ flow:
           - return_result
         navigate:
           - SUCCESS: string_equals_1
-          - FAILURE: on_failure
+          - FAILURE: string_equals_1
     - check_tagnames_tagvalues_equal:
         worker_group: '${worker_group}'
         do:
@@ -1224,7 +1224,7 @@ flow:
             - second_string: '1'
         navigate:
           - SUCCESS: do_nothing
-          - FAILURE: on_failure
+          - FAILURE: check_tagnames_tagvalues_equal
   outputs:
     - vm_final_name
     - disk_name
