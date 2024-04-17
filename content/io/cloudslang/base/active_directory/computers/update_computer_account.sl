@@ -121,7 +121,7 @@
 namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
-  name: create_computer_account
+  name: update_computer_account
   
   inputs: 
     - host
