@@ -224,7 +224,7 @@ operation:
 
   java_action: 
     gav: 'io.cloudslang.content:cs-active-directory:0.0.8-SNAPSHOT'
-    class_name: 'io.cloudslang.content.active_directory.actions.computers.CreateComputerAccountAction'
+    class_name: 'io.cloudslang.content.active_directory.actions.computers.UpdateComputerAccountAction'
     method_name: 'execute'
   
   outputs: 
