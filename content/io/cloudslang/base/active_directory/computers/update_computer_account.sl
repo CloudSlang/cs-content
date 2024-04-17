@@ -12,7 +12,7 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: Creates a new computer account in Active Directory.
+#! @description: Updates a computer account in Active Directory.
 #!
 #! @input host: The domain controller to connect to.
 #! @input protocol: The protocol to use when connecting to the Active Directory server.
@@ -20,7 +20,7 @@
 #!                  Optional
 #! @input username: The user to connect to Active Directory as.
 #! @input password: The password of the user to connect to Active Directory.
-#! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
+#! @input distinguished_name: The Organizational Unit DN or Common Name DN to update the computer to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
 #! @input computer_common_name: The name of the computer (its CN).
 #! @input attributes_list: "A list of attributes and their corresponding values, delimited by commas.
@@ -108,14 +108,13 @@
 #!                 Default value: 60.
 #!                 Optional
 #!
-#! @output return_result: A message with the common name of the created computer account in case of success or the error
+#! @output return_result: A message that the computer account was updated in case of success or the error
 #!                        message in case of failure.
-#! @output computer_distinguished_name: The distinguished name of the newly created computer account.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: The computer account was created successfully.
-#! @result FAILURE: Failed to create the computer account.
+#! @result SUCCESS: The computer account was updated successfully.
+#! @result FAILURE: Failed to update the computer account.
 #!!#
 ########################################################################################################################
 
@@ -229,8 +228,7 @@ operation:
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - computer_distinguished_name: ${get('computerDistinguishedName', '')} 
-    - return_code: ${get('returnCode', '')} 
+    - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
