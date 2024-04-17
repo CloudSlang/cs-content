@@ -130,7 +130,7 @@ operation:
     - username
     - password:
         sensitive: true
-    - distinguished_name    
+    - distinguished_name
     - distinguishedName: 
         default: ${get('distinguished_name', '')}  
         required: false 
@@ -143,6 +143,7 @@ operation:
     - attributes_list
     - attributesList:
         default: ${get('attributes_list', '')}
+        required: false
         private: true
     - proxy_host:
         required: false
