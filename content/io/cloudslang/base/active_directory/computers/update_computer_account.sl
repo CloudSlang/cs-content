@@ -12,7 +12,7 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: This operation disables a user account in Active Directory.
+#! @description: Creates a new computer account in Active Directory.
 #!
 #! @input host: The domain controller to connect to.
 #! @input protocol: The protocol to use when connecting to the Active Directory server.
@@ -20,10 +20,33 @@
 #!                  Optional
 #! @input username: The user to connect to Active Directory as.
 #! @input password: The password of the user to connect to Active Directory.
-#! @input distinguished_name: The Organizational Unit DN or Common Name DN the user is in.
+#! @input distinguished_name: The Organizational Unit DN or Common Name DN to add the computer to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
-#! @input user_common_name: The CN, generally the full name of user.
-#!                          Example: Bob Smith
+#! @input computer_common_name: The name of the computer (its CN).
+#! @input attributes_list: "A list of attributes and their corresponding values, delimited by commas.
+#!                          Each attribute-value pair provides information to be updated or modified.
+#!                          Example: description=new description, location=new location.";
+#!                          Here's a list of common attributes that can be modified for updating a computer account:
+#!
+#!  sAMAccountName: Pre-Windows 2000 logon name.
+#!  userPrincipalName: User Principal Name (UPN) associated with the computer.
+#!  description: Description of the computer.
+#!  operatingSystem: Operating system installed on the computer.
+#!  operatingSystemVersion: Version of the operating system installed on the computer.
+#!  dNSHostName: DNS host name of the computer.
+#!  servicePrincipalName: Service Principal Names (SPNs) associated with the computer.
+#!  location: Physical location of the computer.
+#!  memberOf: Groups to which the computer belongs.
+#!  managedBy: User or group responsible for managing the computer.
+#!  name: Common Name (CN) of the computer.
+#!  distinguishedName: Distinguished Name (DN) of the computer object.
+#!  servicePrincipalName: SPNs associated with the computer.
+#!  canonicalName: Canonical name of the computer.
+#!  memberOf: Groups to which the computer is a member.
+#!  managedObjects: Objects managed by the computer.
+#!
+#!  Note: The complete list of attributes can be found in the Microsoft Documentation
+#!  https://learn.microsoft.com/en-us/windows/win32/adschema/c-computer
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -47,11 +70,11 @@
 #!                         successfully to the target host, it should accept at least one of the following ciphers. If
 #!                         this is not the case, it is the user's responsibility to configure the host accordingly or to
 #!                         update the list of allowed ciphers.
-#!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-#!                         TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,
-#!                         TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,
-#!                         TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-#!                         TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256, TLS_RSA_WITH_AES_128_CBC_SHA256.
+#!                         Default value: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384, TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_DHE_RSA_WITH_AES_256_CBC_SHA256, TLS_DHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+#!                         TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+#!                         TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_AES_256_CBC_SHA256,
+#!                         TLS_RSA_WITH_AES_128_CBC_SHA256.
 #!                         Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL. A SSL certificate is trust even if no
 #!                         trusted certification authority issued it.
@@ -85,38 +108,43 @@
 #!                 Default value: 60.
 #!                 Optional
 #!
-#! @output return_result: The return result of the operation.
-#! @output user_distinguished_name: The distinguished name of the user that was disabled.
+#! @output return_result: A message with the common name of the created computer account in case of success or the error
+#!                        message in case of failure.
+#! @output computer_distinguished_name: The distinguished name of the newly created computer account.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: The user was successfully disabled.
-#! @result FAILURE: Failed to disable the user.
+#! @result SUCCESS: The computer account was created successfully.
+#! @result FAILURE: Failed to create the computer account.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.active_directory.users
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
-  name: disable_user
+  name: create_computer_account
   
   inputs: 
-    - host    
-    - protocol:  
-        required: false  
-    - username    
-    - password:    
+    - host
+    - protocol:
+        required: false
+    - username
+    - password:
         sensitive: true
     - distinguished_name    
     - distinguishedName: 
         default: ${get('distinguished_name', '')}  
         required: false 
         private: true 
-    - user_common_name    
-    - userCommonName: 
-        default: ${get('user_common_name', '')}  
+    - computer_common_name    
+    - computerCommonName: 
+        default: ${get('computer_common_name', '')}  
         required: false 
         private: true 
+    - attributes_list
+    - attributesList:
+        default: ${get('attributes_list', '')}
+        private: true
     - proxy_host:
         required: false
     - proxyHost:
@@ -177,31 +205,31 @@ operation:
         required: false
         private: true
     - trust_keystore:
-        required: false
-    - trustKeystore:
-        default: ${get('trust_keystore', '')}
-        required: false
-        private: true
-    - trust_password:
-        required: false
+        required: false  
+    - trustKeystore: 
+        default: ${get('trust_keystore', '')}  
+        required: false 
+        private: true 
+    - trust_password:  
+        required: false  
         sensitive: true
-    - trustPassword:
-        default: ${get('trust_password', '')}
-        required: false
-        private: true
+    - trustPassword: 
+        default: ${get('trust_password', '')}  
+        required: false 
+        private: true 
         sensitive: true
     - timeout:
         default: '60'
         required: false  
-    
+
   java_action: 
     gav: 'io.cloudslang.content:cs-active-directory:0.0.8-SNAPSHOT'
-    class_name: 'io.cloudslang.content.active_directory.actions.users.DisableUserAction'
+    class_name: 'io.cloudslang.content.active_directory.actions.computers.CreateComputerAccountAction'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - user_distinguished_name: ${get('userDistinguishedName', '')} 
+    - computer_distinguished_name: ${get('computerDistinguishedName', '')} 
     - return_code: ${get('returnCode', '')} 
     - exception: ${get('exception', '')} 
   
