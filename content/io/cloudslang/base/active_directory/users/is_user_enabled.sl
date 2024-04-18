@@ -195,7 +195,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.81-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.8-SNAPSHOT'
     class_name: 'io.cloudslang.content.active_directory.actions.users.IsUserEnabledAction'
     method_name: 'execute'
   
