@@ -47,6 +47,8 @@
 #!
 #!  Note: The complete list of attributes can be found in the Microsoft Documentation
 #!  https://learn.microsoft.com/en-us/windows/win32/adschema/c-computer
+#! @input delimiter: The delimiter to be used for attributes list.
+#!                   Default value: ;
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
