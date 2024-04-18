@@ -12,7 +12,7 @@
 #   limitations under the License.
 ########################################################################################################################
 #!!
-#! @description: Enables a user from Active Directory.
+#! @description: Updates a computer account in Active Directory.
 #!
 #! @input host: The domain controller to connect to.
 #! @input protocol: The protocol to use when connecting to the Active Directory server.
@@ -20,10 +20,35 @@
 #!                  Optional
 #! @input username: The user to connect to Active Directory as.
 #! @input password: The password of the user to connect to Active Directory.
-#! @input distinguished_name: The Organizational Unit DN or Common Name DN in which to enable the user.
+#! @input distinguished_name: The Organizational Unit DN or Common Name DN to update the computer to.
 #!                            Example: OU=OUTest1,DC=battleground,DC=ad.
-#! @input user_common_name: The CN, generally the full name of user.
-#!                          Example: Bob Smith
+#! @input computer_common_name: The name of the computer (its CN).
+#! @input attributes_list: "A list of attributes and their corresponding values, delimited by commas.
+#!                          Each attribute-value pair provides information to be updated or modified.
+#!                          Example: description=new description, location=new location.";
+#!                          Here's a list of common attributes that can be modified for updating a computer account:
+#!
+#!  sAMAccountName: Pre-Windows 2000 logon name.
+#!  userPrincipalName: User Principal Name (UPN) associated with the computer.
+#!  description: Description of the computer.
+#!  operatingSystem: Operating system installed on the computer.
+#!  operatingSystemVersion: Version of the operating system installed on the computer.
+#!  dNSHostName: DNS host name of the computer.
+#!  servicePrincipalName: Service Principal Names (SPNs) associated with the computer.
+#!  location: Physical location of the computer.
+#!  memberOf: Groups to which the computer belongs.
+#!  managedBy: User or group responsible for managing the computer.
+#!  name: Common Name (CN) of the computer.
+#!  distinguishedName: Distinguished Name (DN) of the computer object.
+#!  servicePrincipalName: SPNs associated with the computer.
+#!  canonicalName: Canonical name of the computer.
+#!  memberOf: Groups to which the computer is a member.
+#!  managedObjects: Objects managed by the computer.
+#!
+#!  Note: The complete list of attributes can be found in the Microsoft Documentation
+#!  https://learn.microsoft.com/en-us/windows/win32/adschema/c-computer
+#! @input delimiter: The delimiter to be used for attributes list.
+#!                   Default value: ;
 #! @input proxy_host: The proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -85,21 +110,20 @@
 #!                 Default value: 60.
 #!                 Optional
 #!
-#! @output return_result: A message with the common name of the enabled user in case of success or the error message in
-#!                        case of failure.
-#! @output user_distinguished_name: The distinguished name of the enabled user.
+#! @output return_result: A message that the computer account was updated in case of success or the error
+#!                        message in case of failure.
 #! @output return_code: The return code of the operation. 0 if the operation succeeded, -1 if the operation fails.
 #! @output exception: The exception message if the operation fails.
 #!
-#! @result SUCCESS: The user was enabled successfully.
-#! @result FAILURE: Failed to enable the user.
+#! @result SUCCESS: The computer account was updated successfully.
+#! @result FAILURE: Failed to update the computer account.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.active_directory.users
+namespace: io.cloudslang.base.active_directory.computers
 
 operation: 
-  name: enable_user
+  name: update_computer_account
   
   inputs: 
     - host
@@ -108,16 +132,24 @@ operation:
     - username
     - password:
         sensitive: true
-    - distinguished_name    
+    - distinguished_name
     - distinguishedName: 
         default: ${get('distinguished_name', '')}  
         required: false 
         private: true 
-    - user_common_name    
-    - userCommonName: 
-        default: ${get('user_common_name', '')}  
+    - computer_common_name    
+    - computerCommonName: 
+        default: ${get('computer_common_name', '')}  
         required: false 
+        private: true 
+    - attributes_list
+    - attributesList:
+        default: ${get('attributes_list', '')}
+        required: false
         private: true
+    - delimiter:
+        default: ';'
+        required: false
     - proxy_host:
         required: false
     - proxyHost:
@@ -193,17 +225,16 @@ operation:
         sensitive: true
     - timeout:
         default: '60'
-        required: false
-    
+        required: false  
+
   java_action: 
     gav: 'io.cloudslang.content:cs-active-directory:0.0.8'
-    class_name: 'io.cloudslang.content.active_directory.actions.users.EnableUserAction'
+    class_name: 'io.cloudslang.content.active_directory.actions.computers.UpdateComputerAccountAction'
     method_name: 'execute'
   
   outputs: 
     - return_result: ${get('returnResult', '')} 
-    - user_distinguished_name: ${get('userDistinguishedName', '')} 
-    - return_code: ${get('returnCode', '')} 
+    - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')} 
   
   results: 
