@@ -56,7 +56,7 @@
 #! @result FAILURE: The vdcs were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director.organizations
+namespace: io.cloudslang.vmware.cloud_director.vdcs
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json

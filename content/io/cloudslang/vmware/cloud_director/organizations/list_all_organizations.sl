@@ -56,7 +56,7 @@
 #! @result FAILURE: The list of organizations were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director.vdcs
+namespace: io.cloudslang.vmware.cloud_director.organizations
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
