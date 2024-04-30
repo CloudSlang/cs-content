@@ -121,7 +121,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token}"
+            - headers: "${'Accept: application/*+json;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
