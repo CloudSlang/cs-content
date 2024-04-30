@@ -78,7 +78,7 @@ operation:
         sensitive: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-azure:0.0.28'
+    gav: 'io.cloudslang.content:cs-azure:0.0.29-SNAPSHOT'
     class_name: io.cloudslang.content.azure.actions.storage.DeleteContainer
     method_name: execute
 
