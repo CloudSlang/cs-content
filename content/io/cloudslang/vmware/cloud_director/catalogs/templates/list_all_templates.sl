@@ -143,6 +143,8 @@ flow:
         do:
           io.cloudslang.base.utils.do_nothing:
             - url: "${'https://'+ base_URL +'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false);(catalog=='+catalog_id+'))&sortAsc=name&links=true'}"
+        publish:
+          - url
         navigate:
           - SUCCESS: api_to_list_all_templates
           - FAILURE: on_failure
