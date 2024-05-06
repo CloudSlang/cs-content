@@ -56,7 +56,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.catalog
+namespace: io.cloudslang.vmware.cloud_director.catalogs
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
