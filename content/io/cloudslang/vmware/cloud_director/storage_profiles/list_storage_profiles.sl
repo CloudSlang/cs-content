@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation can be used to retrieve the list of organizations, as JSON array.
+#! @description: This operation can be used to retrieve the list of storage profiles, as JSON array.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input base_URL: The base URL for the vlocud.
 #! @input access_token: The authorization token for vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -50,18 +50,18 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#! @output orgs_json: A JSON list containing the list of all organizations.
+#! @output storage_profile_json: A JSON list containing the list of storage profiles.
 #!
 #! @result SUCCESS: The list of organizations were found and successfully retrieved.
 #! @result FAILURE: The list of organizations were not found or some inputs were given incorrectly
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director.organizations
+namespace: io.cloudslang.vmware.cloud_director.storage_profiles
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_all_organizations
+  name: list_storage_profiles
   inputs:
     - base_URL
     - access_token:
@@ -90,13 +90,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_list_all_organizations:
+    - api_to_list_storage_profiles:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+base_URL+'/cloudapi/1.0.0/orgs'}"
+            - url: "${'https://'+base_URL+'/api/query?type=orgVdcStorageProfile'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -110,7 +110,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=38.0' + '\\n' +'Authorization: ' + access_token}"
+            - headers: "${'Accept: application/*+json;version=38.0' + '\\n' +'Authorization: ' + access_token}"
             - worker_group: '${worker_group}'
         publish:
           - return_result
@@ -122,24 +122,27 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - message: All the organizations has been successfully listed.
-            - orgs_json: '${return_result}'
+            - message: The list of storage profiles has been retrived
+            - storage_profile_json: '${return_result}'
         publish:
           - return_result: '${message}'
-          - orgs_json
+          - storage_profile_json
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
-    - orgs_json
+    - storage_profile_json
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
+      api_to_list_storage_profiles:
+        x: 80
+        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -147,9 +150,6 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_list_all_organizations:
-        x: 80
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
