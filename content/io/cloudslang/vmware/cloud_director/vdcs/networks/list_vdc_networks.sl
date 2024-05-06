@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used list the catalogs
+#! @description: This operation is used to list vdc networks.
 #!
 #! @input base_URL: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
@@ -51,17 +51,17 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The catalogs list successfully fetched.
-#! @result FAILURE: Error in fetching catalogs.
+#! @result SUCCESS: The  catalog details fetched successfully .
+#! @result FAILURE: Error in fetching catalog details.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.catalogs
+namespace: io.cloudslang.vmware.cloud_director.vdcs.networks
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_catalogs
+  name: list_vdc_networks
   inputs:
     - base_URL:
         required: true
@@ -90,13 +90,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_list_catalogs:
+    - api_to_list_vdc_networks:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/catalogs'}"
+            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/orgVdcNetworks'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -110,7 +110,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization: Bearer ' + access_token}"
+            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
@@ -128,9 +128,9 @@ flow:
 extensions:
   graph:
     steps:
-      api_to_list_catalogs:
-        x: 120
-        'y': 240
+      api_to_list_vdc_networks:
+        x: 360
+        'y': 200
         navigate:
           83a30e8c-54f8-6571-f359-46bc8e1dea7b:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
@@ -138,6 +138,6 @@ extensions:
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 360
+          x: 600
           'y': 200
 

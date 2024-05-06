@@ -13,10 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used list the catalogs
+#! @description: This operation is used to list all templates.
 #!
 #! @input base_URL: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
+#! @input catalog_id: The ID of catalog.
+#!                    Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -51,21 +53,23 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The catalogs list successfully fetched.
-#! @result FAILURE: Error in fetching catalogs.
+#! @result SUCCESS: The  catalog details fetched successfully .
+#! @result FAILURE: Error in fetching catalog details.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.catalogs
+namespace: io.cloudslang.vmware.cloud_director.catalogs.templates
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_catalogs
+  name: list_all_templates
   inputs:
     - base_URL:
         required: true
     - access_token
+    - catalog_id:
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -90,13 +94,20 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_list_catalogs:
+    - check_catalog_id_empty_or_not:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${catalog_id}'
+        navigate:
+          - SUCCESS: set_url_without_catalog_id
+          - FAILURE: set_url_with_catalog_id
+    - api_to_list_all_templates:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/catalogs'}"
+            - url: '${url}'
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -110,7 +121,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization: Bearer ' + access_token}"
+            - headers: "${'Accept: application/*+json;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
@@ -118,6 +129,24 @@ flow:
           - status_code
         navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - set_url_without_catalog_id:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - url: "${'https://'+ base_URL +'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false))&sortAsc=name&links=true'}"
+        publish:
+          - url
+        navigate:
+          - SUCCESS: api_to_list_all_templates
+          - FAILURE: on_failure
+    - set_url_with_catalog_id:
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - url: "${'https://'+ base_URL +'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false);(catalog=='+catalog_id+'))&sortAsc=name&links=true'}"
+        publish:
+          - url
+        navigate:
+          - SUCCESS: api_to_list_all_templates
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -128,16 +157,25 @@ flow:
 extensions:
   graph:
     steps:
-      api_to_list_catalogs:
-        x: 120
-        'y': 240
+      set_url_without_catalog_id:
+        x: 240
+        'y': 120
+      set_url_with_catalog_id:
+        x: 280
+        'y': 360
+      api_to_list_all_templates:
+        x: 360
+        'y': 200
         navigate:
           83a30e8c-54f8-6571-f359-46bc8e1dea7b:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      check_catalog_id_empty_or_not:
+        x: 120
+        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 360
+          x: 600
           'y': 200
 
