@@ -142,7 +142,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-google:0.4.13'
+    gav: 'io.cloudslang.content:cs-google:0.4.15-SNAPSHOT'
     class_name: io.cloudslang.content.google.actions.compute.compute_engine.instances.InstancesStart
     method_name: execute
 
