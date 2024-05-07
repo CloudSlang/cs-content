@@ -123,7 +123,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.55'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.56-SNAPSHOT'
     class_name: 'io.cloudslang.content.amazon.actions.rds.StopDBInstance'
     method_name: 'execute'
 
