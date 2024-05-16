@@ -200,7 +200,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.8'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.9'
     class_name: 'io.cloudslang.content.active_directory.actions.users.ResetUserPasswordAction'
     method_name: 'execute'
   
