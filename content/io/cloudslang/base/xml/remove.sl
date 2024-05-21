@@ -79,7 +79,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-xml:0.0.23'
+    gav: 'io.cloudslang.content:cs-xml:0.0.24-SNAPSHOT'
     class_name: io.cloudslang.content.xml.actions.Remove
     method_name: execute
 
