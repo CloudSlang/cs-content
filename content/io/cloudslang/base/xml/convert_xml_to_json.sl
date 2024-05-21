@@ -113,5 +113,5 @@ operation:
     - namespaces_uris: ${namespacesUris}
 
   results:
-    - SUCCESS: ${returnCode == '0'}
+    - SUCCESS: ${return_code == '0'}
     - FAILURE
