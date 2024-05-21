@@ -107,10 +107,10 @@ operation:
     method_name: execute
 
   outputs:
-    - return_result: ${get('returnResult', "")}
-    - return_code: ${get('returnCode', "")}
-    - namespaces_prefixes: ${get('namespacesPrefixes', "")}
-    - namespaces_uris: ${get('namespacesUris', "")}
+    - return_result: ${returnResult}
+    - return_code: ${returnCode}
+    - namespaces_prefixes: ${namespacesPrefixes}
+    - namespaces_uris: ${namespacesUris}
 
   results:
     - SUCCESS: ${returnCode == '0'}
