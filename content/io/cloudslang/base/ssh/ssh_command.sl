@@ -234,7 +234,7 @@ operation:
           private: true
 
     java_action:
-      gav: 'io.cloudslang.content:cs-ssh:0.0.51'
+      gav: 'io.cloudslang.content:cs-ssh:0.0.52'
       class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
       method_name: runSshShellCommand
 
