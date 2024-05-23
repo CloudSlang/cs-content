@@ -113,7 +113,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - request_character_set: utf-8
-            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization: Bearer ' + access_token}"
+            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization:  ' + access_token}"
             - content_type: 'application/*+xml'
             - worker_group: '${worker_group}'
         navigate:
