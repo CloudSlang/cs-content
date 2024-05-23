@@ -57,12 +57,12 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.vApp
+namespace: io.cloudslang.vmware.cloud_director.vapp
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: start_vApp
+  name: start_vapp
   inputs:
     - base_URL:
         required: true
@@ -70,10 +70,8 @@ flow:
     - access_token:
         sensitive: true
     - proxy_host:
-        default: web-proxy.us.softwaregrp.net
         required: false
     - proxy_port:
-        default: '8080'
         required: false
     - proxy_username:
         required: false

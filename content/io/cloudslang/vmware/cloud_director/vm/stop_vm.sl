@@ -13,21 +13,21 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used delete vApp.
+#! @description: This operation is used to stop the vm.
 #!
 #! @input base_URL: The base URL for the vcloud.
-#! @input vApp_id: The ID of vApp.
-#! @input access_token: The authorization token for vcloud.
+#! @input vm_id: The unique Id of the VM.
+#! @input access_token: The Refresh token for the Vcloud.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Optional
 #! @input proxy_username: Username used when connecting to the proxy.
 #!                        Optional
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: 'RAS_Operator_Path'
-#!                      Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
@@ -52,39 +52,42 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The vApp has been  deleted successfully.
-#! @result FAILURE: Error in deleting vApp.
+#! @result SUCCESS: The VM has been stopped successfully.
+#! @result FAILURE: Error in stopping the Vm.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.vApp
+namespace: io.cloudslang.vmware.cloud_director.vm
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: delete_vApp
+  name: stop_vm
   inputs:
     - base_URL:
         required: true
-    - vApp_id
-    - access_token
+    - vm_id:
+        required: true
+        sensitive: false
+    - access_token:
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
         required: false
     - proxy_username:
         required: false
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
     - proxy_password:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'false'
+        default: 'true'
         required: false
     - x_509_hostname_verifier:
-        default: strict
+        default: allow_all
         required: false
     - trust_keystore:
         required: false
@@ -92,13 +95,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - http_client_delete_vApp:
+    - api_to_stop_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_delete:
-            - url: "${'https://' + base_URL + '/api/vApp/'+vApp_id}"
+          io.cloudslang.base.http.http_client_post:
+            - url: "${'https://'+base_URL+'/api/vApp/'+vm_id+'/action/undeploy'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -108,14 +111,17 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - keystore: '${trust_keystore}'
-            - keystore_password:
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - request_character_set: utf-8
-            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization:  ' + access_token}"
-            - content_type: 'application/*+xml'
+            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token +'\\n'+'Content-Type: application/*+xml;charset=UTF-8'}"
+            - body: '<root:UndeployVAppParams xmlns:root="http://www.vmware.com/vcloud/v1.5"><root:UndeployPowerAction>powerOff</root:UndeployPowerAction></root:UndeployVAppParams>'
+            - content_type: 'application/*+xml;charset=UTF-8'
             - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -128,16 +134,16 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_delete_vApp:
-        x: 320
-        'y': 240
+      api_to_stop_vm:
+        x: 120
+        'y': 200
         navigate:
-          bf07ce36-d912-5f68-f50d-c67bb6e5e193:
+          f5390b4e-f9b9-1deb-5cc4-e0913b116829:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
-          'y': 240
+          x: 520
+          'y': 200
 
