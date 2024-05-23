@@ -57,12 +57,12 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.vapp
+namespace: io.cloudslang.vmware.cloud_director.vApp
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: delete_vapp
+  name: delete_vApp
   inputs:
     - base_URL:
         required: true
