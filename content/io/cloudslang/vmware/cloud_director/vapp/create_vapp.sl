@@ -90,7 +90,7 @@ flow:
           value: '${worker_group}'
           override: true
         do:
-          vCloud_director.get_template_details:
+          io.cloudslang.vmware.cloud_director.catalogs.templates.get_template_details:
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - template_id: '${vapp_template_id}'
@@ -146,7 +146,7 @@ flow:
     - form_vapp_request_body:
         worker_group: '${worker_group}'
         do:
-          vCloud_director.request_body:
+          io.cloudslang.vmware.cloud_director.utils.create_vapp_request_body:
             - name: '${vapp_name}'
             - template_json: '${template_json}'
         publish:
