@@ -389,6 +389,7 @@ flow:
           - SUCCESS: wait_for_vapp_creation
           - FAILURE: on_failure
   outputs:
+    - final_vapp_name
     - vapp_id
     - vapp_status
     - vm_name_list
