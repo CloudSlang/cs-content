@@ -15,7 +15,9 @@
 #!!
 #! @description: This operation is used to get catalog details.
 #!
-#! @input host_name: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input catalog_id: The ID of catalog.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -57,7 +59,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.catalogs
+namespace: io.operations
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
@@ -66,8 +68,8 @@ flow:
   inputs:
     - host_name:
         required: true
-    - protocol
-    - port
+    - protocol: https
+    - port: '443'
     - access_token
     - catalog_id
     - proxy_host:

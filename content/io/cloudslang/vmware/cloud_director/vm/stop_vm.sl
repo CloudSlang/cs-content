@@ -15,7 +15,9 @@
 #!!
 #! @description: This operation is used to stop the vm.
 #!
-#! @input host_name: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input vm_id: The unique Id of the VM.
 #! @input access_token: The Refresh token for the Vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group

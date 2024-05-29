@@ -15,7 +15,9 @@
 #!!
 #! @description: This operation is used to get vapp details.
 #!
-#! @input host_name: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input vapp_id: The ID of catalog.
 #! @input proxy_host: Proxy server used to access the web site.
