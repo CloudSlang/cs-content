@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation can be used to retrieve the list of organizations, as JSON array.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -63,7 +63,9 @@ imports:
 flow:
   name: list_all_organizations
   inputs:
-    - base_URL
+    - host_name
+    - protocol: https
+    - port: '443'
     - access_token:
         sensitive: true
     - worker_group:
@@ -79,10 +81,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
@@ -96,7 +98,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+base_URL+'/cloudapi/1.0.0/orgs'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/cloudapi/1.0.0/orgs'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -140,6 +142,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_to_list_all_organizations:
+        x: 80
+        'y': 200
       set_success_message:
         x: 320
         'y': 200
@@ -147,9 +152,6 @@ extensions:
           5b2f36b4-9be2-4b4f-2ea4-5c767cb0f885:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_list_all_organizations:
-        x: 80
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

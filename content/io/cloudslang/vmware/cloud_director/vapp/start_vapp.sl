@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to start the vApp.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input vApp_id: The ID of vApp.
 #! @input access_token: The authorization token for vcloud.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -64,8 +64,10 @@ imports:
 flow:
   name: start_vapp
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vApp_id
     - access_token:
         sensitive: true
@@ -99,7 +101,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://' + base_URL + '/api/vApp/'+vApp_id+ '/action/deploy'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vApp_id+ '/action/deploy'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to get catalog details.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
 #! @input catalog_id: The ID of catalog.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -64,8 +64,10 @@ imports:
 flow:
   name: get_catalog_details
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - protocol
+    - port
     - access_token
     - catalog_id
     - proxy_host:
@@ -98,7 +100,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/catalogs/'+catalog_id}"
+            - url: "${protocol+'://'+host_name+':'+port+'/cloudapi/1.0.0/catalogs/'+catalog_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to list all templates.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
 #! @input catalog_id: The ID of catalog.
 #!                    Optional
@@ -65,8 +65,10 @@ imports:
 flow:
   name: list_all_templates
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - access_token
     - catalog_id:
         required: false
@@ -133,7 +135,7 @@ flow:
     - set_url_without_catalog_id:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - url: "${'https://'+ base_URL +'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false))&sortAsc=name&links=true'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false))&sortAsc=name&links=true'}"
         publish:
           - url
         navigate:
@@ -142,7 +144,7 @@ flow:
     - set_url_with_catalog_id:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - url: "${'https://'+ base_URL +'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false);(catalog=='+catalog_id+'))&sortAsc=name&links=true'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false);(catalog=='+catalog_id+'))&sortAsc=name&links=true'}"
         publish:
           - url
         navigate:
@@ -157,12 +159,9 @@ flow:
 extensions:
   graph:
     steps:
-      set_url_without_catalog_id:
-        x: 240
-        'y': 120
-      set_url_with_catalog_id:
-        x: 280
-        'y': 360
+      check_catalog_id_empty_or_not:
+        x: 120
+        'y': 200
       api_to_list_all_templates:
         x: 360
         'y': 200
@@ -170,9 +169,12 @@ extensions:
           83a30e8c-54f8-6571-f359-46bc8e1dea7b:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      check_catalog_id_empty_or_not:
-        x: 120
-        'y': 200
+      set_url_without_catalog_id:
+        x: 240
+        'y': 120
+      set_url_with_catalog_id:
+        x: 280
+        'y': 360
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

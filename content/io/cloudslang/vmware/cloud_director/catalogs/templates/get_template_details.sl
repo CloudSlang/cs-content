@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to get the template details.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
 #! @input template_id: The ID of template.Optional
 #! @input proxy_host: Proxy server used to access the web site.
@@ -64,8 +64,10 @@ imports:
 flow:
   name: get_template_details
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - access_token
     - template_id:
         required: true
@@ -99,7 +101,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+ base_URL +'/api/vAppTemplate/'+ template_id}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vAppTemplate/'+ template_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -143,3 +145,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 320
           'y': 120
+

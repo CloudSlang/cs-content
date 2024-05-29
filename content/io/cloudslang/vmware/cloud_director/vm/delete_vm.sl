@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to delete VM.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input vm_id: The ID of VM.
 #! @input access_token: The authorization token for vcloud.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -64,8 +64,10 @@ imports:
 flow:
   name: delete_vm
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vm_id
     - access_token
     - proxy_host:
@@ -98,7 +100,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${'https://' + base_URL + '/api/vApp/'+vm_id}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vm_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used to stop vApp.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input vapp_id: The unique Id of the vApp.
 #! @input access_token: Access token.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -61,8 +61,10 @@ imports:
 flow:
   name: stop_vapp
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vapp_id:
         required: true
         sensitive: false
@@ -98,7 +100,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+base_URL+'/api/vApp/'+vapp_id+'/action/undeploy'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vapp_id+'/action/undeploy'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -143,3 +145,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 520
           'y': 200
+

@@ -15,7 +15,7 @@
 #!!
 #! @description: This operation is used list the catalogs
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The base URL for the vcloud.
 #! @input access_token: The authorization token for vcloud.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -63,8 +63,10 @@ imports:
 flow:
   name: list_catalogs
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - protocol: https
+    - port: '443'
     - access_token
     - proxy_host:
         required: false
@@ -96,7 +98,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/catalogs'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/cloudapi/1.0.0/catalogs'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
