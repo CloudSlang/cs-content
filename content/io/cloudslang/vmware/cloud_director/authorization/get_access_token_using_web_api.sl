@@ -16,8 +16,10 @@
 #! @description: This operation is used to get access token using web api.
 #!
 #! @input host_name: The host name of the VMWare vCloud director.
-#! @input protocol: The protocol for rest API call. Default: https
-#! @input port: The port of the host. Default: 443
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input organization: The organization we are attempting to access.
 #! @input refresh_token: The Refresh token for the Vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
