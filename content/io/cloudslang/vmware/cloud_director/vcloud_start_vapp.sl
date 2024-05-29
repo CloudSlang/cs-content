@@ -15,7 +15,9 @@
 #!!
 #! @description: This workflow is used to start the vApp.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input vapp_id: The unique id of the vApp.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The organization we are attempting to access.
@@ -65,8 +67,10 @@ imports:
 flow:
   name: vcloud_start_vapp
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vapp_id:
         required: true
         sensitive: false
@@ -86,10 +90,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
@@ -103,6 +107,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
+            - host_name: '${host_name}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
@@ -132,6 +139,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
@@ -197,6 +207,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
@@ -225,6 +238,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.start_vapp:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - vApp_id: '${vapp_id}'
             - access_token: '${access_token}'
@@ -243,19 +259,12 @@ flow:
 extensions:
   graph:
     steps:
-      check_power_state:
-        x: 720
+      get_access_token_using_web_api:
+        x: 120
         'y': 160
-        navigate:
-          09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
-      start_vapp:
-        x: 320
-        'y': 160
-      get_vapp_details_1:
-        x: 520
-        'y': 160
+      get_vapp_details:
+        x: 120
+        'y': 400
       string_equals:
         x: 320
         'y': 400
@@ -263,15 +272,13 @@ extensions:
           b3aa0f9c-f746-4803-7396-7bce5edd9e55:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      get_vapp_details:
-        x: 120
-        'y': 400
-      sleep:
-        x: 920
+      check_power_state:
+        x: 720
         'y': 160
-      get_access_token_using_web_api:
-        x: 120
-        'y': 160
+        navigate:
+          09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       compare_power_state:
         x: 920
         'y': 400
@@ -279,6 +286,15 @@ extensions:
           d6318fc3-6bac-efbd-94d7-0022c4c76ff9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      sleep:
+        x: 920
+        'y': 160
+      get_vapp_details_1:
+        x: 520
+        'y': 160
+      start_vapp:
+        x: 320
+        'y': 160
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
