@@ -15,7 +15,9 @@
 #!!
 #! @description: This workflow is used to start the VM.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input vm_id: The unique Id of the VM.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The organization we are attempting to access.
@@ -65,8 +67,9 @@ imports:
 flow:
   name: vcloud_start_vm
   inputs:
-    - base_URL:
-        required: true
+    - host_name
+    - port: '443'
+    - protocol: https
     - vm_id:
         required: true
         sensitive: false
@@ -103,6 +106,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
+            - host_name: '${host_name}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
@@ -227,6 +233,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.start_vm:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - vm_id: '${vm_id}'
             - access_token:
