@@ -348,6 +348,8 @@ extensions:
       sleep:
         x: 520
         'y': 160
+        x: 320
+        'y': 320
       get_access_token_using_web_api:
         x: 40
         'y': 240
