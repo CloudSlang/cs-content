@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation can be used to retrieve the list of storage profiles, as JSON array.
 #!
-#! @input base_URL: The base URL for the vlocud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -63,7 +67,9 @@ imports:
 flow:
   name: list_storage_profiles
   inputs:
-    - base_URL
+    - host_name
+    - port: '443'
+    - protocol: https
     - access_token:
         sensitive: true
     - worker_group:
@@ -96,7 +102,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://'+base_URL+'/api/query?type=orgVdcStorageProfile'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/query?type=orgVdcStorageProfile'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

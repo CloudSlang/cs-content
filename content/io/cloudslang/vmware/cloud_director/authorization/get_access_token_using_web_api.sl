@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation is used to get access token using web api.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input organization: The organization we are attempting to access.
 #! @input refresh_token: The Refresh token for the Vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -62,8 +66,10 @@ imports:
 flow:
   name: get_access_token_using_web_api
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - protocol: https
+    - port: '443'
     - organization:
         required: true
         sensitive: false
@@ -82,10 +88,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
@@ -99,7 +105,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+base_URL+'/oauth/tenant/'+organization+'/token?grant_type=refresh_token&refresh_token='+refresh_token}"
+            - url: "${protocol+'://'+host_name+':'+port+'/oauth/tenant/'+organization+'/token?grant_type=refresh_token&refresh_token='+refresh_token}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -141,6 +147,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_to_get_access_token:
+        x: 120
+        'y': 200
       get_token:
         x: 320
         'y': 200
@@ -148,9 +157,6 @@ extensions:
           05f4be7d-925e-d628-aadc-43ef469ae888:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_get_access_token:
-        x: 120
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

@@ -15,7 +15,9 @@
 #!!
 #! @description: This workflow is used used to undeploy VM.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input protocol: The protocol for rest API call. Default: https
+#! @input port: The port of the host. Default: 443
 #! @input vm_id: The organization we are attempting to access.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The name of the Tenant.
@@ -67,8 +69,10 @@ imports:
 flow:
   name: vcloud_undeploy_vm
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - protocol: https
+    - port: '443'
     - vm_id:
         required: true
         sensitive: false
@@ -107,6 +111,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
+            - host_name: '${host_name}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
@@ -174,6 +181,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.delete_vm:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - vm_id: '${vm_id}'
             - access_token: '${access_token}'
@@ -190,6 +200,9 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish:
+          - return_result
+          - status_code
         navigate:
           - SUCCESS: get_vm_details_to_check_vm_status
           - FAILURE: on_failure
@@ -208,6 +221,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.stop_vm:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - vm_id: '${vm_id}'
             - access_token:
@@ -226,6 +242,9 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish:
+          - return_result
+          - status_code
         navigate:
           - SUCCESS: get_vm_details_to_check_status
           - FAILURE: on_failure
@@ -252,6 +271,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
@@ -268,6 +290,10 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish:
+          - return_result
+          - status_code
+          - status
         navigate:
           - SUCCESS: string_equals
           - FAILURE: check_status_code_of_vapp
@@ -277,6 +303,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
@@ -293,6 +322,10 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish:
+          - return_result
+          - status_code
+          - status
         navigate:
           - SUCCESS: string_equals_1
           - FAILURE: on_failure
@@ -302,6 +335,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
@@ -318,6 +354,10 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+        publish:
+          - status_code
+          - status
+          - return_result
         navigate:
           - SUCCESS: check_status_code
           - FAILURE: check_status_code

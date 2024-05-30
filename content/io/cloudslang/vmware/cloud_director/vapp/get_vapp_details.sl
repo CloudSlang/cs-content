@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation is used to get vapp details.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input vapp_id: The ID of catalog.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -65,8 +69,10 @@ imports:
 flow:
   name: get_vapp_details
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - access_token
     - vapp_id
     - proxy_host:
@@ -99,7 +105,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/api/vApp/'+vapp_id}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vapp_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

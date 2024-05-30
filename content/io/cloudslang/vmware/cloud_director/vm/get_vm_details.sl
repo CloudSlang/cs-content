@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation is used to get VM details.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input vm_id: The unique Id of the VM.
 #! @input proxy_host: Proxy server used to access the web site.
@@ -65,8 +69,10 @@ imports:
 flow:
   name: get_vm_details
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - access_token:
         sensitive: true
     - vm_id
@@ -100,7 +106,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/api/vApp/'+vm_id}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vm_id}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -143,6 +149,9 @@ flow:
 extensions:
   graph:
     steps:
+      api_to_vm_details:
+        x: 120
+        'y': 200
       json_path_query:
         x: 360
         'y': 200
@@ -150,9 +159,6 @@ extensions:
           d180b684-bfb4-819a-77df-7c8b5caa78c8:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      api_to_vm_details:
-        x: 120
-        'y': 200
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
