@@ -15,9 +15,7 @@
 #!!
 #! @description: This workflow is used to start the VM.
 #!
-#! @input host_name: The host name of the VMWare vCloud director.
-#! @input port: The port of the host. Default: 443
-#! @input protocol: The protocol for rest API call. Default: https
+#! @input provider_sap: Provider SAP.
 #! @input vm_id: The unique Id of the VM.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The organization we are attempting to access.
@@ -67,9 +65,7 @@ imports:
 flow:
   name: vcloud_start_vm
   inputs:
-    - host_name
-    - port: '443'
-    - protocol: https
+    - provider_sap
     - vm_id:
         required: true
         sensitive: false
@@ -100,16 +96,26 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - get_host_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.vmware.cloud_director.utils.get_host_details:
+            - provider_sap: '${provider_sap}'
+        publish:
+          - hostname
+          - protocol
+          - port
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - protocol: '${protocol}'
             - port: '${port}'
-            - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
                 value: '${api_token}'
@@ -175,7 +181,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
             - vapp_id: '${vm_id}'
@@ -204,7 +212,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
             - vapp_id: '${vm_id}'
@@ -233,7 +243,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.start_vm:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
             - base_URL: '${base_URL}'
@@ -268,16 +278,6 @@ flow:
 extensions:
   graph:
     steps:
-      get_access_token_using_web_api:
-        x: 120
-        'y': 160
-      string_equals:
-        x: 320
-        'y': 400
-        navigate:
-          52d52bb7-69bc-bea6-985a-2932ee155f64:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       check_power_state:
         x: 680
         'y': 160
@@ -285,6 +285,31 @@ extensions:
           09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      get_vm_details:
+        x: 120
+        'y': 400
+      string_equals:
+        x: 320
+        'y': 400
+        navigate:
+          52d52bb7-69bc-bea6-985a-2932ee155f64:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+      get_host_details:
+        x: 40
+        'y': 160
+      start_vm:
+        x: 320
+        'y': 160
+      get_vm_details_1:
+        x: 520
+        'y': 160
+      sleep:
+        x: 880
+        'y': 160
+      get_access_token_using_web_api:
+        x: 200
+        'y': 240
       compare_power_state:
         x: 880
         'y': 400
@@ -292,18 +317,6 @@ extensions:
           d6318fc3-6bac-efbd-94d7-0022c4c76ff9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      sleep:
-        x: 880
-        'y': 160
-      get_vm_details:
-        x: 120
-        'y': 400
-      get_vm_details_1:
-        x: 520
-        'y': 160
-      start_vm:
-        x: 320
-        'y': 160
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

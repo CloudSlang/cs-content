@@ -15,9 +15,7 @@
 #!!
 #! @description: This workflow is used used to undeploy VM.
 #!
-#! @input host_name: The host name of the VMWare vCloud director.
-#! @input protocol: The protocol for rest API call. Default: https
-#! @input port: The port of the host. Default: 443
+#! @input provider_sap: Provider SAP.
 #! @input vm_id: The organization we are attempting to access.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The name of the Tenant.
@@ -69,10 +67,7 @@ imports:
 flow:
   name: vcloud_undeploy_vm
   inputs:
-    - host_name:
-        required: true
-    - protocol: https
-    - port: '443'
+    - provider_sap
     - vm_id:
         required: true
         sensitive: false
@@ -105,16 +100,26 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - get_host_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.vmware.cloud_director.utils.get_host_details:
+            - provider_sap: '${provider_sap}'
+        publish:
+          - hostname
+          - protocol
+          - port
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - protocol: '${protocol}'
             - port: '${port}'
-            - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
                 value: '${api_token}'
@@ -181,10 +186,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.delete_vm:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - vm_id: '${vm_id}'
             - access_token: '${access_token}'
             - proxy_host: '${proxy_host}'
@@ -271,10 +275,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
             - proxy_host: '${proxy_host}'
@@ -335,10 +338,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
             - proxy_host: '${proxy_host}'
@@ -395,6 +397,9 @@ extensions:
       get_vm_details_to_check_status:
         x: 440
         'y': 400
+      get_host_details:
+        x: 40
+        'y': 80
       check_status_code_of_vapp:
         x: 320
         'y': 520
@@ -410,7 +415,7 @@ extensions:
         'y': 80
       get_access_token_using_web_api:
         x: 40
-        'y': 80
+        'y': 280
       counter:
         x: 760
         'y': 320
