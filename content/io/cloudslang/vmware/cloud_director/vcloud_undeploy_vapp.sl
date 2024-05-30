@@ -277,8 +277,8 @@ flow:
             - first_string: '${status}'
             - second_string: '4'
         navigate:
-          - SUCCESS: vcloud_stop_vapp
-          - FAILURE: delete_vapp
+          - SUCCESS: delete_vapp
+          - FAILURE: vcloud_stop_vapp
     - vcloud_stop_vapp:
         worker_group:
           value: '${worker_group}'
