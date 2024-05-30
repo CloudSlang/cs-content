@@ -15,9 +15,7 @@
 #!!
 #! @description: This workflow is used to undeply Vapp.
 #!
-#! @input host_name: The host name of the VMWare vCloud director.
-#! @input port: The port of the host. Default: 443
-#! @input protocol: The protocol for rest API call. Default: https
+#! @input provider_sap: Provider SAP.
 #! @input vapp_id: The organization we are attempting to access.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The name of the Tenant.
@@ -69,10 +67,8 @@ imports:
 flow:
   name: vcloud_undeploy_vapp
   inputs:
-    - host_name:
+    - provider_sap:
         required: true
-    - port: '443'
-    - protocol: https
     - vapp_id:
         required: true
         sensitive: false
@@ -105,6 +101,17 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - get_host_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.vmware.cloud_director.utils.get_host_details:
+            - provider_sap: '${provider_sap}'
+        publish:
+          - hostname
+          - protocol
+          - port
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
@@ -114,7 +121,6 @@ flow:
             - host_name: '${host_name}'
             - protocol: '${protocol}'
             - port: '${port}'
-            - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
                 value: '${api_token}'
@@ -143,10 +149,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
             - proxy_host: '${proxy_host}'
@@ -175,10 +180,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
             - proxy_host: '${proxy_host}'
@@ -207,10 +211,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.delete_vapp:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - vApp_id: '${vapp_id}'
             - access_token: '${access_token}'
             - proxy_host: '${proxy_host}'
@@ -276,17 +279,18 @@ flow:
 extensions:
   graph:
     steps:
-      get_access_token_using_web_api:
-        x: 40
+      check_status_code:
+        x: 720
         'y': 80
-      get_vapp_details:
-        x: 40
-        'y': 440
+        navigate:
+          862539b4-158a-ab27-81d8-417e1c0d0734:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       get_vapp_details_to_check_status:
         x: 320
         'y': 80
-      delete_vapp:
-        x: 160
+      get_host_details:
+        x: 40
         'y': 80
       check_status_code_of_vapp:
         x: 160
@@ -295,13 +299,15 @@ extensions:
           6be7905f-2018-cdc2-ca3f-76f9d417e097:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      check_status_code:
-        x: 720
-        'y': 80
-        navigate:
-          862539b4-158a-ab27-81d8-417e1c0d0734:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+      get_vapp_details:
+        x: 40
+        'y': 440
+      sleep:
+        x: 320
+        'y': 320
+      get_access_token_using_web_api:
+        x: 40
+        'y': 240
       counter:
         x: 520
         'y': 320
@@ -309,9 +315,9 @@ extensions:
           df9c67a0-134a-09b3-415e-fa847e7e7d20:
             targetId: b7eaa48f-d8cc-5668-f6d1-e97c77cee70b
             port: NO_MORE
-      sleep:
-        x: 320
-        'y': 320
+      delete_vapp:
+        x: 160
+        'y': 80
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:

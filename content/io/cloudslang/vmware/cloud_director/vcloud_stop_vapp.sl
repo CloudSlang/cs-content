@@ -15,7 +15,7 @@
 #!!
 #! @description: This workflow is used to stop the vApp.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input provider_sap: Provider SAP.
 #! @input vapp_id: The unique id of the vApp.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The organization we are attempting to access.
@@ -65,8 +65,7 @@ imports:
 flow:
   name: vcloud_stop_vapp
   inputs:
-    - base_URL:
-        required: true
+    - provider_sap
     - vapp_id:
         required: true
         sensitive: false
@@ -86,10 +85,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
@@ -97,13 +96,26 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - get_host_details:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.vmware.cloud_director.utils.get_host_details:
+            - provider_sap: '${provider_sap}'
+        publish:
+          - hostname
+          - protocol
+          - port
+        navigate:
+          - SUCCESS: get_access_token_using_web_api
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - organization: '${tenant_name}'
             - refresh_token:
                 value: '${api_token}'
@@ -132,7 +144,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
             - proxy_host: '${proxy_host}'
@@ -197,7 +211,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
             - proxy_host: '${proxy_host}'
@@ -225,12 +241,24 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.stop_vapp:
-            - base_URL: '${base_URL}'
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - vApp_id: '${vapp_id}'
             - access_token: '${access_token}'
             - proxy_host: '${proxy_host}'
+            - proxy_username: '${proxy_username}'
             - proxy_port: '${proxy_port}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
             - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
         navigate:
           - SUCCESS: get_vapp_details_1
           - FAILURE: on_failure
@@ -263,6 +291,9 @@ extensions:
           b3aa0f9c-f746-4803-7396-7bce5edd9e55:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      get_host_details:
+        x: 40
+        'y': 160
       get_vapp_details:
         x: 120
         'y': 400
@@ -270,8 +301,8 @@ extensions:
         x: 920
         'y': 160
       get_access_token_using_web_api:
-        x: 120
-        'y': 160
+        x: 200
+        'y': 240
       compare_power_state:
         x: 920
         'y': 400
