@@ -15,13 +15,17 @@
 #!!
 #! @description: This flow is used to create vApp in VMware Cloud Director.
 #!
-#! @input base_URL: The base URL for the vCloud.
-#! @input access_token: The authorization token for vCloud.
-#! @input tenant_name: The name of the Tenant.
+#! @input protocol: The protocol for rest API call. Default: https
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input access_token: The authorization token for vCloud director.
 #! @input vdc_id: The id of the virtual data center.
 #! @input vapp_template_id: The template id of vApp.
 #! @input vapp_name: The name of the zone where the disk is located.
 #!                   Examples: 'us-central1-a, us-central1-b, us-central1-c'
+#! @input network_name: The name of the network needs to be attached to the vApp.
+#! @input storage_profile: The name of the storage profile to be associated with vApp.
+#! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -51,16 +55,21 @@ namespace: io.cloudslang.vmware.cloud_director.vapp
 flow:
   name: create_vapp
   inputs:
-    - base_URL:
-        sensitive: false
+    - protocol: https
+    - host_name
+    - port: '443'
     - access_token:
         sensitive: true
-    - tenant_name:
-        sensitive: false
     - vdc_id
     - vapp_template_id:
         sensitive: false
     - vapp_name
+    - network_name:
+        required: false
+    - storage_profile:
+        required: false
+    - compute_parameters:
+        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -91,7 +100,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.catalogs.templates.get_template_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - template_id: '${vapp_template_id}'
             - proxy_host: '${proxy_host}'
@@ -118,7 +129,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://' + base_URL + '/api/vdc/'+vdc_id+'/action/instantiateVAppTemplate'}"
+            - url: "${protocol + '://'+ host_name + ':' + port + '/api/vdc/'+vdc_id+'/action/instantiateVAppTemplate'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -149,6 +160,9 @@ flow:
           io.cloudslang.vmware.cloud_director.utils.create_vapp_request_body:
             - name: '${vapp_name}'
             - template_json: '${template_json}'
+            - network_json: '${network_name}'
+            - compute_parameters: '${compute_parameters}'
+            - storage_profile: '${storage_profile}'
         publish:
           - vapp_request_body: '${return_result}'
         navigate:

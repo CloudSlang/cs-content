@@ -15,13 +15,16 @@
 #!!
 #! @description: This flow deploys the vApp in the given VMWare vCloud Director provider.
 #!
-#! @input provider_SAP: The base URL for the vCloud.
-#! @input api_token: The refresh token for the vCloud.
-#! @input tenant_name: The name of the Tenant.
+#! @input provider_sap: The provider service access point for the vCloud director.
+#! @input api_token: The refresh token for the vCloud director.
+#! @input tenant_name: The name of the tenant or organization.
 #! @input vdc_id: The id of the virtual data center.
 #! @input vapp_template_id: The template id of vApp.
 #! @input vapp_name: The name of the zone where the disk is located.
 #!                   Examples: 'us-central1-a, us-central1-b, us-central1-c'
+#! @input network_name: The name of the network needs to be attached to the vApp.
+#! @input storage_profile: The name of the storage profile to be associated with vApp.
+#! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
 #! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
 #! @input polling_retries: The number of retries to check if the instance is stopped.Default: '30'Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
@@ -41,6 +44,7 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates fromother parties that you expect to communicate with, or from Certificate Authorities thatyou trust to identify other parties.  If the protocol (specified by the 'url') is not'https' or if trust_all_roots is 'true' this input is ignored.Default value: '..JAVA_HOME/java/lib/security/cacerts'Format: Java KeyStore (JKS)Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is falseand trust_keystore is empty, trust_password default will be supplied.Optional
 #!
+#! @output final_vapp_name: The name of the vApp deployed.
 #! @output vapp_id: The Id of vApp.
 #! @output vapp_status: The status of created vApp.
 #! @output vm_name_list: The list of VM name.
@@ -52,11 +56,11 @@
 #! @result FAILURE: Failed to deploy the vApp.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director
+namespace: io.cloudslang.vmware.cloud_director.vapp
 flow:
   name: vcloud_deploy_vapp
   inputs:
-    - provider_SAP:
+    - provider_sap:
         sensitive: false
     - api_token:
         sensitive: true
@@ -66,6 +70,12 @@ flow:
     - vapp_template_id:
         sensitive: false
     - vapp_name
+    - network_name:
+        required: false
+    - storage_profile:
+        required: false
+    - compute_parameters:
+        required: false
     - polling_interval:
         default: '20'
         required: false
@@ -96,22 +106,26 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - form_base_url:
+    - get_host_details:
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.utils.do_nothing:
-            - base_URL: '${provider_SAP}'
+          io.cloudslang.vmware.cloud_director.utils.get_host_details:
+            - provider_sap: '${provider_sap}'
         publish:
-          - base_URL: "${base_URL.split('//')[1]}"
+          - host_name: '${hostname}'
+          - protocol
+          - port
         navigate:
           - SUCCESS: get_access_token_using_web_api
-          - FAILURE: on_failure
     - get_access_token_using_web_api:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - base_URL: '${base_URL}'
+            - host_name: '${host_name}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - organization: '${tenant_name}'
             - refresh_token:
                 value: '${api_token}'
@@ -146,6 +160,7 @@ flow:
           - SUCCESS: create_vapp
           - FAILURE: on_failure
     - get_vapp_id:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${return_result}'
@@ -156,9 +171,14 @@ flow:
           - SUCCESS: get_vapp_details
           - FAILURE: on_failure
     - get_vapp_details:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - base_URL: '${base_URL}'
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
             - proxy_host: '${proxy_host}'
@@ -180,6 +200,7 @@ flow:
           - SUCCESS: get_vm_names
           - FAILURE: on_failure
     - get_vm_names:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
@@ -190,6 +211,7 @@ flow:
           - SUCCESS: get_vapp_status
           - FAILURE: on_failure
     - get_vapp_status:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
             - json_input: '${vapp_details}'
@@ -200,6 +222,7 @@ flow:
           - SUCCESS: is_vapp_status_is_8
           - FAILURE: on_failure
     - wait_for_vapp_creation:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '30'
@@ -217,6 +240,7 @@ flow:
           - SUCCESS: set_vapp_status_to_powered_off
           - FAILURE: is_vapp_status_is_4
     - set_vapp_status_to_powered_off:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vapp_status: Powered Off
@@ -226,6 +250,7 @@ flow:
           - SUCCESS: get_vm_id_list
           - FAILURE: on_failure
     - set_vapp_status_to_powered_on:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vapp_status: Powered On
@@ -255,6 +280,7 @@ flow:
           - SUCCESS: wait_for_vapp_creation
           - FAILURE: on_failure
     - get_vm_id_list:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
@@ -269,6 +295,7 @@ flow:
           - SUCCESS: list_iterator
           - FAILURE: on_failure
     - list_iterator:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${vm_name_list}'
@@ -283,6 +310,7 @@ flow:
           - NO_MORE: is_vm_ip_list_is_null
           - FAILURE: on_failure
     - get_vm_ip:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
@@ -293,6 +321,7 @@ flow:
           - SUCCESS: get_vm_mac_address
           - FAILURE: on_failure
     - set_vm_ip_and_mac_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vm_ip: '${vm_ip}'
@@ -316,6 +345,7 @@ flow:
           - SUCCESS: set_first_vm_ip_and_mac_address
           - FAILURE: set_vm_ip_and_mac_address
     - set_first_vm_ip_and_mac_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vm_ip: '${vm_ip}'
@@ -337,6 +367,7 @@ flow:
           - SUCCESS: set_vm_ip_list_to_empty
           - FAILURE: SUCCESS
     - set_vm_ip_list_to_empty:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
             - vm_ip_list: ''
@@ -346,6 +377,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_vm_mac_address:
+        worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
@@ -361,13 +393,18 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.create_vapp:
-            - base_URL: '${base_URL}'
+            - protocol: '${protocol}'
+            - host_name: '${host_name}'
+            - port: '${port}'
             - access_token:
                 value: '${access_token}'
                 sensitive: true
             - tenant_name: '${tenant_name}'
             - vdc_id: '${vdc_id}'
             - vapp_template_id: '${vapp_template_id}'
+            - network_name: '${network_name}'
+            - storage_profile: '${storage_profile}'
+            - compute_parameters: '${compute_parameters}'
             - vapp_name: '${vapp_name+random_number}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
@@ -472,6 +509,9 @@ extensions:
       wait_for_vapp_creation:
         x: 40
         'y': 280
+      get_host_details:
+        x: 40
+        'y': 80
       is_vm_ip_list_is_empty:
         x: 1160
         'y': 640
@@ -487,9 +527,6 @@ extensions:
         'y': 440
       random_number_generator:
         x: 360
-        'y': 80
-      form_base_url:
-        x: 40
         'y': 80
       get_access_token_using_web_api:
         x: 200
@@ -509,4 +546,3 @@ extensions:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
           x: 1080
           'y': 80
-
