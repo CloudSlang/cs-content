@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation is used to stop the vm.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input vm_id: The unique Id of the VM.
 #! @input access_token: The Refresh token for the Vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -64,8 +68,10 @@ imports:
 flow:
   name: stop_vm
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vm_id:
         required: true
         sensitive: false
@@ -84,10 +90,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
@@ -101,7 +107,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${'https://'+base_URL+'/api/vApp/'+vm_id+'/action/undeploy'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vm_id+'/action/undeploy'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'

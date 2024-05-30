@@ -13,24 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation is used list the storage policies.
+#! @description: This operation is used to start the VM.
 #!
 #! @input host_name: The host name of the VMWare vCloud director.
-#! @input port: The port of the host.
-#!              Default: 443
-#! @input protocol: The protocol for rest API call.
-#!                  Default: https
-#! @input access_token: The authorization token for vcloud.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
+#! @input vm_id: The unique Id of the VM.
+#! @input access_token: The access token for the Vcloud.
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
 #!                    Optional
 #! @input proxy_username: Username used when connecting to the proxy.
 #!                        Optional
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: 'RAS_Operator_Path'
-#!                      Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
@@ -55,40 +54,43 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The storage policy list successfully fetched.
-#! @result FAILURE: Error in fetching storage policy list .
+#! @result SUCCESS: The VM has been started successfully.
+#! @result FAILURE: Error in starting the VM.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.vmware.cloud_director.vdcs
+namespace: io.cloudslang.vmware.cloud_director.vm
 imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: list_storage_policies
+  name: start_vm
   inputs:
-    - host_name:
-        required: true
+    - host_name
     - port: '443'
     - protocol: https
-    - access_token
+    - vm_id:
+        required: true
+        sensitive: false
+    - access_token:
+        sensitive: true
+    - worker_group:
+        default: RAS_Operator_Path
+        required: false
     - proxy_host:
         required: false
     - proxy_port:
         required: false
     - proxy_username:
         required: false
-    - worker_group:
-        default: RAS_Operator_Path
-        required: false
     - proxy_password:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'false'
+        default: 'true'
         required: false
     - x_509_hostname_verifier:
-        default: strict
+        default: allow_all
         required: false
     - trust_keystore:
         required: false
@@ -96,13 +98,13 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - api_to_list_storage_policy:
+    - api_to_start_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.base.http.http_client_get:
-            - url: "${protocol+'://'+host_name+':'+port+'/cloudapi/1.0.0/orgVdcStoragePolicies'}"
+          io.cloudslang.base.http.http_client_post:
+            - url: "${protocol+'://'+host_name+':'+port+'/api/vApp/'+vm_id+'/power/action/powerOn'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -116,8 +118,9 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization:  ' + access_token}"
-            - content_type: application/json
+            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token +'\\n'+'Content-Type: application/*+xml;charset=UTF-8'}"
+            - body: '<root:UndeployVAppParams xmlns:root="http://www.vmware.com/vcloud/v1.5"><root:UndeployPowerAction>powerOff</root:UndeployPowerAction></root:UndeployVAppParams>'
+            - content_type: 'application/*+xml;charset=UTF-8'
             - worker_group: '${worker_group}'
         publish:
           - return_result
@@ -134,16 +137,16 @@ flow:
 extensions:
   graph:
     steps:
-      api_to_list_storage_policy:
+      api_to_start_vm:
         x: 120
         'y': 200
         navigate:
-          83a30e8c-54f8-6571-f359-46bc8e1dea7b:
+          f5390b4e-f9b9-1deb-5cc4-e0913b116829:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 360
+          x: 520
           'y': 200
 

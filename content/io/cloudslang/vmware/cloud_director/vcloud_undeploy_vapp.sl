@@ -15,7 +15,9 @@
 #!!
 #! @description: This workflow is used to undeply Vapp.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host. Default: 443
+#! @input protocol: The protocol for rest API call. Default: https
 #! @input vapp_id: The organization we are attempting to access.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The name of the Tenant.
@@ -67,8 +69,10 @@ imports:
 flow:
   name: vcloud_undeploy_vapp
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - vapp_id:
         required: true
         sensitive: false
@@ -107,6 +111,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
+            - host_name: '${host_name}'
+            - protocol: '${protocol}'
+            - port: '${port}'
             - base_URL: '${base_URL}'
             - organization: '${tenant_name}'
             - refresh_token:
@@ -136,6 +143,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
@@ -165,6 +175,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vapp_id: '${vapp_id}'
@@ -194,6 +207,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.delete_vapp:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
             - base_URL: '${base_URL}'
             - vApp_id: '${vapp_id}'
             - access_token: '${access_token}'

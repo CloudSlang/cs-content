@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow is used to start the vApp.
+#! @description: This workflow is used to start the VM.
 #!
 #! @input host_name: The host name of the VMWare vCloud director.
 #! @input port: The port of the host. Default: 443
 #! @input protocol: The protocol for rest API call. Default: https
-#! @input vapp_id: The unique id of the vApp.
+#! @input vm_id: The unique Id of the VM.
 #! @input api_token: The Refresh token for the Vcloud.
 #! @input tenant_name: The organization we are attempting to access.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
@@ -55,8 +55,8 @@
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #!
-#! @result SUCCESS: The vApp has been  started successfully.
-#! @result FAILURE: Error in starting vApp.
+#! @result SUCCESS: The VM has been started successfully.
+#! @result FAILURE: Error in starting the VM.
 #!!#
 ########################################################################################################################
 
@@ -65,13 +65,12 @@ imports:
   http: io.cloudslang.base.http
   json: io.cloudslang.base.json
 flow:
-  name: vcloud_start_vapp
+  name: vcloud_start_vm
   inputs:
-    - host_name:
-        required: true
+    - host_name
     - port: '443'
     - protocol: https
-    - vapp_id:
+    - vm_id:
         required: true
         sensitive: false
     - api_token:
@@ -90,10 +89,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'false'
+        default: 'true'
         required: false
     - x_509_hostname_verifier:
-        default: strict
+        default: allow_all
         required: false
     - trust_keystore:
         required: false
@@ -131,38 +130,7 @@ flow:
         publish:
           - access_token
         navigate:
-          - SUCCESS: get_vapp_details
-          - FAILURE: on_failure
-    - get_vapp_details:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - host_name: '${host_name}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
-            - access_token: '${access_token}'
-            - vapp_id: '${vapp_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - worker_group: '${worker_group}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - return_result
-          - status
-        navigate:
-          - SUCCESS: string_equals
+          - SUCCESS: get_vm_details
           - FAILURE: on_failure
     - string_equals:
         worker_group: '${worker_group}'
@@ -172,7 +140,7 @@ flow:
             - second_string: '4'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: start_vapp
+          - FAILURE: start_vm
     - check_power_state:
         worker_group: '${worker_group}'
         do:
@@ -201,18 +169,45 @@ flow:
         navigate:
           - SUCCESS: check_power_state
           - FAILURE: on_failure
-    - get_vapp_details_1:
+    - get_vm_details:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - host_name: '${host_name}'
-            - port: '${port}'
-            - protocol: '${protocol}'
+          io.cloudslang.vmware.cloud_director.vm.get_vm_details:
             - base_URL: '${base_URL}'
             - access_token: '${access_token}'
-            - vapp_id: '${vapp_id}'
+            - vm_id: '${vm_id}'
+            - vapp_id: '${vm_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - worker_group: '${worker_group}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+          - status
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: on_failure
+    - get_vm_details_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vm.get_vm_details:
+            - base_URL: '${base_URL}'
+            - access_token: '${access_token}'
+            - vm_id: '${vm_id}'
+            - vapp_id: '${vm_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -232,23 +227,37 @@ flow:
         navigate:
           - SUCCESS: check_power_state
           - FAILURE: on_failure
-    - start_vapp:
+    - start_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.vmware.cloud_director.vapp.start_vapp:
+          io.cloudslang.vmware.cloud_director.vm.start_vm:
             - host_name: '${host_name}'
             - port: '${port}'
             - protocol: '${protocol}'
             - base_URL: '${base_URL}'
-            - vApp_id: '${vapp_id}'
-            - access_token: '${access_token}'
+            - vm_id: '${vm_id}'
+            - access_token:
+                value: '${access_token}'
+                sensitive: true
+            - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
-            - worker_group: '${worker_group}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
         navigate:
-          - SUCCESS: get_vapp_details_1
+          - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
   outputs:
     - return_result
@@ -262,42 +271,42 @@ extensions:
       get_access_token_using_web_api:
         x: 120
         'y': 160
-      get_vapp_details:
-        x: 120
-        'y': 400
       string_equals:
         x: 320
         'y': 400
         navigate:
-          b3aa0f9c-f746-4803-7396-7bce5edd9e55:
+          52d52bb7-69bc-bea6-985a-2932ee155f64:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       check_power_state:
-        x: 720
+        x: 680
         'y': 160
         navigate:
           09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       compare_power_state:
-        x: 920
+        x: 880
         'y': 400
         navigate:
           d6318fc3-6bac-efbd-94d7-0022c4c76ff9:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       sleep:
-        x: 920
+        x: 880
         'y': 160
-      get_vapp_details_1:
+      get_vm_details:
+        x: 120
+        'y': 400
+      get_vm_details_1:
         x: 520
         'y': 160
-      start_vapp:
+      start_vm:
         x: 320
         'y': 160
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
+          x: 680
           'y': 400
 

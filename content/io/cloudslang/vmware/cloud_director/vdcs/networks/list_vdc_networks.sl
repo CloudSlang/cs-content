@@ -15,7 +15,11 @@
 #!!
 #! @description: This operation is used to list vdc networks.
 #!
-#! @input base_URL: The base URL for the vcloud.
+#! @input host_name: The host name of the VMWare vCloud director.
+#! @input port: The port of the host.
+#!              Default: 443
+#! @input protocol: The protocol for rest API call.
+#!                  Default: https
 #! @input access_token: The authorization token for vcloud.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -63,8 +67,10 @@ imports:
 flow:
   name: list_vdc_networks
   inputs:
-    - base_URL:
+    - host_name:
         required: true
+    - port: '443'
+    - protocol: https
     - access_token
     - proxy_host:
         required: false
@@ -96,7 +102,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${'https://' + base_URL + '/cloudapi/1.0.0/orgVdcNetworks'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/cloudapi/1.0.0/orgVdcNetworks'}"
             - auth_type: anonymous
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
