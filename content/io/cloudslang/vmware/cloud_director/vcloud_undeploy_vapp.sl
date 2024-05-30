@@ -118,7 +118,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - protocol: '${protocol}'
             - port: '${port}'
             - organization: '${tenant_name}'
@@ -172,7 +172,7 @@ flow:
           - status
           - status_code
         navigate:
-          - SUCCESS: delete_vapp
+          - SUCCESS: string_equals
           - FAILURE: check_status_code_of_vapp
     - get_vapp_details_to_check_status:
         worker_group:
@@ -270,6 +270,43 @@ flow:
         navigate:
           - SUCCESS: get_vapp_details_to_check_status
           - FAILURE: on_failure
+    - string_equals:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${status}'
+            - second_string: '4'
+        navigate:
+          - SUCCESS: vcloud_stop_vapp
+          - FAILURE: delete_vapp
+    - vcloud_stop_vapp:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vcloud_stop_vapp:
+            - provider_sap: '${provider_sap}'
+            - vapp_id: '${vapp_id}'
+            - api_token:
+                value: '${api_token}'
+                sensitive: true
+            - tenant_name: '${tenant_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - SUCCESS: delete_vapp
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
@@ -289,6 +326,12 @@ extensions:
       get_vapp_details_to_check_status:
         x: 320
         'y': 80
+      vcloud_stop_vapp:
+        x: 320
+        'y': 320
+      string_equals:
+        x: 160
+        'y': 320
       get_host_details:
         x: 40
         'y': 80
@@ -303,6 +346,8 @@ extensions:
         x: 40
         'y': 440
       sleep:
+        x: 520
+        'y': 160
         x: 320
         'y': 320
       get_access_token_using_web_api:
@@ -327,4 +372,5 @@ extensions:
         b7eaa48f-d8cc-5668-f6d1-e97c77cee70b:
           x: 840
           'y': 320
+
 

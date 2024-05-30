@@ -217,18 +217,17 @@ flow:
             - first_string: '${status}'
             - second_string: '4'
         navigate:
-          - SUCCESS: stop_vapp
+          - SUCCESS: stop_vm_to_delete_vm
           - FAILURE: delete_vm
-    - stop_vapp:
+    - stop_vm_to_delete_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.stop_vm:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - vm_id: '${vm_id}'
             - access_token:
                 value: '${access_token}'
@@ -306,10 +305,9 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
             - access_token: '${access_token}'
             - vm_id: '${vm_id}'
             - proxy_host: '${proxy_host}'
@@ -382,9 +380,6 @@ extensions:
           862539b4-158a-ab27-81d8-417e1c0d0734:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
-      stop_vapp:
-        x: 280
-        'y': 400
       sleep_1:
         x: 440
         'y': 160
@@ -396,6 +391,9 @@ extensions:
         'y': 400
       get_vm_details_to_check_status:
         x: 440
+        'y': 400
+      stop_vm_to_delete_vm:
+        x: 280
         'y': 400
       get_host_details:
         x: 40
