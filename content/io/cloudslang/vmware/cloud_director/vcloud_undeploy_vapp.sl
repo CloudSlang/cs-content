@@ -118,7 +118,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - protocol: '${protocol}'
             - port: '${port}'
             - organization: '${tenant_name}'
