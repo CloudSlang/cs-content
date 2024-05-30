@@ -13,15 +13,20 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow deploys the vApp in the given VMWare vCloud Director provider.
+#! @description: This flow deploys the virtual machine in the given VMWare vCloud Director provider.
 #!
 #! @input provider_sap: The provider service access point for the vCloud director.
-#! @input api_token: The refresh token for the vCloud director.
-#! @input tenant_name: The name of the tenant or organization.
+#! @input api_token: The refresh token for the vCloud.
+#! @input tenant_name: The name of the Tenant.
 #! @input vdc_id: The id of the virtual data center.
-#! @input vapp_template_id: The template id of vApp.
-#! @input vapp_name: The name of the vApp.
-#! @input network_name: The name of the network needs to be attached to the vApp.
+#! @input vm_template: The template id of virtual machine.
+#! @input vm_name: The name of the virtual machine.
+#! @input network_name: The name of the network needs to be attached to the vm.
+#! @input ip_address_allocation_mode: The mode of IP allocation.
+#!                                    Valid values are 'POOL', 'MANUAL' and 'DHCP'.
+#! @input network_adapter_type: The type of network adapter.
+#!                              Valid values 'VMXNET3', 'E1000' and 'E1000E' and etc
+#! @input ip_address: The value of IP Address in case of manual assignment of IP.
 #! @input storage_profile: The name of the storage profile to be associated with vApp.
 #! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
 #! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
@@ -43,21 +48,19 @@
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates fromother parties that you expect to communicate with, or from Certificate Authorities thatyou trust to identify other parties.  If the protocol (specified by the 'url') is not'https' or if trust_all_roots is 'true' this input is ignored.Default value: '..JAVA_HOME/java/lib/security/cacerts'Format: Java KeyStore (JKS)Optional
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is falseand trust_keystore is empty, trust_password default will be supplied.Optional
 #!
-#! @output final_vapp_name: The name of the vApp deployed.
-#! @output vapp_id: The Id of vApp.
-#! @output vapp_status: The status of created vApp.
-#! @output vm_name_list: The list of VM name.
-#! @output vm_ip_list: The list of IP address of VMs.
-#! @output vm_id_list: The list of ID of VMs.
-#! @output vm_mac_address_list: The list of MAC address of VMs.
+#! @output final_vm_name: The name of the vm deployed.
+#! @output vm_id: The id of the vm.
+#! @output vm_status: The status of created vApp.
+#! @output vm_ip_address: The IP address of the vm.
+#! @output vm_mac_address: The MAC address of the vm.
 #!
-#! @result SUCCESS: vApp deployed successfully.
-#! @result FAILURE: Failed to deploy the vApp.
+#! @result SUCCESS: vm deployed successfully.
+#! @result FAILURE: Failed to deploy the vm.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director.vapp
+namespace: io.cloudslang.vmware.cloud_director
 flow:
-  name: vcloud_deploy_vapp
+  name: vcloud_deploy_vm
   inputs:
     - provider_sap:
         sensitive: false
@@ -66,10 +69,14 @@ flow:
     - tenant_name:
         sensitive: false
     - vdc_id
-    - vapp_template_id:
+    - vm_template:
         sensitive: false
-    - vapp_name
+    - vm_name
     - network_name:
+        required: true
+    - ip_address_allocation_mode: POOL
+    - network_adapter_type: VMXNET3
+    - ip_address:
         required: false
     - storage_profile:
         required: false
@@ -156,18 +163,7 @@ flow:
         publish:
           - random_number
         navigate:
-          - SUCCESS: create_vapp
-          - FAILURE: on_failure
-    - get_vapp_id:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: href
-        publish:
-          - vapp_id: "${return_result.split('vApp/')[1]}"
-        navigate:
-          - SUCCESS: get_vapp_details
+          - SUCCESS: create_vm
           - FAILURE: on_failure
     - get_vapp_details:
         worker_group:
@@ -205,206 +201,114 @@ flow:
             - json_object: '${vapp_details}'
             - json_path: '$.children.vm[*].name'
         publish:
-          - vm_name_list: "${return_result.replace('\"','').strip('[').strip(']')}"
+          - final_vm_name: "${return_result.replace('\"','').strip('[').strip(']')}"
         navigate:
-          - SUCCESS: get_vapp_status
+          - SUCCESS: get_vm_status
           - FAILURE: on_failure
-    - get_vapp_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${vapp_details}'
-            - json_path: status
-        publish:
-          - vapp_status: '${return_result}'
-        navigate:
-          - SUCCESS: is_vapp_status_is_8
-          - FAILURE: on_failure
-    - wait_for_vapp_creation:
+    - wait_for_vm_creation:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '30'
         navigate:
-          - SUCCESS: get_vapp_id
+          - SUCCESS: get_vapp_details
           - FAILURE: on_failure
-    - is_vapp_status_is_8:
+    - is_vm_status_is_8:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vapp_status}'
+            - first_string: '${vm_status}'
             - second_string: '8'
         publish: []
         navigate:
-          - SUCCESS: set_vapp_status_to_powered_off
-          - FAILURE: is_vapp_status_is_4
-    - set_vapp_status_to_powered_off:
+          - SUCCESS: set_vm_status_to_powered_off
+          - FAILURE: is_vm_status_is_4
+    - set_vm_status_to_powered_off:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - vapp_status: Powered Off
+            - vm_status: Powered Off
         publish:
-          - vapp_status
+          - vm_status
         navigate:
           - SUCCESS: get_vm_id_list
           - FAILURE: on_failure
-    - set_vapp_status_to_powered_on:
+    - set_vm_status_to_powered_on:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
-            - vapp_status: Powered On
+            - vm_status: Powered On
         publish:
-          - vapp_status
+          - vm_status
         navigate:
           - SUCCESS: get_vm_id_list
           - FAILURE: on_failure
-    - is_vapp_status_is_4:
+    - is_vm_status_is_4:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vapp_status}'
+            - first_string: '${vm_status}'
             - second_string: '4'
         publish: []
         navigate:
-          - SUCCESS: set_vapp_status_to_powered_on
-          - FAILURE: is_vapp_status_is_10
-    - is_vapp_status_is_10:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${vapp_status}'
-            - second_string: '10'
-        publish: []
-        navigate:
-          - SUCCESS: wait_for_vapp_creation
-          - FAILURE: on_failure
+          - SUCCESS: set_vm_status_to_powered_on
+          - FAILURE: is_vm_status_is_20
     - get_vm_id_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
             - json_path: '$.children.vm[*].id'
-            - vm_ip_list: ''
-            - vm_mac_address_list: ''
         publish:
-          - vm_id_list: "${return_result.replace('urn:vcloud:vm:','vm-').replace('\"','').strip('[').strip(']').replace(' ','')}"
-          - vm_ip_list
-          - vm_mac_address_list
+          - vm_id: "${return_result.replace('urn:vcloud:vm:','vm-').replace('\"','').strip('[').strip(']').replace(' ','')}"
         navigate:
-          - SUCCESS: list_iterator
-          - FAILURE: on_failure
-    - list_iterator:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.lists.list_iterator:
-            - list: '${vm_name_list}'
-            - vm_ip_list: '${vm_ip_list}'
-            - vm_mac_address_list: '${vm_mac_address_list}'
-        publish:
-          - vm: '${result_string}'
-          - vm_ip_list
-          - vm_mac_address_list
-        navigate:
-          - HAS_MORE: get_vm_ip
-          - NO_MORE: is_vm_ip_list_is_null
+          - SUCCESS: get_vm_ip
           - FAILURE: on_failure
     - get_vm_ip:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
-            - json_path: "${'$.children.vm[?(@.name==\"'+vm+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].ipAddress'}"
+            - json_path: "${'$.children.vm[?(@.name==\"'+final_vm_name+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].ipAddress'}"
         publish:
-          - vm_ip: "${return_result.strip('[\"').strip('\"]')}"
+          - vm_ip_address: "${return_result.strip('[\"').strip('\"]')}"
         navigate:
           - SUCCESS: get_vm_mac_address
-          - FAILURE: on_failure
-    - set_vm_ip_and_mac_address:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_ip: '${vm_ip}'
-            - vm_ip_list: '${vm_ip_list}'
-            - vm_mac_address: '${vm_mac_address}'
-            - vm_mac_address_list: '${vm_mac_address_list}'
-        publish:
-          - vm_ip_list: "${vm_ip_list+','+vm_ip}"
-          - vm_mac_address_list: "${vm_mac_address_list+','+vm_mac_address}"
-        navigate:
-          - SUCCESS: list_iterator
-          - FAILURE: on_failure
-    - is_vm_ip_list_is_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${vm_ip_list}'
-            - second_string: ''
-        publish: []
-        navigate:
-          - SUCCESS: set_first_vm_ip_and_mac_address
-          - FAILURE: set_vm_ip_and_mac_address
-    - set_first_vm_ip_and_mac_address:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_ip: '${vm_ip}'
-            - vm_mac_address: '${vm_mac_address}'
-        publish:
-          - vm_ip_list: '${vm_ip}'
-          - vm_mac_address_list: '${vm_mac_address}'
-        navigate:
-          - SUCCESS: list_iterator
-          - FAILURE: on_failure
-    - is_vm_ip_list_is_null:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${vm_ip_list}'
-            - second_string: 'null'
-        publish: []
-        navigate:
-          - SUCCESS: set_vm_ip_list_to_empty
-          - FAILURE: SUCCESS
-    - set_vm_ip_list_to_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_ip_list: ''
-        publish:
-          - vm_ip_list
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - get_vm_mac_address:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${vapp_details}'
-            - json_path: "${'$.children.vm[?(@.name==\"'+vm+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].macAddress'}"
+            - json_path: "${'$.children.vm[?(@.name==\"'+final_vm_name+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].macAddress'}"
         publish:
           - vm_mac_address: "${return_result.strip('[\"').strip('\"]')}"
         navigate:
-          - SUCCESS: is_vm_ip_list_is_empty
+          - SUCCESS: is_vm_ip_list_is_null
           - FAILURE: on_failure
-    - create_vapp:
+    - create_vm:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.vmware.cloud_director.vapp.create_vapp:
+          io.cloudslang.vmware.cloud_director.vm.create_vm:
             - protocol: '${protocol}'
             - host_name: '${host_name}'
             - port: '${port}'
             - access_token:
                 value: '${access_token}'
                 sensitive: true
-            - tenant_name: '${tenant_name}'
             - vdc_id: '${vdc_id}'
-            - vapp_template_id: '${vapp_template_id}'
+            - vm_template_id: "${vm_template.split('|||')[1]}"
+            - vm_name: '${vm_name+random_number}'
+            - vm_template_href: "${vm_template.split('|||')[0]}"
+            - vm_template_name: "${vm_template.split('|||')[2]}"
             - network_name: '${network_name}'
+            - ip_address_allocation_mode: '${ip_address_allocation_mode}'
+            - network_adapter_type: '${network_adapter_type}'
+            - computer_name: '${vm_name+random_number}'
             - storage_profile: '${storage_profile}'
-            - compute_parameters: '${compute_parameters}'
-            - vapp_name: '${vapp_name+random_number}'
+            - ip_address: '${ip_address}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -419,19 +323,68 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - return_result
-          - final_vapp_name: '${vapp_name}'
+          - vm_details: '${return_result}'
         navigate:
-          - SUCCESS: wait_for_vapp_creation
+          - SUCCESS: get_vapp_id
+          - FAILURE: on_failure
+    - get_vapp_id:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${vm_details}'
+            - json_path: operation
+        publish:
+          - vapp_id: "${'vapp-' + return_result.split(\"(\")[1].replace(')','')}"
+        navigate:
+          - SUCCESS: wait_for_vm_creation
+          - FAILURE: on_failure
+    - is_vm_status_is_20:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_status}'
+            - second_string: '20'
+        publish: []
+        navigate:
+          - SUCCESS: wait_for_vm_creation
+          - FAILURE: on_failure
+    - get_vm_status:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: "${'$.children.vm[?(@.name==\"'+final_vm_name+'\")].status'}"
+        publish:
+          - vm_status: "${return_result.replace('[','').replace(']','')}"
+        navigate:
+          - SUCCESS: is_vm_status_is_8
+          - FAILURE: on_failure
+    - is_vm_ip_list_is_null:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip_address}'
+            - second_string: 'null'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_ip_list_to_empty
+          - FAILURE: SUCCESS
+    - set_vm_ip_list_to_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_ip_address: ''
+        publish:
+          - vm_ip_address
+        navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - final_vapp_name
-    - vapp_id
-    - vapp_status
-    - vm_name_list
-    - vm_ip_list
-    - vm_id_list
-    - vm_mac_address_list
+    - final_vm_name
+    - vm_id
+    - vm_status
+    - vm_ip_address
+    - vm_mac_address
   results:
     - SUCCESS
     - FAILURE
@@ -439,109 +392,83 @@ extensions:
   graph:
     steps:
       is_vm_ip_list_is_null:
-        x: 840
+        x: 920
         'y': 80
         navigate:
-          57ff09d3-474e-fa53-54b1-1a4308b48f52:
+          4b636b8a-4163-5537-4db7-0152c35a7c6f:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
             port: FAILURE
-      set_first_vm_ip_and_mac_address:
-        x: 840
-        'y': 640
       get_vm_id_list:
-        x: 680
+        x: 760
         'y': 440
       get_vm_mac_address:
-        x: 1160
-        'y': 440
-      get_vapp_id:
-        x: 40
-        'y': 440
-      is_vapp_status_is_10:
-        x: 80
-        'y': 640
-        navigate:
-          36b8409c-456e-624b-40d0-82126b79e225:
-            vertices:
-              - x: 40
-                'y': 640
-              - x: 40
-                'y': 400
-            targetId: wait_for_vapp_creation
-            port: SUCCESS
-      get_vm_ip:
-        x: 1000
-        'y': 440
-      set_vapp_status_to_powered_off:
-        x: 520
-        'y': 440
-      set_vapp_status_to_powered_on:
-        x: 520
-        'y': 640
-      get_vm_names:
-        x: 200
-        'y': 280
-      is_vapp_status_is_4:
-        x: 360
-        'y': 640
-      create_vapp:
-        x: 520
+        x: 760
         'y': 80
+      get_vapp_id:
+        x: 600
+        'y': 280
+      get_vm_ip:
+        x: 760
+        'y': 280
+      wait_for_vm_creation:
+        x: 440
+        'y': 280
+      get_vm_names:
+        x: 120
+        'y': 280
+      get_vm_status:
+        x: 120
+        'y': 440
+      set_vm_status_to_powered_off:
+        x: 600
+        'y': 440
+      get_host_details:
+        x: 120
+        'y': 80
+      get_vapp_details:
+        x: 280
+        'y': 280
+      is_vm_status_is_4:
+        x: 440
+        'y': 640
+      random_number_generator:
+        x: 440
+        'y': 80
+      is_vm_status_is_20:
+        x: 120
+        'y': 640
         navigate:
-          6ca32ebd-0e9e-349a-e77d-e9b40ebb273b:
+          fbe9732e-e0a8-6dd4-82f4-38621cf8a6e3:
             vertices:
-              - x: 560
-                'y': 240
+              - x: 80
+                'y': 680
               - x: 80
                 'y': 240
-            targetId: wait_for_vapp_creation
+              - x: 480
+                'y': 240
+            targetId: wait_for_vm_creation
             port: SUCCESS
-      set_vm_ip_and_mac_address:
-        x: 1000
-        'y': 640
-      list_iterator:
-        x: 840
-        'y': 440
-      is_vapp_status_is_8:
-        x: 360
-        'y': 440
-      wait_for_vapp_creation:
-        x: 40
-        'y': 280
-      get_host_details:
-        x: 40
-        'y': 80
-      is_vm_ip_list_is_empty:
-        x: 1160
-        'y': 640
-        navigate:
-          cb2b9bbd-a455-306b-91d4-fc0345eb8bdb:
-            vertices:
-              - x: 1040
-                'y': 800
-            targetId: set_first_vm_ip_and_mac_address
-            port: SUCCESS
-      get_vapp_details:
-        x: 200
-        'y': 440
-      random_number_generator:
-        x: 360
+      create_vm:
+        x: 600
         'y': 80
       get_access_token_using_web_api:
-        x: 200
+        x: 280
         'y': 80
+      set_vm_status_to_powered_on:
+        x: 600
+        'y': 640
+      is_vm_status_is_8:
+        x: 440
+        'y': 440
       set_vm_ip_list_to_empty:
-        x: 1000
+        x: 920
         'y': 280
         navigate:
-          3a33f5cc-ce8f-7658-8836-08d07fbeb70a:
+          ec1c11c6-6466-8bfa-d4a5-3a7666e7454b:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
             port: SUCCESS
-      get_vapp_status:
-        x: 360
-        'y': 280
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 1080
-          'y': 80
+          x: 1120
+          'y': 280
