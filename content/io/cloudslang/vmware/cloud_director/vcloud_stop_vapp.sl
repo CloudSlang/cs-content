@@ -244,7 +244,7 @@ flow:
             - host_name: '${hostname}'
             - port: '${port}'
             - protocol: '${protocol}'
-            - vApp_id: '${vapp_id}'
+            - vapp_id: '${vapp_id}'
             - access_token: '${access_token}'
             - proxy_host: '${proxy_host}'
             - proxy_username: '${proxy_username}'
