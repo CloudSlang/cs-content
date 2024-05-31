@@ -23,6 +23,8 @@
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
+#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
+#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -50,9 +52,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
-#!
 #! @result SUCCESS: The vApp has been  started successfully.
 #! @result FAILURE: Error in starting vApp.
 #!!#
@@ -75,6 +74,8 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
+    - polling_interval: '20'
+    - polling_retries: '30'
     - proxy_host:
         required: false
     - proxy_port:
@@ -163,7 +164,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - return_result
+          - vapp_details: '${return_result}'
           - status
         navigate:
           - SUCCESS: string_equals
@@ -175,35 +176,35 @@ flow:
             - first_string: '${status}'
             - second_string: '4'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: get_vm_id_list
           - FAILURE: start_vapp
     - check_power_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
+            - json_input: '${vapp_details}'
             - json_path: status
         publish:
           - power_state: '${return_result}'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: compare_power_state
+          - SUCCESS: compare_power_state
+          - FAILURE: on_failure
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${power_state}'
-            - second_string: '1'
+            - second_string: '4'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: sleep
+          - SUCCESS: get_vm_id_list
+          - FAILURE: counter
     - sleep:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.sleep:
             - seconds: '30'
         navigate:
-          - SUCCESS: check_power_state
+          - SUCCESS: get_vapp_details_1
           - FAILURE: on_failure
     - get_vapp_details_1:
         worker_group:
@@ -230,7 +231,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - return_result
+          - vapp_details: '${return_result}'
           - status
         navigate:
           - SUCCESS: check_power_state
@@ -262,9 +263,145 @@ flow:
         navigate:
           - SUCCESS: get_vapp_details_1
           - FAILURE: on_failure
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - is_vm_ip_list_is_null:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip}'
+            - second_string: 'null'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_ip_list_to_empty
+          - FAILURE: get_vm_mac_address
+    - set_first_vm_ip_and_mac_address:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_ip: '${vm_ip}'
+            - vm_mac_address: '${vm_mac_address}'
+        publish:
+          - vm_ip_list: '${vm_ip}'
+          - vm_mac_address_list: '${vm_mac_address}'
+        navigate:
+          - SUCCESS: list_iterator
+          - FAILURE: on_failure
+    - get_vm_id_list:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: '$.children.vm[*].id'
+            - vm_ip_list: ''
+            - vm_mac_address_list: ''
+        publish:
+          - vm_id_list: "${return_result.replace('urn:vcloud:vm:','vm-').replace('\"','').strip('[').strip(']').replace(' ','')}"
+          - vm_ip_list
+          - vm_mac_address_list
+        navigate:
+          - SUCCESS: get_vm_names
+          - FAILURE: on_failure
+    - get_vm_mac_address:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: "${'$.children.vm[?(@.name==\"'+vm+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].macAddress'}"
+        publish:
+          - vm_mac_address: "${return_result.strip('[\"').strip('\"]')}"
+        navigate:
+          - SUCCESS: is_vm_ip_list_is_empty
+          - FAILURE: on_failure
+    - get_vm_ip:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: "${'$.children.vm[?(@.name==\"'+vm+'\")].section[?(@._type==\"NetworkConnectionSectionType\")].networkConnection[0].ipAddress'}"
+        publish:
+          - vm_ip: "${return_result.strip('[\"').strip('\"]')}"
+        navigate:
+          - SUCCESS: is_vm_ip_list_is_null
+          - FAILURE: on_failure
+    - set_vm_ip_and_mac_address:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_ip: '${vm_ip}'
+            - vm_ip_list: '${vm_ip_list}'
+            - vm_mac_address: '${vm_mac_address}'
+            - vm_mac_address_list: '${vm_mac_address_list}'
+        publish:
+          - vm_ip_list: "${vm_ip_list+','+vm_ip}"
+          - vm_mac_address_list: "${vm_mac_address_list+','+vm_mac_address}"
+        navigate:
+          - SUCCESS: list_iterator
+          - FAILURE: on_failure
+    - list_iterator:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.lists.list_iterator:
+            - list: '${vm_name_list}'
+            - vm_ip_list: '${vm_ip_list}'
+            - vm_mac_address_list: '${vm_mac_address_list}'
+        publish:
+          - vm: '${result_string}'
+          - vm_ip_list
+          - vm_mac_address_list
+        navigate:
+          - HAS_MORE: get_vm_ip
+          - NO_MORE: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_ip_list_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip_list}'
+            - second_string: ''
+        publish: []
+        navigate:
+          - SUCCESS: set_first_vm_ip_and_mac_address
+          - FAILURE: set_vm_ip_and_mac_address
+    - set_vm_ip_list_to_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_ip: ''
+        publish:
+          - vm_ip
+        navigate:
+          - SUCCESS: get_vm_mac_address
+          - FAILURE: on_failure
+    - get_vm_names:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: '$.children.vm[*].name'
+            - vapp_status: '${status}'
+        publish:
+          - vm_name_list: "${return_result.replace('\"','').strip('[').strip(']')}"
+          - vapp_status
+        navigate:
+          - SUCCESS: list_iterator
+          - FAILURE: on_failure
   outputs:
-    - return_result
-    - status_code
+    - vm_mac_address_list
+    - vm_id_list
+    - vm_ip_list
+    - vm_name_list
+    - vapp_status
   results:
     - SUCCESS
     - FAILURE
@@ -272,47 +409,80 @@ extensions:
   graph:
     steps:
       check_power_state:
-        x: 720
-        'y': 160
-        navigate:
-          09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+        x: 440
+        'y': 200
+      is_vm_ip_list_is_null:
+        x: 1000
+        'y': 240
+      set_first_vm_ip_and_mac_address:
+        x: 1000
+        'y': 800
+      get_vm_id_list:
+        x: 440
+        'y': 320
+      get_vm_mac_address:
+        x: 1200
+        'y': 600
+      get_vm_ip:
+        x: 1000
+        'y': 440
       start_vapp:
-        x: 320
-        'y': 160
+        x: 240
+        'y': 280
       get_vapp_details_1:
-        x: 520
-        'y': 160
+        x: 240
+        'y': 120
+      get_vm_names:
+        x: 155.88888549804688
+        'y': 755.0381469726562
       string_equals:
-        x: 320
-        'y': 400
+        x: 240
+        'y': 520
+      set_vm_ip_and_mac_address:
+        x: 1000
+        'y': 600
+      list_iterator:
+        x: 440
+        'y': 520
         navigate:
-          b3aa0f9c-f746-4803-7396-7bce5edd9e55:
+          7bf66cd7-0957-6484-eab7-126c0c568eac:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+            port: NO_MORE
       get_host_details:
         x: 40
-        'y': 160
+        'y': 120
+      is_vm_ip_list_is_empty:
+        x: 1200
+        'y': 800
       get_vapp_details:
-        x: 120
-        'y': 400
+        x: 40
+        'y': 520
       sleep:
-        x: 920
-        'y': 160
+        x: 560
+        'y': 40
       get_access_token_using_web_api:
-        x: 200
-        'y': 240
-      compare_power_state:
-        x: 920
-        'y': 400
+        x: 40
+        'y': 280
+      counter:
+        x: 800
+        'y': 120
         navigate:
-          d6318fc3-6bac-efbd-94d7-0022c4c76ff9:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+          64a54e74-0859-6965-a06f-c00bfc259048:
+            targetId: d6c9a535-7035-57ef-2851-365363e4fbd6
+            port: NO_MORE
+      compare_power_state:
+        x: 640
+        'y': 280
+      set_vm_ip_list_to_empty:
+        x: 1200
+        'y': 240
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
-          'y': 400
+          x: 440
+          'y': 720
+      FAILURE:
+        d6c9a535-7035-57ef-2851-365363e4fbd6:
+          x: 1000
+          'y': 120
 
