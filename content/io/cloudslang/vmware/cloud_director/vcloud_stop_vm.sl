@@ -18,10 +18,13 @@
 #! @input provider_sap: Provider SAP.
 #! @input vm_id: The unique Id of the VM.
 #! @input api_token: The Refresh token for the Vcloud.
+#! @input tenant_name: The organization we are attempting to access.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
 #!                      simultaneously.
 #!                      Default: 'RAS_Operator_Path'
 #!                      Optional
+#! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
+#! @input polling_retries: The number of retries to check if the instance is started.Default: '30'Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -51,6 +54,8 @@
 #!
 #! @output return_result: This will contain the response entity.
 #! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output power_state: The IP Address of the VM.
+#! @output ip_address: The current power state of the VM.
 #!
 #! @result SUCCESS: The VM has been stopped successfully.
 #! @result FAILURE: Error in stoping the Vm.
@@ -75,6 +80,8 @@ flow:
     - worker_group:
         default: RAS_Operator_Path
         required: false
+    - polling_interval: '20'
+    - polling_retries: '30'
     - proxy_host:
         required: false
     - proxy_port:
@@ -113,7 +120,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.authorization.get_access_token_using_web_api:
-            - host_name: '${host_name}'
+            - host_name: '${hostname}'
             - protocol: '${protocol}'
             - port: '${port}'
             - organization: '${tenant_name}'
@@ -151,30 +158,22 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
+            - json_input: '${vm_details}'
             - json_path: status
         publish:
           - power_state: '${return_result}'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: compare_power_state
+          - SUCCESS: compare_power_state
+          - FAILURE: on_failure
     - compare_power_state:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${power_state}'
-            - second_string: '1'
+            - second_string: '8'
         navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: sleep
-    - sleep:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '30'
-        navigate:
-          - SUCCESS: check_power_state
-          - FAILURE: on_failure
+          - SUCCESS: get_vm_ip_address
+          - FAILURE: counter
     - stop_vm:
         worker_group:
           value: '${worker_group}'
@@ -262,14 +261,46 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
         publish:
-          - return_result
+          - vm_details: '${return_result}'
           - status
         navigate:
           - SUCCESS: check_power_state
           - FAILURE: on_failure
+    - sleep:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '30'
+        navigate:
+          - SUCCESS: get_vm_details_1
+          - FAILURE: on_failure
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - get_vm_ip_address:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - ip_address: ''
+        publish:
+          - ip_address
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
+    - power_state
+    - ip_address
   results:
     - SUCCESS
     - FAILURE
@@ -277,49 +308,57 @@ extensions:
   graph:
     steps:
       check_power_state:
-        x: 680
-        'y': 160
-        navigate:
-          09c575ad-eda1-8bc0-a9ab-3d7a9fecbd0f:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+        x: 480
+        'y': 320
       get_vm_details:
         x: 120
-        'y': 400
+        'y': 520
       string_equals:
         x: 320
-        'y': 400
+        'y': 520
         navigate:
           52d52bb7-69bc-bea6-985a-2932ee155f64:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       stop_vm:
         x: 320
-        'y': 160
+        'y': 320
       get_host_details:
-        x: 100
+        x: 120
         'y': 160
       get_vm_details_1:
-        x: 520
+        x: 320
         'y': 160
       sleep:
-        x: 880
+        x: 480
         'y': 160
-      get_access_token_using_web_api:
-        x: 200
-        'y': 240
-      compare_power_state:
-        x: 880
-        'y': 400
+      get_vm_ip_address:
+        x: 640
+        'y': 520
         navigate:
-          d6318fc3-6bac-efbd-94d7-0022c4c76ff9:
+          704bdbcb-a582-8466-c0c9-cb03748f2f62:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
+      get_access_token_using_web_api:
+        x: 120
+        'y': 320
+      counter:
+        x: 640
+        'y': 160
+        navigate:
+          91651e41-e800-b40f-b03d-6141d7c09ff0:
+            targetId: 9da78ea9-e3ef-e2a0-42ed-9e04eafd29d7
+            port: NO_MORE
+      compare_power_state:
+        x: 640
+        'y': 320
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 680
-          'y': 400
-
-
+          x: 480
+          'y': 520
+      FAILURE:
+        9da78ea9-e3ef-e2a0-42ed-9e04eafd29d7:
+          x: 800
+          'y': 160
 
