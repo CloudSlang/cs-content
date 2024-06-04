@@ -236,6 +236,11 @@ flow:
         publish:
           - return_result
           - status_code
+          - vm_mac_address_list
+          - vm_id_list
+          - vm_name_list
+          - vapp_status
+          - vm_ip_list
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -250,6 +255,11 @@ flow:
   outputs:
     - return_result
     - status_code
+    - vm_mac_address_list
+    - vm_ip_list
+    - vm_id_list
+    - vm_name_list
+    - vapp_status
   results:
     - FAILURE
     - SUCCESS
