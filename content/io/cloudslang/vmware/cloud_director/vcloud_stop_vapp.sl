@@ -197,7 +197,7 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${power_state}'
-            - second_string: '4'
+            - second_string: '8'
         navigate:
           - SUCCESS: get_vm_id_list
           - FAILURE: counter
