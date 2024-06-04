@@ -145,38 +145,10 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${status}'
-            - second_string: '4'
+            - second_string: '8'
         navigate:
           - SUCCESS: SUCCESS
-          - FAILURE: start_vm
-    - check_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.get_value:
-            - json_input: '${return_result}'
-            - json_path: status
-        publish:
-          - power_state: '${return_result}'
-        navigate:
-          - SUCCESS: sleep_1
-          - FAILURE: compare_power_state
-    - compare_power_state:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${power_state}'
-            - second_string: '1'
-        navigate:
-          - SUCCESS: vcloud_stop_vm
-          - FAILURE: sleep
-    - sleep:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '30'
-        navigate:
-          - SUCCESS: check_power_state
-          - FAILURE: on_failure
+          - FAILURE: vcloud_stop_vm
     - get_vm_details:
         worker_group:
           value: '${worker_group}'
@@ -207,69 +179,6 @@ flow:
           - status
         navigate:
           - SUCCESS: string_equals
-          - FAILURE: on_failure
-    - get_vm_details_1:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.vmware.cloud_director.vm.get_vm_details:
-            - host_name: '${hostname}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - access_token: '${access_token}'
-            - vm_id: '${vm_id}'
-            - vapp_id: '${vm_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - worker_group: '${worker_group}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - return_result
-          - status
-        navigate:
-          - SUCCESS: check_power_state
-          - FAILURE: on_failure
-    - start_vm:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.vmware.cloud_director.vm.start_vm:
-            - host_name: '${hostname}'
-            - port: '${port}'
-            - protocol: '${protocol}'
-            - base_URL: '${base_URL}'
-            - vm_id: '${vm_id}'
-            - access_token:
-                value: '${access_token}'
-                sensitive: true
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - return_result
-        navigate:
-          - SUCCESS: get_vm_details_1
           - FAILURE: on_failure
     - vcloud_stop_vm:
         worker_group:
@@ -335,14 +244,6 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - sleep_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.sleep:
-            - seconds: '30'
-        navigate:
-          - SUCCESS: vcloud_stop_vm
-          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
@@ -354,53 +255,35 @@ flow:
 extensions:
   graph:
     steps:
-      check_power_state:
-        x: 680
-        'y': 160
       get_vm_details:
         x: 40
-        'y': 520
-      sleep_1:
-        x: 520
-        'y': 320
+        'y': 440
       string_equals:
-        x: 320
-        'y': 520
+        x: 200
+        'y': 440
         navigate:
           52d52bb7-69bc-bea6-985a-2932ee155f64:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       vcloud_start_vm:
-        x: 680
-        'y': 720
+        x: 600
+        'y': 440
         navigate:
           d311a3a3-9a19-9836-6097-a648e1a25681:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       get_host_details:
         x: 40
-        'y': 160
+        'y': 80
       vcloud_stop_vm:
-        x: 680
-        'y': 400
-      start_vm:
-        x: 320
-        'y': 160
-      get_vm_details_1:
-        x: 520
-        'y': 160
-      sleep:
-        x: 880
+        x: 200
         'y': 160
       get_access_token_using_web_api:
         x: 40
-        'y': 320
-      compare_power_state:
-        x: 880
-        'y': 400
+        'y': 240
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 320
-          'y': 720
+          x: 360
+          'y': 440
 
