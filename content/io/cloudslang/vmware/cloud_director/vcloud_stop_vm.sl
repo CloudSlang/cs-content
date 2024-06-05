@@ -53,7 +53,6 @@
 #!                        Optional
 #!
 #! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output power_state: The IP Address of the VM.
 #! @output ip_address: The current power state of the VM.
 #!
@@ -151,8 +150,10 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${status}'
             - second_string: '8'
+        publish:
+          - power_state: '${first_string}'
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: is_vm_status_is_4
           - FAILURE: stop_vm
     - check_power_state:
         worker_group: '${worker_group}'
@@ -294,11 +295,50 @@ flow:
         publish:
           - ip_address
         navigate:
+          - SUCCESS: is_vm_status_is_4
+          - FAILURE: on_failure
+    - set_vm_status_to_powered_off:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - power_state: Powered Off
+        publish:
+          - power_state
+        navigate:
           - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_status_is_4:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: '4'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_on
+          - FAILURE: is_vm_status_is_8
+    - set_vm_status_to_powered_on:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - power_state: Powered On
+        publish:
+          - power_state
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_status_is_8:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: '8'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_off
           - FAILURE: on_failure
   outputs:
     - return_result
-    - status_code
     - power_state
     - ip_address
   results:
@@ -316,8 +356,11 @@ extensions:
       string_equals:
         x: 320
         'y': 520
+      set_vm_status_to_powered_off:
+        x: 480
+        'y': 840
         navigate:
-          52d52bb7-69bc-bea6-985a-2932ee155f64:
+          fe3815b0-c353-05f6-4202-90c70b62d1bb:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
             port: SUCCESS
       stop_vm:
@@ -332,16 +375,22 @@ extensions:
       sleep:
         x: 480
         'y': 160
+      is_vm_status_is_4:
+        x: 480
+        'y': 600
       get_vm_ip_address:
         x: 640
         'y': 520
-        navigate:
-          704bdbcb-a582-8466-c0c9-cb03748f2f62:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       get_access_token_using_web_api:
         x: 120
         'y': 320
+      set_vm_status_to_powered_on:
+        x: 440
+        'y': 720
+        navigate:
+          3c9f8325-7789-2a90-60d6-53141ec6b76c:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       counter:
         x: 640
         'y': 160
@@ -352,11 +401,14 @@ extensions:
       compare_power_state:
         x: 640
         'y': 320
+      is_vm_status_is_8:
+        x: 640
+        'y': 760
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 480
-          'y': 520
+          x: 320
+          'y': 880
       FAILURE:
         9da78ea9-e3ef-e2a0-42ed-9e04eafd29d7:
           x: 800
