@@ -52,8 +52,7 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output vm_details: This will contain the vm details json.
 #! @output ip_address: The IP Address of the VM.
 #! @output power_state: The current power state of the VM.
 #!
@@ -148,7 +147,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${status}'
+            - first_string: '${power_state}'
             - second_string: '4'
         navigate:
           - SUCCESS: get_vm_ip_address
@@ -171,7 +170,7 @@ flow:
             - first_string: '${power_state}'
             - second_string: '4'
         navigate:
-          - SUCCESS: get_vm_ip_address
+          - SUCCESS: sleep_1
           - FAILURE: counter
     - sleep:
         worker_group: '${worker_group}'
@@ -208,7 +207,7 @@ flow:
                 sensitive: true
         publish:
           - vm_details: '${return_result}'
-          - status
+          - power_state: '${status}'
         navigate:
           - SUCCESS: comparing_power_state
           - FAILURE: on_failure
@@ -296,11 +295,89 @@ flow:
         publish:
           - ip_address: '${return_result}'
         navigate:
+          - SUCCESS: is_vm_status_is_8
+          - FAILURE: on_failure
+    - get_vm_details_1_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vm.get_vm_details:
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - access_token: '${access_token}'
+            - vm_id: '${vm_id}'
+            - vapp_id: '${vm_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - worker_group: '${worker_group}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - vm_details: '${return_result}'
+          - status
+        navigate:
+          - SUCCESS: get_vm_ip_address
+          - FAILURE: on_failure
+    - sleep_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '120'
+        navigate:
+          - SUCCESS: get_vm_details_1_1
+          - FAILURE: on_failure
+    - is_vm_status_is_8:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: '8'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_off
+          - FAILURE: is_vm_status_is_4
+    - set_vm_status_to_powered_off:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - power_state: Powered Off
+        publish:
+          - power_state
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_status_is_4:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: '4'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_on
+          - FAILURE: on_failure
+    - set_vm_status_to_powered_on:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - power_state: Powered On
+        publish:
+          - power_state
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - return_result
-    - status_code
+    - vm_details
     - ip_address
     - power_state
   results:
@@ -315,6 +392,19 @@ extensions:
       get_vm_details:
         x: 240
         'y': 440
+      get_vm_details_1_1:
+        x: 560
+        'y': 440
+      sleep_1:
+        x: 720
+        'y': 440
+      set_vm_status_to_powered_off:
+        x: 400
+        'y': 840
+        navigate:
+          6661ff6c-cfb0-6539-7295-04191b618752:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       get_host_details:
         x: 80
         'y': 240
@@ -327,19 +417,25 @@ extensions:
       sleep:
         x: 560
         'y': 80
+      is_vm_status_is_4:
+        x: 720
+        'y': 600
       comparing_power_state:
         x: 240
         'y': 240
       get_vm_ip_address:
         x: 400
         'y': 440
-        navigate:
-          97ae80c3-c28e-0c3b-5cf5-b774c6cbb6d3:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
       get_access_token_using_web_api:
         x: 80
         'y': 440
+      set_vm_status_to_powered_on:
+        x: 920
+        'y': 640
+        navigate:
+          92074b66-ff5f-307d-afac-175bf7740e26:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       counter:
         x: 720
         'y': 80
@@ -350,11 +446,14 @@ extensions:
       compare_power_state:
         x: 720
         'y': 240
+      is_vm_status_is_8:
+        x: 400
+        'y': 640
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 720
-          'y': 440
+          x: 800
+          'y': 840
       FAILURE:
         0fe466ae-a536-00e8-9244-527f1b42c14d:
           x: 920
