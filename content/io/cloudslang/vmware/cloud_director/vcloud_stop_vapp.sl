@@ -52,8 +52,11 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output vm_mac_address_list: The list of MAC address of VMs.
+#! @output vm_id_list: The list of ID of VMs.
+#! @output vm_ip_list: The list of IP address of VMs.
+#! @output vm_name_list: The list of VM name.
+#! @output vapp_status: The status of created vApp.
 #!
 #! @result SUCCESS: The vApp has been  stopped successfully.
 #! @result FAILURE: Error in stopping vApp.
@@ -365,7 +368,7 @@ flow:
           - vm_mac_address_list
         navigate:
           - HAS_MORE: get_vm_ip
-          - NO_MORE: SUCCESS
+          - NO_MORE: is_vm_status_is_8
           - FAILURE: on_failure
     - is_vm_ip_list_is_empty:
         worker_group: '${worker_group}'
@@ -399,9 +402,47 @@ flow:
           - HAS_MORE: sleep
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - set_vm_status_to_powered_off:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vapp_status: Powered Off
+        publish:
+          - vapp_status
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_status_is_4:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vapp_status}'
+            - second_string: '4'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_on
+          - FAILURE: on_failure
+    - set_vm_status_to_powered_on:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vapp_status: Powered On
+        publish:
+          - vapp_status
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
+    - is_vm_status_is_8:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vapp_status}'
+            - second_string: '8'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_off
+          - FAILURE: is_vm_status_is_4
   outputs:
-    - return_result
-    - status_code
     - vm_mac_address_list
     - vm_id_list
     - vm_ip_list
@@ -414,8 +455,8 @@ extensions:
   graph:
     steps:
       check_power_state:
-        x: 640
-        'y': 320
+        x: 440
+        'y': 200
       is_vm_ip_list_is_null:
         x: 1120
         'y': 400
@@ -423,8 +464,8 @@ extensions:
         x: 1240
         'y': 760
       get_vm_id_list:
-        x: 760
-        'y': 440
+        x: 720
+        'y': 480
       get_vm_mac_address:
         x: 1480
         'y': 600
@@ -432,14 +473,14 @@ extensions:
         x: 1120
         'y': 600
       stop_vapp:
-        x: 320
-        'y': 160
+        x: 240
+        'y': 360
       get_vapp_details_1:
-        x: 520
-        'y': 160
+        x: 240
+        'y': 200
       get_vm_names:
-        x: 760
-        'y': 800
+        x: 720
+        'y': 680
       string_equals:
         x: 240
         'y': 520
@@ -447,12 +488,15 @@ extensions:
         x: 1240
         'y': 960
       list_iterator:
-        x: 960
-        'y': 600
+        x: 880
+        'y': 720
+      set_vm_status_to_powered_off:
+        x: 1000
+        'y': 920
         navigate:
-          1926d025-0f21-1303-784e-9bde737d3f2a:
+          dceb50fb-6214-b475-f67e-7ec6b5045fd1:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: NO_MORE
+            port: SUCCESS
       get_host_details:
         x: 40
         'y': 200
@@ -463,29 +507,42 @@ extensions:
         x: 40
         'y': 520
       sleep:
-        x: 920
-        'y': 160
+        x: 240
+        'y': 40
+      is_vm_status_is_4:
+        x: 560
+        'y': 1040
       get_access_token_using_web_api:
         x: 40
         'y': 360
+      set_vm_status_to_powered_on:
+        x: 760
+        'y': 1040
+        navigate:
+          e2c95f48-90dc-a2c1-56e1-5769fd31e0e2:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
       counter:
-        x: 1120
-        'y': 200
+        x: 720
+        'y': 40
         navigate:
           c5f67ee3-bf51-11dc-8bfe-733cee7671ec:
             targetId: e5f47472-17d4-7826-f537-373fe68d0890
             port: NO_MORE
       compare_power_state:
-        x: 920
-        'y': 400
+        x: 720
+        'y': 200
+      is_vm_status_is_8:
+        x: 600
+        'y': 880
       set_vm_ip_list_to_empty:
         x: 1320
         'y': 400
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1040
-          'y': 520
+          x: 880
+          'y': 1160
       FAILURE:
         e5f47472-17d4-7826-f537-373fe68d0890:
           x: 1000
