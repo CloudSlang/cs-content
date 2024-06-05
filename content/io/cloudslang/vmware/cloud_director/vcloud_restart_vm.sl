@@ -50,8 +50,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
 #! @output ip_address: The IP Address of the VM.
 #! @output power_state: The current power state of the VM.
 #!
@@ -245,8 +243,6 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - return_result
-    - status_code
     - ip_address
     - power_state
   results:
