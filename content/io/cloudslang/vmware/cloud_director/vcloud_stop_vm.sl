@@ -52,7 +52,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
 #! @output power_state: The IP Address of the VM.
 #! @output ip_address: The current power state of the VM.
 #!
@@ -338,7 +337,6 @@ flow:
           - SUCCESS: set_vm_status_to_powered_off
           - FAILURE: on_failure
   outputs:
-    - return_result
     - power_state
     - ip_address
   results:
@@ -385,8 +383,8 @@ extensions:
         x: 120
         'y': 320
       set_vm_status_to_powered_on:
-        x: 440
-        'y': 720
+        x: 160
+        'y': 760
         navigate:
           3c9f8325-7789-2a90-60d6-53141ec6b76c:
             targetId: 11a314fb-962f-5299-d0a5-ada1540d2904

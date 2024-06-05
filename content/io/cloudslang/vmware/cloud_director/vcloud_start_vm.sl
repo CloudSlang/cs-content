@@ -52,7 +52,6 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output vm_details: This will contain the vm details json.
 #! @output ip_address: The IP Address of the VM.
 #! @output power_state: The current power state of the VM.
 #!
@@ -377,7 +376,6 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - vm_details
     - ip_address
     - power_state
   results:
@@ -452,8 +450,8 @@ extensions:
     results:
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 800
-          'y': 840
+          x: 1040
+          'y': 880
       FAILURE:
         0fe466ae-a536-00e8-9244-527f1b42c14d:
           x: 920

@@ -50,8 +50,11 @@
 #!                        and trust_keystore is empty, trust_password default will be supplied.
 #!                        Optional
 #!
-#! @output return_result: This will contain the response entity.
-#! @output status_code: 200 if request completed successfully, others in case something went wrong.
+#! @output vm_mac_address_list: The list of MAC address of VMs.
+#! @output vm_id_list: The list of ID of VMs.
+#! @output vm_ip_list: The list of IP address of VMs.
+#! @output vm_name_list: The list of VM name.
+#! @output vapp_status: The status of created vApp.
 #!
 #! @result FAILURE: Error in restarting vApp.
 #! @result SUCCESS: The vApp has been restarted successfully.
@@ -253,8 +256,6 @@ flow:
           - SUCCESS: vcloud_start_vapp
           - FAILURE: on_failure
   outputs:
-    - return_result
-    - status_code
     - vm_mac_address_list
     - vm_ip_list
     - vm_id_list
