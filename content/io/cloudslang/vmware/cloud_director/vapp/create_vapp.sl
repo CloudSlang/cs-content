@@ -23,9 +23,8 @@
 #! @input vapp_template_id: The template id of vApp.
 #! @input vapp_name: The name of the zone where the disk is located.
 #!                   Examples: 'us-central1-a, us-central1-b, us-central1-c'
-#! @input network_name: The name of the network needs to be attached to the vApp.
 #! @input storage_profile: The name of the storage profile to be associated with vApp.
-#! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
+#! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format. '{"values":[{"name":"BastionServer","diskSize":10,"cpu":4,"memory":10},{"name":"DBServer","diskSize":10,"cpu":2,"memory":10}]}'
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -64,8 +63,6 @@ flow:
     - vapp_template_id:
         sensitive: false
     - vapp_name
-    - network_name:
-        required: false
     - storage_profile:
         required: false
     - compute_parameters:
@@ -160,8 +157,7 @@ flow:
           io.cloudslang.vmware.cloud_director.utils.create_vapp_request_body:
             - name: '${vapp_name}'
             - template_json: '${template_json}'
-            - network_json: '${network_name}'
-            - compute_parameters: '${compute_parameters}'
+            - compute_parameters_json: '${compute_parameters}'
             - storage_profile: '${storage_profile}'
         publish:
           - vapp_request_body: '${return_result}'

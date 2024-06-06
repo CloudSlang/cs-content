@@ -21,7 +21,6 @@
 #! @input vdc_id: The id of the virtual data center.
 #! @input vapp_template_id: The template id of vApp.
 #! @input vapp_name: The name of the vApp.
-#! @input network_name: The name of the network needs to be attached to the vApp.
 #! @input storage_profile: The name of the storage profile to be associated with vApp.
 #! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
 #! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
@@ -69,8 +68,6 @@ flow:
     - vapp_template_id:
         sensitive: false
     - vapp_name
-    - network_name:
-        required: false
     - storage_profile:
         required: false
     - compute_parameters:
@@ -401,7 +398,6 @@ flow:
             - tenant_name: '${tenant_name}'
             - vdc_id: '${vdc_id}'
             - vapp_template_id: "${'vappTemplate-'+vapp_template_id}"
-            - network_name: '${network_name}'
             - storage_profile: '${storage_profile}'
             - compute_parameters: '${compute_parameters}'
             - vapp_name: '${vapp_name+random_number}'
