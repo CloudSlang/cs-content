@@ -28,7 +28,6 @@
 #!                              Valid values 'VMXNET3', 'E1000' and 'E1000E' and etc
 #! @input ip_address: The value of IP Address in case of manual assignment of IP.
 #! @input storage_profile: The name of the storage profile to be associated with vApp.
-#! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format.
 #! @input polling_interval: The number of seconds to wait until performing another check.Default: '20'Optional
 #! @input polling_retries: The number of retries to check if the instance is stopped.Default: '30'Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
@@ -79,8 +78,6 @@ flow:
     - ip_address:
         required: false
     - storage_profile:
-        required: false
-    - compute_parameters:
         required: false
     - polling_interval:
         default: '20'
