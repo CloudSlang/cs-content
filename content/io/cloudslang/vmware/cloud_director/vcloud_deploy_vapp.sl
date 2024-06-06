@@ -400,7 +400,7 @@ flow:
                 sensitive: true
             - tenant_name: '${tenant_name}'
             - vdc_id: '${vdc_id}'
-            - vapp_template_id: '${vapp_template_id}'
+            - vapp_template_id: "${'vappTemplate-'+vapp_template_id}"
             - network_name: '${network_name}'
             - storage_profile: '${storage_profile}'
             - compute_parameters: '${compute_parameters}'
