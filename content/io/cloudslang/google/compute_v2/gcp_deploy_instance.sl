@@ -191,6 +191,8 @@ flow:
             - proxy_password:
                 value: '${proxy_password}'
                 sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
         publish:
           - access_token
           - return_result
@@ -434,6 +436,8 @@ flow:
                 sensitive: true
             - zone: '${zone}'
             - disk_name: '${additional_disk_name}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
@@ -640,6 +644,8 @@ flow:
                 sensitive: true
             - zone: '${zone}'
             - disk_name: '${additional_disk_name}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
@@ -821,3 +827,4 @@ extensions:
         e2aa7df7-b2a8-01a7-6952-5b752deb0e42:
           x: 960
           'y': 200
+
