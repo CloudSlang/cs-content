@@ -354,7 +354,7 @@ flow:
         publish:
           - vm_status: "${return_result.replace('[','').replace(']','')}"
         navigate:
-          - SUCCESS: is_vm_status_is_8
+          - SUCCESS: is_vm_status_is_0
           - FAILURE: on_failure
     - is_vm_ip_list_is_null:
         worker_group: '${worker_group}'
@@ -376,6 +376,16 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - is_vm_status_is_0:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_status}'
+            - second_string: '0'
+        publish: []
+        navigate:
+          - SUCCESS: wait_for_vm_creation
+          - FAILURE: is_vm_status_is_8
   outputs:
     - final_vm_name
     - vm_id
@@ -422,23 +432,26 @@ extensions:
       get_host_details:
         x: 120
         'y': 80
+      is_vm_status_is_0:
+        x: 280
+        'y': 440
       get_vapp_details:
         x: 280
         'y': 280
       is_vm_status_is_4:
         x: 440
-        'y': 640
+        'y': 600
       random_number_generator:
         x: 440
         'y': 80
       is_vm_status_is_20:
         x: 120
-        'y': 640
+        'y': 600
         navigate:
           fbe9732e-e0a8-6dd4-82f4-38621cf8a6e3:
             vertices:
               - x: 80
-                'y': 680
+                'y': 640
               - x: 80
                 'y': 240
               - x: 480
@@ -452,8 +465,8 @@ extensions:
         x: 280
         'y': 80
       set_vm_status_to_powered_on:
-        x: 600
-        'y': 640
+        x: 760
+        'y': 600
       is_vm_status_is_8:
         x: 440
         'y': 440
@@ -469,3 +482,4 @@ extensions:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
           x: 1120
           'y': 280
+

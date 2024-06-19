@@ -215,7 +215,7 @@ flow:
         publish:
           - vapp_status: '${return_result}'
         navigate:
-          - SUCCESS: is_vapp_status_is_8
+          - SUCCESS: is_vm_status_is_0
           - FAILURE: on_failure
     - wait_for_vapp_creation:
         worker_group: '${worker_group}'
@@ -420,6 +420,16 @@ flow:
         navigate:
           - SUCCESS: wait_for_vapp_creation
           - FAILURE: on_failure
+    - is_vm_status_is_0:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_status}'
+            - second_string: '0'
+        publish: []
+        navigate:
+          - SUCCESS: wait_for_vapp_creation
+          - FAILURE: is_vapp_status_is_8
   outputs:
     - final_vapp_name
     - vapp_id
@@ -452,16 +462,16 @@ extensions:
         'y': 440
       get_vapp_id:
         x: 40
-        'y': 440
+        'y': 480
       is_vapp_status_is_10:
         x: 80
-        'y': 640
+        'y': 600
         navigate:
           36b8409c-456e-624b-40d0-82126b79e225:
             vertices:
               - x: 40
                 'y': 640
-              - x: 40
+              - x: 0
                 'y': 400
             targetId: wait_for_vapp_creation
             port: SUCCESS
@@ -476,10 +486,10 @@ extensions:
         'y': 640
       get_vm_names:
         x: 200
-        'y': 280
+        'y': 320
       is_vapp_status_is_4:
         x: 360
-        'y': 640
+        'y': 600
       create_vapp:
         x: 520
         'y': 80
@@ -517,9 +527,12 @@ extensions:
                 'y': 800
             targetId: set_first_vm_ip_and_mac_address
             port: SUCCESS
+      is_vm_status_is_0:
+        x: 680
+        'y': 200
       get_vapp_details:
         x: 200
-        'y': 440
+        'y': 480
       random_number_generator:
         x: 360
         'y': 80
@@ -541,3 +554,4 @@ extensions:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
           x: 1080
           'y': 80
+
