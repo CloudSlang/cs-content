@@ -424,7 +424,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${vm_status}'
+            - first_string: '${vapp_status}'
             - second_string: '0'
         publish: []
         navigate:
