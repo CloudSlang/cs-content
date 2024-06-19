@@ -195,7 +195,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-ssh:0.0.53-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-ssh:0.0.53172-SNAPSHOT'
     class_name: io.cloudslang.content.ssh.actions.SSHShellCommandAction
     method_name: runSshShellCommand
 
