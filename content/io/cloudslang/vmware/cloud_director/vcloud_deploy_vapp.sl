@@ -453,7 +453,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
-            - host_name: '${hostname}'
+            - host_name: '${host_name}'
             - port: '${port}'
             - protocol: '${protocol}'
             - access_token: '${access_token}'
