@@ -25,6 +25,7 @@
 #!                   Examples: 'us-central1-a, us-central1-b, us-central1-c'
 #! @input storage_profile: The name of the storage profile to be associated with vApp.
 #! @input compute_parameters: The input values of VM template name, CPU, memory and Hard disk for each VMs present in the vApp template in JSON format. '{"values":[{"name":"BastionServer","diskSize":10,"cpu":4,"memory":10},{"name":"DBServer","diskSize":10,"cpu":2,"memory":10}]}'
+#! @input unique_id_for_vm: The random id which will append with vm name. Provide this if compute_parameters input value is given.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
 #!                      Default: 'RAS_Operator_Path'
@@ -66,6 +67,8 @@ flow:
     - storage_profile:
         required: false
     - compute_parameters:
+        required: false
+    - unique_id_for_vm:
         required: false
     - worker_group:
         default: RAS_Operator_Path
@@ -159,6 +162,7 @@ flow:
             - template_json: '${template_json}'
             - compute_parameters_json: '${compute_parameters}'
             - storage_profile: '${storage_profile}'
+            - unique_id: '${unique_id_for_vm}'
         publish:
           - vapp_request_body: '${return_result}'
         navigate:
