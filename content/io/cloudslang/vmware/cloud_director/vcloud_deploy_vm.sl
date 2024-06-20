@@ -270,7 +270,7 @@ flow:
         publish:
           - vm_ip_address: "${return_result.strip('[\"').strip('\"]')}"
         navigate:
-          - SUCCESS: compare_ip
+          - SUCCESS: compare_ip_1
           - FAILURE: on_failure
     - get_vm_mac_address:
         worker_group: '${worker_group}'
@@ -391,7 +391,6 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${vm_ip_address}'
-            - second_string: 'null'
         navigate:
           - SUCCESS: counter_1
           - FAILURE: get_vm_mac_address
@@ -444,6 +443,15 @@ flow:
         navigate:
           - SUCCESS: get_vm_ip
           - FAILURE: on_failure
+    - compare_ip_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip_address}'
+            - second_string: 'null'
+        navigate:
+          - SUCCESS: counter_1
+          - FAILURE: compare_ip
   outputs:
     - final_vm_name
     - vm_id
@@ -502,6 +510,9 @@ extensions:
         'y': 440
       set_vm_status_to_powered_off:
         x: 600
+        'y': 440
+      compare_ip_1:
+        x: 920
         'y': 440
       get_host_details:
         x: 120
