@@ -73,7 +73,7 @@ flow:
     - compute_parameters:
         required: false
     - polling_interval:
-        default: '20'
+        default: '30'
         required: false
     - polling_retries:
         default: '30'
@@ -233,18 +233,8 @@ flow:
             - second_string: '8'
         publish: []
         navigate:
-          - SUCCESS: set_vapp_status_to_powered_off
+          - SUCCESS: start_vapp
           - FAILURE: is_vapp_status_is_4
-    - set_vapp_status_to_powered_off:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vapp_status: Powered Off
-        publish:
-          - vapp_status
-        navigate:
-          - SUCCESS: get_vm_id_list
-          - FAILURE: on_failure
     - set_vapp_status_to_powered_on:
         worker_group: '${worker_group}'
         do:
@@ -314,7 +304,7 @@ flow:
         publish:
           - vm_ip: "${return_result.strip('[\"').strip('\"]')}"
         navigate:
-          - SUCCESS: get_vm_mac_address
+          - SUCCESS: compare_ip
           - FAILURE: on_failure
     - set_vm_ip_and_mac_address:
         worker_group: '${worker_group}'
@@ -430,6 +420,160 @@ flow:
         navigate:
           - SUCCESS: wait_for_vapp_creation
           - FAILURE: is_vapp_status_is_8
+    - start_vapp:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vapp.start_vapp:
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - vApp_id: '${vapp_id}'
+            - access_token: '${access_token}'
+            - proxy_host: '${proxy_host}'
+            - proxy_username: '${proxy_username}'
+            - proxy_port: '${proxy_port}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - SUCCESS: get_vapp_details_to_check_status
+          - FAILURE: on_failure
+    - get_vapp_details_to_check_status:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${hostname}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - access_token: '${access_token}'
+            - vapp_id: '${vapp_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - worker_group: '${worker_group}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - vapp_details: '${return_result}'
+          - status
+        navigate:
+          - SUCCESS: check_power_state
+          - FAILURE: on_failure
+    - sleep:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '30'
+        navigate:
+          - SUCCESS: get_vapp_details_to_check_status
+          - FAILURE: on_failure
+    - check_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${vapp_details}'
+            - json_path: status
+        publish:
+          - power_state: '${return_result}'
+        navigate:
+          - SUCCESS: compare_power_state
+          - FAILURE: on_failure
+    - compare_power_state:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${power_state}'
+            - second_string: '4'
+        navigate:
+          - SUCCESS: set_vapp_status_to_powered_on
+          - FAILURE: counter
+    - counter:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - compare_ip:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip}'
+        navigate:
+          - SUCCESS: counter_1
+          - FAILURE: get_vm_mac_address
+    - get_vapp_details_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - access_token: '${access_token}'
+            - vapp_id: '${vapp_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - worker_group: '${worker_group}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - vapp_details: '${return_result}'
+        navigate:
+          - SUCCESS: get_vm_ip
+          - FAILURE: on_failure
+    - counter_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep_1
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
+    - sleep_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '30'
+        navigate:
+          - SUCCESS: get_vapp_details_1
+          - FAILURE: on_failure
   outputs:
     - final_vapp_name
     - vapp_id
@@ -444,21 +588,45 @@ flow:
 extensions:
   graph:
     steps:
+      check_power_state:
+        x: 800
+        'y': 400
       is_vm_ip_list_is_null:
-        x: 840
+        x: 1000
         'y': 80
         navigate:
           57ff09d3-474e-fa53-54b1-1a4308b48f52:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
             port: FAILURE
+          42416423-8f45-935e-c1e1-726e292de26f:
+            vertices:
+              - x: 1400
+                'y': 160
+            targetId: set_vm_ip_list_to_empty
+            port: SUCCESS
       set_first_vm_ip_and_mac_address:
         x: 840
         'y': 640
+      compare_ip:
+        x: 1320
+        'y': 280
       get_vm_id_list:
-        x: 680
-        'y': 440
+        x: 720
+        'y': 640
+        navigate:
+          365ce90f-df3c-691c-2f7a-c6795fc75040:
+            vertices:
+              - x: 880
+                'y': 560
+              - x: 920
+                'y': 520
+            targetId: list_iterator
+            port: SUCCESS
+      get_vapp_details_to_check_status:
+        x: 640
+        'y': 280
       get_vm_mac_address:
-        x: 1160
+        x: 1480
         'y': 440
       get_vapp_id:
         x: 40
@@ -476,20 +644,33 @@ extensions:
             targetId: wait_for_vapp_creation
             port: SUCCESS
       get_vm_ip:
-        x: 1000
-        'y': 440
-      set_vapp_status_to_powered_off:
-        x: 520
-        'y': 440
+        x: 1160
+        'y': 280
       set_vapp_status_to_powered_on:
         x: 520
         'y': 640
+      start_vapp:
+        x: 520
+        'y': 440
+      get_vapp_details_1:
+        x: 1160
+        'y': 520
+      sleep_1:
+        x: 1360
+        'y': 520
       get_vm_names:
         x: 200
         'y': 320
       is_vapp_status_is_4:
         x: 360
         'y': 600
+      counter_1:
+        x: 1240
+        'y': 400
+        navigate:
+          1df546b7-321b-7e74-859e-0b70f8060850:
+            targetId: 015a2927-2b4a-3438-6e68-f3ab2c97206e
+            port: NO_MORE
       create_vapp:
         x: 520
         'y': 80
@@ -506,8 +687,8 @@ extensions:
         x: 1000
         'y': 640
       list_iterator:
-        x: 840
-        'y': 440
+        x: 1000
+        'y': 280
       is_vapp_status_is_8:
         x: 360
         'y': 440
@@ -518,7 +699,7 @@ extensions:
         x: 40
         'y': 80
       is_vm_ip_list_is_empty:
-        x: 1160
+        x: 1480
         'y': 640
         navigate:
           cb2b9bbd-a455-306b-91d4-fc0345eb8bdb:
@@ -528,20 +709,43 @@ extensions:
             targetId: set_first_vm_ip_and_mac_address
             port: SUCCESS
       is_vm_status_is_0:
-        x: 680
-        'y': 200
+        x: 520
+        'y': 320
+        navigate:
+          7c34e9ac-bea9-14f5-11dd-792e4245e767:
+            vertices:
+              - x: 440
+                'y': 240
+            targetId: wait_for_vapp_creation
+            port: SUCCESS
       get_vapp_details:
         x: 200
         'y': 480
+      sleep:
+        x: 640
+        'y': 80
       random_number_generator:
         x: 360
         'y': 80
       get_access_token_using_web_api:
         x: 200
         'y': 80
+      counter:
+        x: 800
+        'y': 80
+        navigate:
+          48660340-040b-69ab-c83a-46a1e74c8411:
+            targetId: fe5f3c65-af0a-bc4c-c740-bbbfef7d27d9
+            port: NO_MORE
+            vertices:
+              - x: 760
+                'y': 40
+      compare_power_state:
+        x: 800
+        'y': 240
       set_vm_ip_list_to_empty:
-        x: 1000
-        'y': 280
+        x: 1440
+        'y': 240
         navigate:
           3a33f5cc-ce8f-7658-8836-08d07fbeb70a:
             targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
@@ -552,6 +756,13 @@ extensions:
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 1080
-          'y': 80
+          x: 1440
+          'y': 40
+      FAILURE:
+        fe5f3c65-af0a-bc4c-c740-bbbfef7d27d9:
+          x: 440
+          'y': 0
+        015a2927-2b4a-3438-6e68-f3ab2c97206e:
+          x: 1240
+          'y': 160
 
