@@ -18,6 +18,7 @@
 #! @input template_json: The JSON output of template.
 #! @input compute_parameters_json: The compute parameter JSON input in the following format. '{"values":[{"name":"BastionServer","diskSize":10,"cpu":4,"memory":10},{"name":"DBServer","diskSize":10,"cpu":2,"memory":10}]}'
 #! @input storage_profile: The href of storage profile.
+#! @input unique_id: The random id which will append with vm name. Provide this if compute_parameters input value is given.
 #!
 #! @output return_result: The request body for vApp create flow.
 #!
