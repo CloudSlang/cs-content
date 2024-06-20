@@ -426,7 +426,7 @@ flow:
           override: true
         do:
           io.cloudslang.vmware.cloud_director.vapp.start_vapp:
-            - host_name: '${hostname}'
+            - host_name: '${host_name}'
             - port: '${port}'
             - protocol: '${protocol}'
             - vApp_id: '${vapp_id}'
