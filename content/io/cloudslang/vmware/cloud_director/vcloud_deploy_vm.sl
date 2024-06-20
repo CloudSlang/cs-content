@@ -391,6 +391,7 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${vm_ip_address}'
+            - second_string: 'null'
         navigate:
           - SUCCESS: counter_1
           - FAILURE: get_vm_mac_address
