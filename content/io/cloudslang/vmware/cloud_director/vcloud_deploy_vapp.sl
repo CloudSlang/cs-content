@@ -233,7 +233,7 @@ flow:
             - second_string: '8'
         publish: []
         navigate:
-          - SUCCESS: start_vapp
+          - SUCCESS: sleep_1_1
           - FAILURE: is_vapp_status_is_4
     - set_vapp_status_to_powered_on:
         worker_group: '${worker_group}'
@@ -574,6 +574,14 @@ flow:
         navigate:
           - SUCCESS: get_vapp_details_1
           - FAILURE: on_failure
+    - sleep_1_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '60'
+        navigate:
+          - SUCCESS: start_vapp
+          - FAILURE: on_failure
   outputs:
     - final_vapp_name
     - vapp_id
@@ -650,7 +658,7 @@ extensions:
         x: 520
         'y': 640
       start_vapp:
-        x: 520
+        x: 600
         'y': 440
       get_vapp_details_1:
         x: 1160
@@ -690,7 +698,7 @@ extensions:
         x: 1000
         'y': 280
       is_vapp_status_is_8:
-        x: 360
+        x: 320
         'y': 440
       wait_for_vapp_creation:
         x: 40
@@ -727,6 +735,9 @@ extensions:
       random_number_generator:
         x: 360
         'y': 80
+      sleep_1_1:
+        x: 480
+        'y': 440
       get_access_token_using_web_api:
         x: 200
         'y': 80
