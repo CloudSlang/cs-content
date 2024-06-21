@@ -139,7 +139,7 @@ flow:
     - set_url_without_catalog_id:
         do:
           io.cloudslang.base.utils.do_nothing:
-            - url: "${protocol+'://'+host_name+':'+port+'/api/query?type=vAppTemplate&format=records&page=1&pageSize=15&filterEncoded=true&filter=((isExpired==false))&sortAsc=name&links=true'}"
+            - url: "${protocol+'://'+host_name+':'+port+'/api/query?type=vAppTemplate&format=records&page=1&pageSize=200&filterEncoded=true&filter=((isExpired==false))&sortAsc=name&links=true'}"
         publish:
           - url
         navigate:
