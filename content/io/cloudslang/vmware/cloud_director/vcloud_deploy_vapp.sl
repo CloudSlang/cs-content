@@ -446,7 +446,7 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: get_vapp_details_to_check_status
-          - FAILURE: on_failure
+          - FAILURE: counter_2
     - get_vapp_details_to_check_status:
         worker_group:
           value: '${worker_group}'
@@ -522,9 +522,10 @@ flow:
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${vm_ip}'
+            - second_string: 'null'
         navigate:
           - SUCCESS: counter_1
-          - FAILURE: get_vm_mac_address
+          - FAILURE: compare_ip_1
     - get_vapp_details_1:
         worker_group:
           value: '${worker_group}'
@@ -582,6 +583,26 @@ flow:
         navigate:
           - SUCCESS: start_vapp
           - FAILURE: on_failure
+    - compare_ip_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_ip}'
+        navigate:
+          - SUCCESS: counter_1
+          - FAILURE: get_vm_mac_address
+    - counter_2:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.counter:
+            - from: '1'
+            - to: '${polling_retries}'
+            - increment_by: '1'
+            - reset: 'false'
+        navigate:
+          - HAS_MORE: sleep_1_1
+          - NO_MORE: FAILURE
+          - FAILURE: on_failure
   outputs:
     - final_vapp_name
     - vapp_id
@@ -597,7 +618,7 @@ extensions:
   graph:
     steps:
       check_power_state:
-        x: 800
+        x: 840
         'y': 400
       is_vm_ip_list_is_null:
         x: 1000
@@ -616,8 +637,8 @@ extensions:
         x: 840
         'y': 640
       compare_ip:
-        x: 1320
-        'y': 280
+        x: 1360
+        'y': 240
       get_vm_id_list:
         x: 720
         'y': 640
@@ -631,8 +652,8 @@ extensions:
             targetId: list_iterator
             port: SUCCESS
       get_vapp_details_to_check_status:
-        x: 640
-        'y': 280
+        x: 680
+        'y': 240
       get_vm_mac_address:
         x: 1480
         'y': 440
@@ -658,7 +679,7 @@ extensions:
         x: 520
         'y': 640
       start_vapp:
-        x: 600
+        x: 680
         'y': 440
       get_vapp_details_1:
         x: 1160
@@ -671,7 +692,7 @@ extensions:
         'y': 320
       is_vapp_status_is_4:
         x: 360
-        'y': 600
+        'y': 640
       counter_1:
         x: 1240
         'y': 400
@@ -694,6 +715,13 @@ extensions:
       set_vm_ip_and_mac_address:
         x: 1000
         'y': 640
+      counter_2:
+        x: 520
+        'y': 400
+        navigate:
+          11e5560e-349c-143a-fca5-14fad86021f1:
+            targetId: fe5f3c65-af0a-bc4c-c740-bbbfef7d27d9
+            port: NO_MORE
       list_iterator:
         x: 1000
         'y': 280
@@ -703,6 +731,9 @@ extensions:
       wait_for_vapp_creation:
         x: 40
         'y': 280
+      compare_ip_1:
+        x: 1360
+        'y': 400
       get_host_details:
         x: 40
         'y': 80
@@ -718,7 +749,7 @@ extensions:
             port: SUCCESS
       is_vm_status_is_0:
         x: 520
-        'y': 320
+        'y': 280
         navigate:
           7c34e9ac-bea9-14f5-11dd-792e4245e767:
             vertices:
@@ -730,19 +761,19 @@ extensions:
         x: 200
         'y': 480
       sleep:
-        x: 640
+        x: 680
         'y': 80
       random_number_generator:
         x: 360
         'y': 80
       sleep_1_1:
-        x: 480
-        'y': 440
+        x: 520
+        'y': 520
       get_access_token_using_web_api:
         x: 200
         'y': 80
       counter:
-        x: 800
+        x: 840
         'y': 80
         navigate:
           48660340-040b-69ab-c83a-46a1e74c8411:
@@ -751,11 +782,20 @@ extensions:
             vertices:
               - x: 760
                 'y': 40
+              - x: 520
+                'y': 40
       compare_power_state:
-        x: 800
+        x: 840
         'y': 240
+        navigate:
+          59077b85-c295-1994-402d-a6e07af4b339:
+            vertices:
+              - x: 760
+                'y': 560
+            targetId: set_vapp_status_to_powered_on
+            port: SUCCESS
       set_vm_ip_list_to_empty:
-        x: 1440
+        x: 1480
         'y': 240
         navigate:
           3a33f5cc-ce8f-7658-8836-08d07fbeb70a:
@@ -767,12 +807,12 @@ extensions:
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 1440
-          'y': 40
+          x: 1480
+          'y': 80
       FAILURE:
         fe5f3c65-af0a-bc4c-c740-bbbfef7d27d9:
           x: 440
-          'y': 0
+          'y': 40
         015a2927-2b4a-3438-6e68-f3ab2c97206e:
           x: 1240
           'y': 160
