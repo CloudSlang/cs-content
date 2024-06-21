@@ -52,6 +52,8 @@
 #! @output vm_status: The status of created vApp.
 #! @output vm_ip_address: The IP address of the vm.
 #! @output vm_mac_address: The MAC address of the vm.
+#! @output number_of_cpu: The Number of CPU of vm .
+#! @output memory: The memory of vm.
 #!
 #! @result SUCCESS: vm deployed successfully.
 #! @result FAILURE: Failed to deploy the vm.
@@ -218,28 +220,8 @@ flow:
             - second_string: '8'
         publish: []
         navigate:
-          - SUCCESS: set_vm_status_to_powered_off
+          - SUCCESS: get_vm_id_list
           - FAILURE: is_vm_status_is_4
-    - set_vm_status_to_powered_off:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_status: Powered Off
-        publish:
-          - vm_status
-        navigate:
-          - SUCCESS: get_vm_id_list
-          - FAILURE: on_failure
-    - set_vm_status_to_powered_on:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.utils.do_nothing:
-            - vm_status: Powered On
-        publish:
-          - vm_status
-        navigate:
-          - SUCCESS: get_vm_id_list
-          - FAILURE: on_failure
     - is_vm_status_is_4:
         worker_group: '${worker_group}'
         do:
@@ -248,7 +230,7 @@ flow:
             - second_string: '4'
         publish: []
         navigate:
-          - SUCCESS: set_vm_status_to_powered_on
+          - SUCCESS: get_vm_id_list
           - FAILURE: is_vm_status_is_20
     - get_vm_id_list:
         worker_group: '${worker_group}'
@@ -365,7 +347,7 @@ flow:
         publish: []
         navigate:
           - SUCCESS: set_vm_ip_list_to_empty
-          - FAILURE: SUCCESS
+          - FAILURE: sleep_1_1
     - set_vm_ip_list_to_empty:
         worker_group: '${worker_group}'
         do:
@@ -374,7 +356,7 @@ flow:
         publish:
           - vm_ip_address
         navigate:
-          - SUCCESS: SUCCESS
+          - SUCCESS: sleep_1_1
           - FAILURE: on_failure
     - is_vm_status_is_0:
         worker_group: '${worker_group}'
@@ -452,12 +434,124 @@ flow:
         navigate:
           - SUCCESS: counter_1
           - FAILURE: compare_ip
+    - get_vapp_details_2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.vmware.cloud_director.vapp.get_vapp_details:
+            - host_name: '${host_name}'
+            - port: '${port}'
+            - protocol: '${protocol}'
+            - access_token: '${access_token}'
+            - vapp_id: '${vapp_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - worker_group: '${worker_group}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - vapp_details: '${return_result}'
+        navigate:
+          - SUCCESS: get_vm_status_1
+          - FAILURE: on_failure
+    - get_vm_status_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: "${'$.children.vm[?(@.name==\"'+final_vm_name+'\")].status'}"
+        publish:
+          - vm_status: "${return_result.replace('[','').replace(']','')}"
+        navigate:
+          - SUCCESS: is_vm_status_is_stopped
+          - FAILURE: on_failure
+    - is_vm_status_is_stopped:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_status}'
+            - second_string: '8'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_off_1
+          - FAILURE: is_vm_status_is_started
+    - is_vm_status_is_started:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vm_status}'
+            - second_string: '4'
+        publish: []
+        navigate:
+          - SUCCESS: set_vm_status_to_powered_on_1
+          - FAILURE: on_failure
+    - set_vm_status_to_powered_off_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_status: Powered Off
+        publish:
+          - vm_status
+        navigate:
+          - SUCCESS: json_path_query_to_extract_cpu
+          - FAILURE: on_failure
+    - set_vm_status_to_powered_on_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - vm_status: Powered On
+        publish:
+          - vm_status
+        navigate:
+          - SUCCESS: json_path_query_to_extract_cpu
+          - FAILURE: on_failure
+    - sleep_1_1:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '30'
+        navigate:
+          - SUCCESS: get_vapp_details_2
+          - FAILURE: on_failure
+    - json_path_query_to_extract_cpu:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: 'children.vm[0].section[0].numCpus'
+        publish:
+          - number_of_cpu: '${return_result}'
+        navigate:
+          - SUCCESS: json_path_query_to_extract_memory
+          - FAILURE: on_failure
+    - json_path_query_to_extract_memory:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${vapp_details}'
+            - json_path: 'children.vm[0].section[0].memoryResourceMb.configured'
+        publish:
+          - memory: "${str(int(return_result)/ 1024) + ' GB'}"
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: on_failure
   outputs:
     - final_vm_name
     - vm_id
     - vm_status
     - vm_ip_address
     - vm_mac_address
+    - number_of_cpu
+    - memory
   results:
     - SUCCESS
     - FAILURE
@@ -465,24 +559,32 @@ extensions:
   graph:
     steps:
       is_vm_ip_list_is_null:
-        x: 1160
+        x: 1200
         'y': 80
-        navigate:
-          4b636b8a-4163-5537-4db7-0152c35a7c6f:
-            targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
-            port: FAILURE
+      json_path_query_to_extract_cpu:
+        x: 1560
+        'y': 480
       compare_ip:
         x: 1040
         'y': 440
+      get_vm_status_1:
+        x: 1600
+        'y': 80
       get_vm_id_list:
         x: 760
         'y': 640
+      set_vm_status_to_powered_off_1:
+        x: 1560
+        'y': 240
       get_vm_mac_address:
         x: 1040
         'y': 80
       get_vapp_id:
         x: 600
         'y': 280
+      is_vm_status_is_started:
+        x: 1320
+        'y': 480
       get_vm_ip:
         x: 760
         'y': 440
@@ -498,6 +600,19 @@ extensions:
       get_vm_names:
         x: 120
         'y': 280
+      json_path_query_to_extract_memory:
+        x: 1680
+        'y': 480
+        navigate:
+          6f170d8e-34cc-f35a-a3ff-0c9c23b0acc9:
+            targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
+            port: SUCCESS
+      get_vapp_details_2:
+        x: 1440
+        'y': 80
+      set_vm_status_to_powered_on_1:
+        x: 1440
+        'y': 480
       counter_1:
         x: 920
         'y': 80
@@ -508,9 +623,9 @@ extensions:
       get_vm_status:
         x: 120
         'y': 440
-      set_vm_status_to_powered_off:
-        x: 600
-        'y': 440
+      is_vm_status_is_stopped:
+        x: 1320
+        'y': 240
       compare_ip_1:
         x: 920
         'y': 440
@@ -546,27 +661,23 @@ extensions:
       create_vm:
         x: 600
         'y': 80
+      sleep_1_1:
+        x: 1309.888916015625
+        'y': 75.03819274902344
       get_access_token_using_web_api:
         x: 280
         'y': 80
-      set_vm_status_to_powered_on:
-        x: 600
-        'y': 640
       is_vm_status_is_8:
         x: 440
         'y': 440
       set_vm_ip_list_to_empty:
-        x: 1160
+        x: 1200
         'y': 280
-        navigate:
-          ec1c11c6-6466-8bfa-d4a5-3a7666e7454b:
-            targetId: 39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba
-            port: SUCCESS
     results:
       SUCCESS:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
-          x: 1360
-          'y': 80
+          x: 1680
+          'y': 240
       FAILURE:
         30894e63-4da9-52d4-6134-9e48080cee3f:
           x: 920
