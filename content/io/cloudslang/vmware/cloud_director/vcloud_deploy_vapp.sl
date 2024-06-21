@@ -390,6 +390,7 @@ flow:
             - vapp_template_id: "${'vappTemplate-'+vapp_template_id}"
             - storage_profile: '${storage_profile}'
             - compute_parameters: '${compute_parameters}'
+            - unique_id_for_vm: '${random_number}'
             - vapp_name: '${vapp_name+random_number}'
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
