@@ -25,7 +25,7 @@
 #! @result SUCCESS: Formed the request body for create vApp.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.vmware.cloud_director.utilsl
+namespace: io.final
 operation:
   name: create_vapp_request_body
   inputs:
