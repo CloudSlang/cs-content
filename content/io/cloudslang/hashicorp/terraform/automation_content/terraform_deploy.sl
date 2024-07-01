@@ -62,7 +62,7 @@
 #! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
-namespace: test
+namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_deploy
   inputs:
