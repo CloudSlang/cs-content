@@ -28,6 +28,10 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the proxy_username input value.
 #!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no
 #!                         trusted certification authority issued it.
 #!                         Default: 'false'
@@ -50,10 +54,6 @@
 #! @input trust_password: The password associated with the TrustStore file. If trustAllRoots is false and trustKeystore
 #!                        is empty, trustPassword default will be supplied.
 #!                        Optional
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: 'RAS_Operator_Path'
-#!                      Optional
 #!
 #! @output tf_instance_workspace_name: The name of the terraform workspace name created in instance organization.
 #! @output tf_instance_workspace_id: The ID of the terraform workspace.
@@ -62,7 +62,7 @@
 #! @result SUCCESS: The request was successfully executed.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.hashicorp.terraform.automation_content
+namespace: test
 flow:
   name: terraform_deploy
   inputs:
@@ -261,6 +261,9 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - user_identifier: '${user_identifier}'
+            - worker_group: '${worker_group}'
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
