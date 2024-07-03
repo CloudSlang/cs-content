@@ -261,6 +261,7 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - user_identifier: '${user_identifier}'
+            - worker_group: '${worker_group}'
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - auth_token:
