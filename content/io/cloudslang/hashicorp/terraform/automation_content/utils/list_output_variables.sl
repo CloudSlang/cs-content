@@ -15,15 +15,12 @@
 #!!
 #! @description: This flow is used to get the list of variables with updated values.
 #!
+#! @input auth_token: The authorization token for terraform.
 #! @input user_identifier: The user identifier value.
 #! @input property_value_list: The list of property values.
 #! @input state_version_id: The ID of the desired state version.
 #! @input hosted_state_download_url: A url from which you can download the raw state.
 #! @input service_component_id: The ID of the service component id.
-#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
-#!                      simultaneously.
-#!                      Default: 'RAS_Operator_Path'
-#!                      Optional
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
 #! @input proxy_port: Proxy server port.
@@ -32,6 +29,10 @@
 #!                        Optional
 #! @input proxy_password: Proxy server password associated with the <proxy_username> input value.
 #!                        Optional
+#! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group
+#!                      simultaneously.
+#!                      Default: 'RAS_Operator_Path'
+#!                      Optional
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #!                         Optional
@@ -49,6 +50,9 @@ namespace: io.cloudslang.hashicorp.terraform.automation_content.utils
 flow:
   name: list_output_variables
   inputs:
+    - auth_token:
+        required: true
+        sensitive: true
     - user_identifier
     - property_value_list
     - state_version_id
@@ -89,6 +93,8 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - headers: "${'Authorization: Bearer ' + auth_token}"
+            - content_type: application/vnd.api+json
         publish:
           - state_result: '${return_result}'
         navigate:
