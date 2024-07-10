@@ -102,7 +102,8 @@ operation:
         default: ${get("security_token", "")}
         required: false
         private: true
-    - date
+    - date:
+        required: false
     - headers:
         default: ''
         required: false
@@ -114,7 +115,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.57'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.58-RC1'
     class_name: io.cloudslang.content.amazon.actions.signature.ComputeSignatureV4
     method_name: execute
 
