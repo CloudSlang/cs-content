@@ -264,6 +264,9 @@ flow:
             - worker_group: '${worker_group}'
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - auth_token:
+                value: '${tf_user_auth_token}'
+                sensitive: true
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
