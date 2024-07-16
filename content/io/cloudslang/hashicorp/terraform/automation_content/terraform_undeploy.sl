@@ -15,7 +15,7 @@
 #!!
 #! @description: This workflow undeploy's the module from the given organization.
 #!
-#! @input tf_user_auth_token: The user authorization token for terraform.
+#! @input tf_instance_organization_auth_token: The user authorization token for terraform.
 #! @input tf_instance_organization_name: The terraform instance organization name.
 #! @input tf_instance_workspace_name: The terraform instance workspace name.
 #! @input proxy_host: Proxy server used to access the Terraform service.
@@ -61,7 +61,7 @@ namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_undeploy
   inputs:
-    - tf_user_auth_token:
+    - tf_instance_organization_auth_token:
         sensitive: true
     - tf_instance_organization_name
     - tf_instance_workspace_name
@@ -94,7 +94,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -142,7 +142,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -193,7 +193,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -224,7 +224,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -279,7 +279,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -352,7 +352,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - workspace_id:
                 value: '${workspace_id}'
@@ -380,7 +380,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.create_run_v3:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - workspace_id: '${workspace_id}'
             - is_destroy: 'true'
@@ -408,7 +408,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.apply_run_v3:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -507,3 +507,4 @@ extensions:
         8fdcd666-d9ef-4f4f-6ed2-36400100824c:
           x: 1640
           'y': 280
+
