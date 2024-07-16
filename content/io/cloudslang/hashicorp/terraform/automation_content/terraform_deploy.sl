@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2023 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -15,7 +15,8 @@
 #!!
 #! @description: This workflow is used to deploy the module in the destination organization based on the source organization blueprint.
 #!
-#! @input tf_user_auth_token: The user authorization token for terraform.
+#! @input tf_instance_organization_auth_token: The user authorization token for terraform.
+#! @input tf_template_organization_auth_token: The user authorization token for  terraform.
 #! @input tf_template_organization_name: The terraform template organization name.
 #! @input tf_instance_organization_name: The terraform instance organization name.
 #! @input tf_instance_workspace_name_prefix: The terraform instance workspace name prefix.
@@ -66,7 +67,9 @@ namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_deploy
   inputs:
-    - tf_user_auth_token:
+    - tf_instance_organization_auth_token:
+        sensitive: true
+    - tf_template_organization_auth_token:
         sensitive: true
     - tf_template_organization_name
     - tf_instance_organization_name:
@@ -113,7 +116,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.utils.list_o_auth_client:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - proxy_host: '${proxy_host}'
@@ -158,7 +161,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_template_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_template_organization_name}'
             - workspace_name: '${tf_template_workspace_name}'
@@ -198,7 +201,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.tf_plan_apply:
             - tf_user_auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_instance_organization_name: '${tf_instance_organization_name}'
             - tf_template_workspace_name: '${tf_template_workspace_name}'
@@ -233,7 +236,7 @@ flow:
             - tf_instance_workspace_id: '${tf_instance_workspace_id}'
             - proxy_port: '${proxy_port}'
             - tf_user_auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - dnd_username: '${dnd_username}'
             - user_identifier: '${user_identifier}'
@@ -261,9 +264,6 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - user_identifier: '${user_identifier}'
-            - worker_group: '${worker_group}'
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
@@ -313,7 +313,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.create_workspace_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -416,3 +416,4 @@ extensions:
         8a94a410-8ddd-3c39-6651-daa852ea17f7:
           x: 1200
           'y': 280
+
