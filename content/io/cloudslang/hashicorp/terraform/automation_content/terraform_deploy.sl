@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2024 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,7 +16,7 @@
 #! @description: This workflow is used to deploy the module in the destination organization based on the source organization blueprint.
 #!
 #! @input tf_instance_organization_auth_token: The user authorization token for terraform.
-#! @input tf_template_organization_auth_token: The user authorization token for  terraform.
+#! @input tf_template_organization_auth_token: The user authorization token for terraform.
 #! @input tf_template_organization_name: The terraform template organization name.
 #! @input tf_instance_organization_name: The terraform instance organization name.
 #! @input tf_instance_workspace_name_prefix: The terraform instance workspace name prefix.
@@ -257,9 +257,6 @@ flow:
           override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.list_output_variables:
-            - auth_token:
-                value: '${tf_instance_organization_auth_token}'
-                sensitive: true
             - property_value_list: '${property_value_list}'
             - state_version_id: '${state_version_id}'
             - hosted_state_download_url: '${hosted_state_download_url}'
@@ -267,6 +264,12 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - user_identifier: '${user_identifier}'
+            - trust_all_roots: '${trust_all_roots}'
+            - worker_group: '${worker_group}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - auth_token:
+                value: '${tf_instance_organization_auth_token}'
+                sensitive: true
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
