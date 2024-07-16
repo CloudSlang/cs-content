@@ -257,6 +257,9 @@ flow:
           override: true
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.list_output_variables:
+            - auth_token:
+                value: '${tf_instance_organization_auth_token}'
+                sensitive: true
             - property_value_list: '${property_value_list}'
             - state_version_id: '${state_version_id}'
             - hosted_state_download_url: '${hosted_state_download_url}'
