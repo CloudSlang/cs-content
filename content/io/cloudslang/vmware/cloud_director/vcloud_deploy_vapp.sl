@@ -254,7 +254,7 @@ flow:
         publish: []
         navigate:
           - SUCCESS: set_vapp_status_to_powered_on
-          - FAILURE: is_vapp_status_is_10
+          - FAILURE: is_vapp_status_is_3
     - is_vapp_status_is_10:
         worker_group: '${worker_group}'
         do:
@@ -604,6 +604,16 @@ flow:
           - HAS_MORE: sleep_1_1
           - NO_MORE: FAILURE
           - FAILURE: on_failure
+    - is_vapp_status_is_3:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${vapp_status}'
+            - second_string: '3'
+        publish: []
+        navigate:
+          - SUCCESS: start_vapp
+          - FAILURE: is_vapp_status_is_10
   outputs:
     - final_vapp_name
     - vapp_id
@@ -663,7 +673,7 @@ extensions:
         'y': 480
       is_vapp_status_is_10:
         x: 80
-        'y': 600
+        'y': 640
         navigate:
           36b8409c-456e-624b-40d0-82126b79e225:
             vertices:
@@ -691,6 +701,9 @@ extensions:
       get_vm_names:
         x: 200
         'y': 320
+      is_vapp_status_is_3:
+        x: 200
+        'y': 640
       is_vapp_status_is_4:
         x: 360
         'y': 640
