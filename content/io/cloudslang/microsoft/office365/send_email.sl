@@ -253,7 +253,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-office-365:1.1.16'
+    gav: 'io.cloudslang.content:cs-office-365:1.1.17'
     class_name: 'io.cloudslang.content.office365.actions.email.SendEmail'
     method_name: 'execute'
 
