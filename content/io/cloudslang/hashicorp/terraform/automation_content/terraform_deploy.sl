@@ -268,7 +268,9 @@ flow:
             - worker_group: '${worker_group}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - auth_token:
+
                 value: '${tf_instance_organization_auth_token}'
+
                 sensitive: true
         navigate:
           - FAILURE: on_failure

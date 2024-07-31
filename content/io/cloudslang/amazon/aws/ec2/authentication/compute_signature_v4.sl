@@ -102,7 +102,8 @@ operation:
         default: ${get("security_token", "")}
         required: false
         private: true
-    - date
+    - date:
+        required: false
     - headers:
         default: ''
         required: false
