@@ -32,6 +32,10 @@
 #!                       Optional
 #! @input availability_zone: The Availability Zone (AZ) where the database will be created.
 #!                           Optional
+#! @input vpc_security_group_id: The VPC Security Group ID where DB instance will be created.
+#!                           Optional
+#! @input db_subnet_group_name: The name of the subnet group.
+#!                           Optional
 #! @input tag_key_list: The list of key's of tags separated by comma(,)The length of the items in tag_key_list must be
 #!                      equal with the length of the items in tag_value_list.
 #!                      Optional
@@ -126,6 +130,18 @@ operation:
         default: ${get('availability_zone', '')}  
         required: false 
         private: true
+    -  vpc_security_group_id:
+         required: false
+    -  vpcSecurityGroupIds:
+         default: ${get("vpc_security_group_id", "")}
+         required: false
+         private: true
+    -  db_subnet_group_name:
+         required: false
+    -  dbSubnetGroupName:
+         default: ${get("db_subnet_group_name", "")}
+         required: false
+         private: true
     -  tag_key_list:
          required: false
     -  tagKeyList:
@@ -180,7 +196,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.57'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.58-SNAPSHOT-100'
     class_name: 'io.cloudslang.content.amazon.actions.rds.CreateDBInstance'
     method_name: 'execute'
   
