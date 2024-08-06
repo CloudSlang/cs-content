@@ -70,13 +70,13 @@ flow:
   inputs:
     - tf_instance_organization_auth_token:
         required: false
-        sensitive: false
+        sensitive: true
     - tf_template_organization_auth_token:
         required: false
-        sensitive: false
+        sensitive: true
     - tf_user_auth_token:
         required: false
-        sensitive: false
+        sensitive: true
     - tf_template_organization_name
     - tf_instance_organization_name:
         required: true
@@ -106,14 +106,22 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - string_equals:
+    - check_if_instance_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_instance_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: check_if_template_token_is_empty
+    - check_if_org_token_is_empty:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${tf_user_auth_token}'
         navigate:
-          - SUCCESS: get_dnd_credentials
-          - FAILURE: do_nothing
+          - SUCCESS: FAILURE
+          - FAILURE: set_token
     - get_dnd_credentials:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -371,7 +379,7 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: list_output_variables
-    - do_nothing:
+    - set_token:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -382,6 +390,14 @@ flow:
         navigate:
           - SUCCESS: get_dnd_credentials
           - FAILURE: on_failure
+    - check_if_template_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_template_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: get_dnd_credentials
   outputs:
     - tf_instance_workspace_name
     - tf_instance_workspace_id
@@ -399,6 +415,13 @@ extensions:
             vertices: []
             targetId: list_instance_org_oauth_client
             port: SUCCESS
+      check_if_org_token_is_empty:
+        x: 200
+        'y': 480
+        navigate:
+          970d2a88-6c95-7512-e789-1b07a959e99b:
+            targetId: a680e8a1-32d3-a404-826d-8408960896a7
+            port: SUCCESS
       tf_plan_apply:
         x: 840
         'y': 280
@@ -411,9 +434,6 @@ extensions:
       create_dnd_auth_token:
         x: 200
         'y': 80
-      string_equals:
-        x: 40
-        'y': 440
       get_dnd_credentials:
         x: 40
         'y': 280
@@ -435,9 +455,9 @@ extensions:
       get_artifact_properties:
         x: 360
         'y': 80
-      do_nothing:
-        x: 200
-        'y': 440
+      check_if_template_token_is_empty:
+        x: 40
+        'y': 480
       add_or_update_service_component_property:
         x: 1000
         'y': 80
@@ -448,9 +468,19 @@ extensions:
           9559ad00-5e84-fdcd-7f88-f7c7f9688410:
             targetId: 8a94a410-8ddd-3c39-6651-daa852ea17f7
             port: SUCCESS
+      set_token:
+        x: 360
+        'y': 480
+      check_if_instance_token_is_empty:
+        x: 40
+        'y': 640
     results:
       SUCCESS:
         8a94a410-8ddd-3c39-6651-daa852ea17f7:
           x: 1200
           'y': 280
+      FAILURE:
+        a680e8a1-32d3-a404-826d-8408960896a7:
+          x: 200
+          'y': 640
 

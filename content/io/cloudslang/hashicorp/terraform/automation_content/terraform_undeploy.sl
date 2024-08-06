@@ -13,10 +13,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow undeploy's the module from the given organization.
+#! @description: This workflow is used to undeploy the module from the given organization.
 #!
 #! @input tf_instance_organization_auth_token: The user authorization token for terraform.
 #! @input tf_instance_organization_name: The terraform instance organization name.
+#! @input tf_user_auth_token: The user authorization token for terraform.
 #! @input tf_instance_workspace_name: The terraform instance workspace name.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -63,11 +64,13 @@ flow:
   inputs:
     - tf_instance_organization_auth_token:
         required: false
-        sensitive: false
+        sensitive: true
     - tf_instance_organization_name:
         required: false
+        sensitive: true
     - tf_user_auth_token:
         required: false
+        sensitive: true
     - tf_instance_workspace_name:
         required: true
     - proxy_host:
@@ -94,14 +97,14 @@ flow:
         required: false
         sensitive: true
   workflow:
-    - string_equals:
+    - check_if_instance_token_is_empty:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${tf_user_auth_token}'
+            - first_string: '${tf_instance_organization_auth_token}'
         navigate:
-          - SUCCESS: get_workspace_details
-          - FAILURE: do_nothing
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: check_if_template_token_is_empty
     - get_workspace_details:
         worker_group: '${worker_group}'
         do:
@@ -439,7 +442,23 @@ flow:
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
-    - do_nothing:
+    - check_if_org_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: set_token
+    - check_if_template_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_template_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: on_failure
+    - set_token:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.utils.do_nothing:
@@ -471,6 +490,13 @@ extensions:
       wait_for_get_state_version_details:
         x: 960
         'y': 280
+      check_if_org_token_is_empty:
+        x: 200
+        'y': 480
+        navigate:
+          d2fc8bd9-5015-a916-b7ac-e6b3df4e969d:
+            targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
+            port: SUCCESS
       run_status:
         x: 840
         'y': 480
@@ -491,9 +517,6 @@ extensions:
       get_run_status_value_state_version:
         x: 960
         'y': 120
-      string_equals:
-        x: 40
-        'y': 320
       get_workspace_details:
         x: 40
         'y': 120
@@ -512,9 +535,9 @@ extensions:
       get_run_details_v2:
         x: 520
         'y': 280
-      do_nothing:
-        x: 200
-        'y': 320
+      check_if_template_token_is_empty:
+        x: 40
+        'y': 280
       get_auto_apply_value:
         x: 200
         'y': 120
@@ -528,11 +551,17 @@ extensions:
           b5902390-2619-3b22-c280-1d6c7ec9bdd4:
             targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
             port: NO_MORE
+      set_token:
+        x: 200
+        'y': 280
+      check_if_instance_token_is_empty:
+        x: 40
+        'y': 480
     results:
       FAILURE:
         cb4ded66-a2a7-9760-786d-84926d356dd9:
-          x: 840
-          'y': 640
+          x: 680
+          'y': 720
       SUCCESS:
         8fdcd666-d9ef-4f4f-6ed2-36400100824c:
           x: 1640
