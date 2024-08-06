@@ -15,8 +15,9 @@
 #!!
 #! @description: This workflow is used to deploy the module in the destination organization based on the source organization blueprint.
 #!
-#! @input tf_instance_organization_auth_token: The user authorization token for terraform.
-#! @input tf_template_organization_auth_token: The user authorization token for terraform.
+#! @input tf_instance_organization_auth_token: The authorization token for terraform instance organization.
+#! @input tf_template_organization_auth_token: The authorization token for terraform template organization.
+#! @input tf_user_auth_token: The user authorization token for terraform.
 #! @input tf_template_organization_name: The terraform template organization name.
 #! @input tf_instance_organization_name: The terraform instance organization name.
 #! @input tf_instance_workspace_name_prefix: The terraform instance workspace name prefix.
@@ -68,9 +69,14 @@ flow:
   name: terraform_deploy
   inputs:
     - tf_instance_organization_auth_token:
-        sensitive: true
+        required: false
+        sensitive: false
     - tf_template_organization_auth_token:
-        sensitive: true
+        required: false
+        sensitive: false
+    - tf_user_auth_token:
+        required: false
+        sensitive: false
     - tf_template_organization_name
     - tf_instance_organization_name:
         required: true
@@ -100,6 +106,14 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - string_equals:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_dnd_credentials
+          - FAILURE: do_nothing
     - get_dnd_credentials:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -268,9 +282,7 @@ flow:
             - worker_group: '${worker_group}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - auth_token:
-
                 value: '${tf_instance_organization_auth_token}'
-
                 sensitive: true
         navigate:
           - FAILURE: on_failure
@@ -359,6 +371,17 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: list_output_variables
+    - do_nothing:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tf_user_auth_token: '${tf_user_auth_token}'
+        publish:
+          - tf_instance_organization_auth_token: '${tf_user_auth_token}'
+          - tf_template_organization_auth_token: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_dnd_credentials
+          - FAILURE: on_failure
   outputs:
     - tf_instance_workspace_name
     - tf_instance_workspace_id
@@ -388,15 +411,18 @@ extensions:
       create_dnd_auth_token:
         x: 200
         'y': 80
+      string_equals:
+        x: 40
+        'y': 440
       get_dnd_credentials:
         x: 40
-        'y': 80
+        'y': 280
       get_workspace_details:
         x: 360
         'y': 280
       get_host:
         x: 40
-        'y': 280
+        'y': 80
       set_workspace_name:
         x: 680
         'y': 80
@@ -409,6 +435,9 @@ extensions:
       get_artifact_properties:
         x: 360
         'y': 80
+      do_nothing:
+        x: 200
+        'y': 440
       add_or_update_service_component_property:
         x: 1000
         'y': 80

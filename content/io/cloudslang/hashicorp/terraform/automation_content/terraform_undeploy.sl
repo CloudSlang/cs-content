@@ -62,9 +62,14 @@ flow:
   name: terraform_undeploy
   inputs:
     - tf_instance_organization_auth_token:
-        sensitive: true
-    - tf_instance_organization_name
-    - tf_instance_workspace_name
+        required: false
+        sensitive: false
+    - tf_instance_organization_name:
+        required: false
+    - tf_user_auth_token:
+        required: false
+    - tf_instance_workspace_name:
+        required: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -89,6 +94,14 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - string_equals:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_workspace_details
+          - FAILURE: do_nothing
     - get_workspace_details:
         worker_group: '${worker_group}'
         do:
@@ -426,6 +439,17 @@ flow:
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
           - FAILURE: on_failure
+    - do_nothing:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tf_user_auth_token: '${tf_user_auth_token}'
+        publish:
+          - tf_instance_organization_auth_token: '${tf_user_auth_token}'
+          - tf_template_organization_auth_token: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_workspace_details
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
@@ -467,11 +491,14 @@ extensions:
       get_run_status_value_state_version:
         x: 960
         'y': 120
+      string_equals:
+        x: 40
+        'y': 320
       get_workspace_details:
         x: 40
         'y': 120
       create_workspace_variables_v2:
-        x: 200
+        x: 360
         'y': 320
       get_run_details_for_get_state_version_details:
         x: 680
@@ -485,6 +512,9 @@ extensions:
       get_run_details_v2:
         x: 520
         'y': 280
+      do_nothing:
+        x: 200
+        'y': 320
       get_auto_apply_value:
         x: 200
         'y': 120
