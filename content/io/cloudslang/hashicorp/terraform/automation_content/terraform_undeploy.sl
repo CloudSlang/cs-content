@@ -104,7 +104,7 @@ flow:
             - first_string: '${tf_instance_organization_auth_token}'
         navigate:
           - SUCCESS: check_if_org_token_is_empty
-          - FAILURE: check_if_template_token_is_empty
+          - FAILURE: get_workspace_details
     - get_workspace_details:
         worker_group: '${worker_group}'
         do:
@@ -450,14 +450,6 @@ flow:
         navigate:
           - SUCCESS: FAILURE
           - FAILURE: set_token
-    - check_if_template_token_is_empty:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${tf_template_organization_auth_token}'
-        navigate:
-          - SUCCESS: check_if_org_token_is_empty
-          - FAILURE: on_failure
     - set_token:
         worker_group: '${worker_group}'
         do:
@@ -534,9 +526,6 @@ extensions:
         'y': 280
       get_run_details_v2:
         x: 520
-        'y': 280
-      check_if_template_token_is_empty:
-        x: 40
         'y': 280
       get_auto_apply_value:
         x: 200
