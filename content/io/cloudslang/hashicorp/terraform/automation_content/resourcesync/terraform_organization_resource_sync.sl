@@ -116,7 +116,7 @@ flow:
           - proxy_username: '${property_value_list.split("|")[2].split(";")[1]}'
           - proxy_password: '${property_value_list.split("|")[3].split(";")[1]}'
           - tf_user_auth_token: '${property_value_list.split("|")[5].split(";")[1]}'
-          - worker_group: '${property_value_list.split("|")[4].split(";")[1]}'
+          - worker_group: '${property_value_list.split("|")[4]}'
           - src_organization_name: '${property_value_list.split("|")[6].split(";")[1]}'
           - dest_organization_name: '${property_value_list.split("|")[7].split(";")[1]}'
           - trust_all_roots: '${property_value_list.split("|")[8].split(";")[1]}'
@@ -208,7 +208,7 @@ flow:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
     - check_if_templete_token_is_empty:
-        worker_group: '${worker_group}'
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${tf_template_organization_auth_token}'
@@ -216,7 +216,7 @@ flow:
           - SUCCESS: check_if_org_token_is_empty
           - FAILURE: set_token
     - check_if_org_token_is_empty:
-        worker_group: '${worker_group}'
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${tf_user_auth_token}'
@@ -224,7 +224,7 @@ flow:
           - SUCCESS: string_equals
           - FAILURE: FAILURE
     - set_token:
-        worker_group: '${worker_group}'
+        worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
           io.cloudslang.base.utils.do_nothing:
             - tf_user_auth_token: '${tf_template_organization_auth_token}'
