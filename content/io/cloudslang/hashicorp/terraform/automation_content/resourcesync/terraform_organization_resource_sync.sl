@@ -116,7 +116,7 @@ flow:
           - proxy_username: '${property_value_list.split("|")[2].split(";")[1]}'
           - proxy_password: '${property_value_list.split("|")[3].split(";")[1]}'
           - tf_user_auth_token: '${property_value_list.split("|")[5].split(";")[1]}'
-          - worker_group: '${property_value_list.split("|")[4]}'
+          - worker_group: '${property_value_list.split("|")[4].split(";")[1]}'
           - src_organization_name: '${property_value_list.split("|")[6].split(";")[1]}'
           - dest_organization_name: '${property_value_list.split("|")[7].split(";")[1]}'
           - trust_all_roots: '${property_value_list.split("|")[8].split(";")[1]}'
@@ -285,7 +285,7 @@ extensions:
         x: 80
         'y': 40
       get_artifact_properties:
-        x: 560
+        x: 520
         'y': 40
       set_default_worker_group:
         x: 1080
