@@ -243,7 +243,7 @@ extensions:
         x: 680
         'y': 280
         navigate:
-          54d12b0c-76c4-c416-96b1-9ea6c065fd6f:
+          74c18ecc-86ec-f584-ccdc-7a4bb8873562:
             targetId: e322cc43-d07a-b464-08d9-a49b3b393c0d
             port: FAILURE
       tf_sync_flow:
