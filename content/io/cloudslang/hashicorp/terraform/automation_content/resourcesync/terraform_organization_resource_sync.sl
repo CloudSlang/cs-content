@@ -108,7 +108,7 @@ flow:
           io.cloudslang.microfocus.content.get_artifact_properties:
             - user_identifier: '${user_identifier}'
             - artifact_id: '${provider_id}'
-            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName|trustAllRoots|trustKeystore|trustPassword|x509HostnameVerifier'
+            - property_names: 'proxyHost|proxyPort|proxyUsername|proxyPassword|workerGroup|tfUserAuthToken|tfTemplateOrganizationName|tfInstanceOrganizationName|trustAllRoots|trustKeystore|trustPassword|x509HostnameVerifier|tfTemplateOrganizationAuthToken'
         publish:
           - property_value_string: '${property_value_list}'
           - proxy_host: '${property_value_list.split("|")[0].split(";")[1]}'
@@ -123,9 +123,10 @@ flow:
           - trust_keystore: '${property_value_list.split("|")[9].split(";")[1]}'
           - trust_password: '${property_value_list.split("|")[10].split(";")[1]}'
           - x_509_hostname_verifier: '${property_value_list.split("|")[11].split(";")[1]}'
+          - tf_template_organization_auth_token: '${property_value_list.split("|")[12].split(";")[1]}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: string_equals
+          - SUCCESS: check_if_templete_token_is_empty
     - string_equals:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -206,14 +207,47 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
+    - check_if_templete_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_template_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: set_token
+    - check_if_org_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: FAILURE
+    - set_token:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tf_user_auth_token: '${tf_template_organization_auth_token}'
+        publish:
+          - tf_user_auth_token
+        navigate:
+          - SUCCESS: string_equals
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
+      check_if_org_token_is_empty:
+        x: 680
+        'y': 280
+        navigate:
+          54d12b0c-76c4-c416-96b1-9ea6c065fd6f:
+            targetId: e322cc43-d07a-b464-08d9-a49b3b393c0d
+            port: FAILURE
       tf_sync_flow:
-        x: 1120
+        x: 1440
         'y': 200
         navigate:
           400eaf7b-bdde-1706-8308-9659cf090013:
@@ -223,19 +257,19 @@ extensions:
         x: 240
         'y': 200
       set_default_worker_group_1:
-        x: 960
+        x: 1280
         'y': 40
       get_resource_provider_access_details:
         x: 400
         'y': 40
       string_equals:
-        x: 760
+        x: 1080
         'y': 40
       get_dnd_credentials:
-        x: 960
+        x: 1280
         'y': 200
       get_host:
-        x: 1120
+        x: 1440
         'y': 40
       set_error_message:
         x: 400
@@ -244,6 +278,9 @@ extensions:
           d4a680ea-612c-8f10-e602-1d667635d56a:
             targetId: e322cc43-d07a-b464-08d9-a49b3b393c0d
             port: SUCCESS
+      check_if_templete_token_is_empty:
+        x: 680
+        'y': 40
       get_user_identifier:
         x: 80
         'y': 40
@@ -251,17 +288,21 @@ extensions:
         x: 560
         'y': 40
       set_default_worker_group:
-        x: 760
+        x: 1080
         'y': 200
       is_null:
         x: 240
         'y': 40
+      set_token:
+        x: 880
+        'y': 40
     results:
       FAILURE:
         e322cc43-d07a-b464-08d9-a49b3b393c0d:
-          x: 560
-          'y': 200
+          x: 400
+          'y': 520
       SUCCESS:
         cf89e216-bfb2-9e1d-e1c7-7d138205c7cf:
-          x: 920
-          'y': 400
+          x: 1440
+          'y': 520
+
