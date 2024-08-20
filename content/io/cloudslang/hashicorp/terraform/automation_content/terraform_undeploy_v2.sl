@@ -60,7 +60,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
-  name: terraform_undeploy
+  name: terraform_undeploy_v2
   inputs:
     - tf_instance_organization_auth_token:
         required: false
