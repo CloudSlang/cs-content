@@ -221,8 +221,8 @@ flow:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${tf_user_auth_token}'
         navigate:
-          - SUCCESS: string_equals
-          - FAILURE: FAILURE
+          - SUCCESS: FAILURE
+          - FAILURE: string_equals
     - set_token:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -243,9 +243,9 @@ extensions:
         x: 680
         'y': 280
         navigate:
-          74c18ecc-86ec-f584-ccdc-7a4bb8873562:
+          5f44f2b2-ac8e-a9e8-43bc-b3e5bfe975a3:
             targetId: e322cc43-d07a-b464-08d9-a49b3b393c0d
-            port: FAILURE
+            port: SUCCESS
       tf_sync_flow:
         x: 1440
         'y': 200
