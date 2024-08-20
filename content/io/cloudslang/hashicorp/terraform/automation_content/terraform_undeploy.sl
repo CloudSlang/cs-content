@@ -13,10 +13,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This workflow undeploy's the module from the given organization.
+#! @description: This workflow is used to undeploy the module from the given organization.
 #!
-#! @input tf_user_auth_token: The user authorization token for terraform.
+#! @input tf_instance_organization_auth_token: The user authorization token for terraform.
 #! @input tf_instance_organization_name: The terraform instance organization name.
+#! @input tf_user_auth_token: The user authorization token for terraform.
 #! @input tf_instance_workspace_name: The terraform instance workspace name.
 #! @input proxy_host: Proxy server used to access the Terraform service.
 #!                    Optional
@@ -61,10 +62,17 @@ namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_undeploy
   inputs:
-    - tf_user_auth_token:
+    - tf_instance_organization_auth_token:
+        required: false
         sensitive: true
-    - tf_instance_organization_name
-    - tf_instance_workspace_name
+    - tf_instance_organization_name:
+        required: false
+        sensitive: true
+    - tf_user_auth_token:
+        required: false
+        sensitive: true
+    - tf_instance_workspace_name:
+        required: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -89,12 +97,20 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - check_if_instance_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_instance_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: get_workspace_details
     - get_workspace_details:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -142,7 +158,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -193,7 +209,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.delete_workspace:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -224,7 +240,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -279,7 +295,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.get_run_details_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -352,7 +368,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.variables.create_workspace_variables_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - workspace_id:
                 value: '${workspace_id}'
@@ -380,7 +396,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.create_run_v3:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - workspace_id: '${workspace_id}'
             - is_destroy: 'true'
@@ -408,7 +424,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.runs.apply_run_v3:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_run_id: '${tf_run_id}'
             - proxy_host: '${proxy_host}'
@@ -425,6 +441,25 @@ flow:
                 sensitive: true
         navigate:
           - SUCCESS: get_run_details_for_get_state_version_details
+          - FAILURE: on_failure
+    - check_if_org_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: set_token
+    - set_token:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tf_user_auth_token: '${tf_user_auth_token}'
+        publish:
+          - tf_instance_organization_auth_token: '${tf_user_auth_token}'
+          - tf_template_organization_auth_token: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_workspace_details
           - FAILURE: on_failure
   results:
     - FAILURE
@@ -447,6 +482,13 @@ extensions:
       wait_for_get_state_version_details:
         x: 960
         'y': 280
+      check_if_org_token_is_empty:
+        x: 200
+        'y': 480
+        navigate:
+          d2fc8bd9-5015-a916-b7ac-e6b3df4e969d:
+            targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
+            port: SUCCESS
       run_status:
         x: 840
         'y': 480
@@ -471,7 +513,7 @@ extensions:
         x: 40
         'y': 120
       create_workspace_variables_v2:
-        x: 200
+        x: 360
         'y': 320
       get_run_details_for_get_state_version_details:
         x: 680
@@ -498,12 +540,19 @@ extensions:
           b5902390-2619-3b22-c280-1d6c7ec9bdd4:
             targetId: cb4ded66-a2a7-9760-786d-84926d356dd9
             port: NO_MORE
+      set_token:
+        x: 200
+        'y': 280
+      check_if_instance_token_is_empty:
+        x: 40
+        'y': 480
     results:
       FAILURE:
         cb4ded66-a2a7-9760-786d-84926d356dd9:
-          x: 840
-          'y': 640
+          x: 680
+          'y': 720
       SUCCESS:
         8fdcd666-d9ef-4f4f-6ed2-36400100824c:
           x: 1640
           'y': 280
+

@@ -15,6 +15,8 @@
 #!!
 #! @description: This workflow is used to deploy the module in the destination organization based on the source organization blueprint.
 #!
+#! @input tf_instance_organization_auth_token: The authorization token for terraform instance organization.
+#! @input tf_template_organization_auth_token: The authorization token for terraform template organization.
 #! @input tf_user_auth_token: The user authorization token for terraform.
 #! @input tf_template_organization_name: The terraform template organization name.
 #! @input tf_instance_organization_name: The terraform instance organization name.
@@ -66,7 +68,14 @@ namespace: io.cloudslang.hashicorp.terraform.automation_content
 flow:
   name: terraform_deploy
   inputs:
+    - tf_instance_organization_auth_token:
+        required: false
+        sensitive: true
+    - tf_template_organization_auth_token:
+        required: false
+        sensitive: true
     - tf_user_auth_token:
+        required: false
         sensitive: true
     - tf_template_organization_name
     - tf_instance_organization_name:
@@ -97,6 +106,22 @@ flow:
         required: false
         sensitive: true
   workflow:
+    - check_if_instance_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_instance_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: check_if_template_token_is_empty
+    - check_if_org_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: set_token
     - get_dnd_credentials:
         worker_group: "${get_sp('io.cloudslang.microfocus.content.worker_group')}"
         do:
@@ -113,7 +138,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.utils.list_o_auth_client:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - proxy_host: '${proxy_host}'
@@ -158,7 +183,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.get_workspace_details:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_template_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_template_organization_name}'
             - workspace_name: '${tf_template_workspace_name}'
@@ -198,7 +223,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.automation_content.utils.tf_plan_apply:
             - tf_user_auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - tf_instance_organization_name: '${tf_instance_organization_name}'
             - tf_template_workspace_name: '${tf_template_workspace_name}'
@@ -233,7 +258,7 @@ flow:
             - tf_instance_workspace_id: '${tf_instance_workspace_id}'
             - proxy_port: '${proxy_port}'
             - tf_user_auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - dnd_username: '${dnd_username}'
             - user_identifier: '${user_identifier}'
@@ -261,11 +286,11 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - user_identifier: '${user_identifier}'
-            - worker_group: '${worker_group}'
             - trust_all_roots: '${trust_all_roots}'
+            - worker_group: '${worker_group}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
         navigate:
           - FAILURE: on_failure
@@ -316,7 +341,7 @@ flow:
         do:
           io.cloudslang.hashicorp.terraform.workspaces.create_workspace_v2:
             - auth_token:
-                value: '${tf_user_auth_token}'
+                value: '${tf_instance_organization_auth_token}'
                 sensitive: true
             - organization_name: '${tf_instance_organization_name}'
             - workspace_name: '${tf_instance_workspace_name}'
@@ -354,6 +379,25 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: list_output_variables
+    - set_token:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - tf_user_auth_token: '${tf_user_auth_token}'
+        publish:
+          - tf_instance_organization_auth_token: '${tf_user_auth_token}'
+          - tf_template_organization_auth_token: '${tf_user_auth_token}'
+        navigate:
+          - SUCCESS: get_dnd_credentials
+          - FAILURE: on_failure
+    - check_if_template_token_is_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${tf_template_organization_auth_token}'
+        navigate:
+          - SUCCESS: check_if_org_token_is_empty
+          - FAILURE: get_dnd_credentials
   outputs:
     - tf_instance_workspace_name
     - tf_instance_workspace_id
@@ -371,6 +415,13 @@ extensions:
             vertices: []
             targetId: list_instance_org_oauth_client
             port: SUCCESS
+      check_if_org_token_is_empty:
+        x: 200
+        'y': 480
+        navigate:
+          970d2a88-6c95-7512-e789-1b07a959e99b:
+            targetId: a680e8a1-32d3-a404-826d-8408960896a7
+            port: SUCCESS
       tf_plan_apply:
         x: 840
         'y': 280
@@ -385,13 +436,13 @@ extensions:
         'y': 80
       get_dnd_credentials:
         x: 40
-        'y': 80
+        'y': 280
       get_workspace_details:
         x: 360
         'y': 280
       get_host:
         x: 40
-        'y': 280
+        'y': 80
       set_workspace_name:
         x: 680
         'y': 80
@@ -404,6 +455,9 @@ extensions:
       get_artifact_properties:
         x: 360
         'y': 80
+      check_if_template_token_is_empty:
+        x: 40
+        'y': 480
       add_or_update_service_component_property:
         x: 1000
         'y': 80
@@ -414,8 +468,19 @@ extensions:
           9559ad00-5e84-fdcd-7f88-f7c7f9688410:
             targetId: 8a94a410-8ddd-3c39-6651-daa852ea17f7
             port: SUCCESS
+      set_token:
+        x: 360
+        'y': 480
+      check_if_instance_token_is_empty:
+        x: 40
+        'y': 640
     results:
       SUCCESS:
         8a94a410-8ddd-3c39-6651-daa852ea17f7:
           x: 1200
           'y': 280
+      FAILURE:
+        a680e8a1-32d3-a404-826d-8408960896a7:
+          x: 200
+          'y': 640
+
