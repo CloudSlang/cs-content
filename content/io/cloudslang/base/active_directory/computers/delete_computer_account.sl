@@ -195,7 +195,7 @@ operation:
         required: false
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:0.0.9'
+    gav: 'io.cloudslang.content:cs-active-directory:0.0.10-SNAPSHOT'
     class_name: 'io.cloudslang.content.active_directory.actions.computers.DeleteComputerAccountAction'
     method_name: 'execute'
   
