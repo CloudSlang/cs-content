@@ -231,6 +231,9 @@ flow:
     - test_path
     - test_results_path
     - test_parameters
+    - name_value_delimiter:
+        default: ':'
+        required: true
     - uft_workspace_path
     -  auth_type:
         default: 'basic'
@@ -323,14 +326,14 @@ flow:
           - FAILURE: on_failure
     - add_parameter:
         loop:
-          for: parameter in test_parameters
+          for: "parameter in test_parameters.replace(\"\\,\',\"§\")"
           do:
             strings.append:
               - origin_string: "${get('text', '')}"
-              - text: "${'qtParams.Item(`\"' + parameter.split(\":\")[0] + '`\").Value = `\"' + parameter.split(\":\")[1] +'`\"`r`n'}"
+              - text: "${'qtParams.Item(`\"' + parameter.split(name_value_delimiter)[0] + '`\").Value = `\"' + parameter.split(name_value_delimiter)[1] +'`\"`r`n'}"
           break: []
           publish:
-            - text: '${new_string}'
+            - text: '${new_string.replace(\"§\",\"\\\\,\")}'
         navigate:
           - SUCCESS: add_parameters
     - add_parameters:
