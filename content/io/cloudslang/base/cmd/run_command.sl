@@ -64,7 +64,7 @@ operation:
                   error_message=error.decode()
               return {"return_result":return_result,"return_code":res.returncode,"error_message":error_message}
           except Exception as e:
-                  return {"error_message":e,"return_code":-1}
+              return {"return_result":return_result,"error_message":e,"return_code":-1}
 
   outputs:
     - return_result
