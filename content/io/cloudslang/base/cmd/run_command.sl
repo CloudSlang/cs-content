@@ -20,7 +20,7 @@
 #!            If cwd is not None, the child’s current directory will be changed to cwd before it is executed.
 #!            Note that this directory is not considered when searching the executable,
 #!            so you can’t specify the program’s path relative to cwd.
-#! @input timeout: Time to wait in second for command to complete.
+#! @input timeout: Time to wait in seconds for command to complete.
 #!                 Default value: 1800
 #! @output return_result: Output of the command.
 #! @output error_message: error in case something went wrong.
