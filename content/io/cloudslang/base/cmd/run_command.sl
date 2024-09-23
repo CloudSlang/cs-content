@@ -20,7 +20,8 @@
 #!            If cwd is not None, the child’s current directory will be changed to cwd before it is executed.
 #!            Note that this directory is not considered when searching the executable,
 #!            so you can’t specify the program’s path relative to cwd.
-#!
+#! @input timeout: Time to wait in second for command to complete.
+#!                 Default value: 300
 #! @output return_result: Output of the command.
 #! @output error_message: error in case something went wrong.
 #! @output return_code: 0 if command runs with success, -1 in case of failure.
@@ -37,13 +38,15 @@ operation:
 
   inputs:
     - command
-    - timeout:
-        required: false
     - cwd:
         required: false
         default: null
+    - timeout:
+        default: '300'
+        required: false
 
   python_action:
+    use_jython: false
     script: |
       import os
       import subprocess
@@ -53,7 +56,7 @@ operation:
       cwd = os.getcwd() if cwd is None else cwd
       try:
         res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
-        output,error = res.communicate(timeout=300)
+        output,error = res.communicate(timeout=timeout)
         if output:
           return_result = output
           return_code = res.returncode
