@@ -57,7 +57,7 @@ operation:
           cwd = os.getcwd() if cwd is None else cwd
           try:
               res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
-              output,error = res.communicate()
+              output,error = res.communicate(timeout=timeout)
               if output:
                   return_result = output
                   return_code = res.returncode
