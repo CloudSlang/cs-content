@@ -56,8 +56,14 @@ operation:
           error_message = ""
           cwd = os.getcwd() if not cwd else cwd
           try:
+              timeout_value = int(timeout)
+              if timeout_value <= 0:
+                  return {"return_result": return_result, "error_message": "Timeout must be greater than zero.", "return_code": -1}
+          except ValueError:
+              return {"return_result": return_result, "error_message": "Timeout must be a positive number.", "return_code": -1}
+          try:
               res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
-              output,error = res.communicate(timeout=float(timeout))
+              output,error = res.communicate(timeout=int(timeout))
               if output:
                   return_result=output.decode()
               if error:
