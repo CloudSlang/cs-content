@@ -52,21 +52,18 @@ operation:
       import subprocess
       def execute(command, cwd, timeout):
           return_code = 0
-          return_result = ''
-          error_message = ''
           cwd = os.getcwd() if cwd is None else cwd
           try:
               res = subprocess.Popen(command,cwd=cwd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True);
               output,error = res.communicate(timeout=timeout)
               if output:
-                  return_result = output
-                  return_code = res.returncode
+                  return {"return_result":output,"return_code":res.returncode}
               if error:
-                  return_code = res.returncode
-                  error_message = error.strip()
+                  return {"error_message":error.strip(),"return_code":res.returncode}
+
           except Exception as e:
-              return_code = -1
-              error_message = e
+                  return {"error_message":e,"return_code":-1}
+          
 
   outputs:
     - return_result
