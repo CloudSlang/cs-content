@@ -94,7 +94,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-utilities:0.1.28'
+    gav: 'io.cloudslang.content:cs-utilities:0.1.29-SNAPSHOT'
     class_name: io.cloudslang.content.utilities.actions.RandomPasswordGenerator
     method_name: execute
 
