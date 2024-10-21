@@ -18,8 +18,8 @@
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
 #! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
-#! @input username: The name (string) of the Ansible Tower User component that you want to create (example: "Demo User")
-#! @input password: Password for the new user
+#! @input username: The name (string) of the Ansible Tower User component that you want to create (example: "Demo User").
+#! @input password: Password for the new user.
 #! @input first_name: User first name.
 #! @input last_name: User last name.
 #! @input email: Email address for this user.

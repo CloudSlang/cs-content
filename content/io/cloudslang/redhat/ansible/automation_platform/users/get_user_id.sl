@@ -15,9 +15,9 @@
 #!!
 #! @description: This flow will lookup the given username and return it's id.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2).
+#! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
 #! @input username: The exact username of the Ansible Tower User component that you want to lookup the id for (example: "DemoUser").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.

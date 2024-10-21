@@ -16,8 +16,8 @@
 #! @description: This flow will display a list of all Users in your Ansible Tower instance.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
