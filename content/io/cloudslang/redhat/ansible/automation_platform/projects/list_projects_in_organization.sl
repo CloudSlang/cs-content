@@ -1,10 +1,23 @@
+#   Copyright 2024 Open Text
+#   This program and the accompanying materials
+#   are made available under the terms of the Apache License v2.0 which accompany this distribution.
+#
+#   The Apache License is available at
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+#
 ########################################################################################################################
 #!!
 #! @description: This flow will display a list of all projects in the given organization of the Ansible Automation Platform instance.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
 #! @input organization_id: The Id of the organization.
 #! @input proxy_host: Optional - Proxy server used to access the Ansible automation platform.
 #! @input proxy_port: Optional - Proxy server port used to access the Ansible automation platform.

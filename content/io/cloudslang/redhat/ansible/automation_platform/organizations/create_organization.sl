@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will create a new organization object in the given Ansible Automation Platform instance.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input organization_name: The name (string) of the Ansible Tower Organization component that you want to create (example: "Demo Organization").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input organization_name: The name (string) of the Ansible Automation Platform Organization component that you want to create (example: "Demo Organization").
 #! @input description: Optional - The description of this new Organization
 #! @input max_hosts: Optional - The maximum amount of allowed hosts.
 #! @input custom_virtual_env: Optional - The virtual env for a the organization.

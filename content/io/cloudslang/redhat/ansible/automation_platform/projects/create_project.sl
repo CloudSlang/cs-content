@@ -15,13 +15,13 @@
 #!!
 #! @description: This flow will create a new project object in the Ansible Automation Platform instance.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
 #! @input organization_id: The Organization id (integer) for the Organization to create the new Project into (optional) (defaults to id 1)
-#! @input project_name: The name (string) of the Ansible Tower Credential component that you want to create (example: "Demo Project").
-#! @input description: The description of this new Project
-#! @input scm_type: The type of Source Control Manament system to use (example: "manual, ""git", "svn", "hg", "insights")
+#! @input project_name: The name (string) of the Ansible Automation Platform Credential component that you want to create (example: "Demo Project").
+#! @input description: The description of the new Project.
+#! @input scm_type: The type of Source Control Management system to use (example: "manual, ""git", "svn", "hg", "insights")
 #! @input local_path: Enter Local_path when scm_type is manual (example: "myfolder")
 #! @input scm_url: Enter the scm url (leave empty if scm_type is manual) (example: "https://github.com/ansible/ansible-tower-samples")
 #! @input credential_id: The Credential id (integer) for the Credential to link this Project to (optional) (defaults to id 1)

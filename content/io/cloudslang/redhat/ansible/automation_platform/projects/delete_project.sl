@@ -15,9 +15,9 @@
 #!!
 #! @description: This flow will delete a project object from the Ansible Automation Platform instance.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
 #! @input project_id: The id (integer) of the project to delete
 #! @input proxy_host: Optional - Proxy server used to access the Ansible automation platform.
 #! @input proxy_port: Optional - Proxy server port used to access the Ansible automation platform.
