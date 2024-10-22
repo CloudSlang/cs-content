@@ -105,8 +105,8 @@ flow:
           io.cloudslang.base.http.http_client_post:
             - url: "${ansible_automation_platform_url+'/users/'}"
             - auth_type: basic
-            - username: '${ansible_automation_platform_username}'
-            - password:
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
                 value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
