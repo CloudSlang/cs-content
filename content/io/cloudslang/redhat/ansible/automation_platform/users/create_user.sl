@@ -59,7 +59,7 @@
 #! @result FAILURE: There was an error while creating the user.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.core.ansible_tower.users
+namespace: io.cloudslang.redhat.ansible.automation_platform.users
 flow:
   name: create_user
   inputs:
