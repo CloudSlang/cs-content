@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will lookup the given username and return it's id from your Ansible Automation Platform system.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2).
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
-#! @input username: The exact username of the Ansible Tower User component that you want to lookup the id for (example: "DemoUser").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2).
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform.
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform.
+#! @input username: The exact username of the Ansible Automation Platform User component that you want to lookup the id for (example: "DemoUser").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -45,7 +45,7 @@
 #!
 #! @output user_id: The id (integer) of the selected User.
 #! @output error_message: An error message in case there was an error while creating the User.
-#! @output status_code: The HTTP status code of the Ansible Tower API request.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
 #! @result SUCCESS: The ID of the user was retrieved successfully..
 #! @result FAILURE: There was an error while retrieving the user ID.

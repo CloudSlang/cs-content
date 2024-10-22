@@ -15,9 +15,9 @@
 #!!
 #! @description: This flow will delete a User from your Ansible Automation Platform system.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2).
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2).
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform.
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform.
 #! @input user_id: The id (integer) of the User to be deleted.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
@@ -43,9 +43,9 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output return_result: The response of the Ansible Tower API request in case of success or the error message otherwise.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output error_message: An error message in case there was an error while creating the User.
-#! @output status_code: The HTTP status code of the Ansible Tower API request.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
 #! @result SUCCESS: The user deleted successfully.
 #! @result FAILURE: There was an error while deleting the user.

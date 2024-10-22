@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will create a new User object in your Ansible Automation Platform system.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower.
-#! @input username: The name (string) of the Ansible Tower User component that you want to create (example: "Demo User").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform.
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform.
+#! @input new_username: The name (string) of the Ansible Automation Platform User component that you want to create (example: "Demo User").
 #! @input password: Password for the new user.
 #! @input first_name: User first name.
 #! @input last_name: User last name.
@@ -53,7 +53,7 @@
 #!
 #! @output user_id: The id (integer) of the newly created User.
 #! @output error_message: An error message in case there was an error while creating the User.
-#! @output status_code: The HTTP status code of the Ansible Tower API request.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
 #! @result SUCCESS: The user created successfully.
 #! @result FAILURE: There was an error while creating the user.
@@ -67,7 +67,7 @@ flow:
     - ansible_automation_platform_username
     - ansible_automation_platform_password:
         sensitive: true
-    - username
+    - new_username
     - password:
         sensitive: true
     - first_name
@@ -105,8 +105,8 @@ flow:
           io.cloudslang.base.http.http_client_post:
             - url: "${ansible_automation_platform_url+'/users/'}"
             - auth_type: basic
-            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
-            - ansible_automation_platform_password:
+            - username: '${ansible_automation_platform_username}'
+            - password:
                 value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
@@ -122,7 +122,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Content-Type:application/json'
-            - body: "${'{'+\\\n'   \"username\": \"'+username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+password+'\"'+\\\n'}'}"
+            - body: "${'{'+\\\n'   \"username\": \"'+new_username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+password+'\"'+\\\n'}'}"
             - worker_group:
                 value: '${worker_group}'
         publish:
