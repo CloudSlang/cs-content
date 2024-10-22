@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will lookup the given username and return it's id.
+#! @description: This flow will lookup the given username and return it's id from your Ansible Automation Platform system.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2).
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
@@ -106,7 +106,9 @@ flow:
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - headers: 'Content-Type:application/json'
-            - worker_group: '${worker_group}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - json_output: '${return_result}'
           - error_message
@@ -130,6 +132,9 @@ flow:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.count
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - count: "${return_result.strip('[').strip(']')}"
           - error_message: '${exception}'

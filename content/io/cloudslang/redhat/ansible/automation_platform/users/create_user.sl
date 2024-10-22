@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will create a new User object in your Ansible Tower system.
+#! @description: This flow will create a new User object in your Ansible Automation Platform system.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
@@ -123,7 +123,9 @@ flow:
                 sensitive: true
             - headers: 'Content-Type:application/json'
             - body: "${'{'+\\\n'   \"username\": \"'+username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+password+'\"'+\\\n'}'}"
-            - worker_group: '${worker_group}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - json_output: '${return_result}'
           - error_message
@@ -136,6 +138,9 @@ flow:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.id
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - user_id: '${return_result}'
           - error_message: '${exception}'

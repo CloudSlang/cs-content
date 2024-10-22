@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will display a list of all Users in your Ansible Tower instance.
+#! @description: This flow will display a list of all Users in your Ansible Automation Platform instance.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
@@ -104,7 +104,9 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - worker_group: '${worker_group}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - json_output: '${return_result}'
           - error_message
@@ -117,6 +119,9 @@ flow:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: '$.results[*].id'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
@@ -128,6 +133,9 @@ flow:
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${output}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - list_item: '${result_string}'
         navigate:
@@ -155,7 +163,9 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - worker_group: '${worker_group}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - user: '${return_result}'
           - error_message
@@ -168,6 +178,9 @@ flow:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${user}'
             - json_path: $.username
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - user_name: "${return_result.strip('\"')}"
           - error_message: '${exception}'
@@ -179,6 +192,9 @@ flow:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
             - text: "${list_item+','+user_name+\"\\n\"}"
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - users_list: '${new_string}'
         navigate:

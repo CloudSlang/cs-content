@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will delete a User from your Ansible Tower system.
+#! @description: This flow will delete a User from your Ansible Automation Platform system.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2).
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower.
@@ -107,7 +107,9 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Content-Type:application/json'
-            - worker_group: '${worker_group}'
+            - worker_group:
+                value: '${worker_group}'
+                override: true
         publish:
           - return_result
           - return_code
