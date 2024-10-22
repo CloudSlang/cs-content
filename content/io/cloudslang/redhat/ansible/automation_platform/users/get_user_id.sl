@@ -82,6 +82,7 @@ flow:
         default: strict
         required: false
     - worker_group:
+        default: RAS_Operator_Path
         required: false
   workflow:
     - connect_to_ansible_tower:
