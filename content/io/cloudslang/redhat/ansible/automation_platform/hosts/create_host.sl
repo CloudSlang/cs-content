@@ -74,11 +74,11 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_post:
-            - url: "${get('ansible_automation_platform_url')+'/hosts/'}"
+            - url: "${ansible_automation_platform_url+'/hosts/'}"
             - auth_type: basic
-            - username: "${get('ansible_automation_platform_username')}"
+            - username: "${ansible_automation_platform_username}"
             - password:
-                value: "${get('ansible_automation_platform_password')}"
+                value: "${ansible_automation_platform_password}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
