@@ -86,9 +86,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/credentials/'}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -137,11 +137,11 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${ansible_automation_platform_url+'/credentials/'+list_item}"
+            - url: "${get('ansible_automation_platform_url')+'/credentials/'+list_item}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -179,7 +179,7 @@ flow:
         navigate:
           - SUCCESS: Iterate_trough_IDs
   outputs:
-    - Credentials: '${new_string}'
+    - credentials: '${new_string}'
   results:
     - FAILURE
     - SUCCESS
@@ -187,8 +187,8 @@ extensions:
   graph:
     steps:
       Get_all_Credentials:
-        x: 39
-        'y': 90
+        x: 40
+        'y': 80
       Get_array_of_IDs:
         x: 216
         'y': 91

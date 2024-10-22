@@ -96,9 +96,9 @@ flow:
           io.cloudslang.base.http.http_client_post:
             - url: "${ansible_automation_platform_url+'/credentials/'}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -133,7 +133,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - CredentialID: '${CredentialID}'
+    - credential_id: '${CredentialID}'
   results:
     - FAILURE
     - SUCCESS
@@ -155,4 +155,3 @@ extensions:
         9a4e8453-d8e7-362e-6069-e90dc4da4657:
           x: 522
           'y': 95
-

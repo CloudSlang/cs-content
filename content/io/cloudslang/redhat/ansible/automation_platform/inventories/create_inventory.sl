@@ -87,9 +87,9 @@ flow:
           io.cloudslang.base.http.http_client_post:
             - url: "${ansible_automation_platform_url+'/inventories/'}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -123,7 +123,7 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - InventoryID: '${InventoryID}'
+    - inventory_id: '${InventoryID}'
   results:
     - FAILURE
     - SUCCESS

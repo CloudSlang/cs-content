@@ -83,9 +83,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/inventories/'}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -136,9 +136,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/inventories/'+list_item}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -180,7 +180,7 @@ flow:
         navigate:
           - SUCCESS: Iterate_trough_IDs
   outputs:
-    - Inventories: '${new_string}'
+    - inventories: '${new_string}'
   results:
     - FAILURE
     - SUCCESS
@@ -201,8 +201,8 @@ extensions:
             targetId: 1ffd07c0-d987-2eba-f0d9-4112d7ba96e4
             port: NO_MORE
       Get_InventoryName_from_ID:
-        x: 425
-        'y': 286
+        x: 440
+        'y': 280
       Filter_InventoryName_from_JSON:
         x: 422
         'y': 472

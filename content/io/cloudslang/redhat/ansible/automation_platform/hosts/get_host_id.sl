@@ -83,9 +83,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/hosts?name='+host_name}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -134,7 +134,7 @@ flow:
           - SUCCESS: Filter_ID_from_JSON
           - FAILURE: FAILURE
   outputs:
-    - HostID: '${HostID}'
+    - host_id: '${HostID}'
   results:
     - FAILURE
     - SUCCESS

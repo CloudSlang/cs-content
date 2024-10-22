@@ -70,9 +70,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/hosts/'}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -119,9 +119,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/hosts/'+list_item}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -159,7 +159,7 @@ flow:
         navigate:
           - SUCCESS: Iterate_trough_IDs
   outputs:
-    - Hosts: '${new_string}'
+    - hosts: '${new_string}'
   results:
     - FAILURE
     - SUCCESS
@@ -193,4 +193,3 @@ extensions:
         1ffd07c0-d987-2eba-f0d9-4112d7ba96e4:
           x: 638
           'y': 88
-

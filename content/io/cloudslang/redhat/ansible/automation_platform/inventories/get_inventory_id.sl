@@ -83,9 +83,9 @@ flow:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/inventories?name='+inventory_name}"
             - auth_type: basic
-            - username: "${ansible_automation_platform_username}"
+            - username: '${ansible_automation_platform_username}'
             - password:
-                value: "${ansible_automation_platform_password}"
+                value: '${ansible_automation_platform_password}'
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -134,7 +134,7 @@ flow:
           - SUCCESS: Filter_ID_from_JSON
           - FAILURE: FAILURE
   outputs:
-    - InventoryID: '${InventoryID}'
+    - inventory_id: '${InventoryID}'
   results:
     - FAILURE
     - SUCCESS
@@ -145,8 +145,8 @@ extensions:
         x: 40
         'y': 80
       Connect_to_Ansible_Tower:
-        x: 51
-        'y': 272
+        x: 40
+        'y': 280
       Filter_ID_from_JSON:
         x: 482
         'y': 75
