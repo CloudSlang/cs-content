@@ -139,7 +139,6 @@ flow:
             - json_path: $.id
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - user_id: '${return_result}'
           - error_message: '${exception}'
