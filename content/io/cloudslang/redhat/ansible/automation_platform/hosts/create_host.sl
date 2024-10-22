@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will create a new Host object in your Ansible Tower system
+#! @description: This flow will create a new Host object in your Ansible Automation Platform system
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password to connect to Ansible Tower
-#! @input host_name: The name (string) of the Ansible Tower Host component that you want to create (example: "myhost.tower.org").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password to connect to Ansible Automation Platform
+#! @input host_name: The name (string) of the Ansible Automation Platform Host component that you want to create (example: "myhost.tower.org").
 #! @input inventory: The Inventory id (integer) of the Inventory that you want to create this new host into (example: "1" ).
 #! @input host_description: The description of this new Host (optional)
 #! @input proxy_host: Optional - Proxy server used to access the web site.

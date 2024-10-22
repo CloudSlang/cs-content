@@ -13,11 +13,11 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will display a list of all Credentials in your Ansible Tower instance.
+#! @description: This flow will display a list of all Credentials in your Ansible Automation Platform instance.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -43,7 +43,7 @@
 #! @output Credentials: A comma-separated list of results
 #!
 #! @result FAILURE: Error in fetching credential list.
-#! @result SUCCESS: The  Credential list has been  successfully fetched in Ansible Tower .
+#! @result SUCCESS: The  Credential list has been  successfully fetched in Ansible Automation Platform .
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.credentials

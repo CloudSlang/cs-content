@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will create a new Credential object in your Ansible Tower system
+#! @description: This flow will create a new Credential object in your Ansible Automation Platform system
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input credential_name: The name (string) of the Ansible Tower Credential component that you want to create (example: "Demo Credential").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input credential_name: The name (string) of the Ansible Automation Platform Credential component that you want to create (example: "Demo Credential").
 #! @input credential_type: The type (integer) of the new Credential (example: "1" for "Machine", "2" for "scm" etc). To get a list of credential_types, access https://your.ansibleserver.org/api/v2/credential_types
 #! @input credential_description: The description of this new Credential (optional)
 #! @input org_id: The Organization id (integer) for the Organization to create the new Credential into
@@ -46,8 +46,8 @@
 #!
 #! @output CredentialID: The id (integer) of the newly created Credential
 #!
-#! @result FAILURE: Error in creating Credential in Ansible Tower.
-#! @result SUCCESS: The  Credential has been successfully created in Ansible Tower .
+#! @result FAILURE: Error in creating Credential in Ansible Automation Platform.
+#! @result SUCCESS: The  Credential has been successfully created in Ansible Automation Platform .
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.credentials

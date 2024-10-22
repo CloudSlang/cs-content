@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will lookup the given Host name and return its id.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input host_name: The exact Host name of the Ansible Tower Host component that you want to lookup the id for (example: "localhost").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input host_name: The exact Host name of the Ansible Automation Platform Host component that you want to lookup the id for (example: "localhost").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -33,7 +33,7 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output HostID: Value of the "id" property of this Ansible Tower component (integrer).
+#! @output HostID: Value of the "id" property of this Ansible Automation Platform component (integrer).
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.hosts

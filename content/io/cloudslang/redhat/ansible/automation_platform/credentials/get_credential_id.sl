@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will lookup the given Credential name and return its id.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input credential_name: The exact Credential name of the Ansible Tower Credential component that you want to lookup the id for (example: "Demo Credential").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input credential_name: The exact Credential name of the Ansible Automation Platform Credential component that you want to lookup the id for (example: "Demo Credential").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -41,10 +41,10 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output CredentialID: Value of the "id" property of this Ansible Tower component (integrer).
+#! @output CredentialID: Value of the "id" property of this Ansible Automation Platform component (integrer).
 #!
 #! @result FAILURE: Error in fetcing  Credential ID .
-#! @result SUCCESS: The  Credential ID has been successfully fetched from Ansible Tower .
+#! @result SUCCESS: The  Credential ID has been successfully fetched from Ansible Automation Platform .
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.credentials

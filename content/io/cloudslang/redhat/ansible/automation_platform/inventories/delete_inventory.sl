@@ -13,12 +13,12 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will delete an Inventory object in your Ansible Tower system
+#! @description: This flow will delete an Inventory object in your Ansible Automation Platform system
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input inventory_id: The id (integer) of the Ansible Tower Inventory component that you want to delete (example: "15").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input inventory_id: The id (integer) of the Ansible Automation Platform Inventory component that you want to delete (example: "15").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'

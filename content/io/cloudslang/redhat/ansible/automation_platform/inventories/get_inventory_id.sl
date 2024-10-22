@@ -15,10 +15,10 @@
 #!!
 #! @description: This flow will lookup the given Inventory name and return its id.
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input inventory_name: The exact Inventory name of the Ansible Tower Inventory component that you want to lookup the id for (example: "Demo Inventory").
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
+#! @input inventory_name: The exact Inventory name of the Ansible Automation Platform Inventory component that you want to lookup the id for (example: "Demo Inventory").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -33,7 +33,7 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output InventoryID: Value of the "id" property of this Ansible Tower component (integrer).
+#! @output InventoryID: Value of the "id" property of this Ansible Automation Platform component (integrer).
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.inventories
