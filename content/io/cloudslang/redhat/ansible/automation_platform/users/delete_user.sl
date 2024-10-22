@@ -109,7 +109,6 @@ flow:
             - headers: 'Content-Type:application/json'
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - return_result
           - return_code

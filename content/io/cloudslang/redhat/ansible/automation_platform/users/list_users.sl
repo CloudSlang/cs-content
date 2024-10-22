@@ -106,7 +106,6 @@ flow:
                 sensitive: true
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - json_output: '${return_result}'
           - error_message
@@ -121,7 +120,6 @@ flow:
             - json_path: '$.results[*].id'
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
@@ -135,7 +133,6 @@ flow:
             - list: '${output}'
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - list_item: '${result_string}'
         navigate:
@@ -165,7 +162,6 @@ flow:
                 sensitive: true
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - user: '${return_result}'
           - error_message
@@ -180,7 +176,6 @@ flow:
             - json_path: $.username
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - user_name: "${return_result.strip('\"')}"
           - error_message: '${exception}'
@@ -194,7 +189,6 @@ flow:
             - text: "${list_item+','+user_name+\"\\n\"}"
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - users_list: '${new_string}'
         navigate:

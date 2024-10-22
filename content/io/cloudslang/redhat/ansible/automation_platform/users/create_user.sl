@@ -125,7 +125,6 @@ flow:
             - body: "${'{'+\\\n'   \"username\": \"'+username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+password+'\"'+\\\n'}'}"
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - json_output: '${return_result}'
           - error_message

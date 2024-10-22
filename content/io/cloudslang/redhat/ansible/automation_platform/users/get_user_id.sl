@@ -108,7 +108,6 @@ flow:
             - headers: 'Content-Type:application/json'
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - json_output: '${return_result}'
           - error_message
@@ -134,7 +133,6 @@ flow:
             - json_path: $.count
             - worker_group:
                 value: '${worker_group}'
-                override: true
         publish:
           - count: "${return_result.strip('[').strip(']')}"
           - error_message: '${exception}'
