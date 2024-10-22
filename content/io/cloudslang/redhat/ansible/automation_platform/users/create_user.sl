@@ -122,7 +122,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - headers: 'Content-Type:application/json'
-            - body: "${'{'+\\\n'   \"username\": \"'+username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+UserPassword+'\"'+\\\n'}'}"
+            - body: "${'{'+\\\n'   \"username\": \"'+username+'\",'+\\\n'   \"first_name\": \"'+first_name+'\",'+\\\n'   \"last_name\": \"'+last_name+'\",'+\\\n'   \"email\": \"'+email+'\",'+\\\n'   \"is_superuser\": '+is_superuser+','+\\\n'   \"is_system_auditor\": '+is_system_auditor+','+\\\n'   \"password\": \"'+password+'\"'+\\\n'}'}"
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
