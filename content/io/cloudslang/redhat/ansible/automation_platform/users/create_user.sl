@@ -51,6 +51,7 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output user_id: The id (integer) of the newly created User.
 #! @output error_message: An error message in case there was an error while creating the User.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
@@ -101,6 +102,9 @@ flow:
         required: false
   workflow:
     - create_new_user:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_post:
             - url: "${ansible_automation_platform_url+'/users/'}"
@@ -133,12 +137,13 @@ flow:
           - SUCCESS: get_new_user_id
           - FAILURE: on_failure
     - get_new_user_id:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.id
-            - worker_group:
-                value: '${worker_group}'
         publish:
           - user_id: '${return_result}'
           - error_message: '${exception}'
@@ -147,6 +152,7 @@ flow:
           - FAILURE: on_failure
   outputs:
     - user_id: '${user_id}'
+    - return_result: '${json_output}'
     - error_message: '${error_message}'
     - status_code: '${status_code}'
   results:

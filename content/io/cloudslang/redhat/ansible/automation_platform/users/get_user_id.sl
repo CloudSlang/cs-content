@@ -43,6 +43,7 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output user_id: The id (integer) of the selected User.
 #! @output error_message: An error message in case there was an error while creating the User.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
@@ -86,6 +87,9 @@ flow:
         required: false
   workflow:
     - connect_to_ansible_tower:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/users?username='+username}"
@@ -117,6 +121,9 @@ flow:
           - SUCCESS: filter_count_from_json
           - FAILURE: on_failure
     - filter_id_from_json:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
@@ -128,12 +135,13 @@ flow:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - filter_count_from_json:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.count
-            - worker_group:
-                value: '${worker_group}'
         publish:
           - count: "${return_result.strip('[').strip(']')}"
           - error_message: '${exception}'
@@ -141,6 +149,9 @@ flow:
           - SUCCESS: check_count_is_1
           - FAILURE: on_failure
     - check_count_is_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${count}'
@@ -150,6 +161,7 @@ flow:
           - FAILURE: FAILURE
   outputs:
     - user_id: '${user_id}'
+    - return_result: '${json_output}'
     - error_message: '${error_message}'
     - status_code: '${status_code}'
   results:

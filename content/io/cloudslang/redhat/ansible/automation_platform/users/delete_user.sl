@@ -86,6 +86,9 @@ flow:
         required: false
   workflow:
     - delete_user:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_delete:
             - url: "${ansible_automation_platform_url+'/users/'+user_id+'/'}"
