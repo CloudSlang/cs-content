@@ -15,9 +15,9 @@
 #!!
 #! @description: Loop through a job status until either failed or successful and reports back the final status
 #!
-#! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
-#! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
+#! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
+#! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
 #! @input job_id: The id(integer) of the job to watch
 #! @input loops: Amount of 10-seconds loops to watch for a final jab status
 #! @input proxy_host: Optional - Proxy server used to access the web site.
