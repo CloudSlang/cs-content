@@ -193,6 +193,9 @@ flow:
           - SUCCESS: add_items_to_list
           - FAILURE: on_failure
     - add_items_to_list:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
