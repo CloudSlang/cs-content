@@ -42,6 +42,7 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output users_list: A comma-separated list of all users and their id's.
 #! @output error_message: An error message in case there was an error while retrieving the users list.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
@@ -84,6 +85,9 @@ flow:
         required: false
   workflow:
     - get_all_users:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/users/'}"
@@ -114,12 +118,13 @@ flow:
           - SUCCESS: get_array_of_ids
           - FAILURE: on_failure
     - get_array_of_ids:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: '$.results[*].id'
-            - worker_group:
-                value: '${worker_group}'
         publish:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
@@ -128,11 +133,12 @@ flow:
           - SUCCESS: iterate_trough_ids
           - FAILURE: on_failure
     - iterate_trough_ids:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${output}'
-            - worker_group:
-                value: '${worker_group}'
         publish:
           - list_item: '${result_string}'
         navigate:
@@ -140,6 +146,9 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - get_username_from_id:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.http.http_client_get:
             - url: "${ansible_automation_platform_url+'/users/'+list_item}"
@@ -170,12 +179,13 @@ flow:
           - SUCCESS: filter_username_from_json
           - FAILURE: on_failure
     - filter_username_from_json:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${user}'
             - json_path: $.username
-            - worker_group:
-                value: '${worker_group}'
         publish:
           - user_name: "${return_result.strip('\"')}"
           - error_message: '${exception}'
@@ -183,6 +193,9 @@ flow:
           - SUCCESS: add_items_to_list
           - FAILURE: on_failure
     - add_items_to_list:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
@@ -195,6 +208,7 @@ flow:
           - SUCCESS: iterate_trough_ids
   outputs:
     - users_list: '${users_list}'
+    - return_result: '${json_output}'
     - status_code: '${status_code}'
     - error_message: '${error_message}'
   results:
