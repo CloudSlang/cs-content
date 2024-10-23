@@ -143,6 +143,7 @@ flow:
           - FAILURE: FAILURE
   outputs:
     - template_id
+    - json_output: '${json_output}'
   results:
     - FAILURE
     - SUCCESS
