@@ -40,6 +40,13 @@
 #!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
+#!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while creating the User.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: There was an error while deleting the credential.
+#! @result SUCCESS: The credential deleted successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.credentials
@@ -75,7 +82,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Delete_Credential:
+    - delete_credential:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -101,16 +108,24 @@ flow:
             - keystore: '${keystore}'
             - headers: 'Content-Type:application/json'
             - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+  outputs:
+    - return_result: '${return_result}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Delete_Credential:
+      delete_credential:
         x: 85
         'y': 79
         navigate:

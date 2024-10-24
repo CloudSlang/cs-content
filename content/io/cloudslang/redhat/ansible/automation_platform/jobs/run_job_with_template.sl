@@ -45,6 +45,9 @@
 #! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #! @output error_message: An error message in case there was an error while running job with template.
+#!
+#! @result FAILURE: The job template has not been launched.
+#! @result SUCCESS: The job template has been launched successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.jobs
@@ -79,7 +82,7 @@ flow:
     - worker_group:
         required: false
   workflow:
-    - Launch_Job_Template:
+    - launch_job_template:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -110,9 +113,9 @@ flow:
           - error_message
           - status_code
         navigate:
-          - SUCCESS: Get_new_Job_ID
+          - SUCCESS: get_new_job_id
           - FAILURE: on_failure
-    - Get_new_Job_ID:
+    - get_new_job_id:
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
@@ -133,10 +136,10 @@ flow:
 extensions:
   graph:
     steps:
-      Launch_Job_Template:
+      launch_job_template:
         x: 173
         'y': 128.5
-      Get_new_Job_ID:
+      get_new_job_id:
         x: 373
         'y': 131
         navigate:

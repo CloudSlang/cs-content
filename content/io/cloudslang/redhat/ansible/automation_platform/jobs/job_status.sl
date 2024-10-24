@@ -45,6 +45,9 @@
 #! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #! @output error_message: An error message in case there was an error while fetching job status.
+#!
+#! @result FAILURE: The job status has not been fetched.
+#! @result SUCCESS: The job status has been fetched successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.jobs
@@ -80,7 +83,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Get_information_for_JobID:
+    - get_information_for_job_id:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -110,9 +113,9 @@ flow:
           - status_code
           - error_message
         navigate:
-          - SUCCESS: Extract_status_from_JSON
+          - SUCCESS: extract_status_from_JSON
           - FAILURE: on_failure
-    - Extract_status_from_JSON:
+    - extract_status_from_JSON:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -134,10 +137,10 @@ flow:
 extensions:
   graph:
     steps:
-      Get_information_for_JobID:
+      get_information_for_job_id:
         x: 63
         'y': 92
-      Extract_status_from_JSON:
+      extract_status_from_JSON:
         x: 306
         'y': 97
         navigate:

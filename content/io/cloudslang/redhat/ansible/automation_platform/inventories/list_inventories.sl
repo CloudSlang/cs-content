@@ -40,7 +40,13 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output Inventories: A comma-separated list of Inventories with their id's
+#! @output inventories_list: A comma-separated list of all inventories and their id's.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#! @output error_message: An error message in case there was an error while retrieving the inventories list.
+#!
+#! @result FAILURE: There was an error while retrieving the list of inventories.
+#! @result SUCCESS: The list of inventories was successfully listed.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.inventories
@@ -75,7 +81,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Get_all_Inventories:
+    - get_all_inventories:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -102,10 +108,12 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Get_array_of_IDs
+          - SUCCESS: get_array_of_ids
           - FAILURE: on_failure
-    - Get_array_of_IDs:
+    - get_array_of_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -115,9 +123,9 @@ flow:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
           - FAILURE: on_failure
-    - Iterate_trough_IDs:
+    - iterate_through_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -125,10 +133,10 @@ flow:
         publish:
           - list_item: '${result_string}'
         navigate:
-          - HAS_MORE: Get_InventoryName_from_ID
+          - HAS_MORE: get_inventory_name_from_id
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
-    - Get_InventoryName_from_ID:
+    - get_inventory_name_from_id:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -156,9 +164,9 @@ flow:
         publish:
           - inv: '${return_result}'
         navigate:
-          - SUCCESS: Filter_InventoryName_from_JSON
+          - SUCCESS: filter_inventory_name_from_json
           - FAILURE: on_failure
-    - Filter_InventoryName_from_JSON:
+    - filter_inventory_name_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -167,48 +175,51 @@ flow:
         publish:
           - inv_name: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: Add_items_to_list
+          - SUCCESS: add_items_to_list
           - FAILURE: on_failure
-    - Add_items_to_list:
+    - add_items_to_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
             - text: "${list_item+','+inv_name+\"\\n\"}"
         publish:
-          - new_string
+          - inventories_list: '${new_string}'
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
   outputs:
-    - inventories: '${new_string}'
+    - inventories_list: '${inventories_list}'
+    - return_result
+    - status_code
+    - error_message
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Get_all_Inventories:
-        x: 39
-        'y': 90
-      Get_array_of_IDs:
-        x: 216
-        'y': 91
-      Iterate_trough_IDs:
+      iterate_through_ids:
         x: 426
         'y': 87
         navigate:
           9b32e6af-61d5-f3b4-fe30-d5b72a38f613:
             targetId: 1ffd07c0-d987-2eba-f0d9-4112d7ba96e4
             port: NO_MORE
-      Get_InventoryName_from_ID:
+      get_all_inventories:
+        x: 39
+        'y': 90
+      get_array_of_ids:
+        x: 216
+        'y': 91
+      get_inventory_name_from_id:
         x: 440
         'y': 280
-      Filter_InventoryName_from_JSON:
+      add_items_to_list:
+        x: 640
+        'y': 280
+      filter_inventory_name_from_json:
         x: 422
         'y': 472
-      Add_items_to_list:
-        x: 639
-        'y': 285
     results:
       SUCCESS:
         1ffd07c0-d987-2eba-f0d9-4112d7ba96e4:
