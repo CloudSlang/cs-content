@@ -164,7 +164,7 @@ flow:
           - SUCCESS: job_status
           - FAILURE: on_failure
   outputs:
-    - job_status: '${JobStatus}'
+    - job_status: '${job_status}'
   results:
     - FAILURE
     - SUCCESS
