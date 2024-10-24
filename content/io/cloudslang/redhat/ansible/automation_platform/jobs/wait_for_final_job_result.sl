@@ -119,7 +119,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${JobStatus}'
+            - first_string: '${job_status}'
             - second_string: successful
             - ignore_case: 'true'
         navigate:
@@ -129,7 +129,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${JobStatus}'
+            - first_string: '${job_status}'
             - second_string: failed
             - ignore_case: 'true'
         navigate:
@@ -139,7 +139,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${JobStatus}'
+            - first_string: '${job_status}'
             - second_string: pending
             - ignore_case: 'true'
         navigate:
@@ -149,7 +149,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
-            - first_string: '${JobStatus}'
+            - first_string: '${job_status}'
             - second_string: running
             - ignore_case: 'true'
         navigate:
