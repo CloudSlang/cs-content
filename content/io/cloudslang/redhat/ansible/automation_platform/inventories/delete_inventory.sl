@@ -32,6 +32,13 @@
 #!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
+#!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while deleting the inventory.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: There was an error while deleting the inventory.
+#! @result SUCCESS: The inventory was deleted successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.inventories
@@ -62,7 +69,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Delete_Inventory:
+    - delete_inventory:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -84,16 +91,24 @@ flow:
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - headers: 'Content-Type:application/json'
             - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Delete_Inventory:
+      delete_inventory:
         x: 85
         'y': 79
         navigate:

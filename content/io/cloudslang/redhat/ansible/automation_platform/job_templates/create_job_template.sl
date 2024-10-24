@@ -34,6 +34,9 @@
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously. Default: 'RAS_Operator_Path' Optional
 #!
 #! @output template_id: The id (integer) of the newly created Job Template
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while creating the Host.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
 #! @result FAILURE: New Job Template has been failed.
 #! @result SUCCESS: New Job Template has been created successfully.
@@ -108,6 +111,8 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: get_new_job_template_id
           - FAILURE: on_failure
@@ -124,6 +129,9 @@ flow:
           - FAILURE: on_failure
   outputs:
     - template_id
+    - return_result
+    - error_message
+    - status_code
   results:
     - FAILURE
     - SUCCESS

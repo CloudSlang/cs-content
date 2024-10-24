@@ -23,6 +23,14 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
@@ -32,7 +40,13 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output Hosts: A comma-separated list of hostnames with their id's
+#! @output hosts_list: A comma-separated list of all hosts and their id's.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while retrieving the hosts list.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: There was an error while retrieving the list of hosts.
+#! @result SUCCESS: The list of the hosts was retrieved successfully..
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.hosts
@@ -52,6 +66,11 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -62,7 +81,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Get_all_Hosts:
+    - get_all_hosts:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -85,10 +104,12 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Get_array_of_IDs
+          - SUCCESS: get_array_of_ids
           - FAILURE: on_failure
-    - Get_array_of_IDs:
+    - get_array_of_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -98,9 +119,9 @@ flow:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
           - FAILURE: on_failure
-    - Iterate_trough_IDs:
+    - iterate_through_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -108,10 +129,10 @@ flow:
         publish:
           - list_item: '${result_string}'
         navigate:
-          - HAS_MORE: Get_HostName_from_ID
+          - HAS_MORE: get_hostname_from_id
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
-    - Get_HostName_from_ID:
+    - get_hostname_from_id:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -135,9 +156,9 @@ flow:
         publish:
           - host: '${return_result}'
         navigate:
-          - SUCCESS: Filter_HostName_from_JSON
+          - SUCCESS: filter_hostname_from_json
           - FAILURE: on_failure
-    - Filter_HostName_from_JSON:
+    - filter_hostname_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -146,46 +167,49 @@ flow:
         publish:
           - host_name: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: Add_items_to_list
+          - SUCCESS: add_items_to_list
           - FAILURE: on_failure
-    - Add_items_to_list:
+    - add_items_to_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
             - text: "${list_item+','+host_name+\"\\n\"}"
         publish:
-          - new_string
+          - hosts_list: '${new_string}'
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
   outputs:
-    - hosts: '${new_string}'
+    - hosts_list: '${hosts_list}'
+    - return_result: '${json_output}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Get_all_Hosts:
-        x: 39
-        'y': 90
-      Get_array_of_IDs:
+      get_all_hosts:
+        x: 40
+        'y': 80
+      get_array_of_ids:
         x: 216
         'y': 91
-      Iterate_trough_IDs:
+      iterate_through_ids:
         x: 426
         'y': 87
         navigate:
           9b32e6af-61d5-f3b4-fe30-d5b72a38f613:
             targetId: 1ffd07c0-d987-2eba-f0d9-4112d7ba96e4
             port: NO_MORE
-      Get_HostName_from_ID:
+      get_hostname_from_id:
         x: 440
         'y': 280
-      Filter_HostName_from_JSON:
+      filter_hostname_from_json:
         x: 440
         'y': 480
-      Add_items_to_list:
+      add_items_to_list:
         x: 639
         'y': 285
     results:

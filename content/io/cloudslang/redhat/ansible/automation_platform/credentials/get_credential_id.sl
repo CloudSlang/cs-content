@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will lookup the given Credential name and return its id.
+#! @description: This flow will lookup the given credential name and return its id.
 #!
 #! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
@@ -41,10 +41,13 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output CredentialID: Value of the "id" property of this Ansible Automation Platform component (integrer).
+#! @output credential_id: The id (integer) of the selected credential.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while creating the User.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
-#! @result FAILURE: Error in fetcing  Credential ID .
-#! @result SUCCESS: The  Credential ID has been successfully fetched from Ansible Automation Platform .
+#! @result FAILURE: Error in fetching the credential id.
+#! @result SUCCESS: The credential id has been successfully fetched from Ansible Automation Platform .
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.credentials
@@ -80,7 +83,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Convert_whitespaces:
+    - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.redhat.ansible_tower.utils.search_and_replace:
@@ -88,10 +91,10 @@ flow:
             - text_to_replace: ' '
             - replace_with: '%20'
         publish:
-          - CredentialName: '${replaced_string}'
+          - credential_name: '${replaced_string}'
         navigate:
-          - SUCCESS: Connect_to_Ansible_Tower
-    - Connect_to_Ansible_Tower:
+          - SUCCESS: connect_to_ansible_tower
+    - connect_to_ansible_tower:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -119,21 +122,23 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Filter_count_from_JSON
+          - SUCCESS: filter_count_from_json
           - FAILURE: on_failure
-    - Filter_ID_from_JSON:
+    - filter_id_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: '$.results[*].id'
         publish:
-          - CredentialID: "${return_result.strip('[').strip(']')}"
+          - credential_id: "${return_result.strip('[').strip(']')}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - Filter_count_from_JSON:
+    - filter_count_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -142,48 +147,51 @@ flow:
         publish:
           - count: "${return_result.strip('[').strip(']')}"
         navigate:
-          - SUCCESS: Check_count_is_1
+          - SUCCESS: check_count_is_1
           - FAILURE: on_failure
-    - Check_count_is_1:
+    - check_count_is_1:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${count}'
             - second_string: '1'
         navigate:
-          - SUCCESS: Filter_ID_from_JSON
+          - SUCCESS: filter_id_from_json
           - FAILURE: FAILURE
   outputs:
-    - credential_id: '${CredentialID}'
+    - credential_id: '${credential_id}'
+    - return_result: '${json_output}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Convert_whitespaces:
+      convert_whitespaces:
         x: 57
         'y': 79
-      Connect_to_Ansible_Tower:
-        x: 51
-        'y': 272
-      Filter_ID_from_JSON:
-        x: 482
-        'y': 75
-        navigate:
-          1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
-            targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
-            port: SUCCESS
-      Filter_count_from_JSON:
-        x: 265
-        'y': 266
-      Check_count_is_1:
+      filter_count_from_json:
+        x: 280
+        'y': 280
+      check_count_is_1:
         x: 280
         'y': 80
         navigate:
           754bef08-5d3c-d689-923a-45e2754b90d6:
             targetId: d55d7b8d-f0b6-a820-b28e-797a1d141a77
             port: FAILURE
+      filter_id_from_json:
+        x: 482
+        'y': 75
+        navigate:
+          1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
+            targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
+            port: SUCCESS
+      connect_to_ansible_tower:
+        x: 51
+        'y': 272
     results:
       FAILURE:
         d55d7b8d-f0b6-a820-b28e-797a1d141a77:

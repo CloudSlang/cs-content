@@ -24,6 +24,14 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
@@ -33,7 +41,13 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output HostID: Value of the "id" property of this Ansible Automation Platform component (integrer).
+#! @output host_id: The id (integer) of the selected host.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while getting the host id.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: There was an error while retrieving the ID.
+#! @result SUCCESS: The ID of the host was retrieved successfully..
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.hosts
@@ -54,6 +68,11 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -64,7 +83,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Convert_whitespaces:
+    - convert_whitespaces:
         worker_group: RAS_Operator_Path
         do:
           io.cloudslang.redhat.ansible_tower.utils.search_and_replace:
@@ -72,10 +91,10 @@ flow:
             - text_to_replace: ' '
             - replace_with: '%20'
         publish:
-          - HostName: '${replaced_string}'
+          - host_name: '${replaced_string}'
         navigate:
-          - SUCCESS: Connect_to_Ansible_Tower
-    - Connect_to_Ansible_Tower:
+          - SUCCESS: connect_to_ansible_tower
+    - connect_to_ansible_tower:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -99,21 +118,23 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Filter_count_from_JSON
+          - SUCCESS: filter_count_from_json
           - FAILURE: on_failure
-    - Filter_ID_from_JSON:
+    - filter_id_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: '$.results[*].id'
         publish:
-          - HostID: "${return_result.strip('[').strip(']')}"
+          - host_id: "${return_result.strip('[').strip(']')}"
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
-    - Filter_count_from_JSON:
+    - filter_count_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -122,42 +143,45 @@ flow:
         publish:
           - count: "${return_result.strip('[').strip(']')}"
         navigate:
-          - SUCCESS: Check_count_is_1
+          - SUCCESS: check_count_is_1
           - FAILURE: on_failure
-    - Check_count_is_1:
+    - check_count_is_1:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.string_equals:
             - first_string: '${count}'
             - second_string: '1'
         navigate:
-          - SUCCESS: Filter_ID_from_JSON
+          - SUCCESS: filter_id_from_json
           - FAILURE: FAILURE
   outputs:
-    - host_id: '${HostID}'
+    - host_id: '${host_id}'
+    - return_result: '${json_output}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Convert_whitespaces:
+      convert_whitespaces:
         x: 57
         'y': 79
-      Connect_to_Ansible_Tower:
-        x: 51
-        'y': 272
-      Filter_ID_from_JSON:
+      connect_to_ansible_tower:
+        x: 40
+        'y': 280
+      filter_id_from_json:
         x: 482
         'y': 75
         navigate:
           1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
             targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
             port: SUCCESS
-      Filter_count_from_JSON:
+      filter_count_from_json:
         x: 265
         'y': 266
-      Check_count_is_1:
+      check_count_is_1:
         x: 263
         'y': 77
         navigate:

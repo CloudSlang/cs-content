@@ -43,6 +43,9 @@
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output job_status: The final job status
+#!
+#! @result FAILURE: There was an error while looping through the job status.
+#! @result SUCCESS: The job final status has been fetched successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.jobs

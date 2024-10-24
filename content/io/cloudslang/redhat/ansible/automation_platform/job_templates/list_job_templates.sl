@@ -29,8 +29,11 @@
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously. Default: 'RAS_Operator_Path' Optional
 #!
 #! @output job_templates: A comma-separated list of Job Templates and their id's
+#! @output error_message: An error message in case there was an error.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#! @output json_output: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #!
-#! @result FAILURE: The oepration to list templates has been failed.
+#! @result FAILURE: The operation to list templates has been failed.
 #! @result SUCCESS: The list of templates has been successfully retrieved.
 #!!#
 ########################################################################################################################
@@ -93,6 +96,8 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: get_array_of_ids
           - FAILURE: on_failure
@@ -161,6 +166,9 @@ flow:
           - SUCCESS: iterate_trough_ids
   outputs:
     - job_templates
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
+    - json_output: '${json_output}'
   results:
     - FAILURE
     - SUCCESS

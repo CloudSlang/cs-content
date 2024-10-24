@@ -25,12 +25,6 @@
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -39,10 +33,22 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output InventoryID: The id (integer) of the newly created Inventory
+#! @output inventory_id: The id (integer) of the newly created User.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while creating the inventory.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: The inventory created successfully.
+#! @result SUCCESS: There was an error while creating the inventory.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.inventories
@@ -64,22 +70,22 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
         default: strict
         required: false
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
     - worker_group:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Create_new_Inventory:
+    - create_new_inventory:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -108,32 +114,37 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Get_new_IntentoryID
+          - SUCCESS: get_new_inventory_id
           - FAILURE: on_failure
-    - Get_new_IntentoryID:
+    - get_new_inventory_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.id
         publish:
-          - InventoryID: '${return_result}'
+          - inventory_id: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - inventory_id: '${InventoryID}'
+    - inventory_id: '${inventory_id}'
+    - return_result: '${json_output}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Create_new_Inventory:
+      create_new_inventory:
         x: 97
         'y': 91
-      Get_new_IntentoryID:
+      get_new_inventory_id:
         x: 319
         'y': 92
         navigate:

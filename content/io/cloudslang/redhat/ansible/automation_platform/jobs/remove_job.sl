@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Check the Job status, based on the job id.
+#! @description: Delete the Job status, based on the job id.
 #!
 #! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
@@ -44,6 +44,9 @@
 #! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #! @output error_message: An error message in case there was an error while removing the job.
+#!
+#! @result FAILURE: There was an error in deleting the job.
+#! @result SUCCESS: The job was removed successfully
 #!!#
 ########################################################################################################################
 
@@ -86,7 +89,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${ansible_automation_platform_url+'/jobs/'+job_id+'/'}"
+            - url: "${ansible_automation_platform_url+'/jobs/'+JobID+'/'}"
             - auth_type: basic
             - username: '${ansible_automation_platform_username}'
             - password:
