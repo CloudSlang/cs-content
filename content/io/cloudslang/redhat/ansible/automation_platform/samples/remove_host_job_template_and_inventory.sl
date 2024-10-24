@@ -48,7 +48,7 @@
 #! @result FAILURE: There was an error while executing the flow.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.core.automation_platform.samples
+namespace: io.cloudslang.redhat.ansible.automation_platform.samples
 flow:
   name: remove_host_job_template_and_inventory
   inputs:

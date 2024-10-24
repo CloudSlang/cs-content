@@ -52,7 +52,7 @@
 #! @result FAILURE: There was an error while executing the flow.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.core.automation_platform.samples
+namespace: io.cloudslang.redhat.ansible.automation_platform.samples
 flow:
   name: add_new_host_and_run_existing_job_template
   inputs:
