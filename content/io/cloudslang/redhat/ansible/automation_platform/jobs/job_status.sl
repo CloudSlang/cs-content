@@ -86,7 +86,7 @@ flow:
           override: true
         do:
           io.cloudslang.base.http.http_client_get:
-            - url: "${ansible_automation_platform_url+'/jobs/'+JobID}"
+            - url: "${ansible_automation_platform_url+'/jobs/'+job_id}"
             - auth_type: basic
             - username: '${ansible_automation_platform_username}'
             - password:
