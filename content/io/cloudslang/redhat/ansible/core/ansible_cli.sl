@@ -33,22 +33,29 @@
 #! @input proxy_host: Optional - Proxy server used to access the host.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
-#! @input proxy_username: Optional - User name used when connecting to the proxy.
+#! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
 #! @input private_key_file: Optional - Path to private key file (OpenSSH type) on the machine where is the worker.
-#!                         For security reasons it is recommend that the private key be protected by a passphrase that should be provided through the 'password' input.
+#!                         For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'password' input.
 #! @input private_key_data: Optional - A string representing the private key (OpenSSH type) used for authenticating the user. This string is usually the content of a private key file.
 #!                          The 'privateKeyData' and the 'privateKeyFile' inputs are mutually exclusive.
-#!                          For security reasons it is recommend that the private key be protected by a passphrase that should be provided through the 'password' input.
-#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
-#!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input timeout: Time in milliseconds to wait for the command to complete
+#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'password' input.
+#! @input known_hosts_policy: The policy used for managing known_hosts file.
+#!                            Valid values: 'allow', 'strict', 'add'
+#!                            Default value: 'allow'
+#!                            Optional
+#! @input known_hosts_path: Optional - The path to the known hosts file.
+#!                          Default: '{user.home}/.ssh/known_hosts'
+#!                          Optional
+#! @input close_session: Optional - If 'false' the SSH session will be cached for future calls of this operation during the
+#!                       life of the flow, if 'true' the SSH session used by this operation will be closed
+#!                       Valid: 'true', 'false'
+#!                       Default: 'false'
+#! @input timeout: Optional - Time in milliseconds to wait for the command to complete
 #!                 Default: '90000'
-#!                 Optional
-#! @input connect_timeout: Time in milliseconds to wait for the connection to be made.
+#! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made.
 #!                         Default value: '10000'
-#!                         Optional
-#! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
+#! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output stdout: The output of the command.
