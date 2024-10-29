@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will create a new Credential object in your Ansible Automation Platform system
+#! @description: This flow will create a new Credential object in your Ansible Automation Platform system.
 #!
 #! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
@@ -44,7 +44,10 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output CredentialID: The id (integer) of the newly created Credential
+#! @output credential_id: The id (integer) of the newly created credential.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while creating the User.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
 #!
 #! @result FAILURE: Error in creating Credential in Ansible Automation Platform.
 #! @result SUCCESS: The  Credential has been successfully created in Ansible Automation Platform .
@@ -88,7 +91,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Create_new_Credential:
+    - create_new_credential:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -118,34 +121,39 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Get_new_Credential_ID
+          - SUCCESS: get_new_credential_id
           - FAILURE: on_failure
-    - Get_new_Credential_ID:
+    - get_new_credential_id:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${json_output}'
             - json_path: $.id
         publish:
-          - CredentialID: '${return_result}'
+          - credential_id: '${return_result}'
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
   outputs:
-    - credential_id: '${CredentialID}'
+    - credential_id: '${credential_id}'
+    - return_result: '${json_output}'
+    - error_message: '${error_message}'
+    - status_code: '${status_code}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Create_new_Credential:
-        x: 97
-        'y': 91
-      Get_new_Credential_ID:
-        x: 319
-        'y': 92
+      create_new_credential:
+        x: 80
+        'y': 80
+      get_new_credential_id:
+        x: 320
+        'y': 80
         navigate:
           d3f16ba3-4c0c-1dda-bf12-eb90216243c3:
             targetId: 9a4e8453-d8e7-362e-6069-e90dc4da4657

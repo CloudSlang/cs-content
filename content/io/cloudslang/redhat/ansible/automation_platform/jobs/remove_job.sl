@@ -13,17 +13,23 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will delete a Credential object in your Ansible Automation Platform system
+#! @description: Delete the Job status, based on the job id.
 #!
 #! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
 #! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
-#! @input credential_id: The id (integer) of the newly created Credential
+#! @input job_id: The id (integer) of the job you want the check the status for
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
 #! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -32,32 +38,27 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
 #! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
-#! @output error_message: An error message in case there was an error while creating the User.
 #! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#! @output error_message: An error message in case there was an error while removing the job.
 #!
-#! @result FAILURE: There was an error while deleting the credential.
-#! @result SUCCESS: The credential deleted successfully.
+#! @result FAILURE: There was an error in deleting the job.
+#! @result SUCCESS: The job was removed successfully
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.automation_platform.credentials
+
+namespace: io.cloudslang.redhat.ansible.automation_platform.jobs
 flow:
-  name: delete_credential
+  name: remove_job
   inputs:
     - ansible_automation_platform_url
     - ansible_automation_platform_username
     - ansible_automation_platform_password:
         sensitive: true
-    - credential_id
+    - job_id
     - proxy_host:
         required: false
     - proxy_port:
@@ -67,28 +68,28 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
     - x_509_hostname_verifier:
         default: strict
         required: false
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - worker_group:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - delete_credential:
+    - http_client_delete:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
           io.cloudslang.base.http.http_client_delete:
-            - url: "${ansible_automation_platform_url+'/credentials/'+credential_id+'/'}"
+            - url: "${ansible_automation_platform_url+'/jobs/'+job_id+'/'}"
             - auth_type: basic
             - username: '${ansible_automation_platform_username}'
             - password:
@@ -102,11 +103,10 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - keystore: '${keystore}'
-            - headers: 'Content-Type:application/json'
             - worker_group: '${worker_group}'
         publish:
           - return_result
@@ -117,24 +117,24 @@ flow:
           - FAILURE: on_failure
   outputs:
     - return_result: '${return_result}'
-    - error_message: '${error_message}'
     - status_code: '${status_code}'
+    - error_message: '${error_message}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      delete_credential:
-        x: 85
-        'y': 79
+      http_client_delete:
+        x: 148
+        'y': 150
         navigate:
-          74804904-02f4-ef09-6abe-63c4c06d0e39:
-            targetId: 981d4b12-5e7d-e856-ca53-3eb4619daa0e
+          6e46e9d9-9477-15a1-8868-d738d214edfb:
+            targetId: f0c9c7ae-abde-909c-a748-c6be20c3d84b
             port: SUCCESS
     results:
       SUCCESS:
-        981d4b12-5e7d-e856-ca53-3eb4619daa0e:
-          x: 339
-          'y': 77
+        f0c9c7ae-abde-909c-a748-c6be20c3d84b:
+          x: 353
+          'y': 147
 

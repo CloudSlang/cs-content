@@ -29,6 +29,10 @@
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty, trust_password default will be supplied. Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously. Default: 'RAS_Operator_Path' Optional
 #!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
 #! @result FAILURE: The Deletion of Job tempaltes has been failed.
 #! @result SUCCESS: The Job templates has been deleted successfully.
 #!!#
@@ -92,9 +96,17 @@ flow:
                 sensitive: true
             - headers: 'Content-Type:application/json'
             - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
     - FAILURE
     - SUCCESS
@@ -102,8 +114,8 @@ extensions:
   graph:
     steps:
       delete_job_template:
-        x: 85
-        'y': 79
+        x: 80
+        'y': 80
         navigate:
           74804904-02f4-ef09-6abe-63c4c06d0e39:
             targetId: 981d4b12-5e7d-e856-ca53-3eb4619daa0e

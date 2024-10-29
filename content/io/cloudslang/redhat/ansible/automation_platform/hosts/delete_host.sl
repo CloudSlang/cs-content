@@ -18,12 +18,20 @@
 #! @input ansible_automation_platform_url: Ansible Automation Platform API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Automation Platform
 #! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform
-#! @input host_id: The id (integrer) of the Ansible Automation Platform Host component that you want to delete (example: "15").
+#! @input host_id: The id (integer) of the Ansible Automation Platform Host component that you want to delete (example: "15").
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
 #! @input proxy_username: Optional - User name used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input trust_keystore: Optional - The pathname of the Java TrustStore file. This contains certificates from
+#!                        other parties that you expect to communicate with, or from Certificate Authorities that
+#!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
+#!                        'https' or if trust_all_roots is 'true' this input is ignored.
+#!                        Format: Java KeyStore (JKS)
+#!                        Default value: ''
+#! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
+#!                        and trust_keystore is empty, trust_password default will be supplied.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
 #!                         Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
@@ -32,6 +40,13 @@
 #!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
+#!
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output error_message: An error message in case there was an error while deleting the host.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#!
+#! @result FAILURE: There was an error while deleting the host.
+#! @result SUCCESS: The host deleted successfully.
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform.hosts
@@ -52,6 +67,11 @@ flow:
     - proxy_password:
         required: false
         sensitive: true
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
     - trust_all_roots:
         default: 'false'
         required: false
@@ -62,7 +82,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Delete_Host:
+    - delete_host:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -84,16 +104,24 @@ flow:
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - headers: 'Content-Type:application/json'
             - worker_group: '${worker_group}'
+        publish:
+          - return_result
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+  outputs:
+    - return_result
+    - error_message
+    - status_code
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Delete_Host:
+      delete_host:
         x: 80
         'y': 80
         navigate:

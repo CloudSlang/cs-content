@@ -29,7 +29,10 @@
 #! @input trust_password: The password associated with the trust_keystore file. If trust_all_roots is false and trust_keystore is empty, trust_password default will be supplied. Optional
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than one group simultaneously. Default: 'RAS_Operator_Path' Optional
 #!
-#! @output template_id: Value of the "id" property of this Ansible Automation Platform component (integrer).
+#! @output template_id: Value of the "id" property of this Ansible Automation Platform component (integer).
+#! @output json_output: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#! @output error_message: An error message in case there was an error.
 #!
 #! @result FAILURE: The template has not been retrieved
 #! @result SUCCESS: The job template has been successfully retrieved
@@ -71,7 +74,7 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.redhat.ansible_tower.utils.search_and_replace:
+          io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${template_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
@@ -79,6 +82,7 @@ flow:
           - TemplateName: '${replaced_string}'
         navigate:
           - SUCCESS: connect_to_ansible_tower
+          - FAILURE: on_failure
     - connect_to_ansible_tower:
         worker_group:
           value: '${worker_group}'
@@ -107,6 +111,8 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
           - SUCCESS: filter_count_from_json
           - FAILURE: on_failure
@@ -144,6 +150,8 @@ flow:
   outputs:
     - template_id
     - json_output: '${json_output}'
+    - status_code
+    - error_message
   results:
     - FAILURE
     - SUCCESS

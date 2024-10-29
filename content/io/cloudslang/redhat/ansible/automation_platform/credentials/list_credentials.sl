@@ -40,7 +40,10 @@
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output Credentials: A comma-separated list of results
+#! @output credentials_list: A comma-separated list of all credentials and their id's.
+#! @output return_result: The response of the Ansible Automation Platform API request in case of success or the error message otherwise.
+#! @output status_code: The HTTP status code of the Ansible Automation Platform API request.
+#! @output error_message: An error message in case there was an error while retrieving the users list.
 #!
 #! @result FAILURE: Error in fetching credential list.
 #! @result SUCCESS: The  Credential list has been  successfully fetched in Ansible Automation Platform .
@@ -78,7 +81,7 @@ flow:
         default: RAS_Operator_Path
         required: false
   workflow:
-    - Get_all_Credentials:
+    - get_all_credentials:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -105,10 +108,12 @@ flow:
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
+          - error_message
+          - status_code
         navigate:
-          - SUCCESS: Get_array_of_IDs
+          - SUCCESS: get_array_of_ids
           - FAILURE: on_failure
-    - Get_array_of_IDs:
+    - get_array_of_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
@@ -118,9 +123,9 @@ flow:
           - output: "${return_result.strip('[').strip(']')}"
           - new_string: ''
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
           - FAILURE: on_failure
-    - Iterate_trough_IDs:
+    - iterate_through_ids:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.lists.list_iterator:
@@ -128,10 +133,10 @@ flow:
         publish:
           - list_item: '${result_string}'
         navigate:
-          - HAS_MORE: Get_CredentialName_from_ID
+          - HAS_MORE: get_credential_name_from_id
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
-    - Get_CredentialName_from_ID:
+    - get_credential_name_from_id:
         worker_group:
           value: '${worker_group}'
           override: true
@@ -153,61 +158,64 @@ flow:
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - worker_group: '${worker_group}'
         publish:
-          - Cred: '${return_result}'
+          - credentials: '${return_result}'
         navigate:
-          - SUCCESS: Filter_CredentialName_from_JSON
+          - SUCCESS: filter_credential_name_from_json
           - FAILURE: on_failure
-    - Filter_CredentialName_from_JSON:
+    - filter_credential_name_from_json:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${Cred}'
+            - json_object: '${credentials}'
             - json_path: $.name
         publish:
-          - cred_name: "${return_result.strip('\"')}"
+          - credential_name: "${return_result.strip('\"')}"
         navigate:
-          - SUCCESS: Add_items_to_list
+          - SUCCESS: add_items_to_list
           - FAILURE: on_failure
-    - Add_items_to_list:
+    - add_items_to_list:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${new_string}'
-            - text: "${list_item+','+cred_name+\"\\n\"}"
+            - text: "${list_item+','+credential_name+\"\\n\"}"
         publish:
-          - new_string
+          - credentials_list: '${new_string}'
         navigate:
-          - SUCCESS: Iterate_trough_IDs
+          - SUCCESS: iterate_through_ids
   outputs:
-    - credentials: '${new_string}'
+    - credentials_list: '${credentials_list}'
+    - return_result: '${json_output}'
+    - status_code: '${status_code}'
+    - error_message: '${error_message}'
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      Get_all_Credentials:
+      get_all_credentials:
         x: 40
         'y': 80
-      Get_array_of_IDs:
-        x: 216
-        'y': 91
-      Iterate_trough_IDs:
-        x: 426
-        'y': 87
+      get_array_of_ids:
+        x: 200
+        'y': 80
+      iterate_through_ids:
+        x: 440
+        'y': 80
         navigate:
           9b32e6af-61d5-f3b4-fe30-d5b72a38f613:
             targetId: 1ffd07c0-d987-2eba-f0d9-4112d7ba96e4
             port: NO_MORE
-      Get_CredentialName_from_ID:
+      get_credential_name_from_id:
         x: 425
         'y': 286
-      Filter_CredentialName_from_JSON:
+      filter_credential_name_from_json:
         x: 422
         'y': 472
-      Add_items_to_list:
-        x: 639
-        'y': 285
+      add_items_to_list:
+        x: 640
+        'y': 280
     results:
       SUCCESS:
         1ffd07c0-d987-2eba-f0d9-4112d7ba96e4:
