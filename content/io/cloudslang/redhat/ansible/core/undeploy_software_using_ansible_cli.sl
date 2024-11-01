@@ -209,7 +209,7 @@ flow:
             - ansible_password:
                 value: '${ansible_password}'
                 sensitive: true
-            - playbook: '${uninstall_software_playbook}'
+            - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
             - extra_vars: "${'ansible_user='+ansible_username+' ansible_password='+ansible_password}"
             - proxy_host: '${proxy_host}'
