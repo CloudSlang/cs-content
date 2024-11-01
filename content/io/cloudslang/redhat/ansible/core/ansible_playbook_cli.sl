@@ -116,6 +116,9 @@ flow:
     - worker_group: RAS_Operator_Path
   workflow:
     - contruct_ssh_command:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: 'ansible-playbook '
@@ -125,6 +128,9 @@ flow:
         navigate:
           - SUCCESS: check_subset_var
     - ssh_command:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.ssh.ssh_command:
             - host: '${ansible_host}'
@@ -158,6 +164,9 @@ flow:
           - SUCCESS: check_command_return_code
           - FAILURE: on_failure
     - check_command_return_code:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.math.compare_numbers:
             - value1: '${command_return_code}'
@@ -167,6 +176,9 @@ flow:
           - EQUALS: SUCCESS
           - LESS_THAN: something_went_wrong
     - something_went_wrong:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.do_nothing:
             - error_message: '${output}'
@@ -176,6 +188,9 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
     - check_subset_var:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${subset}'
@@ -184,6 +199,9 @@ flow:
           - IS_NULL: check_intentory_var
           - IS_NOT_NULL: append_subset
     - append_subset:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
@@ -193,6 +211,9 @@ flow:
         navigate:
           - SUCCESS: check_intentory_var
     - check_intentory_var:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${inventory}'
@@ -200,6 +221,9 @@ flow:
           - IS_NULL: check_tags
           - IS_NOT_NULL: append_inventory
     - append_inventory:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
@@ -209,6 +233,9 @@ flow:
         navigate:
           - SUCCESS: check_tags
     - append_tags:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
@@ -218,6 +245,9 @@ flow:
         navigate:
           - SUCCESS: check_extra_vars
     - check_tags:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${tags}'
@@ -225,6 +255,9 @@ flow:
           - IS_NULL: check_extra_vars
           - IS_NOT_NULL: append_tags
     - check_extra_vars:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${extra_vars}'
@@ -232,6 +265,9 @@ flow:
           - IS_NULL: check_additional_options
           - IS_NOT_NULL: append_extra_vars
     - append_extra_vars:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
@@ -243,6 +279,9 @@ flow:
         navigate:
           - SUCCESS: check_additional_options
     - check_additional_options:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${additional_options}'
@@ -250,6 +289,9 @@ flow:
           - IS_NULL: ssh_command
           - IS_NOT_NULL: append_additional_options
     - append_additional_options:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string:
