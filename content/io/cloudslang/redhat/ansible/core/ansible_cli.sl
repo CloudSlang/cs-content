@@ -58,8 +58,14 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output stdout: The output of the command.
+#! @output stdout: STDOUT of the machine in case of successful request, null otherwise.
+#! @output stderr: STDERR of the machine in case of successful request, null otherwise.
 #! @output error_message: An error message in case of failure.
+#! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute.
 #!
 #! @result FAILURE: There was an error while executing the flow.
 #! @result SUCCESS: The flow executed successfully.
@@ -159,6 +165,9 @@ flow:
         publish:
           - output: '${return_result}'
           - command_return_code
+          - standard_err
+          - command_return_code
+          - error_message: '${exception}'
         navigate:
           - SUCCESS: check_command_return_code
           - FAILURE: on_failure
@@ -322,6 +331,8 @@ flow:
   outputs:
     - error_message: '${error_message}'
     - stdout: '${output}'
+    - stderr: '${standard_err}'
+    - command_return_code: '${command_return_code}'
   results:
     - SUCCESS
     - FAILURE
