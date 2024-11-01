@@ -246,7 +246,7 @@ flow:
                 sensitive: true
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
-            - extra_vars: "${'ansible_user='+ansible_username+'ansible_ssh_private_key_file='+target_private_key_file}"
+            - extra_vars: "${'ansible_user='+ansible_username+' ansible_ssh_private_key_file='+target_private_key_file}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
