@@ -30,7 +30,7 @@
 #! @input target_username: The username of the target host.
 #! @input target_password: Optional - The password of the target host.
 #! @input target_private_key_file: Optional - Path to the target host private key file (OpenSSH type) on the machine where is the worker.
-#                                  For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'target_password' input.
+#!                                 For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'target_password' input.
 #! @input proxy_host: Optional - Proxy server used to access the host.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
