@@ -26,19 +26,22 @@
 #!                       Example: postgres
 #! @input directory_path: The directory path where the new inventory file will be saved.
 #!                        Example: /etc/ansible
+#! @input target_group: Optional - The target group oh hosts in Ansible's inventory.
 #! @input target_host: The IP address of the target host, or a comma-separated list of IP addresses.
 #! @input target_username: The username of the target host.
 #! @input target_password: Optional - The password of the target host.
+#! @input target_private_key_file: Optional -  Optional - Path to the target host private key file (OpenSSH type) on the machine where is the worker.
+#!                                 For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'target_password' input.
 #! @input proxy_host: Optional - Proxy server used to access the host.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
 #! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
 #! @input private_key_file: Optional - Path to private key file (OpenSSH type) on the machine where is the worker.
-#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'password' input.
+#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'ansible_password' input.
 #! @input private_key_data: Optional - A string representing the private key (OpenSSH type) used for authenticating the user. This string is usually the content of a private key file.
 #!                          The 'privateKeyData' and the 'privateKeyFile' inputs are mutually exclusive.
-#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'target_password' input.
+#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'ansible_password' input.
 #! @input timeout: Time in milliseconds to wait for the ssh commands to complete.
 #!                 Default: '90000'
 #!                 Optional
@@ -75,14 +78,13 @@ flow:
     - software_name
     - directory_path
     - target_username
+    - target_group:
+        required: false
     - target_host
     - target_password:
         required: false
         sensitive: true
     - target_private_key_file:
-        required: false
-    - target_group:
-        default: webservers
         required: false
     - proxy_host:
         required: false
