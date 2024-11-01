@@ -126,6 +126,9 @@ flow:
         required: false
   workflow:
     - get_first_host:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.get_by_index:
             - list: '${target_host}'
@@ -137,6 +140,9 @@ flow:
           - SUCCESS: append_target_host
           - FAILURE: on_failure
     - target_password_is_null:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${target_password}'
@@ -144,6 +150,9 @@ flow:
           - IS_NULL: target_private_key_is_null
           - IS_NOT_NULL: target_private_key_is_null_1
     - append_target_host:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${directory_path}'
@@ -153,6 +162,9 @@ flow:
         navigate:
           - SUCCESS: append_software_name
     - append_software_name:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${inventory_file_path}'
@@ -163,6 +175,9 @@ flow:
         navigate:
           - SUCCESS: target_group_is_null
     - ssh_command:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.ssh.ssh_command:
             - host: '${ansible_host}'
@@ -193,6 +208,9 @@ flow:
           - SUCCESS: target_password_is_null
           - FAILURE: on_failure
     - append_group:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${inventory_content}'
@@ -202,6 +220,9 @@ flow:
         navigate:
           - SUCCESS: list_iterator
     - target_group_is_null:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${target_group}'
@@ -209,6 +230,9 @@ flow:
           - IS_NULL: list_iterator
           - IS_NOT_NULL: append_group
     - ansible_playbook_cli_with_target_password:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.redhat.ansible.core.ansible_playbook_cli:
             - ansible_host: '${ansible_host}'
@@ -243,6 +267,9 @@ flow:
           - SUCCESS: iterate_playbooks
           - FAILURE: on_failure
     - ansible_playbook_cli_with_private_key:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.redhat.ansible.core.ansible_playbook_cli:
             - ansible_host: '${ansible_host}'
@@ -275,6 +302,9 @@ flow:
           - SUCCESS: iterate_playbooks_2
           - FAILURE: on_failure
     - target_private_key_is_null:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${target_private_key_file}'
@@ -282,6 +312,9 @@ flow:
           - IS_NULL: return_error
           - IS_NOT_NULL: iterate_playbooks_2
     - return_error:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.do_nothing: []
         publish:
@@ -290,6 +323,9 @@ flow:
           - SUCCESS: FAILURE
           - FAILURE: on_failure
     - target_private_key_is_null_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.utils.is_null:
             - variable: '${target_private_key_file}'
@@ -297,6 +333,9 @@ flow:
           - IS_NULL: iterate_playbooks
           - IS_NOT_NULL: iterate_playbooks_1
     - ansible_playbook_cli_with_private_key_and_passphrase:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.redhat.ansible.core.ansible_playbook_cli:
             - ansible_host: '${ansible_host}'
@@ -331,6 +370,9 @@ flow:
           - SUCCESS: iterate_playbooks_1
           - FAILURE: on_failure
     - iterate_playbooks_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${install_software_playbook}'
@@ -341,6 +383,9 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - iterate_playbooks:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${install_software_playbook}'
@@ -351,6 +396,9 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - iterate_playbooks_2:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${install_software_playbook}'
@@ -361,6 +409,9 @@ flow:
           - NO_MORE: SUCCESS
           - FAILURE: on_failure
     - list_iterator:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.lists.list_iterator:
             - list: '${target_host}'
@@ -371,6 +422,9 @@ flow:
           - NO_MORE: ssh_command
           - FAILURE: on_failure
     - append_host_element:
+        worker_group:
+          value: '${worker_group}'
+          override: true
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${inventory_content}'
