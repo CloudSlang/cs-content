@@ -66,7 +66,7 @@
 #! @result SUCCESS: The flow executed successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.core.ansible_cli
+namespace: io.cloudslang.redhat.ansible.core
 flow:
   name: ansible_playbook_cli
   inputs:
