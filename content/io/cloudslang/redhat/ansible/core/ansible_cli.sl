@@ -166,8 +166,8 @@ flow:
           - output: '${return_result}'
           - command_return_code
           - standard_err
-          - command_return_code
           - error_message: '${exception}'
+          - standard_out
         navigate:
           - SUCCESS: check_command_return_code
           - FAILURE: on_failure
@@ -330,7 +330,7 @@ flow:
           - SUCCESS: ssh_command
   outputs:
     - error_message: '${error_message}'
-    - stdout: '${output}'
+    - stdout: '${standard_out}'
     - stderr: '${standard_err}'
     - command_return_code: '${command_return_code}'
   results:

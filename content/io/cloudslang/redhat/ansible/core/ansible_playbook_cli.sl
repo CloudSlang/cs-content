@@ -150,6 +150,7 @@ flow:
                 sensitive: true
         publish:
           - output: '${return_result}'
+          - error_message: '${exception}'
           - command_return_code
           - standard_err
           - standard_out
