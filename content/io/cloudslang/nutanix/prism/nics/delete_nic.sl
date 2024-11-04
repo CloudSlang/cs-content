@@ -206,7 +206,7 @@ operation:
         private: true 
     
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.10-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.10'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.nics.DeleteNIC'
     method_name: 'execute'
   
