@@ -36,10 +36,10 @@
 #! @input proxy_username: Optional - Username used when connecting to the proxy.
 #! @input proxy_password: Optional - Proxy server password associated with the proxy_username input value.
 #! @input private_key_file: Optional - Path to private key file (OpenSSH type) on the machine where is the worker.
-#!                         For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'password' input.
+#!                         For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'ansible_password' input.
 #! @input private_key_data: Optional - A string representing the private key (OpenSSH type) used for authenticating the user. This string is usually the content of a private key file.
 #!                          The 'privateKeyData' and the 'privateKeyFile' inputs are mutually exclusive.
-#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'password' input.
+#!                          For security reasons it is recommended that the private key be protected by a passphrase that should be provided through the 'ansible_password' input.
 #! @input known_hosts_policy: The policy used for managing known_hosts file.
 #!                            Valid values: 'allow', 'strict', 'add'
 #!                            Default value: 'allow'
@@ -58,14 +58,20 @@
 #! @input worker_group: Optional - When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
 #!
-#! @output stdout: The output of the command.
+#! @output stdout: STDOUT of the machine in case of successful request, null otherwise.
+#! @output stderr: STDERR of the machine in case of successful request, null otherwise.
 #! @output error_message: An error message in case of failure.
+#! @output command_return_code: The return code of the remote command corresponding to the SSH channel. The return code is
+#!                              only available for certain types of channels, and only after the channel was closed
+#!                              (more exactly, just before the channel is closed).
+#!                              Examples: '0' for a successful command, '-1' if the command was not yet terminated (or this
+#!                              channel type has no command), '126' if the command cannot execute.
 #!
 #! @result FAILURE: There was an error while executing the flow.
 #! @result SUCCESS: The flow executed successfully.
 #!!#
 ########################################################################################################################
-namespace: io.cloudslang.redhat.ansible.core.ansible_cli
+namespace: io.cloudslang.redhat.ansible.core
 flow:
   name: ansible_cli
   inputs:
@@ -159,6 +165,9 @@ flow:
         publish:
           - output: '${return_result}'
           - command_return_code
+          - standard_err
+          - error_message: '${exception}'
+          - standard_out
         navigate:
           - SUCCESS: check_command_return_code
           - FAILURE: on_failure
@@ -321,7 +330,9 @@ flow:
           - SUCCESS: ssh_command
   outputs:
     - error_message: '${error_message}'
-    - stdout: '${output}'
+    - stdout: '${standard_out}'
+    - stderr: '${standard_err}'
+    - command_return_code: '${command_return_code}'
   results:
     - SUCCESS
     - FAILURE
