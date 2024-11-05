@@ -147,7 +147,7 @@ flow:
           - template_id_new: '${template_id}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: run_job_with_template
+          - SUCCESS: attach_credentials_to_job_template
     - delete_host:
         worker_group:
           value: '${worker_group}'
@@ -381,6 +381,35 @@ flow:
         navigate:
           - SUCCESS: delete_host
           - FAILURE: on_failure
+    - attach_credentials_to_job_template:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.job_templates.attach_credentials_to_job_template:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - template_id: '${template_id_new}'
+            - credential_id: '${credential_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: run_job_with_template
   results:
     - FAILURE
     - SUCCESS
@@ -390,6 +419,9 @@ extensions:
       remove_job:
         x: 720
         'y': 120
+      attach_credentials_to_job_template:
+        x: 280
+        'y': 280
       wait_for_final_job_result:
         x: 240
         'y': 480
