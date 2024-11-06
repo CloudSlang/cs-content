@@ -166,7 +166,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.9-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.9'
     class_name: 'io.cloudslang.content.oracle.oci.actions.vnics.GetVnicDetails'
     method_name: 'execute'
 
