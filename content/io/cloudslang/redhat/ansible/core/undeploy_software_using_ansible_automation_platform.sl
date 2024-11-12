@@ -67,7 +67,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.core
 flow:
-  name: undeploy_software_using_ansible_cli
+  name: undeploy_software_using_ansible_automation_platform
   inputs:
     - ansible_host
     - ansible_username
