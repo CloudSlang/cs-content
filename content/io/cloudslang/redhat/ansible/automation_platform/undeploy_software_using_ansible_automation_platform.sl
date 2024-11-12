@@ -54,7 +54,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform
 flow:
-  name: deploy_software_using_ansible_automation_platform
+  name: undeploy_software_using_ansible_automation_platform
   inputs:
     - ansible_automation_platform_url
     - ansible_automation_platform_username
