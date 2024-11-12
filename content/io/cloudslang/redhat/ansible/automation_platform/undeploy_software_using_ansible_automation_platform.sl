@@ -13,26 +13,19 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This flow will deploy software on Ansible Automation Platform.
+#! @description: This flow will uninstall software from the Ansible Automation Platform.
 #!
 #! @input ansible_automation_platform_url: Ansible Tower API URL to connect to (example: https://192.168.10.10/api/v2)
 #! @input ansible_automation_platform_username: Username to connect to Ansible Tower
-#! @input ansible_automation_platform_password: Password used to connect to Ansible Tower
-#! @input org_id: Organization ID (Integer)
-#! @input inventory_name: Name of the new inventory to create (string)
-#! @input host_name: FQDN or ip address if the host to add (string)
-#! @input host_description: Description of the host (optional)
-#! @input credential_id: Enter the Id of the credentials store (integer)
+#! @input ansible_automation_platform_password: Password used to connect to Ansible Automation Platform.
+#! @input job_id: Id (integer) of the Job to delete.
+#! @input inventory_id: Id (integer) of the Inventory to delete.
+#! @input template_id: Id (integer) of the Job Template to delete.
+#! @input host_id: Id (integer) of the Host to delete.
 #! @input project_id: Enter the project ID number (integer)
-#! @input template_name: Enter the name of the job template to create (string)
+#! @input credential_id: Enter the Id of the credentials store (integer)
 #! @input playbook: Enter the name of the playbook to run (string)
-#! @input extra_vars: (optional) Enter extra vars (example: tipo: /ansible/prodotti/F_Tomcat-9)
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
-#!                         Default: 'false'
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
-#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
-#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
-#!                                 Default: 'strict'
+#! @input template_name: The name (string) of the Ansible Automation Platform Job Template component that you want to create (example: "Demo Template")
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port.
 #!                    Default: '8080'
@@ -46,14 +39,14 @@
 #!                        Format: Java KeyStore (JKS)
 #! @input trust_password: Optional - The password associated with the trust_keystore file. If trust_all_roots is false
 #!                        and trust_keystore is empty, trust_password default will be supplied.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL.
+#!                         Default: 'false'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's
+#!                                 Common Name (CN) or subjectAltName field of the X.509 certificate.
+#!                                 Valid: 'strict', 'browser_compatible', 'allow_all'
+#!                                 Default: 'strict'
 #! @input worker_group: When a worker group name is specified in this input, all the steps of the flow run on that worker group.
 #!                      Default: 'RAS_Operator_Path'
-#!
-#! @output inventory_id: The id (integer) of the inventory_id.
-#! @output job_id: The id (integer) of the job.
-#! @output job_status: The id (integer) of the job status.
-#! @output template_id: The id (integer) of the template_id.
-#! @output host_id: The id (integer) of the new host.
 #!
 #! @result FAILURE: There was an error while executing the flow.
 #! @result SUCCESS: The flow was executed successfully.
@@ -61,31 +54,21 @@
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.automation_platform
 flow:
-  name: deploy_software_using_ansible
+  name: deploy_software_using_ansible_automation_platform
   inputs:
     - ansible_automation_platform_url
     - ansible_automation_platform_username
     - ansible_automation_platform_password:
         sensitive: true
-    - org_id
-    - inventory_name
-    - host_name
-    - host_description:
-        default: ' '
-        required: false
-    - credential_id
+    - job_id
+    - inventory_id
+    - template_id
+    - host_id
     - project_id
-    - template_name
+    - credential_id:
+        required: true
     - playbook
-    - extra_vars:
-        default: ' '
-        required: false
-    - trust_all_roots:
-        default: 'false'
-        required: false
-    - x_509_hostname_verifier:
-        default: strict
-        required: false
+    - template_name
     - proxy_host:
         required: false
     - proxy_port:
@@ -100,6 +83,12 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - trust_all_roots:
+        default: 'false'
+        required: false
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
     - worker_group:
         default: RAS_Operator_Path
         required: false
@@ -115,37 +104,16 @@ flow:
         navigate:
           - SUCCESS: append_inventory_name_prefix
           - FAILURE: on_failure
-    - create_inventory:
-        worker_group:
-          value: '${worker_group}'
-          override: true
+    - append_inventory_name_prefix:
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.redhat.ansible.automation_platform.inventories.create_inventory:
-            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
-            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
-            - ansible_automation_platform_password:
-                value: '${ansible_automation_platform_password}'
-                sensitive: true
-            - inventory_name: '${inventory_name_number}'
-            - org_id: '${org_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
+          io.cloudslang.base.strings.append:
+            - origin_string: '${template_name}'
+            - text: '${random_number}'
         publish:
-          - inventory_id
+          - final_template_name: '${new_string}'
         navigate:
-          - FAILURE: on_failure
-          - SUCCESS: append_inventory_name_prefix_1
+          - SUCCESS: create_job_template
     - create_job_template:
         worker_group:
           value: '${worker_group}'
@@ -176,72 +144,66 @@ flow:
                 sensitive: true
             - worker_group: '${worker_group}'
         publish:
-          - template_id
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: attach_credentials_to_job_template
-    - attach_credentials_to_job_template:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.redhat.ansible.automation_platform.job_templates.attach_credentials_to_job_template:
-            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
-            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
-            - ansible_automation_platform_password:
-                value: '${ansible_automation_platform_password}'
-                sensitive: true
-            - template_id: '${template_id}'
-            - credential_id: '${credential_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - worker_group: '${worker_group}'
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: create_host
-    - create_host:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.redhat.ansible.automation_platform.hosts.create_host:
-            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
-            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
-            - ansible_automation_platform_password:
-                value: '${ansible_automation_platform_password}'
-                sensitive: true
-            - host_name: '${host_name}'
-            - inventory: '${inventory_id}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - worker_group: '${worker_group}'
-        publish:
-          - host_id
+          - template_id_new: '${template_id}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: run_job_with_template
-    - run_job_with_template:
+    - delete_host:
         worker_group:
           value: '${worker_group}'
           override: true
         do:
-          io.cloudslang.redhat.ansible.automation_platform.jobs.run_job_with_template:
+          io.cloudslang.redhat.ansible.automation_platform.hosts.delete_host:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - host_id: '${host_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - worker_group: '${worker_group}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password: '${trust_password}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_job_template
+    - delete_inventory:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.inventories.delete_inventory:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - inventory_id: '${inventory_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: remove_job
+    - delete_job_template:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.job_templates.delete_job_template:
             - ansible_automation_platform_url: '${ansible_automation_platform_url}'
             - ansible_automation_platform_username: '${ansible_automation_platform_username}'
             - ansible_automation_platform_password:
@@ -261,14 +223,37 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - worker_group: '${worker_group}'
-        publish:
-          - job_id
-          - return_result
-          - error_message
-          - status_code
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: wait_for_final_job_result
+          - SUCCESS: remove_job_template
+    - remove_job:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.jobs.remove_job:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - job_id: '${job_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_job
     - wait_for_final_job_result:
         worker_group:
           value: '${worker_group}'
@@ -298,73 +283,153 @@ flow:
           - job_status
         navigate:
           - FAILURE: on_failure
+          - SUCCESS: sleep
+    - run_job_with_template:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.jobs.run_job_with_template:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - template_id: '${template_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        publish:
+          - final_job_id: '${job_id}'
+          - return_result
+          - error_message
+          - status_code
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: wait_for_final_job_result
+    - delete_job:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.jobs.remove_job:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - job_id: '${final_job_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: on_failure
           - SUCCESS: SUCCESS
-    - append_inventory_name_prefix:
+    - remove_job_template:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.job_templates.delete_job_template:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - template_id: '${template_id_new}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: delete_inventory
+    - sleep:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.append:
-            - origin_string: '${inventory_name}'
-            - text: '${random_number}'
-        publish:
-          - inventory_name_number: '${new_string}'
+          io.cloudslang.base.utils.sleep:
+            - seconds: '60'
         navigate:
-          - SUCCESS: create_inventory
-    - append_inventory_name_prefix_1:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.append:
-            - origin_string: '${template_name}'
-            - text: '${random_number}'
-        publish:
-          - final_template_name: '${new_string}'
-        navigate:
-          - SUCCESS: create_job_template
-  outputs:
-    - inventory_id: '${inventory_id}'
-    - job_id: '${job_id}'
-    - job_status: '${job_status}'
-    - template_id: '${template_id}'
-    - host_id: '${host_id}'
+          - SUCCESS: delete_host
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
 extensions:
   graph:
     steps:
-      attach_credentials_to_job_template:
-        x: 440
-        'y': 280
-      wait_for_final_job_result:
+      remove_job:
         x: 720
-        'y': 80
+        'y': 120
+      wait_for_final_job_result:
+        x: 240
+        'y': 480
+      delete_inventory:
+        x: 600
+        'y': 120
+      delete_job:
+        x: 880
+        'y': 120
         navigate:
-          beb94aed-6bd2-9ac3-f564-7ee200e9e014:
-            targetId: 9f7dee26-ad4b-d780-a29f-682178d06d70
+          be9d2db4-1e06-ac4a-6b6b-376e427406b6:
+            targetId: d07b125f-d315-af3c-906d-19c62dc2197a
             port: SUCCESS
-      create_host:
-        x: 440
-        'y': 80
-      append_inventory_name_prefix_1:
-        x: 280
+      delete_job_template:
+        x: 760
+        'y': 480
+      remove_job_template:
+        x: 600
+        'y': 280
+      sleep:
+        x: 400
         'y': 480
       random_number_generator:
         x: 80
-        'y': 80
-      create_inventory:
-        x: 80
+        'y': 120
+      delete_host:
+        x: 600
         'y': 480
       run_job_with_template:
-        x: 560
-        'y': 80
-      append_inventory_name_prefix:
         x: 80
-        'y': 280
-      create_job_template:
-        x: 440
         'y': 480
+      append_inventory_name_prefix:
+        x: 280
+        'y': 120
+      create_job_template:
+        x: 480
+        'y': 120
     results:
       SUCCESS:
-        9f7dee26-ad4b-d780-a29f-682178d06d70:
-          x: 840
-          'y': 80
+        d07b125f-d315-af3c-906d-19c62dc2197a:
+          x: 1120
+          'y': 120
 
