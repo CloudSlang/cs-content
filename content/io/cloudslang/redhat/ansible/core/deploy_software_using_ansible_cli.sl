@@ -76,7 +76,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.redhat.ansible.core
 flow:
-  name: deploy_software_using_ansible_automation_platform
+  name: deploy_software_using_ansible_cli
   inputs:
     - ansible_host
     - ansible_username
