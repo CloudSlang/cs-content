@@ -216,7 +216,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.8'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.9'
     class_name: 'io.cloudslang.content.sharepoint.actions.permissions.UpdatePermission'
     method_name: 'execute'
 

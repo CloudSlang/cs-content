@@ -191,7 +191,7 @@ operation:
         private: true 
 
   java_action: 
-    gav: 'io.cloudslang.content:cs-openshift:0.0.8'
+    gav: 'io.cloudslang.content:cs-openshift:0.0.9'
     class_name: 'io.cloudslang.content.redhat.actions.GetRouteList'
     method_name: 'execute'
   
