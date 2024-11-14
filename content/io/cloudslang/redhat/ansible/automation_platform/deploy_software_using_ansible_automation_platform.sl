@@ -22,7 +22,9 @@
 #! @input inventory_name: Name of the new inventory to create (string)
 #! @input host_name: FQDN or ip address if the host to add (string)
 #! @input host_description: Description of the host (optional)
-#! @input credential_id: Enter the Id of the credentials store (integer)
+#! @input credential_id: Optional - Enter the Id of the credentials store (integer)
+#! @input target_user: Optional - The username of instance or virtual machine.
+#! @input target_password: Optional - The password of instance or virtual machine.
 #! @input project_id: Enter the project ID number (integer)
 #! @input template_name: Enter the name of the job template to create (string)
 #! @input playbook: Enter the name of the playbook to run (string)
@@ -73,7 +75,13 @@ flow:
     - host_description:
         default: ' '
         required: false
-    - credential_id
+    - credential_id:
+        required: false
+    - target_user:
+        required: false
+    - target_password:
+        required: false
+        sensitive: true
     - project_id
     - template_name
     - playbook
@@ -179,7 +187,7 @@ flow:
           - template_id
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: attach_credentials_to_job_template
+          - SUCCESS: is_credential_id_empty
     - attach_credentials_to_job_template:
         worker_group:
           value: '${worker_group}'
@@ -319,6 +327,54 @@ flow:
           - final_template_name: '${new_string}'
         navigate:
           - SUCCESS: create_job_template
+    - is_credential_id_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${credential_id}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: Create_new_Credential
+          - FAILURE: attach_credentials_to_job_template
+    - Create_new_Credential:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.http.http_client_post:
+            - url: "${ansible_automation_platform_url+'/credentials/'}"
+            - auth_type: basic
+            - username: '${ansible_automation_platform_username}'
+            - password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - headers: 'Content-Type:application/json'
+            - body: "${'{'+\\\n'   \"name\": \"'+host_name+'_credentials\",'+\\\n'   \"description\": \"\",'+\\\n'   \"organization\": '+org_id+','+\\\n'   \"credential_type\": 1,'+\\\n'   \"inputs\": {\"username\":\"'+target_user+'\",\"password\":\"'+target_password+'\"},'+\\\n'   \"user\": null,'+\\\n'   \"team\": null'+\\\n'}'}"
+            - worker_group: '${worker_group}'
+        publish:
+          - json_output: '${return_result}'
+        navigate:
+          - SUCCESS: get_new_credential_id
+          - FAILURE: on_failure
+    - get_new_credential_id:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${json_output}'
+            - json_path: $.id
+        publish:
+          - credential_id: '${return_result}'
+        navigate:
+          - SUCCESS: attach_credentials_to_job_template
+          - FAILURE: on_failure
   outputs:
     - inventory_id: '${inventory_id}'
     - job_id: '${job_id}'
@@ -332,39 +388,47 @@ extensions:
   graph:
     steps:
       attach_credentials_to_job_template:
-        x: 440
-        'y': 280
-      wait_for_final_job_result:
         x: 720
+        'y': 240
+      wait_for_final_job_result:
+        x: 1000
         'y': 80
         navigate:
           beb94aed-6bd2-9ac3-f564-7ee200e9e014:
             targetId: 9f7dee26-ad4b-d780-a29f-682178d06d70
             port: SUCCESS
       create_host:
-        x: 440
+        x: 720
         'y': 80
       append_inventory_name_prefix_1:
-        x: 280
-        'y': 480
+        x: 560
+        'y': 80
       random_number_generator:
         x: 80
         'y': 80
       create_inventory:
-        x: 80
-        'y': 480
-      run_job_with_template:
+        x: 400
+        'y': 80
+      Create_new_Credential:
+        x: 720
+        'y': 440
+      get_new_credential_id:
+        x: 880
+        'y': 320
+      is_credential_id_empty:
         x: 560
+        'y': 440
+      run_job_with_template:
+        x: 840
         'y': 80
       append_inventory_name_prefix:
-        x: 80
-        'y': 280
+        x: 240
+        'y': 80
       create_job_template:
-        x: 440
-        'y': 480
+        x: 560
+        'y': 240
     results:
       SUCCESS:
         9f7dee26-ad4b-d780-a29f-682178d06d70:
-          x: 840
+          x: 1120
           'y': 80
-
