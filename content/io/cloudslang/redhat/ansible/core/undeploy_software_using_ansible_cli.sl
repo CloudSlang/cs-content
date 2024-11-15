@@ -211,7 +211,7 @@ flow:
                 sensitive: true
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
-            - extra_vars: "${'ansible_user='+ansible_username+' ansible_password='+ansible_password}"
+            - extra_vars: "${'ansible_user='+ansible_username+' ansible_password='+ansible_password+' ansible_become_password='+target_password}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
