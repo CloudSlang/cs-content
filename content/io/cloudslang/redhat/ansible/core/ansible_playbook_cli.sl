@@ -22,6 +22,7 @@
 #! @input playbook: The path of the playbook to be executed.
 #! @input inventory: Optional - specify inventory host path or comma separated host list. If empty Ansible will look
 #!                              for the default inventory location defined in the Ansible configuration file
+#! @input target_username: The username of the target host.
 #! @input subset: Optional - further limit selected hosts to an additional pattern.
 #! @input tags: Optional - Only run plays and tasks tagged with these values.
 #! @input extra_vars: Optional - set additional variables as key=value or YAML/JSON, if filename prepend with @.
@@ -77,6 +78,7 @@ flow:
     - playbook
     - inventory:
         required: false
+    - target_username
     - subset:
         required: false
     - tags:
@@ -227,7 +229,7 @@ flow:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
-            - text: "${' -i '+inventory}"
+            - text: "${' -i '+inventory+' -u '+target_username}"
         publish:
           - ssh_command: '${new_string}'
         navigate:
