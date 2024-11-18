@@ -227,7 +227,7 @@ flow:
         do:
           io.cloudslang.base.strings.append:
             - origin_string: '${ssh_command}'
-            - text: "${' -i '+inventory}"
+            - text: "${' -i '+inventory+' -u '+ansible_username}"
         publish:
           - ssh_command: '${new_string}'
         navigate:
