@@ -381,6 +381,7 @@ flow:
     - job_status: '${job_status}'
     - template_id: '${template_id}'
     - host_id: '${host_id}'
+    - new_credential_id: '${credential_id}'
   results:
     - FAILURE
     - SUCCESS
