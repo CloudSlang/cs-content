@@ -242,8 +242,9 @@ flow:
                 sensitive: true
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
+            - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_user='+target_username+' ansible_password='+target_password}"
+                value: "${'ansible_password='+target_password+' ansible_become_password='+target_password}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -279,7 +280,8 @@ flow:
                 sensitive: true
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
-            - extra_vars: "${'ansible_user='+ansible_username+' ansible_ssh_private_key_file='+target_private_key_file}"
+            - target_username: '${target_username}'
+            - extra_vars: "${'ansible_ssh_private_key_file='+target_private_key_file}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -345,8 +347,9 @@ flow:
                 sensitive: true
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
+            - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_user='+ansible_username+' ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password}"
+                value: "${'ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
