@@ -90,7 +90,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-vmware:0.0.35-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.35'
     class_name: io.cloudslang.content.vmware.actions.vm.utils.GetOSDescriptors
     method_name: getOsDescriptors
 
