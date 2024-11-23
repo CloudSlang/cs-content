@@ -214,6 +214,8 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - worker_group: '${worker_group}'
+        publish:
+          - credential_id
         navigate:
           - FAILURE: on_failure
           - SUCCESS: create_host
