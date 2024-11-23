@@ -383,7 +383,7 @@ flow:
           io.cloudslang.redhat.ansible.automation_platform.samples.convert_json_to_string:
             - extra_vars: '${extra_vars}'
         publish:
-          - extra_vars: '${extra_variables}'
+          - extra_vars: "${extra_variables.strip('\"')}"
         navigate:
           - SUCCESS: create_job_template
     - is_extra_vars_empty:
