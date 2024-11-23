@@ -20,7 +20,7 @@
 #! @output extra_variables: Extra variables with indented format.
 #!!#
 ########################################################################################################################
-namespace: test
+namespace: io.cloudslang.redhat.ansible.automation_platform.samples
 operation:
   name: convert_json_to_string
   inputs:
