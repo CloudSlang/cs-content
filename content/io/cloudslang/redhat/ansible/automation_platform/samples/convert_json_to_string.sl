@@ -28,15 +28,11 @@ operation:
   python_action:
     use_jython: false
     script: |-
-      # do not remove the execute function
       import json
       def execute(extra_vars):
           json_body = {
           "extra_vars": json.dumps(extra_vars) }
           return{"extra_variables":json.dumps(extra_vars, indent=2)}
-
-          # code goes here
-      # you can add additional helper methods below.
   outputs:
     - extra_variables
   results:
