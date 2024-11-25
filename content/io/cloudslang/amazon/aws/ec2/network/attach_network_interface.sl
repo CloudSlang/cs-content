@@ -125,7 +125,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.59'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.60'
     class_name: io.cloudslang.content.amazon.actions.network.AttachNetworkInterfaceAction
     method_name: execute
 
