@@ -175,6 +175,7 @@ flow:
             - trust_password: '${trust_password}'
         publish:
           - output_variable_key_list: '${output_variable_key_list}'
+          - component_id
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
@@ -183,6 +184,7 @@ flow:
     - tf_template_workspace_id
     - tf_template_vcs_repo_identifier
     - output_variable_key_list
+    - component_id
   results:
     - FAILURE
     - SUCCESS
