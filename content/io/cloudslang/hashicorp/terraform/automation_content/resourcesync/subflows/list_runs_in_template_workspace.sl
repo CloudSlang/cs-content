@@ -63,7 +63,8 @@ flow:
   name: list_runs_in_template_workspace
   inputs:
     - tf_template_workspace_id
-    - tf_user_auth_token
+    - tf_user_auth_token:
+        sensitive: true
     - proxy_host:
         required: false
     - proxy_port:
@@ -130,7 +131,7 @@ flow:
         publish:
           - plan_details: '${return_result}'
         navigate:
-          - SUCCESS: get_tf_output_variable
+          - SUCCESS: get_tf_input_variable
           - FAILURE: on_failure
     - get_tf_output_variable:
         worker_group: '${worker_group}'
@@ -162,35 +163,127 @@ flow:
           - output_variable_key_list: '${output_variable_key_list}'
         navigate:
           - SUCCESS: SUCCESS
+    - get_tf_input_variable:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.get_value:
+            - json_input: '${plan_details}'
+            - json_path: variables
+        publish:
+          - input_variable_list: '${return_result}'
+        navigate:
+          - SUCCESS: json_path_query
+          - FAILURE: on_failure
+    - json_path_query:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${input_variable_list}'
+            - json_path: $.component_type.value
+        publish:
+          - component_type: '${return_result}'
+        navigate:
+          - SUCCESS: is_component_type_empty
+          - FAILURE: set_terraform_component_type
+    - is_component_type_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${component_type}'
+        navigate:
+          - SUCCESS: set_terraform_component_type
+          - FAILURE: is_component_type_is_server
+    - set_terraform_component_type:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - component_id: bb9cb58417414d618ece96e43911dba2
+        publish:
+          - component_id
+        navigate:
+          - SUCCESS: get_tf_output_variable
+          - FAILURE: on_failure
+    - is_component_type_is_server:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: "${component_type.strip('\"')}"
+            - second_string: SERVER
+            - ignore_case: 'true'
+        navigate:
+          - SUCCESS: set_server_component_type
+          - FAILURE: set_database_component_type
+    - set_server_component_type:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - component_id: 2c9080c17a15fac1017a15fb0ce00033
+        publish:
+          - component_id
+        navigate:
+          - SUCCESS: get_tf_output_variable
+          - FAILURE: on_failure
+    - set_database_component_type:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - component_id: 2c9080c17a15fac1017a15fb697a00ac
+        publish:
+          - component_id
+        navigate:
+          - SUCCESS: get_tf_output_variable
+          - FAILURE: on_failure
   outputs:
     - output_variable_key_list
+    - component_id
   results:
     - SUCCESS
     - FAILURE
 extensions:
   graph:
     steps:
-      list_runs_in_template_workspace:
-        x: 120
-        'y': 120
-      show_plan_details:
-        x: 440
-        'y': 120
-      get_tf_output_variable:
-        x: 560
-        'y': 120
-      get_run_id_and_plan_id_python:
-        x: 280
-        'y': 120
-      get_output_variable_python:
+      set_database_component_type:
+        x: 1000
+        'y': 280
+      set_terraform_component_type:
+        x: 680
+        'y': 280
+      json_path_query:
         x: 680
         'y': 120
+      is_component_type_is_server:
+        x: 1000
+        'y': 120
+      get_output_variable_python:
+        x: 1000
+        'y': 440
         navigate:
           f42f973e-8947-b0e3-5760-7ff3afe3f8de:
             targetId: fb1b6ee0-e090-bf53-a6b8-3ce4a61afe14
             port: SUCCESS
+      show_plan_details:
+        x: 360
+        'y': 120
+      list_runs_in_template_workspace:
+        x: 40
+        'y': 120
+      get_tf_input_variable:
+        x: 520
+        'y': 120
+      get_tf_output_variable:
+        x: 840
+        'y': 440
+      get_run_id_and_plan_id_python:
+        x: 200
+        'y': 120
+      set_server_component_type:
+        x: 840
+        'y': 280
+      is_component_type_empty:
+        x: 840
+        'y': 120
     results:
       SUCCESS:
         fb1b6ee0-e090-bf53-a6b8-3ce4a61afe14:
-          x: 800
-          'y': 120
+          x: 1160
+          'y': 440
