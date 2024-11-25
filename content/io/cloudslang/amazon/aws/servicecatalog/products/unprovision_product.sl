@@ -171,7 +171,7 @@ operation:
         private: true 
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-amazon:1.0.59'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.60-SNAPSHOT'
     class_name: 'io.cloudslang.content.amazon.actions.servicecatalog.UnprovisionProductAction'
     method_name: 'execute'
   
