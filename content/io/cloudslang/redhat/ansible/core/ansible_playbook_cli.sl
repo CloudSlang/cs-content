@@ -113,7 +113,7 @@ flow:
         default: '600000'
         required: false
     - connect_timeout:
-        default: '10000'
+        default: '60000'
         required: false
     - worker_group: RAS_Operator_Path
   workflow:
