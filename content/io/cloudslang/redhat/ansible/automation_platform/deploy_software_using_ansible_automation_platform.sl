@@ -328,7 +328,7 @@ flow:
         publish:
           - final_template_name: '${new_string}'
         navigate:
-          - SUCCESS: create_job_template
+          - SUCCESS: is_extra_vars_empty
     - is_credential_id_empty:
         worker_group: '${worker_group}'
         do:
@@ -377,6 +377,24 @@ flow:
         navigate:
           - SUCCESS: attach_credentials_to_job_template
           - FAILURE: on_failure
+    - convert_json_to_string:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.samples.convert_json_to_string:
+            - extra_vars: '${extra_vars}'
+        publish:
+          - extra_vars: "${extra_variables.strip('\"')}"
+        navigate:
+          - SUCCESS: create_job_template
+    - is_extra_vars_empty:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: '${extra_vars}'
+            - second_string: ''
+        navigate:
+          - SUCCESS: create_job_template
+          - FAILURE: convert_json_to_string
   outputs:
     - inventory_id: '${inventory_id}'
     - job_id: '${job_id}'
@@ -400,6 +418,9 @@ extensions:
           beb94aed-6bd2-9ac3-f564-7ee200e9e014:
             targetId: 9f7dee26-ad4b-d780-a29f-682178d06d70
             port: SUCCESS
+      convert_json_to_string:
+        x: 240
+        'y': 400
       create_host:
         x: 720
         'y': 80
@@ -427,6 +448,9 @@ extensions:
       append_inventory_name_prefix:
         x: 240
         'y': 80
+      is_extra_vars_empty:
+        x: 240
+        'y': 240
       create_job_template:
         x: 560
         'y': 240
