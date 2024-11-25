@@ -265,7 +265,7 @@ flow:
             - ansible_automation_platform_password:
                 value: '${ansible_automation_platform_password}'
                 sensitive: true
-            - job_id: '${job_id}'
+            - job_id: '${final_job_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - trust_password:
