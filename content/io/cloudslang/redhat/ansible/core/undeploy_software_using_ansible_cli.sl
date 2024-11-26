@@ -212,7 +212,7 @@ flow:
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
-            - extra_vars: "${'ansible_password='+ansible_password+' ansible_become_password='+target_password}"
+            - extra_vars: "${'ansible_password='+target_password+' ansible_become_password='+target_password}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
