@@ -147,7 +147,7 @@ flow:
           - template_id_new: '${template_id}'
         navigate:
           - FAILURE: on_failure
-          - SUCCESS: run_job_with_template
+          - SUCCESS: attach_credentials_to_job_template
     - delete_host:
         worker_group:
           value: '${worker_group}'
@@ -265,7 +265,7 @@ flow:
             - ansible_automation_platform_password:
                 value: '${ansible_automation_platform_password}'
                 sensitive: true
-            - job_id: '${job_id}'
+            - job_id: '${final_job_id}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - trust_password:
@@ -381,6 +381,37 @@ flow:
         navigate:
           - SUCCESS: delete_host
           - FAILURE: on_failure
+    - attach_credentials_to_job_template:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.redhat.ansible.automation_platform.job_templates.attach_credentials_to_job_template:
+            - ansible_automation_platform_url: '${ansible_automation_platform_url}'
+            - ansible_automation_platform_username: '${ansible_automation_platform_username}'
+            - ansible_automation_platform_password:
+                value: '${ansible_automation_platform_password}'
+                sensitive: true
+            - template_id: '${template_id_new}'
+            - credential_id: '${credential_id}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+            - worker_group: '${worker_group}'
+        publish:
+          - credential_id
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: run_job_with_template
   results:
     - FAILURE
     - SUCCESS
@@ -388,16 +419,19 @@ extensions:
   graph:
     steps:
       remove_job:
-        x: 720
+        x: 760
         'y': 120
+      attach_credentials_to_job_template:
+        x: 240
+        'y': 280
       wait_for_final_job_result:
         x: 240
-        'y': 480
+        'y': 440
       delete_inventory:
         x: 600
         'y': 120
       delete_job:
-        x: 880
+        x: 920
         'y': 120
         navigate:
           be9d2db4-1e06-ac4a-6b6b-376e427406b6:
@@ -405,31 +439,30 @@ extensions:
             port: SUCCESS
       delete_job_template:
         x: 760
-        'y': 480
+        'y': 440
       remove_job_template:
         x: 600
         'y': 280
       sleep:
         x: 400
-        'y': 480
+        'y': 440
       random_number_generator:
         x: 80
         'y': 120
       delete_host:
         x: 600
-        'y': 480
+        'y': 440
       run_job_with_template:
         x: 80
-        'y': 480
+        'y': 440
       append_inventory_name_prefix:
-        x: 280
+        x: 240
         'y': 120
       create_job_template:
-        x: 480
+        x: 400
         'y': 120
     results:
       SUCCESS:
         d07b125f-d315-af3c-906d-19c62dc2197a:
-          x: 1120
+          x: 1080
           'y': 120
-
