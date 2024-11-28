@@ -56,6 +56,7 @@
 #! @output job_status: The id (integer) of the job status.
 #! @output template_id: The id (integer) of the template_id.
 #! @output host_id: The id (integer) of the new host.
+#! @output new_credential_id: The id (integer) of the new credential.
 #!
 #! @result FAILURE: There was an error while executing the flow.
 #! @result SUCCESS: The flow was executed successfully.
@@ -402,6 +403,8 @@ flow:
     - template_id: '${template_id}'
     - host_id: '${host_id}'
     - new_credential_id: '${credential_id}'
+    - inventory_final_name: '${inventory_name_number}'
+    - template_final_name: '${final_template_name}'
   results:
     - FAILURE
     - SUCCESS
