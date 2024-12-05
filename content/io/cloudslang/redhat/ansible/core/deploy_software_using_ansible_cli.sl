@@ -25,6 +25,7 @@
 #!                       Example: postgres
 #! @input directory_path: The directory path where the new inventory file will be saved.
 #!                        Example: /etc/ansible
+#! @input extra_vars: Optional - set additional variables as key=value, if filename prepend with @.
 #! @input target_group: Optional - The target group oh hosts in Ansible's inventory.
 #! @input target_host: The IP address of the target host, or a comma-separated list of IP addresses.
 #! @input target_username: The username of the target host.
@@ -85,6 +86,8 @@ flow:
     - install_software_playbook
     - software_name
     - directory_path
+    - extra_vars:
+        required: false
     - target_group:
         required: false
     - target_host
@@ -218,7 +221,7 @@ flow:
         publish:
           - inventory_content: '${new_string}'
         navigate:
-          - SUCCESS: list_iterator
+          - SUCCESS: extra_vars_is_null
     - target_group_is_null:
         worker_group:
           value: '${worker_group}'
@@ -227,7 +230,7 @@ flow:
           io.cloudslang.base.utils.is_null:
             - variable: '${target_group}'
         navigate:
-          - IS_NULL: list_iterator
+          - IS_NULL: extra_vars_is_null
           - IS_NOT_NULL: append_group
     - ansible_playbook_cli_with_target_password:
         worker_group:
@@ -244,7 +247,7 @@ flow:
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_password='+target_password+' ansible_become_password='+target_password}"
+                value: "${'ansible_password='+target_password+' ansible_become_password='+target_password+extra_vars_value}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -281,7 +284,7 @@ flow:
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
-            - extra_vars: "${'ansible_ssh_private_key_file='+target_private_key_file}"
+            - extra_vars: "${'ansible_ssh_private_key_file='+target_private_key_file+extra_vars_value}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -349,7 +352,7 @@ flow:
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password}"
+                value: "${'ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password+extra_vars_value}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -436,6 +439,28 @@ flow:
           - inventory_content: '${new_string}'
         navigate:
           - SUCCESS: list_iterator
+    - append_extra_vars:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.strings.append:
+            - origin_string: ' '
+            - text: '${extra_vars}'
+        publish:
+          - extra_vars_value: '${new_string}'
+        navigate:
+          - SUCCESS: list_iterator
+    - extra_vars_is_null:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.base.utils.is_null:
+            - variable: '${extra_vars}'
+        navigate:
+          - IS_NULL: list_iterator
+          - IS_NOT_NULL: append_extra_vars
   outputs:
     - stdout: '${stdout}'
     - stderr: '${stderr}'
@@ -450,6 +475,9 @@ extensions:
       get_first_host:
         x: 80
         'y': 80
+      append_extra_vars:
+        x: 80
+        'y': 600
       iterate_playbooks_1:
         x: 720
         'y': 280
@@ -484,7 +512,7 @@ extensions:
         'y': 480
       target_group_is_null:
         x: 320
-        'y': 400
+        'y': 240
       list_iterator:
         x: 320
         'y': 880
@@ -504,6 +532,9 @@ extensions:
       ssh_command:
         x: 480
         'y': 880
+      extra_vars_is_null:
+        x: 320
+        'y': 480
       return_error:
         x: 720
         'y': 880
@@ -513,10 +544,10 @@ extensions:
             port: SUCCESS
       append_group:
         x: 80
-        'y': 560
+        'y': 400
       append_software_name:
         x: 80
-        'y': 320
+        'y': 240
     results:
       FAILURE:
         b74d1f5a-a60d-1746-86ef-0609869765f1:
@@ -526,4 +557,3 @@ extensions:
         03a89b9b-da5c-831a-1973-68d1f823ad15:
           x: 920
           'y': 280
-
