@@ -247,7 +247,7 @@ flow:
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_password='+target_password+' ansible_become_password='+target_password+extra_vars_value}"
+                value: "${'ansible_password='+target_password+' ansible_become_password='+target_password+extra_vars}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -284,7 +284,7 @@ flow:
             - playbook: '${playbook}'
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
-            - extra_vars: "${'ansible_ssh_private_key_file='+target_private_key_file+extra_vars_value}"
+            - extra_vars: "${'ansible_ssh_private_key_file='+target_private_key_file+extra_vars}"
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
@@ -352,7 +352,7 @@ flow:
             - inventory: '${inventory_file_path}'
             - target_username: '${target_username}'
             - extra_vars:
-                value: "${'ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password+extra_vars_value}"
+                value: "${'ansible_ssh_private_key_file='+target_private_key_file+' ansible_ssh_passphrase='+target_password+extra_vars}"
                 sensitive: true
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -448,7 +448,7 @@ flow:
             - origin_string: ' '
             - text: '${extra_vars}'
         publish:
-          - extra_vars_value: '${new_string}'
+          - extra_vars: '${new_string}'
         navigate:
           - SUCCESS: list_iterator
     - extra_vars_is_null:
