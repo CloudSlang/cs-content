@@ -88,6 +88,7 @@ flow:
     - directory_path
     - extra_vars:
         required: false
+        default: ''
     - target_group:
         required: false
     - target_host
