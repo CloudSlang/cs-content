@@ -360,7 +360,7 @@ flow:
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - headers: 'Content-Type:application/json'
-            - body: "${'{'+\\\n'   \"name\": \"'+host_name+'_credentials\",'+\\\n'   \"description\": \"\",'+\\\n'   \"organization\": '+org_id+','+\\\n'   \"credential_type\": 1,'+\\\n'   \"inputs\": {\"username\":\"'+target_user+'\",\"password\":\"'+target_password+'\"},'+\\\n'   \"user\": null,'+\\\n'   \"team\": null'+\\\n'}'}"
+            - body: "${'{'+\\\n'   \"name\": \"'+host_name+'_credentials\_'+random_number+','+\\\n'   \"description\": \"\",'+\\\n'   \"organization\": '+org_id+','+\\\n'   \"credential_type\": 1,'+\\\n'   \"inputs\": {\"username\":\"'+target_user+'\",\"password\":\"'+target_password+'\"},'+\\\n'   \"user\": null,'+\\\n'   \"team\": null'+\\\n'}'}"
             - worker_group: '${worker_group}'
         publish:
           - json_output: '${return_result}'
