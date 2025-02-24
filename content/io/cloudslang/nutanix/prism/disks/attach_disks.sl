@@ -302,7 +302,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.11-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-nutanix-prism:1.0.11'
     class_name: 'io.cloudslang.content.nutanix.prism.actions.disks.AttachDisks'
     method_name: 'execute'
 
