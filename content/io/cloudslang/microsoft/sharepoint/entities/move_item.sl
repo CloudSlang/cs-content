@@ -218,7 +218,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-sharepoint:0.0.9'
+    gav: 'io.cloudslang.content:cs-sharepoint:0.0.10'
     class_name: 'io.cloudslang.content.sharepoint.actions.entities.MoveItem'
     method_name: 'execute'
 
