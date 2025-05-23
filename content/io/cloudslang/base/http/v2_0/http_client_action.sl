@@ -25,7 +25,7 @@
 #! @input keystore_password: Optional - Password associated with the KeyStore file.
 #! @input trust_keystore: Optional - Location of the TrustStore file. Format: a URL or the local path to it
 #! @input trust_password: Optional - Password associated with the trust_keystore file.
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'browser_compatible', 'allow_all' Default: 'allow_all'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'allow_all' Default: 'strict'
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
@@ -115,7 +115,7 @@ operation:
         sensitive: true
     - x_509_hostname_verifier:
         required: true
-        default: allow_all
+        default: strict
     - connections_max_per_route:
         required: true
         default: '2'
