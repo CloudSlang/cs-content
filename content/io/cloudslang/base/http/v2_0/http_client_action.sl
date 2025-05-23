@@ -1,0 +1,164 @@
+########################################################################################################################
+#!!
+#! @description: Executes a REST call based on the method provided.
+#!
+#! @input url: URL to which the call is made.
+#! @input method: HTTP method used.
+#! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
+#! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
+#! @input password: Optional - Password used for URL authentication.
+#! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
+#! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
+#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
+#! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
+#! @input proxy_host: Optional - Proxy server used to access the web site.
+#! @input proxy_port: Optional - Proxy server port. Default: '8080'
+#! @input proxy_user: Optional - User used when connecting to the proxy.
+#! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
+#! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
+#! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used. Valid: TLSv1.2, TLSv1.3. Default: 'TLSv1.3'
+#! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2' or 'TLSv1.3'.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers. Default: TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256 , Valid values for TLSv1.2: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256, Valid Values for TLSv1.3 : TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256
+#! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls. Default: 'true'
+#! @input keystore: Optional - Location of the KeyStore file. Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
+#! @input keystore_password: Optional - Password associated with the KeyStore file.
+#! @input trust_keystore: Optional - Location of the TrustStore file. Format: a URL or the local path to it
+#! @input trust_password: Optional - Password associated with the trust_keystore file.
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'allow_all' Default: 'strict'
+#! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
+#! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
+#! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
+#! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects.
+#! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
+#! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'application/json'
+#! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
+#! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
+#! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
+#! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
+#!
+#! @output return_result: Response of the operation.
+#! @output status_code: Status code of the HTTP call.
+#! @output return_code: '0' if success, '-1' otherwise.
+#! @output response_headers: Response headers string from the HTTP Client REST call.
+#! @output final_location: The final location after redirects.
+#!                         Format: URL
+#! @output reason_phrase: The reason phrase from the origin HTTP response. This depends on the status code and are according to RFC 1945 and RFC 2048
+#!                        Examples: Values (HTTP 1.1): Continue, Temporary Redirect, Method Not Allowed, Conflict, Precondition Failed, Request Too Long, Request-URI Too Long, Unsupported Media Type, Multiple Choices, See Other, Use Proxy, Payment Required, Not Acceptable, Proxy Authentication Required, Request Timeout, Switching Protocols, Non Authoritative Information, Reset Content, Partial Content, Gateway Timeout, Http Version Not Supported, Gone, Length Required, Requested Range Not Satisfiable, Expectation Failed
+#! @output protocol_version: The HTTP protocol version. Examples: HTTP/1.1
+#! @output exception: Stacktrace in case of failure.
+#!
+#! @result SUCCESS: Operation succeeded (statusCode is contained in valid_http_status_codes list).
+#! @result FAILURE: Operation failed (statusCode is not contained in valid_http_status_codes list).
+#!!#
+########################################################################################################################
+namespace: io.cloudslang.base.http_v2
+operation:
+  name: http_client_action
+  inputs:
+    - url:
+        required: true
+    - method:
+        required: true
+    - auth_type:
+        required: true
+        default: BASIC
+    - username:
+        required: false
+    - password:
+        required: false
+        sensitive: true
+    - preemptive_auth:
+        required: true
+        default: 'true'
+    - body:
+        required: false
+    - trust_all_roots:
+        required: true
+        default: 'false'
+    - form_data:
+        required: false
+    - query_params:
+        required: false
+    - proxy_scheme:
+        required: false
+    - proxy_host:
+        required: false
+    - proxy_port:
+        required: true
+        default: '8080'
+    - proxy_user:
+        required: false
+    - proxy_password:
+        required: false
+    - headers:
+        required: false
+    - tls_version:
+        required: false
+        default: TLSv1.3
+    - allowed_ciphers:
+        required: false
+        default: 'TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256'
+    - keep_alive:
+        required: true
+        default: 'true'
+    - keystore:
+        required: false
+    - keystore_password:
+        required: false
+        sensitive: true
+    - trust_keystore:
+        required: false
+    - trust_password:
+        required: false
+        sensitive: true
+    - x_509_hostname_verifier:
+        required: true
+        default: strict
+    - connections_max_per_route:
+        required: true
+        default: '2'
+    - connections_max_total:
+        required: true
+        default: '20'
+    - use_cookies:
+        required: true
+        default: 'true'
+    - follow_redirects:
+        required: false
+    - destination_file:
+        required: false
+    - request_character_set:
+        required: true
+        default: UTF-8
+    - content_type:
+        required: false
+        default: application/json
+    - connect_timeout:
+        required: false
+        default: '300'
+    - execution_timeout:
+        required: false
+        default: '300'
+    - socket_timeout:
+        required: true
+        default: '300'
+    - valid_http_status_codes:
+        required: false
+        default: 'str(list(range(200, 300)))'
+  python_action:
+    use_jython: false
+    script: "import requests\r\nimport ssl\r\nimport traceback\r\nfrom requests.adapters import HTTPAdapter\r\nfrom urllib3.poolmanager import PoolManager\r\nimport json\r\nimport os\r\nimport ast\r\nfrom http import HTTPStatus\r\nfrom concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout\r\n\r\nclass TLSAdapter(HTTPAdapter):\r\n    def __init__(self, ssl_context=None, max_connections=10, max_connections_per_host=10):\r\n        self.ssl_context = ssl_context\r\n        self._pool_maxsize = max_connections\r\n        self._max_connections_per_host = max_connections_per_host\r\n        super().__init__()\r\n\r\n    def init_poolmanager(self, connections, maxsize, block=False, **kwargs):\r\n        kwargs['ssl_context'] = self.ssl_context\r\n        return super().init_poolmanager(connections, maxsize, block=block, **kwargs)\r\n\r\n\r\ndef execute(url, method, auth_type, preemptive_auth, username, password, body, trust_all_roots,\r\n            form_data, query_params, proxy_scheme, proxy_host, proxy_port, proxy_user, proxy_password,\r\n            headers, tls_version, allowed_ciphers, destination_file, execution_timeout,\r\n            connect_timeout, socket_timeout, keep_alive, keystore, keystore_password,\r\n            trust_keystore, trust_password, x_509_hostname_verifier, connections_max_per_route,\r\n            connections_max_total, use_cookies, follow_redirects, request_character_set, content_type,valid_http_status_codes):\r\n\r\n    try:\r\n        session = requests.Session()\r\n        \r\n        def validate_boolean(val, name, default=False):\r\n            if val is None or str(val).strip() == \"\":\r\n                return default\r\n            val = str(val).lower()\r\n            if val not in [\"true\", \"false\"]:\r\n                raise ValueError(f\"Invalid boolean value for {name}: {val}. Must be 'true' or 'false'.\")\r\n            return val == \"true\"\r\n\r\n\r\n        trust_all_roots = validate_boolean(str(trust_all_roots).lower(), \"trust_all_roots\")\r\n        preemptive_auth = validate_boolean(str(preemptive_auth).lower(), \"preemptive_auth\")\r\n        use_cookies = validate_boolean(str(use_cookies).lower(), \"use_cookies\")\r\n        follow_redirects = validate_boolean(str(follow_redirects).lower(), \"follow_redirects\")\r\n        keep_alive = validate_boolean(str(keep_alive).lower(), \"keep_alive\")\r\n\r\n        method = method.upper()\r\n        if method not in [\"GET\", \"POST\", \"PUT\", \"DELETE\", \"PATCH\", \"TRACE\", \"HEAD\" , \"OPTIONS\"]:\r\n            raise ValueError(f\"Invalid HTTP method: {method}\")\r\n\r\n        valid_auth_types = [\"basic\", \"digest\", \"ntlm\", \"anonymous\"]\r\n        if auth_type and auth_type.lower() not in valid_auth_types:\r\n            raise ValueError(f\"Invalid auth_type: {auth_type}. Must be one of {', '.join(valid_auth_types)}\")\r\n        \r\n        auth = None\r\n        if auth_type and auth_type.lower() == \"basic\" and username and password:\r\n            auth = (username, password)\r\n            \r\n        \r\n        if x_509_hostname_verifier:\r\n            valid_verifiers = [\"strict\", \"allow_all\"]\r\n            if x_509_hostname_verifier.lower() not in valid_verifiers:\r\n                raise ValueError(f\"Invalid x_509_hostname_verifier: {x_509_hostname_verifier}. Valid values are: {', '.join(valid_verifiers)}\")\r\n                \r\n        \r\n        if url.lower().startswith(\"https\") and not trust_all_roots:\r\n            ks = (keystore or \"\").strip()\r\n            ks_pass = (keystore_password or \"\").strip()\r\n            trust_ks = (trust_keystore or \"\").strip()\r\n            trust_pass = (trust_password or \"\").strip()\r\n        \r\n            if not ks and not trust_ks:\r\n                raise ValueError(\"trust_all_roots is set to false, but both keystore and truststore are empty. Please provide at least one.\")\r\n        \r\n            if ks and not os.path.isfile(ks):\r\n                raise ValueError(f\"Provided keystore path does not exist or is not a file: {ks}\")\r\n            if trust_ks and not os.path.isfile(trust_ks):\r\n                raise ValueError(f\"Provided trustKeystore path does not exist or is not a file: {trust_ks}\")\r\n\r\n\r\n        params = {}\r\n        if query_params:\r\n            for pair in query_params.split(\"&\"):\r\n                if \"=\" not in pair:\r\n                    raise ValueError(f\"Invalid query parameter: {pair}\")\r\n                k, v = pair.split(\"=\", 1)\r\n                params[k.strip()] = v.strip()\r\n\r\n        headers_dict = {}\r\n        if headers:\r\n            try:\r\n                if headers.strip().startswith(\"{\") and headers.strip().endswith(\"}\"):\r\n                    headers_dict = json.loads(headers)\r\n                else:\r\n                    lines = headers.strip().splitlines()\r\n                    for line in lines:\r\n                        if \":\" not in line:\r\n                            raise ValueError(f\"Invalid header format: '{line}' (missing ':')\")\r\n                        k, v = line.split(\":\", 1)\r\n                        k = k.strip()\r\n                        v = v.strip()\r\n                        if not k:\r\n                            raise ValueError(f\"Header name is empty in: '{line}'\")\r\n                        headers_dict[k] = v\r\n            except Exception as e:\r\n                raise ValueError(f\"Invalid headers format: {e}\")\r\n                \r\n        if content_type:\r\n            headers_dict[\"Content-Type\"] = content_type\r\n\r\n        data = None\r\n        if form_data:\r\n            try:\r\n                pairs = form_data.split(\"&\")\r\n                data = {}\r\n                for pair in pairs:\r\n                    if not pair.strip():\r\n                        raise ValueError(f\"Invalid form data format: empty pair in '{form_data}'\")\r\n                    if \"=\" not in pair:\r\n                        raise ValueError(f\"Invalid form data format: '{pair}' (missing '=')\")\r\n                    k, v = pair.split(\"=\", 1)\r\n                    k = k.strip()\r\n                    v = v.strip()\r\n                    if not k:\r\n                        raise ValueError(f\"Invalid form data format: empty key in '{pair}'\")\r\n                    if not v:\r\n                        raise ValueError(f\"Invalid form data format: empty value in '{pair}'\")\r\n                    data[k] = v\r\n            except Exception as e:\r\n                raise ValueError(f\"Invalid form data format: {e}\")\r\n        elif body:\r\n            if headers_dict.get(\"Content-Type\", \"\").lower() == \"application/json\":\r\n                try:\r\n                    data = json.loads(body)  # Validate it's valid JSON\r\n                except json.JSONDecodeError:\r\n                    raise ValueError(\"Body format is not valid.\")\r\n            else:\r\n                data = body  \r\n\r\n        proxies = None\r\n        if proxy_host:\r\n            if not proxy_scheme or not proxy_port:\r\n                raise ValueError(\"Incomplete proxy configuration.\")\r\n            proxy_auth = f\"{proxy_user}:{proxy_password}@\" if proxy_user and proxy_password else \"\"\r\n            proxy_url = f\"{proxy_scheme}://{proxy_auth}{proxy_host}:{proxy_port}\"\r\n            proxies = {\r\n                \"http\": proxy_url,\r\n                \"https\": proxy_url\r\n            }\r\n\r\n        ssl_context = ssl.create_default_context()\r\n        verify = not trust_all_roots\r\n\r\n        if not verify:\r\n            ssl_context.check_hostname = False\r\n            ssl_context.verify_mode = ssl.CERT_NONE\r\n\r\n        # Normalize and prepare list of TLS versions\r\n        tls_versions_map = {\r\n            \"tlsv1.2\": ssl.TLSVersion.TLSv1_2,\r\n            \"tlsv1.3\": ssl.TLSVersion.TLSv1_3,\r\n            # \"tlsv1\": ssl.TLSVersion.TLSv1,  # Deprecated, uncomment if needed\r\n            # \"tlsv1.1\": ssl.TLSVersion.TLSv1_1,\r\n        }\r\n        \r\n        if tls_version:\r\n            raw_versions = [v.strip().lower() for v in tls_version.split(\",\") if v.strip()]\r\n            tls_versions = []\r\n            for version in raw_versions:\r\n                if version not in tls_versions_map:\r\n                    raise ValueError(f\"Invalid TLS version: {version}. Supported: {', '.join(tls_versions_map.keys())}\")\r\n                tls_versions.append(tls_versions_map[version])\r\n        else:\r\n            tls_versions = [ssl.TLSVersion.TLSv1_3, ssl.TLSVersion.TLSv1_2]  # Default order\r\n\r\n        \r\n        if allowed_ciphers:\r\n            JAVA_TO_OPENSSL_CIPHER_MAP = {\r\n                \"TLS_DHE_RSA_WITH_AES_256_GCM_SHA384\": \"DHE-RSA-AES256-GCM-SHA384\",\r\n                \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\": \"ECDHE-RSA-AES128-GCM-SHA256\",\r\n                \"TLS_DHE_RSA_WITH_AES_256_CBC_SHA256\": \"DHE-RSA-AES256-SHA256\",\r\n                \"TLS_DHE_RSA_WITH_AES_128_CBC_SHA256\": \"DHE-RSA-AES128-SHA256\",\r\n                \"TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384\": \"ECDHE-RSA-AES256-SHA384\",\r\n                \"TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256\": \"ECDHE-RSA-AES128-SHA256\",\r\n                \"TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256\": \"ECDHE-ECDSA-AES128-SHA256\",\r\n                \"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256\": \"ECDHE-ECDSA-AES128-GCM-SHA256\",\r\n                \"TLS_RSA_WITH_AES_256_GCM_SHA384\": \"AES256-GCM-SHA384\",\r\n                \"TLS_RSA_WITH_AES_256_CBC_SHA256\": \"AES256-SHA256\",\r\n                \"TLS_RSA_WITH_AES_128_CBC_SHA256\": \"AES128-SHA256\",\r\n            }\r\n        \r\n            valid_tls13_ciphers = {\r\n                \"TLS_AES_256_GCM_SHA384\",\r\n                \"TLS_CHACHA20_POLY1305_SHA256\",\r\n                \"TLS_AES_128_GCM_SHA256\"\r\n            }\r\n        \r\n            # Normalize input ciphers and mapping keys to uppercase for case-insensitive matching\r\n            cipher_list = [cipher.strip().upper() for cipher in allowed_ciphers.split(\",\") if cipher.strip()]\r\n            cipher_map_upper = {k.upper(): v for k, v in JAVA_TO_OPENSSL_CIPHER_MAP.items()}\r\n        \r\n            # Ensure at least one supported TLS version is provided\r\n            supported_tls_versions = {ssl.TLSVersion.TLSv1_2, ssl.TLSVersion.TLSv1_3}\r\n            unsupported_versions = [v for v in tls_versions if v not in supported_tls_versions]\r\n            if unsupported_versions:\r\n                raise ValueError(\"Cipher validation is only supported for TLSv1.2 and TLSv1.3.\")\r\n        \r\n            tls13_requested = ssl.TLSVersion.TLSv1_3 in tls_versions\r\n            tls12_requested = ssl.TLSVersion.TLSv1_2 in tls_versions\r\n        \r\n            # if tls13_requested:\r\n            #     invalid_tls13 = [c for c in cipher_list if c not in valid_tls13_ciphers]\r\n            #     if invalid_tls13:\r\n            #         raise ValueError(\r\n            #             f\"Invalid TLSv1.3 ciphers: {', '.join(invalid_tls13)}. \"\r\n            #             f\"Allowed: {', '.join(valid_tls13_ciphers)}\"\r\n            #         )\r\n        \r\n            # if tls12_requested:\r\n            #     for cipher in cipher_list:\r\n            #         if cipher not in cipher_map_upper:\r\n            #             raise ValueError(f\"Unsupported TLSv1.2 cipher: {cipher}\")\r\n\r\n\r\n\r\n        try:\r\n            if connections_max_per_route:\r\n                connections_max_per_route = int(connections_max_per_route)\r\n                if connections_max_per_route <= 0:\r\n                    raise ValueError(\"connections_max_per_route must be a positive integer.\")\r\n            else:\r\n                connections_max_per_route = 10 \r\n\r\n            if connections_max_total:\r\n                connections_max_total = int(connections_max_total)\r\n                if connections_max_total <= 0:\r\n                    raise ValueError(\"connections_max_total must be a positive integer.\")\r\n            else:\r\n                connections_max_total = 50 \r\n        except Exception:\r\n            raise ValueError(\"Invalid value for connection limits. Must be positive integers.\")\r\n\r\n        adapter = TLSAdapter(\r\n            ssl_context=ssl_context,\r\n            max_connections=connections_max_total,\r\n            max_connections_per_host=connections_max_per_route\r\n        )\r\n\r\n        session.mount('https://', adapter)\r\n        session.mount('http://', adapter)\r\n\r\n\r\n        try:\r\n            connect = float(connect_timeout) if connect_timeout else float(execution_timeout or 300)\r\n            read = float(socket_timeout) if socket_timeout else float(execution_timeout or 300)\r\n\r\n            if connect <= 0 or read <= 0:\r\n                raise ValueError(\"Timeout values must be positive.\")\r\n            timeout_tuple = (connect, read)\r\n        except Exception:\r\n            raise ValueError(\"Invalid timeout configuration. Must be positive numbers.\")\r\n        \r\n        try:\r\n            code_str = valid_http_status_codes.strip()\r\n        \r\n            if code_str.startswith(\"str(list(range(\") and code_str.endswith(\")))\"):\r\n                start = code_str.find(\"range(\") + len(\"range(\")\r\n                end = code_str.rfind(\")))\")\r\n                range_args = code_str[start:end].rstrip(\")\")\r\n                parts = [int(x.strip()) for x in range_args.split(\",\")]\r\n                if len(parts) == 2:\r\n                    valid_codes_set = set(range(parts[0], parts[1]))\r\n                elif len(parts) == 3:\r\n                    valid_codes_set = set(range(parts[0], parts[1], parts[2]))\r\n                else:\r\n                    raise ValueError(\"Invalid range() format inside str(list(...))\")\r\n        \r\n            elif code_str.startswith(\"range(\") and code_str.endswith(\")\"):\r\n                range_args = code_str[len(\"range(\"):-1].rstrip(\")\")\r\n                parts = [int(x.strip()) for x in range_args.split(\",\")]\r\n                if len(parts) == 2:\r\n                    valid_codes_set = set(range(parts[0], parts[1]))\r\n                elif len(parts) == 3:\r\n                    valid_codes_set = set(range(parts[0], parts[1], parts[2]))\r\n                else:\r\n                    raise ValueError(\"Invalid range() format.\")\r\n        \r\n            elif code_str.startswith(\"[\") and code_str.endswith(\"]\"):\r\n                parsed = ast.literal_eval(code_str)\r\n                if isinstance(parsed, list) and all(isinstance(code, int) for code in parsed):\r\n                    valid_codes_set = set(parsed)\r\n                else:\r\n                    raise ValueError(\"List must contain only integers.\")\r\n        \r\n            else:\r\n                raise ValueError(\"Unsupported format.\")\r\n        \r\n        except Exception:\r\n            raise ValueError(\"valid_http_status_codes must be a list or range, e.g. '[200, 204]' or 'range(200, 300)' or 'str(list(range(200, 300)))'\")\r\n\r\n\r\n\r\n        if not use_cookies:\r\n            session.cookies.clear()\r\n        allow_redirects = bool(follow_redirects)\r\n\r\n        cert = None  \r\n\r\n        last_exception = None\r\n        for version in tls_versions:\r\n            try:\r\n                # setup SSL context for this TLS version\r\n                ssl_context = ssl.create_default_context()\r\n                if trust_all_roots:\r\n                    ssl_context.check_hostname = False\r\n                    ssl_context.verify_mode = ssl.CERT_NONE\r\n                else:\r\n                    ssl_context.check_hostname = True\r\n                    ssl_context.verify_mode = ssl.CERT_REQUIRED\r\n                ssl_context.minimum_version = version\r\n                ssl_context.maximum_version = version\r\n                \r\n\r\n                adapter = TLSAdapter(ssl_context=ssl_context, max_connections=connections_max_total,\r\n                                    max_connections_per_host=connections_max_per_route)\r\n                session.adapters.clear()\r\n                session.mount('https://', adapter)\r\n                session.mount('http://', adapter)\r\n\r\n                def make_request():\r\n                    return session.request(\r\n                        method=method,\r\n                        url=url,\r\n                        headers=headers_dict,\r\n                        params=params,\r\n                        json=data if headers_dict.get(\"Content-Type\", \"\").lower() == \"application/json\" and isinstance(data, dict) else None,\r\n                        data=None if headers_dict.get(\"Content-Type\", \"\").lower() == \"application/json\" and isinstance(data, dict) else data,\r\n                        auth=auth,\r\n                        proxies=proxies,\r\n                        timeout=timeout_tuple,\r\n                        verify=not trust_all_roots,\r\n                        cert=None,\r\n                        allow_redirects=allow_redirects,\r\n                        stream=bool(destination_file)\r\n                    )\r\n                \r\n                with ThreadPoolExecutor(max_workers=1) as executor:\r\n                    future = executor.submit(make_request)\r\n                    response = future.result(timeout=float(execution_timeout))\r\n                # Only break if no exception (success)\r\n                break  \r\n\r\n            except FuturesTimeout:\r\n                raise requests.exceptions.Timeout(f\"Execution timeout of {execution_timeout} seconds exceeded.\")\r\n            except Exception as e:\r\n                last_exception = e\r\n        else:\r\n            # if we exit loop normally without break, means all TLS versions failed\r\n            raise ValueError(f\"Failed to establish HTTPS connection using any of the specified TLS versions. Last error: {last_exception}\")\r\n\r\n\r\n        if 'response' not in locals():\r\n            raise ValueError(f\"Failed to receive a response using any of the specified TLS versions. Last error: {last_exception}\")\r\n\r\n\r\n        response.encoding = request_character_set or response.encoding\r\n        content = response.text\r\n        \r\n        if response.status_code not in valid_codes_set:\r\n            try:\r\n                status_description = HTTPStatus(response.status_code).phrase\r\n            except ValueError:\r\n                status_description = \"Unknown Status\"\r\n        \r\n            return {\r\n                \"return_result\": f\"HTTP {response.status_code} - {status_description}\",\r\n                \"status_code\": str(response.status_code),\r\n                \"return_code\": \"-1\",\r\n                \"response_headers\": \"\\n\".join(f\"{k}: {v}\" for k, v in response.headers.items()),\r\n                \"final_location\": response.url,\r\n                \"reason_phrase\": response.reason,\r\n                \"protocol_version\": f\"HTTP/{response.raw.version / 10:.1f}\" if hasattr(response.raw, \"version\") else \"HTTP/1.1\",\r\n                \"exception\": \"\",\r\n            }\r\n\r\n\r\n        if destination_file:\r\n            with open(destination_file, \"wb\") as f:\r\n                for chunk in response.iter_content(8192):\r\n                    if chunk:\r\n                        f.write(chunk)\r\n            content = f\"Response saved to {destination_file}\"\r\n        else:\r\n            response.encoding = request_character_set or response.encoding\r\n            content = response.text\r\n\r\n        return {\r\n            \"return_result\": content,\r\n            \"status_code\": str(response.status_code),\r\n            \"return_code\": \"0\",\r\n            \"response_headers\": \"\\n\".join(f\"{k}: {v}\" for k, v in response.headers.items()),\r\n            \"final_location\": response.url,\r\n            \"reason_phrase\": response.reason,\r\n            \"protocol_version\": f\"HTTP/{response.raw.version / 10:.1f}\" if hasattr(response.raw, \"version\") else \"HTTP/1.1\",\r\n            \"exception\": \"\",\r\n        }\r\n\r\n    except requests.RequestException as e:\r\n        error_map = {\r\n            requests.exceptions.MissingSchema: (\"400\", \"Bad Request\"),\r\n            requests.exceptions.InvalidURL: (\"400\", \"Bad Request\"),\r\n            requests.exceptions.InvalidSchema: (\"400\", \"Bad Request\"),\r\n            requests.exceptions.ConnectionError: (\"404\", \"Not Found\"),\r\n            requests.exceptions.Timeout: (\"504\", \"Gateway Timeout\"),\r\n        }\r\n\r\n        status_code = \"520\"\r\n        reason = \"Unknown Error\"\r\n\r\n        for exc_type, (code, msg) in error_map.items():\r\n            if isinstance(e, exc_type):\r\n                status_code = code\r\n                reason = msg\r\n                break\r\n\r\n        return {\r\n            \"return_result\": f\"HTTP request failed: {str(e)}\",\r\n            \"status_code\": status_code,\r\n            \"return_code\": \"-1\",\r\n            \"response_headers\": \"\",\r\n            \"final_location\": \"\",\r\n            \"reason_phrase\": reason,\r\n            \"protocol_version\": \"\",\r\n            \"exception\": traceback.format_exc(),\r\n        }\r\n\r\n\r\n    except ValueError as e:\r\n        return {\r\n            \"return_result\": f\"Input validation error: {str(e)}\",\r\n            \"status_code\": \"\",\r\n            \"return_code\": \"-1\",\r\n            \"response_headers\": \"\",\r\n            \"final_location\": \"\",\r\n            \"reason_phrase\": \"\",\r\n            \"protocol_version\": \"\",\r\n            \"exception\": traceback.format_exc(),\r\n        }\r\n\r\n    except Exception as e:\r\n        return {\r\n            \"return_result\": f\"Unexpected error: {str(e)}\",\r\n            \"status_code\": \"\",\r\n            \"return_code\": \"-1\",\r\n            \"response_headers\": \"\",\r\n            \"final_location\": \"\",\r\n            \"reason_phrase\": \"\",\r\n            \"protocol_version\": \"\",\r\n            \"exception\": traceback.format_exc(),\r\n        }"
+  outputs:
+    - return_result
+    - status_code
+    - return_code
+    - response_headers
+    - final_location
+    - reason_phrase
+    - protocol_version
+    - exception
+  results:
+    - SUCCESS: "${(return_code == '0') and (str(status_code) in valid_http_status_codes)}"
+    - FAILURE
