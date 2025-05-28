@@ -31,7 +31,7 @@
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'application/json'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
 #! @input method: HTTP method used.
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #!
@@ -118,7 +118,7 @@ flow:
     - query_params:
         required: false
     - content_type:
-        default: application/json
+        default: text/plain
         required: false
     - method
     - body:
@@ -126,7 +126,7 @@ flow:
   workflow:
     - http_client_action_post:
         do:
-          io.cloudslang.base.http_v2.http_client_action:
+          io.cloudslang.base.http.v2_0.http_client_action:
             - auth_type: '${auth_type}'
             - url: '${url}'
             - username: '${username}'
