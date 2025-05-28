@@ -101,7 +101,7 @@ flow:
     - headers:
         required: false
   workflow:
-    - http_client_action:
+    - http_client_action_delete:
         do:
           io.cloudslang.base.http_v2.http_client_action:
             - url: '${url}'
@@ -151,7 +151,7 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_action:
+      http_client_action_delete:
         x: 360
         'y': 200
         navigate:
