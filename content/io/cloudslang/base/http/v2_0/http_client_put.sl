@@ -32,7 +32,7 @@
 #! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects.
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
 #! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'application/json'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
@@ -134,7 +134,7 @@ flow:
         default: UTF-8
         required: false
     - content_type:
-        default: application/json
+        default: text/plain
         required: false
     - connect_timeout:
         default: '300'
