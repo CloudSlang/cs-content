@@ -3,7 +3,6 @@
 #! @description: Executes a GET REST call.
 #!
 #! @input url: URL to which the call is made.
-#! @input method: HTTP method used.
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
@@ -59,10 +58,6 @@ flow:
   name: http_client_get
   inputs:
     - url:
-        required: false
-    - method:
-        default: GET
-        private: true
         required: false
     - auth_type:
         default: BASIC
@@ -163,14 +158,14 @@ flow:
         do:
           io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
-            - method: '${method}'
+            - method: GET
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
             - preemptive_auth: '${preemptive_auth}'
-            - trust_all_roots: 'True'
+            - trust_all_roots: '${trust_all_roots}'
             - query_params: '${query_params}'
             - query_params_are_url_encoded: '${query_params_are_url_encoded}'
             - query_params_are_form_encoded: '${query_params_are_form_encoded}'
