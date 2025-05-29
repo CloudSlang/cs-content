@@ -115,7 +115,7 @@ flow:
         required: false
         sensitive: true
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - connections_max_per_route:
         default: '2'
