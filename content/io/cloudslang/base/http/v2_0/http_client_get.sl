@@ -8,10 +8,7 @@
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
 #! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
-#! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
-#! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
-#! @input form_params_are_url_encoded: Optional - If true <form_params> will be encoded (according to the url encoding standard). Default: 'false'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input query_params_are_url_encoded: Optional - Whether to encode (according to the url encoding standard) the <query_params>. Default: 'false'
 #! @input query_params_are_form_encoded: Optional - Whether to encode the <query_params> in the form request format. Default: 'true'
@@ -63,8 +60,13 @@ flow:
   inputs:
     - url:
         required: false
-    - method: GET
-    - auth_type: BASIC
+    - method:
+        default: GET
+        private: true
+        required: false
+    - auth_type:
+        default: BASIC
+        required: false
     - username:
         required: false
     - password:
@@ -72,13 +74,8 @@ flow:
         sensitive: true
     - preemptive_auth:
         default: 'true'
-        required: true
-    - body:
         required: false
-    - trust_all_roots: 'false'
-    - form_data:
-        required: false
-    - form_params_are_url_encoded:
+    - trust_all_roots:
         default: 'false'
         required: false
     - query_params:
@@ -93,7 +90,9 @@ flow:
         required: false
     - proxy_host:
         required: false
-    - proxy_port: '8080'
+    - proxy_port:
+        default: '8080'
+        required: false
     - proxy_username:
         required: false
     - proxy_password:
@@ -108,7 +107,7 @@ flow:
         required: false
     - keep_alive:
         default: 'true'
-        required: true
+        required: false
     - keystore:
         required: false
     - keystore_password:
@@ -119,17 +118,25 @@ flow:
     - trust_password:
         required: false
         sensitive: true
-    - x_509_hostname_verifier: strict
-    - connections_max_per_route: '2'
-    - connections_max_total: '20'
-    - use_cookies: 'true'
+    - x_509_hostname_verifier:
+        default: strict
+        required: false
+    - connections_max_per_route:
+        default: '2'
+        required: false
+    - connections_max_total:
+        default: '20'
+        required: false
+    - use_cookies:
+        default: 'true'
+        required: false
     - follow_redirects:
         required: false
     - destination_file:
         required: false
     - request_character_set:
         default: UTF-8
-        required: true
+        required: false
     - content_type:
         default: text/plain
         required: false
@@ -142,7 +149,9 @@ flow:
     - socket_timeout:
         default: '300'
         required: false
-    - valid_http_status_codes: 'str(list(range(200, 300)))'
+    - valid_http_status_codes:
+        default: 'str(list(range(200, 300)))'
+        required: false
     - source_file:
         required: false
     - http_client_cookie_session:
@@ -152,7 +161,7 @@ flow:
   workflow:
     - http_client_get:
         do:
-          io.cloudslang.base.http.v2_0.http_client_action:
+          io.cloudslang.base.http_v2.http_client_action:
             - url: '${url}'
             - method: '${method}'
             - auth_type: '${auth_type}'
@@ -160,10 +169,8 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
-            - body: '${body}'
+            - preemptive_auth: '${preemptive_auth}'
             - trust_all_roots: 'True'
-            - form_data: '${form_data}'
-            - form_params_are_url_encoded: '${form_params_are_url_encoded}'
             - query_params: '${query_params}'
             - query_params_are_url_encoded: '${query_params_are_url_encoded}'
             - query_params_are_form_encoded: '${query_params_are_form_encoded}'
