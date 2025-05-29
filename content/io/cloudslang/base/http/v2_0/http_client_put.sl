@@ -168,6 +168,7 @@ flow:
         do:
           io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
+            - method: PUT
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
