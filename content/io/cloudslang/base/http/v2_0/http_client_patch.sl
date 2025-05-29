@@ -93,6 +93,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - headers:
         required: false
     - tls_version:
