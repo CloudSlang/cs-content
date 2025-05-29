@@ -120,7 +120,7 @@ flow:
     - content_type:
         default: text/plain
         required: false
-    - method
+    - method: POST
     - body:
         required: false
   workflow:
