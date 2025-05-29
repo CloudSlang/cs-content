@@ -102,8 +102,10 @@ flow:
         required: false
     - tls_version:
         required: false
+        default: TLSv1.3
     - allowed_ciphers:
         required: false
+        default: 'TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256'
     - keep_alive:
         default: 'true'
         required: false
@@ -118,7 +120,7 @@ flow:
         required: false
         sensitive: true
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - connections_max_per_route:
         default: '2'
