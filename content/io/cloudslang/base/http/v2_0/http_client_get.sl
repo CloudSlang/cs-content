@@ -92,6 +92,7 @@ flow:
         required: false
     - proxy_password:
         required: false
+        sensitive: true
     - headers:
         required: false
     - tls_version:
@@ -173,7 +174,9 @@ flow:
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
             - proxy_username: '${proxy_username}'
-            - proxy_password: '${proxy_password}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
             - headers: '${headers}'
             - tls_version: '${tls_version}'
             - allowed_ciphers: '${allowed_ciphers}'

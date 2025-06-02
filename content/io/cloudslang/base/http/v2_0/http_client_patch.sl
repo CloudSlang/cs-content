@@ -1,6 +1,6 @@
 ########################################################################################################################
 #!!
-#! @description: Executes a PUT REST call.
+#! @description: Executes a PATCH REST call.
 #!
 #! @input url: URL to which the call is made.
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
@@ -18,7 +18,7 @@
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used. Valid: TLSv1.2, TLSv1.3. Default: 'TLSv1.3'
-#! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2' or 'TLSv1.3'.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers. Default: TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256
+#! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. The value of this input will be ignored if 'tlsVersion' does not contain 'TLSv1.2' or 'TLSv1.3'.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers. Default: TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256 , Valid values for TLSv1.2: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256, Valid Values for TLSv1.3 : TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256
 #! @input keep_alive: Optional - Specifies whether to create a shared connection that will be used in subsequent calls. Default: 'true'
 #! @input keystore: Optional - Location of the KeyStore file. Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
 #! @input keystore_password: Optional - Password associated with the KeyStore file.
@@ -58,7 +58,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.base.http.v2_0
 flow:
-  name: http_client_put
+  name: http_client_patch
   inputs:
     - url:
         required: false
@@ -97,11 +97,11 @@ flow:
     - headers:
         required: false
     - tls_version:
-        required: false
         default: TLSv1.3
-    - allowed_ciphers:
         required: false
+    - allowed_ciphers:
         default: 'TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256'
+        required: false
     - keep_alive:
         default: 'true'
         required: false
@@ -165,16 +165,17 @@ flow:
     - http_client_pooling_connection_manage:
         required: false
   workflow:
-    - http_client_put:
+    - http_client_patch:
         do:
-          io.cloudslang.base.http.v2_0.http_client_action:
+          io.cloudslang.base.http_v2.http_client_action:
             - url: '${url}'
-            - method: PUT
+            - method: PATCH
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
+            - preemptive_auth: '${preemptive_auth}'
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
             - form_data: '${form_data}'
@@ -243,7 +244,7 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_put:
+      http_client_patch:
         x: 320
         'y': 160
         navigate:
