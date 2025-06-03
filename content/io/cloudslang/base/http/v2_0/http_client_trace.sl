@@ -111,7 +111,7 @@ flow:
     - content_type:
         default: text/plain
         required: false
-    - method
+    - method: TRACE
     - query_params
   workflow:
     - http_client_action_trace:
