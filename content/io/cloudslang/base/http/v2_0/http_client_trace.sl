@@ -27,8 +27,7 @@
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
-#! @input method: HTTP method used.
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: ':text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
@@ -111,7 +110,6 @@ flow:
     - content_type:
         default: text/plain
         required: false
-    - method: TRACE
     - query_params:
         required: false
   workflow:
@@ -119,7 +117,7 @@ flow:
         do:
           io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
-            - method: '${method}'
+            - method: TRACE
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
