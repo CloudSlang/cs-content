@@ -29,7 +29,6 @@
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
-#! @input method: HTTP method used.
 #!
 #! @result SUCCESS: Operation succeeded (statusCode is contained in valid_http_status_codes list).
 #! @result FAILURE: Operation failed (statusCode is not contained in valid_http_status_codes list).
@@ -110,19 +109,17 @@ flow:
     - content_type:
         default: text/plain
         required: false
-    - method: DELETE
   workflow:
     - http_client_action_delete:
         do:
           io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
-            - method: '${method}'
+            - method: DELETE
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
-            - preemptive_auth: '${preemptive_auth}'
             - trust_all_roots: '${trust_all_roots}'
             - proxy_scheme: '${proxy_scheme}'
             - proxy_host: '${proxy_host}'

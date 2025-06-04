@@ -32,7 +32,6 @@
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
-#! @input method: HTTP method used.
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
@@ -120,7 +119,6 @@ flow:
     - content_type:
         default: text/plain
         required: false
-    - method: POST
     - body:
         required: false
   workflow:
@@ -133,7 +131,7 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
-            - method: '${method}'
+            - method: POST
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
             - query_params: '${query_params}'
