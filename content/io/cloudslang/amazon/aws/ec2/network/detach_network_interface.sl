@@ -115,7 +115,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.60'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.62-SNAPSHOT'
     class_name: io.cloudslang.content.amazon.actions.network.DetachNetworkInterfaceAction
     method_name: execute
 
