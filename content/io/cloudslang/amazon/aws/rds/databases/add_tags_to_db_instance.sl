@@ -129,7 +129,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.61-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.62-SNAPSHOT'
     class_name: 'io.cloudslang.content.amazon.actions.rds.tags.AddTagsToDBInstance'
     method_name: 'execute'
 
