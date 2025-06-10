@@ -111,7 +111,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.62-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.61-SNAPSHOT'
     class_name: 'io.cloudslang.content.amazon.actions.trustedadvisor.CostOptimizationRecommendations'
     method_name: 'execute'
 
