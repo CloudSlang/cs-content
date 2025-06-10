@@ -167,7 +167,7 @@ flow:
   workflow:
     - http_client_patch:
         do:
-          io.cloudslang.base.http_v2.http_client_action:
+          io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
             - method: PATCH
             - auth_type: '${auth_type}'
