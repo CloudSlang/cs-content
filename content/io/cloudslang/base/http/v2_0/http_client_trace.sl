@@ -42,7 +42,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.base.http.v2_0
 flow:
-  name: http_client_trace_v2
+  name: http_client_trace
   inputs:
     - url
     - auth_type:
@@ -113,9 +113,9 @@ flow:
     - query_params:
         required: false
   workflow:
-    - http_client_action_trace_v2:
+    - http_client_action_trace:
         do:
-          io.cloudslang.base.http.v2_0.http_client_action_v2:
+          io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
             - method: TRACE
             - auth_type: '${auth_type}'
@@ -172,7 +172,7 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_action_trace_v2:
+      http_client_action_trace:
         x: 240
         'y': 160
         navigate:

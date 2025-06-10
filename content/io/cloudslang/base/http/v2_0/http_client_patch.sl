@@ -1,16 +1,16 @@
 ########################################################################################################################
 #!!
-#! @description: Executes a GET REST call.
+#! @description: Executes a PATCH REST call.
 #!
 #! @input url: URL to which the call is made.
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
 #! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
+#! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input query_params_are_url_encoded: Optional - Whether to encode (according to the url encoding standard) the <query_params>. Default: 'false'
-#! @input query_params_are_form_encoded: Optional - Whether to encode the <query_params> in the form request format. Default: 'true'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port. Default: '8080'
@@ -24,7 +24,7 @@
 #! @input keystore_password: Optional - Password associated with the KeyStore file.
 #! @input trust_keystore: Optional - Location of the TrustStore file. Format: a URL or the local path to it
 #! @input trust_password: Optional - Password associated with the trust_keystore file.
-#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'allow_all' Default: 'strict'
+#! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'browser_compatible', 'allow_all' Default: 'allow_all'
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
@@ -36,6 +36,9 @@
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
+#! @input form_params_are_url_encoded: Optional - If true <form_params> will be encoded (according to the url encoding standard). Default: 'false'
+#! @input query_params_are_url_encoded: Optional - Whether to encode (according to the url encoding standard) the <query_params>. Default: 'false'
+#! @input query_params_are_form_encoded: Optional - Whether to encode the <query_params> in the form request format. Default: 'true'
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
 #! @input http_client_cookie_session: Optional - Session object that holds the cookies if the <use_cookies> input is true.
 #! @input http_client_pooling_connection_manage: Optional - GlobalSessionObject that holds the http client pooling connection manager.
@@ -55,7 +58,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.base.http.v2_0
 flow:
-  name: http_client_get_v2
+  name: http_client_patch
   inputs:
     - url:
         required: false
@@ -70,16 +73,14 @@ flow:
     - preemptive_auth:
         default: 'true'
         required: false
+    - body:
+        required: false
     - trust_all_roots:
         default: 'false'
         required: false
+    - form_data:
+        required: false
     - query_params:
-        required: false
-    - query_params_are_url_encoded:
-        default: 'false'
-        required: false
-    - query_params_are_form_encoded:
-        default: 'true'
         required: false
     - proxy_scheme:
         required: false
@@ -148,6 +149,15 @@ flow:
     - valid_http_status_codes:
         default: 'str(list(range(200, 300)))'
         required: false
+    - form_params_are_url_encoded:
+        default: 'false'
+        required: false
+    - query_params_are_url_encoded:
+        default: 'false'
+        required: false
+    - query_params_are_form_encoded:
+        default: 'true'
+        required: false
     - source_file:
         required: false
     - http_client_cookie_session:
@@ -155,18 +165,21 @@ flow:
     - http_client_pooling_connection_manage:
         required: false
   workflow:
-    - http_client_action_get_v2:
+    - http_client_patch:
         do:
-          io.cloudslang.base.http.v2_0.http_client_action_v2:
+          io.cloudslang.base.http_v2.http_client_action:
             - url: '${url}'
-            - method: GET
+            - method: PATCH
             - auth_type: '${auth_type}'
             - username: '${username}'
             - password:
                 value: '${password}'
                 sensitive: true
             - preemptive_auth: '${preemptive_auth}'
+            - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
+            - form_data: '${form_data}'
+            - form_params_are_url_encoded: '${form_params_are_url_encoded}'
             - query_params: '${query_params}'
             - query_params_are_url_encoded: '${query_params_are_url_encoded}'
             - query_params_are_form_encoded: '${query_params_are_form_encoded}'
@@ -231,15 +244,15 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_action_get_v2:
+      http_client_patch:
         x: 320
-        'y': 200
+        'y': 160
         navigate:
-          996d4272-6664-4aaf-9f02-0d274a8455a0:
-            targetId: 70a5be3b-d51e-9b74-c3b2-a4696ab773eb
+          e67d83f5-3366-3128-1416-6ae150d8e800:
+            targetId: 911587a9-79ba-1874-9a81-8252e8937c3d
             port: SUCCESS
     results:
       SUCCESS:
-        70a5be3b-d51e-9b74-c3b2-a4696ab773eb:
-          x: 640
-          'y': 200
+        911587a9-79ba-1874-9a81-8252e8937c3d:
+          x: 680
+          'y': 160

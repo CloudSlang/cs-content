@@ -61,7 +61,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.base.http.v2_0
 operation:
-  name: http_client_action_v2
+  name: http_client_action
   inputs:
     - url:
         required: true
