@@ -104,7 +104,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.64-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.61'
     class_name: io.cloudslang.content.amazon.actions.volumes.DeleteVolume
     method_name: execute
 

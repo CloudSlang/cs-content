@@ -141,7 +141,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-amazon:1.0.64-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-amazon:1.0.61'
     class_name: io.cloudslang.content.amazon.actions.vpc.DescribeVpcsAction
     method_name: execute
 
