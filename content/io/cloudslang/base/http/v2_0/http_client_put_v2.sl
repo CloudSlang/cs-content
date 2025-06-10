@@ -58,7 +58,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.base.http.v2_0
 flow:
-  name: http_client_put
+  name: http_client_put_v2
   inputs:
     - url:
         required: false
@@ -165,9 +165,9 @@ flow:
     - http_client_pooling_connection_manage:
         required: false
   workflow:
-    - http_client_put:
+    - http_client_action_put_v2:
         do:
-          io.cloudslang.base.http.v2_0.http_client_action:
+          io.cloudslang.base.http.v2_0.http_client_action_v2:
             - url: '${url}'
             - method: PUT
             - auth_type: '${auth_type}'
@@ -243,7 +243,7 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_put:
+      http_client_action_put_v2:
         x: 320
         'y': 160
         navigate:
