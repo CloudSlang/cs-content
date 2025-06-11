@@ -165,7 +165,7 @@ flow:
     - http_client_pooling_connection_manage:
         required: false
   workflow:
-    - http_client_put:
+    - http_client_action_put:
         do:
           io.cloudslang.base.http.v2_0.http_client_action:
             - url: '${url}'
@@ -243,7 +243,7 @@ flow:
 extensions:
   graph:
     steps:
-      http_client_put:
+      http_client_action_put:
         x: 320
         'y': 160
         navigate:
