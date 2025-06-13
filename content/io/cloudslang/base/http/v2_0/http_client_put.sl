@@ -60,8 +60,7 @@ namespace: io.cloudslang.base.http.v2_0
 flow:
   name: http_client_put
   inputs:
-    - url:
-        required: false
+    - url
     - auth_type:
         default: BASIC
         required: false
@@ -175,6 +174,7 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
+            - preemptive_auth: '${preemptive_auth}'
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
             - form_data: '${form_data}'

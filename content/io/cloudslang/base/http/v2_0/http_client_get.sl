@@ -57,8 +57,7 @@ namespace: io.cloudslang.base.http.v2_0
 flow:
   name: http_client_get
   inputs:
-    - url:
-        required: false
+    - url
     - auth_type:
         default: BASIC
         required: false
