@@ -32,7 +32,7 @@
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
-#! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects. Default: 'true'.
+#! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects. Default: true
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
 #! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
