@@ -6,7 +6,6 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
-#! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input query_params_are_url_encoded: Optional - Whether to encode (according to the url encoding standard) the <query_params>. Default: 'false'
@@ -66,9 +65,6 @@ flow:
     - password:
         required: false
         sensitive: true
-    - preemptive_auth:
-        default: 'true'
-        required: false
     - trust_all_roots:
         default: 'false'
         required: false
@@ -165,7 +161,6 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
-            - preemptive_auth: '${preemptive_auth}'
             - trust_all_roots: '${trust_all_roots}'
             - query_params: '${query_params}'
             - query_params_are_url_encoded: '${query_params_are_url_encoded}'

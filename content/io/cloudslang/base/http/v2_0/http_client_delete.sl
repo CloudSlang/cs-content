@@ -6,7 +6,6 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
-#! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
 #! @input proxy_host: Optional - Proxy server used to access the web site.
 #! @input proxy_port: Optional - Proxy server port. Default: '8080'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
@@ -49,9 +48,6 @@ flow:
     - password:
         required: false
         sensitive: true
-    - preemptive_auth:
-          default: 'true'
-          required: false
     - proxy_host:
         required: false
     - proxy_port:
@@ -128,7 +124,6 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
-            - preemptive_auth: '${preemptive_auth}'
             - trust_all_roots: '${trust_all_roots}'
             - proxy_scheme: '${proxy_scheme}'
             - proxy_host: '${proxy_host}'

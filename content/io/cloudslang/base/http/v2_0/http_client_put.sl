@@ -6,7 +6,6 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication; for NTLM authentication.Format: 'domain\user
 #! @input password: Optional - Password used for URL authentication.
-#! @input preemptive_auth: Optional - If 'true' authentication info will be sent in the first request, otherwise a request with no authentication info will be made and if server responds with 401 and a header. like WWW-Authenticate: Basic realm="myRealm" only then will the authentication info will be sent. Default: 'true'
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
 #! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
@@ -69,9 +68,6 @@ flow:
     - password:
         required: false
         sensitive: true
-    - preemptive_auth:
-        default: 'true'
-        required: false
     - body:
         required: false
     - trust_all_roots:
@@ -175,7 +171,6 @@ flow:
             - password:
                 value: '${password}'
                 sensitive: true
-            - preemptive_auth: '${preemptive_auth}'
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
             - form_data: '${form_data}'
