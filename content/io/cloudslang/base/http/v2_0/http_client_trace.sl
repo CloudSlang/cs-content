@@ -17,6 +17,7 @@
 #! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. While using TLSv1.3, the operation handles cipher selection dynamically based on the negotiated protocol.By default, when you're using TLSv 1.3, the following ciphers will automatically be selected: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers.Default value: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256 Valid values for TLSv1.2: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
 #! @input x_509_hostname_verifier: Optional - Specifies the way the server hostname must match a domain name in the subject's Common Name (CN) or subjectAltName field of the X.509 certificate. Valid: 'strict', 'allow_all' Default: 'strict'
+#! @input follow_redirects: Optional - Specifies whether the 'Get' command automatically follows redirects. Default: 'true'.
 #! @input trust_keystore: Optional - Location of the TrustStore file. Format: a URL or the local path to it
 #! @input trust_password: Optional - Password associated with the trust_keystore file.
 #! @input keystore: Optional - Location of the KeyStore file. Format: a URL or the local path to it. This input is empty if no HTTPS client authentication is used
@@ -81,6 +82,9 @@ flow:
     - x_509_hostname_verifier:
         default: strict
         required: false
+    - follow_redirects:
+        required: false
+        default: 'true'
     - trust_keystore:
         required: false
     - trust_password:
@@ -150,6 +154,7 @@ flow:
                 value: '${trust_password}'
                 sensitive: true
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - follow_redirects: '${follow_redirects}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
             - content_type: '${content_type}'
