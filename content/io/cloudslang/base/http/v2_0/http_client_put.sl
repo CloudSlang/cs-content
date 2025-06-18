@@ -24,13 +24,14 @@
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
 #! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects. Default: true
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
-#! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
+#! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output status_code: Status code of the HTTP call.
@@ -104,7 +105,7 @@ flow:
         default: 'true'
     - destination_file:
         required: false
-    - request_character_set:
+    - response_character_set:
         default: UTF-8
         required: false
     - content_type:
@@ -126,6 +127,7 @@ flow:
         required: false
     - hostname_verifier:
         required: false
+        default: 'false'
   workflow:
     - http_client_action_put:
         do:
@@ -162,7 +164,7 @@ flow:
             - use_cookies: '${use_cookies}'
             - follow_redirects: '${follow_redirects}'
             - destination_file: '${destination_file}'
-            - request_character_set: '${request_character_set}'
+            - response_character_set: '${response_character_set}'
             - content_type: '${content_type}'
             - connect_timeout: '${connect_timeout}'
             - execution_timeout: '${execution_timeout}'

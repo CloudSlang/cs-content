@@ -25,8 +25,10 @@
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: ':text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
+#! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output status_code: Status code of the HTTP call.
@@ -75,22 +77,9 @@ flow:
     - certificate:
         sensitive: true
         required: false
-    - x_509_hostname_verifier:
-        default: strict
-        required: false
     - follow_redirects:
         required: false
         default: 'true'
-    - trust_keystore:
-        required: false
-    - trust_password:
-        required: false
-        sensitive: true
-    - keystore:
-        required: false
-    - keystore_password:
-        required: false
-        sensitive: true
     - execution_timeout:
         default: '300'
         required: false
@@ -99,9 +88,6 @@ flow:
         required: false
     - socket_timeout:
         default: '300'
-        required: false
-    - keep_alive:
-        default: 'true'
         required: false
     - connections_max_per_route:
         default: '2'
@@ -116,12 +102,16 @@ flow:
         required: false
     - query_params:
         required: false
+    - response_character_set:
+        default: UTF-8
+        required: false
     - destination_file:
         required: false
     - source_file:
         required: false
     - hostname_verifier:
         required: false
+        default: 'false'
   workflow:
     - http_client_action_trace:
         do:
@@ -148,16 +138,6 @@ flow:
             - headers: '${headers}'
             - tls_version: '${tls_version}'
             - allowed_ciphers: '${allowed_ciphers}'
-            - keep_alive: '${keep_alive}'
-            - keystore: '${keystore}'
-            - keystore_password:
-                value: '${keystore_password}'
-                sensitive: true
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
             - follow_redirects: '${follow_redirects}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
@@ -165,6 +145,7 @@ flow:
             - connect_timeout: '${connect_timeout}'
             - execution_timeout: '${execution_timeout}'
             - socket_timeout: '${socket_timeout}'
+            - response_character_set: '${response_character_set}'
             - destination_file: '${destination_file}'
             - source_file: '${source_file}'
             - hostname_verifier: '${hostname_verifier}'

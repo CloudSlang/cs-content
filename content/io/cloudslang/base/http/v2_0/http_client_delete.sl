@@ -21,12 +21,13 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input connections_max_per_route: Optional - Maximum limit of connections on a per route basis. Default: '2'
 #! @input connections_max_total: Optional - Maximum limit of connections in total. Default: '20'
-#! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
+#! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @result SUCCESS: Operation succeeded (statusCode is contained in valid_http_status_codes list).
 #! @result FAILURE: Operation failed (statusCode is not contained in valid_http_status_codes list).
@@ -87,7 +88,7 @@ flow:
     - connections_max_total:
         default: '20'
         required: false
-    - request_character_set:
+    - response_character_set:
         default: UTF-8
         required: false
     - headers:
@@ -103,6 +104,7 @@ flow:
         required: false
     - hostname_verifier:
         required: false
+        default: 'false'
   workflow:
     - http_client_action_delete:
         do:
@@ -129,7 +131,7 @@ flow:
             - follow_redirects: '${follow_redirects}'
             - connections_max_per_route: '${connections_max_per_route}'
             - connections_max_total: '${connections_max_total}'
-            - request_character_set: '${request_character_set}'
+            - response_character_set: '${response_character_set}'
             - content_type: '${content_type}'
             - destination_file: '${destination_file}'
             - source_file: '${source_file}'
