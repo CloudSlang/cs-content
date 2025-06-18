@@ -13,7 +13,7 @@
 #! @input proxy_password: Optional - Proxy server password associated with the <proxy_username> input value.
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used. Valid: TLSv1.2, TLSv1.3. Default: 'TLSv1.3'
 #! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. While using TLSv1.3, the operation handles cipher selection dynamically based on the negotiated protocol.By default, when you're using TLSv 1.3, the following ciphers will automatically be selected: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers.Default value: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256 Valid values for TLSv1.2: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256.
-#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true.
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true. Default : False Valid values: True, False
 #! @input certificate: Optional - Certificate for SSL Validation used when trust_all_roots input is False.'
 #! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects. Default: true
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
@@ -24,9 +24,8 @@
 #! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
 #! @input headers: Optional - List containing the headers to use for the request separated by new line (CRLF); header name - value pair will be separated by ":". Format: According to HTTP standard for headers (RFC 2616) Example: 'Accept:text/plain'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain;charset=UTF-8'
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
-#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
 #! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @result SUCCESS: Operation succeeded (statusCode is contained in valid_http_status_codes list).
@@ -96,15 +95,13 @@ flow:
     - query_params:
         required: false
     - content_type:
-        default: text/plain
+        default: text/plain;charset=UTF-8
         required: false
     - destination_file:
         required: false
-    - source_file:
-        required: false
     - hostname_verifier:
         required: false
-        default: 'false'
+        default: 'true'
   workflow:
     - http_client_action_delete:
         do:
@@ -134,7 +131,6 @@ flow:
             - response_character_set: '${response_character_set}'
             - content_type: '${content_type}'
             - destination_file: '${destination_file}'
-            - source_file: '${source_file}'
             - connect_timeout: '${connect_timeout}'
             - execution_timeout: '${execution_timeout}'
             - socket_timeout: '${socket_timeout}'

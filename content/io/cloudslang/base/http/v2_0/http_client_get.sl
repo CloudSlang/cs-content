@@ -6,7 +6,7 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication;
 #! @input password: Optional - Password used for URL authentication.
-#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true.
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true. Default : False Valid values: True, False
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
@@ -22,12 +22,11 @@
 #! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects.
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
 #! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain;charset=UTF-8'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
-#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
 #! @input certificate: Optional - Certificate for SSL Validation used when trust_all_roots input is False.'
 #! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
@@ -103,7 +102,7 @@ flow:
         default: UTF-8
         required: false
     - content_type:
-        default: text/plain
+        default: text/plain;charset=UTF-8
         required: false
     - connect_timeout:
         default: '300'
@@ -117,11 +116,9 @@ flow:
     - valid_http_status_codes:
         default: 'str(list(range(200, 300)))'
         required: false
-    - source_file:
-        required: false
     - hostname_verifier:
         required: false
-        default: 'false'
+        default: 'true'
   workflow:
     - http_client_action_get:
         do:
@@ -159,7 +156,6 @@ flow:
             - execution_timeout: '${execution_timeout}'
             - socket_timeout: '${socket_timeout}'
             - valid_http_status_codes: '${valid_http_status_codes}'
-            - source_file: '${source_file}'
             - hostname_verifier: '${hostname_verifier}'
         publish:
           - return_result
