@@ -6,7 +6,7 @@
 #! @input auth_type: Optional - Type of authentication used to execute the request on the target server. Valid: 'basic', 'digest', 'anonymous' (no authentication) Default: 'basic'
 #! @input username: Optional - Username used for URL authentication;
 #! @input password: Optional - Password used for URL authentication.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true.
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
 #! @input proxy_host: Optional - Proxy server used to access the web site.
@@ -28,7 +28,7 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
-#! @input certificate: Optional - Certificate for SSL Validation used when verify parameter is True.
+#! @input certificate: Optional - Certificate for SSL Validation used when trust_all_roots input is False.'
 #! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.

@@ -8,8 +8,8 @@
 #! @input username: Optional - Username used for URL authentication;
 #! @input password: Optional - Password used for URL authentication.
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
-#! @input certificate: Optional - Certificate for SSL Validation used when verify parameter is True.
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true.
+#! @input certificate: Optional - Certificate for SSL Validation used when trust_all_roots input is False.'
 #! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
