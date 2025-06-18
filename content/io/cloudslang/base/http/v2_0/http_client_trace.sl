@@ -15,6 +15,7 @@
 #! @input tls_version: Optional - This input allows a list of comma separated values of the specific protocols to be used. Valid: TLSv1.2, TLSv1.3. Default: 'TLSv1.3'
 #! @input allowed_ciphers: Optional - A comma delimited list of ciphers to use. While using TLSv1.3, the operation handles cipher selection dynamically based on the negotiated protocol.By default, when you're using TLSv 1.3, the following ciphers will automatically be selected: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256.This capability is provided “as is”, please see product documentation for further security considerations. In order to connect successfully to the target host, it should accept at least one of the following ciphers. If this is not the case, it is the user's responsibility to configure the host accordingly or to update the list of allowed ciphers.Default value: TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256 Valid values for TLSv1.2: TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input certificate: Optional - Certificate for SSL Validation used when verify parameter is True.
 #! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects. Default: true
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
@@ -71,6 +72,9 @@ flow:
     - trust_all_roots:
         default: 'false'
         required: false
+    - certificate:
+        sensitive: true
+        required: false
     - x_509_hostname_verifier:
         default: strict
         required: false
@@ -116,6 +120,8 @@ flow:
         required: false
     - source_file:
         required: false
+    - hostname_verifier:
+        required: false
   workflow:
     - http_client_action_trace:
         do:
@@ -128,6 +134,9 @@ flow:
                 value: '${password}'
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
+            - certificate:
+                value: '${certificate}'
+                sensitive: true
             - query_params: '${query_params}'
             - proxy_scheme: '${proxy_scheme}'
             - proxy_host: '${proxy_host}'
@@ -158,6 +167,7 @@ flow:
             - socket_timeout: '${socket_timeout}'
             - destination_file: '${destination_file}'
             - source_file: '${source_file}'
+            - hostname_verifier: '${hostname_verifier}'
         publish:
           - return_result
           - exception

@@ -8,6 +8,7 @@
 #! @input password: Optional - Password used for URL authentication.
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
 #! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input certificate: Optional - Certificate for SSL Validation used when verify parameter is True.
 #! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
@@ -61,6 +62,9 @@ flow:
         required: false
     - trust_all_roots:
         default: 'false'
+        required: false
+    - certificate:
+        sensitive: true
         required: false
     - form_data:
         required: false
@@ -120,6 +124,8 @@ flow:
         required: false
     - source_file:
         required: false
+    - hostname_verifier:
+        required: false
   workflow:
     - http_client_action_put:
         do:
@@ -133,6 +139,9 @@ flow:
                 sensitive: true
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
+            - certificate:
+                value: '${certificate}'
+                sensitive: true
             - form_data: '${form_data}'
             - form_params_are_url_encoded: '${form_params_are_url_encoded}'
             - query_params: '${query_params}'
@@ -160,6 +169,7 @@ flow:
             - socket_timeout: '${socket_timeout}'
             - valid_http_status_codes: '${valid_http_status_codes}'
             - source_file: '${source_file}'
+            - hostname_verifier: '${hostname_verifier}'
         publish:
           - return_result
           - status_code

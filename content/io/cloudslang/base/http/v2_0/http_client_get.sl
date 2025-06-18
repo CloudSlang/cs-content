@@ -30,8 +30,7 @@
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
 #! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
-#! @input http_client_cookie_session: Optional - Session object that holds the cookies if the <use_cookies> input is true.
-#! @input http_client_pooling_connection_manage: Optional - GlobalSessionObject that holds the http client pooling connection manager.
+#! @input certificate: Optional - Certificate for SSL Validation used when verify parameter is True.
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output status_code: Status code of the HTTP call.
@@ -61,6 +60,9 @@ flow:
         sensitive: true
     - trust_all_roots:
         default: 'false'
+        required: false
+    - certificate:
+        sensitive: true
         required: false
     - query_params:
         required: false
@@ -118,6 +120,8 @@ flow:
         required: false
     - source_file:
         required: false
+    - hostname_verifier:
+        required: false
   workflow:
     - http_client_action_get:
         do:
@@ -130,6 +134,9 @@ flow:
                 value: '${password}'
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
+            - certificate:
+                value: '${certificate}'
+                sensitive: true
             - query_params: '${query_params}'
             - proxy_scheme: '${proxy_scheme}'
             - proxy_host: '${proxy_host}'
@@ -153,6 +160,7 @@ flow:
             - socket_timeout: '${socket_timeout}'
             - valid_http_status_codes: '${valid_http_status_codes}'
             - source_file: '${source_file}'
+            - hostname_verifier: '${hostname_verifier}'
         publish:
           - return_result
           - status_code
