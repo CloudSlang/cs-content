@@ -7,7 +7,8 @@
 #! @input username: Optional - Username used for URL authentication;
 #! @input password: Optional - Password used for URL authentication.
 #! @input body: Optional - String to include in body for HTTP POST operation. If both <source_file> and body will be provided, the body input has priority over <source_file>; should not be provided for method=GET, HEAD, TRACE.
-#! @input trust_all_roots: Optional - Specifies whether to enable weak security over SSL. Default: 'false'
+#! @input trust_all_roots: Optional - Specifies whether to trust all SSL certificate roots, including potentially weak or untrusted ones. Enables weaker SSL security when set to true. Default : False Valid values: True, False
+#! @input certificate: Optional - Certificate for SSL Validation used when trust_all_roots input is False.'
 #! @input form_data: Optional - List containing body which should be sent as form data. Examples: 'formKey1=formValue1&formkey2=formValue2'
 #! @input query_params: Optional - List containing query parameters to append to the URL. Examples: 'parameterName1=parameterValue1&parameterName2=parameterValue2;'
 #! @input proxy_scheme: Optional - Proxy scheme for https proxy url.
@@ -23,13 +24,14 @@
 #! @input use_cookies: Optional - Specifies whether to enable cookie tracking or not. Default: 'true'
 #! @input follow_redirects: Optional - Specifies whether the HTTP request should automatically follow redirects. Default: true
 #! @input destination_file: Optional - Absolute path of a file on disk where the entity returned by the response will be saved to.
-#! @input request_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
-#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain'
+#! @input response_character_set: Optional - Character encoding to be used for the HTTP response. Default: 'UTF-8'
+#! @input content_type: Optional - Content type that should be set in the request header, representing the MIME-type of the data in the message body. Default: 'text/plain;charset=UTF-8'
 #! @input connect_timeout: Optional - Time in seconds to wait for a connection to be established. When 0 value is used, there is no limit on the amount of time allowed for the connection to be established. Default: '300'
 #! @input execution_timeout: Optional - Time in seconds to wait for the operation to finish executing. When 0 value is used, there is no limit on the amount of time allowed for the operation to finish executing. Default: '300'
 #! @input socket_timeout: Optional - Time in seconds to wait for data to be retrieved (maximum period inactivity. between two consecutive data packets) When 0 value is used, there is no limit on the amount of time allowed for the data to be retrieved. Default: '300'
 #! @input valid_http_status_codes: Optional - List/array of HTTP status codes considered to be successful. Example: [202, 204] Default: 'range(200, 300)'
-#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request; should not be provided for method=GET, HEAD, TRACE. source_file input takes precedence over multipart_files input
+#! @input source_file: Optional - Absolute path of a file on disk from where to read the entity for the http request.
+#! @input hostname_verifier: Optional - Specifies whether the server's hostname must match a domain name in the certificate's subject Common Name (CN) or Subject Alternative Name (SAN) fields. Default : True  Valid values: True, False
 #!
 #! @output return_result: The response of the operation in case of success or the error message otherwise.
 #! @output status_code: Status code of the HTTP call.
@@ -61,6 +63,9 @@ flow:
         required: false
     - trust_all_roots:
         default: 'false'
+        required: false
+    - certificate:
+        sensitive: true
         required: false
     - form_data:
         required: false
@@ -100,11 +105,11 @@ flow:
         default: 'true'
     - destination_file:
         required: false
-    - request_character_set:
+    - response_character_set:
         default: UTF-8
         required: false
     - content_type:
-        default: text/plain
+        default: text/plain;charset=UTF-8
         required: false
     - connect_timeout:
         default: '300'
@@ -120,6 +125,9 @@ flow:
         required: false
     - source_file:
         required: false
+    - hostname_verifier:
+        required: false
+        default: 'true'
   workflow:
     - http_client_action_patch:
         do:
@@ -133,6 +141,9 @@ flow:
                 sensitive: true
             - body: '${body}'
             - trust_all_roots: '${trust_all_roots}'
+            - certificate:
+                value: '${certificate}'
+                sensitive: true
             - form_data: '${form_data}'
             - form_params_are_url_encoded: '${form_params_are_url_encoded}'
             - query_params: '${query_params}'
@@ -153,13 +164,14 @@ flow:
             - use_cookies: '${use_cookies}'
             - follow_redirects: '${follow_redirects}'
             - destination_file: '${destination_file}'
-            - request_character_set: '${request_character_set}'
+            - response_character_set: '${response_character_set}'
             - content_type: '${content_type}'
             - connect_timeout: '${connect_timeout}'
             - execution_timeout: '${execution_timeout}'
             - socket_timeout: '${socket_timeout}'
             - valid_http_status_codes: '${valid_http_status_codes}'
             - source_file: '${source_file}'
+            - hostname_verifier: '${hostname_verifier}'
         publish:
           - return_result
           - status_code
