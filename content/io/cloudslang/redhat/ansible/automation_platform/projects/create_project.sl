@@ -170,7 +170,7 @@ flow:
           io.cloudslang.base.strings.search_and_replace:
             - origin_string: '${scm_type}'
             - text_to_replace: '${scm_type}'
-            - replace_with: '"scm_type" : ""'
+            - replace_with: "${'\"scm_type\" : \"''\"'}"
         publish:
           - scm_type: '${replaced_string}'
         navigate:
@@ -200,8 +200,8 @@ extensions:
         x: 80
         'y': 80
       string_equals:
-        x: 241
-        'y': 287
+        x: 240
+        'y': 280
       Create_new_Project:
         x: 400
         'y': 80
@@ -226,3 +226,4 @@ extensions:
         ad9feb36-6ddc-9e46-5429-4db8d8719bd2:
           x: 560
           'y': 280
+

@@ -69,7 +69,7 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_plaform.utils.search_and_replace:
             - origin_string: '${project_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
@@ -165,12 +165,18 @@ flow:
 extensions:
   graph:
     steps:
-      filter_count_from_JSON:
-        x: 200
-        'y': 240
       convert_whitespaces:
         x: 40
         'y': 80
+      get_project_details:
+        x: 40
+        'y': 240
+      filter_ID_from_JSON:
+        x: 360
+        'y': 80
+      filter_count_from_JSON:
+        x: 200
+        'y': 240
       check_count_is_1:
         x: 200
         'y': 80
@@ -178,12 +184,6 @@ extensions:
           754bef08-5d3c-d689-923a-45e2754b90d6:
             targetId: d55d7b8d-f0b6-a820-b28e-797a1d141a77
             port: FAILURE
-      get_project_details:
-        x: 40
-        'y': 240
-      filter_ID_from_JSON:
-        x: 360
-        'y': 80
       get_playbook_directory:
         x: 520
         'y': 80
@@ -200,3 +200,4 @@ extensions:
         2e398679-49d5-534e-8413-f1f4e46f370a:
           x: 680
           'y': 80
+

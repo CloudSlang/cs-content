@@ -69,7 +69,7 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_platform.utils.search_and_replace:
             - origin_string: '${organization_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
@@ -153,12 +153,19 @@ flow:
 extensions:
   graph:
     steps:
-      get_organization_details:
-        x: 40
-        'y': 240
       convert_whitespaces:
         x: 40
         'y': 80
+      get_organization_details:
+        x: 40
+        'y': 240
+      filter_ID_from_JSON:
+        x: 360
+        'y': 80
+        navigate:
+          1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
+            targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
+            port: SUCCESS
       filter_count_from_JSON:
         x: 200
         'y': 240
@@ -169,13 +176,6 @@ extensions:
           754bef08-5d3c-d689-923a-45e2754b90d6:
             targetId: d55d7b8d-f0b6-a820-b28e-797a1d141a77
             port: FAILURE
-      filter_ID_from_JSON:
-        x: 360
-        'y': 80
-        navigate:
-          1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
-            targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
-            port: SUCCESS
     results:
       FAILURE:
         d55d7b8d-f0b6-a820-b28e-797a1d141a77:
@@ -185,3 +185,4 @@ extensions:
         2e398679-49d5-534e-8413-f1f4e46f370a:
           x: 520
           'y': 80
+

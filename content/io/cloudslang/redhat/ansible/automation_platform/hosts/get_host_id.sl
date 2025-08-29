@@ -84,9 +84,9 @@ flow:
         required: false
   workflow:
     - convert_whitespaces:
-        worker_group: RAS_Operator_Path
+        worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_platform.utils.search_and_replace:
             - origin_string: '${host_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
@@ -167,8 +167,8 @@ extensions:
   graph:
     steps:
       convert_whitespaces:
-        x: 57
-        'y': 79
+        x: 40
+        'y': 120
       connect_to_ansible_tower:
         x: 40
         'y': 280

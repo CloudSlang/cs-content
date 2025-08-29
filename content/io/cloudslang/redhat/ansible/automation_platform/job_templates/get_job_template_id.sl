@@ -74,12 +74,12 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_platform.utils.search_and_replace:
             - origin_string: '${template_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
         publish:
-          - TemplateName: '${replaced_string}'
+          - template_name: '${replaced_string}'
         navigate:
           - SUCCESS: connect_to_ansible_tower
           - FAILURE: on_failure
@@ -159,8 +159,8 @@ extensions:
   graph:
     steps:
       convert_whitespaces:
-        x: 57
-        'y': 79
+        x: 40
+        'y': 80
       connect_to_ansible_tower:
         x: 51
         'y': 272
