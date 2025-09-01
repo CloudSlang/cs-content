@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -117,7 +117,7 @@ flow:
         worker_group: '${worker_group}'
         do:
           io.cloudslang.base.json.json_path_query:
-            - json_object: '${json_output}'
+            - json_object: '${organization_details}'
             - json_path: $.id
         publish:
           - organization_id: '${return_result}'
@@ -150,3 +150,4 @@ extensions:
         9a4e8453-d8e7-362e-6069-e90dc4da4657:
           x: 480
           'y': 80
+

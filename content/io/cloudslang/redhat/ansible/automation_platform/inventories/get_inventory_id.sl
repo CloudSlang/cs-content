@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -86,12 +86,12 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.base.strings.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_platform.utils.search_and_replace:
             - origin_string: '${inventory_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
         publish:
-          - InventoryName: '${replaced_string}'
+          - inventory_name: '${replaced_string}'
         navigate:
           - SUCCESS: connect_to_ansible_tower
           - FAILURE: on_failure
@@ -173,16 +173,9 @@ extensions:
       convert_whitespaces:
         x: 40
         'y': 80
-      filter_count_from_json:
-        x: 265
-        'y': 266
-      check_count_is_1:
-        x: 263
-        'y': 77
-        navigate:
-          754bef08-5d3c-d689-923a-45e2754b90d6:
-            targetId: d55d7b8d-f0b6-a820-b28e-797a1d141a77
-            port: FAILURE
+      connect_to_ansible_tower:
+        x: 40
+        'y': 280
       filter_id_from_json:
         x: 482
         'y': 75
@@ -190,9 +183,16 @@ extensions:
           1931d9dd-3a25-7ed5-85e5-9275a2b4b549:
             targetId: 2e398679-49d5-534e-8413-f1f4e46f370a
             port: SUCCESS
-      connect_to_ansible_tower:
-        x: 40
+      filter_count_from_json:
+        x: 280
         'y': 280
+      check_count_is_1:
+        x: 263
+        'y': 77
+        navigate:
+          754bef08-5d3c-d689-923a-45e2754b90d6:
+            targetId: d55d7b8d-f0b6-a820-b28e-797a1d141a77
+            port: FAILURE
     results:
       FAILURE:
         d55d7b8d-f0b6-a820-b28e-797a1d141a77:
@@ -202,3 +202,4 @@ extensions:
         2e398679-49d5-534e-8413-f1f4e46f370a:
           x: 668
           'y': 83
+
