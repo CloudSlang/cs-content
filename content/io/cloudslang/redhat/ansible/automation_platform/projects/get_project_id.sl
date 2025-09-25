@@ -69,7 +69,7 @@ flow:
     - convert_whitespaces:
         worker_group: '${worker_group}'
         do:
-          io.cloudslang.redhat.ansible.automation_plaform.utils.search_and_replace:
+          io.cloudslang.redhat.ansible.automation_platform.utils.search_and_replace:
             - origin_string: '${project_name}'
             - text_to_replace: ' '
             - replace_with: '%20'
