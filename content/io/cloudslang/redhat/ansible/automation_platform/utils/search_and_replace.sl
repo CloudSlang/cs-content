@@ -41,5 +41,6 @@ operation:
     - replaced_string
     - error_message: '${ str(error_message) }'
   results:
-    - SUCCESS
+    - SUCCESS: '${error_message == ""}'
+    - FAILURE
 
