@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -399,7 +399,7 @@ flow:
         publish:
           - kubernetes_port
         navigate:
-          - SUCCESS: list_pods
+          - SUCCESS: wait
           - FAILURE: on_failure
     - delete_pod:
         worker_group: '${worker_group}'
@@ -428,6 +428,14 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: iterate_relevant_pods
+    - wait:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.sleep:
+            - seconds: '10'
+        navigate:
+          - SUCCESS: list_pods
+          - FAILURE: on_failure
   outputs:
     - status_code
     - return_result
@@ -441,7 +449,7 @@ extensions:
         x: 1320
         'y': 120
       delete_replication_controller:
-        x: 720
+        x: 800
         'y': 120
         navigate:
           cab81cef-21a2-f18a-6a7c-fdb36c8c839b:
@@ -454,7 +462,7 @@ extensions:
         x: 40
         'y': 120
       append_initial_pod_name:
-        x: 920
+        x: 960
         'y': 160
       json_path_query:
         x: 720
@@ -485,7 +493,7 @@ extensions:
         x: 560
         'y': 520
       list_pods:
-        x: 560
+        x: 680
         'y': 120
       list_iterator:
         x: 560
@@ -506,6 +514,9 @@ extensions:
                 'y': 320
             targetId: append
             port: SUCCESS
+      wait:
+        x: 520
+        'y': 120
       string_equals_empty_array:
         x: 920
         'y': 680
@@ -546,7 +557,7 @@ extensions:
         x: 560
         'y': 680
       set_default_kubernetes_port:
-        x: 400
+        x: 360
         'y': 120
     results:
       FAILURE:
