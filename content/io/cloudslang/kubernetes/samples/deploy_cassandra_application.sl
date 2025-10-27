@@ -1,4 +1,4 @@
-#   Copyright 2023 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -89,10 +89,10 @@ flow:
         required: false
         sensitive: true
     - trust_all_roots:
-        default: 'true'
+        default: 'false'
         required: false
     - x_509_hostname_verifier:
-        default: allow_all
+        default: strict
         required: false
     - trust_keystore:
         required: false
