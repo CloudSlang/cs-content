@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -138,39 +138,6 @@ flow:
         navigate:
           - FAILURE: set_success_message
           - SUCCESS: delete_service
-    - delete_service:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.services.delete_service:
-            - kubernetes_host: '${kubernetes_host}'
-            - kubernetes_port: '${kubernetes_port}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${namespace}'
-            - service_name: '${service_name}'
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - return_result
-          - service_json
-          - status_code
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: get_status
     - set_success_message:
         worker_group: '${worker_group}'
         do:
@@ -180,26 +147,6 @@ flow:
           - return_result
         navigate:
           - SUCCESS: FAILURE
-          - FAILURE: on_failure
-    - get_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.json.json_path_query:
-            - json_object: '${service_json}'
-            - json_path: status
-        publish:
-          - status: "${return_result.strip('\"')}"
-        navigate:
-          - SUCCESS: check_status
-          - FAILURE: on_failure
-    - check_status:
-        worker_group: '${worker_group}'
-        do:
-          io.cloudslang.base.strings.string_equals:
-            - first_string: '${status}'
-            - second_string: Success
-        navigate:
-          - SUCCESS: SUCCESS
           - FAILURE: on_failure
     - is_port_provided:
         worker_group: '${worker_group}'
@@ -242,6 +189,95 @@ flow:
         navigate:
           - SUCCESS: get_service
           - FAILURE: on_failure
+    - check_delete_service:
+        do:
+          io.cloudslang.base.strings.string_equals:
+            - first_string: "${\"services \\\\\" + service_name + \"\\\\ not found\"}"
+            - second_string: '${return_result}'
+        navigate:
+          - SUCCESS: SUCCESS
+          - FAILURE: FAILURE
+    - get_service_1:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.services.get_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        publish:
+          - return_result
+        navigate:
+          - FAILURE: get_failure_message
+          - SUCCESS: set_failure_message
+    - set_failure_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.utils.do_nothing:
+            - return_result: "${'service '+service_name+' not deleted.'}"
+        publish:
+          - return_result
+        navigate:
+          - SUCCESS: FAILURE
+          - FAILURE: on_failure
+    - delete_service:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.services.delete_service:
+            - kubernetes_host: '${kubernetes_host}'
+            - kubernetes_port: '${kubernetes_port}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${namespace}'
+            - service_name: '${service_name}'
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: get_service_1
+    - get_failure_message:
+        worker_group: '${worker_group}'
+        do:
+          io.cloudslang.base.json.json_path_query:
+            - json_object: '${return_result}'
+            - json_path: message
+        publish:
+          - return_result: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
+        navigate:
+          - SUCCESS: check_delete_service
+          - FAILURE: on_failure
   outputs:
     - return_result
     - status_code
@@ -256,15 +292,11 @@ extensions:
         x: 720
         'y': 120
       set_kubernetes_host:
-        x: 0
+        x: 40
         'y': 120
-      check_status:
-        x: 1080
-        'y': 120
-        navigate:
-          bae91d27-f88e-3366-9cb5-aef07d63f9ae:
-            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
-            port: SUCCESS
+      get_failure_message:
+        x: 720
+        'y': 320
       is_port_provided:
         x: 160
         'y': 120
@@ -281,22 +313,38 @@ extensions:
       compare_numbers:
         x: 160
         'y': 440
-      get_status:
-        x: 920
+      set_failure_message:
+        x: 1000
         'y': 120
+        navigate:
+          8087026d-363f-625e-b264-dcb070e3e3f8:
+            targetId: 01c78642-fe9b-0883-d866-892cfc455992
+            port: SUCCESS
+      check_delete_service:
+        x: 880
+        'y': 320
+        navigate:
+          72e5d8b0-27f9-61b0-a045-e0fc7c8e83a1:
+            targetId: 11a314fb-962f-5299-d0a5-ada1540d2904
+            port: SUCCESS
+          0402ec9d-a7df-023a-a944-8f725f10c280:
+            targetId: 01c78642-fe9b-0883-d866-892cfc455992
+            port: FAILURE
       set_kubernetes_port:
         x: 400
         'y': 320
+      get_service_1:
+        x: 880
+        'y': 120
       set_default_kubernetes_port:
         x: 360
         'y': 120
     results:
       FAILURE:
         01c78642-fe9b-0883-d866-892cfc455992:
-          x: 920
+          x: 1000
           'y': 440
       SUCCESS:
         11a314fb-962f-5299-d0a5-ada1540d2904:
-          x: 1280
+          x: 1120
           'y': 120
-
