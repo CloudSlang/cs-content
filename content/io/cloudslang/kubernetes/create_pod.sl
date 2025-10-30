@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -281,7 +281,7 @@ flow:
           io.cloudslang.base.utils.sleep:
             - seconds: '20'
         navigate:
-          - SUCCESS: get_pod_status
+          - SUCCESS: get_pod_details
           - FAILURE: on_failure
     - compare_pod_status_pending:
         worker_group: '${worker_group}'
@@ -338,7 +338,7 @@ extensions:
         'y': 120
       wait_before_check_pod_status:
         x: 1000
-        'y': 320
+        'y': 360
       counter:
         x: 840
         'y': 320
@@ -374,3 +374,4 @@ extensions:
         11a314fb-962f-5299-d0a5-ada1540d2904:
           x: 1480
           'y': 120
+
