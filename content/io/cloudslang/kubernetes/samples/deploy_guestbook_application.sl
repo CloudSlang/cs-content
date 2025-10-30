@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -256,7 +256,7 @@ flow:
         do:
           io.cloudslang.base.json.json_path_query:
             - json_object: '${service_json}'
-            - json_path: 'status.loadBalancer.ingress[*].ip'
+            - json_path: spec.clusterIP
         publish:
           - cluster_ip: "${return_result.strip('[').strip(\"]\").strip('\"').replace('\"','')}"
         navigate:
