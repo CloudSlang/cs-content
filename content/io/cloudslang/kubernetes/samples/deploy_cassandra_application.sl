@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -99,6 +99,7 @@ flow:
     - trust_password:
         required: false
         sensitive: true
+    - nodeport
   workflow:
     - set_kubernetes_host:
         worker_group: '${worker_group}'
@@ -156,7 +157,7 @@ flow:
                 sensitive: true
             - namespace: '${final_namespace}'
             - service_name: '${service_name}'
-            - service_json_body: "${'{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"},\"spec\":{\"type\":\"LoadBalancer\",\"ports\":[{\"port\":9042,\"nodePort\":31516}],\"selector\":{\"name\":\"'+service_name+'\"}}}'}"
+            - service_json_body: "${'{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"},\"spec\":{\"type\":\"LoadBalancer\",\"ports\":[{\"port\":9042,\"nodeport\":\"'+nodeport+'\"}],\"selector\":{\"name\":\"'+service_name+'\"}}}'}"
             - worker_group: '${worker_group}'
             - proxy_host: '${proxy_host}'
             - proxy_port: '${proxy_port}'
@@ -170,41 +171,12 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
+            - nodeport: '${nodeport}'
         publish:
           - cluster_ip: '${service_cluster_ip}'
         navigate:
           - FAILURE: on_failure
           - SUCCESS: create_pod
-    - create_pod:
-        worker_group:
-          value: '${worker_group}'
-          override: true
-        do:
-          io.cloudslang.kubernetes.create_pod:
-            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
-            - kubernetes_auth_token:
-                value: '${kubernetes_auth_token}'
-                sensitive: true
-            - namespace: '${final_namespace}'
-            - pod_json_body: "${'{\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"'+service_name+'\",\"env\":[{\"name\":\"MAX_HEAP_SIZE\",\"value\":\"512M\"},{\"name\":\"HEAP_NEWSIZE\",\"value\":\"100M\"},{\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.namespace\"}},\"name\":\"'+namespace+'\"}],\"image\":\"gcr.io/google_containers/cassandra:v6\",\"args\":[\"/run.sh\"],\"volumeMounts\":[{\"mountPath\":\"/'+service_name+'_data\",\"name\":\"data\"}],\"ports\":[{\"name\":\"cql\",\"containerPort\":9042},{\"name\":\"thrift\",\"containerPort\":9160}],\"resources\":{\"limits\":{\"cpu\":\"0.1\"}}}],\"volumes\":[{\"emptyDir\":{},\"name\":\"data\"}]},\"apiVersion\":\"v1\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"}}'}"
-            - worker_group: '${worker_group}'
-            - proxy_host: '${proxy_host}'
-            - proxy_port: '${proxy_port}'
-            - proxy_username: '${proxy_username}'
-            - proxy_password:
-                value: '${proxy_password}'
-                sensitive: true
-            - trust_all_roots: '${trust_all_roots}'
-            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - trust_keystore: '${trust_keystore}'
-            - trust_password:
-                value: '${trust_password}'
-                sensitive: true
-        publish:
-          - pod_name
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: create_replication_controller
     - create_replication_controller:
         worker_group:
           value: '${worker_group}'
@@ -310,6 +282,34 @@ flow:
         navigate:
           - SUCCESS: create_namespace
           - FAILURE: on_failure
+    - create_pod:
+        worker_group:
+          value: '${worker_group}'
+          override: true
+        do:
+          io.cloudslang.kubernetes.create_pod:
+            - kubernetes_provider_sap: '${kubernetes_provider_sap}'
+            - kubernetes_auth_token:
+                value: '${kubernetes_auth_token}'
+                sensitive: true
+            - namespace: '${final_namespace}'
+            - pod_json_body: "${'{\"kind\":\"Pod\",\"spec\":{\"containers\":[{\"name\":\"'+service_name+'\",\"env\":[{\"name\":\"MAX_HEAP_SIZE\",\"value\":\"512M\"},{\"name\":\"HEAP_NEWSIZE\",\"value\":\"100M\"},{\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.namespace\"}},\"name\":\"'+namespace+'\"}],\"image\":\"gcr.io/google_containers/cassandra:v6\",\"args\":[\"/run.sh\"],\"volumeMounts\":[{\"mountPath\":\"/'+service_name+'_data\",\"name\":\"data\"}],\"ports\":[{\"name\":\"cql\",\"containerPort\":9042},{\"name\":\"thrift\",\"containerPort\":9160}],\"resources\":{\"limits\":{\"cpu\":\"0.1\"}}}],\"volumes\":[{\"emptyDir\":{},\"name\":\"data\"}]},\"apiVersion\":\"v1\",\"metadata\":{\"labels\":{\"name\":\"'+service_name+'\"},\"name\":\"'+service_name+'\"}}'}"
+            - worker_group: '${worker_group}'
+            - proxy_host: '${proxy_host}'
+            - proxy_port: '${proxy_port}'
+            - proxy_username: '${proxy_username}'
+            - proxy_password:
+                value: '${proxy_password}'
+                sensitive: true
+            - trust_all_roots: '${trust_all_roots}'
+            - x_509_hostname_verifier: '${x_509_hostname_verifier}'
+            - trust_keystore: '${trust_keystore}'
+            - trust_password:
+                value: '${trust_password}'
+                sensitive: true
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: create_replication_controller
   outputs:
     - replication_controller_name
     - pod_list
