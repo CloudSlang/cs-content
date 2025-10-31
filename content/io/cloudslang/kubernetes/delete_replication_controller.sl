@@ -389,7 +389,7 @@ flow:
         publish:
           - kubernetes_port
         navigate:
-          - SUCCESS: list_pods
+          - SUCCESS: wait
           - FAILURE: on_failure
     - set_default_kubernetes_port:
         worker_group: '${worker_group}'
