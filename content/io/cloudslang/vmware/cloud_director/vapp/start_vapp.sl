@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -115,7 +115,7 @@ flow:
                 sensitive: true
             - trust_all_roots: '${trust_all_roots}'
             - x_509_hostname_verifier: '${x_509_hostname_verifier}'
-            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token}"
+            - headers: "${'Accept: application/*+xml;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization: ' + access_token}"
             - body: '<root:DeployVAppParams xmlns:root="http://www.vmware.com/vcloud/v1.5" powerOn="true"/>'
             - content_type: 'application/*+xml'
             - worker_group: '${worker_group}'
