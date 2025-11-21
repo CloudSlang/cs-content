@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -143,7 +143,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/*+json;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token + '\\n' +'Content-Type: application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml;charset=UTF-8'}"
+            - headers: "${'Accept: application/*+json;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization: ' + access_token + '\\n' +'Content-Type: application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml;charset=UTF-8'}"
             - body: '${vapp_request_body}'
             - content_type: application/json
             - worker_group: '${worker_group}'
@@ -195,3 +195,4 @@ extensions:
         39b3c3fe-524e-b2fb-d62e-f1abcd08f3ba:
           x: 520
           'y': 120
+

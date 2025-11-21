@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -150,7 +150,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/*+json;version=37.2' + '\\n' +'Authorization: ' + access_token + '\\n' +'Content-Type: application/*+xml;charset=UTF-8'}"
+            - headers: "${'Accept: application/*+json;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization: ' + access_token + '\\n' +'Content-Type: application/*+xml;charset=UTF-8'}"
             - body: '${vm_request_body}'
             - content_type: application/json
             - worker_group: '${worker_group}'

@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -121,7 +121,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/*+xml;version=39.0.0-alpha' + '\\n' +'Authorization: ' + access_token +'\\n'+'Content-Type: application/*+xml;charset=UTF-8'}"
+            - headers: "${'Accept: application/*+xml;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization: ' + access_token +'\\n'+'Content-Type: application/*+xml;charset=UTF-8'}"
             - body: '<root:UndeployVAppParams xmlns:root="http://www.vmware.com/vcloud/v1.5"><root:UndeployPowerAction>powerOff</root:UndeployPowerAction></root:UndeployVAppParams>'
             - content_type: 'application/*+xml;charset=UTF-8'
             - worker_group: '${worker_group}'

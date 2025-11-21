@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,10 +16,10 @@
 #! @description: This operation can be used to retrieve the list of organizations, as JSON array.
 #!
 #! @input host_name: The host name of the VMWare vCloud director.
-#! @input port: The port of the host.
-#!              Default: 443
 #! @input protocol: The protocol for rest API call.
 #!                  Default: https
+#! @input port: The port of the host.
+#!              Default: 443
 #! @input access_token: The authorization token for vcloud.
 #! @input worker_group: A worker group is a logical collection of workers. A worker may belong to more than
 #!                      one group simultaneously.
@@ -116,7 +116,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=38.0' + '\\n' +'Authorization: ' + access_token}"
+            - headers: "${'Accept: application/json;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization: ' + access_token}"
             - worker_group: '${worker_group}'
         publish:
           - return_result

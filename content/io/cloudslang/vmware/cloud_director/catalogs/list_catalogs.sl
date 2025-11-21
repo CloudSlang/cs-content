@@ -1,4 +1,4 @@
-#   Copyright 2024 Open Text
+#   Copyright 2025 Open Text
 #   This program and the accompanying materials
 #   are made available under the terms of the Apache License v2.0 which accompany this distribution.
 #
@@ -16,10 +16,10 @@
 #! @description: This operation is used list the catalogs
 #!
 #! @input host_name: The host name of the VMWare vCloud director.
-#! @input port: The port of the host.
-#!              Default: 443
 #! @input protocol: The protocol for rest API call.
 #!                  Default: https
+#! @input port: The port of the host.
+#!              Default: 443
 #! @input access_token: The authorization token for vcloud.
 #! @input proxy_host: Proxy server used to access the web site.
 #!                    Optional
@@ -116,7 +116,7 @@ flow:
             - trust_password:
                 value: '${trust_password}'
                 sensitive: true
-            - headers: "${'Accept: application/json;version=39.0.0-alpha' + '\\n' +'Authorization:  ' + access_token}"
+            - headers: "${'Accept: application/json;version='+ get_sp('io.cloudslang.vmware.cloud_director.api_version') + '\\n' +'Authorization:  ' + access_token}"
             - content_type: application/json
             - worker_group: '${worker_group}'
         publish:
