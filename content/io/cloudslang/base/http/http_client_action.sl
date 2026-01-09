@@ -301,7 +301,7 @@ operation:
     - response_character_set:
         required: false
     - responseCharacterSet:
-        default: ${get("response_character_set", "ISO-8859-1")}
+        default: ${get("response_character_set", "")}
         private: true
     - destination_file:
         required: false
@@ -357,7 +357,7 @@ operation:
     - request_character_set:
         required: false
     - requestCharacterSet:
-        default: ${get("request_character_set", "ISO-8859-1")}
+        default: ${get("request_character_set", "")}
         private: true
     - multipart_bodies:
         required: false
