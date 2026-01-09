@@ -409,7 +409,7 @@ operation:
         default: ${ str(list(range(200, 300))) }
 
   java_action:
-    gav: 'io.cloudslang.content:cs-http-client:0.1.96'
+    gav: 'io.cloudslang.content:cs-http-client:0.1.97-SNAPSHOT'
     class_name: io.cloudslang.content.httpclient.actions.HttpClientAction
     method_name: execute
 
