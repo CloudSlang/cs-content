@@ -358,6 +358,7 @@ operation:
         required: false
     - requestCharacterSet:
         default: ${get("request_character_set", "")}
+        required: false
         private: true
     - multipart_bodies:
         required: false
