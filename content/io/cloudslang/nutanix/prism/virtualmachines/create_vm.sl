@@ -300,7 +300,7 @@ operation:
     - requested_ip_address:  
         required: false  
     - requestedIPAddress: 
-        default: ${get('requested_ip_address', '')}  
+        default: ${get('requested_ip_address', '')}
         required: false 
         private: true 
     - is_connected:  
