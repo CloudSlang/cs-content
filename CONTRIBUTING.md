@@ -1,62 +1,103 @@
 # CloudSlang Contribution Guide
 
-We welcome and encourage community contributions to CloudSlang.
-Please familiarize yourself with the Contribution Guidelines and Project Roadmap before contributing.
-There are many ways to help CloudSlang:
-* Report issues
-* Fix issues
-* Improve the documentation
+Thank you for considering a contribution to CloudSlang content.
 
+We actively welcome external contributors, including first-time open source contributors. Small fixes, docs updates, test improvements, and new integrations are all valuable.
 
-## Contributing Code
+## Ways To Contribute
 
-The best way to directly collaborate with the project contributors is through GitHub: https://github.com/CloudSlang.
-* If you want to contribute to our code by either fixing a problem or creating a new feature, please open a GitHub pull request.
-* If you want to raise an issue such as a defect, an enhancement request or a general issue, please open a GitHub issue.
+- Open a bug report or enhancement request in GitHub Issues: https://github.com/CloudSlang/cs-content/issues
+- Submit a fix or feature via pull request: https://github.com/CloudSlang/cs-content/pulls
+- Improve content quality by adding or updating tests under [test/io/cloudslang/](test/io/cloudslang/)
+- Improve developer documentation in [README.md](README.md), [DOCS.md](DOCS.md), and this guide
 
+## Developer Workflow
 
-Note that all patches from all contributors get reviewed.
-After a pull request is made, other contributors will offer feedback. If the patch passes review, a maintainer will accept it with a comment.
-When a pull request fails testing, the author is expected to update the pull request to address the failure until it passes testing and the pull request merges successfully.
+### 1. Understand the Repository Layout
 
-At least one review from a maintainer is required for all patches (even patches from maintainers).
+- Main content packs live under [content/io/cloudslang/](content/io/cloudslang/)
+- Integration properties live under [configuration/properties/io/cloudslang/](configuration/properties/io/cloudslang/)
+- Tests live under [test/io/cloudslang/](test/io/cloudslang/)
+- Optional Python dependencies live under [python-lib/](python-lib/)
 
-Content contributions which require environments that are difficult to setup
-may be accepted as beta content. Beta content is not verified or tested by the
-CloudSlang team. Beta content is named with the `beta_` prefix. The community
-is encouraged to assist in setting up testing environments for the beta content.  
+### 2. Pick a Change Scope
 
-## Pull Requests
-We encourage and support contributions from the community. No fix is too small. We strive to process all pull requests as soon as possible and with constructive feedback. If your pull request is not accepted at first, please try again after addressing the feedback you received.
-To make a pull request you will need a GitHub account. For help, see GitHub's documentation on forking and pull requests. (https://help.github.com/articles/using-pull-requests/ )
+Keep PRs focused. Preferred scopes:
 
-Normally, all pull requests must include tests that test your change. Tests can be run using the CloudSlang Build Tool. To learn more about testing your content and using the Build Tool, see the [project documentation](http://www.cloudslang.io/#/docs). Occasionally, a change will be very difficult to test. In those cases, please include a note in your commit message explaining why tests are not included.
+- One integration area (for example, one provider folder)
+- One behavior fix
+- One documentation topic
 
-### Content Validation and Build Tool
+Focused changes are reviewed and merged faster.
 
-When contributing new CloudSlang content or changing existing content, the content must be written according to our content best practices, which can be found in the [project documentation](http://www.cloudslang.io/#/docs).
+### 3. Implement Changes
 
-All contributed CloudSlang content must pass our content validation and all tests must pass.
+When updating or adding content:
 
-In order to test that your content passes validation and to run tests, follow the instructions for using the CloudSlang Build Tool in the [project documentation](http://www.cloudslang.io/#/docs).
+- Keep behavior backward compatible when possible
+- If input/output contracts change, document the change clearly in the PR description
+- Add or update tests that demonstrate the new behavior
 
-##Conduct
+### 4. Validate Before Opening a PR
+
+All contributed content is expected to pass validation and tests.
+
+- Run content validation and tests with the CloudSlang Build Tool
+- Follow content best practices from the CloudSlang documentation: http://www.cloudslang.io/#/docs
+- If testing is not feasible (for example, hard-to-reproduce external environments), explain why in the PR
+
+## Pull Request Expectations
+
+### PR Checklist
+
+Before requesting review, make sure your PR includes:
+
+- A clear title and summary of what changed and why
+- Linked issue (if applicable)
+- Tests added or updated (or a clear justification if not possible)
+- Any environment assumptions, credentials shape, or external dependencies
+- Breaking-change notes for contract updates
+
+### Review and Merge Process
+
+- Every patch is reviewed, including patches from maintainers
+- At least one maintainer approval is required before merge
+- If checks fail, update the PR until checks pass
+- If review feedback requests changes, please push follow-up commits and keep the PR discussion resolved
+
+## Beta Content Policy
+
+Content that depends on environments that are difficult to set up may be accepted as beta content.
+
+- Beta content is named with the `beta_` prefix
+- Beta content is not fully verified by the CloudSlang team
+- Community help with validation environments is strongly encouraged
+
+## Community Conduct
 
 Whether you are a regular contributor or a newcomer, we care about making this community a safe place for you.
 
-We are committed to providing a friendly, safe and welcoming environment for all regardless of their background and the extent of their contributions.
-Please avoid using nicknames that might detract from a friendly, safe and welcoming environment for all.
-Be kind and courteous.
-Those who insult, demean or harass anyone will be excluded from interaction. In particular, behavior that excludes people in socially marginalized groups will not be tolerated.
-We welcome discussion about creating a welcoming, safe and productive environment for the community. If you have any questions, feedback or concerns please let us know. (info@cloudslang.io)
+We are committed to providing a friendly, safe, and welcoming environment for everyone regardless of background or level of contribution.
 
+- Be respectful and constructive
+- Do not harass, demean, or exclude others
+- Keep discussions professional and collaborative
 
-## Sign your work
+Questions, feedback, or concerns are welcome at info@cloudslang.io.
 
-To accept the DCO, simply add this line to each commit message with your name and email address (git commit -s will do this for you):
+## Sign Your Work (DCO)
+
+All contributions must include sign-off to accept the DCO.
+
+Use:
+
+`git commit -s`
+
+This adds a line like:
 
 Signed-off-by: Jane Example <jane@example.com>
-For legal reasons, no anonymous or pseudonymous contributions are accepted.
+
+For legal reasons, anonymous or pseudonymous contributions are not accepted.
 
 ## Developer's Certificate of Origin
 
