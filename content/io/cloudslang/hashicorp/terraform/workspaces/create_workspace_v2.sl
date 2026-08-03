@@ -130,7 +130,7 @@ flow:
         sensitive: true
     - organization_name
     - terraform_version:
-        default: 1.2.0
+        default: 1.5.0
         required: true
     - workspace_name:
         required: false
