@@ -185,7 +185,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-vmware:0.0.35'
+    gav: 'io.cloudslang.content:cs-vmware:0.0.36'
     class_name: io.cloudslang.content.vmware.actions.vm.CloneVM
     method_name: cloneVM
 

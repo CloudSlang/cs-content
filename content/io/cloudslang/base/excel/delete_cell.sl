@@ -71,7 +71,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:0.0.11'
+    gav: 'io.cloudslang.content:cs-excel:0.0.15'
     class_name: 'io.cloudslang.content.excel.actions.DeleteCell'
     method_name: 'execute'
 

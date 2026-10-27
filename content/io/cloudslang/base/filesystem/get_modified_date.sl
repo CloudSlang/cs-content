@@ -58,7 +58,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-filesystem:0.0.7'
+    gav: 'io.cloudslang.content:cs-filesystem:0.0.10'
     class_name: io.cloudslang.content.filesystem.actions.GetModifiedDateAction
     method_name: execute
 
