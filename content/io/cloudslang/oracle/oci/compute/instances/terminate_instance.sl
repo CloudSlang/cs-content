@@ -175,7 +175,7 @@ operation:
         private: true
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-oracle-cloud:1.0.10'
+    gav: 'io.cloudslang.content:cs-oracle-cloud:2.0.0'
     class_name: 'io.cloudslang.content.oracle.oci.actions.instances.TerminateInstance'
     method_name: 'execute'
   

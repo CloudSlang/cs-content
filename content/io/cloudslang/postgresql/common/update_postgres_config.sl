@@ -71,7 +71,7 @@ operation:
           required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-postgres:1.0.5'
+    gav: 'io.cloudslang.content:cs-postgres:2.0.0'
     class_name: io.cloudslang.content.postgres.actions.UpdatePostgresConfigAction
     method_name: execute
   outputs:

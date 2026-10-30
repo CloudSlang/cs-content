@@ -237,32 +237,32 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.winrm
+namespace: io.cloudslang.base.winrm.v2
 
-operation: 
+operation:
   name: winrm_command
-  
-  inputs: 
+
+  inputs:
     - host
     - domain:
-       required: false
+        required: false
     - port:
         default: '5986'
-        required: false  
+        required: false
     - protocol:
         default: 'https'
-        required: false  
-    - username:  
-        required: false  
-    - password:  
-        required: false  
+        required: false
+    - username:
+        required: false
+    - password:
+        required: false
         sensitive: true
     - auth_type:
         default: 'NTLM'
-        required: false  
-    - authType: 
+        required: false
+    - authType:
         default: ${get('auth_type', '')}
-        required: false 
+        required: false
         private: true
     - command_type:
         default: 'cmd'
@@ -309,32 +309,32 @@ operation:
         default: ${get('working_directory', '')}
         required: false
         private: true
-    - proxy_host:  
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
+        required: false
+        private: true
     - proxy_port:
         default: '8080'
-        required: false  
-    - proxyPort: 
+        required: false
+    - proxyPort:
         default: ${get('proxy_port', '')}
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
-        required: false  
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
+        required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
-        private: true 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
+        private: true
         sensitive: true
     - tls_version:
         default: 'TLSv1.2'
@@ -345,65 +345,65 @@ operation:
         private: true
     - trust_all_roots:
         default: 'false'
-        required: false  
-    - trustAllRoots: 
+        required: false
+    - trustAllRoots:
         default: ${get('trust_all_roots', '')}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - x_509_hostname_verifier:
         default: 'strict'
-        required: false  
-    - x509HostnameVerifier: 
+        required: false
+    - x509HostnameVerifier:
         default: ${get('x_509_hostname_verifier', '')}
-        required: false 
-        private: true 
-    - trust_keystore:  
-        required: false  
-    - trustKeystore: 
+        required: false
+        private: true
+    - trust_keystore:
+        required: false
+    - trustKeystore:
         default: ${get('trust_keystore', '')}
-        required: false 
-        private: true 
+        required: false
+        private: true
     - trust_password:
         default: 'changeit'
-        required: false  
+        required: false
         sensitive: true
-    - trustPassword: 
+    - trustPassword:
         default: ${get('trust_password', '')}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
     - keystore:
-        required: false  
+        required: false
     - keystore_password:
         default: 'changeit'
-        required: false  
+        required: false
         sensitive: true
-    - keystorePassword: 
+    - keystorePassword:
         default: ${get('keystore_password', '')}
-        required: false 
-        private: true 
+        required: false
+        private: true
         sensitive: true
     - operation_timeout:
         default: '60'
-        required: false  
-    - operationTimeout: 
+        required: false
+    - operationTimeout:
         default: ${get('operation_timeout', '')}
-        required: false 
+        required: false
         private: true
-    
-  java_action: 
-    gav: 'io.cloudslang.content:cs-winrm:0.0.22'
+
+  java_action:
+    gav: 'io.cloudslang.content:cs-winrm:1.0.0'
     class_name: 'io.cloudslang.content.winrm.actions.WinRMAction'
     method_name: 'execute'
-  
+
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
     - stdout: ${get('stdout', '')}
-    - stderr: ${get('stderr', '')} 
+    - stderr: ${get('stderr', '')}
     - command_exit_code: ${get('commandExitCode', '')}
     - exception: ${get('exception', '')}
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

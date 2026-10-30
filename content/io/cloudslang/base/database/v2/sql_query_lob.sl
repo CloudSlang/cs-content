@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation executes a query on an SQL server an return all the rows formatted.
+#! @description: This operation executes a query on an SQL server and return each LOB row sequentially.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
@@ -50,9 +50,11 @@
 #!                           is located, not the path to the file itself.
 #!                           Note: The sqljdbc_auth.dll can be found inside the sqljdbc driver. The driver can be
 #!                           downloaded from https://www.microsoft.com/en-us/download/details.aspx?id=11774.
+#! @input delimiter: The delimiter to use between resulted values in 'returnResult' and column names in 'columnNames'.
+#! @input key: The key to help keep multiple query results distinct.
 #! @input timeout: Seconds to wait before timing out the SQL command execution. When 0 value is used, there
 #!                 is no limit on the amount of time allowed for a running command to complete.
-#!                 Default: '300'
+#!                 Default: 300
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: 'db.pooling.enable=false'
 #!                                     Example: 'db.pooling.enable=true'
@@ -63,19 +65,23 @@
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
 #!
-#! @output return_code: -1 if an error occurred while running the query, 0 otherwise.
+#! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred.
 #! @output return_result: The result of the query.
 #! @output exception: The error message if something went wrong while executing the query.
+#! @output rows_left: How many rows are left from the query.
+#! @output column_names: A list with all the column names.
+#! @output sql_query: The SQL command executed.
 #!
-#! @result SUCCESS: If the query executed successfully.
-#! @result FAILURE: If there was an error while executing the query.
+#! @result HAS_MORE: If rows_left is greater than 0.
+#! @result NO_MORE: If rows_left is 0.
+#! @result FAILURE: If an error occurred while running the query.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.database
+namespace: io.cloudslang.base.database.v2
 
 operation:
-  name: sql_query_tabular
+  name: sql_query_lob
 
   inputs:
     - db_server_name
@@ -154,6 +160,10 @@ operation:
         default: ${get('auth_library_path', '')}
         required: false
         private: true
+    - delimiter:
+        default: ''
+        required: false
+    - key
     - timeout:
         default: '300'
         required: false
@@ -178,15 +188,19 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.29'
-    class_name: io.cloudslang.content.database.actions.SQLQueryTabular
+    gav: 'io.cloudslang.content:cs-database:1.0.0'
+    class_name: io.cloudslang.content.database.actions.SQLQueryLOB
     method_name: execute
 
   outputs:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
+    - rows_left: ${get('rowsLeft', '')}
+    - sql_query: ${get('sqlQuery', '')}
+    - column_names: ${get('columnNames', '')}
 
   results:
-    - SUCCESS: ${returnCode=='0'}
+    - 'HAS_MORE': ${returnCode=='0'}
+    - 'NO_MORE': ${returnCode=='1'}
     - FAILURE

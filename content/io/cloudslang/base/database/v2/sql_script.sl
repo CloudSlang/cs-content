@@ -76,7 +76,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.database
+namespace: io.cloudslang.base.database.v2
 
 operation:
   name: sql_script
@@ -196,7 +196,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:0.0.29'
+    gav: 'io.cloudslang.content:cs-database:1.0.0'
     class_name: io.cloudslang.content.database.actions.SQLScript
     method_name: execute
 
