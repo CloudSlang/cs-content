@@ -42,7 +42,7 @@ operation:
      - delimiter
 
    java_action:
-     gav: 'io.cloudslang.content:cs-lists:0.0.14'
+     gav: 'io.cloudslang.content:cs-lists:1.0.0'
      class_name: io.cloudslang.content.actions.ListRemoverAction
      method_name: removeElement
 

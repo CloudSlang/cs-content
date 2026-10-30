@@ -205,7 +205,7 @@ operation:
         sensitive: true
         private: true
   java_action: 
-    gav: 'io.cloudslang.content:cs-microfocus-hcm:1.0.4'
+    gav: 'io.cloudslang.content:cs-microfocus-hcm:2.0.0'
     class_name: 'io.cloudslang.content.hcm.actions.utils.GetSubscriptionParamsAction'
     method_name: 'execute'
   

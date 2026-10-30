@@ -51,7 +51,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-date-time:0.0.11'
+    gav: 'io.cloudslang.content:cs-date-time:1.0.0'
     class_name: io.cloudslang.content.datetime.actions.OffsetTimeBy
     method_name: execute
 
