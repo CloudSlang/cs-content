@@ -56,66 +56,6 @@
 #!    winrm get winrm/config
 #! 	winrm enumerate winrm/config/listener
 #!
-#! 3. Authenticating with domain accounts is possible through kerberos authentication type.
-#! Kerberos configurations need to be made both on the client(OO), server(WSMAN) and on the Domain Controller if you
-#! are going to use Windows domain accounts to access the remote host.
-#! During setup, WinRM creates the local group WinRMRemoteWMIUsers__. WinRM then restricts remote access to any user
-#! that is not a member of either the local administration group or the WinRMRemoteWMIUsers__ group.
-#! The domain user needs to be a member of this group in order to access resources over WinRM.
-#! For the execution of the operation with kerberos authentication you will need to create two configuration files:
-#! "login.conf" which contains the principal name of the user and the location of the keytab file associated to that user
-#! and "krb5.conf" file which contains the domain name and the kdc hostname.
-#! First you need to create the keytab file for the user on the Domain Controller.
-#! Open a command prompt and type the following command:
-#!    ktpass ﻿/princ username@MYDOMAIN.COM /pass password /ptype KRB5_NT_PRINCIPAL /out username.keytab
-#! (OPTIONAL) Now in order to test the keytab, you'll need a copy of kinit.
-#! You can use the one from <OO_HOME>\java\bin\kinit.exe. You also need to setup your krb5.ini file and copy it under
-#! c:\windows\krb5.ini (on Windows) and /etc/krb5.conf (on Linux).
-#! The krb5.ini file content looks like:
-#!    [libdefaults]
-#!	               default_realm = CONTOSO.COM
-#!	[realms]
-#!	               CONTOSO.COM = {
-#!	                              kdc = ad.contoso.com
-#!	                              admin_server = ad.contoso.com
-#!    where CONTOSO.COM is your domain name and ad.contoso.com is the fully qualified name of your
-#!    KDC server(usually the domain controller).
-#! Once you've got your Kerberos file setup, you can use kinit to test the keytab.
-#! First, try to logon with your user account without using the keytab:
-#!    kinit username@CONTOSO.COM
-#!    - enter the password -
-#! If that doesn't work, your krb5 file is wrong.  If it does work, now try the keytab file:
-#!    kinit username@CONTOSO.COM -k -t username.keytab
-#! Now you should successfully authenticate without being prompted for a password.  Success!
-#! For the operation inputs kerberosConfFile and kerberosLoginConfFile we need to create the krb5.conf file and
-#! login.conf respectively. The content of the krb5.conf file is exactly the same as the krb5.ini file mentioned above.
-#! The login.conf file content looks like this:
-#!    om.sun.security.jgss.initiate {
-#!		com.sun.security.auth.module.Krb5LoginModule required principal=Administrator
-#!		doNotPrompt=true
-#!		useKeyTab=true
-#!		keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";
-#!	};
-#!    where Administrator is the principal name of the domain account used to authenticate and the keytab property
-#!    contains the path to the keytab file created on the server with the ktpass command mentioned above.
-#!
-#! The username and password inputs no longer need to be provided when the kerberos configuration files are provided.
-#!
-#! The operation will request access to a Kerberos service principal name of the form WSMAN/HOST,
-#! for which an SPN should be configured automatically when you configure WinRM for a remote host.
-#! If that was not configured correctly, you will have configure the service principal names manually.
-#! This can be achieved by invoking the setspn command, as an Administrator, on any host in the domain, as follows:
-#!    setspn -A PROTOCOL/ADDRESS:PORT WINDOWS-HOST
-#!    where:
-#!    PROTOCOL is either WSMAN (default) or HTTP.
-#!    ADDRESS is the address used to connect to the remote host,
-#!    PORT (optional) is the port used to connect to the remote host (usually 5985 or 5986,
-#!         only necessary if kerberosSkipPortForLookup has been set to false)
-#!    WINDOWS-HOST is the short Windows hostname of the remote host.
-#! Some other useful commands:
-#!    List all service principal names configured for a domain user: setspn -L <user>
-#!    List all service principal names configured for a specific host in the domain: setspn -L <hostname>
-#!
 #! @input host: The hostname or ip address of the remote host.
 #! @input port: The port to use when connecting to the remote WinRM server.
 #!              Optional
@@ -128,7 +68,7 @@
 #! @input password: The password used to connect to the remote machine.
 #!                  Optional
 #! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'kerberos'
+#!                   Valid: 'basic', 'digest', 'ntlm', 'anonymous'
 #!                   Default: 'basic'
 #! @input script: The PowerShell script that will be executed on the remote shell.
 #! @input configuration_name: The name of the PSSessionConfiguration to use. This can be used to target specific versions
@@ -170,22 +110,6 @@
 #!                                 Valid: 'strict', 'browser_compatible', 'allow_all'.
 #!                                 Default: 'strict'.
 #!                                 Optional
-#! @input kerberos_conf_file: A krb5.conf file with content similar to the one in the examples
-#!                            (where you replace CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN).
-#!                            This configures the Kerberos mechanism required by the Java GSS-API methods.
-#!                            Example: http://web.mit.edu/kerberos/krb5-1.4/krb5-1.4.4/doc/krb5-admin/krb5.conf.html
-#!                            Optional
-#! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples
-#!                                  Example: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/
-#!                                           security/auth/module/Krb5LoginModule.html
-#!                                  Examples: com.sun.security.jgss.initiate {com.sun.security.auth.module.Krb5LoginModule
-#!                                            required principal=Administrator doNotPrompt=true useKeyTab=true
-#!                                            keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";};
-#!                                  Optional
-#! @input kerberos_skip_port_for_lookup: Do not include port in the key distribution center database lookup.
-#!                                       Valid: 'true' or 'false'
-#!                                       Default: 'true'
-#!                                       Optional
 #! @input trust_keystore: The pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -316,24 +240,6 @@ operation:
          required: false
          private: true
          sensitive: true
-   -  kerberos_conf_file:
-         required: false
-   -  kerberosConfFile:
-         default: ${get("kerberos_conf_file", "")}
-         required: false
-         private: true
-   -  kerberos_login_conf_file:
-         required: false
-   -  kerberosLoginConfFile:
-         default: ${get("kerberos_login_conf_file", "")}
-         required: false
-         private: true
-   -  kerberos_skip_port_for_lookup:
-         required: false
-   -  kerberosSkipPortForLookup:
-         default: ${get("kerberos_skip_port_for_lookup", "")}
-         required: false
-         private: true
    -  keystore:
          default: ''
          required: false
@@ -369,7 +275,7 @@ operation:
          private: true
 
    java_action:
-      gav: 'io.cloudslang.content:cs-powershell:1.0.0'
+      gav: 'io.cloudslang.content:cs-powershell:1.0.1'
       class_name: io.cloudslang.content.actions.PowerShellScriptAction
       method_name: execute
 
