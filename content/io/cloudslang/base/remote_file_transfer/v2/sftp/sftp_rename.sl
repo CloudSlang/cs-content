@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deletes a directory remotely using Secure FTP (SFTP).
+#! @description: Renames a file or directory remotely using Secure FTP (SFTP).
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -33,10 +33,19 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The absolute path to the directory that will be deleted.
-#!                     Examples: C:/Users/Administrator/folder, root/test/folder
+#! @input remote_path: The path to the file or directory to be renamed.
+#!                     Examples: C:/Users/Administrator,C:/Users/Administrator/oldFolderName ,root/test, root/test/oldFolderName
+#! @input remote_file: The name of the file or directory to be renamed.
+#!                     Examples: oldFile.txt
+#!                     Optional
+#! @input new_remote_path: The new name of the file or directory path containing the file that will be renamed.
+#!                         Examples: C:/Users/Administrator,C:/Users/Administrator/newFolderName, root/test, root/test/newFolderName
+#! @input new_remote_file: The new file or directory name. If the provided path in the remote_path input doesn't match
+#!                         the path for the input: new_remote_path the file will be moved in the new_remote_path location.
+#!                         Examples: newFile.txt
+#!                         Optional
 #! @input character_set: The name of the control encoding to use.
-#!                       Examples: UTF-8, EUC-JP, SJIS.
+#!                       Examples: UTF-8, EUC-JP, SJIS.  Default is UTF-8.
 #!                       Default value: UTF-8
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
@@ -56,15 +65,15 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: Directory was deleted successfully.
-#! @result FAILURE: The directory could not be deleted.
+#! @result SUCCESS: Remote file or directory was renamed successfully.
+#! @result FAILURE: Remote file or directory couldn't be renamed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
 operation: 
-  name: sftp_delete_directory
+  name: sftp_rename
   
   inputs: 
     - host    
@@ -106,13 +115,31 @@ operation:
     - privateKey: 
         default: ${get('private_key', '')}  
         required: false 
-        private: true
+        private: true 
     - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
         private: true
+    - remote_file:
+        required: false
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
+    - new_remote_path
+    - newRemotePath:
+        default: ${get('new_remote_path', '')}
+        required: false
+        private: true
+    - new_remote_file:
+        required: false
+    - newRemoteFile:
+        default: ${get('new_remote_file', '')}
+        required: false 
+        private: true
     - character_set:
+        default: 'UTF-8'
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  
@@ -142,7 +169,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:2.0.0'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteDirectory'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPRename'
     method_name: 'execute'
   
   outputs: 

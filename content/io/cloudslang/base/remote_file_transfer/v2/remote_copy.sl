@@ -71,7 +71,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer
+namespace: io.cloudslang.base.remote_file_transfer.v2
 
 operation:
   name: remote_copy

@@ -54,7 +54,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
 operation: 
   name: sftp_command

@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Deletes a file remotely using Secure FTP (SFTP)
+#! @description: Deletes a directory remotely using Secure FTP (SFTP).
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -33,13 +33,11 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The path to the remote file to be deleted.
-#!                     Examples: C:/Users/Administrator, root/test
-#! @input remote_file: The name and extension of the file to be deleted.
-#!                     Examples: file.txt
+#! @input remote_path: The absolute path to the directory that will be deleted.
+#!                     Examples: C:/Users/Administrator/folder, root/test/folder
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default is UTF-8.
+#!                       Default value: UTF-8
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
@@ -58,15 +56,15 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: File was deleted successfully.
-#! @result FAILURE: The file could not be deleted.
+#! @result SUCCESS: Directory was deleted successfully.
+#! @result FAILURE: The directory could not be deleted.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
 operation: 
-  name: sftp_delete_file
+  name: sftp_delete_directory
   
   inputs: 
     - host    
@@ -108,19 +106,13 @@ operation:
     - privateKey: 
         default: ${get('private_key', '')}  
         required: false 
-        private: true 
+        private: true
     - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
         required: false
         private: true
-    - remote_file
-    - remoteFile: 
-        default: ${get('remote_file', '')}  
-        required: false 
-        private: true
     - character_set:
-        default: 'UTF-8'
         required: false  
     - characterSet: 
         default: ${get('character_set', '')}  
@@ -150,7 +142,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:2.0.0'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteFile'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteDirectory'
     method_name: 'execute'
   
   outputs: 

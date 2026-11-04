@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Uses Secure FTP (SFTP) to retrieve a single file from a remote host.
+#! @description: Gets a list of remote files and directories using Secure FTP (SFTP).
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -22,12 +22,8 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_file: The file to be downloaded remotely using SFTP.
-#!                     Example: file.txt
-#! @input remote_path: The remote directory path from where the file will be downloaded.
+#! @input remote_path: The full path of directory from where the list of subdirectories and files is retrieved.
 #!                     Examples: C:/Users/Administrator, root/test
-#! @input local_path: The local directory path where the file will be downloaded.
-#!                    Examples: C:/Users/Administrator, root/test
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -39,9 +35,11 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
+#! @input delimiter: A delimiter to use for the result lists (returnResult, files, folders).
+#!                   Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default: UTF-8
+#!                       Default value: UTF-8
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation. If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
@@ -55,19 +53,21 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: Remote file will be copied to local system.
+#! @output return_result: A list of all children (files and folders) in the remote directory.  Reason for error on failure.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
+#! @output files: A list of files in the remote directory.
+#! @output folders: A list of folders in the remote directory.
 #!
 #! @result SUCCESS: Command completed successfully.
 #! @result FAILURE: Command failed.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
 operation:
-  name: sftp_download_file
+  name: sftp_get_children
 
   inputs:
     - host
@@ -77,19 +77,9 @@ operation:
     - username
     - password:
         sensitive: true
-    - remote_file
-    - remoteFile:
-        default: ${get('remote_file', '')}
-        required: false
-        private: true
     - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
-        required: false
-        private: true
-    - local_path
-    - localPath:
-        default: ${get('local_path', '')}
         required: false
         private: true
     - proxy_host:
@@ -99,8 +89,8 @@ operation:
         required: false
         private: true
     - proxy_port:
-        required: false
         default: '8080'
+        required: false
     - proxyPort:
         default: ${get('proxy_port', '')}
         required: false
@@ -125,6 +115,9 @@ operation:
         default: ${get('private_key', '')}
         required: false
         private: true
+    - delimiter:
+        default: ','
+        required: false
     - character_set:
         default: 'UTF-8'
         required: false
@@ -140,15 +133,15 @@ operation:
         required: false
         private: true
     - connection_timeout:
-        required: false
         default: '60'
+        required: false
     - connectionTimeout:
         default: ${get('connection_timeout', '')}
         required: false
         private: true
     - execution_timeout:
-        required: false
         default: '60'
+        required: false
     - executionTimeout:
         default: ${get('execution_timeout', '')}
         required: false
@@ -156,13 +149,15 @@ operation:
 
   java_action:
     gav: 'io.cloudslang.content:cs-rft:2.0.0'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPGetChildren'
     method_name: 'execute'
 
   outputs:
     - return_result: ${get('returnResult', '')}
     - return_code: ${get('returnCode', '')}
     - exception: ${get('exception', '')}
+    - files: ${get('files', '')}
+    - folders: ${get('folders', '')}
 
   results:
     - SUCCESS: ${returnCode=='0'}

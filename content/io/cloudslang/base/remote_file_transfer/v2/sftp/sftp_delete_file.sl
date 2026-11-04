@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Creates a directory remotely using Secure FTP (SFTP).
+#! @description: Deletes a file remotely using Secure FTP (SFTP)
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -33,14 +33,18 @@
 #!                        Optional
 #! @input private_key: Absolute path for private key file for public/private key authentication.
 #!                     Optional
-#! @input remote_path: The path where the remote directory will be created.
-#!                     Examples: C:/Users/Administrator/newFolder, root/test/newFolder
+#! @input remote_path: The path to the remote file to be deleted.
+#!                     Examples: C:/Users/Administrator, root/test
+#! @input remote_file: The name and extension of the file to be deleted.
+#!                     Examples: file.txt
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default value: UTF-8
+#!                       Default is UTF-8.
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation?  Default value is true.  If false the SSH
-#!                       session can be reused by other SFTP commands in the same flow.  Valid values: true, false.
+#!                       session can be reused by other SFTP commands in the same flow.
+#!                       Valid values: true, false.
+#!                       Default value: true
 #!                       Optional
 #! @input connection_timeout: Time in seconds to wait for the connection to complete.
 #!                            Default value: 60
@@ -54,23 +58,23 @@
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
-#! @result SUCCESS: The directory was created successfully.
-#! @result FAILURE: The directory could not be created.
+#! @result SUCCESS: File was deleted successfully.
+#! @result FAILURE: The file could not be deleted.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
 operation: 
-  name: sftp_create_directory
+  name: sftp_delete_file
   
   inputs: 
-    - host
+    - host    
     - port:
         default: '22'
         required: false  
-    - username
-    - password:
+    - username    
+    - password:    
         sensitive: true
     - proxy_host:  
         required: false  
@@ -110,6 +114,11 @@ operation:
         default: ${get('remote_path', '')}
         required: false
         private: true
+    - remote_file
+    - remoteFile: 
+        default: ${get('remote_file', '')}  
+        required: false 
+        private: true
     - character_set:
         default: 'UTF-8'
         required: false  
@@ -141,7 +150,7 @@ operation:
     
   java_action: 
     gav: 'io.cloudslang.content:cs-rft:2.0.0'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPCreateDirectory'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDeleteFile'
     method_name: 'execute'
   
   outputs: 

@@ -70,7 +70,7 @@ namespace: io.cloudslang.base.os.linux.v2.samples
 
 imports:
   ssh: io.cloudslang.base.ssh.v2
-  remote: io.cloudslang.base.remote_file_transfer
+  remote: io.cloudslang.base.remote_file_transfer.v2
   folders: io.cloudslang.base.os.linux.folders
   groups: io.cloudslang.base.os.linux.groups
   users: io.cloudslang.base.os.linux.users

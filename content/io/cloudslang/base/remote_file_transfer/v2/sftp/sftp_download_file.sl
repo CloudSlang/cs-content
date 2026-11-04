@@ -13,7 +13,7 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Uses Secure FTP (SFTP) to send a file from local file system to a remote host.
+#! @description: Uses Secure FTP (SFTP) to retrieve a single file from a remote host.
 #!
 #! @input host: IP address/host name.
 #! @input port: The port to connect to on host.
@@ -22,12 +22,12 @@
 #! @input username: Remote username.
 #! @input password: Password to authenticate. If using a private key file this will be used as the passphrase for the
 #!                  file.
-#! @input remote_path: The remote directory path where the file will be uploaded.
+#! @input remote_file: The file to be downloaded remotely using SFTP.
+#!                     Example: file.txt
+#! @input remote_path: The remote directory path from where the file will be downloaded.
 #!                     Examples: C:/Users/Administrator, root/test
-#! @input local_path: The local directory path of the file that will be copied.
-#!                    Examples: C:/Users/Administrator, /root/test
-#! @input local_file: The file to be copied remotely using SFTP.
-#!                    Example: file.txt
+#! @input local_path: The local directory path where the file will be downloaded.
+#!                    Examples: C:/Users/Administrator, root/test
 #! @input proxy_host: The proxy server used to access the remote host.
 #!                    Optional
 #! @input proxy_port: The proxy server port.
@@ -41,7 +41,7 @@
 #!                     Optional
 #! @input character_set: The name of the control encoding to use.
 #!                       Examples: UTF-8, EUC-JP, SJIS.
-#!                       Default value: UTF-8
+#!                       Default: UTF-8
 #!                       Optional
 #! @input close_session: Close the SSH session at completion of operation. If false the SSH
 #!                       session can be reused by other SFTP commands in the same flow.
@@ -55,7 +55,7 @@
 #!                           Default value: 60
 #!                           Optional
 #!
-#! @output return_result: A suggestive message saying whether the operation was successful or an error message.
+#! @output return_result: Remote file will be copied to local system.
 #! @output return_code: 0 if success, -1 otherwise.
 #! @output exception: An error message in case there was an error while executing the operation.
 #!
@@ -64,19 +64,24 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.sftp
+namespace: io.cloudslang.base.remote_file_transfer.v2.sftp
 
-operation: 
-  name: sftp_upload_file
-  
-  inputs: 
+operation:
+  name: sftp_download_file
+
+  inputs:
     - host
     - port:
         default: '22'
-        required: false  
+        required: false
     - username
     - password:
         sensitive: true
+    - remote_file
+    - remoteFile:
+        default: ${get('remote_file', '')}
+        required: false
+        private: true
     - remote_path
     - remotePath:
         default: ${get('remote_path', '')}
@@ -87,83 +92,78 @@ operation:
         default: ${get('local_path', '')}
         required: false
         private: true
-    - local_file
-    - localFile:
-        default: ${get('local_file', '')}
+    - proxy_host:
+        required: false
+    - proxyHost:
+        default: ${get('proxy_host', '')}
         required: false
         private: true
-    - proxy_host:
-        required: false  
-    - proxyHost: 
-        default: ${get('proxy_host', '')}  
-        required: false 
-        private: true 
     - proxy_port:
+        required: false
         default: '8080'
-        required: false  
-    - proxyPort: 
-        default: ${get('proxy_port', '')}  
-        required: false 
-        private: true 
-    - proxy_username:  
-        required: false  
-    - proxyUsername: 
-        default: ${get('proxy_username', '')}  
-        required: false 
-        private: true 
-    - proxy_password:  
+    - proxyPort:
+        default: ${get('proxy_port', '')}
+        required: false
+        private: true
+    - proxy_username:
+        required: false
+    - proxyUsername:
+        default: ${get('proxy_username', '')}
+        required: false
+        private: true
+    - proxy_password:
         required: false
         sensitive: true
-    - proxyPassword: 
-        default: ${get('proxy_password', '')}  
-        required: false 
+    - proxyPassword:
+        default: ${get('proxy_password', '')}
+        required: false
         private: true
         sensitive: true
     - private_key:
-        required: false  
-    - privateKey: 
-        default: ${get('private_key', '')}  
-        required: false 
+        required: false
+    - privateKey:
+        default: ${get('private_key', '')}
+        required: false
         private: true
     - character_set:
         default: 'UTF-8'
-        required: false  
-    - characterSet: 
-        default: ${get('character_set', '')}  
-        required: false 
-        private: true 
+        required: false
+    - characterSet:
+        default: ${get('character_set', '')}
+        required: false
+        private: true
     - close_session:
         default: 'true'
-        required: false  
-    - closeSession: 
-        default: ${get('close_session', '')}  
-        required: false 
+        required: false
+    - closeSession:
+        default: ${get('close_session', '')}
+        required: false
         private: true
     - connection_timeout:
-        default: '60'
         required: false
+        default: '60'
     - connectionTimeout:
         default: ${get('connection_timeout', '')}
         required: false
         private: true
     - execution_timeout:
-        default: '60'
         required: false
+        default: '60'
     - executionTimeout:
         default: ${get('execution_timeout', '')}
         required: false
         private: true
-    
-  java_action: 
+
+  java_action:
     gav: 'io.cloudslang.content:cs-rft:2.0.0'
-    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPUploadFile'
+    class_name: 'io.cloudslang.content.rft.actions.sftp.SFTPDownloadFile'
     method_name: 'execute'
-  
-  outputs: 
-    - return_result: ${get('returnResult', '')} 
-    - return_code: ${get('returnCode', '')} 
-    - exception: ${get('exception', '')} 
-  
-  results: 
-    - SUCCESS: ${returnCode=='0'} 
+
+  outputs:
+    - return_result: ${get('returnResult', '')}
+    - return_code: ${get('returnCode', '')}
+    - exception: ${get('exception', '')}
+
+  results:
+    - SUCCESS: ${returnCode=='0'}
     - FAILURE

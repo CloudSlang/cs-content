@@ -61,7 +61,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.remote_file_transfer.scp
+namespace: io.cloudslang.base.remote_file_transfer.v2.scp
 
 operation: 
   name: scp_copy_file
