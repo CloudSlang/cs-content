@@ -43,8 +43,7 @@
 #!                         mechanism when the connection is created. Check the notes section for security concerns
 #!                         regarding your choice of ciphers. The default value will be used even if the input is not
 #!                         added to the operation.
-#!                         Default value: 'aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,
-#!                                         aes192-cbc,aes256-ctr,aes256-cbc'
+#!                         Default value: 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc'
 #! @input connect_timeout: Optional - Time in milliseconds to wait for the connection to be made.
 #!                         Default value: '10000'
 #! @input timeout: Optional - Time in milliseconds to wait for the command to complete.
@@ -86,12 +85,12 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.ssh
+namespace: io.cloudslang.base.ssh.v2
 
 imports:
   linux: io.cloudslang.base.os.linux
   utils: io.cloudslang.base.utils
-  ssh: io.cloudslang.base.ssh
+  ssh: io.cloudslang.base.ssh.v2
 
 flow:
     name: ssh_flow
@@ -117,7 +116,7 @@ flow:
       - known_hosts_path:
           required: false
       - allowed_ciphers:
-          default: 'aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc'
+          default: 'chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc,3des-ctr,3des-cbc,blowfish-cbc,aes192-ctr,aes192-cbc,aes256-ctr,aes256-cbc'
           required: false
       - timeout:
           default: '90000'
