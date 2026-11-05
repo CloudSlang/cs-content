@@ -92,7 +92,7 @@ operation:
 
 
   java_action:
-    gav: 'io.cloudslang.content:cs-excel:1.0.0'
+    gav: 'io.cloudslang.content:cs-excel:1.0.1'
     class_name: 'io.cloudslang.content.excel.actions.GetRowIndexByCondition'
     method_name: 'execute'
 
