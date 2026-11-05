@@ -67,7 +67,7 @@ operation:
          private: true
 
   java_action:
-     gav: 'io.cloudslang.content:cs-json:1.0.0'
+     gav: 'io.cloudslang.content:cs-json:1.0.2'
      class_name: io.cloudslang.content.json.actions.JsonPathQuery
      method_name: execute
 
