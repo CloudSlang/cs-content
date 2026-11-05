@@ -169,7 +169,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.os
+namespace: io.cloudslang.base.os.v2
 
 operation: 
   name: os_detector

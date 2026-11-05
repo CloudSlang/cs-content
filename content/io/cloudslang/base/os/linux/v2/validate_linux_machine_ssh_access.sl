@@ -79,7 +79,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.os.linux
+namespace: io.cloudslang.base.os.linux.v2
 
 operation:
   name: validate_linux_machine_ssh_access
