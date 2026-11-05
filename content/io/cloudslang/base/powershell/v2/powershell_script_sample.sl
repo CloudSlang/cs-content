@@ -94,7 +94,7 @@
 namespace: io.cloudslang.base.powershell.v2
 
 imports:
-  scripts: io.cloudslang.base.powershell
+  scripts: io.cloudslang.base.powershell.v2
 
 flow:
      name: powershell_script_sample

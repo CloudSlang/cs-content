@@ -151,7 +151,7 @@ flow:
       - validate_ssh_access:
           worker_group: ${get('worker_group', 'RAS_Operator_Path')}
           do:
-            linux.validate_linux_machine_ssh_access:
+            linux.v2.validate_linux_machine_ssh_access:
               - host
               - port
               - username
