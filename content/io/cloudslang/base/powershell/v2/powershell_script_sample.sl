@@ -17,7 +17,7 @@
 #! @input username: The username used to connect to the remote machine.
 #! @input password: The password used to connect to the remote machine.
 #! @input auth_type: Optional - type of authentication used to execute the request on the target server
-#!                   Valid: 'basic', 'form', 'springForm', 'digest', 'ntlm', 'kerberos', 'anonymous' (no authentication)
+#!                   Valid: 'basic', 'digest', 'ntlm', 'anonymous' (no authentication)
 #!                   Default: 'basic'
 #! @input proxy_host: Optional - The proxy server used to access the remote host.
 #! @input proxy_port: Optional - The proxy server port.
@@ -44,18 +44,6 @@
 #!                                 attacks, we strongly recommend to use "strict" option.
 #!                                 Valid values are 'strict', 'browser_compatible', 'allow_all'.
 #!                                 Default value is 'strict'.
-#! @input kerberos_conf_file: A krb5.conf file with content similar to the one in the examples
-#!                            (where you replace CONTOSO.COM with your domain and 'ad.contoso.com' with your kdc FQDN).
-#!                            This configures the Kerberos mechanism required by the Java GSS-API methods.
-#!                            Example: http://web.mit.edu/kerberos/krb5-1.4/krb5-1.4.4/doc/krb5-admin/krb5.conf.html
-#! @input kerberos_login_conf_file: A login.conf file needed by the JAAS framework with the content similar to the one in examples
-#!                                  Example: http://docs.oracle.com/javase/7/docs/jre/api/security/jaas/spec/com/sun/security/auth/module/Krb5LoginModule.html
-#!                                  Examples: com.sun.security.jgss.initiate {com.sun.security.auth.module.Krb5LoginModule
-#!                                            required principal=Administrator doNotPrompt=true useKeyTab=true
-#!                                            keyTab="file:/C:/Users/Administrator.CONTOSO/krb5.keytab";};
-#! @input kerberos_skip_port_for_lookup: Do not include port in the key distribution center database lookup.
-#!                                       Default value: true
-#!                                       Valid values: true, false
 #! @input trust_keystore: Optional - the pathname of the Java TrustStore file. This contains certificates from
 #!                        other parties that you expect to communicate with, or from Certificate Authorities that
 #!                        you trust to identify other parties.  If the protocol (specified by the 'url') is not
@@ -146,12 +134,6 @@ flow:
      -  trust_password:
            sensitive: true
            required: false
-     -  kerberos_conf_file:
-           required: false
-     -  kerberos_login_conf_file:
-           required: false
-     -  kerberos_skip_port_for_lookup:
-           required: false
      -  keystore:
            required: false
      -  keystore_password:
@@ -196,9 +178,6 @@ flow:
                -  x_509_hostname_verifier
                -  trust_keystore
                -  trust_password
-               -  kerberos_conf_file
-               -  kerberos_login_conf_file
-               -  kerberos_skip_port_for_lookup
                -  keystore
                -  keystore_password
                -  winrm_max_envelop_size
