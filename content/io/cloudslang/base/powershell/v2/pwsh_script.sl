@@ -150,7 +150,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.powershell
+namespace: io.cloudslang.base.powershell.v2
 
 operation:
   name: pwsh_script

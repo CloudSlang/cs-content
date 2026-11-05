@@ -91,7 +91,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.powershell
+namespace: io.cloudslang.base.powershell.v2
 
 imports:
   scripts: io.cloudslang.base.powershell
