@@ -183,7 +183,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:1.0.6-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-active-directory:1.0.7-SNAPSHOT'
     class_name: 'io.cloudslang.content.active_directory.actions.computers.ResetComputerAccountAction'
     method_name: 'execute'
   
