@@ -189,7 +189,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:1.0.2-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-active-directory:1.0.3-SNAPSHOT'
     class_name: 'io.cloudslang.content.active_directory.actions.groups.AddUserToGroupAction'
     method_name: 'execute'
   
