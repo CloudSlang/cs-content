@@ -266,7 +266,7 @@ operation:
         required: false
 
   java_action:
-    gav: 'io.cloudslang.content:cs-mail:1.0.1-SNAPSHOT'
+    gav: 'io.cloudslang.content:cs-mail:1.0.2-SNAPSHOT'
     class_name: io.cloudslang.content.mail.actions.GetMailMessageAction
     method_name: execute
 
