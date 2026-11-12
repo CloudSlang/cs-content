@@ -192,7 +192,7 @@ operation:
         required: false  
     
   java_action: 
-    gav: 'io.cloudslang.content:cs-active-directory:1.0.1'
+    gav: 'io.cloudslang.content:cs-active-directory:1.0.2'
     class_name: 'io.cloudslang.content.active_directory.actions.users.DisableUserAction'
     method_name: 'execute'
   
