@@ -17,7 +17,7 @@
 #!
 #! @input origin_string: Optional - Original string.
 #! @input text_to_replace: Text to replace.
-#! @input replace_with: Optional - Text to replace with.
+#! @input replace_with: Optional - Text to replace with. If omitted, matching text is removed.
 #!
 #! @output replaced_string: String with the text replaced.
 #! @output error_message: Substring not found.
