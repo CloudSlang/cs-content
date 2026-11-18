@@ -43,6 +43,8 @@ operation:
     script: |
       try:
         error_message = ""
+        if replace_with is None:
+          replace_with = ""
         if text_to_replace in origin_string:
           replaced_string = origin_string.replace(text_to_replace, replace_with)
         else:

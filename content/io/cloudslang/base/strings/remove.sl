@@ -16,7 +16,7 @@
 #!
 #! @input origin_string: Optional - Original string.
 #!                       Example: "SPAMgood morning"
-#! @input text: Optional - Text to be removed.
+#! @input text: Optional - Text to be removed. It is case-sensitive
 #!              Example: "SPAM"
 #!
 #! @output new_string: String after removing.
