@@ -13,9 +13,9 @@
 #
 ########################################################################################################################
 #!!
-#! @description: Expands the size of an existing virtual machine disk. This is an asynchronous operation that results
-#!               in the creation of a task object. The UUID of this task object is returned as the response of this
-#!               operation. This task can be monitored by using the /tasks/poll API.
+#! @description: Updates only the size of an existing virtual machine disk. This is an asynchronous operation that
+#!               results in the creation of a task object. The UUID of this task object is returned as the response
+#!               of this operation. This task can be monitored by using the /tasks/poll API.
 #!
 #! @input hostname: The hostname for Nutanix Prism.
 #! @input port: The port to connect to Nutanix Prism.
@@ -24,13 +24,8 @@
 #! @input username: The username for Nutanix Prism.
 #! @input password: The password for Nutanix Prism.
 #! @input vm_uuid: The UUID of the virtual machine.
-#! @input vm_disk_uuid: The UUID of the disk to be expanded.
-#! @input device_bus: The device bus for the virtual disk device.
-#!                   Valid values: 'sata, scsi, ide, pci'.
-#! @input device_index: The index of the disk device.
-#! @input storage_container_uuid: The storage container UUID in which the disk is stored.
-#! @input vm_disk_size_gib: The target size of the disk in GiB. It must be a positive integer larger than the current
-#!                          disk size.
+#! @input vm_disk_uuid: The UUID of the disk to update.
+#! @input vm_disk_size_gib: The target size of the disk in GiB. It must be a positive integer.
 #! @input api_version: The api version for Nutanix Prism.
 #!                    Default: 'v2.0'
 #!                    Optional
@@ -114,21 +109,6 @@ operation:
     - vm_disk_uuid
     - vmDiskUUID:
         default: ${get('vm_disk_uuid', '')}
-        required: false
-        private: true
-    - device_bus
-    - deviceBus:
-        default: ${get('device_bus', '')}
-        required: false
-        private: true
-    - device_index
-    - deviceIndex:
-        default: ${get('device_index', '')}
-        required: false
-        private: true
-    - storage_container_uuid
-    - storageContainerUUID:
-        default: ${get('storage_container_uuid', '')}
         required: false
         private: true
     - vm_disk_size_gib
