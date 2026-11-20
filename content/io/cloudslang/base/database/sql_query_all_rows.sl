@@ -76,7 +76,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.database.v2
+namespace: io.cloudslang.base.database
 
 operation:
   name: sql_query_all_rows
@@ -196,7 +196,7 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:1.0.0'
+    gav: 'io.cloudslang.content:cs-database:0.0.35'
     class_name: io.cloudslang.content.database.actions.SQLQueryAllRows
     method_name: execute
 

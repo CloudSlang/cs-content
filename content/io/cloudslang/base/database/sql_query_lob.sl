@@ -13,14 +13,14 @@
 #
 ########################################################################################################################
 #!!
-#! @description: This operation runs an SQL script from a file or from the <sql_commands> input.
+#! @description: This operation executes a query on an SQL server and return each LOB row sequentially.
 #!
 #! @input db_server_name: The hostname or ip address of the database server.
 #! @input db_type: The type of database to connect to.
 #!                 Valid: 'Oracle', 'MSSQL', 'Sybase', 'Netcool', 'DB2', 'PostgreSQL' and 'Custom'.
 #! @input username: The username to use when connecting to the database.
-#! @input password: The password to use when connecting to the database.
-#! @input instance: The name instance (for MSSQL Server). Leave it blank for default instance.
+#! @input password:  The password to use when connecting to the database.
+#! @input instance:  The name instance (for MSSQL Server). Leave it blank for default instance.
 #! @input db_port: The port to connect to.
 #!                 Default: Oracle: '1521', MSSQL: '1433', Sybase: '5000', Netcool: '4100', DB2: '50000', PostgreSQL: '5432'.
 #! @input database_name: The name of the database.
@@ -31,14 +31,8 @@
 #!                  Examples: 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver'
 #! @input db_url: The url required to load up the driver and make your connection.
 #!                Examples: 'jdbc:oracle:drivertype:@database', 'jdbc:postgresql://host:port/database'
-#! @input delimiter: The delimiter to use <sql_command>
-#!                   Default: ';'
-#! @input sql_commands: All the SQL commands that you want to run using the <delimiter>
-#! @input timeout:  Seconds to wait before timing out the SQL command execution. When 0 value is used, there
-#!                  is no limit on the amount of time allowed for a running command to complete.
-#!                  Default: '300'
-#! @input script_file_name: SQL script file name. The command in the file need to have ';' to indicate the end of the command
-#!                          Note: this is mutual exclusive with <sqlCommands>
+#! @input command: The command to execute.
+#!                 Example: 'SELECT * FROM table'
 #! @input trust_all_roots: Specifies whether to enable weak security over SSL/TSL. A certificate is trusted even if no t
 #!                         rusted certification authority issued it.
 #!                         Valid: true, false
@@ -56,6 +50,11 @@
 #!                           is located, not the path to the file itself.
 #!                           Note: The sqljdbc_auth.dll can be found inside the sqljdbc driver. The driver can be
 #!                           downloaded from https://www.microsoft.com/en-us/download/details.aspx?id=11774.
+#! @input delimiter: The delimiter to use between resulted values in 'returnResult' and column names in 'columnNames'.
+#! @input key: The key to help keep multiple query results distinct.
+#! @input timeout: Seconds to wait before timing out the SQL command execution. When 0 value is used, there
+#!                 is no limit on the amount of time allowed for a running command to complete.
+#!                 Default: 300
 #! @input database_pooling_properties: Properties for database pooling configuration. Pooling is disabled by default.
 #!                                     Default: 'db.pooling.enable=false'
 #!                                     Example: 'db.pooling.enable=true'
@@ -66,20 +65,23 @@
 #!                                Valid values: 'CONCUR_READ_ONLY', 'CONCUR_UPDATABLE'
 #!                                Default value: 'CONCUR_READ_ONLY'
 #!
-#! @output return_code: -1 if an error occurred while running the script, 0 otherwise.
-#! @output return_result: The result of the script.
-#! @output exception: The error message if something went wrong while executing the script.
-#! @output update_count: How many rows were affected by the script.
+#! @output return_code: 0 if it there are no more rows, 1 if there are more rows, and -1 if an error occurred.
+#! @output return_result: The result of the query.
+#! @output exception: The error message if something went wrong while executing the query.
+#! @output rows_left: How many rows are left from the query.
+#! @output column_names: A list with all the column names.
+#! @output sql_query: The SQL command executed.
 #!
-#! @result SUCCESS: If the script executed successfully.
-#! @result FAILURE: If there was an error while executing the script.
+#! @result HAS_MORE: If rows_left is greater than 0.
+#! @result NO_MORE: If rows_left is 0.
+#! @result FAILURE: If an error occurred while running the query.
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.database.v2
+namespace: io.cloudslang.base.database
 
 operation:
-  name: sql_script
+  name: sql_query_lob
 
   inputs:
     - db_server_name
@@ -130,24 +132,7 @@ operation:
         default: ${get('db_url', '')}
         required: false
         private: true
-    - delimiter:
-        default: ';'
-        required: false
-    - sql_commands:
-        required: false
-    - sqlCommands:
-        default: ${get('sql_commands', '')}
-        required: false
-        private: true
-    - timeout:
-        default: '300'
-        required: false
-    - script_file_name:
-        required: false
-    - scriptFileName:
-        default: ${get('script_file_name', '')}
-        required: false
-        private: true
+    - command
     - trust_all_roots:
         default: 'false'
         required: false
@@ -175,6 +160,13 @@ operation:
         default: ${get('auth_library_path', '')}
         required: false
         private: true
+    - delimiter:
+        default: ''
+        required: false
+    - key
+    - timeout:
+        default: '300'
+        required: false
     - database_pooling_properties:
         required: false
     - databasePoolingProperties:
@@ -196,16 +188,19 @@ operation:
         private: true
 
   java_action:
-    gav: 'io.cloudslang.content:cs-database:1.0.0'
-    class_name: io.cloudslang.content.database.actions.SQLScript
+    gav: 'io.cloudslang.content:cs-database:0.0.35'
+    class_name: io.cloudslang.content.database.actions.SQLQueryLOB
     method_name: execute
 
   outputs:
     - return_code: ${returnCode}
     - return_result: ${returnResult}
     - exception: ${get('exception', '')}
-    - update_count: ${get('updateCount', '')}
+    - rows_left: ${get('rowsLeft', '')}
+    - sql_query: ${get('sqlQuery', '')}
+    - column_names: ${get('columnNames', '')}
 
   results:
-    - SUCCESS: ${returnCode=='0'}
+    - 'HAS_MORE': ${returnCode=='0'}
+    - 'NO_MORE': ${returnCode=='1'}
     - FAILURE
