@@ -78,7 +78,7 @@
 #!!#
 ########################################################################################################################
 
-namespace: io.cloudslang.base.database.v2
+namespace: io.cloudslang.base.database
 
 operation:
   name: sql_query_lob
