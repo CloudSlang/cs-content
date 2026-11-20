@@ -41,11 +41,12 @@
 #!                          message-type:Multiple Part
 #!                          Sensitivity:Personal
 #! @input row_delimiter: Optional - The delimiter that separates headers in the 'headers' input.
+#!                       Default value: "\n"
+#!                       Examples: ';', '#'
+#! @input column_delimiter: Optional - The delimiter that separates the header name from header value on the same row.   
 #!                       Default value: ":"
 #!                       Examples: '|', '='
-#! @input column_delimiter: Optional - The delimiter that separates the header name from header value on the same row.
-#!                          Default value: "\n"
-#!                          Examples: ';', '#'
+
 #! @input username: Optional - If SMTP authentication is needed, the username to use.
 #!                  Default: ''
 #! @input password: Optional - If SMTP authentication is needed, the password to use.
@@ -142,13 +143,13 @@ operation:
     - row_delimiter:
         required: false
     - rowDelimiter:
-        default: ${get("row_delimiter", ":")}
+        default: ${get("row_delimiter", "\n")}
         private: true
         required: false
     - column_delimiter:
         required: false
     - columnDelimiter:
-        default: ${get("column_delimiter", "\n")}
+        default: ${get("column_delimiter", ":")}
         private: true
         required: false
     - username:
